@@ -18,7 +18,7 @@ Generalizable All Variables.
 (* The global obligation tactic is [cat_simpl], which would run wide proof
    searches on the module obligations below and has already introduced the
    parameters by the time an obligation is opened.  Switched off here, the
-   Instance/Mod.v:111 idiom, so every obligation starts with an explicit
+   Instance/Mod.v idiom, so every obligation starts with an explicit
    [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -63,7 +63,7 @@ Generalizable All Variables.
     with the vector-space reading — which is the literal content of all
     three catalogued items — split off into Instance/Vect/Free.v, where
     [Vct_F F] is [RMod (field_ring F)] by DEFINITION
-    (Instance/FdVect.v:224) and the specializations are therefore
+    (Instance/FdVect.v) and the specializations are therefore
     conversions rather than transports.
 
     HOW THE FREE MODULE IS PRESENTED, AND HOW THAT DIFFERS FROM THE

@@ -41,7 +41,7 @@ Generalizable All Variables.
     adjunction appears below.
 
     A GAP THE TREE RECORDED AND THIS FILE CLOSES.
-    Instance/Ab/Tensor.v:44-45 states, of its own construction, that
+    Instance/Ab/Tensor.v states, of its own construction, that
     "the tree has no free abelian group to quotient (verified across
     Construction/ and Instance/)".  That is why the tensor product there
     is built by generators and relations bespoke to the pair (G, H).
@@ -86,7 +86,7 @@ Generalizable All Variables.
     preference: the free abelian group on X is the free ℤ-module on X,
     but transporting the universal property across needs a passage
     Ab → RMod ℤ giving every abelian group its ℤ-action, and no such
-    passage exists ([RMod_Forget_Ab], Instance/Mod.v:350, is the
+    passage exists ([RMod_Forget_Ab], Instance/Mod.v, is the
     forgetful direction; Instance/Mod/BaseChange.v's [ZExt Int_Ring]
     does run Ab → RMod ℤ but sends A to ℤ ⊗ A, not to A carrying its
     own ℤ-action, so it is not the passage wanted here)
@@ -196,7 +196,7 @@ Generalizable All Variables.
         non-degeneracy theorems additionally identify all three of an
         [AbObject]'s universes with it.  This is the DONORS' doing, and
         it is attributed rather than guessed: [Sets@{o so}] is declared
-        as [Category@{so o o}] (Instance/Sets.v:193), so [obj[Sets]] is
+        as [Category@{so o o}] (Instance/Sets.v), so [obj[Sets]] is
         [SetoidObject@{o o}] with carrier and relation already
         identified, and a probe into an ARBITRARY abelian group carrying
         no free-group content at all was measured to acquire exactly the
@@ -262,7 +262,7 @@ Generalizable All Variables.
 (* The file-global obligation tactic is [cat_simpl], which would run wide
    proof searches on the obligations below and has already introduced the
    parameters by the time an obligation is opened.  Switched off here --
-   the Instance/Mod/Free.v:22 idiom -- so every obligation starts with an
+   the Instance/Mod/Free.v idiom -- so every obligation starts with an
    explicit [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -444,7 +444,7 @@ Proof.
 Qed.
 
 (* The extension, as a morphism of [Ab].  [AbHom] IS [CMonHom]
-   (Instance/Ab.v:191, a bare [Definition]), so the obligations are
+   (Instance/Ab.v, a bare [Definition]), so the obligations are
    respectfulness of the fold and preservation of zero and of addition --
    preservation of NEGATION is not among them, being the derived
    [ab_map_neg] rather than a field.  The last two hold by
@@ -885,9 +885,9 @@ Arguments free_ab_sum_not_summand {X} A a Ha Xdec x y Hxy _.
 
 (** ** A computing witness on two generators
 
-    The integers, as [ring_ab Int_Ring]: Instance/Rng.v:109's [ring_ab]
-    applied to Theory/Algebra/Rig.v:704's [Int_Ring].  This is the same
-    term Instance/Ab/Coproduct.v:264 names [ab_Z]; that file is NOT
+    The integers, as [ring_ab Int_Ring]: Instance/Rng.v's [ring_ab]
+    applied to Theory/Algebra/Rig.v's [Int_Ring].  This is the same
+    term Instance/Ab/Coproduct.v names [ab_Z]; that file is NOT
     required here (it would drag the biproduct closure in for one
     definition), so no in-file identification with that name is stated.
 

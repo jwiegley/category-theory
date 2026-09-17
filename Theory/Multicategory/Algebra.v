@@ -64,7 +64,7 @@ Generalizable All Variables.
    carrier setoid, and [Comm_algebra_to_CMon] takes its carrier setoid
    straight from [X]; an arbitrary object of [Sets] supplies no [Prop]
    mirror of its `≈`, and there is no [LocallyPropositional Sets] to
-   supply one either (Lib/Setoid/Propositional.v:42-54,
+   supply one either (Lib/Setoid/Propositional.v,
    Instance/Sets/Propositional.v's header records both measurements).  So
    [Comm_algebra_to_CMon] takes a [PropEquiv (is_setoid X)] as a section
    hypothesis, and [Comm_algebra_CMon]'s left component asks for it too:

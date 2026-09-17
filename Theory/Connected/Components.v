@@ -51,28 +51,28 @@ Generalizable All Variables.
    Structure/Groupoid/Connected.v.  Nothing below redeclares them.  What is
    there, checked against that file rather than taken on report:
 
-     [ZigZag] (:122)          the inductive chain, with constructors
-                              [zz_nil], [zz_fwd] and [zz_bwd]
-     [Connected] (:133)       ∀ x y : C, ZigZag x y
-     [hom_zigzag] (:137)      a single arrow as a one-step chain
-     [arrow_connected] (:140) the one-arrow form implies the zig-zag form
-     [zigzag_trans] (:147)    chains compose end to end
-     [zigzag_sym] (:158)      chains reverse
-     [Fence] (:170)           the strictly alternating form, with
-                              [fence_zigzag] (:180) and [zigzag_fence]
-                              (:190) converting both ways
-     [zigzag_hom] (:203)      collapse to one arrow in a groupoid
-     [connected_arrow] (:211) and [connected_iso] (:216)
-     [WideDeloop] (:339)      with [WideDeloop_Connected] (:380)
-     [Roof_Connected] (:431)  a connected category that is not a groupoid
-     [Two_Discrete_zigzag_endpoints] (:507) and
-     [Two_Discrete_not_connected] (:516)
+     [ZigZag]          the inductive chain, with constructors
+                       [zz_nil], [zz_fwd] and [zz_bwd]
+     [Connected]       ∀ x y : C, ZigZag x y
+     [hom_zigzag]      a single arrow as a one-step chain
+     [arrow_connected] the one-arrow form implies the zig-zag form
+     [zigzag_trans]    chains compose end to end
+     [zigzag_sym]      chains reverse
+     [Fence]           the strictly alternating form, with
+                       [fence_zigzag] and [zigzag_fence] converting
+                       both ways
+     [zigzag_hom]      collapse to one arrow in a groupoid
+     [connected_arrow] and [connected_iso]
+     [WideDeloop]      with [WideDeloop_Connected]
+     [Roof_Connected]  a connected category that is not a groupoid
+     [Two_Discrete_zigzag_endpoints] and
+     [Two_Discrete_not_connected]
 
    Three further files consume [Connected] already:
-   Structure/Groupoid/Basepoint.v (:319, as a section hypothesis),
-   Construction/Deloop/Transform.v (:987, :1012) and
+   Structure/Groupoid/Basepoint.v (as a section hypothesis),
+   Construction/Deloop/Transform.v and
    Instance/Top/FundamentalGroupoid.v, which declares [PathConnected]
-   (:1092) and [pathconnected_Connected] (:1094).
+   and [pathconnected_Connected].
 
    THE SOURCE ISSUE'S "Current state" IS STALE, AND IN THE STRONGEST WAY:
    it reports that a whole-tree search for the identifier [Connected]
@@ -81,10 +81,10 @@ Generalizable All Variables.
    reflexivity, symmetry and transitivity from scratch.  Searching the `.v`
    files: [ZigZag] occurs in exactly ONE, the file that declares it; the
    word [Connected] occurs in FIVE, of which one declares it, three use it
-   in statements (Structure/Groupoid/Basepoint.v:319,
-   Construction/Deloop/Transform.v:987 and :1012,
-   Instance/Top/FundamentalGroupoid.v:1095, :1434, :1496) and one —
-   Structure/Groupoid.v:55, :91 — matches only because the file PATH
+   in statements (Structure/Groupoid/Basepoint.v,
+   Construction/Deloop/Transform.v,
+   Instance/Top/FundamentalGroupoid.v) and one —
+   Structure/Groupoid.v — matches only because the file PATH
    `Structure/Groupoid/Connected.v` appears in a comment there.  So the
    issue's item 1, and the reflexivity/symmetry/transitivity HALF of its
    item 2, were already discharged before this file was written, and
@@ -102,7 +102,7 @@ Generalizable All Variables.
        that mentions it, and no statement of the shape "F carries a chain
        to a chain" occurs;
      - no π₀ OF A CATEGORY, and no components construction on a category.
-       The nearest prior art is Instance/FinSet/Pushout.v:275's
+       The nearest prior art is Instance/FinSet/Pushout.v's
        [components], a union-find fold over a LIST OF EDGES on [Fin.t N]
        computing the connected components of a finite graph, used to build
        pushouts in skeletal FinSet.  Its input is an edge list and not a
@@ -112,7 +112,7 @@ Generalizable All Variables.
        [fin_eqb], which nothing below can do.  The other declared names in
        the tree matching `component` are the components of natural
        transformations and of isomorphisms, together with
-       Instance/Comp.v:462's [Component] and that file's [component_id] and
+       Instance/Comp.v's [Component] and that file's [component_id] and
        [component_compose], and the [components_*] lemmas about the fold
        just described; none of them is π₀;
      - no subcategory spanned by a zig-zag class. *)
@@ -125,7 +125,7 @@ Generalizable All Variables.
    [ConnectedComponent] names in the fourth section.  π₀ is the universal
    name for the set, is unambiguous, and keeps the two apart.  There is no
    in-tree collision: before this file no `pi0`, `Pi0` or
-   [ConnectedComponent] was declared anywhere.  [Instance/Comp.v:462] does
+   [ConnectedComponent] was declared anywhere.  [Instance/Comp.v] does
    declare a [Component] — a SOFTWARE component, a map from required
    interfaces to provided ones — which is
    why the category below is [ConnectedComponent] and not [Component]; the
@@ -163,9 +163,9 @@ Generalizable All Variables.
    (3) [ObjSetoid] takes FOUR binders rather than three, so that the
    setoid's relation universe is not C's proof universe.  Two comparisons,
    both with an otherwise identical body: taking the setoid packaged from
-   Lib/Setoid.v:65's [eq_Setoid] returns [SetoidObject@{o o}] — carrier and
+   Lib/Setoid.v's [eq_Setoid] returns [SetoidObject@{o o}] — carrier and
    relation identified — because [eq_Setoid@{u}] carries one binder and
-   returns [Setoid@{u u}], where Lib/Setoid.v:47's [eq_equivalence@{o q}]
+   returns [Setoid@{u u}], where Lib/Setoid.v's [eq_equivalence@{o q}]
    carries two; and reusing C's own proof universe in place of the fresh
    fourth one makes [pi0_coarser] elaborate with [o = h] where the shipped
    form leaves [h <= o].  So the binder, not merely the annotation on
@@ -252,7 +252,7 @@ Generalizable All Variables.
      CONVERTIBLE and the very same certificate is accepted when supplied by
      a one-step script, so what is rejected is unification through [Proper]
      and [respectful], not the term — the shape
-     Instance/Sets/Quotient.v:243-248 records at [sets_quot_proj]. *)
+     Instance/Sets/Quotient.v records at [sets_quot_proj]. *)
 
 (* STATUS: axiom-free.  105 constants — 90 named, 12 [Program] obligations,
    the two projections [cn_obj] and [cn_zigzag], and the constructor
@@ -443,10 +443,10 @@ Definition zigzag_Equivalence (C : Category) : Equivalence (@ZigZag C) :=
 
    THE FOURTH UNIVERSE BINDER IS LOAD-BEARING AND WAS MEASURED, NOT
    GUESSED, in two separate comparisons.  (i) Building the same object from
-   Lib/Setoid.v:65's [eq_Setoid] returns [SetoidObject@{o o}], IDENTIFYING
+   Lib/Setoid.v's [eq_Setoid] returns [SetoidObject@{o o}], IDENTIFYING
    the carrier universe with the universe of the equality proofs, because
    [eq_Setoid@{u}] carries a single binder and returns [Setoid@{u u}];
-   Lib/Setoid.v:47's [eq_equivalence@{o q}] carries two.  The two bodies
+   Lib/Setoid.v's [eq_equivalence@{o q}] carries two.  The two bodies
    differ only in whether the setoid is taken packaged or spelled out over
    that donor, so the difference is attributable to it.  (ii) Reusing C's
    OWN proof universe [p] in place of a fresh [q] — a three-binder variant
@@ -462,7 +462,7 @@ Definition ObjSetoid@{o h p q} (C : Category@{o h p}) : SetoidObject@{o q} :=
 
 (* π₀ of C: the objects of C with "joined by a zig-zag" as the equality.
 
-   This is Instance/Sets/Quotient.v:232's [SetsQuotient] applied directly —
+   This is Instance/Sets/Quotient.v's [SetsQuotient] applied directly —
    [ZigZag] is already a [crelation] on [obj[C]], so no encoding step
    intervenes.  Per the house discipline of that file the CARRIER IS
    UNTOUCHED and only `≈` is coarsened; the two readbacks below record
@@ -479,7 +479,7 @@ Example pi0_equiv (C : Category) (x y : C) :
   @equiv _ (pi0 C) x y = ZigZag x y := eq_refl.
 
 (* Leibniz-equal objects are joined, by the empty chain.  This is the
-   [SetoidCoarser] hypothesis of Instance/Sets/Quotient.v:181, and it is
+   [SetoidCoarser] hypothesis of Instance/Sets/Quotient.v, and it is
    the only thing the projection needs beyond the equivalence. *)
 Definition pi0_coarser@{o h} (C : Category@{o h h}) :
   SetoidCoarser@{o o o o} (A:=ObjSetoid@{o h h o} C) (@ZigZag@{o h} C) :=
@@ -514,7 +514,7 @@ Example pi0_proj_at (C : Category) (x : C) : pi0_proj C x = x := eq_refl.
    objects to joined objects.
 
    The certificate is supplied by a one-step script rather than as a field
-   of the record literal, for the reason Instance/Sets/Quotient.v:243-248
+   of the record literal, for the reason Instance/Sets/Quotient.v
    records at [sets_quot_proj]: [Proper (equiv ==> equiv) fobj[F]] is
    CONVERTIBLE with the type of [zigzag_fmap F] but the elaborator does not
    unfold [Proper] and [respectful] during unification, so the field
@@ -632,7 +632,7 @@ Definition component_arr {C : Category} {x : C} {a b : C}
 (* Membership is DATA, so one object of C sitting in the component by two
    different chains gives two DIFFERENT objects of the subcategory.  They
    are canonically isomorphic, by the identity of C in both directions.
-   (Construction/Subcategory.v:133's [Full_membership_iso] proves the same
+   (Construction/Subcategory.v's [Full_membership_iso] proves the same
    thing generically; it is not used, the direct construction being two
    lines because [shom] here is [poly_unit] and the hom-setoid of [Sub]
    compares first projections.) *)
@@ -759,7 +759,7 @@ Definition Component_reindex_equiv (C : Category) (x x' : C)
 (* THE SOURCE ISSUE AND THE DONOR FILE DO NOT DEFINE THE SAME PREDICATE,
    AND THE DIFFERENCE IS EXACTLY THE EMPTY CATEGORY.  The issue asks for
    "INHABITED, and any two objects are joined by a zig-zag"; the in-tree
-   [Connected] (Structure/Groupoid/Connected.v:133) is the second clause
+   [Connected] (Structure/Groupoid/Connected.v) is the second clause
    alone.  The usual convention — the nLab entry cited at the head of this
    file states it — includes inhabitedness, precisely so that "a category
    is the disjoint union of its connected components" has no empty
@@ -866,7 +866,7 @@ Definition One_ConnectedNonempty : ConnectedNonempty _1 :=
    the chain accumulates those equalities.  Stated over
    Structure/Discrete.v's [Discrete] PREDICATE rather than over
    Instance/Discrete.v's construction, so it applies to any category shown
-   discrete.  (Structure/Groupoid/Connected.v:507 proves the same statement
+   discrete.  (Structure/Groupoid/Connected.v proves the same statement
    for the one two-object discrete category it needed; this is the general
    form, and that one is not used below.) *)
 Lemma discrete_zigzag_eq {C : Category} (D : Discrete C) {x y : C}
@@ -910,11 +910,11 @@ Defined.
 
 (* For a GROUPOID the zig-zag form and the one-arrow form agree.  This is
    PURE ASSEMBLY of two constants of the donor file —
-   Structure/Groupoid/Connected.v:211's [connected_arrow] forward and :140's
+   Structure/Groupoid/Connected.v's [connected_arrow] forward and its
    [arrow_connected] back — and introduces no argument of its own; it is
    recorded because the biconditional is the shape a consumer wants and the
    donor states only the two halves.  The forward half is where the
-   groupoid hypothesis is spent, through :203's [zigzag_hom]. *)
+   groupoid hypothesis is spent, through [zigzag_hom]. *)
 Theorem groupoid_connected_iff_arrow {C : Category} (G : IsGroupoid C) :
   Connected C ↔ (∀ x y : C, x ~> y).
 Proof.
@@ -945,14 +945,14 @@ Definition pi0_Parallel_subsingleton : pi0_subsingleton Parallel :=
   Parallel_Connected.
 
 (* [Roof] is the sharper witness and it is CITED, not reproved:
-   Structure/Groupoid/Connected.v:431's [Roof_Connected] already exhibits
-   the walking span as connected, and :457's [Roof_no_arrow_neg_pos] shows
+   Structure/Groupoid/Connected.v's [Roof_Connected] already exhibits
+   the walking span as connected, and its [Roof_no_arrow_neg_pos] shows
    it is not arrow-connected.  So π₀ of it is a SUBSINGLETON — which is
    what the constant below says; [Roof] is inhabited, so "exactly one
    point" is also true there, but it needs the inhabitedness clause and is
    not what is delivered — even though two
    of its three objects have an empty hom-set between them in BOTH
-   directions — Instance/Roof.v:70 and :75 supply the two emptiness
+   directions — Instance/Roof.v supplies the two emptiness
    lemmas.  That is the case in which π₀ says strictly more than the
    one-arrow reading would. *)
 Definition pi0_Roof_subsingleton : pi0_subsingleton Roof := Roof_Connected.

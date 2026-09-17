@@ -77,15 +77,15 @@ Generalizable All Variables.
     are now all in tree, and this file is the last of the five:
 
       - free category on a graph — [UniversalArrowQuiverCat]
-        (Construction/Free/Quiver.v:529) with [FreeForgetfulAdjunction]
-        (:561);
+        (Construction/Free/Quiver.v) with [FreeForgetfulAdjunction]
+;
       - free monoid — [free_monoid_universal_arrow]
-        (Instance/Coq/Monoid/Free.v:297) with [free_monoid_adjunction]
-        (:326);
+        (Instance/Coq/Monoid/Free.v) with [free_monoid_adjunction]
+;
       - free group — [free_group_universal_arrow]
-        (Instance/Grp/Free.v:495) with [free_group_adjunction] (:437);
+        (Instance/Grp/Free.v) with [free_group_adjunction];
       - free R-module — [free_module_universal_arrow]
-        (Instance/Mod/Free.v:537) with [free_module_adjunction] (:517),
+        (Instance/Mod/Free.v) with [free_module_adjunction],
         and the vector-space case in Instance/Vect/Free.v;
       - polynomial algebra — this file.
 
@@ -204,7 +204,7 @@ Generalizable All Variables.
         examples;
       - [rng_monic_injective] and [rng_monic_iff_injective]:
         monomorphisms of rings are injective, which is the result
-        Instance/Rng.v:71 deferred pending the polynomial ring ℤ[x]
+        Instance/Rng.v deferred pending the polynomial ring ℤ[x]
         (paraphrased -- that file's wording is "the polynomial ring
         ℤ[x], which does not exist in-tree");
       - the non-degeneracy results above, and computing witnesses.
@@ -474,7 +474,7 @@ Context (phi : K ~{Rng}~> S).
 Context (s : carrier (rig_setoid S)).
 
 (* [Kcomm] and [Hcs] are explicit hypotheses of the lemmas that consume
-   them rather than section variables: the file inherits Lib.v:13's
+   them rather than section variables: the file inherits Lib.v's
    [Default Proof Using "Type"], under which a section variable absent
    from a lemma's STATEMENT is not available to its proof, and both of
    these are used only inside proofs. *)
@@ -851,7 +851,7 @@ Defined.
 
 (** * Monomorphisms of rings are injective *)
 
-(** The probe Instance/Rng.v:71 records as missing.  Two elements of R
+(** The probe Instance/Rng.v records as missing.  Two elements of R
     are separated by the two homomorphisms out of ℤ[x] that send x to
     them; a monomorphism identifies those homomorphisms only if it
     identifies the elements. *)

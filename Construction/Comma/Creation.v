@@ -25,14 +25,14 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/created+limit
 
    The projection [comma_proj2 : =(d) ↓ U ⟶ C] creates limits, as the prose
-   at Construction/Comma.v:100 and Construction/Comma/Limit.v:33 has always
+   at Construction/Comma.v and Construction/Comma/Limit.v has always
    said.  Construction/Comma/Limit.v proves existence; what is added here is
    the reflection clause [comma_creates_reflect] and the packaging
    [comma_CreatesLimit] against Structure/Limit/Creation.v.  Nothing in
    Construction/Comma/Limit.v is changed.
 
    Two consequences worth naming.  First, [PreservesImageLimit]
-   (Construction/Comma/Limit.v:110), the honest cone-level hypothesis that
+   (Construction/Comma/Limit.v), the honest cone-level hypothesis that
    file introduced and that Adjunction/GAFT.v and Adjunction/SAFT.v consume,
    is [PreservesLimitCone] quantified over all shapes, up to repackaging a
    [Limit] record as a cone together with its universal property: the two
@@ -89,7 +89,7 @@ Generalizable All Variables.
    about a hundred lines of re-derivation with the original tactic scripts.
 
    The two-sided analogue landed first and is not superseded:
-   Construction/Arrow/Limit.v:378's [comma_proj_StrictlyCreatesLimit]
+   Construction/Arrow/Limit.v's [comma_proj_StrictlyCreatesLimit]
    already gives strict creation for [comma_proj : (S ↓ T) ⟶ A ∏ B] from a
    per-diagram hypothesis of the same shape.  The functors differ — [Snd ◯
    comma_proj] and [comma_proj2] are different records — and there is no
@@ -123,13 +123,13 @@ Generalizable All Variables.
    that eliminates the shape's [x = y] into a hom pins both categories to
    [Category@{_ Set Set}], and is refused over a generic [C] with
    "universe inconsistency: Cannot enforce Set = ..." (probe negative n2) —
-   the tree's own [DiscreteCat_Functor] (Instance/Discrete.v:81) prints as
+   the tree's own [DiscreteCat_Functor] (Instance/Discrete.v) prints as
    [DiscreteCat@{u Set Set} A ⟶ C] for that reason, and a hand-rolled
    eliminator is refused identically, so the pin belongs to the ELIMINATION
    and not to any one constant."  The diagnosis named the wrong culprit.
    The pin was a universe-MINIMIZATION artifact of the unannotated
    declaration, not of the elimination: the annotated
-   [DiscreteCat_Functor@{o h p uo uh up +}] (Instance/Discrete.v:81, PR
+   [DiscreteCat_Functor@{o h p uo uh up +}] (Instance/Discrete.v, PR
    "algebraic carriers are sets", 2026-09-17) eliminates [x = y] into a hom
    exactly as before and IS formable over a generic [C].  Probe negative n2
    accordingly turned over and is kept as a positive control.  The
@@ -160,16 +160,17 @@ Generalizable All Variables.
    that, by [eq_refl], for an arbitrary downstairs limit.  A fourth is half
    true:
    comma limits sit under an all-shapes [Complete C] oracle only for
-   [Comma_Complete] (Construction/Comma/Limit.v:247); [comma_limit] (:240)
+   [Comma_Complete] (Construction/Comma/Limit.v); [comma_limit]
    has taken its downstairs limit as a parameter since commit 28ee6e54.
    Seven of the issue's line citations are stale, all of them by the two
-   lines that commit added or by later drift: [comma_limit] is :240 not
-   :238, [Comma_Complete] :247 not :245, [apex_obj] :161 not :159,
-   [apex_leg] :165 not :163, [right_adjoint_PreservesImageLimit] :266 not
-   :264, [Comma_Complete_right_adjoint] :273 not :271, and [adj_id] is
-   Instance/Adjoints.v:70, not :42 (:42 is prose).  Its citation of
-   [PreservesImageLimit] at :110 is correct, and its LIBRARY-DEFECT item —
-   that Construction/Comma.v:99-100 and Construction/Comma/Limit.v:32-33
+   lines that commit added or by later drift: [comma_limit],
+   [Comma_Complete], [apex_obj], [apex_leg],
+   [right_adjoint_PreservesImageLimit] and
+   [Comma_Complete_right_adjoint] have each moved down, and [adj_id] is
+   in Instance/Adjoints.v, at its declaration rather than at the prose the
+   issue points to.  Its citation of
+   [PreservesImageLimit] is correct, and its LIBRARY-DEFECT item —
+   that Construction/Comma.v and Construction/Comma/Limit.v
    claim creation where only existence is proved — was already resolved by
    this file's first commit, as the paragraph above records.
 
@@ -189,7 +190,7 @@ Generalizable All Variables.
    names (whole-word [grep -rlw] over [*.v], instrument-checked at [Full],
    [comma_limit] and [Coslice_Proj]); the only other-file hits are two USES
    of [Continuous_PreservesImageLimit] in Adjunction/Representability/Sets.v
-   and one prose mention of [comma_CreatesLimit] at Construction/Arrow/Limit.v:97,
+   and one prose mention of [comma_CreatesLimit] at Construction/Arrow/Limit.v,
    with no second declaration anywhere.  Renaming each of the 72 names in
    turn, in the file that DECLARES it and nowhere else, then recompiling
    this file, the satellite and the probe in order: 71 stop the probe, every
@@ -260,7 +261,7 @@ Context (K : J ⟶ (=(d) ↓ U)).
 
 (* The cone with apex [d] over [U ◯ (comma_proj2 ◯ K)] read off the comma
    data of K.  This is the general-diagram analogue of [base_cone]
-   (Construction/Comma/Limit.v:146), restated because that one is fixed to
+   (Construction/Comma/Limit.v), restated because that one is fixed to
    the chosen [Gdiag]. *)
 
 Lemma rbase_coherence {x y : J} (f : x ~{J}~> y) :
@@ -670,7 +671,7 @@ End CommaProducts.
 
 (** ** Equalizers *)
 
-(* [Structure/Equalizer.v:127] defines [Equalizer F] as [Limit F] for
+(* [Structure/Equalizer.v] defines [Equalizer F] as [Limit F] for
    [F : Parallel ⟶ C], so this clause is the per-diagram construction read
    at the walking-parallel-pair shape; [Parallel] leaves its hom universe
    free, so unlike the discrete shape it costs nothing. *)
@@ -716,14 +717,14 @@ End CommaEqualizers.
    A SECOND CORRECTION, to the sentence that followed.  An earlier revision
    continued: "What IS refused is a functor OUT OF [DiscreteCat A] that
    eliminates the shape's [x = y] into a hom: [DiscreteCat_Functor]
-   (Instance/Discrete.v:81) prints as [DiscreteCat@{u Set Set} A ⟶ C], and a
+   (Instance/Discrete.v) prints as [DiscreteCat@{u Set Set} A ⟶ C], and a
    hand-rolled eliminator is refused with the same "Cannot enforce
    Set = ..." (probe negative n2), even at a concrete base such as
    [C = D = Sets] with [U = Id].  So the pin belongs to the elimination, not
    to [DiscreteCat]."  NOTHING is refused there any more, and the pin
    belonged to neither: it was a universe-minimization artifact of the
    unannotated declaration, removed by annotating it at
-   Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   Instance/Discrete.v in the PR "algebraic carriers are sets"
    (2026-09-17).  Probe negative n2 turned over and is now a positive
    control in Test/ProbeCommaCreation438.v, which records the same
    correction beside it.  [DiscreteCat]'s hom and proof universes were

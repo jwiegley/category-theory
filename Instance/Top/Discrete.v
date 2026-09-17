@@ -30,7 +30,7 @@ Generalizable All Variables.
     determined by its action on points.
 
     WHY THIS FILE DOES NOT PACKAGE AN [Adjunction], AND WHY THAT IS NOT A
-    DEFECT OF THIS FILE.  Instance/Top/Forgetful.v:70-83 records a
+    DEFECT OF THIS FILE.  Instance/Top/Forgetful.v records a
     pre-existing universe obstruction, in its own words: a functor out of
     [Top@{h o}] lands in [Sets@{h so}] while a functor INTO [Top@{h o}]
     must come from [Sets@{o so}], so "[a]n [Adjunction] record between the
@@ -40,7 +40,7 @@ Generalizable All Variables.
     classifier phenomenon ... not a defect of the mathematics", the same
     stratification Instance/Sets/Classifier.v lives with.  Accordingly it
     delivers the adjunction as the cross-universe transposition
-    isomorphism [discrete_adj] (:191) with its four naturality lemmas,
+    isomorphism [discrete_adj] with its four naturality lemmas,
     rather than as an [Adjunction].
 
     So the honest statement of #312's third row is NOT a packaged
@@ -63,7 +63,7 @@ Generalizable All Variables.
     action is [Setoid_Lift (top_carrier X)] and [Top_Discrete]'s is
     [Discrete_Top A], whose carrier is A itself, so the composite is
     [Setoid_Lift A] ON THE NOSE — [disc_unit_target_strict] is [eq_refl],
-    and it is NOT new: Instance/Top/Forgetful.v:615 already ships
+    and it is NOT new: Instance/Top/Forgetful.v already ships
     [forget_discrete_on_objects], the same proposition with the same
     proof.  It is restated here only so the unit below can be read
     without leaving the file —

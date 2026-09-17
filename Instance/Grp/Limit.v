@@ -66,9 +66,9 @@ Generalizable All Variables.
    declaration heads whose statement mentions word-bounded [Complete] or
    [Cocomplete], comment-stripped and across line breaks, the entire
    unconditional concrete roster before this file was [Sets_Complete]
-   (Instance/Sets/Complete.v:196), [ConeSet_Complete] (:464),
-   [Sets_Cocomplete] (Instance/Sets/Cocomplete.v:484) and
-   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:655, :659) --
+   (Instance/Sets/Complete.v), [ConeSet_Complete],
+   [Sets_Cocomplete] (Instance/Sets/Cocomplete.v) and
+   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v) --
    nothing for [Grp], [Ab], [CMon], [Rng], [RMod], [Mon], [Top] or [Cat].
    And [Grp_Forget_creates_limits] is the FIRST creation inhabitant at a
    NAMED CONCRETE category: outside the declaring file there are exactly
@@ -80,8 +80,8 @@ Generalizable All Variables.
    reflection, lifting or creation result: a sweep for [_Forget] heads
    INHABITING A CREATION CLASS returns exactly those four, and widening the
    vocabulary to lifting and reflection adds [em_strict_lift],
-   [monadic_creates] (Monad/Monadicity/Beck.v:911) and
-   [em_forget_reflects_isos] (Monad/Monadicity/BeckObjects.v:177) -- still
+   [monadic_creates] (Monad/Monadicity/Beck.v) and
+   [em_forget_reflects_isos] (Monad/Monadicity/BeckObjects.v) -- still
    all [EM_Forget].  And NO limit, cone, completeness, creation, lifting,
    preservation or continuity statement about [Grp] or [Grp_Forget] existed
    at all (that sweep returns zero; before this file [Grp_Forget] was known
@@ -95,12 +95,12 @@ Generalizable All Variables.
    creation vocabulary"; (iii) "no limit theory for any algebra category";
    (iv) "the ONE forgetful functor into [Sets], [CMon_Forget], has no
    consumers and is nowhere shown to preserve, reflect, lift or create
-   anything".  Measured at 1fd2f96c: (i) FALSE -- Instance/Grp.v:532 declares
-   [Grp] and :493 [Grp_Forget], both consumed here and neither rebuilt, and
+   anything".  Measured at 1fd2f96c: (i) FALSE -- Instance/Grp.v declares
+   [Grp] and [Grp_Forget], both consumed here and neither rebuilt, and
    word-bounded [Grp] matches 1022 LINES across 88 [.v] files (1112
    occurrences) rather than three;
-   (ii) FALSE -- Structure/Limit/Creation.v declares [CreatesLimit] (:154),
-   [StrictLift] (:288), [StrictlyCreatesLimit] (:325) and the
+   (ii) FALSE -- Structure/Limit/Creation.v declares [CreatesLimit],
+   [StrictLift], [StrictlyCreatesLimit] and the
    shape-quantified forms, which is what this file inhabits (the issue's
    literal command does return four hits in two files, all of them prose
    inside comments, so it measured the phrase and not the vocabulary);
@@ -109,12 +109,12 @@ Generalizable All Variables.
    Monad/Eilenberg/Moore/Limit.v, which the issue does not look at, and
    which is this file's architectural template; (iv) FALSE in three of its
    four clauses -- the line number is right and [CMon_Forget] is still at
-   Instance/CMon.v:246, but it is not the only forgetful functor into [Sets]
+   Instance/CMon.v, but it is not the only forgetful functor into [Sets]
    ([Grp_Forget], [Rng_Forget], [Ab_Forget], [Pos_Forget], [Top_Forget],
    [RMod_Forget], [FdVect_Forget] are others) and it does have consumers
-   (Instance/Concrete.v:170, :176, Theory/Algebra/Rig.v:793,
-   Instance/Roster.v:333), its faithfulness having been proved at
-   Instance/Concrete.v:170; what remains TRUE is the last clause, that no
+   (Instance/Concrete.v, Theory/Algebra/Rig.v,
+   Instance/Roster.v), its faithfulness having been proved at
+   Instance/Concrete.v; what remains TRUE is the last clause, that no
    preservation, reflection, lifting or creation result about it exists.
 
    THIS IS NOT AN INSTANCE OF [EM_Complete], AND THAT IS MEASURED RATHER
@@ -151,12 +151,12 @@ Generalizable All Variables.
    either being specific to the group signature; that is an engineering
    judgement, nothing is compiled for it here.  What is NOT done is a
    signature-parameterised statement, and the reason is NOT that the obvious
-   substrate is axiom-carrying: measured, Instance/Comp.v's [Algs] (:151)
+   substrate is axiom-carrying: measured, Instance/Comp.v's [Algs]
    and [GroupOp] are BOTH Closed under the global context.  It is that
    [Algs S] is the category of algebras for an OPERATION signature with no
    equations, so a category of GROUPS there needs the equational layer, and
-   each of [GroupEq] (Instance/Comp.v:358), [Group] (:382) and [Product]
-   (:434) carries [functional_extensionality_dep]; moreover [Group] is a
+   each of [GroupEq], [Group] and [Product] (all in Instance/Comp.v)
+   carries [functional_extensionality_dep]; moreover [Group] is a
    [Type] of algebras with no category attached, which Instance/Grp.v's own
    header records, so nothing in tree relates it to [Grp].  A
    signature-generic route is therefore a construction rather than an
@@ -709,7 +709,7 @@ Definition Grp_Complete : @Complete Grp :=
 (* [ContinuousFunctor] is [PreservesLimitCone] quantified over every shape
    and diagram, which is what the word means in Mac Lane §V.4 -- the
    apex-only [PreservesAllLimits] below is its CONSEQUENCE, not the
-   definition (Structure/Limit/Preservation.v:46-56). *)
+   definition (Structure/Limit/Preservation.v). *)
 
 Definition Grp_Forget_continuous : ContinuousFunctor Grp_Forget :=
   creates_limits_continuous Grp_Forget Sets_Complete Grp_Forget_creates_limits.

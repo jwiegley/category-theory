@@ -43,9 +43,9 @@ Generalizable All Variables.
    WHAT WAS ALREADY IN THE TREE, AND WHAT THIS FILE ADDS
 
    The two universal properties themselves are Structure/Limit/Product.v
-   ([IsIndexedProduct]:51, [iprod]:93, [HasIndexedProducts]:128) and
+   ([IsIndexedProduct], [iprod], [HasIndexedProducts]) and
    Structure/Limit/Coproduct.v (its definitional dual at [C^op]), and both
-   are inhabited at [Sets] (Instance/Sets/Products.v:302, :387).  What
+   are inhabited at [Sets] (Instance/Sets/Products.v).  What
    neither file states is the hom-set bijection: as of this commit,
 
      rg -n '≅\[Sets\]|@Isomorphism|hom_iso' \
@@ -73,7 +73,7 @@ Generalizable All Variables.
    Structure/Limit/Coproduct.v's header records a real obstruction: its
    [icoprod] reads a [Limit] of the discrete diagram taken IN [C^op],
    namely [Limit (@DiscreteCat_Functor A (C^op) f)], and NOT a [Colimit] in
-   the sense of Structure/Limit.v:158, which sets [Colimit F := Limit (F^op)]
+   the sense of Structure/Limit.v, which sets [Colimit F := Limit (F^op)]
    and so indexes over [(DiscreteCat A)^op]; the two categories are not
    identified, and no translation between them exists in the tree.
 
@@ -92,7 +92,7 @@ Generalizable All Variables.
 
    Read "every presentation the tree carries accessors for" strictly: it is
    NOT every expressible shape.  [Colimit (@DiscreteCat_Functor A C f)] --
-   the form Structure/Limit.v:158 defines, indexing over [(DiscreteCat A)^op]
+   the form Structure/Limit.v defines, indexing over [(DiscreteCat A)^op]
    -- is formable and is a genuine in-tree presentation, and
    [colimit_hom_iso] does NOT accept it: a term of that type is rejected
    against the expected [Limit (@DiscreteCat_Functor A (C^op) f)].  That is
@@ -118,7 +118,7 @@ Generalizable All Variables.
    patterns -- the Makefile's is word-bounded and lefthook's is not, so
    lefthook also counts that keyword as a substring of longer words.  Both
    were measured the hard way, in that order.)  The second holds because [Curried_CoHom D] IS
-   [Curried_Hom D^op] by Definition (Functor/Hom.v:146).  So the two clauses
+   [Curried_Hom D^op] by Definition (Functor/Hom.v).  So the two clauses
    of Riehl's Remark 3.1.27 are symmetric BY CONSTRUCTION here, not by a
    parallel development; [icoprod_hom_functor_is_op] records the reading.
 
@@ -215,7 +215,7 @@ Generalizable All Variables.
    [C]'s hom universe, which is [Set] there, is what cuts the index to
    [Set]."  The donor half of that combination is GONE: [iprod] inherited
    its [Set] from Instance/Discrete.v's unannotated [DiscreteCat_Functor],
-   annotated in place at its :81 in the PR "algebraic carriers are sets"
+   annotated in place there in the PR "algebraic carriers are sets"
    (2026-09-17), and [iprod@{u u0 u1 u2 u3}] is now over
    [C : Category@{u1 u2 u2}].  Test/ProbeIndexedHom.v re-measured the two
    negatives in a copy of the whole file with its section's [C] declared at

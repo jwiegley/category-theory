@@ -122,7 +122,7 @@ Check (DiscreteCat_Functor F).
    pin was in fact a universe-MINIMIZATION artifact of the unannotated
    declaration of [DiscreteCat_Functor], not of the elimination: the
    annotated [DiscreteCat_Functor@{o h p uo uh up +}] (PR "algebraic
-   carriers are sets", 2026-09-17, Instance/Discrete.v:81) eliminates
+   carriers are sets", 2026-09-17, Instance/Discrete.v) eliminates
    [x = y] into a hom exactly as before and the base diagram IS formable.
    Kept as a positive control so that dropping the annotation breaks this
    file. *)

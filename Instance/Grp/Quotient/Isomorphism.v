@@ -34,7 +34,7 @@ Generalizable All Variables.
     that no reader has to reverse-engineer it.
 
     The comparisons for the FIRST and THIRD are produced by ONE
-    mechanism: [universal_element_iso] (Theory/Universal/Element.v:766),
+    mechanism: [universal_element_iso] (Theory/Universal/Element.v),
     which turns two universal elements of the SAME functor into an
     isomorphism of their carriers, together with its uniqueness clause
     [universal_element_iso_unique]; neither of those two is built by
@@ -126,7 +126,7 @@ Generalizable All Variables.
 
 (** ** The image of a homomorphism, as a subgroup of the codomain *)
 
-(* [GrpImage] and its four closure lemmas are Instance/Grp/Epi.v:345-372;
+(* [GrpImage] and its four closure lemmas are Instance/Grp/Epi.v;
    they are exactly the four [Subgroup] laws, so this record is assembled
    rather than proved. *)
 Definition ImageSub {G K : GrpObject} (h : G ~{Grp}~> K) : Subgroup K :=
@@ -313,7 +313,7 @@ Qed.
 (* BOTH LEGS ARE THE TWO MEDIATORS, by convertibility -- the [eq_refl]
    exception to the `≈` discipline.  [ue_med] is
    [unique_obj (aue_universal U1 (aue_elem U2))]
-   (Theory/Universal/Element.v:728), and since both universal elements
+   (Theory/Universal/Element.v), and since both universal elements
    above were built with their mediators as [unique_obj], the generic
    machinery rebuilds neither map.  The strict form was tried FIRST and
    holds; the boundary that does NOT hold strictly is the mediator's

@@ -44,7 +44,7 @@ Generalizable All Variables.
    [Cartesian C] ALONE — no [Terminal C], and no interaction between × and ⨂.
    This mirrors [Class Cartesian] itself, which "axiomatizes the binary
    product; the nullary product (the terminal object 1) is supplied separately
-   by [Terminal]" (Structure/Cartesian.v:20-22).  The nullary half needs
+   by [Terminal]" (Structure/Cartesian.v).  The nullary half needs
    [Terminal C] alone and does not mention [Cartesian] at all.  Both halves
    are stated over an ARBITRARY monoidal structure M on C; the cartesian
    monoidal structure [CC_Monoidal] appears only in the final comparison
@@ -63,7 +63,7 @@ Generalizable All Variables.
        and the negative [AbstractBaseProbe] showing it cannot bridge an
        abstract M to [CC_Monoidal].
    (6) [Product_Monoid_as_Monoid] and the comparison with [Product_Monoid]
-       (Structure/Monoid.v:179) at the cartesian monoidal base, with the
+       (Structure/Monoid.v) at the cartesian monoidal base, with the
        strict form of the multiplication comparison refuted and pinned.
    (7) [Mon_Sets_Cartesian] and [Mon_Sets_Terminal] — the concrete
        instantiation at [Mon Sets], with two further negatives showing that
@@ -76,18 +76,18 @@ Generalizable All Variables.
      Theory/Algebra/Monoid.v   Class Monoid (X : C)
                                fields mu, eta, mu_assoc,
                                mu_unit_left, mu_unit_right
-     Structure/Monoid.v:124    Class MonoidObject (mon : C)
+     Structure/Monoid.v        Class MonoidObject (mon : C)
                                fields mempty, mappend, mempty_left,
                                mempty_right, mappend_assoc
 
    They have the same laws with renamed fields in a different order, and
-   Structure/Monoid.v:173 additionally declares
+   Structure/Monoid.v additionally declares
    [Definition Monoid := @MonoidObject C CC_Monoidal] — a THIRD spelling,
    which is [MonoidObject] pinned to the cartesian tensor.  A display hazard
    follows, and it is narrower than an earlier draft of this header claimed:
    TWO of the three print alike, not three.  [Check @Monoid] and
    [Check @MonoidObject] both print [∀ C : Category, Monoidal → obj[C] →
-   Type] and are indistinguishable by type display; but the [:173] alias
+   Type] and are indistinguishable by type display; but the [Monoid] alias
    prints [∀ C : Category, Cartesian → Terminal → obj[C] → Type], which is
    VISIBLY DIFFERENT, and [Check @Product_Monoid] even prints its ARGUMENT
    types qualified.  The claim "type display alone cannot tell the three
@@ -121,8 +121,8 @@ Generalizable All Variables.
    measurement at the current definitions; NO impossibility is proved and none
    is claimed.  The restriction is not hypothetical either, and
    section (7) makes that concrete AT THE TREE'S OWN [Mon Sets]: that category
-   is [@Mon Sets Sets_Product_Monoidal] (Instance/Roster.v:390), whose base is
-   [Sets]'s hand-built monoidal structure (Instance/Sets.v:288) and NOT
+   is [@Mon Sets Sets_Product_Monoidal] (Instance/Roster.v), whose base is
+   [Sets]'s hand-built monoidal structure (Instance/Sets.v) and NOT
    [@CC_Monoidal Sets _ _] — the two are pinned as not the same term — so
    [Product_Monoid] does not typecheck as a monoid structure there, which is
    also pinned.  Route (c) would edit a file this issue has
@@ -138,7 +138,7 @@ Generalizable All Variables.
 
    - Both round trips of the class passage close by [eq_refl] on the WHOLE
      record ([monoid_round], [monoid_object_round]): both classes are
-     declared under [Set Primitive Projections] (Lib/Foundation.v:5), so
+     declared under [Set Primitive Projections] (Lib/Foundation.v), so
      record eta holds and rebuilding the five fields returns the original.
    - The forgetful functor's action on the product object and on the terminal
      object is [eq_refl] ([Mon_Forget_product], [Mon_Forget_terminal]), as are
@@ -582,7 +582,7 @@ Definition MonoidObject_of_Monoid {x : C} (X : Monoid x)
 |}.
 
 (* Both round trips close on the WHOLE record by [eq_refl]: both classes are
-   declared under [Set Primitive Projections] (Lib/Foundation.v:5), so record
+   declared under [Set Primitive Projections] (Lib/Foundation.v), so record
    eta identifies a record with the tuple of its own projections. *)
 Example monoid_round {x : C} (X : Monoid x) :
   Monoid_of_MonoidObject (MonoidObject_of_Monoid X) = X := eq_refl.
@@ -689,9 +689,9 @@ End Comparison.
 (** ** A concrete instantiation, and the design claim made concrete *)
 
 (* [Sets] with the setoid product is a monoidal category (its own hand-built
-   [Sets_Product_Monoidal], Instance/Sets.v:288 — NOT [CC_Monoidal]), and it
+   [Sets_Product_Monoidal], Instance/Sets.v — NOT [CC_Monoidal]), and it
    is cartesian.  So [Mon Sets] at that base — which is exactly
-   Instance/Roster.v:390's [Mon_Sets], by definition there; that file is not
+   Instance/Roster.v's [Mon_Sets], by definition there; that file is not
    required here — inherits finite products.
 
    This is also where the design argument of the header stops being a pointer

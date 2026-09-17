@@ -140,8 +140,8 @@ Generalizable All Variables.
    [{A : Type} {C : Category}]), whose minimized type instantiated
    [DiscreteCat@{u Set Set}] -- never [DiscreteCat] itself, which is
    declared [DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p}]
-   (Instance/Discrete.v:44) with hom and proof FREE.  That donor was
-   annotated in place at Instance/Discrete.v:81 in the PR "algebraic
+   (Instance/Discrete.v) with hom and proof FREE.  That donor was
+   annotated in place at Instance/Discrete.v in the PR "algebraic
    carriers are sets" (2026-09-17).  Measured after it, with
    [Set Printing Universes]: [family_cone@{u u0 u1 u2}] returns
    [Cone@{u u2 u2 u1 u2 u2}], [iprod@{u u0 u1 u2 u3}] and
@@ -217,10 +217,10 @@ Generalizable All Variables.
    carries both the bundled [Cartesian] class and the apex-pinned
    [IsCartesianProduct], but no passage from the first to the second:
    a shape search for [IsCartesianProduct] finds the class at
-   Structure/Cartesian.v:145 with consumers at :519/:526/:533, and the
+   Structure/Cartesian.v with three consumers further down it, and the
    only terms of that type CONSTRUCTED anywhere are [product_of_pullback]
-   (Structure/Pullback/Reduction.v:599) and [pb_prod_IsCartesianProduct]
-   (:634, itself an application of the former), both from a pullback over
+   (Structure/Pullback/Reduction.v) and [pb_prod_IsCartesianProduct]
+   (itself an application of the former), both from a pullback over
    the terminal object.  An earlier revision counted "four other files"
    and then "the other two"; the count was stale and the two figures were
    inconsistent, and Structure/Pullback.v mentions the name only inside a

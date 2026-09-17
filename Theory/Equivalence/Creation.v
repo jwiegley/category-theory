@@ -23,7 +23,7 @@ Generalizable All Variables.
 (* nLab: https://ncatlab.org/nlab/show/created+limit
    nLab: https://ncatlab.org/nlab/show/adjoint+functor#preservation
 
-   [equivalence_creates_limits] (Theory/Equivalence/Limit.v:486) transports
+   [equivalence_creates_limits] (Theory/Equivalence/Limit.v) transports
    a limit; on its own it relates neither the apexes nor the legs, and its
    name has been ahead of its statement.  This file closes the gap in the
    strong direction, keeping the name: [equivalence_CreatesLimit] exhibits
@@ -33,7 +33,7 @@ Generalizable All Variables.
    [ff_reflect_ump] — every equivalence is full and faithful, and the leg
    hypothesis discharges by [reflexivity] because the legs of [FCone] ARE
    the image legs.  No constant is renamed, so [equivalence_creates_colimits]
-   (Theory/Equivalence/Limit.v:582) and every downstream user are untouched.
+   (Theory/Equivalence/Limit.v) and every downstream user are untouched.
 
    The construction above does not give a strict lift: the apex
    [equivalence_creates_limits] produces is the quasi-inverse of the given
@@ -66,7 +66,7 @@ Definition equivalence_PreservesLimitCone {J : Category} (K : J ⟶ C) :
     (AdjointEquivalence_swap_adjunction (Equivalence_to_AdjointEquivalence E)) K.
 
 (* Reflection, from full faithfulness.  The leg side condition of
-   [ff_reflect_ump] (Theory/Equivalence/Limit.v:391) is [reflexivity] here
+   [ff_reflect_ump] (Theory/Equivalence/Limit.v) is [reflexivity] here
    exactly because [FCone]'s legs are the image legs. *)
 
 Definition equivalence_ReflectsLimitCone {J : Category} (K : J ⟶ C) :

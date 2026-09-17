@@ -56,41 +56,42 @@ Generalizable All Variables.
 (* Why there is no route through completeness, and what was in tree
 
    The equalizer story in [Sets] runs through a general theorem:
-   [Complete_HasEqualizers] (Adjunction/GAFT.v:214) turns any [Complete]
-   category into one with equalizers, and Adjunction/GAFT/Sets.v:175
+   [Complete_HasEqualizers] (Adjunction/GAFT.v) turns any [Complete]
+   category into one with equalizers, and Adjunction/GAFT/Sets.v
    applies it to [Sets_Complete] to get [Sets_HasEqualizers].  The dual
    route was not available when this file was written: [Cocomplete Sets]
-   did not exist.  It does now (Instance/Sets/Cocomplete.v:484), built
+   did not exist.  It does now (Instance/Sets/Cocomplete.v), built
    from the layer beneath this file's donor rather than from the
    coequalizer -- so this paragraph's old forecast, that the hand-built
    object "is what a later [Cocomplete Sets] would itself need", is wrong.
 
    Before this file the tree had no [HasCoequalizers] inhabitant at all.
-   The name occurred as the class ([Structure/Coequalizer.v:68]), as the
+   The name occurred as the class ([Structure/Coequalizer.v]), as the
    DERIVED [HasCoequalizers_HasReflexiveCoequalizers]
-   ([Structure/Coequalizer/Reflexive.v:75], which consumes the class
+   ([Structure/Coequalizer/Reflexive.v], which consumes the class
    rather than inhabiting it), and otherwise only in prose
-   ([Structure/Coequalizer.v:47], [Structure/Coequalizer/Reflexive.v:26]
-   and [:51], [Structure/Equalizer/Fork.v:67],
-   [Instance/Grp/Quotient/Colimit.v:69]).  [Sets_HasCoequalizers] is
+   ([Structure/Coequalizer.v], [Structure/Coequalizer/Reflexive.v]
+   twice, [Structure/Equalizer/Fork.v] and
+   [Instance/Grp/Quotient/Colimit.v]).  [Sets_HasCoequalizers] is
    therefore the first.
 
    ERRATUM, and it concerns a sentence in this issue's own Seven Sketches
    §6.2.4 block.  That block asserts that "rg -i 'coequalizer' Instance/
    returns exactly two hits, both prose comments at
-   Instance/Parallel.v:25 and Instance/Two.v:51".  The COUNT was true
-   when the block was written and is no longer, and the second LINE
-   NUMBER is off by four.  Re-measured against this worktree's parent
-   commit, over `*.v` files only: twenty-two hits in three files --
-   Parallel.v:25, Two.v:55, and twenty in Instance/Grp/Quotient/Colimit.v,
+   Instance/Parallel.v and Instance/Two.v".  The COUNT was true
+   when the block was written and is no longer, and the location it
+   gives for the second hit is stale.  Re-measured against this
+   worktree's parent commit, over `*.v` files only: twenty-two hits in
+   three files -- Parallel.v, Two.v, and twenty in
+   Instance/Grp/Quotient/Colimit.v,
    which has landed since.  Among the twenty are two genuine
-   [IsCoequalizer] INHABITANTS, [quot_IsCoequalizer] (:138) and
-   [normal_closure_IsCoequalizer] (:264), so the block's implied "no
+   [IsCoequalizer] INHABITANTS, [quot_IsCoequalizer] and
+   [normal_closure_IsCoequalizer], so the block's implied "no
    coequalizer has ever been inhabited under Instance/" is also gone.
    What the block was getting at survives the correction, and is the
    sentence above about [HasCoequalizers]: those two inhabitants are
    coequalizers of a morphism against a ZERO morphism in [Grp], not a
-   construction for an arbitrary parallel pair, and Colimit.v:69 says as
+   construction for an arbitrary parallel pair, and Colimit.v says as
    much itself. *)
 
 (* WHAT IS DELIVERED

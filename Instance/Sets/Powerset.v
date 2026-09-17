@@ -48,20 +48,20 @@ Generalizable All Variables.
 
    WHAT IS ALREADY IN THE TREE, AND WHAT IS NEW HERE.  Several neighbouring
    constructions exist and none of them is either of these functors.
-   [Structure/Topos.v:129] defines the INTERNAL power object of an
+   [Structure/Topos.v] defines the INTERNAL power object of an
    elementary topos, [Pow a := Ω ^ a] — an assignment on objects with no
-   action on morphisms.  [Theory/Subobject/Functor.v:180] defines
+   action on morphisms.  [Theory/Subobject/Functor.v] defines
    [Sub : C^op ⟶ Sets] by chosen-pullback reindexing — the categorical
    generalization of the CONTRAVARIANT construction, at the level of
    subobjects of a general category.  Closest of all,
-   [Instance/Sets/Image.v:75] builds [Sets_Image f], the image of ONE
-   morphism as an object of [Sets] (carrier [∃ y, ∃ x, f x ≈ y], :76),
+   [Instance/Sets/Image.v] builds [Sets_Image f], the image of ONE
+   morphism as an object of [Sets] (carrier [∃ y, ∃ x, f x ≈ y]),
    together with its epi/mono factorization — that is the direct image of
    the whole domain, with no action on subsets.  And [Instance/Ens.v] is a
    category of ensembles, not a functor — though its objects
-   ([∃ T : Type, Ensemble T], :35, with [Ensemble T] the [Prop]-valued
+   ([∃ T : Type, Ensemble T], with [Ensemble T] the [Prop]-valued
    predicates on [T]) are the in-tree precedent for the truncated carrier
-   below, as are [Instance/Rel.v]'s homs ([A ~> Ensemble B], :47).  What
+   below, as are [Instance/Rel.v]'s homs ([A ~> Ensemble B]).  What
    this file adds is the concrete Set-level pair: an honest [Functor] whose
    morphism action is the direct image, and its contravariant partner whose
    morphism action is the inverse image, over carriers of predicates on a
@@ -82,8 +82,8 @@ Generalizable All Variables.
        power set, or that wants the witness of membership to carry data,
        wants this carrier.  It is not an endofunctor, and the price is
        concrete: [@Monad Sets Powerset] and [FAlg Powerset] are both
-       rejected by the universe checker, because [Theory/Monad.v:90] and
-       [Construction/FAlg.v:114] each require an endofunctor.  So the
+       rejected by the universe checker, because [Theory/Monad.v] and
+       [Construction/FAlg.v] each require an endofunctor.  So the
        power-set monad (#466) and any initial-algebra reading (#750) cannot
        ride on this carrier, and [Sets_Lift ⟹ Powerset] below, though it is
        the singleton family, cannot serve as a monad unit.
@@ -117,7 +117,7 @@ Generalizable All Variables.
    carrier does fit, and what the truncation costs.  Be careful throughout
    about which universe is which.
 
-   [Sets@{o so} : Category@{so o o}] (Instance/Sets.v:188), and a
+   [Sets@{o so} : Category@{so o o}] (Instance/Sets.v), and a
    [Category@{o h p}] has [obj : Type@{o}].  So QUA CATEGORY the object
    universe of [Sets@{o so}] is [so]: its objects are the [SetoidObject@{o o}]s,
    and [o] is the universe of those objects' CARRIERS — the level at which
@@ -125,13 +125,13 @@ Generalizable All Variables.
    (printed by [About Sets] as `o so |= o < so`).
 
    Morphism equivalence in this library is [Type]-valued: [Setoid] carries
-   [equiv : crelation A] (Lib/Setoid.v:33), so for [X : SetoidObject@{o o}]
+   [equiv : crelation A] (Lib/Setoid.v), so for [X : SetoidObject@{o o}]
    and [x y : carrier X] the proposition [x ≈ y] is a [Type@{o}], not a
    [Prop].  If a subset of [X] is CHOSEN to be a predicate valued in
    [Type@{o}] — recording, for each element, the data of why it belongs —
-   then it is exactly the carrier of [PropSetoid] (Instance/Sets/Classifier.v:151
+   then it is exactly the carrier of [PropSetoid] (Instance/Sets/Classifier.v
    — carrier [Type@{o}] under [↔], which denotes [iffT] here,
-   Lib/Foundation.v:72).  And [Type@{o} : Type@{o+1}], so a predicate type
+   Lib/Foundation.v).  And [Type@{o} : Type@{o+1}], so a predicate type
    [carrier X → Type@{o}] sits at [Type@{so}], one level above the carriers.
 
    The word CHOSEN is doing real work there, and an earlier version of this
@@ -147,13 +147,13 @@ Generalizable All Variables.
        Powerset_op : (Sets@{o so})^op ⟶ Sets@{so sso}
 
    which is the same discipline, and the same donors, as
-   Instance/Sets/Classifier.v: [Setoid_Lift] (:115) re-types a
+   Instance/Sets/Classifier.v: [Setoid_Lift] re-types a
    [SetoidObject@{o o}] as a [SetoidObject@{so so}] by rebuilding it (the
-   library's records are not cumulative), and [PropSetoid] (:151) is the
-   truth-value setoid one level up.  Instance/Sets.v:412-428 records where
+   library's records are not cumulative), and [PropSetoid] is the
+   truth-value setoid one level up.  Instance/Sets.v records where
    the want of a level-[o] truth-value object first bites: the reverse
-   direction of [surjectivity_is_epic] (declared :429) ends in a
-   non-completing proof, discarded at :476 by the command that throws a
+   direction of [surjectivity_is_epic] ends in a
+   non-completing proof, discarded by the command that throws a
    proof away, so that lemma never enters the environment.
 
    One consequence is worth stating plainly, and stating WITH ITS SCOPE.
@@ -170,9 +170,9 @@ Generalizable All Variables.
    [Sets_Lift ⟹ Powerset], where [Sets_Lift] is the lifting functor built
    below from Classifier.v's [Setoid_Lift]/[SetoidMorphism_Lift] — a functor
    that changes nothing but the universe: it keeps the carrier verbatim
-   ([Setoid_Lift]'s [carrier] field is [carrier X], Classifier.v:116) and
+   ([Setoid_Lift]'s [carrier] field is [carrier X], Classifier.v) and
    the underlying function verbatim up to η ([SetoidMorphism_Lift]'s
-   function is [λ a, f a], Classifier.v:127).
+   function is [λ a, f a], Classifier.v).
 
    A RETRACTION, BECAUSE AN EARLIER VERSION OF THIS HEADER OVERSTATED THAT
    SCOPE.  It said that Riehl's [Id ⟹ P] "is not statable" in this library,
@@ -194,17 +194,17 @@ Generalizable All Variables.
 
    The inherited justification does not carry over either.  This header
    claimed that Instance/Sets/Classifier.v "works through the same
-   obstruction".  It does not, and that file says so in its own words at
-   :138-142: [Prop] (with [iff]) "would fit at level o size-wise, but could
+   obstruction".  It does not, and that file says so in its own words:
+   [Prop] (with [iff]) "would fit at level o size-wise, but could
    not receive the [Type@{o}]-valued characteristic predicate
    [λ b, ∃ a, m a ≈ b] without truncating away the witness that
    [sets_char_pullback] and [sets_char_unique] must recover".  The
    classifier's obstruction is WITNESS RECOVERY, forced on it by a pullback
    universal property; a power set carries no such obligation, so truncation
    costs it nothing it is required to have.  In-tree precedent for
-   [Prop]-valued subsets at the carrier's own level: Instance/Ens.v:35,
+   [Prop]-valued subsets at the carrier's own level: Instance/Ens.v,
    whose objects are [∃ T : Type, Ensemble T] with [Ensemble T] the
-   [Prop]-valued predicates on [T], and Instance/Rel.v:47, whose homs are
+   [Prop]-valued predicates on [T], and Instance/Rel.v, whose homs are
    [A ~> Ensemble B].
 
    What truncation genuinely costs is proof relevance, and that is the whole
@@ -221,7 +221,7 @@ Generalizable All Variables.
    [funext]: subsets are compared by pointwise [↔] (or, on the truncated
    carrier, pointwise implication both ways) and setoid maps by pointwise
    [≈], which is the whole point of the setoid discipline
-   (Instance/Sets.v:131-136). *)
+   (Instance/Sets.v). *)
 
 (* ------------------------------------------------------------------------ *)
 (** ** The predicate setoid [P X] *)
@@ -371,7 +371,7 @@ Defined.
 
 (* [fmap[Powerset]] IS the direct image: the two sides are the very same
    term, so the equality is Leibniz (=) rather than ≈.  This is the same
-   situation as [bimap_fmap] in Functor/Bifunctor.v:42-45, whose comment
+   situation as [bimap_fmap] in Functor/Bifunctor.v, whose comment
    records the identical justification. *)
 Lemma Powerset_fmap_image@{o so sso} {X Y : SetoidObject@{o o}}
   (f : X ~{Sets@{o so}}~> Y) (S : carrier (Powerset_obj@{o so} X)) :
@@ -453,7 +453,7 @@ Defined.
 
 (* As with [Powerset_fmap_image] above: the two sides are the very same
    term, so the equality here is Leibniz (=) and not ≈, on the
-   Functor/Bifunctor.v:42-45 precedent.  The file has five such same-term
+   Functor/Bifunctor.v precedent.  The file has five such same-term
    equalities in all, this being the second; the other three
    ([Powerset_Prop_fmap_image], [Powerset_Prop_Lift_obj] and
    [Powerset_Prop_Lift_fmap]) are in the last section and carry the same
@@ -644,16 +644,16 @@ Qed.
 (** ** Sanity: [FinSet]-sized computations *)
 
 (* Small finite setoids, as objects of [Sets]: the standard [Fin.t n] under
-   Leibniz equality (the discrete setoid [Fin_Setoid] of Lib/Setoid.v:89 —
-   the same one Instance/FinSet.v:119 runs its hom-setoids over, per that
-   file's header note at :23-24).  Only [n = 2] and [n = 3] are used, so no
+   Leibniz equality (the discrete setoid [Fin_Setoid] of Lib/Setoid.v —
+   the same one Instance/FinSet.v runs its hom-setoids over, per that
+   file's header note).  Only [n = 2] and [n = 3] are used, so no
    witness below rests on an empty or singleton carrier.
 
    A note on [=] versus [≈] in this section.  Morphism equivalence is still
    [≈] everywhere: every claim about subsets, images and preimages below is
    stated with [≈].  The [=] that appears is Coq's Leibniz equality between
    ELEMENTS of [Fin.t n], and on these carriers [≈] is [=] by construction —
-   [Fin_Setoid]'s [equiv] field is [eq] (Lib/Setoid.v:89-91) — so writing
+   [Fin_Setoid]'s [equiv] field is [eq] (Lib/Setoid.v) — so writing
    [=] there names the same relation, not a stricter one. *)
 
 Definition fin_setoid_object (n : nat) : SetoidObject :=
@@ -789,8 +789,8 @@ Qed.
 
 (* A three-way eliminator for [Fin.t 3], assembled from the standard
    library's [Fin.caseS'] and [Fin.case0] — the same two primitives
-   Instance/FinSet.v uses, at :157-169 ([fin_split], via [Fin.caseS']) and
-   :223 ([FinSet_Initial], via [Fin.case0]).  No [dependent destruction] is
+   Instance/FinSet.v uses, in [fin_split] (via [Fin.caseS']) and in
+   [FinSet_Initial] (via [Fin.case0]).  No [dependent destruction] is
    used anywhere in this file, and [Print Assumptions] reports every
    constant here closed under the global context. *)
 Definition fin3_case (P : Fin.t 3 → Type)
@@ -928,7 +928,7 @@ Qed.
          carrier is [Prop] forces [Set < o].  That is harmless in itself,
          but it does mean the [Fin]-based witnesses of the previous section
          cannot be reused verbatim: [fin_setoid_object] is pinned at
-         [SetoidObject@{Set Set}] because [Fin_Setoid] (Lib/Setoid.v:89) is
+         [SetoidObject@{Set Set}] because [Fin_Setoid] (Lib/Setoid.v) is
          [Setoid@{Set Set}].  Hence the separate, universe-polymorphic
          [Powerset_Prop_fin_object] below, which is the only reason it
          exists.
@@ -954,7 +954,7 @@ Definition Powerset_squash_intro@{o} {A : Type@{o}} (a : A) :
   Powerset_squash@{o} A := fun Q k => k a.
 
 (* The truth-value object at level [o]: [Prop] under mutual implication.
-   Assembled in the same shape as [PropSetoid] (Classifier.v:144-154), one
+   Assembled in the same shape as [PropSetoid] (Classifier.v), one
    universe lower.  [Prop : Type@{Set+1}], which is where the [Set < o]
    constraint comes from. *)
 Definition Powerset_Prop_truth_equiv@{o} : crelation@{o o} Prop :=
@@ -1071,7 +1071,7 @@ Proof.
 Defined.
 
 (* As with [Powerset_fmap_image]: the two sides are the very same term, so
-   the equality is Leibniz (=) rather than ≈, on the Functor/Bifunctor.v:42-45
+   the equality is Leibniz (=) rather than ≈, on the Functor/Bifunctor.v
    precedent. *)
 Lemma Powerset_Prop_fmap_image@{o so} {X Y : SetoidObject@{o o}}
   (f : X ~{Sets@{o so}}~> Y) (S : carrier (Powerset_Prop_obj@{o} X)) :
@@ -1136,8 +1136,8 @@ Defined.
 (* ------------------------------------------------------------------------ *)
 (** ** The blocked consumers, unblocked *)
 
-(* [Theory/Monad.v:90] ([Context `{M : C ⟶ C}]) and
-   [Construction/FAlg.v:114] ([Program Definition FAlg `(F : C ⟶ C)]) each
+(* [Theory/Monad.v] ([Context `{M : C ⟶ C}]) and
+   [Construction/FAlg.v] ([Program Definition FAlg `(F : C ⟶ C)]) each
    require an endofunctor, so over [Powerset] neither of the two types below
    can be formed: substituting it reports "The term "Powerset" has type
    "Sets@{a b} ⟶ Sets@{b c}" while it is expected to have type
@@ -1262,7 +1262,7 @@ Proof.
 Defined.
 
 (* Same-term equalities, closed by [reflexivity], on the
-   Functor/Bifunctor.v:42-45 precedent: [Powerset_Prop_Lift] is the lift of
+   Functor/Bifunctor.v precedent: [Powerset_Prop_Lift] is the lift of
    [Powerset_Prop], object-wise and morphism-wise. *)
 Lemma Powerset_Prop_Lift_obj@{o so sso} (X : SetoidObject@{o o}) :
   Powerset_Prop_Lift@{o so sso} X = Setoid_Lift@{o so} (Powerset_Prop@{o so} X).

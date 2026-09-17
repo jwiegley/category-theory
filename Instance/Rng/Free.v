@@ -51,18 +51,18 @@ Generalizable All Variables.
     THE ISSUE'S "CURRENT STATE" IS BADLY STALE, AND THIS FILE SAYS SO
     RATHER THAN REPEATING IT.  #400 says "none of the three categories
     exists" and "not one of the six functors the exercise needs is
-    defined".  That is false: [Grp] (Instance/Grp.v:532), [Ab]
-    (Instance/Ab.v:215) and [Rng] (Instance/Rng.v:97, a [Definition]
-    aliasing [Ring]) all exist, with [Ab_Forget] (Instance/Ab.v:231),
-    [Rng_Forget_Ab] (Instance/Rng.v:113), [Mon_Forget]
-    (Theory/Algebra/Monoid/Hom.v:93) and [Rng_Forget_Mon]
-    (Instance/Rng/MonoidRing.v:227) among them, and the monoid ring
+    defined".  That is false: [Grp] (Instance/Grp.v), [Ab]
+    (Instance/Ab.v) and [Rng] (Instance/Rng.v, a [Definition]
+    aliasing [Ring]) all exist, with [Ab_Forget] (Instance/Ab.v),
+    [Rng_Forget_Ab] (Instance/Rng.v), [Mon_Forget]
+    (Theory/Algebra/Monoid/Hom.v) and [Rng_Forget_Mon]
+    (Instance/Rng/MonoidRing.v) among them, and the monoid ring
     exists WITH its adjunction ([MonoidRingFunctor],
-    [zmring_adjunction], Instance/Rng/MonoidRing.v:756,:759).  The
+    [zmring_adjunction], Instance/Rng/MonoidRing.v).  The
     issue's own QA correction supersedes its work items 1-2 ("consume the
     free monoid, do not rebuild"), and that instruction was blocked by a
     CATEGORY MISMATCH: the in-tree free monoid of Instance/Coq/Monoid/Free.v
-    is at [MonCoq := @Mon Coq Coq_Monoidal] (:126, :323) while the monoid
+    is at [MonCoq := @Mon Coq Coq_Monoidal] while the monoid
     ring's right adjoint lands in [@Mon Sets Sets_Product_Monoidal], and
     no bridge between the two exists.  Instance/Mon/Free.v was written for
     this issue precisely to close that gap, and Instance/Ab/Free.v
@@ -78,7 +78,7 @@ Generalizable All Variables.
     the tensor algebra is the direct sum of the tensor powers, and that
     presentation is unavailable in tree: it needs countable direct sums of
     abelian groups, i.e. [HasIndexedCoproducts Ab], which is not built --
-    Instance/Ab/Coproduct.v:106 says so in terms, and the only instances of
+    Instance/Ab/Coproduct.v says so in terms, and the only instances of
     that class anywhere are at [Sets] and at [Cat].  The carrier here is
     instead an inductive of formal ring expressions [FRTerm] with an
     inductive congruence [fr_eq], following Instance/Rng/MonoidRing.v,
@@ -182,7 +182,7 @@ Generalizable All Variables.
     is [Defined], so [free_ring_comparison_is_agree_component] records by
     [eq_refl] that [free_ring_comparison] IS the component of
     [free_ring_composites_agree] -- not merely an isomorphism with the
-    same endpoints.  Theory/Adjunction.v's [left_adjoint_iso] (:407)
+    same endpoints.  Theory/Adjunction.v's [left_adjoint_iso]
     proves the same TYPE -- [free_ring_composites_agree_via_left_adjoint_iso]
     feeds it the same two adjunctions, so that much is machine-checked --
     but it is [Qed], so no component of it reduces and none can be named,
@@ -194,7 +194,7 @@ Generalizable All Variables.
     the way and are stated here rather than upstream: [to_adj_injective],
     and
     [unit_natural] -- naturality of the unit along an ARBITRARY morphism
-    of D, which Theory/Adjunction.v:241's [unit_comp] does not give, that
+    of D, which Theory/Adjunction.v's [unit_comp] does not give, that
     one stating naturality only along a morphism [x ~> U y].
 
     UNIVERSES: THE TWO ROUTES DO NOT HAVE THE SAME REACH, AND THE
@@ -206,7 +206,7 @@ Generalizable All Variables.
     [RngUnderlyingMon] and [free_ring_via_mon] are
     [Functor@{u Set Set u Set Set}] -- hom and proof universes pinned at
     [Set].  The pin is located exactly and is NOT this file's:
-    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:347) has source [Rig@{u Set}],
+    [Rig_Forget_Mon] (Theory/Algebra/Rig.v) has source [Rig@{u Set}],
     and [Rng_Forget_Mon] is [Rig_Forget_Mon ◯ Ring_Forget_Rig].  Both are
     rejected under a declared [Constraint Set < uh] while [Rng_Forget_Ab]
     and [Rig_Forget_CMon] elaborate there.  Read that guard precisely:
@@ -235,7 +235,7 @@ Generalizable All Variables.
     non-commuting matrix units of [UT2]
     (Instance/Rng/Algebras/Associative.v, the FIRST closed
     non-commutative [RingObject] in tree; [Lam2],
-    Instance/Vect/TensorAlgebra.v:1297, is a second, so "only" would be
+    Instance/Vect/TensorAlgebra.v, is a second, so "only" would be
     false); both products COMPUTE, so the
     separation is [discriminate] on closed data.  That witness is not
     beside the exercise: [rng_two_gens_is_via_ab] records by [eq_refl]
@@ -455,7 +455,7 @@ Example free_rng_ab_carrier_is_FRTerm :
 (* The corresponding reading through the MONOID route is deliberately NOT
    stated here.  [Rng_Forget_Mon] is instantiable only at
    [RingObject@{Set Set _}] (the pin is [Rig_Forget_Mon]'s,
-   Theory/Algebra/Rig.v:347), and a section variable's universes are fixed
+   Theory/Algebra/Rig.v), and a section variable's universes are fixed
    by everything stated in the section, so writing that Example here would
    confine the WHOLE free-ring construction to [Set]-sized abelian groups.
    It is stated instead in the §IV.8 section below, where the monoid route
@@ -791,7 +791,7 @@ Proof.
 Qed.
 
 (* Naturality of the unit along an ARBITRARY morphism of D.  The in-tree
-   [unit_comp] (Theory/Adjunction.v:241) states naturality only along a
+   [unit_comp] (Theory/Adjunction.v) states naturality only along a
    morphism [x ~> U y], which is a different statement. *)
 Lemma unit_natural {F : D ⟶ C} (AF : F ⊣ U) {x y : D} (u : x ~> y) :
   @Category.Theory.Adjunction.unit _ _ _ _ AF y ∘ u
@@ -1214,7 +1214,7 @@ Fail Example rng_fmap_generator_computes {A B : Ab} (u : A ~{Ab}~> B)
 
 (** ** FORMABILITY negatives: the monoid route is pinned at [Set]
 
-    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:347) has source [Rig@{u Set}]:
+    [Rig_Forget_Mon] (Theory/Algebra/Rig.v) has source [Rig@{u Set}]:
     the rig's hom-and-proof universe is literally [Set].  [Rng_Forget_Mon]
     is [Rig_Forget_Mon ◯ Ring_Forget_Rig] and inherits it, so the whole
     monoid route -- and hence the comparison, which needs both routes at

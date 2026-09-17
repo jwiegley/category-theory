@@ -72,7 +72,7 @@ Generalizable All Variables.
    unconstrained, appearing free in [HasWideEqualizers@{u1 u2 Set} C]."
    The attribution to the donor was right, and the donor has been
    repaired: [iprod] inherited its [Set] from Instance/Discrete.v's
-   unannotated [DiscreteCat_Functor], annotated in place at its :81 in the
+   unannotated [DiscreteCat_Functor], annotated in place there in the
    PR "algebraic carriers are sets" (2026-09-17).  Measured after it,
 
      initial_from_weakly_initial_wide@{u u0 u1 u2 u3} :

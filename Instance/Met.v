@@ -83,7 +83,7 @@ Open Scope R_scope.
 
    TWO NAMES THAT ARE NOT THIS ONE.
 
-   (1) [CauchyComplete] (Construction/Karoubi/Universal.v:416) is a synonym
+   (1) [CauchyComplete] (Construction/Karoubi/Universal.v) is a synonym
        of [IdempotentsSplit] — CATEGORICAL Cauchy completeness, the property
        that every idempotent of a category splits.  It is a same-name trap
        and has nothing to do with the metric completeness defined here.  The
@@ -385,7 +385,7 @@ Section OfInjection.
 
 (* The five lemmas below genuinely depend on the section variables; [Lib.v]
    sets [Default Proof Using "Type"], which would discard them.  Same
-   reason, same remedy, as Instance/Top/Interval.v:24. *)
+   reason, same remedy, as Instance/Top/Interval.v. *)
 Local Set Default Proof Using "All".
 
 Context (A : SetoidObject).
@@ -501,7 +501,7 @@ Definition Harmonic : MetricSpace :=
 
 (** ** Cauchy sequences, limits, completeness *)
 
-(* THE MODULUS IS DATA.  This library's `∃` is [sigT] (Lib/Foundation.v:61,
+(* THE MODULUS IS DATA.  This library's `∃` is [sigT] (Lib/Foundation.v,
    66), so [MCauchy] below is TYPE-valued and a Cauchy sequence hands out
    its threshold N as a function of ε rather than merely asserting that one
    exists.  That is not decoration: Instance/Met/Completion.v proves the

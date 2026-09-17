@@ -59,13 +59,13 @@ Generalizable All Variables.
    The library carries two pullback notions and, until this file, only one
    pushout notion:
 
-     - Structure/Pullback.v:161 [Record Pullback f g] is BUNDLED: it
+     - Structure/Pullback.v [Record Pullback f g] is BUNDLED: it
        carries its apex [Pull] as data, so it cannot say that a GIVEN
        square is a pullback.
-     - Theory/Morphisms/Stability.v:53 [Record IsPullback f g P p1 p2] is
+     - Theory/Morphisms/Stability.v [Record IsPullback f g P p1 p2] is
        APEX-PINNED: apex and both legs are parameters.  That file's own
        header says in terms why it had to exist.
-     - Structure/Pushout.v:47 [IsPushout f g := @Pullback (C^op) y z x f g]
+     - Structure/Pushout.v [IsPushout f g := @Pullback (C^op) y z x f g]
        is BUNDLED — despite the [Is] prefix, which in the pullback half of
        the tree marks the pinned form.
 
@@ -236,18 +236,18 @@ Generalizable All Variables.
    Three genuine cokernel-pair constructions exist, each built to prove
    "epi ⟹ surjective" in its own category:
 
-     - Instance/Sets.v:448-505, [Section CokernelPair]: [CKSetoid],
+     - Instance/Sets.v, [Section CokernelPair]: [CKSetoid],
        [ck_left], [ck_right], [ck_agree];
-     - Instance/Top.v:579-726, [Section CokernelPair]: [CokernelPair],
+     - Instance/Top.v, [Section CokernelPair]: [CokernelPair],
        [CP_leftLeg], [CP_rightLeg], [CP_legs_agree];
-     - Instance/Sets/Pointed.v:401-523, the pointed cokernel pair.
+     - Instance/Sets/Pointed.v, the pointed cokernel pair.
 
    What is genuinely absent — the sharper gap, and the one this file
    closes — is that NONE of the three is ever related to a pushout.  Each
    supplies an apex, two legs and the equation [u ∘ f ≈ v ∘ f], and stops
    there: no universal property of any of them is proved, the string
    "pushout" does not occur in Instance/Top.v or Instance/Sets/Pointed.v
-   at all, and in Instance/Sets.v it occurs only at :116 in an unrelated
+   at all, and in Instance/Sets.v it occurs only in an unrelated
    header line.  So three concrete cokernel pairs existed and none of them
    knew it was a pushout.  Instance/Sets/CokernelPair.v repairs that for
    the [Sets] one.
@@ -400,7 +400,7 @@ Arguments IsPushoutSquare {C x y z} f g P i1 i2.
 (* The cokernel pair of f : x ~> y is the pushout of f with itself: a
    parallel pair out of y, universal among parallel pairs coequalizing f.
 
-   This is the exact dual of Structure/Regular.v:46's
+   This is the exact dual of Structure/Regular.v's
 
        Definition kernel_pair `{HasPullbacks C} (f : x ~> y)
          : Pullback f f := pullback f f

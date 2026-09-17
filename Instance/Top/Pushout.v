@@ -33,9 +33,9 @@ Generalizable All Variables.
    had no quotient-topology donor.  A grep for "quotient" under
    Instance/Top* finds only the homotopy quotient CATEGORY (Toph), but the
    construction is there twice under other names -- Instance/Top.v's
-   [CP_open] (the cokernel-pair space, :635) and Instance/Top/Wedge.v's
+   [CP_open] (the cokernel-pair space) and Instance/Top/Wedge.v's
    [wedge_open], whose surrounding section is literally headed "The
-   quotient topology" (:141).  Both are quotient topologies on a sum, and
+   quotient topology".  Both are quotient topologies on a sum, and
    this file is that same shape with the relation generalized.
 
    THE CONSTRUCTION, AND THE ONE PLACE IT DIFFERS FROM ITS DONORS.  The

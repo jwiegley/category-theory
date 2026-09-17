@@ -43,9 +43,9 @@ Generalizable All Variables.
    (1) The onto clause, in both directions and with nothing assumed.
    [Sets_quot_epi_surjective] says the epimorphism of a quotient object
    is a surjection and [Sets_quot_of_surjection] says every surjection
-   presents a quotient object; both are Instance/Sets.v:515's
+   presents a quotient object; both are Instance/Sets.v's
    [surjectivity_is_epic] read through the accessors of the interface
-   stub, its two legs being :534 and :538.  No stability or decidability
+   stub, one leg apiece.  No stability or decidability
    hypothesis appears, and none is hidden: `≈` is [Type]-valued in this
    library, so the biconditional's backward leg RETURNS the preimage as
    data.  This is the point at which [Sets] and [Grp] part company --
@@ -53,22 +53,22 @@ Generalizable All Variables.
    image membership as a hypothesis, and says so.
 
    (2) The element-level quotient as a quotient object.
-   [SetsQuotient_QuotObj] packages Instance/Sets/Quotient.v:232's
+   [SetsQuotient_QuotObj] packages Instance/Sets/Quotient.v's
    [SetsQuotient A R HR] -- the SAME CARRIER under a coarser `≈` -- with
-   its projection (:249).  The surjectivity witness is
+   its projection.  The surjectivity witness is
    [Equivalence_Reflexive] and nothing else, the projection being the
    identity function.  The [SetoidCoarser] argument [HC] is carried
    explicitly and is not optional: the projection does not exist without
    it.
 
    (3) The COIMAGE, as an [ImageOf] in [Sets^op].  Read
-   Theory/Subobject/Lattice.v:736's record at [C := Sets^op] and each
+   Theory/Subobject/Lattice.v's record at [C := Sets^op] and each
    field turns over: [im_sub] is a quotient object OF THE DOMAIN,
    [im_factor] is the map from that quotient to the codomain,
    [im_commutes] is the triangle, and [im_least] says the coimage is
    COARSER than every quotient through which f factors.  The coimage is
    the quotient by the kernel relation [sets_coimage_rel a b := f a ≈ f b],
-   whose object-level twin is Instance/Sets/Pullback.v:406's [sets_ker]
+   whose object-level twin is Instance/Sets/Pullback.v's [sets_ker]
    (the kernel pair).  [Sets_HasCoimages] is the class form at [Sets^op],
    registered as an [#[export] Instance] so that [HasImages (Sets^op)]
    resolves by class search (an audit found the first draft a plain
@@ -83,13 +83,14 @@ Generalizable All Variables.
    f-values, which is exactly equality in the coimage.
 
    (4) A worked binary MEET, at the stub's [quot_meet] -- which at [Sets]
-   is the PUSHOUT of the two epis, Instance/Sets/Pushout.v:185 supplying
+   is the PUSHOUT of the two epis, Instance/Sets/Pushout.v supplying
    it.  The pair is the parity quotient of the discrete setoid on [nat]
-   (Instance/Sets/Quotient.v:506, already in tree) and the residue-mod-3
-   quotient defined here, and the answer is the TOTAL quotient (:477's
-   [TotalRelT]): [Sets_quot_meet_parity_mod3].  The proof never touches
+   (Instance/Sets/Quotient.v, already in tree) and the residue-mod-3
+   quotient defined here, and the answer is the TOTAL quotient
+   (Instance/Sets/Quotient.v's [TotalRelT]):
+   [Sets_quot_meet_parity_mod3].  The proof never touches
    the pushout apex.  Both sides are greatest lower bounds of the same
-   two-element family, so Theory/Subobject/Lattice.v:303's
+   two-element family, so Theory/Subobject/Lattice.v's
    [IsIntersection_unique] identifies them, and the only arithmetic is
    [Sets_meet_collapse]: a quotient coarser than both identifies m with
    m+3 (same residue) and m+3 with m+1 (same parity), hence consecutive
@@ -114,7 +115,7 @@ Generalizable All Variables.
 
    STRENGTHS, and what they are NOT.  Everything about quotient objects
    here is stated at ≈, never at Leibniz equality: [QuotObj x] inherits
-   [SubObj]'s setoid (Theory/Subobject.v:33) and has no antisymmetry, so
+   [SubObj]'s setoid (Theory/Subobject.v) and has no antisymmetry, so
    [Sets_quot_meet_parity_mod3] is an equivalence of quotient objects and
    the same statement at `=` is REFUSED (measured: CONVERSION, "cannot
    unify quot_meet Sets_Q_parity Sets_Q_mod3 and Sets_Q_total").  Nothing
@@ -144,15 +145,15 @@ Generalizable All Variables.
    anywhere else in the tree (swept over all .glob files with
    '^[a-z]+ [0-9:]+ [^ ]* NAME$', instrument-checked on [sub_le]; a first
    draft called the kernel relation [sets_ker] and the sweep found
-   Instance/Sets/Pullback.v:406, hence [sets_coimage_rel]).
+   Instance/Sets/Pullback.v, hence [sets_coimage_rel]).
 
    UNIVERSES, measured with [Set Printing Universes. About …].  Every
    constant here is [@{o so}] with [o < so], the idiom of
    Instance/Powerset/Subobject.v, and binds its category as
-   [Sets@{o so}], which Instance/Sets.v:198 declares as
+   [Sets@{o so}], which Instance/Sets.v declares as
    [Category@{so o o}] -- hom level and proof level are the SAME
    universe, which is what [SubObj] demands.  That identification is
-   INHERITED and is not introduced here: Theory/Subobject.v:15's record
+   INHERITED and is not introduced here: Theory/Subobject.v's record
    itself prints as [∀ {C : Category@{u u0 u0}}, …], as the header of
    Theory/Subobject/Lattice.v records, and [Sets] happens to satisfy it
    on the nose.  No constant here pins any universe to [Set].
@@ -161,7 +162,7 @@ Generalizable All Variables.
    one-line transport of [quot_join] at [Sets_Cartesian] and
    [Sets_HasCoimages] (an earlier revision of this paragraph said the
    join needed "a product instance not assembled here", which an audit
-   refuted -- the instance was Instance/Sets/Cartesian.v:32 all along),
+   refuted -- the instance was Instance/Sets/Cartesian.v all along),
    but no pair of quotients has its join computed, unlike the meet.
    No lattice laws: commutativity, associativity,
    idempotence and absorption for [quot_meet] are not restated at [Sets],
@@ -189,8 +190,8 @@ Constraint o < so.
 (** ** Mac Lane's "where epis are onto" clause, both ways *)
 
 (* The epimorphism of a quotient object of [Sets] is a surjection.  This
-   is [Instance/Sets.v:538]'s [epic_implies_surjective] -- the backward
-   leg of [surjectivity_is_epic] (:515) -- applied to the [Epic] the
+   is [Instance/Sets.v]'s [epic_implies_surjective] -- the backward
+   leg of [surjectivity_is_epic] -- applied to the [Epic] the
    accessor [quot_is_epic] reads off the [Monic] in [Sets^op].  The
    preimage is DATA: `≈` is [Type]-valued, so [∃] is [sigT] and `1 of
    this is an honest element of the carrier. *)
@@ -210,13 +211,13 @@ Definition Sets_quot_of_surjection {X B : SetoidObject@{o o}}
 (** ** The quotient of a setoid by an equivalence relation, as a
        quotient object *)
 
-(* [Instance/Sets/Quotient.v:232]'s [SetsQuotient A R HR] is A with a
-   coarser `≈`; its projection (:249) is the IDENTITY FUNCTION, so it is
+(* [Instance/Sets/Quotient.v]'s [SetsQuotient A R HR] is A with a
+   coarser `≈`; its projection is the IDENTITY FUNCTION, so it is
    surjective with the element itself as preimage and the surjectivity
    witness is [Equivalence_Reflexive] and nothing more.  [HC] is not
    decoration: the projection does not exist without it, its
    respectfulness clause being convertible with [SetoidCoarser R]
-   (Instance/Sets/Quotient.v:242-248). *)
+   (Instance/Sets/Quotient.v). *)
 Definition SetsQuotient_QuotObj (A : SetoidObject@{o o})
   (R : crelation (carrier A)) (HR : Equivalence R) (HC : SetoidCoarser R) :
   @QuotObj Sets@{o so} A :=
@@ -231,7 +232,7 @@ Context {X Y : SetoidObject@{o o}}.
 Context (f : X ~{Sets@{o so}}~> Y).
 
 (* The kernel relation of f, as a coarsening of X's own `≈`.  The
-   OBJECT-level counterpart is Instance/Sets/Pullback.v:406's [sets_ker],
+   OBJECT-level counterpart is Instance/Sets/Pullback.v's [sets_ker],
    the kernel pair; this is the same information as a relation on the
    carrier, which is what Instance/Sets/Quotient.v's quotient consumes. *)
 Definition sets_coimage_rel : crelation (carrier X) := fun a b => f a ≈ f b.
@@ -321,7 +322,7 @@ Proof.
     + exact (Hg a).
 Qed.
 
-(* Theory/Subobject/Lattice.v:736's [ImageOf], instantiated at [Sets^op]:
+(* Theory/Subobject/Lattice.v's [ImageOf], instantiated at [Sets^op]:
    [im_sub] is a quotient object of the DOMAIN, [im_factor] the map from
    the quotient to the codomain, [im_commutes] the triangle, and
    [im_least] says the coimage is BELOW (that is, coarser than) every
@@ -345,9 +346,9 @@ End Coimage.
 
 (* The JOIN of two quotient objects at Sets, by transport and nothing
    else: Theory/Subobject/Quotient.v's [quot_join] wants a [Cartesian]
-   structure on the category -- Instance/Sets/Cartesian.v:32's
+   structure on the category -- Instance/Sets/Cartesian.v's
    [Sets_Cartesian], which IS a [@Cocartesian (Sets^op)] on the nose
-   (Structure/Cocartesian.v:117 makes [Cocartesian C] notation for
+   (Structure/Cocartesian.v makes [Cocartesian C] notation for
    [@Cartesian (C^op)], and [Sets^op^op] is [Sets] by reflexivity) -- and
    the coimages just registered.  The join is the coimage of the pairing
    of the two epis into the product of their codomains.  An earlier
@@ -391,8 +392,8 @@ Definition nat_mod3_coarser : SetoidCoarser nat_mod3 :=
   fun m n (H : m = n) => f_equal nat_tri H.
 
 (* The three quotient objects of the discrete setoid on [nat]:
-   Instance/Sets/Quotient.v:506's parity, the residue mod 3, and
-   :477's total relation. *)
+   Instance/Sets/Quotient.v's parity, the residue mod 3, and that
+   file's total relation. *)
 Definition Sets_Q_parity : @QuotObj Sets@{o so} NatDiscrete@{o} :=
   SetsQuotient_QuotObj NatDiscrete@{o} nat_parity nat_parity_Equivalence
     nat_parity_coarser.

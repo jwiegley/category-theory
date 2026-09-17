@@ -472,7 +472,7 @@ Example roster_Category_from_Metacategory (M : Metacategory) : Category :=
     rng is BOTH initial and terminal, since a rng homomorphism is not
     required to preserve 1.  So [Rg] has a zero object, and [Rng]
     does not -- the latter being
-    Structure/Kernel/Universal/Examples.v:359's [Rng_no_zero_object].
+    Structure/Kernel/Universal/Examples.v's [Rng_no_zero_object].
     Instance/Rg.v's [Rng_Rg_zero_object_contrast] pairs the zero object
     with the sharper elementary fact that no unital homomorphism runs
     from the zero ring to Z, which is what forces terminal and initial

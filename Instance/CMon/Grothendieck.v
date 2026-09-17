@@ -87,14 +87,14 @@
         second form would need "a forgetful [Grp ⟶ Mon] that does not
         exist".  That was FALSE.  The bad evidence was a search for a
         category of ordinary set-level monoids that stopped at
-        [Theory/Algebra/Monoid/Hom.v:83]'s [Mon] (INTERNAL monoids in a
-        monoidal category) and [Construction/Deloop.v:123]'s [MonObject]
+        [Theory/Algebra/Monoid/Hom.v]'s [Mon] (INTERNAL monoids in a
+        monoidal category) and [Construction/Deloop.v]'s [MonObject]
         (a bare record with no category).  An internal monoid in
         [(Sets, ∏)] IS an ordinary setoid monoid, so [MonSets] of
-        Instance/Rng/MonoidRing.v:171 is a usable category of them --
+        Instance/Rng/MonoidRing.v is a usable category of them --
         Instance/Mon/Free.v develops the free monoid over exactly it --
         and the forgetful functor is [Grp_MonSets : Grp ⟶ MonSets] at
-        Instance/Rng/GroupRing.v:156.  The second form is statable.
+        Instance/Rng/GroupRing.v.  The second form is statable.
 
     (2) The pairs construction is the WRONG construction there, and this
         is not a matter of proof technique.  [GrothendieckObject] produces
@@ -147,7 +147,7 @@
 
       - The COUNIT does not compute.  It is
         [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows]
-        (Theory/Universal/Arrow.v:139) is [Qed], so nothing reduces
+        (Theory/Universal/Arrow.v) is [Qed], so nothing reduces
         through it.  What holds is [≈]: [groth_counit_evaluates].  The
         probe DISCRIMINATES: the UNIT at the same adjunction does close by
         [eq_refl], so the obstruction is that one constant's opacity and
@@ -169,7 +169,7 @@
     [nat_to_Z] and [groth_Z_to_nat] raise TWO obligations, not three:
     instance resolution closes [proper_morphism] during elaboration
     because both of their setoids are Leibniz.  That is the hazard
-    Instance/Sets/Products.v:409-424 records and Structure/Limit/Power.v
+    Instance/Sets/Products.v records and Structure/Limit/Power.v
     reports a second sighting of.  It is harmless at these two witnesses
     — their carriers are [nat] and [Z], already concrete — and the
     general definitions are unaffected: [groth_insert] raises all three,
@@ -243,7 +243,7 @@
 
       - [groth_nat_Z_iso : GrothendieckObject groth_nat ≅[Ab] ab_Z] — the
         motivating example K(ℕ, +) ≅ ℤ, a genuine [Isomorphism] in [Ab]
-        with both round trips.  [ab_Z] is Instance/Ab/Coproduct.v:264's,
+        with both round trips.  [ab_Z] is Instance/Ab/Coproduct.v's,
         REUSED rather than redeclared.
       - [groth_nat_insert_injective] — the insertion is injective on ℕ
         (which is cancellative), so the completion does not collapse
@@ -359,7 +359,7 @@ Definition GrothPair : Type := (MC * MC)%type.
 
    AN EARLIER REVISION said "The library's [∃] is [sigT], so [k] is DATA and
    no choice principle is consumed."  The first clause is still true of the
-   library's [∃] (Lib/Foundation.v:61, :66); the relation below no longer uses
+   library's [∃] (Lib/Foundation.v); the relation below no longer uses
    it.  Since the PR "algebraic carriers are sets" (2026-09-17) the completion
    is a [CMonObject] and so owes [cmon_prop], which forces its equality to be
    a [Prop]; [k] is therefore existentially quantified with Coq's [ex] and is
@@ -980,7 +980,7 @@ Program Definition nat_to_Z : groth_nat ~{CMon}~> Ab_to_CMon ab_Z := {|
 |}.
 (* Only TWO obligations: instance resolution closes [proper_morphism]
    during elaboration, both setoids here being Leibniz.  That is the
-   hazard Instance/Sets/Products.v:409-424 records and
+   hazard Instance/Sets/Products.v records and
    Structure/Limit/Power.v reports a second sighting of; this is a third.
    It is harmless at THESE two witnesses -- their carriers are [nat] and
    [Z], so nothing is pinned that was not already concrete -- and the

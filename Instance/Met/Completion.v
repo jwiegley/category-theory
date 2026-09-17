@@ -126,7 +126,7 @@ Open Scope R_scope.
    [Completion_AUniversalArrow] and [Completion_UniversalArrow] are
    [Defined], since the universal-arrow machinery projects out of them.
 
-   NOT [CauchyComplete].  Construction/Karoubi/Universal.v:416 defines
+   NOT [CauchyComplete].  Construction/Karoubi/Universal.v defines
    [CauchyComplete] to be [IdempotentsSplit], a property of CATEGORIES.
    This file is about complete METRIC SPACES; the two are unrelated here and
    nothing below refers to the Karoubi notion.
@@ -307,7 +307,7 @@ Section Completion.
 
 (* The proofs below genuinely depend on the space being completed; [Lib.v]
    sets [Default Proof Using "Type"], which would discard it.  Same reason,
-   same remedy, as Instance/Top/Interval.v:24 and Instance/Met.v's
+   same remedy, as Instance/Top/Interval.v and Instance/Met.v's
    [OfInjection] section. *)
 Local Set Default Proof Using "All".
 

@@ -25,12 +25,12 @@ Generalizable All Variables.
    pp. 17-18): the category of all finite sets and the skeletal category
    of finite ordinals are equivalent, and equivalent is the most that can
    be asked of them.  This file supplies the missing half over the
-   library's existing skeleton (Instance/FinSet.v:116: objects [nat],
+   library's existing skeleton (Instance/FinSet.v: objects [nat],
    morphisms all functions [Fin.t m → Fin.t n]), builds the two functors,
    and proves the comparison cells.
 
    [Set_f] is a category of FINITE SETOIDS.  An object bundles a
-   [SetoidObject] (Instance/Sets.v:113), a natural number, and an
+   [SetoidObject] (Instance/Sets.v), a natural number, and an
    isomorphism in [Sets] from the setoid to the canonical one — Mac Lane's
    chosen bijection [θ_X : X ≅ #X].  Morphisms, identities, composition
    and the hom-setoid are those of [Sets] verbatim, so the evident functor
@@ -69,7 +69,7 @@ Generalizable All Variables.
    September 2005, §7.8, unnumbered remark, printed p. 178) are discharged
    for this instance — [FinSet_Incl] is shown full, faithful and
    essentially surjective — and [FinSet_Setf_Equivalence] is
-   [FF_ESO_Equivalence] (Theory/Equivalence/FullFaithful.v:160) applied to
+   [FF_ESO_Equivalence] (Theory/Equivalence/FullFaithful.v) applied to
    those three witnesses.  Two things are worth saying plainly about that
    route:
 
@@ -274,8 +274,8 @@ Qed.
 (* Injectivity of [Fin.FS], proved through a local partial inverse rather
    than by [injection] on a dependent constructor, so that it holds by
    plain reduction on every supported version. *)
-(* NOTE ON THE NAME.  Instance/FinSet/Classifier.v:223 and
-   Instance/FinSet/Pushout.v:193 already export a [fin_pred], with a
+(* NOTE ON THE NAME.  Instance/FinSet/Classifier.v and
+   Instance/FinSet/Pushout.v already export a [fin_pred], with a
    DIFFERENT type — theirs takes a default value and returns a [Fin.t n],
    this one returns an [option].  Since all three live under
    Instance/FinSet/, the suffix here keeps a reader who greps from
@@ -588,7 +588,7 @@ Qed.
    [setf_cardinality A] is the unique n with [FinSet_Incl n ≅ A], it is
    constant on isomorphism classes (Cantor's reading), and it separates
    them. *)
-(* NOTE ON THE NAME.  Theory/Metacategory.v:415 exports a [cardinality]
+(* NOTE ON THE NAME.  Theory/Metacategory.v exports a [cardinality]
    that counts the identity arrows of a metacategory — an unrelated notion.
    The prefix here marks this one as the cardinality of an object of
    [Set_f], so the two cannot be confused. *)

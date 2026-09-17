@@ -35,7 +35,7 @@ Generalizable All Variables.
 
     WHY THE HOM IS A LENGTH EQUATION.  We take [hom v w := wlen v = wlen w]
     and declare the hom-setoid equivalence to be the constantly-true relation,
-    exactly as Instance/Proset.v:34-44 does for a preorder.  Two consequences
+    exactly as Instance/Proset.v does for a preorder.  Two consequences
     are load-bearing:
 
       - every law of a category, of a bifunctor, and of [Monoidal] — including
@@ -98,7 +98,7 @@ Proof. induction n; simpl; auto. Qed.
 
     Stated over an arbitrary monoidal category because both [W] below and the
     target [B] of the freeness theorem use it.  It duplicates the [iso_bimap]
-    of Structure/Monoidal/Drinfeld.v:82 on purpose: importing Drinfeld here
+    of Structure/Monoidal/Drinfeld.v on purpose: importing Drinfeld here
     would drag half-braidings into every consumer of the word datatype, and
     Drinfeld is not edited by this development. *)
 Program Definition tensor_iso {C : Category} `{@Monoidal C} {x y z w : C}

@@ -46,13 +46,14 @@ Generalizable All Variables.
 
    STALE PREMISES, RE-MEASURED.
      - "The creation vocabulary is itself absent": false since #406.
-       Structure/Limit/Creation.v has [CreatesLimit] (:154; [creates_lift],
-       [creates_lift_over], [creates_reflect], with Mac Lane's limiting
-       clause [creates_limiting] :163 and uniqueness [creates_lift_unique]
-       :174 derived), [creates_limit_lift] :191, [CreatesAllLimits] :228,
-       [creates_limits_Complete] :246, [creates_limits_continuous] :252,
-       Riehl's [StrictLift] :288 / [StrictlyCreatesLimit] :325 with
-       [self_lift] :314, and [JointlyCreateLimit] :458 (her Exercise 3.4.v).
+       Structure/Limit/Creation.v has [CreatesLimit] (with its fields
+       [creates_lift], [creates_lift_over] and [creates_reflect], and with
+       Mac Lane's limiting clause [creates_limiting] and uniqueness
+       [creates_lift_unique] derived), [creates_limit_lift],
+       [CreatesAllLimits],
+       [creates_limits_Complete], [creates_limits_continuous],
+       Riehl's [StrictLift] / [StrictlyCreatesLimit] with
+       [self_lift], and [JointlyCreateLimit] (her Exercise 3.4.v).
        Structure/Limit.v's INDEX bullet records seven of them, not
        [creates_limit_lift], [CreatesAllLimits], [self_lift] or
        [JointlyCreateLimit] — the last is recorded in Construction/Product/
@@ -61,29 +62,30 @@ Generalizable All Variables.
        inclusion functor": TRUE as stated ('discrete subcategory' has 0 hits
        in the tree's [.v] files; 'discrete inclusion' 2, both forward
        references in Instance/Fun/Limit.v), but the ingredient is richer than the issue
-       says: Structure/Limit/Comparison.v:559 has the ANNOTATED
+       says: Structure/Limit/Comparison.v has the ANNOTATED
        discrete-diagram functor [DiscreteCat_Functor'@{o h p uo uh up +}],
-       and Instance/Fun/Discrete.v:234 has [Fun_Discrete_PiCat : [DiscreteCat
+       and Instance/Fun/Discrete.v has [Fun_Discrete_PiCat : [DiscreteCat
        A, B] ≅[Cat] PiCat (fun _ => B)], the "C^{ob A} ≅ ∏_{ob A} C" of the
        Riehl note.  RECORDED CORRECTION: an earlier revision continued
-       "That bridge is Set-PINNED in the target (its :202 uses
-       Instance/Discrete.v:81's unannotated [DiscreteCat_Functor]; at a
+       "That bridge is Set-PINNED in the target (it uses
+       Instance/Discrete.v's unannotated [DiscreteCat_Functor]; at a
        general X the application is refused with "Cannot enforce
        Set = …"), so Riehl's route through Construction/Product/
-       Limit.v:603's [PiCat_JointlyCreateLimit] is NOT usable here".
-       The donor was annotated in place at Instance/Discrete.v:81 in the
+       Limit.v's [PiCat_JointlyCreateLimit] is NOT usable here".
+       The donor was annotated in place at Instance/Discrete.v in the
        PR "algebraic carriers are sets" (2026-09-17), so that [Set] pin
        no longer exists and the quoted refusal no longer occurs.
        Whether Riehl's route thereby becomes usable has NOT been
        re-measured; the reflection is proved directly here either way,
        and that direct proof is unaffected.
-     - "Theory/Kan/Extension.v:127 ([Induced])": the definition is :131 (:127
-       is a comment line); that no limit property of it existed is true
-       (Functor/Construction/Postcompose.v:313 says so in terms).
+     - "Theory/Kan/Extension.v ([Induced])": the line cited is a comment,
+       the definition being a few lines below it; that no limit property
+       of it existed is true
+       (Functor/Construction/Postcompose.v says so in terms).
      - The Riehl note's "no evaluation functor out of a functor category at
        all" and "ls Instance/Fun/ contains exactly one file" are false:
        #424's [Eval] (Instance/Fun/Eval.v) and Adjunction/Diagonal/
-       Connected.v:700's [EvalAt] exist; fourteen files besides this one.
+       Connected.v's [EvalAt] exist; fourteen files besides this one.
 
    WHAT IS DELIVERED (34 named constants plus 9 [Program] obligations, every
    one closed under the global context).
@@ -94,7 +96,8 @@ Generalizable All Variables.
          by "Instance/Discrete.v's unannotated [DiscreteCat_Functor]
          instantiates [DiscreteCat@{u Set Set}] and would pin P's hom and
          proof levels to [Set] — Structure/Limit/Comparison.v's note above
-         its :535 — and is left as it is"; since the PR "algebraic
+         its own annotated copy says so — and is left as it is"; since
+         the PR "algebraic
          carriers are sets" (2026-09-17) [DiscreteCat_Functor] is itself
          annotated and [DiscreteCat_Functor'] is a transparent ALIAS of
          it, so the two are interchangeable here and the primed name is
@@ -146,12 +149,12 @@ Generalizable All Variables.
          index — [fun q => if q = p then c else N q] — and so needs decidable
          equality on [obj P].  The tree made the same call before:
          Construction/Product/Limit.v ships [Fst_PreservesLimitCone]/
-         [Snd_PreservesLimitCone] (:293, :306) for the BINARY product (index
+         [Snd_PreservesLimitCone] for the BINARY product (index
          [bool]) and, for [PiCat] at a general index type, only [pi_reflect]
          and [PiCat_JointlyCreateLimit] — no single-projection preservation
          — and #425's [Eval_PreservesLimitCone] takes [L] for the same
          reason.  A hypothesis-free [CreatesLimit D Res] over Construction/
-         Quotient.v:163's [ObjDecEq P] is a follow-on, not written here.
+         Quotient.v's [ObjDecEq P] is a follow-on, not written here.
      (5) COROLLARIES.  [Res_CreatesAllLimits (HX : Complete X)],
          [Res_Complete : Complete [P, X]] — completeness of [P, X] once more,
          now as an instance of Structure/Limit/Creation.v's general
@@ -159,7 +162,7 @@ Generalizable All Variables.
          the latter #425's [Functor_Category_Complete] at the discrete
          shape) — and [Res_continuous : PreservesLimitCone D Res] through
          [creates_limits_continuous] (Mac Lane §V.4 Theorem 2's SECOND half,
-         Structure/Limit/Creation.v:241's own heading; an earlier revision
+         Structure/Limit/Creation.v's own heading; an earlier revision
          said "first").
      (6) STRICTNESS.  [strict_self : StrictLift D Res (FCone Res M) :=
          self_lift M]: every cone upstairs TAUTOLOGICALLY strictly lifts its
@@ -269,9 +272,9 @@ Generalizable All Variables.
      - [(Eval p)] is parenthesised or applied inside a larger term
        throughout (Instance/Fun/Eval.v's header: bare at a definition-body
        head it parses as the [Eval … in] vernacular).
-     - Two forward references in Instance/Fun/Limit.v (:38, :202) now name
-       this file; line-neutral (an earlier revision said :182; measured
-       :202).
+     - Two forward references in Instance/Fun/Limit.v now name
+       this file; line-neutral (an earlier revision named a different
+       pair of lines, corrected after measuring).
 
    NOT DELIVERED.
      - The COLIMIT half (Riehl: [ev] creates colimits too — the Riehl box of

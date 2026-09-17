@@ -22,10 +22,10 @@ Generalizable All Variables.
     BEFORE THIS FILE the tree had no indexed product or coproduct in any
     algebraic category: Instance/Mod/Coproduct.v's [RMod_Biproduct] and
     Instance/Ab/Coproduct.v's coproduct are binary, and the tree's
-    [HasIndexedProducts] inhabitants — Sets' (Instance/Sets/Products.v:302),
-    Cat's and StrictCat's (Instance/Cat/Limit.v:293, :521), functor
-    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v:530, :723) and
-    [_1]'s (Structure/Limit/Power/Adjunction.v:1611) — include no algebraic
+    [HasIndexedProducts] inhabitants — Sets' (Instance/Sets/Products.v),
+    Cat's and StrictCat's (Instance/Cat/Limit.v), functor
+    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v) and
+    [_1]'s (Structure/Limit/Power/Adjunction.v) — include no algebraic
     category; measured by `grep -rn 'Instance .*HasIndexedProducts\|
     Definition .*HasIndexedProducts' --include='*.v'`.
 
@@ -78,7 +78,7 @@ Generalizable All Variables.
     0; none of the eight is droppable); zero name collisions across the
     tree for the eleven names (`grep -rlw --include='*.v'`; the first
     draft's [prod_setoid] became [modprod_setoid] because
-    Lib/Datatypes.v:139 owns [prod_setoid]).  The `make print-assumptions`
+    Lib/Datatypes.v owns [prod_setoid]).  The `make print-assumptions`
     gate carries the eleven heads. *)
 
 #[local] Obligation Tactic := idtac.

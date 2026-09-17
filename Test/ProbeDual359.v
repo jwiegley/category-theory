@@ -41,9 +41,9 @@
 
     THE REVIEWER'S CHECK IS THE POINT OF NEGATIVE 2.  The issue demands
     that the canonical double-dual morphism be CONSTRUCTED, not assumed
-    invertible.  [Structure/Monoidal/StarAutonomous.v:269]'s class field
+    invertible.  [Structure/Monoidal/StarAutonomous.v]'s class field
     [star_double_dual] merely POSITS some iso, and that file's own header
-    (lines 69-80) says so, deferring the canonical pinning to its ledger
+    says so, deferring the canonical pinning to its ledger
     entry 4.  Negative 2 pins the sharpest available form of that gap:
     for an ARBITRARY [StarAutonomous] instance the posited iso is not the
     canonical map.  Read it precisely -- it does NOT say the equation is

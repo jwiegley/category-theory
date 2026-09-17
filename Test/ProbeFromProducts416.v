@@ -105,7 +105,7 @@ Open Scope category_scope.
                    the pin from [DiscreteCat_Functor], declared with bare
                    binders and minimized to [DiscreteCat@{u Set Set}].
                    Annotated in place in the PR "algebraic carriers are
-                   sets" (2026-09-17) — Instance/Discrete.v:81 — [iprod] is
+                   sets" (2026-09-17) — Instance/Discrete.v — [iprod] is
                    ACCEPTED at those levels, and the line below is kept as
                    a positive control there.  So the count of UNIVERSE
                    negatives in this file is now two (N6 and N7), not

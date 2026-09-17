@@ -23,7 +23,7 @@
     1. [neg_posets_round_strict] -- the [Pos]/[Posets] round trip is not
        [eq_refl] on the nose.  Error: cannot unify
        "fobj[Pos_to_Posets] (fobj[Posets_to_Pos] x)" and "x".  Cause: an
-       object of [Posets] is a stdlib [sigT], which Lib.v:10's [Set
+       object of [Posets] is a stdlib [sigT], which Lib.v's [Set
        Primitive Projections] does not cover, so [(`1 x; `2 x) = x] holds
        only after a [destruct].  Control: [ctrl_posets_round], the SAME
        statement discharged by [posets_pos_posets_obj] -- so the negative

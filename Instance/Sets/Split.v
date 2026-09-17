@@ -26,15 +26,15 @@ Generalizable All Variables.
        Iso ⊆ SplitMono ⊆ Mono
        Iso ⊆ SplitEpi  ⊆ Epi
 
-   and proves all four inclusions ([split_mono_in_mono]:51,
-   [split_epi_in_epi]:58, [iso_in_split_mono]:66, [iso_in_split_epi]:77).
+   and proves all four inclusions ([split_mono_in_mono],
+   [split_epi_in_epi], [iso_in_split_mono], [iso_in_split_epi]).
    Nothing there says any inclusion is STRICT, and showing Iso ⊆ SplitMono
    proper needs an actual split mono with no inverse.  The tree did not have
-   one for [Sets].  Construction/Karoubi.v:226 manufactures splittings
+   one for [Sets].  Construction/Karoubi.v manufactures splittings
    generically ([karoubi_idem_splits]), but only from a GIVEN idempotent, and
    never exhibits one that is provably not an identity, so the
    non-invertibility conclusion is never drawn there.  The nearest concrete
-   pair, [pick_true]/[collapse] at Instance/Sets.v:497,500, is built to refute
+   pair, [pick_true]/[collapse] at Instance/Sets.v,500, is built to refute
    the cancellation converses (Mac Lane §I.5 Exercise 1) and is not carried as
    far as invertibility.
 
@@ -46,12 +46,12 @@ Generalizable All Variables.
 (* ------------------------------------------------------------------------ *)
 (** ** The two objects *)
 
-(* The two-element setoid is the one Instance/Sets.v:493 already carries;
+(* The two-element setoid is the one Instance/Sets.v already carries;
    this is a notation for it, not a second copy. *)
 Notation sets_two := bool_setoid_object.
 
 (* The three-element setoid: [option bool] under Coq's `=`, via [eq_Setoid]
-   (Lib/Setoid.v:65).  The carriers are chosen so that every case analysis
+   (Lib/Setoid.v).  The carriers are chosen so that every case analysis
    below is a plain [destruct] and every refutation a plain [discriminate]. *)
 Definition sets_three@{t u} : SetoidObject@{t u} :=
   {| carrier := option bool ; is_setoid := eq_Setoid@{t} (option bool) |}.
@@ -65,8 +65,8 @@ Definition sets_three@{t u} : SetoidObject@{t u} :=
    Distinctness is stated with `=`, and that is the right relation rather
    than a lapse from the library's `≈` discipline: these are equations
    between ELEMENTS of a carrier, not between morphisms, and both objects are
-   DISCRETE -- [sets_three] carries [eq_Setoid] (Lib/Setoid.v:65) and
-   [bool_setoid_object] (Instance/Sets.v:493) carries that same record
+   DISCRETE -- [sets_three] carries [eq_Setoid] (Lib/Setoid.v) and
+   [bool_setoid_object] (Instance/Sets.v) carries that same record
    written out -- so `=` IS the equivalence of the object, and refuting it
    refutes equality in [Sets] and not merely equality of representatives. *)
 

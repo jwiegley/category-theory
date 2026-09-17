@@ -78,12 +78,12 @@ Generalizable All Variables.
      concretely: the 2-cells on the identity functor of the delooping of
      (ℕ, +) compose to the same thing vertically and horizontally, and
      both composites compute to addition (by [eq_refl]).
-   - Theory/TwoCategory.v (:148, :169) explains why a 2-category does not
+   - Theory/TwoCategory.v explains why a 2-category does not
      degenerate: its two compositions have DIFFERENT units in general, so
      the argument only bites where the units collapse.
-   - Structure/Monoid.v:90 (the microcosm remark), Structure/Group.v:73
-     (group objects in Grp are abelian), Structure/Abelian.v:124,
-     Structure/Monoidal/Braided.v:90 and Structure/Monoidal/Proofs.v:339
+   - Structure/Monoid.v (the microcosm remark), Structure/Group.v
+     (group objects in Grp are abelian), Structure/Abelian.v,
+     Structure/Monoidal/Braided.v and Structure/Monoidal/Proofs.v
      all appeal to the principle in prose.
 
    SCOPE, stated precisely.  The theorem below takes SEPARATE units, one
@@ -247,7 +247,7 @@ Qed.
 
    PACKAGING CHOICE: the library's `≈` is a [crelation], i.e. Type-valued,
    so the four conclusions cannot be conjoined with [and].  They are
-   conjoined with the library's [∧], which is [prod] (Lib/Foundation.v:78),
+   conjoined with the library's [∧], which is [prod] (Lib/Foundation.v),
    right-associated.  A record was the alternative; a nested product was
    chosen because it needs no new inductive type and its components are
    reachable with the ordinary [fst]/[snd] of a pair.  The four components

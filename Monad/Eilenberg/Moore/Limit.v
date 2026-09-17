@@ -40,10 +40,10 @@ Generalizable All Variables.
 
    This makes Structure/Limit/Creation.v's classes inhabited by a functor
    the library already builds, and it turns the prose claim at
-   Structure/Complete.v:58-60 into the theorem [EM_Complete].
+   Structure/Complete.v into the theorem [EM_Complete].
 
    It is the limit-side companion to [monadic_creates]
-   (Monad/Monadicity/Beck.v:911), which creates U-split coequalizers only;
+   (Monad/Monadicity/Beck.v), which creates U-split coequalizers only;
    no comparison lemma between the two is attempted here —
    [CreatesUSplitCoequalizers] quantifies over pairs supplied with a split
    coequalizer of their U-image, which is strictly more data than a
@@ -58,7 +58,7 @@ Generalizable All Variables.
    rather than shipped, and the issue's request for it is unmet — descope
    ledger entry 18 (doc/classical-completion-plan.md §5).  Neither Beck.v nor
    BeckObjects.v is modified: [CreatedSplitCoequalizer]
-   (Monad/Monadicity/BeckObjects.v:385) is the same pattern at one shape,
+   (Monad/Monadicity/BeckObjects.v) is the same pattern at one shape,
    its [created_hom_carrier] being the [slift_legs] clause and its
    [created_alg_unique] the [≈]-form of uniqueness at a pinned carrier.
 
@@ -267,7 +267,7 @@ Defined.
 (** ** Uniqueness of the lift: the algebra structure is the only one *)
 
 (* The [≈]-form of Mac Lane's uniqueness clause at a pinned carrier, the
-   same statement [created_alg_unique] (BeckObjects.v:391) makes at its own
+   same statement [created_alg_unique] (BeckObjects.v) makes at its own
    shape. *)
 
 Lemma em_alg_unique (alg' : @TAlgebra D T H (vertex_obj[L]))
@@ -432,7 +432,7 @@ Definition em_forget_CreatesAllLimits {D : Category} (T : D ⟶ D)
 (** ** Algebras over a complete base are complete *)
 
 (* Mac Lane §V.4 Theorem 2 applied to the witness above; this is the
-   standing claim of Structure/Complete.v:58-60, as a theorem. *)
+   standing claim of Structure/Complete.v, as a theorem. *)
 
 Definition EM_Complete {D : Category} (T : D ⟶ D) `{H : @Monad D T}
   (HD : @Complete D) : @Complete (EilenbergMoore T) :=

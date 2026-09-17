@@ -144,7 +144,7 @@ Generalizable All Variables.
       while it is expected to have type
        "∃! g : frac_obj C ~{ Grpd }~> d', f ≈ fmap[Grpd_Incl] g ∘ FractionsProj C".
 
-    EXISTENCE transfers: Instance/StrictCat/ToCat.v:57's
+    EXISTENCE transfers: Instance/StrictCat/ToCat.v's
     [strict_equiv_implies_fun_equiv] takes a [Functor_StrictEq_Setoid]
     equality to a [Functor_Setoid] one.  UNIQUENESS DOES NOT, and that is
     the whole gap: a functor factoring [F] only up to natural isomorphism

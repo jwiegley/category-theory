@@ -51,20 +51,20 @@ Generalizable All Variables.
                                     domain of Freyd's construction in
                                     Adjunction/GAFT.v and as
                                     [ElementsComma := =(SetsOne) ↓ K] in
-                                    Construction/Elements.v:232.
+                                    Construction/Elements.v.
 
      T = b, S = Id[C]              the coslice b/C
-                                  — [Comma_Coslice], Construction/Slice.v:181.
+                                  — [Comma_Coslice], Construction/Slice.v.
 
      T = Id[C], S = a              the slice C/a
-                                  — [Comma_Slice], Construction/Slice.v:140;
+                                  — [Comma_Slice], Construction/Slice.v;
                                     and for a terminal a the slice is C itself,
                                     [Slice_Terminal] in
                                     Construction/Slice/Terminal.v.
 
      T = S = Id[C]                 the arrow category C^2
                                   — [Arrow := (Id[C] ↓ Id[C])],
-                                    Construction/Arrow.v:131.
+                                    Construction/Arrow.v.
 
      T = b, S = a  (both objects)  the discrete category on C(b, a)
                                   — THIS FILE, [Comma_Discrete_Hom].
@@ -80,7 +80,7 @@ Generalizable All Variables.
    from the special case in which the *domains* of the two functors are 1,
    where the comma category is instead the discrete category of morphisms
    between the two selected objects" — and states it in prose only.  This file
-   is the promotion of those lines (Construction/Product/Comma.v:32-35) to a
+   is the promotion of those lines (Construction/Product/Comma.v) to a
    theorem.
 
    ** THE PACKAGING CHOICE: setoid-discrete, not [DiscreteCat]
@@ -370,7 +370,7 @@ Context {b a : C}.
    constant was defined — so using it here would make the class demand `Set`
    for C's hom universe too, which at this abstract use site is a universe
    inconsistency, not merely a pin."  That pin is GONE: the donor was annotated
-   in place at Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   in place at Instance/Discrete.v in the PR "algebraic carriers are sets"
    (2026-09-17), and its type now reads `DiscreteCat@{o h p} A ⟶ C` over
    `C : Category@{uo uh up}`, with no literal `Set`.  Whether the hand-built
    functor could therefore be replaced by [DiscreteCat_Functor comma_const_obj]

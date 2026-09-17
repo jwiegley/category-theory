@@ -66,7 +66,7 @@ Generalizable All Variables.
     other route.  Note the asymmetry this repairs: the COUNIVERSAL side
     already had its packaging passage
     ([ACouniversalArrow_of_CouniversalArrow] and its inverse,
-    Theory/Universal/Arrow/Dual.v:557-580, whose own comment records that
+    Theory/Universal/Arrow/Dual.v, whose own comment records that
     "Theory/Universal/Arrow.v carries both encodings but never relates
     them"), so the dual was composable before the primal was.
 
@@ -77,7 +77,7 @@ Generalizable All Variables.
     this is emphatically not its first consumer -- 25 files on master
     Require that module (27 with this file and its probe), and one of the
     inhabitants,
-    [Curry_Representable] (Structure/Cartesian/Closed/Adjunction.v:346),
+    [Curry_Representable] (Structure/Cartesian/Closed/Adjunction.v),
     is itself in an adjunction file.
 
     RELATION TO Adjunction/Determination.v.  [adj_unit_universal] below
@@ -85,7 +85,7 @@ Generalizable All Variables.
     arbitrary adjunction, each unit component packaged as a universal
     arrow, where that file packages each counit component as a
     couniversal one.  The two are at the SAME strength -- both arrow
-    readbacks are [eq_refl] (see Test/ProbeDetermination347.v:57 for the
+    readbacks are [eq_refl] (see Test/ProbeDetermination347.v for the
     counit side) -- so this is a mirror and not an improvement, and the
     counit-side statement is not duplicated here.
 
@@ -196,7 +196,7 @@ Generalizable All Variables.
     [AUniversalElement]/[UniversalElement] passages) is a record literal
     over [ue_representation]/[AUniversalElement_of_repr], none of which
     touches [Yoneda_Lemma] -- but Functor/Hom/Yoneda IS in this file's
-    transitive closure, pulled in by Theory/Universal/Element.v:8.
+    transitive closure, pulled in by Theory/Universal/Element.v.
 
     Also absent: no naturality of the family of representations in c (the
     proved [left_adjoint_of_representable_natural] is a different object,

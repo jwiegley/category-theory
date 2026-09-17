@@ -49,7 +49,7 @@ Generalizable All Variables.
    [Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M
    <-> Monad M] since 2017-05-29, where [Endofunctors C := [C, C]] --
    a monoid object at a functor category, in the build set
-   (_CoqProject:445), and named in Structure/Monoid.v:77, which THIS
+   (_CoqProject), and named in Structure/Monoid.v, which THIS
    FILE Requires.  An earlier revision of this header dated the whole
    claim to f3b797fd and was wrong to; the tensor there is
    [Compose_Monoidal] rather than the pointwise cartesian one used
@@ -147,7 +147,7 @@ Generalizable All Variables.
    natural transformation of [[B, Sets]] has component [fmap[F] id], not
    [id], so each law arrives with a [fmap[T] id] wrapped round one
    argument.  [T_fmap_id] discharges it.  This is the same [nat_id] fact
-   already recorded at Theory/Natural/Transformation.v:220 and consumed
+   already recorded at Theory/Natural/Transformation.v and consumed
    in Construction/Elements/Kan.v and Functor/Representable/Functorial.v.
 
    UNIVERSES, measured in the constraint block AND read off the binder,

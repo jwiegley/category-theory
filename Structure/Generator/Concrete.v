@@ -15,25 +15,25 @@ Generalizable All Variables.
 
    Issue #447 recorded as its verified current state that the tree
    carried no separating vocabulary at all, only the dual [Cogenerator]
-   of Adjunction/SAFT.v:99.  That was STALE.  Measured in this worktree
+   of Adjunction/SAFT.v.  That was STALE.  Measured in this worktree
    with grep -rn 'Separator' --include='*.v', Theory/Concrete.v has
    carried Awodey's single-object notion since the concreteness
    development landed:
 
-     :174  Class Separator (t : C), the same clause as [IsSeparator]
-           with the two objects implicit, presented as a one-field class
-           so that instance resolution can find it;
-     :183  Concrete_of_Separator, which turns a separator into a
-           concrete structure whose underlying functor is Hom(t, -) --
-           and whose [underlying_faithful] obligation IS the forward
-           half of Awodey's characterization, proved but not named;
-     :197  Separator_of_Faithful, the backward half, named and proved;
-     :218  WellPointedCategory C, the separator condition at the
-           terminal object (Awodey's own case, global elements);
-     :279  Sets_Separator, the witness the issue asks for -- the
-           terminal object of [Sets] separates -- with :287
-           [Sets_WellPointed] and :299 [Sets_empty_not_Separator], the
-           refutation keeping the class from reading as content-free.
+     Class Separator (t : C), the same clause as [IsSeparator]
+       with the two objects implicit, presented as a one-field class
+       so that instance resolution can find it;
+     Concrete_of_Separator, which turns a separator into a
+       concrete structure whose underlying functor is Hom(t, -) --
+       and whose [underlying_faithful] obligation IS the forward
+       half of Awodey's characterization, proved but not named;
+     Separator_of_Faithful, the backward half, named and proved;
+     WellPointedCategory C, the separator condition at the
+       terminal object (Awodey's own case, global elements);
+     Sets_Separator, the witness the issue asks for -- the
+       terminal object of [Sets] separates -- with [Sets_WellPointed]
+       and [Sets_empty_not_Separator], the refutation keeping the
+       class from reading as content-free.
 
    So this issue's genuinely new material is the FAMILY notion
    ([Generator]), the joint-faithfulness characterization in both
@@ -47,8 +47,8 @@ Generalizable All Variables.
    WHY A THIRD FILE, MEASURED.  Structure/Generator.v does NOT require
    Theory/Concrete.v, and the reason is a name clash that would
    otherwise be imposed on every later file: [bool_setoid_object] is
-   defined twice in the tree, at Instance/Sets.v:569 and at
-   Theory/Concrete.v:244 (two different [SetoidObject] terms for the
+   defined twice in the tree, at Instance/Sets.v and at
+   Theory/Concrete.v (two different [SetoidObject] terms for the
    two-element setoid), so importing Concrete after Sets shadows the
    Sets one.  Structure/Generator.v imports Instance/Sets.v and is the
    interface the witnesses for this issue are built against, so the
@@ -59,13 +59,13 @@ Generalizable All Variables.
    UNIVERSES, measured with [Set Printing Universes. About ...].  The
    two bridges carry only [u <= u1] and [u0 <= u1], the bound by which
    [IsSeparator]'s result level dominates the category's two levels;
-   [Separator] itself (Theory/Concrete.v:174) prints an EMPTY block.
+   [Separator] itself (Theory/Concrete.v) prints an EMPTY block.
    No constant here is pinned to [Set].
 
    NOT DELIVERED.  No witness: this file builds no separator of any
    category.  The [Sets] witness is Instance/Sets/Generator.v, which
    proves the terminal-object statement directly and ALSO reads
-   Theory/Concrete.v:279's [Sets_Separator] through
+   Theory/Concrete.v's [Sets_Separator] through
    [IsSeparator_of_Separator] as [Sets_terminal_separates_from_Concrete]
    (a first draft of this file carried that read-through itself, under
    the names [Sets_terminal_IsSeparator] / [Sets_terminal_Generator],
@@ -86,7 +86,7 @@ Context {C : Category}.
 
 (** ** The two spellings of Awodey's condition *)
 
-(* [Separator] (Theory/Concrete.v:174) is the class form, whose field
+(* [Separator] (Theory/Concrete.v) is the class form, whose field
    [separates] takes its two objects implicitly; [IsSeparator]
    (Structure/Generator.v) is the Type-valued form that the
    characterizations consume as a function.  Nothing moves but the
@@ -99,7 +99,7 @@ Definition IsSeparator_of_Separator (c : C) (S : Separator c) :
 
 (* The forward half of Awodey's characterization is already in the tree,
    though only as the [underlying_faithful] obligation of
-   Theory/Concrete.v:183's concretization.  Recovering it that way gives
+   Theory/Concrete.v's concretization.  Recovering it that way gives
    the same statement as Structure/Generator.v's [separator_faithful],
    and this is the check that the two developments agree. *)
 Example separator_faithful_via_concrete (c : C) (H : IsSeparator c) :

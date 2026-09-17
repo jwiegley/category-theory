@@ -82,14 +82,14 @@ Generalizable All Variables.
 
       FIRST, the catalog issue states that the indiscrete half "has no
       construction at all -- searching for it finds only comments".  That
-      is FALSE.  Instance/Discrete/Reconstruct.v:432 has declared
+      is FALSE.  Instance/Discrete/Reconstruct.v has declared
       [Indiscrete (A : Type) : Category], with [hom := fun _ _ => unit],
       [homset := Morphism_equality] and every category law discharged by
       the ambient obligation tactic, since it was written; it is CONSUMED
       here (§6 uses it for the [Cat] refutation) and nothing rebuilds it.
       It has TWO independent consumers already: Theory/Skeleton/
       Separation.v, and -- worth reading beside §6 -- Instance/Cat/
-      Pullback.v:539, whose [IB := Indiscrete bool] drives
+      Pullback.v, whose [IB := Indiscrete bool] drives
       [FibreProduct_not_Cat_pullback], a refutation of a DIFFERENT
       statement turning on the SAME fact, that [Cat] cannot see the
       difference between [true] and [false] there.  (Two further files
@@ -104,7 +104,7 @@ Generalizable All Variables.
 
       SECOND, the issue's work item 4 asks that the connected-components
       functor be defined.  That is FALSE too: Theory/Connected/
-      Components.v:579 declares [Pi0 : Cat ⟶ Sets] with [fobj := pi0]
+      Components.v declares [Pi0 : Cat ⟶ Sets] with [fobj := pi0]
       and [fmap := pi0_fmap], and its three functor laws are proved
       there.  Only the ADJUNCTION is missing.  Item II below records the
       consequence: [Pi0] cannot join the string built here.
@@ -124,7 +124,7 @@ Generalizable All Variables.
 
       RECORDED CORRECTION.  That signature is HISTORY.  In the PR
       "algebraic carriers are sets" (2026-09-17) the donor was annotated
-      in place at Instance/Discrete.v:81 as
+      in place at Instance/Discrete.v as
       [DiscreteCat_Functor@{o h p uo uh up +}], and it now reaches every
       level [disc_ext] reaches; §8's [Section SetPin] records the repair
       and keeps the two former negatives as positive CONTROLS, so what
@@ -141,7 +141,7 @@ Generalizable All Variables.
    II. THE DOMAIN DECISION: [StrictCat] AND [Coq], BOTH FORCED.
 
       The issue's item 1 asks whether the objects functor should live on
-      [StrictCat], and Theory/Connected/Components.v:576-578 already
+      [StrictCat], and Theory/Connected/Components.v already
       flags the question from the other side, noting that [Cat]'s
       hom-setoid is natural isomorphism and that "a functor into [Sets]
       out of a strict category of categories would be a different
@@ -151,7 +151,7 @@ Generalizable All Variables.
       THE SOURCE MUST BE [StrictCat].  Any objects functor must send a
       pair of [≈]-equal functors to a pair of [≈]-equal maps, and both
       candidate targets compare object maps by LEIBNIZ equality: the
-      [equiv] of [ObjSetoid] (Theory/Connected/Components.v:458) is
+      [equiv] of [ObjSetoid] (Theory/Connected/Components.v) is
       [@eq obj[C]], and [Coq]'s hom-setoid is pointwise [=]
       (Instance/Coq.v).  So [fmap_respects] for any objects functor INTO
       SUCH A TARGET is exactly the proposition [ObjRespectsCat] of §6 --
@@ -178,7 +178,10 @@ Generalizable All Variables.
       indiscrete one, so it forces the target for the right-hand wing
       too, which is why it is stated generally rather than for
       [StrictCat_Disc] alone.
-      [Coq] is AN in-tree category of sets (not the only one -- Instance/Ens.v:47,:69 and Instance/EnsV.v:195 also compare morphisms pointwise by [=]; [Coq] is simply the natural choice here) whose [≈] on morphisms IS
+      [Coq] is AN in-tree category of sets (not the only one --
+      Instance/Ens.v and Instance/EnsV.v also compare morphisms pointwise
+      by [=]; [Coq] is simply the natural choice here) whose [≈] on
+      morphisms IS
       pointwise Leibniz equality, which is exactly [StrictCat]'s
       [eq_on_obj]; that coincidence is what makes the string possible.
 
@@ -196,10 +199,10 @@ Generalizable All Variables.
       argument, not a theorem, and is not made here.
 
       NAMING, AND WHY THE OBVIOUS NAMES WERE UNAVAILABLE.  Both [Discrete]
-      and [Indiscrete] are taken: [Discrete] is Structure/Discrete.v:33's
+      and [Indiscrete] are taken: [Discrete] is Structure/Discrete.v's
       PREDICATE on a category (an assertion that it has only identity
       morphisms), and [Indiscrete] is the category constructor of item I
-      above.  And [Objects] is taken too, by Solver/Expr.v:38's reification
+      above.  And [Objects] is taken too, by Solver/Expr.v's reification
       CLASS -- a live hazard rather than a cosmetic one, since shadowing it
       would break the Solver's typeclass resolution wherever both modules
       are imported.  This file therefore follows the Instance/Top/
@@ -261,7 +264,7 @@ Generalizable All Variables.
       fully applied [exact (@fmap_id _ _ x a)] works.
 
       The adjunction is packaged through [Build_Adjunction']
-      (Theory/Adjunction.v:159) rather than [Build_Adjunction], and that
+      (Theory/Adjunction.v) rather than [Build_Adjunction], and that
       is a measured economy rather than a style choice: the smart
       constructor asks only for the two [to]-side naturality clauses,
       which live in [Coq], where [≈] is pointwise [=] -- so BOTH CLOSE BY
@@ -315,7 +318,7 @@ Generalizable All Variables.
       obligations a [.glob] sweep cannot see; 43 names are declared in
       the source and 43 + 25 = 68).  ZERO of the 68 names collides
       anywhere in the tree -- a sweep that FOUND one, and it was live:
-      [Objects] is Solver/Expr.v:38's reification class, which is why the
+      [Objects] is Solver/Expr.v's reification class, which is why the
       functors carry the [StrictCat_] prefix (item II).  THREE [Fail]
       probes, of TWO KINDS kept lexically apart -- two CONVERSION
       in §5, one FORMABILITY in §8 -- each stripped once and its kind
@@ -377,7 +380,7 @@ Generalizable All Variables.
    a discrete hom-set -- an equality proof -- goes to the identity,
    transported along that proof.
 
-   This is Instance/Discrete.v:81's [DiscreteCat_Functor] with the
+   This is Instance/Discrete.v's [DiscreteCat_Functor] with the
    universe binders written out and the setoid [rewrite] avoided.  BOTH
    changes were load-bearing and were measured separately.  Written
    without the binders, minimization pins the source at
@@ -761,8 +764,8 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
    In the PR "algebraic carriers are sets" (2026-09-17) both donors were
    annotated in place -- [DiscreteCat_Functor@{o h p uo uh up +}] at
-   Instance/Discrete.v:81 and [Indiscrete@{o h p}] at
-   Instance/Discrete/Reconstruct.v:430 -- so both ascriptions are now
+   Instance/Discrete.v and [Indiscrete@{o h p}] at
+   Instance/Discrete/Reconstruct.v -- so both ascriptions are now
    ACCEPTED and both lines below are positive controls.  The [Constraint]
    remains inert, and is kept for the reason it was kept before: it
    states the intended reading, and the whole section is only interesting

@@ -11,16 +11,16 @@
 
         f a ⊑ b   iff   a ≤ g b.
 
-    Instance/Proset.v:33 turns a [PreOrder] into a category whose homs ARE the
+    Instance/Proset.v turns a [PreOrder] into a category whose homs ARE the
     order relation and whose hom-setoid identifies everything
     ([equiv := fun _ _ => True]).  Under that reading the displayed
     biconditional is precisely an adjunction's hom-set isomorphism, and this
     file proves the correspondence in both directions.
 
     WHY THIS IS MORE THAN A RESTATEMENT: THE VACUITY IS THE CONTENT.  An
-    [Adjunction] (Theory/Adjunction.v:130) is one iso field plus FOUR
+    [Adjunction] (Theory/Adjunction.v) is one iso field plus FOUR
     naturality fields, and an [Adjunction_Transform]
-    (Adjunction/Natural/Transformation.v:35-43) additionally carries two
+    (Adjunction/Natural/Transformation.v) additionally carries two
     triangle identities.  Over a thin category every one of those side
     conditions is an equation between parallel morphisms, and in [Proset] any
     two parallel morphisms are related by [True].  So they are all discharged
@@ -40,7 +40,7 @@
 
     A FACT ABOUT [Poset] WORTH RECORDING (not an error in the issue, which
     never claims otherwise -- it simply names both files).
-    Instance/Poset.v:116-117 reads [Definition Poset ... := Proset P],
+    Instance/Poset.v reads [Definition Poset ... := Proset P],
     DISCARDING its antisymmetry argument, which never appears in the body.
     Hence:
 
@@ -63,7 +63,7 @@ Require Import Category.Instance.Proset.
 Require Import Category.Instance.Poset.
 Require Import Category.Instance.Sets.
 
-(* Same two as Instance/Proset.v:4-5 -- [relation] and [PreOrder] here are the
+(* Same two as Instance/Proset.v -- [relation] and [PreOrder] here are the
    stdlib Prop-valued ones, not [crelation]. *)
 Require Import Coq.Classes.Equivalence.
 Require Import Coq.Relations.Relation_Definitions.
@@ -202,7 +202,7 @@ End Ungalois.
 
 (** ** Poset: the same category, and what that costs *)
 
-(** Instance/Poset.v:116-117 defines [Poset] as [Proset] with the antisymmetry
+(** Instance/Poset.v defines [Poset] as [Proset] with the antisymmetry
     argument discarded, so the two are the SAME category -- definitionally. *)
 Lemma poset_is_proset {A : Type} {R : relation A}
   (P : PreOrder R) (AS : @Antisymmetric A eq eq_equiv R) :

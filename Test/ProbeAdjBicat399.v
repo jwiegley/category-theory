@@ -232,21 +232,21 @@ Generalizable All Variables.
    FIFTEEN broke it, every one at a [Check] line of the guard block and
    NONE inside a [Fail]:
 
-     AdjIdObj                  line 356   Check @AdjIdObj.
-     adjobj_hcompose           line 357   Check @adjobj_hcompose.
-     conj_padL                 line 349   Check @conj_padL.
-     conj_padR                 line 350   Check @conj_padR.
-     adjobj_of_morphism        line 382   Check @adjobj_of_morphism.
-     morphism_of_adjobj        line 383   Check @morphism_of_adjobj.
-     Adj_Hcompose              line 359   Check @Adj_Hcompose.
-     Adj_hunit_left            line 367   Check @Adj_hunit_left.
-     Adj_hunit_right           line 368   Check @Adj_hunit_right.
-     Adj_hassoc                line 369   Check @Adj_hassoc.
-     Adj_hunit_left_natural    line 375   Check @Adj_hunit_left_natural.
-     Adj_hunit_right_natural   line 376   Check @Adj_hunit_right_natural.
-     Adj_hassoc_natural        line 377   Check @Adj_hassoc_natural.
-     Adj_triangle              line 378   Check @Adj_triangle.
-     Adj_pentagon              line 379   Check @Adj_pentagon.
+     AdjIdObj                  Check @AdjIdObj.
+     adjobj_hcompose           Check @adjobj_hcompose.
+     conj_padL                 Check @conj_padL.
+     conj_padR                 Check @conj_padR.
+     adjobj_of_morphism        Check @adjobj_of_morphism.
+     morphism_of_adjobj        Check @morphism_of_adjobj.
+     Adj_Hcompose              Check @Adj_Hcompose.
+     Adj_hunit_left            Check @Adj_hunit_left.
+     Adj_hunit_right           Check @Adj_hunit_right.
+     Adj_hassoc                Check @Adj_hassoc.
+     Adj_hunit_left_natural    Check @Adj_hunit_left_natural.
+     Adj_hunit_right_natural   Check @Adj_hunit_right_natural.
+     Adj_hassoc_natural        Check @Adj_hassoc_natural.
+     Adj_triangle              Check @Adj_triangle.
+     Adj_pentagon              Check @Adj_pentagon.
 
    So 15/15, with zero vacuous guards.  (Renaming a [Program Definition]
    must also rename its obligations, whose names are that constant's name

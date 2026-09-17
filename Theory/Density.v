@@ -153,13 +153,13 @@ Generalizable All Variables.
          AN EARLIER DRAFT CONCLUDED FROM THOSE TWO FACTS THAT "the tree
          supplies no such action", AND THAT IS FALSE.  An audit found the
          action already built, for a different integrand family, in
-         [Construction/Day.v]: [Day_map] (:292) with
-         [Day : C ⟶ Sets] (:315) whose [fobj] is literally
+         [Construction/Day.v]: [Day_map] with
+         [Day : C ⟶ Sets] whose [fobj] is literally
          [fun c => coend_obj (SetsCoend (DayI F G c))] -- that IS
          "[c |-> coend_obj (SetsCoend (I c))] is a functor" -- together
-         with [DFG_c] (:833), the action of the coend on a map of
+         with [DFG_c], the action of the coend on a map of
          integrands induced by a pair of transformations, and the
-         integrand-AGNOSTIC [day_theta_leg_cowedge] (:861), which takes
+         integrand-AGNOSTIC [day_theta_leg_cowedge], which takes
          ANY transform of integrands and whose proof uses only
          [coend_cowedge] and [naturality_sym].  Transcribing that pattern
          to [YoI] is perhaps sixty lines, not a lookup.
@@ -236,7 +236,7 @@ Generalizable All Variables.
    at (c, x) is the contravariant representable [Hom -,c] -- because
    [Curried_CoHom C] is by definition [Curried_Hom C^op].
 
-   In particular the gap [Construction/Elements.v:140] discloses --
+   In particular the gap [Construction/Elements.v] discloses --
    [PElements P ≅[Cat] (=(1) ↓ P)^op] is not proved, for want of a
    transport of a Cat-isomorphism along opposites -- DOES NOT BITE.  The
    dual never touches the comma presentation.

@@ -30,7 +30,7 @@ Generalizable All Variables.
    conjugates hom(x, x) isomorphically onto hom(x', x').
 
    Until now the name [Groupoid] was bound in-tree to a CONSTRUCTION —
-   Construction/Groupoid.v:103 builds the core (maximal subgroupoid) of a
+   Construction/Groupoid.v builds the core (maximal subgroupoid) of a
    category — with no property for it to satisfy.  [core_is_groupoid] below
    closes that gap.
 
@@ -106,7 +106,7 @@ Generalizable All Variables.
 
 (* A groupoid is a category in which every morphism has a two-sided inverse.
    This is Mac Lane §I.5 Definition 9, Awodey §7.7, and Riehl Definition
-   1.1.12, all three verbatim; the donor is Theory/Isomorphism.v:133's
+   1.1.12, all three verbatim; the donor is Theory/Isomorphism.v's
    [IsIsomorphism], the single-morphism (predicate) reading of `≅`.
 
    [IsGroupoid] is a plain [Definition], deliberately NOT a [Class] and NOT
@@ -224,7 +224,7 @@ Proof. apply ginv_unique_r, ginv_right. Qed.
 (** ** The core of a category is a groupoid *)
 
 (* Awodey §7.7 asks for the lemma that every arrow of [Groupoid C] — the core
-   construction of Construction/Groupoid.v:103, whose arrows ARE the
+   construction of Construction/Groupoid.v, whose arrows ARE the
    isomorphisms of C — is invertible.  Its inverse is Theory/Isomorphism.v's
    [iso_sym], and the two laws are that file's [iso_sym_right_inverse] and
    [iso_sym_left_inverse].  Construction/Groupoid.v names [iso_sym] in its

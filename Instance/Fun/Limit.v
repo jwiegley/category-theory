@@ -38,44 +38,46 @@ Generalizable All Variables.
    (Theorem 2) is Instance/Fun/Creation.v's (#426).
 
    STALE PREMISES, RE-MEASURED.
-     - "There is no [Terminal] structure on [C, D]": Instance/Fun/Terminal.v:362
-       [Functor_Category_Terminal] (an [#[export] Instance], #339) and :520
-       [Fun_HasIndexedProducts] exist; Instance/Fun/Cartesian.v:111
-       [Functor_Category_Cartesian] and Instance/Fun/Pullback.v:316
+     - "There is no [Terminal] structure on [C, D]": Instance/Fun/Terminal.v's
+       [Functor_Category_Terminal] (an [#[export] Instance], #339) and
+       [Fun_HasIndexedProducts] exist; Instance/Fun/Cartesian.v
+       [Functor_Category_Cartesian] and Instance/Fun/Pullback.v
        [Fun_HasPullbacks] too.  What was absent is the GENERAL shape and any
        preservation statement for an evaluation functor (Instance/Fun/
-       Terminal.v:307-309 named that gap; corrected in place here).
+       Terminal.v named that gap; corrected in place here).
      - "no [Complete] inhabitant anywhere": a declaration sweep of the
        non-Test/ tree for constants concluding [@Complete] finds at least
        thirteen, unconditional witnesses and premise-carrying transformers
-       together — Instance/Sets/Complete.v:196 [Sets_Complete], :464
-       [ConeSet_Complete], Instance/Grp/Limit.v:706 [Grp_Complete],
-       Construction/Arrow/Limit.v:426 [Arrow_Complete],
-       Construction/Comma/Limit.v:247 [Comma_Complete],
-       Construction/Product/Limit.v:620 [PiCat_Complete], [EM_Complete],
+       together — Instance/Sets/Complete.v's [Sets_Complete] and
+       [ConeSet_Complete], Instance/Grp/Limit.v [Grp_Complete],
+       Construction/Arrow/Limit.v [Arrow_Complete],
+       Construction/Comma/Limit.v [Comma_Complete],
+       Construction/Product/Limit.v [PiCat_Complete], [EM_Complete],
        [reflective_Complete] and more; #254 is closed, so Work item 3's
        blocker is discharged and [Presheaf_Complete] is built below.
      - "the evaluation functors do not exist": Adjunction/Diagonal/
-       Connected.v:700 [EvalAt], and #424's Instance/Fun/Eval.v [Eval], which
+       Connected.v [EvalAt], and #424's Instance/Fun/Eval.v [Eval], which
        this file consumes — the dependency on #424 is real: routing through
        [EvalAt] would add 103 files to this file's closure against 2 for
        Eval.v (marginals over the shipped [Require] list; an earlier revision
        said 115, measured against a list without Instance/Sets/Complete.v).
-     - Prose sites (Work item 4), all edited LINE-NEUTRALLY: Instance/Fun.v:
-       101-104 (the issue says :101-105; :105-106 is a different clause, on
+     - Prose sites (Work item 4), all edited LINE-NEUTRALLY: one in
+       Instance/Fun.v (the issue's range overshoots it into a neighbouring
+       clause, on
        cartesian closure, which Instance/Fun/Closed.v refutes and which is
-       untouched), Instance/Fun/Cartesian.v:17-20 (the issue says :17-21)
-       and :36 (now citing [Functor_Category_Terminal]), Structure/
-       Complete.v:56-58 (the issue says :55-58; the monadic clause's own
-       words at :58-60 are untouched — it is [EM_Complete]'s — though :58
-       gained "from Sets"), the fourth site the issue misses,
-       Structure/Cartesian/Product.v:34, and Instance/Fun/Terminal.v:308-309
-       and :307-309 (that file's NOT DELIVERED list denied both the general
-       theorem and any preservation statement; both corrected in place) and
-       :100-106 (its "stated in PROSE in three places" framing, now that
+       untouched), two in Instance/Fun/Cartesian.v (the issue's range for
+       the first overshoots likewise; the second now cites
+       [Functor_Category_Terminal]), one in Structure/
+       Complete.v (the issue's range starts a line early; the monadic
+       clause's own words are untouched — it is [EM_Complete]'s — though
+       one of them gained "from Sets"), the fourth site the issue misses,
+       Structure/Cartesian/Product.v, and two in Instance/Fun/Terminal.v
+       (that file's NOT DELIVERED list denied both the general
+       theorem and any preservation statement, both corrected in place;
+       and its "stated in PROSE in three places" framing, now that
        those places point here).  Instance/Fun.v's sentence keeps its
        colimit half, attributed to the nLab and #715.
-     - Construction/Product/Limit.v:620's [PiCat_Complete] has term for term
+     - Construction/Product/Limit.v's [PiCat_Complete] has term for term
        the same shape as [Functor_Category_Complete], with the projection in
        place of [Eval p]; it is an analogy, not an instance — [PiCat] is a
        dependent product of categories, not [[DiscreteCat I, X]], so neither

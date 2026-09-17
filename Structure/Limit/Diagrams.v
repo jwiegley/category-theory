@@ -29,21 +29,21 @@ Generalizable All Variables.
          https://ncatlab.org/nlab/show/comma+category
 
    BACKGROUND.  Beyond its functoriality in the diagram at a fixed shape
-   (Adjunction/Diagonal/Limit.v:434 [LimitFunctor], issue #353), the limit
+   (Adjunction/Diagonal/Limit.v [LimitFunctor], issue #353), the limit
    is functorial in the SHAPE as well.  Mac Lane's "super-comma" category
    has as objects all diagrams (J, F : J ⟶ C) in a fixed target and as
    arrows (J', F') → (J, F) a functor W : J' ⟶ J together with a natural
    transformation F ◯ W ⟹ F'; over a complete target, lim is a functor from
    the OPPOSITE of that category: the limit cone of F restricts along W
    (Structure/Limit/Comparison.v's [cone_reindex]), is pushed along the
-   transformation (Theory/Equivalence/Colimit.v:471 [cone_along]) into a
+   transformation (Theory/Equivalence/Colimit.v [cone_along]) into a
    cone over F', and mediates into lim F'.
 
    THE DIRECTION OF THE TRANSFORMATION.  The issue defers it to the book;
    Mac Lane's arrows (J', F') → (J, F) carry W : J' ⟶ J with a
    transformation F ◯ W ⟹ F', and [DHom] below is stated in that direction:
    for X → Y, [dtau : ddiag Y ◯ dW ⟹ ddiag X].  It is also the direction
-   Construction/Comma.v:131-133 produces for Id[Cat] ↓ Δ(C)
+   Construction/Comma.v produces for Id[Cat] ↓ Δ(C)
    ([F ◯ W ≈ Id ◯ F'] in Cat's hom setoid).  The reverse direction,
    F' ⟹ F ◯ W, ALSO forms a category under the same setoid recipe (the fess
    audit compiled it), but limits are not functorial on it: with it both
@@ -54,23 +54,23 @@ Generalizable All Variables.
 
    STALE PREMISES, RE-MEASURED.
      - "the limit functor at a fixed shape is #353's obligation": #353
-       landed — Adjunction/Diagonal/Limit.v:363 [HasLimitsOfShape], :381
-       [lim_obj], :422 [Lim_map], :434 [LimitFunctor], :527 the adjunction
-       with the diagonal, :696 [ColimitFunctor]; the docs/INDEX.md bullet
-       for that file (:164) already lists "no functoriality in J" as the
+       landed — Adjunction/Diagonal/Limit.v has [HasLimitsOfShape],
+       [lim_obj], [Lim_map], [LimitFunctor], the adjunction
+       with the diagonal and [ColimitFunctor]; the docs/INDEX.md bullet
+       for that file already lists "no functoriality in J" as the
        remaining gap — this file.
      - "no category of diagrams, no super-comma, no Cat ↓": true as
        measured (0 hits for `Cat ↓` and `↓ Cat`; no category whose objects
-       pair an index category with a diagram — Structure/AbCategory.v:223's
+       pair an index category with a diagram — Structure/AbCategory.v's
        [AbCatObj] is a sigma over [Category] of another kind), but of the
        issue's four prose citations only
-       Instance/Fun/Topos.v:52 and Structure/Cone/Const.v:32 still carry
-       the phrase "category of diagrams"; Theory/Adamek.v:64 and
-       Structure/Complete.v:76 no longer do.
+       Instance/Fun/Topos.v and Structure/Cone/Const.v still carry
+       the phrase "category of diagrams"; Theory/Adamek.v and
+       Structure/Complete.v no longer do.
      - The mediator half the issue does not name already exists:
-       Theory/Equivalence/Colimit.v:440 [isalimit_cone], :471 [cone_along]
-       (needing only naturality), :487 [limit_induced] with its laws to
-       :527, :551 the colimit duals — the object-level shadows of this
+       Theory/Equivalence/Colimit.v has [isalimit_cone], [cone_along]
+       (needing only naturality), [limit_induced] with its laws, and
+       the colimit duals — the object-level shadows of this
        functor.
      - "the comma-category form over Cat is the sub-case where the
        transformation is the identity": false on both halves — see (5).
@@ -81,7 +81,7 @@ Generalizable All Variables.
          diagram), [DHom X Y] (a shape functor [dW] with
          [dtau : ddiag Y ◯ dW ⟹ ddiag X]), [DHom_equiv]: a pointwise
          isomorphism of the shape functors satisfying Cat's own
-         [Functor_Setoid] clause (Theory/Functor.v:149; Instance/Cat.v:145)
+         [Functor_Setoid] clause (Theory/Functor.v; Instance/Cat.v)
          together with agreement of the transformations THROUGH THE
          ISOMORPHISM'S IMAGE — the dependent-setoid problem (τ's type moves
          with W) is solved by stating the τ clause at the image rather than
@@ -97,7 +97,7 @@ Generalizable All Variables.
          [LimDiagrams : (Diagrams C)^op ⟶ C].  Respectfulness closes by
          [limit_leg_coherence]: the limit cone's own coherence absorbs the
          hom-setoid's isomorphism, which is why the Cat-style setoid is the
-         right one and no [StrictCat] deviation (Instance/Cat/Limit.v:55-72)
+         right one and no [StrictCat] deviation (Instance/Cat/Limit.v)
          is needed.  Comparison.v's [reindex_comparison] is NOT the arrow
          part: it targets a separately supplied limit of the reindexed
          diagram and would need a second mediation.
@@ -105,10 +105,10 @@ Generalizable All Variables.
          transformation [b : F ⟹ G] as the arrow (J, G) → (J, F) with the
          identity shape functor; [lim_obj_is_dlim] at [eq_refl] and
          [dlim_map_fixed : dlim_map L (fixed_hom b) ≈ Lim_map b]
-         (Adjunction/Diagonal/Limit.v:422, at [Complete_HasLimitsOfShape L J]).
+         (Adjunction/Diagonal/Limit.v, at [Complete_HasLimitsOfShape L J]).
      (4) THE COLIMIT DUAL.  [Cocomplete C] and [Complete (C^op)] are not
          convertible (probe N5) but interderivable because [(F^op)^op] IS
-         [F] by conversion: Construction/Product/Limit.v:389's
+         [F] by conversion: Construction/Product/Limit.v's
          [Complete_op_of_Cocomplete] — REUSED, not re-defined; an earlier
          revision of this file re-defined it under another name, which the
          fess audit caught — and the new [cocomplete_of_complete_op],
@@ -121,14 +121,14 @@ Generalizable All Variables.
          C.  Readbacks [ColimDiagrams_fobj], [dcolim_is_colimit_apex] at
          [eq_refl].
      (5) THE COMMA FORM.  [CommaDiagrams C := Id[Cat] ↓ Δ(C)]
-         (Construction/Comma.v:127; Functor/Diagonal.v's [Diagonal])
+         (Construction/Comma.v; Functor/Diagonal.v's [Diagonal])
          elaborates, also at [Sets] and [Coq] (measured): "Comma is never
          instantiated with Cat" was a fact about the tree, not an
          obstruction.  Its square is a natural ISOMORPHISM (Cat's hom
          setoid), not required to be an identity — the comma form is the
          INVERTIBLE sub-case, not the identity one — and its hom setoid compares
          the functor components only ([CommaDiagrams_equiv] at [eq_refl];
-         Comma.v:135-136), so the square is forgotten.
+         Comma.v), so the square is forgotten.
          [comma_diagrams_obj] and [comma_diagrams_arrow] read every comma
          arrow as a [Diagrams] arrow ([dW] at [eq_refl]) — as a FUNCTION
          only: the probe's countermodel in [CommaDiagrams Sets]
@@ -153,7 +153,7 @@ Generalizable All Variables.
      - [LimDiagrams@{u u0 u1 u2 u3 u4}] over [C : Category@{u u0 u0}]
        carries [u2 <= u0]: the index categories' OBJECT level at or below
        the target's HOM level — the smallness side condition, arriving on
-       its own from [Complete]'s quantification (Structure/Complete.v:305).
+       its own from [Complete]'s quantification (Structure/Complete.v).
      - [dlim_map_fixed] and [lim_obj_is_dlim] carry [u0 = u3] and
        [u1 = u4]: [Complete]'s index levels identified with the fixed
        shape's, the identification [HasLimitsOfShape] makes; [fixed_hom],
@@ -190,9 +190,9 @@ Generalizable All Variables.
      - The §IX.7 Exercise 3 increment — the functoriality of lim through the
        limit's expression as an end and the functoriality of ends: the tree
        has neither in the general form.  Structure/End.v carries only
-       [Class End] (:35) and [Coend] (:58); no limit-as-end statement exists,
+       [Class End] and [Coend]; no limit-as-end statement exists,
        and the only functoriality of a (co)end in the tree is
-       Theory/Coend/Fubini.v:226's [Inner], a concrete coend functor into
+       Theory/Coend/Fubini.v's [Inner], a concrete coend functor into
        Sets rather than Proposition IX.7.1 (grep over Structure/End.v,
        Structure/Wedge.v and the Theory/Coend directory).
      - A limit functor on the comma form: its canonical arrow part is
@@ -206,7 +206,7 @@ Generalizable All Variables.
        them is built.
      - At a fixed [W], the sharper natural-transformation form
        [LimitFunctor_J ⟹ LimitFunctor_J' ◯ Induced W]
-       (Theory/Kan/Extension.v:131) is not stated.
+       (Theory/Kan/Extension.v) is not stated.
      - Functoriality of [Diagrams] in the target, and any colimit-side
        counterpart of [dlim_map_fixed] against [Colim_map]. *)
 
@@ -473,7 +473,7 @@ End LimDiagrams.
 
 (* [Cocomplete C] and [Complete (C^op)] are not convertible (the probe pins
    the [eq_refl]), but they are interderivable because [(F^op)^op] IS [F]
-   by conversion: Construction/Product/Limit.v:389's
+   by conversion: Construction/Product/Limit.v's
    [Complete_op_of_Cocomplete] goes one way, and the converse below the
    other; the two round-trip at [eq_refl]. *)
 Definition cocomplete_of_complete_op {C : Category} (L : @Complete (Opposite C)) :

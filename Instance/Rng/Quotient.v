@@ -53,7 +53,7 @@ Generalizable All Variables.
     it, and Instance/Rng/Quotient/OneSided.v REFUTES it for an explicit
     left ideal of an explicit non-commutative ring -- ℤ·E₁₁ inside the
     upper-triangular 2×2 integer matrices [UT2]
-    (Instance/Rng/Algebras/Associative.v:534).  That file also proves the
+    (Instance/Rng/Algebras/Associative.v).  That file also proves the
     left ideal is genuinely not a right one, so the separation is not
     vacuous.  It is a separate file for a dependency reason and not a
     stylistic one: [UT2] lives under Instance/Rng/Algebras/, which
@@ -63,7 +63,7 @@ Generalizable All Variables.
     ONE FEWER LAW.  [Ideal] carries FIVE laws and not six (six fields in
     all, the first being membership itself): closure under
     negation is DERIVED ([idl_neg]), since -a is (-1)·a and the record
-    already absorbs multiplication.  Instance/Rng.v:331's
+    already absorbs multiplication.  Instance/Rng.v's
     [rig_mul_neg_one] is what makes that a one-line citation.  This is
     the same economy Instance/Mod/Quotient.v's [Submodule] takes, and for
     the same reason: a ring has a unit and a negation, so (-1) is
@@ -229,7 +229,7 @@ Qed.
 (** ** Multiplication against subtraction
 
     The three lemmas the multiplicative congruence costs.  None is in
-    the tree at [RingObject] level: Instance/Matr/Determinant.v:143,151
+    the tree at [RingObject] level: Instance/Matr/Determinant.v
     has [ring_neg_mul_l] and [ring_neg_mul_r], but over its own section
     variable [K] and behind that file's notation, and requiring a
     1742-line determinant development for two three-line lemmas is not
@@ -273,7 +273,7 @@ Proof.
 Qed.
 
 (* A ring homomorphism commutes with subtraction.  [RigHom_neg]
-   (Theory/Algebra/Rig.v:583) supplies the negation half; nothing here is
+   (Theory/Algebra/Rig.v) supplies the negation half; nothing here is
    new mathematics, but the shape is what the descent step below wants
    and Instance/Ab/Subtract.v's [ab_map_sub] is stated for an [AbHom],
    which a [RigHom] is only after transport through [Rng_Forget_Ab]. *)

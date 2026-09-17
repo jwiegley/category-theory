@@ -290,7 +290,7 @@ End BalIndexReadbacks.
 (** ** NEGATIVE 1 (UNIVERSE): Mac Lane's covering family is refused
 
     RE-MEASURED 2026-09-17, after [DiscreteCat_Functor] was annotated
-    (Instance/Discrete.v:81, PR "algebraic carriers are sets").  Stripped
+    (Instance/Discrete.v, PR "algebraic carriers are sets").  Stripped
     and re-run in a copy of the whole file, the message is now
 
       The term "tensor_esols_direct V V'" has type
@@ -349,7 +349,7 @@ Fail Definition n1_direct_esols_refused {R : RingObject}
        Set < u_obj)
 
     and the refusal then moved EARLIER, to the ambient category argument,
-    when [DiscreteCat_Functor] was annotated (Instance/Discrete.v:81).
+    when [DiscreteCat_Functor] was annotated (Instance/Discrete.v).
 
     (b) The SECOND revision quoted the category refusal with the expected
     type written "Category@{u_obj' Set Set}" and the clause "Cannot
@@ -434,7 +434,7 @@ Fail Definition n3_bal_direct_esols_refused {X : RingObject}
     That [Set] was a universe-minimization artifact of Instance/Discrete.v's
     unannotated [DiscreteCat_Functor], reaching [representability_theorem]
     through [Complete] and [Limit].  Annotated in the PR "algebraic
-    carriers are sets" (2026-09-17), Instance/Discrete.v:81, it is gone,
+    carriers are sets" (2026-09-17), Instance/Discrete.v, it is gone,
     and [tensor_via_AFT] elaborates over a ring whose carrier universe is
     declared strictly above [Set].  The line is kept as a positive control
     at exactly the levels that used to refuse it, and the declaration is
@@ -491,11 +491,11 @@ Fail Example n5_aft_object_not_definitional {R : RingObject}
        delivered
 
     [preserves_image_of_representable (tensor_repr_of_UE V V')]
-    (Adjunction/Representability/Sets.v:450) inhabits the same type as
+    (Adjunction/Representability/Sets.v) inhabits the same type as
     [Bilin_PreservesImageLimit], and is checked as a control above -- but it
     derives the theorem's hypothesis from the very tensor the theorem is
-    meant to construct, which is the circularity Instance/Ab/Limit.v:58-68
-    and Instance/Grp/FreeAFT.v:406-416 name.  The delivered term is a
+    meant to construct, which is the circularity Instance/Ab/Limit.v
+    and Instance/Grp/FreeAFT.v name.  The delivered term is a
     DIFFERENT one, built elementwise over the created limits of
     Instance/Mod/Limit.v, and this pins that the two are not the same
     term. *)

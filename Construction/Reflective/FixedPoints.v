@@ -167,7 +167,7 @@ Generalizable All Variables.
 
    TWO SMALL LEMMAS ARE RESTATED RATHER THAN REQUIRED, AND ONE IS NEW.
    [fixed_IsIso_along] and [fixed_IsIso_comp] duplicate [IsIso_along]
-   (:309) and [IsIso_comp] (:323) of
+ and [IsIso_comp] of
    Theory/Equivalence/Adjoint/Compose.v.  Requiring that module would
    take this file's transitive in-project closure from 37 to 52
    (measured), because its witness section drags in
@@ -175,7 +175,7 @@ Generalizable All Variables.
    Instance/Discrete/Reconstruct, none of which anything here needs; the
    three are sixteen lines in total and are named apart so that both
    files may be loaded into one scope.  [fixed_IsIso_of_iso] duplicates
-   nothing there: it runs OPPOSITE to Theory/Isomorphism.v:146's
+   nothing there: it runs OPPOSITE to Theory/Isomorphism.v's
    [IsIsoToIso], and [IsIsomorphism (to _)] occurs nowhere else in the
    tree (measured).  Unlike the originals,
    whose explicit binders are load-bearing, the three are written
@@ -291,7 +291,7 @@ Defined.
 
 (* The full subcategory of D spanned by the objects at which the unit is
    invertible.  [shom] is the terminal predicate, following
-   Construction/Reflective/Idempotent.v:224's [MLocal_Subcategory]. *)
+   Construction/Reflective/Idempotent.v's [MLocal_Subcategory]. *)
 Definition UnitFixed : Subcategory D :=
   {| sobj  := fun x => IsIsomorphism (@unit C D F U A x)
    ; shom  := fun _ _ _ _ _ => True
@@ -551,8 +551,8 @@ End FixedPoints.
 
 (** ** (C) The comonad side, and the bridge to the monad-side results *)
 
-(* The dual of Construction/Reflective/Idempotent.v:81's class.  A comonad
-   IS a monad on the opposite category (Theory/Monad.v:144), so an
+(* The dual of Construction/Reflective/Idempotent.v's class.  A comonad
+   IS a monad on the opposite category (Theory/Monad.v), so an
    idempotent comonad is an idempotent monad there; the [Existing Class]
    declaration follows the Comonad/Core.v accessor idiom. *)
 Definition IdempotentComonad {C : Category} (W : C ⟶ C)
@@ -632,7 +632,7 @@ Context {U : C ⟶ D}.
 Context (A : F ⊣ U).
 
 (* The unit-fixed subcategory IS the local subcategory of the induced
-   monad, on the WHOLE record: Monad/Comparison.v:125 supplies [ret] as
+   monad, on the WHOLE record: Monad/Comparison.v supplies [ret] as
    the adjunction's unit, and the three remaining fields agree because
    both records use the terminal [shom]. *)
 Example unit_fixed_is_mlocal :

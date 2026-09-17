@@ -12,7 +12,7 @@
     UNIVERSE (N6-N8: [Ab_trivial], [Ab_Terminal] and [Ab_Cartesian] are
     refused at a hom level strictly above [Set] while [Ab] and [Ab_Forget]
     are accepted there — the [Set] pin is the trivial group's, Instance/
-    Ab.v:227, not the category's).  Three [eq_refl] readbacks (the carrier
+    Ab.v, not the category's).  Three [eq_refl] readbacks (the carrier
     of the free group on a point, the binary diagram's objects, the zero
     endomorphism's value) are positive controls, the last making
     [ab_zero_endo]'s [Defined] load-bearing.  Each refutation was stripped

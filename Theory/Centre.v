@@ -40,7 +40,7 @@ Generalizable All Variables.
        fmap[Id] (β x) ∘ α x  ≈  α x ∘ fmap[Id] (β x).
 
    Since `fmap[Id]` is the identity on morphisms — definitionally so in this
-   library, `Id`'s field being `fun _ _ f => f` (Theory/Functor.v:248) — the
+   library, `Id`'s field being `fun _ _ f => f` (Theory/Functor.v) — the
    square IS
 
        β x ∘ α x  ≈  α x ∘ β x,
@@ -71,14 +71,14 @@ Generalizable All Variables.
    transformations) are 2-cells, and Id[C] is the identity 1-cell.  The
    2-cells on an identity 1-cell are exactly the position at which the
    Eckmann–Hilton collapse bites: vertical and horizontal composition
-   normally have DIFFERENT units — Theory/TwoCategory.v (:167-171) makes
+   normally have DIFFERENT units — Theory/TwoCategory.v makes
    that point explicitly, and it is why a 2-category does not degenerate —
    but on an identity 1-cell the two units coincide, the argument applies,
    and the monoid of such 2-cells is forced to be commutative.
 
    In this tree the collapse was already visible concretely before it was
    stated in general.  Instance/Cat/TwoCategory.v's [NatBase_centre]
-   (~:422-436) exhibits the 2-cells on the identity functor of the delooping
+   exhibits the 2-cells on the identity functor of the delooping
    of (ℕ, +): every natural number gives one, and their vertical and
    horizontal composites both compute to addition BY [eq_refl]
    ([NatBase_centre_vcomp], [NatBase_centre_hcomp]).  That file's comment
@@ -147,13 +147,13 @@ Generalizable All Variables.
    - The PREMONOIDAL centre: the central MORPHISMS of a binoidal category —
      those whose two whiskerings commute with everything — assembled into a
      wide subcategory.  A CATEGORY, namely `Centre C` of
-     Structure/Binoidal/Central.v:256 (built from [CentralSub], :232), given
+     Structure/Binoidal/Central.v (built from [CentralSub]), given
      a monoidal structure in Structure/Premonoidal/Centre.v.  Requires a
      binoidal/premonoidal ambient structure.
 
    - The DRINFELD (monoidal) centre: objects of a monoidal category equipped
      with a half-braiding, with intertwiners as morphisms.  A BRAIDED
-     MONOIDAL CATEGORY, `Drinfeld` of Structure/Monoidal/Drinfeld.v:138,
+     MONOIDAL CATEGORY, `Drinfeld` of Structure/Monoidal/Drinfeld.v,
      with [Drinfeld_Braided] and the forgetful [Drinfeld_Forget].  Requires
      a monoidal ambient structure.
 
@@ -459,10 +459,10 @@ End CentreEH.
    needs no decidability, no choice, and no extensionality. *)
 
 (* The singleton setoid used as the probe's domain is the carrier of
-   [Sets_Terminal] (Instance/Sets.v:253), [poly_unit] under `=`.
+   [Sets_Terminal] (Instance/Sets.v), [poly_unit] under `=`.
 
    UNIVERSE ANNOTATION, and why it is not decoration.  `Sets@{o so}` has
-   carriers at `o` and objects at `so` (Instance/Sets.v:193).  Written
+   carriers at `o` and objects at `so` (Instance/Sets.v).  Written
    without the annotations below, universe minimization instantiates the
    probe's carrier as `poly_unit@{Set}` and, through the object type, pins
    `o := Set` — so the theorems would speak only of setoids whose carriers
@@ -512,7 +512,7 @@ Qed.
 (** ** The centre of Coq is trivial *)
 
 (* The same probe over Instance/Coq.v, where the hom-setoid is pointwise
-   Leibniz equality (Instance/Coq.v:123), so the conclusion is an equation
+   Leibniz equality (Instance/Coq.v), so the conclusion is an equation
    rather than an `≈`.  It costs nothing beyond changing the probe's
    codomain, and it is included because it is the reading a programmer
    expects: a polymorphic function `forall a, a -> a` is the identity. *)

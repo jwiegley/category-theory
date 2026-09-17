@@ -60,7 +60,7 @@ Generalizable All Variables.
     cannot be bound inside the class either.  [PareSplits] therefore binds
     both -- the retract F and the splitting S -- and then asserts
     [split_idem S ≈ pare_idem P].  That is deliberately the shape of the
-    donor's own [split_of] field ([Construction/Karoubi/Universal.v:54]),
+    donor's own [split_of] field ([Construction/Karoubi/Universal.v]),
     which is why the Cauchy-complete corollary below is a [:=] with no
     tactic and no repackaging.  The other side, "G has a left adjoint", is
     [∃ F, F ∹ G] in [Adjunction_Transform]'s unit/counit form.
@@ -116,7 +116,7 @@ Generalizable All Variables.
     is an argument by inspection and not a second measurement.
 
     ITEM 2's ROUTE: [split_pair_idempotent] DOES NOT APPLY.  That lemma
-    (Theory/Morphisms.v:294) reads [g ∘ h ≈ id → Idempotent (h ∘ g)].  The
+    (Theory/Morphisms.v) reads [g ∘ h ≈ id → Idempotent (h ∘ g)].  The
     triangle is indeed a one-sided inverse pair, but it is a pair on G --
     [Gε] and [ρG], whose other composite is an endomorphism of GKG --
     whereas the idempotent to be produced is an endomorphism of K.
@@ -165,7 +165,7 @@ Generalizable All Variables.
     exhibited, so the biconditional is never exercised at a nontrivial
     splitting.
 
-    ENGINEERING NOTES.  (a) [Lib.v:13] sets [Default Proof Using "Type"],
+    ENGINEERING NOTES.  (a) [Lib.v] sets [Default Proof Using "Type"],
     so the three results whose statements do not mention [Hsr]/[Hrs] --
     [pare_split_law], [pare_tri_one], [pare_tri_two] -- carry an explicit
     [Proof using All].  (b) The whiskering notations [⊳] and [⊲] are at
@@ -189,7 +189,7 @@ Generalizable All Variables.
 
     NOT DELIVERED.  No round trip in either direction and at any strength;
     no uniqueness of the left adjoint (the tree's [left_adjoint_iso] is not
-    instantiated -- it is Theory/Adjunction.v:407, in the hom-set
+    instantiated -- it is Theory/Adjunction.v, in the hom-set
     presentation, which this file never enters); no hom-set [⊣] reading
     (Adjunction/Natural/Transformation/Universal.v converts, and that
     conversion is not performed here); no [PareData] with a nontrivial

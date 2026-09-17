@@ -95,18 +95,19 @@ Generalizable All Variables.
     THE OTHER TWO CONSTRUCTIONS the paragraph named are NOT unified,
     and re-reading their record types shows why the count of "three
     unshared quotient constructions" was itself imprecise.
-    Instance/Grp/Epi.v:456's [Grp_Coset] is a [SetoidObject] and not a
+    Instance/Grp/Epi.v's [Grp_Coset] is a [SetoidObject] and not a
     [GrpObject] at all: it is the coset space of the image of an
     arbitrary homomorphism, and that file's argument exists precisely
-    for the case where the image is NOT normal (its :171, :1488 and
-    :1644).  It is therefore not an instance of a normal-subgroup
-    quotient and cannot be made one.  Instance/Ab.v:479's
+    for the case where the image is NOT normal (its header and two
+    later passages say so).  It is therefore not an instance of a
+    normal-subgroup
+    quotient and cannot be made one.  Instance/Ab.v's
     [ab_coset_eq] IS a quotient group, but of an [AbObject], and Ab.v
     sits upstream of Instance/Grp.v with the only bridge
     ([Ab_to_GrpOb]) living in this file; routing it through
     Instance/Grp/Quotient.v would move that bridge upstream and give
     Ab.v a dependency on Grp.  That is left undone deliberately.  (An
-    earlier revision of that sentence cited Instance/Ab.v:427, where the
+    earlier revision of that sentence cited Instance/Ab.v, where the
     definition stood before the PR "algebraic carriers are sets"
     (2026-09-17); the same PR also made [ab_coset_eq] a [Prop] -- it is
     Coq's [ex] now, not a [Type]-valued sigma -- which is the shape

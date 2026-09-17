@@ -43,13 +43,13 @@ Generalizable All Variables.
    DELIVERS THE FIRST, and nothing else: [RMod_Complete], "K-Mod is
    small-complete", together with the continuity of both forgetful
    functors, which the second premise will be checked against.  The
-   bilinear-maps functor [Bilin] (Instance/Mod/Tensor.v:814), its
+   bilinear-maps functor [Bilin] (Instance/Mod/Tensor.v), its
    continuity, the solution set and the adjoint-functor-theorem
    application are all elsewhere -- see NOT DELIVERED.
 
    ** THE ROUTE: ONE LEVEL UP FROM [Ab], NOT TWO DOWN TO [Sets]
 
-   [RMod_Forget_Ab R] (Instance/Mod.v:350) STRICTLY CREATES every limit,
+   [RMod_Forget_Ab R] (Instance/Mod.v) STRICTLY CREATES every limit,
    and the completeness of [RMod R] is read off from the completeness of
    [Ab] rather than of [Sets].  Given a limiting cone [L] of abelian
    groups over the underlying diagram, there is exactly one scalar action
@@ -69,7 +69,7 @@ Generalizable All Variables.
    and [RMod_Forget_Ab_reflects_limits].
 
    WHY THAT IS THE RIGHT LEVEL, AND WHAT IT COSTS.  A module is an abelian
-   group with an action: Instance/Mod.v:119's [RModObject] EXTENDS
+   group with an action: Instance/Mod.v's [RModObject] EXTENDS
    Instance/Ab.v's [AbObject] by [rm_smul] with [rm_smul_respects] and
    four laws, and [rm_ab] is a coercion.  So exactly ONE operation is
    lifted here -- the action -- where the [Ab] template lifts three
@@ -82,7 +82,7 @@ Generalizable All Variables.
    MEDIATOR IN [Ab] rather than as a function on the carrier.  For a fixed
    scalar [r] the family [fun a => r · (leg j a)] is a homomorphism of
    abelian groups at every [j] -- additive by [rm_smul_distr_l], unital by
-   Instance/Mod.v:170's [rm_smul_zero_r] -- and coherent by
+   Instance/Mod.v's [rm_smul_zero_r] -- and coherent by
    [rm_map_smul], so it is a cone in [Ab] over the same diagram
    ([mlim_smul_cone]).  Its mediator [mlim_smul_map] is by construction an
    [Ab]-morphism, and therefore [mlim_smul_distr_l] -- distributivity over
@@ -99,12 +99,12 @@ Generalizable All Variables.
 
    Every law below rests on [mlim_ext]: two elements of the apex agreeing
    at every leg are equal.  In [Sets] that is proved from the mediator's
-   uniqueness with constant maps as probes (Instance/Ab/Limit.v:292's
+   uniqueness with constant maps as probes (Instance/Ab/Limit.v's
    [absets_limit_ext]).  In [Ab] the constant maps are not homomorphisms,
    so THAT ARGUMENT DOES NOT TRANSPOSE, and no elementwise joint-monicity
    lemma for [Ab] is proved here either.  Instead the statement is
    transported: [Ab_Forget] preserves limiting cones
-   (Instance/Ab/Limit.v:816's [Ab_Forget_creates_continuous], which comes
+   (Instance/Ab/Limit.v's [Ab_Forget_creates_continuous], which comes
    from creation and so from [Sets_Complete] alone), so [mlim_sets_limit]
    turns the [Ab]-limit into a [Sets]-limit on the same carrier and
    [absets_limit_ext] applies to it unchanged.  [mrefl_ext] is the same
@@ -121,8 +121,8 @@ Generalizable All Variables.
 
    ** THE TWO FORGETFUL FUNCTORS, AND WHY A BRIDGE STANDS BETWEEN THEM
 
-   Instance/Mod.v declares two forgetful functors, [RMod_Forget_Ab] at
-   :300 and [RMod_Forget] at :308, and its header records that the second
+   Instance/Mod.v declares two forgetful functors, [RMod_Forget_Ab] and
+   [RMod_Forget], and its header records that the second
    is taken directly through the underlying setoid rather than as the
    composite of the first with [Ab_Forget].  Measured here, that record is
    exact on both sides.  The object and morphism parts DO agree
@@ -132,7 +132,7 @@ Generalizable All Variables.
    refused with "cannot unify \"RMod_Forget R\" and
    \"Ab_Forget ◯ RMod_Forget_Ab R\"", the three law fields being opaque.
 
-   The consequence is that Structure/Limit/Preservation.v:686's
+   The consequence is that Structure/Limit/Preservation.v's
    [continuous_compose] gives [RMod_Forget_composite_continuous :
    ContinuousFunctor (Ab_Forget ◯ RMod_Forget_Ab R)] and NOT continuity of
    [RMod_Forget]: ascribing it is refused with "cannot unify
@@ -141,7 +141,7 @@ Generalizable All Variables.
    lemma IS used -- the question the task put -- and one three-line bridge
    stands beside it: [rmod_abcone_of] repackages a cone over
    [RMod_Forget R ◯ K] as a cone over the composite, field by field,
-   exactly as Structure/Limit/Preservation.v:447's [cone_assoc] repackages
+   exactly as Structure/Limit/Preservation.v's [cone_assoc] repackages
    across functor associativity and for exactly the same reason (the
    fields are convertible, the record types are not).
    [RMod_Forget_creates_continuous] is then a term with no tactic in it,
@@ -151,7 +151,7 @@ Generalizable All Variables.
 
    At the limits [RMod_Complete] chooses -- [Ab_Complete] over
    [Sets_Complete], hence the compatible families of
-   Instance/Sets/Complete.v:144 -- the created module is the
+   Instance/Sets/Complete.v -- the created module is the
    COORDINATEWISE one on the nose.  [rmod_complete_carrier],
    [rmod_complete_plus], [rmod_complete_zero], [rmod_complete_neg],
    [rmod_complete_smul] and [rmod_complete_leg] are six [eq_refl]
@@ -191,8 +191,8 @@ Generalizable All Variables.
    [RMod_Forget_reflects] each returned ZERO hits, and so did
    [Complete (RMod], so no completeness, creation, preservation or
    reflection statement about [RMod R] or either forgetful functor
-   existed.  Instance/Mod/Product.v has the one product ([ProdMod] at
-   :121) and records at :46 that the [HasIndexedProducts (RMod R)]
+   existed.  Instance/Mod/Product.v has the one product ([ProdMod]) and
+   records that the [HasIndexedProducts (RMod R)]
    instance itself was deliberately not attempted, the universe
    negotiation being left to the issue that needs the class.  That
    decision is untouched and remains correct: the creation route reaches
@@ -204,15 +204,15 @@ Generalizable All Variables.
    ONE THING THIS FILE IS THE FIRST TO DO, measured by reading every
    occurrence of [creates_limits_Complete] outside Test/ and looking at
    which completeness it is handed.  Three applications name a constant,
-   and all three name [Sets_Complete]: Instance/Grp/Limit.v:707,
-   Instance/Ab/Limit.v:777 and Instance/Rng/Limit.v:951.  Every other
+   and all three name [Sets_Complete]: Instance/Grp/Limit.v,
+   Instance/Ab/Limit.v and Instance/Rng/Limit.v.  Every other
    application takes its base completeness as a HYPOTHESIS instead --
-   Construction/Arrow/Limit.v:427, Construction/Comma/Creation.v:762,
-   Construction/Reflective/Limit.v:542,
-   Construction/Subcategory/Creation.v:168,
-   Construction/Slice/Creation.v:117, :143 and :341,
-   Instance/Cat/Creation.v:755, Instance/Fun/Creation.v:574 and
-   Monad/Eilenberg/Moore/Limit.v:439, several of them through a derived
+   Construction/Arrow/Limit.v, Construction/Comma/Creation.v,
+   Construction/Reflective/Limit.v,
+   Construction/Subcategory/Creation.v,
+   Construction/Slice/Creation.v,
+   Instance/Cat/Creation.v, Instance/Fun/Creation.v and
+   Monad/Eilenberg/Moore/Limit.v, several of them through a derived
    completeness such as [Product_Complete HC HC] or
    [Functor_Category_Complete HX], but none of them naming a constant.
    [RMod_Complete] is therefore the first application in the tree whose
@@ -230,11 +230,11 @@ Generalizable All Variables.
    occurrences anywhere.  CORRECTION, PR "algebraic carriers are sets"
    (2026-09-17).  This read "That is worth saying because the consumer
    this file exists for does meet one", and cited a solution set
-   elaborated at [SolutionSet@{Set …}] out of Instance/Discrete.v:81's
+   elaborated at [SolutionSet@{Set …}] out of Instance/Discrete.v's
    unannotated [DiscreteCat_Functor].  That artifact was repaired at
-   Instance/Discrete.v:81 and the literal [Set] is gone.  The cost the
+   Instance/Discrete.v and the literal [Set] is gone.  The cost the
    consumer meets now is a different and smaller one, [Set < carrier],
-   measured at Instance/Grp/FreeAFT.v:127-146; nothing here narrows
+   measured at Instance/Grp/FreeAFT.v; nothing here narrows
    anything to [Set], and the disclosure is owed at the application.
 
    [RMod_Complete@{u u0 u1 u2 u3 u4} :
@@ -268,7 +268,7 @@ Generalizable All Variables.
    [limitcone_isalimit (Ab_Forget_creates_continuous J ...)] -- which is
    [mlim_sets_limit], nothing more -- already carries all three.  The
    donor is therefore [Ab_Complete]'s type [Complete@{u u u u0}]: the
-   [Complete] of Structure/Complete.v:305 quantifies over shapes whose
+   [Complete] of Structure/Complete.v quantifies over shapes whose
    object, hom and proof universes coincide, so anything that consumes
    [Ab_Forget_creates_continuous] inherits that identification.  It is
    [Sets_Complete]'s own shape, arriving through [Ab_Complete], and is not
@@ -313,7 +313,7 @@ Generalizable All Variables.
    [rmod_lift_apex], whose [eq_refl] then has the wrong type.  The third,
    [rmod_reflects], is NOT load-bearing in this file -- flipped to [Qed]
    the file still compiles, measured -- and is kept transparent only to
-   match its template [ab_reflects] (Instance/Ab/Limit.v:708) and to leave
+   match its template [ab_reflects] (Instance/Ab/Limit.v) and to leave
    the reflection witness computable for a downstream consumer.  Said
    plainly so no later reader takes its [Defined] for a measured
    requirement.
@@ -344,9 +344,9 @@ Generalizable All Variables.
    ** NOT DELIVERED
 
    The tensor product, and every other part of §V.7 Construction 1 beyond
-   its first premise.  No continuity of Instance/Mod/Tensor.v:814's
+   its first premise.  No continuity of Instance/Mod/Tensor.v's
    [Bilin V V'], no solution set, no application of Adjunction/GAFT.v, and
-   no universal element obtained that way; Instance/Mod/Tensor.v:856's
+   no universal element obtained that way; Instance/Mod/Tensor.v's
    [tensor_UniversalElement] is built by generators and relations and is
    neither used nor compared here.  In particular NOTHING here says the
    tensor product exists, and nothing here is circular with it: the only
@@ -356,7 +356,7 @@ Generalizable All Variables.
    instance.  These are not gaps the creation route leaves: they are the
    generators one would need on the OTHER route to completeness, and
    [creates_limits_Complete] does not ask for them.  The universe
-   negotiation Instance/Mod/Product.v:47 declines is therefore still
+   negotiation Instance/Mod/Product.v declines is therefore still
    declined, and still open for whichever issue wants the classes
    themselves.
 
@@ -377,7 +377,7 @@ Generalizable All Variables.
    [Ab], [Rng] and [RMod] at once; the four-lemma duplication
    Instance/Ab/Limit.v discloses between itself and Instance/Grp/Limit.v
    is not repaired here, only not extended.  No right modules: everything
-   is stated for [RMod R], and [ModR R] (Instance/Mod.v:712) inherits it
+   is stated for [RMod R], and [ModR R] (Instance/Mod.v) inherits it
    only
    by being [RMod (Ring_op R)], which is not spelled out.  NOTHING is
    registered as an [Instance] -- a chosen limit must not become globally
@@ -398,7 +398,7 @@ Generalizable All Variables.
    these limits.  At [RMod_Complete R J K] the carrier is
    [Sets_limit_obj (Ab_Forget ◯ (RMod_Forget_Ab R ◯ K))]
    ([rmod_complete_carrier], [eq_refl]), whose elements are the dependent
-   pairs of Instance/Sets/Complete.v:136: a family [x : ∀ d : J, carrier
+   pairs of Instance/Sets/Complete.v: a family [x : ∀ d : J, carrier
    (K d)] paired with a proof that [fmap[K] f (x d) ≈ x d'] for every
    [f : d ~> d'].  Projection is [`1 p d]; two elements are equivalent
    exactly when their families are pointwise equivalent, the proof
@@ -429,10 +429,10 @@ Lemma mlim_leg_coherence {x y : J} (f : x ~{J}~> y)
 Proof. exact (limit_leg_coherence (limit_is_alimit L) f a). Qed.
 
 (* The engine, borrowed rather than reproved.  Constant maps are not
-   homomorphisms, so Instance/Ab/Limit.v:293's argument does not transpose
+   homomorphisms, so Instance/Ab/Limit.v's argument does not transpose
    to [Ab] directly; instead [Ab_Forget] carries the limiting cone down to
    [Sets] on the same carrier, where that lemma applies verbatim.  The
-   witness is Instance/Ab/Limit.v:764, which comes from creation and so
+   witness is Instance/Ab/Limit.v, which comes from creation and so
    from [Sets_Complete] alone -- no adjunction is presupposed anywhere in
    this chain. *)
 
@@ -449,7 +449,7 @@ Proof. exact (absets_limit_ext mlim_sets_limit x y). Qed.
 
 (* For a fixed scalar [r], multiplication by [r] after the leg at [j] is an
    [Ab]-morphism -- additive by [rm_smul_distr_l], unital by
-   Instance/Mod.v:170's [rm_smul_zero_r] -- and these assemble into a cone
+   Instance/Mod.v's [rm_smul_zero_r] -- and these assemble into a cone
    in [Ab] over the same diagram.  Taking the action to be that cone's
    MEDIATOR, rather than a bare function on the carrier, is what makes
    distributivity over vector addition and respectfulness in the second
@@ -841,7 +841,7 @@ Context {J : Category}.
 Context (K : J ⟶ RMod R).
 
 (* The repackaging bridge: same apex, same legs, same coherence proof, a
-   different record type.  Structure/Limit/Preservation.v:447's
+   different record type.  Structure/Limit/Preservation.v's
    [cone_assoc] is the same move across functor associativity. *)
 
 Definition rmod_abcone_of (N : Cone (RMod_Forget R ◯ K)) :

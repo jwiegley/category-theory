@@ -21,7 +21,7 @@ Generalizable All Variables.
    in the PROOF.  Lib.v sets [Default Proof Using "Type"], which keeps only
    the section variables occurring in the statement, so the section
    hypotheses must be requested explicitly.  This is exactly the discipline
-   Theory/EckmannHilton.v:110 adopts, and for the same reason. *)
+   Theory/EckmannHilton.v adopts, and for the same reason. *)
 Local Set Default Proof Using "All".
 
 (** * Group objects in Grp are abelian groups *)
@@ -61,20 +61,20 @@ Local Set Default Proof Using "All".
    The statement proved here is asserted in prose, unproved, in three
    places in the tree:
 
-   - Structure/Group.v:71-80, the [GroupObject] background essay: "A group
+   - Structure/Group.v, the [GroupObject] background essay: "A group
      object in Grp itself is an abelian group: the two multiplications
      satisfy an interchange law, and the Eckmann-Hilton argument ... forces
-     them to coincide and to commute".  (Theory/EckmannHilton.v:84 cites
-     that passage as Structure/Group.v:73; the sentence's key line is
-     :72, so that existing cross-reference is off by one.  It is left
+     them to coincide and to commute".  (Theory/EckmannHilton.v cites
+     that passage in Structure/Group.v one line below the sentence's key
+     line, so that existing cross-reference is off by one.  It is left
      alone -- this file modifies nothing outside itself.  An audit caught
-     an off-by-one in THIS sentence too: the citing token is on :84, not
-     :85, which carries only the parenthetical gloss.)
-   - Theory/EckmannHilton.v:51-57, in the list of facts the principle
+     an off-by-one in THIS sentence too: it had named the line carrying
+     only the parenthetical gloss rather than the citing token itself.)
+   - Theory/EckmannHilton.v, in the list of facts the principle
      explains: "a group object in Grp is an abelian group.  The ambient
      multiplication and the internal one interchange because the internal
      one is a homomorphism for the ambient one."
-   - Theory/EckmannHilton.v:85 again, in the roster of in-tree prose
+   - Theory/EckmannHilton.v again, in the roster of in-tree prose
      appeals to the principle.
 
    No formal statement of the exercise existed anywhere: a search for the
@@ -83,7 +83,7 @@ Local Set Default Proof Using "All".
 
 (* A PRIOR-ART CORRECTION.  The issue's "Current state" section says that
    "no category Grp and no category of group objects exists".  BOTH halves
-   are stale.  [Grp] is Instance/Grp.v:532 and [GrpCat], the category of
+   are stale.  [Grp] is Instance/Grp.v and [GrpCat], the category of
    group objects in a cartesian monoidal category, is
    Theory/Algebra/Group/Hom.v.  An object of [GrpCat GrpS] is precisely a
    [GrpS]-object together with a [@GroupObject GrpS GrpCM] structure on it,
@@ -126,9 +126,9 @@ Local Set Default Proof Using "All".
    The unit laws are usable because [CC_Monoidal]'s unitors are the
    TRANSPARENT cartesian isomorphisms [prod_one_l] and [prod_one_r]
    (an audit corrected the mechanism here: the record literal at
-   Structure/Monoidal/Internal/Product.v:54-57 names ONLY [tensor] and [I],
+   Structure/Monoidal/Internal/Product.v names ONLY [tensor] and [I],
    and the three isomorphism fields are filled by TYPECLASS RESOLUTION
-   against Structure/Cartesian.v:451/:465/:485's [#[export] Program
+   against Structure/Cartesian.v's [#[export] Program
    Instance]s [prod_one_l], [prod_one_r] and [prod_assoc] -- so exactly six
    naturality and two coherence fields become [Program] obligations, eight
    in all); had they been opaque
@@ -226,14 +226,15 @@ Local Set Default Proof Using "All".
 
 (* THE Set PIN, DISCLOSED
 
-   [Grp_Terminal] (Instance/Grp.v:641) rides [Grp_trivial]
-   (Instance/Grp.v:600), which is declared with a single universe binder
+   [Grp_Terminal] (Instance/Grp.v) rides [Grp_trivial]
+   (Instance/Grp.v), which is declared with a single universe binder
    where the record wants more, so [Grp_trivial@{u} : GrpObject@{u u Set}]
    and [Grp_Terminal@{u} : Terminal@{u Set}]: the HOM universe is pinned
    at [Set].  (CORRECTION, the PR "algebraic carriers are sets"
    (2026-09-17): an earlier revision wrote [Grp_trivial]'s readback as
-   [GrpObject@{u Set u}] and cited [Grp_Terminal] at Instance/Grp.v:562
-   and [Grp_trivial] at :522.  That PR permuted [GrpObject]'s universe
+   [GrpObject@{u Set u}] and cited [Grp_Terminal] and [Grp_trivial] at
+   lines of Instance/Grp.v they have since left.  That PR permuted
+   [GrpObject]'s universe
    roles from (carrier, proof, aux) to (aux, carrier, proof) and moved
    both constants down the file; the two readbacks above are re-measured
    by [About] under [Set Printing Universes] after it.  [Grp_Terminal]'s
@@ -278,14 +279,14 @@ Local Set Default Proof Using "All".
      Category.Theory.Functor explicitly for exactly that reason.
    - The third hazard is REAL but is an elaboration error, not a parse
      error: bare [G ⨂[GrpCM] G] picks the MORPHISM notation
-     (Structure/Monoidal.v:182) over the object one (:178), and reports
+     (Structure/Monoidal.v) over the object one, and reports
      that [G] "has type obj[GrpS] while it is expected to have type
      ?x ~{GrpS}~> ?w".  Either a [%object] delimiter or a result-type
      ascription selects the object reading.  Below, the object is written
      [@fobj _ _ GrpTensor (G, H)] so that no scope discipline is needed.
 
    Independently: [inverse] is effectively a keyword downstream of
-   Structure/Group.v:131, whose notation quotes the token, so the
+   Structure/Group.v, whose notation quotes the token, so the
    group-object inversion is projected by its fully qualified name
    [@Category.Structure.Group.inverse]. *)
 
@@ -338,9 +339,9 @@ Local Set Default Proof Using "All".
    [grp_mul _ a b ≈ grp_mul _ b a], and for a [Commutative]-style
    predicate over [GrpObject] all come back empty of a NAMED one.  The
    condition itself is written INLINE at four sites in three files -- as a
-   hypothesis [comm] at Instance/Grp/TwoFunctors.v:196 and at
-   Instance/Grp/Abelianization.v:165, and as a conclusion at
-   Instance/Grp/Center.v:166 and :201 -- so this is a naming, not a
+   hypothesis [comm] at Instance/Grp/TwoFunctors.v and at
+   Instance/Grp/Abelianization.v, and as a conclusion at
+   Instance/Grp/Center.v -- so this is a naming, not a
    discovery, and all four sites are left alone.  [AbelianGrp] here is a
    PREDICATE on Instance/Grp.v's [GrpObject]; it is NOT
    Structure/Abelian.v's [Class Abelian] (a property of a CATEGORY) and it
@@ -368,7 +369,7 @@ Local Set Default Proof Using "All".
    [Abelian] is not worth the aesthetics.  [grp_ab_inverse] and
    [eh_probe_instrument] carry suffixes for a WEAKER reason, and an audit
    corrected an earlier draft that said "for the same reason": they collided
-   with Instance/Ab/Character/Finite.v:1752 and Test/ProbePolynomial.v:85,
+   with Instance/Ab/Character/Finite.v and Test/ProbePolynomial.v,
    but NEITHER of those files is required into the print-assumptions scope
    ([Locate ab_inverse] there returns nothing), so those two renames are
    tree-wide name hygiene and not a gate hazard.  All three collisions were
@@ -632,7 +633,7 @@ Defined.
 (* Inversion as a morphism of Grp.  Instance/Grp.v's [grp_inv_mul] gives
    the ANTIhomomorphism law [(a·b)⁻¹ ≈ b⁻¹·a⁻¹]; commutativity is spent
    exactly once, turning it into a homomorphism law.
-   (Instance/Grp.v:975's [Grp_inv_to]
+   (Instance/Grp.v's [Grp_inv_to]
    already packages inversion as a morphism into the OPPOSITE group, which
    needs no hypothesis; that is a different arrow and is not reused.) *)
 Definition grp_ab_inverse : G ~{GrpS}~> G.
@@ -683,7 +684,7 @@ End AbelianIsGroupObject.
 
 (** ** Mac Lane's Exercise 4 *)
 
-(* [↔] is Lib's Type-valued [iffT] (Lib/Foundation.v:72), which is what
+(* [↔] is Lib's Type-valued [iffT] (Lib/Foundation.v), which is what
    the two sides need: [AbelianGrp G] is a family of [≈]-proofs and
    [GroupObject G] is data, so neither is a [Prop]. *)
 Definition abelian_iff_group_object (G : GrpS) :
@@ -772,7 +773,7 @@ Proof.
   reflexivity.
 Qed.
 
-(* Z/2, Instance/Grp.v:1188's own witness, reused rather than rebuilt. *)
+(* Z/2, Instance/Grp.v's own witness, reused rather than rebuilt. *)
 
 Lemma Z2_abelian : AbelianGrp Z2.
 Proof.

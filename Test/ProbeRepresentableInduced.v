@@ -8,10 +8,10 @@
     THE TWO KINDS ARE NOT THE SAME AND ARE NOT DESCRIBED WITH ONE WORD.
 
     (1) FORMABILITY.  [Yoneda_Full], [Yoneda_Faithful] and the [Yoneda_Embedding']
-    assembled from them (Functor/Hom.v:85, :96, :109) are stated over
+    assembled from them (Functor/Hom.v) are stated over
     [C : Category@{u u u}] — object, hom and proof universes IDENTIFIED — so
     nothing built over them applies to a category whose objects live strictly
-    below its homs.  [repr_pair_iso] (Functor/Hom/Yoneda/Iso.v:162) consumes
+    below its homs.  [repr_pair_iso] (Functor/Hom/Yoneda/Iso.v) consumes
     [Yoneda_Embedding'] and inherits the pin, and so does
     Functor/Representable/Functorial.v's [repr_pair_iso_from_is_induced] —
     whose printed BINDER shows [Category@{u u0 u0}] and whose CONSTRAINT BLOCK
@@ -143,7 +143,7 @@ Fail Check (repr_pair_iso_from_is_induced C).
 Fail Check (@fmap_inj _ _ (Curried_Hom C) (Yoneda_Faithful C)).
 
 (* Controls 7 and 8: the same two proof scripts, copied verbatim from
-   Functor/Hom.v:85-103 and run here, succeed.  This is what makes negatives
+   Functor/Hom.v and run here, succeed.  This is what makes negatives
    1-3 a statement about minimization rather than about mathematics. *)
 Definition probe_faithful_rederived : Functor.Faithful (Curried_Hom C).
 Proof.
@@ -206,7 +206,7 @@ Definition probe_up_unique_obj (P : C → Type) (eqP : ∀ x, Setoid (P x))
 
 (* Negative 7: but [repr_pair_iso]'s leg is NOT the induced arrow on the nose.
    [nat_id]'s component is [fmap[F] id] rather than [id]
-   (Theory/Natural/Transformation.v:220), so the induced arrow carries one
+   (Theory/Natural/Transformation.v), so the induced arrow carries one
    [fmap] application the leg does not, and the agreement is only [≈]
    ([repr_pair_iso_from_is_induced]). *)
 Fail Definition probe_pair_iso_strict :

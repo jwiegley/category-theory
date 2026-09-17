@@ -252,11 +252,11 @@ Generalizable All Variables.
       92, and the calibration in doc/plan/books/maclane/pagemap.md is
       correct.
 
-   7. The brief cites `Theory/Adjunction.v:283` for [counit_fmap_unit] and
-      `:291` for [fmap_counit_unit]; both are right at the revision this
-      file was built on, and the issue's own ":288" is a line of the
-      first corollary's proof script.  An earlier draft of this note
-      "corrected" the brief to :281 and :289, which are `Qed.` lines.
+   7. The brief cites `Theory/Adjunction.v` for [counit_fmap_unit] and
+      for [fmap_counit_unit]; both are right at the revision this
+      file was built on, and the issue's own citation lands on a line of
+      the first corollary's proof script.  An earlier draft of this note
+      "corrected" the brief to two `Qed.` lines.
       Line numbers are not relied on below. *)
 
 (* ** Not delivered
@@ -296,7 +296,7 @@ Generalizable All Variables.
    id as well: a two-sided splitting is unique.  Stated over an arbitrary
    category because both handednesses below need it, in C and in D.  This
    is elementary and folklore, and it is IN TREE already: it is
-   Theory/Isomorphism.v:307's [comp_inverse_unique] with the arguments
+   Theory/Isomorphism.v's [comp_inverse_unique] with the arguments
    reordered, which the one-line proof below cites (an earlier draft
    mislocated that donor under Structure/Groupoid.v, which only uses it). *)
 

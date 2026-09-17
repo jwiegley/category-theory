@@ -39,12 +39,12 @@ Generalizable All Variables.
    hom-setoids, parameterises its relation by a universe level and so is
    proof-relevant by default, exactly as this library is.
 
-   WHY THIS LIBRARY'S `≈` IS Type-VALUED, AND STAYS SO.  Lib/Setoid.v:24-26
+   WHY THIS LIBRARY'S `≈` IS Type-VALUED, AND STAYS SO.  Lib/Setoid.v
    fixes the choice: [equiv] lives in [crelation], "a [Type]-valued, hence
    proof-relevant, relation ... so that equivalence proofs may carry
    computational content".  That is load-bearing rather than decorative.  Cat's
-   hom-setoid is [Functor_Setoid] (Theory/Functor.v:149, installed as Cat's
-   [homset] at Instance/Cat.v:145), and there an [F ≈ G] IS a family of
+   hom-setoid is [Functor_Setoid] (Theory/Functor.v, installed as Cat's
+   [homset] at Instance/Cat.v), and there an [F ≈ G] IS a family of
    isomorphisms [∀ x : C, F x ≅ G x] paired with its coherence condition: the
    first projection of such a proof is an isomorphism of D, a value in [Type].
    Truncating `≈` library-wide would discard that family, and nothing recovers
@@ -123,7 +123,7 @@ Generalizable All Variables.
    carrier the class itself lands at [Type@{u}], the CARRIER universe, provided
    [u] is above [Set].  The [Set+1] in the maximum is the sort of [Prop] and is
    not avoidable; it is also harmless, since [Unset Universe Minimization
-   ToSet] (Lib.v:17) keeps carrier universes off [Set]. *)
+   ToSet] (Lib.v) keeps carrier universes off [Set]. *)
 Class PropEquiv@{u p} {A : Type@{u}} (S : Setoid@{u p} A) := {
   pequiv : A -> A -> Prop;                              (* the Prop equality *)
   pequiv_to : forall x y, pequiv x y -> @equiv A S x y;   (* it implies `≈` *)
@@ -355,7 +355,7 @@ Proof.
     + exact I.
 Defined.
 
-(* The list setoid.  [list_equiv] (Lib/Datatypes.v:234) is a [Type]-valued
+(* The list setoid.  [list_equiv] (Lib/Datatypes.v) is a [Type]-valued
    fixpoint using `∧` = [prod]; the [Prop] mirror below uses [and], and the two
    implications are structural inductions. *)
 Fixpoint list_pequiv {A : Type} {SA : Setoid A} (PA : PropEquiv SA)
@@ -386,7 +386,7 @@ Proof.
     + exact (conj (@pequiv_from _ _ PA x y (fst H)) (IH ys (snd H))).
 Defined.
 
-(* [nat_setoid] (Lib/Datatypes.v:353) is declared as a bare [Program Instance]
+(* [nat_setoid] (Lib/Datatypes.v) is declared as a bare [Program Instance]
    whose [equiv] field is left to instance resolution, which picks [eq].  The
    two implications below are therefore the identity, and the file's
    [Unset Transparent Obligations] does not stand in the way: the [equiv] field
@@ -405,11 +405,11 @@ Defined.
 (* The two shapes below are the ones the concrete algebraic categories reach
    for, and neither is one of the ten constructors above: a carrier that is a
    DEPENDENT FUNCTION SPACE compared pointwise (the product of a family of
-   modules, Instance/Mod/Product.v:93; the standard vector space over a field,
-   Instance/FdVect.v:412) and a carrier that is a SIGMA compared on its first
-   projection (a kernel, Instance/Ab.v:338; a subgroup or submodule,
-   Instance/Ab/DirectedColimit.v:306 and Instance/Mod/Quotient.v:307; the centre
-   of a group, Instance/Grp/Center.v:133).
+   modules, Instance/Mod/Product.v; the standard vector space over a field,
+   Instance/FdVect.v) and a carrier that is a SIGMA compared on its first
+   projection (a kernel, Instance/Ab.v; a subgroup or submodule,
+   Instance/Ab/DirectedColimit.v and Instance/Mod/Quotient.v; the centre
+   of a group, Instance/Grp/Center.v).
 
    WHY BOTH TAKE THEIR TWO IMPLICATIONS AS ARGUMENTS.  Each of those sites
    writes the relation out inline inside a [Program Definition], so the setoid

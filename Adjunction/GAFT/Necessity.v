@@ -58,12 +58,12 @@ Generalizable All Variables.
    wrong and the substance survives, that is said too.
 
    1. "The library has no ordinals as a category (`rg -w 'Ord|OrdCat'` →
-      a lone prose cross-reference in Instance/Proset.v:19)".  The grep
+      a lone prose cross-reference in Instance/Proset.v)".  The grep
       is wrong: `grep -rnw --include='*.v' -E 'Ord|OrdCat' .` returns 73
       lines over 8 files.  [Ord] IS a category in tree -- Instance/Ord.v,
       the category of ALL PREORDERS (Mac Lane's Preord, landed by #372),
       with [Ord_Forget], [Pos_Sub] and the Instance/Ord/Poset.v
-      reflection -- and Instance/Ordinal.v:282 builds [Ordinal n], every
+      reflection -- and Instance/Ordinal.v builds [Ordinal n], every
       finite ordinal AS a thin category, with [Ord_Incl] and [Ord_Omega]
       relating them to Instance/Omega.v's ω.  What survives is the
       claim the issue needed: no category whose OBJECTS are the small
@@ -71,9 +71,9 @@ Generalizable All Variables.
       )?ordinals|ordinals as a category|class of small ordinals' .` → 0).
 
    2. "no smallness/largeness machinery": FALSE.  Theory/Size.v declares
-      [LocallySmall] (:106) and [Small] (:161), with
-      [locally_small_ambient] (:144), [small_locally_small] (:175) and
-      the witness [One_Small] (:220).  Both predicates are USED below --
+      [LocallySmall] and [Small], with
+      [locally_small_ambient], [small_locally_small] and
+      the witness [One_Small].  Both predicates are USED below --
       [Small] indexes the shapes of [SmallShapeComplete], and
       [LocallySmall] is the free extra hypothesis the sharpness clause
       carries.
@@ -84,8 +84,8 @@ Generalizable All Variables.
       survives with one correction.  Sweeping for files that carry BOTH
       [ContinuousFunctor] and one of [no_left_adjoint|not_left_adjoint|
       _no_adjoint] returns exactly two: Instance/FdVect/NoRightAdjoint.v
-      and this one.  That file pairs [dual_vct_Continuous] (:473) with
-      [dual_functor_no_right_adjoint] (:421) -- continuity together with
+      and this one.  That file pairs [dual_vct_Continuous] with
+      [dual_functor_no_right_adjoint] -- continuity together with
       the absence of a RIGHT adjoint, which is the other side of the
       street and not a witness to §V.6.
 
@@ -105,23 +105,23 @@ Generalizable All Variables.
       is phrased below ([RepresentabilityWithoutSolutionSet],
       [GAFTWithoutSolutionSet], [no_initial_not_Small]).
 
-   6. The Awodey clause's three prose citations, checked line by line.
-      [Adjunction/GAFT.v:101 ff.] is RIGHT (:101 is "The hypotheses
-      repair a genuine size obstruction rather than decorate the
-      statement", running to :114).  [Structure/Complete.v:64-76] is
-      RIGHT (:64 is "The smallness discipline the header describes is
-      not decoration"; the paragraph ends at :77).
-      [Instance/Poset.v:80-87] is WRONG: that range is the Lawvere
+   6. The Awodey clause's three prose citations, checked one by one.
+      [Adjunction/GAFT.v] is RIGHT: the paragraph cited opens "The
+      hypotheses repair a genuine size obstruction rather than decorate
+      the statement".  [Structure/Complete.v] is
+      RIGHT: the paragraph cited opens "The smallness discipline the
+      header describes is not decoration".
+      [Instance/Poset.v] is WRONG: the range cited is the Lawvere
       enrichment paragraph (Two, metric spaces).  The adjoint-functor-
-      theorem size paragraph is :88-95, ending "must carry a
+      theorem size paragraph is the one after it, ending "must carry a
       [SolutionSet] hypothesis".
 
    7. "Show the constant one-point functor [Ord^op ⟶ Sets] is continuous
       but not representable" is written as if nothing of it existed.  The
       constant one-point functor is already in tree as [ConstOne]
-      (Structure/UniversalProperty/Terminal.v:68), and so are BOTH halves
+      (Structure/UniversalProperty/Terminal.v), and so are BOTH halves
       of the representable/initial correspondence -- [initial_to_repr]
-      (:92) and [repr_to_initial] (:103), in the un-bundled
+      and [repr_to_initial], in the un-bundled
       [IsInitialObj] form.  This file REUSES all three and defines no
       constant functor of its own.  What it adds is the continuity, the
       bundling against [Functor/Representable.v]'s [Representable] class,
@@ -141,7 +141,7 @@ Generalizable All Variables.
       at the universe instance that COLLAPSES the diagram shape's object
       universe onto [C]'s -- that is, at LARGE-completeness, limits over
       shapes as big as [C] itself.  The library's [Complete] does carry a
-      smallness side condition, and Instance/Sets/Complete.v:73-83 states
+      smallness side condition, and Instance/Sets/Complete.v states
       it in terms and prints it: [Sets_Complete : Complete@{u u u u0}]
       with [u < u0], the shape STRICTLY below the ambient.  So the
       library's real witnesses are small-complete, and every one of them
@@ -155,7 +155,7 @@ Generalizable All Variables.
         Subsets_Complete    -- ACCEPTED
 
       The one witness that satisfies it is the THIN one -- the powerset
-      lattice of Instance/Powerset.v:655.  That is not an accident and it
+      lattice of Instance/Powerset.v.  That is not an accident and it
       is not a defect: it is Freyd's collapse (Structure/Complete/Freyd.v)
       appearing as a universe constraint.  A category with limits over
       shapes as large as itself has an initial object, and by Freyd it is
@@ -203,10 +203,10 @@ Generalizable All Variables.
        ([ConstOne_pt]) and is unique, and both clauses of [IsLimitCone]
        are that one lemma.  [ConstOne_PreservesImageLimit] is the same
        fact in the hypothesis shape [GAFT] and [representability_theorem]
-       consume, through Construction/Comma/Creation.v:245.
+       consume, through Construction/Comma/Creation.v.
 
    (B) THE BICONDITIONAL, which is the sharp form and the model is
-       Instance/Sets/NoAdjoint.v:313.  [ConstOne_representable_iff_initial
+       Instance/Sets/NoAdjoint.v.  [ConstOne_representable_iff_initial
        C : Representable (ConstOne C) ↔ @Initial C], [Defined], with both
        legs exported separately ([initial_of_ConstOne_representable],
        [ConstOne_representable_of_initial]) and the readback
@@ -229,8 +229,8 @@ Generalizable All Variables.
        six in Theory/Equivalence/Colimit.v naming [two_IsALimit Id[_2]],
        which is the walking arrow and says nothing about initiality, and
        two that are artifacts of the case-insensitive pattern matching
-       "IsALimit identifies" (Test/ProbeLimitInitial334.v:112) and
-       "colimit identification" (Instance/Ab/DirectedColimit.v:219).
+       "IsALimit identifies" (Test/ProbeLimitInitial334.v) and
+       "colimit identification" (Instance/Ab/DirectedColimit.v).
 
    (D) THE SHARPNESS CLAUSE, Awodey's, using the smallness vocabulary
        that item 2 says exists.  [RepresentabilityWithoutSolutionSet] and
@@ -304,7 +304,7 @@ Generalizable All Variables.
    Measured by removing all three blocks and replacing each [Context] with
    a bare [Context (C : Category).]: the file still compiles, rc=0, and no
    [Set] appears in the [About] output.  The minimization the paragraph
-   feared cannot happen here at all, because Lib.v:17 sets
+   feared cannot happen here at all, because Lib.v sets
    [#[export] Unset Universe Minimization ToSet] project-wide and every
    file inherits it.
 
@@ -314,7 +314,7 @@ Generalizable All Variables.
    EQUATIONS, both in the [Solovay] section: [solovay_no_left_adjoint]
    carries [u0 = u3] and [u1 = u2], [solovay_gaft_refuted] those plus
    [u6 = u21].  Attributed by [About] on the donor, not guessed:
-   [universal_arrow_of_adjunction] (Adjunction/GAFT.v:544) binds
+   [universal_arrow_of_adjunction] (Adjunction/GAFT.v) binds
    [{C : Category@{u7 u8 u8}} {D : Category@{u6 u8 u8}}], identifying the
    hom-and-proof levels of the two categories, and that is [Adjunction]'s
    own block.  The control rules out the obvious alternative: the bare
@@ -328,7 +328,7 @@ Generalizable All Variables.
    - Two [Defined] tokens ([ConstOne_continuous] and
      [ConstOne_representable_iff_initial]) and ten [Qed]; the other
      seventeen heads are [:=] terms.  The biconditional is [Defined] so
-     that both projections compute, unlike Instance/Sets/NoAdjoint.v:301's,
+     that both projections compute, unlike Instance/Sets/NoAdjoint.v's,
      which is [Qed] and has to export its adjoint separately.
    - Name collisions: none.  Each of the 29 names has 0 word occurrences
      elsewhere in the tree (`grep -rnw --include='*.v'` over Theory

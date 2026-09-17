@@ -33,7 +33,7 @@ Generalizable All Variables.
    setoid equivalent points always lie in the same summand.  Here they do
    not: [wedge_rel] identifies [inl (pt X)] with [inr (pt Y)], so the
    clause returns and [wedge_open] is the full triple — the same shape as
-   [CP_open] (Instance/Top.v:635), with a different relation.  That is the
+   [CP_open] (Instance/Top.v), with a different relation.  That is the
    whole difference between the two files' topologies, and it is the
    reason the pointed coproduct is not simply the unpointed one with a
    basepoint chosen.
@@ -58,7 +58,7 @@ Generalizable All Variables.
    that no new space has to be constructed.
 
    A NAMING NOTE.  The wedge object is [WedgeSum], not [Wedge]:
-   Structure/Wedge.v:38 already exports a [Class Wedge] — the wedge of a
+   Structure/Wedge.v already exports a [Class Wedge] — the wedge of a
    profunctor, from the end calculus — and the two would be ambiguous in
    any scope importing both, including the [print-assumptions] audit file,
    which imports enough of the tree to reach Structure/Coend.v.  Nothing
@@ -140,7 +140,7 @@ Definition wedge_carrier : SetoidObject := {|
 
 (** ** The quotient topology *)
 
-(* The [CP_open] shape of Instance/Top.v:635: a respect-the-gluing clause
+(* The [CP_open] shape of Instance/Top.v: a respect-the-gluing clause
    plus the two restrictions. *)
 Definition wedge_open (W : wedge_carrier → Type) : Type :=
   ((∀ u v : wedge_carrier, wedge_rel u v → W u → W v)

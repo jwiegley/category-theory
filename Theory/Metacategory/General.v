@@ -60,8 +60,8 @@ Generalizable All Variables.
    defined AND (k∙g)∙f is defined", so that each half also ASSERTS the
    definedness of the other association. Both sibling files instead state the
    biconditional under the hypothesis that k∙g and g∙f are BOTH already
-   defined (Theory/Metacategory.v:179-182,
-   Theory/Metacategory/ArrowsOnly.v:60-63), which is strictly weaker. The
+   defined (Theory/Metacategory.v,
+   Theory/Metacategory/ArrowsOnly.v), which is strictly weaker. The
    difference is not cosmetic: under the weaker reading Mac Lane's remark that
    the identities flanking an arrow are unique is refutable, and
    [weak_identity_not_unique] at the end of this file exhibits a four-arrow
@@ -71,8 +71,8 @@ Generalizable All Variables.
 
    Axiom (iii) is a CONJUNCTION, as Mac Lane states it. Both sibling files
    encode it with implications where the conjunction belongs, and both say so
-   in place (Theory/Metacategory.v:196-207,
-   Theory/Metacategory/ArrowsOnly.v:77-83): as written there the axiom is
+   in place (Theory/Metacategory.v,
+   Theory/Metacategory/ArrowsOnly.v): as written there the axiom is
    satisfied by any non-identity witness and so constrains nothing. It is a
    real axiom here, and it is load-bearing — [mident_idem] derives u∙u = u for
    every identity from it, which is why the objects below need only carry

@@ -36,7 +36,7 @@ Generalizable All Variables.
     universal element the canonical bilinear map ⊗.  That statement is
     [vct_tensor_universal_element] below.
 
-    WHERE THE WORK IS.  Instance/FdVect.v:224 defines
+    WHERE THE WORK IS.  Instance/FdVect.v defines
     [Vct_F F := RMod (field_ring F)]: a vector space over F IS an
     F-module, by DEFINITION and not by an isomorphism of categories.  So
     the construction uses nothing about fields and is carried out over an

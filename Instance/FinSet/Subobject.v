@@ -36,8 +36,8 @@ Generalizable All Variables.
    Theory/Subobject/Lattice.v's [sub_meet] and [sub_join] are conditional
    constructions: the meet wants chosen pullbacks, the join wants a
    cocartesian structure and images.  [FinSet] already has the first two
-   -- Instance/FinSet/Classifier.v:264's [FinSet_Pullbacks] and
-   Instance/FinSet.v:252's [FinSet_Cocartesian] -- and this file adds the
+   -- Instance/FinSet/Classifier.v's [FinSet_Pullbacks] and
+   Instance/FinSet.v's [FinSet_Cocartesian] -- and this file adds the
    third.  What that buys is not merely inhabitation but COMPUTATION:
    objects of [FinSet] are literal natural numbers and every codec in
    play reduces on closed input, so the meet and the join of two named
@@ -50,11 +50,11 @@ Generalizable All Variables.
 
    For f : m ~> n the image is cut out by the HIT PREDICATE [finset_hit],
    "some a of the domain is carried to k", decided by
-   Instance/FinSet/Classifier.v:76's [fin_existsb].  The image object is
-   [fin_countP] of it (:114), the mono is [fin_select] of it (:121) with
-   monicity read straight off [fin_select_inj] (:229), and the factoring
-   arrow is [fin_rank] (:140) at the hit witness supplied by
-   [fin_existsb_complete] (:94).  The whole shape is
+   Instance/FinSet/Classifier.v's [fin_existsb].  The image object is
+   [fin_countP] of it, the mono is [fin_select] of it with
+   monicity read straight off [fin_select_inj], and the factoring
+   arrow is [fin_rank] at the hit witness supplied by
+   [fin_existsb_complete].  The whole shape is
    Instance/FinSet/Limit.v's [FinSet_IsEqualizer] one construction over:
    a decidable predicate, its count, its tabulation, its ranking.
 
@@ -62,7 +62,7 @@ Generalizable All Variables.
    a competing subobject w and a factorization g of f through it, the
    comparison arrow must send the q-th selected image point to g of SOME
    a with f a = that point.  A boolean test alone cannot produce that a.
-   Classifier.v:82's [fin_existsb_sound] can, because it is written to
+   Classifier.v's [fin_existsb_sound] can, because it is written to
    return the least witness as DATA -- a sigT, and it ends in [Defined]
    for exactly this kind of consumer.  [finset_image_witness] is that
    projection and [finset_image_witness_eq] its defining equation, by
@@ -95,7 +95,7 @@ Generalizable All Variables.
    The arithmetic clauses of the same exercise, which the tree asserted
    nowhere at these instances, are [finset_pow_three] (Pow 3 = 8) and
    [finset_product_two_three] (2 × 3 = 6), in the style of
-   Instance/FinSet/Topos.v:52's [FinSet_Pow_two]; the third, 2 + 3 = 5, is
+   Instance/FinSet/Topos.v's [FinSet_Pow_two]; the third, 2 + 3 = 5, is
    [ex11_coproduct_five] above and is not restated.  Seventeen [eq_refl]
    Examples in all -- [grep -c ':= eq_refl'] over this file.
 
@@ -105,21 +105,19 @@ Generalizable All Variables.
    "are never listed".  MEASURED, that is too strong.  Running
    [grep -c "^Example .*_at_"] over Instance/FinSet/Subsets.v and
    Instance/FinSet/Powerset.v and reading the [finpow_mem] ones out finds
-   NINE membership bits already recorded: six in Subsets.v (:263, :264,
-   :286, :287, :289, :290) and three in Powerset.v (:433, :434, :436).
+   NINE membership bits already recorded: six in Subsets.v and three in Powerset.v.
 
    What is genuinely absent is narrower, and it is what the block below
    supplies.  First, every one of those nine names its code by
    [fin_tabulate] of a characteristic function ([empty1], [full1],
    [sub2_10], [sub2_01], [finpow_sub02] -- checked at their defining
    lines); NOT ONE names a code by its POSITION in [Fin.t (finpow n)].
-   Second, at n = 2 the four codes are all defined (Subsets.v:273, :274,
-   :279, :284) but only two of them are read out, so four of the eight
+   Second, at n = 2 the four codes are all defined (Subsets.v) but only two of them are read out, so four of the eight
    bits were listed and four were not.  [powcode2_0] through
    [powcode2_3] are the four positions and the eight [powcode2_i_at_j]
    Examples are the complete bit table, which is the enumeration the
    issue asks for.  [finpow_two_is_Pow] pins [finpow 2] to
-   Structure/Topos.v:167's [Pow] at [FinSet_Topos] by [eq_refl], so the
+   Structure/Topos.v's [Pow] at [FinSet_Topos] by [eq_refl], so the
    positions really are positions in the topos-internal power object and
    not merely in a same-sized set.
 

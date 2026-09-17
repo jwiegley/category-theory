@@ -24,9 +24,9 @@
     mediator's construction reduces to.
 
     THE HEADLINE IS CONE-LEVEL.  [IsColimitCocone] (Structure/Limit/
-    Preservation.v:710) says every competing cocone factors through THIS
+    Preservation.v) says every competing cocone factors through THIS
     cocone by a unique morphism compatible with THESE legs.  The apex-only
-    [IsAColimit] (:545) pins the object [A] but takes its legs from
+    [IsAColimit] pins the object [A] but takes its legs from
     whatever witness inhabits it, so on its own it does not say that the
     inclusions are the universal family; it is the weaker reading, and here
     it is DERIVED from the cone-level statement through
@@ -34,24 +34,24 @@
     between the two is proved in this file.
 
     [AbSubgroup] IS NEW, AND THE SURVEY BEHIND THAT HAS BEEN CORRECTED.
-    Instance/Grp/Quotient.v:177's [Subgroup] is over [GrpObject], a flat
+    Instance/Grp/Quotient.v's [Subgroup] is over [GrpObject], a flat
     record with [grp_unit]/[grp_mul]/[grp_inv] -- a different type from
     [AbObject], which layers [ab_neg] over Instance/CMon.v's [CMonObject]
-    and so speaks [cmon_zero]/[cmon_plus].  Instance/Mod/Quotient.v:229's
+    and so speaks [cmon_zero]/[cmon_plus].  Instance/Mod/Quotient.v's
     [Submodule] is over [RModObject] and carries a fifth field, [smod_smul],
     closure under a scalar action, which an abelian group has nothing to
     supply.  Those two have DIFFERENT shapes from each other -- membership
     plus four laws in both cases, but [Submodule]'s fourth is scalar-closure
-    and it has NO negation field at all (Instance/Mod/Quotient.v:257 captions
+    and it has NO negation field at all (Instance/Mod/Quotient.v captions
     its negation lemma "THE FIFTH FIELD THAT IS NOT A FIELD").
 
     A THIRD RECORD EXISTS AND AN EARLIER DRAFT OF THIS HEADER MISSED IT.
-    Instance/Ab/Character/Finite.v:624 declares [Record Subgroup (G :
+    Instance/Ab/Character/Finite.v declares [Record Subgroup (G :
     AbObject)] with [sg_mem]/[sg_resp]/[sg_zero]/[sg_add]/[sg_neg] -- over
     the RIGHT base type, in this same directory, with exactly the five
     fields [AbSubgroup] has -- plus a sixth, [sg_dec], demanding DECIDABLE
     membership; and it carries generated-subgroup machinery of its own
-    ([Generated], :835).  So the ground an earlier draft gave, that no
+    ([Generated]).  So the ground an earlier draft gave, that no
     in-tree record is over [AbObject], was simply FALSE, and the survey it
     supported ("neither existing subobject record transfers") was wrong as
     stated.  The real ground for not reusing it is [sg_dec]: membership here
@@ -61,7 +61,7 @@
     draft made a different, false one.  The miss was avoidable -- the donor
     header quoted in the next paragraph names that very record TWICE, four
     lines above the line this file cites.  Read the relation to the existing
-    tree precisely.  Instance/Mod/Quotient.v:144 already records that "the
+    tree precisely.  Instance/Mod/Quotient.v already records that "the
     honest unifier is an [AbSubgroup] interface in Instance/Ab.v itself, of
     which [Submodule] would then be the module-level extension"; THIS FILE
     DOES NEITHER of those things.  The record is declared here rather than
@@ -78,7 +78,7 @@
     next paragraph.
 
     [Proset] CANNOT HOST *THIS* INDEX, WHICH IS WEAKER THAN IT SOUNDS AND
-    IS NOT WHAT AN EARLIER DRAFT CLAIMED.  Instance/Proset.v:35 takes
+    IS NOT WHAT AN EARLIER DRAFT CLAIMED.  Instance/Proset.v takes
     [{R : relation A}], and stdlib [relation A] is [A → A → Prop].  The
     inclusion used here is
     [FGHom A X Y := ∀ a, absub_mem (fg_sub X) a → absub_mem (fg_sub Y) a],
@@ -107,16 +107,16 @@
     FILE'S [Type]-VALUED MEMBERSHIP, which is a DESIGN CHOICE following
     Instance/Grp/Quotient.v (see the previous paragraph), not a necessity of
     the mathematics.  A [Prop]-valued variant is viable and is simply not
-    what is built here.  Structure/Thin.v:57 records the [relation]-is-Prop
+    what is built here.  Structure/Thin.v records the [relation]-is-Prop
     fact from the other side -- "Coq's [relation] is Prop-valued while a hom
     lives in [Type]" -- and squashes with [inhabited] for its own reasons.
 
     [FGSub] is therefore built directly, COPYING (not reusing -- this file
     does not [Require] Instance/Proset.v at all) the one device that file
     supplies: the trivially-true hom-setoid
-    [{| Setoid.equiv := fun _ _ => True |}] of Instance/Proset.v:41, which
+    [{| Setoid.equiv := fun _ _ => True |}] of Instance/Proset.v, which
     makes every categorical law free and makes [FGSub_Thin : Thin (FGSub A)]
-    (Structure/Thin.v:76) a one-liner.  [FGSub_Thin] is PROVED but is
+    (Structure/Thin.v) a one-liner.  [FGSub_Thin] is PROVED but is
     consumed nowhere below -- including by the SCOPE paragraph's remark that
     duplicate presentations are harmless, which appeals to thinness in prose
     rather than through that lemma.
@@ -193,7 +193,7 @@
     unify", not a name-resolution error.  No [Fail] probe is shipped in
     this file.
 
-    NON-VACUITY, over ℤ.  Instance/Ab/Coproduct.v:264's [ab_Z] is
+    NON-VACUITY, over ℤ.  Instance/Ab/Coproduct.v's [ab_Z] is
     [ring_ab Int_Ring], the additive group of Theory/Algebra/Rig.v's
     axiom-free integers; it is REUSED, no new group is built.  [Zmultiples
     d] is the subgroup of multiples of [d], and feeding it to [gen_least]
@@ -210,7 +210,7 @@
     WHAT IS NOT DELIVERED, scoped to this file.
 
       * No general filtered- or directed-colimit theory.  There is none in
-        tree (Instance/Sets/Chain.v:150 records the same absence), and
+        tree (Instance/Sets/Chain.v records the same absence), and
         nothing here is stated for a general filtered shape: [FGSub A] is
         one concrete index and [FGSub_directed] is a lemma about it, not an
         instance of a [Filtered] class, which does not exist.
@@ -266,8 +266,8 @@ Generalizable All Variables.
 
 (** * Subgroups of an abelian group *)
 
-(* Membership plus four laws, in the shape Instance/Grp/Quotient.v:177's
-   [Subgroup] and Instance/Mod/Quotient.v:211's [Submodule] share.  It is
+(* Membership plus four laws, in the shape Instance/Grp/Quotient.v's
+   [Subgroup] and Instance/Mod/Quotient.v's [Submodule] share.  It is
    [Type]-valued because the library's `≈` is, and because the diagram's
    [fmap] below must APPLY an inclusion to a membership witness -- see the
    header's paragraph on why [Proset] cannot host the index. *)
@@ -292,7 +292,7 @@ Arguments absub_neg {A} _ _ _.
 (** ** A subgroup as an object of Ab *)
 
 (* The sigma carrier over membership, compared on elements only -- the shape
-   Instance/Ab.v:335's [ab_ker_carrier] and Instance/Grp/Quotient.v:220's
+   Instance/Ab.v's [ab_ker_carrier] and Instance/Grp/Quotient.v's
    [sub_carrier] use, so a membership witness carries no equational weight
    and two witnesses of one element are already identified. *)
 Section Subgroup.
@@ -469,7 +469,7 @@ Definition FGHom (A : AbObject) (X Y : FGObj A) : Type :=
   ∀ a, absub_mem (fg_sub X) a → absub_mem (fg_sub Y) a.
 
 (* The index category.  The hom-setoid is the trivially-true one of
-   Instance/Proset.v:41, so every categorical law is free; [Proset] itself
+   Instance/Proset.v, so every categorical law is free; [Proset] itself
    is unusable here because its homs must be [Prop]-valued (header). *)
 Program Definition FGSub (A : AbObject) : Category := {|
   obj     := FGObj A;

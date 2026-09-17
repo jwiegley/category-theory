@@ -170,7 +170,7 @@ Generalizable All Variables.
    ([Set < _]) and not an identification ([_ = Set]), so nothing is pinned
    AT [Set]: the constants still apply at groups of any carrier level above
    [Set], which is what the constant-leg span was chosen to buy, and
-   [Unset Universe Minimization ToSet] (Lib.v:17) keeps carrier universes
+   [Unset Universe Minimization ToSet] (Lib.v) keeps carrier universes
    off [Set] anyway.  What is no longer true is the absence of the token.
    The BOUNDARY is guarded in
    Test/ProbePushoutGrpTop.v rather than asserted: two formability

@@ -37,13 +37,13 @@ Generalizable All Variables.
    WHAT IS DELIVERED.
 
    (1) The onto clause, both ways and unconditionally, from
-   Instance/FinSet/Classifier.v:436's [finset_epic_iff_surjective].  No
+   Instance/FinSet/Classifier.v's [finset_epic_iff_surjective].  No
    stability hypothesis, unlike [Grp]: the probe there is the
    classifier's own characteristic map into Ω = 2 and the search over a
    finite set is decidable, so the backward leg hands back the preimage.
    [finset_no_quot_of_const] records the other side -- not every map out
    of an object presents a quotient object -- positively, by naming
-   Instance/FinSet/Classifier.v:469's refutation for the constant map
+   Instance/FinSet/Classifier.v's refutation for the constant map
    1 → 2, because a refutation probe on [mk_quot f _] would report an
    uninstantiated evar and not the mathematical fact.
 
@@ -53,18 +53,18 @@ Generalizable All Variables.
    first draft a plain [Definition].  FinSet is balanced, and the
    construction says so
    concretely: the coimage of f IS the image object of
-   Instance/FinSet/Subobject.v:194 with the image FACTOR (:215) as its
-   epi and the image MONO (:196) as the map to the codomain, so
-   [finset_coimage_commutes] is :218's [finset_image_commutes]
+   Instance/FinSet/Subobject.v with the image FACTOR as its
+   epi and the image MONO as the map to the codomain, so
+   [finset_coimage_commutes] is that file's [finset_image_commutes]
    VERBATIM -- the image factorization of f read in [FinSet^op] is
    already its coimage factorization, with no transport at all.  Only
    [im_least] does work, and only because it must choose preimages under
-   a competing epi; [fin_rank_resp] (Instance/FinSet/Pushout.v:231)
+   a competing epi; [fin_rank_resp] (Instance/FinSet/Pushout.v)
    discharges the proof argument of [fin_rank] from decidable equality of
    booleans, so no proof irrelevance and no axiom enters.
 
    (3) A MEET THAT COMPUTES.  [quot_meet] at FinSet is the PUSHOUT of the
-   two epis, supplied by Instance/FinSet/Pushout.v:513's union-find
+   two epis, supplied by Instance/FinSet/Pushout.v's union-find
    [FinSet_HasPushouts].  Take the two surjections 4 ↠ 3 that identify
    {0,1} and {1,2} respectively; their pushout identifies {0,1,2} and
    leaves 3 alone, and [finset_quot_meet_two] states
@@ -93,27 +93,27 @@ Generalizable All Variables.
    [Definition]s and record projections and not through a proof term.
    The requirement closure is 91 files (iterated over .Makefile.coq.d),
    of which Instance/FinSet/Regular.v contributes exactly ONE -- it is
-   required only for :309's [fin3_cases], whose own requirements (Lib,
+   required only for its [fin3_cases], whose own requirements (Lib,
    Theory/Category, Theory/Morphisms, Theory/Isomorphism,
    Instance/FinSet) are already here.  No name introduced here occurs
    anywhere else in the tree (swept over all .glob files with
    '^[a-z]+ [0-9:]+ [^ ]* NAME$', instrument-checked on [sub_le]; a first
    draft named the three codomain elements [fin3_0], [fin3_1], [fin3_2]
    and restated [fin3_cases], and the sweep found
-   Structure/Limit/Power/Hom.v:535-537 and Instance/FinSet/Regular.v:309,
+   Structure/Limit/Power/Hom.v and Instance/FinSet/Regular.v,
    so the elements are now written with bare constructors and the case
    analysis is required rather than duplicated).  Universes, by [About]:
    [finset_q_meet] binds [FinSet] and carries a [Set <] bound, which is
    FinSet's own -- its objects are [nat] -- and not introduced here; the
    [SubObj] hom-equals-proof collapse is inherited from
-   Theory/Subobject.v:15 exactly as at [Sets] and [Grp].
+   Theory/Subobject.v exactly as at [Sets] and [Grp].
 
    NOT DELIVERED.  No JOIN of quotient objects at FinSet, and no lattice
    laws: those are transports of Theory/Subobject/Lattice.v at
    [FinSet^op] and belong wherever that transport lands.  No general
    count of the quotient objects of [n] (the Bell numbers), and no
    enumeration of them.  No claim that [FinSet_HasCoimages] and
-   Instance/FinSet/Subobject.v:254's [FinSet_HasImages] assemble a
+   Instance/FinSet/Subobject.v's [FinSet_HasImages] assemble a
    factorization system, nor that the coimage is ISOMORPHIC to the image
    as a general theorem -- here the two share an object by construction,
    which is a fact about this particular presentation of the image and
@@ -124,7 +124,7 @@ Generalizable All Variables.
 
 (** ** "Epis are onto" in the skeleton *)
 
-(* Instance/FinSet/Classifier.v:436's biconditional, both legs.  Unlike
+(* Instance/FinSet/Classifier.v's biconditional, both legs.  Unlike
    [Grp], FinSet needs no stability hypothesis: the probe is the
    classifier's own characteristic map into Ω = 2 and the search over a
    finite set is decidable, so the preimage comes back as data. *)
@@ -139,7 +139,7 @@ Definition finset_quot_of_surjection {m n : nat} (e : m ~{FinSet}~> n)
 (* Not every map presents a quotient object.  Stated positively, because
    a refutation probe on [mk_quot f _] would report an uninstantiated
    evar and not the mathematical refusal: the constant map 1 → 2 is not epic
-   (Instance/FinSet/Classifier.v:469).  This is a verbatim RE-EXPORT of
+   (Instance/FinSet/Classifier.v).  This is a verbatim RE-EXPORT of
    that lemma under a name saying what it is used for here; it proves
    nothing new. *)
 Definition finset_no_quot_of_const :
@@ -153,12 +153,12 @@ Section FinSetCoimages.
 Context {m n : nat}.
 Context (f : Fin.t m → Fin.t n).
 
-(* Instance/FinSet/Subobject.v:215's [finset_image_factor] is surjective
+(* Instance/FinSet/Subobject.v's [finset_image_factor] is surjective
    onto the image object: the q-th selected element has a preimage
-   (:223's [finset_image_witness], :228 for its defining equation), and
+   (that file's [finset_image_witness], with its defining equation), and
    ranking after selecting is the identity
-   (Instance/FinSet/Pushout.v:224's [fin_rank_select]).  [fin_rank_resp]
-   (:231) discharges the proof argument, so no proof irrelevance and no
+   (Instance/FinSet/Pushout.v's [fin_rank_select]).  [fin_rank_resp]
+   discharges the proof argument, so no proof irrelevance and no
    axiom is needed. *)
 Lemma finset_coimage_epic :
   Epic (finset_image_factor f : m ~{FinSet}~> finset_image_obj f).
@@ -178,7 +178,7 @@ Definition finset_coimage : @QuotObj FinSet m :=
   mk_quot (finset_image_factor f : m ~{FinSet}~> finset_image_obj f)
     finset_coimage_epic.
 
-(* The triangle is Instance/FinSet/Subobject.v:218's
+(* The triangle is Instance/FinSet/Subobject.v's
    [finset_image_commutes] VERBATIM: the image factorization read in
    [FinSet^op] is the coimage factorization, no transport. *)
 Lemma finset_coimage_commutes :
@@ -221,8 +221,8 @@ End FinSetCoimages.
 
 (* The three-element codomain is written with bare [Fin] constructors:
    naming its elements [fin3_0], [fin3_1], [fin3_2] would collide with
-   Structure/Limit/Power/Hom.v:535-537, and the exhaustive case analysis
-   is Instance/FinSet/Regular.v:309's [fin3_cases], required rather than
+   Structure/Limit/Power/Hom.v, and the exhaustive case analysis
+   is Instance/FinSet/Regular.v's [fin3_cases], required rather than
    restated (it adds exactly ONE file to this file's closure, its own
    requirements being a subset of what is already here). *)
 
@@ -265,7 +265,7 @@ Definition finset_q12 : @QuotObj FinSet 4%nat :=
   finset_quot_of_surjection finset_merge12 finset_merge12_surj.
 
 (* The stub's [quot_meet] at FinSet, which is the PUSHOUT of the two
-   epis (Instance/FinSet/Pushout.v:513, apex by union-find on the
+   epis (Instance/FinSet/Pushout.v, apex by union-find on the
    3 + 3 tagged elements over the four span edges). *)
 Definition finset_q_meet : @QuotObj FinSet 4%nat :=
   @quot_meet FinSet FinSet_HasPushouts 4%nat finset_q01 finset_q12.

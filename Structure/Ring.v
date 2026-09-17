@@ -37,16 +37,16 @@ Generalizable All Variables.
    rather than over a bare [Monoidal] -- the same reason Structure/Group.v
    asks for [CartesianMonoidal] where Structure/Monoid.v asks for nothing.
 
-   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v:570
+   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v
    declares a record of that name for the SET-LEVEL notion (a ring on a
-   setoid carrier), and Theory/Algebra/Rig.v:140 likewise takes
+   setoid carrier), and Theory/Algebra/Rig.v likewise takes
    [RigObject].  Both are in scope here, since the [Sets] section below
    compares against them, so the names could not be reused.  The tree
    already carries four distinct "monoid" notions under four names --
-   [MonoidObject] (Structure/Monoid.v:124, internal), [MonObject]
-   (Construction/Deloop.v:123, a bare setoid monoid), [Monoid]
-   (Theory/Algebra/Monoid.v:44, internal in a monoidal category) and
-   [Monoid] (Theory/Coq/Monoid.v:37, over [Coq]) -- and the disambiguation
+   [MonoidObject] (Structure/Monoid.v, internal), [MonObject]
+   (Construction/Deloop.v, a bare setoid monoid), [Monoid]
+   (Theory/Algebra/Monoid.v, internal in a monoidal category) and
+   [Monoid] (Theory/Coq/Monoid.v, over [Coq]) -- and the disambiguation
    there runs "full spelling = internal, abbreviation = set-level"
    ([GroupObject] vs [GrpObject]).  Rig.v inverts that convention, so it
    cannot be followed; the classes here are therefore [InternalSemiring]
@@ -60,15 +60,15 @@ Generalizable All Variables.
    rather than by name" when it is a sweep by the field type's NAME.  By
    SHAPE the pattern DOES occur, and in the very file named below: sweeping
    for record bodies with two [_assoc] axioms returns
-   Theory/Algebra/Rig.v:140's [RigObject], which carries [(rig_zero,
+   Theory/Algebra/Rig.v's [RigObject], which carries [(rig_zero,
    rig_add)] and [(rig_one, rig_mul)] on one setoid carrier -- elementwise
    rather than as internal monoid objects, and it is precisely the
    set-level theory this file internalizes.  [GroupObject]
-   (Structure/Group.v:112)
+   (Structure/Group.v)
    is the only record anywhere with a [MonoidObject] field, and the only
    records with a field of the sibling class [Monoid] of
-   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v:49 and
-   Theory/Algebra/Frobenius.v:128 -- each carrying exactly one.  (Note
+   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v and
+   Theory/Algebra/Frobenius.v -- each carrying exactly one.  (Note
    that this file's [Monoid] is Structure/Monoid.v's
    [@MonoidObject C CC_Monoidal], not Theory/Algebra/Monoid.v's
    identically named class; only the former is required here.)  The
@@ -200,7 +200,7 @@ Generalizable All Variables.
    to [SetoidObject@{Set Set}] and [Sets_InternalSemiring] to
    [RigObject@{Set Set _}], which would have confined every [Sets] result
    to Set-sized carriers.  This is the minimization hazard
-   Instance/Sets/Products.v:409-424 and the #300 erratum record, met
+   Instance/Sets/Products.v and the #300 erratum record, met
    again.
 
    NON-VACUITY, proved rather than gestured at.  [Nat_ISemiring] and

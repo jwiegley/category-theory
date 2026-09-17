@@ -62,7 +62,7 @@
       reasoning ([ZAb_eq], [zsmul_int_one]) while everything else stays
       in `≈`.
 
-   4. ONE MONOIDAL PATH ON [Ab].  Instance/Grp.v:1051 records the tree's
+   4. ONE MONOIDAL PATH ON [Ab].  Instance/Grp.v records the tree's
       policy: a [Monoidal] structure is registered as an instance only when
       it is the sole such path on its category, since a second registered
       path silently changes resolution elsewhere.  [@Monoidal Ab] has no

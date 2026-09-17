@@ -89,7 +89,7 @@ Open Scope category_scope.
    (Functor/Opposite.v), and composition in `C^op` is composition in `C`
    with its arguments exchanged.  The same device carries
    Comonad/Core.v over [Comonad := @Monad (C^op) (W^op)] and
-   Structure/End.v:58 over [Coend F := @End (C^op) (D^op) (F^op)] -- the
+   Structure/End.v over [Coend F := @End (C^op) (D^op) (F^op)] -- the
    definition lives in End.v, not in Structure/Coend.v, which is the calculus
    built on it.  This file applies the device again, and those two are the
    models it follows.

@@ -152,7 +152,7 @@ Check (fun (p : Z) (Hp : (1 < p)%Z) =>
     Everything from [res_kills] on -- the first constant to mention
     [Rng] -- carries the identification.  THE DONOR IS [Rng] ITSELF, NOT
     [RKills], and a first draft of this comment said otherwise:
-    [Instance/Rng.v:102]'s [Rng := Ring] has [obj] at
+    [Instance/Rng.v]'s [Rng := Ring] has [obj] at
     [RingObject@{u u u}], so [R : obj[Rng]] alone is refused at these
     levels with the IDENTICAL error and no [RKills] in the command
     (negative 8); and [RKills]'s own type mentions [R ~{Rng}~> K], so it

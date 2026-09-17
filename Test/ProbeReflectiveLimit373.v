@@ -124,7 +124,7 @@ Fail Example probe_two_routes_med (L : Limit (Incl C S ◯ K))
 
 (** ** CONVERSION 3: the counit isomorphism does not reduce *)
 
-(* [reflective_counit_iso] (Construction/Reflective.v:92) produces data
+(* [reflective_counit_iso] (Construction/Reflective.v) produces data
    and is closed with [Qed], so its forward leg does not reduce to the
    counit.  This is a second, independent reason -- beyond the structural
    one recorded in the target's header, that the lemma speaks about an
@@ -142,7 +142,7 @@ Fail Check (reflective_CreatesLimit R K
 
 (** ** TYPING 5: creation is not STRICT creation *)
 
-(* [StrictLift]'s [slift_eq] field (Structure/Limit/Creation.v:288) asks
+(* [StrictLift]'s [slift_eq] field (Structure/Limit/Creation.v) asks
    for a LEIBNIZ equality of apexes downstairs.  The lift built in the
    target has apex [Incl C S (reflector R L)], which the comparison
    isomorphism relates to L but does not equate to it. *)
@@ -186,7 +186,7 @@ End UniverseProbe.
    ambient one, the functor type and the [Cone] record are both formable,
    while [cone_leg] and [IsLimitCone] are each rejected on their own.
    These are the same donor family Structure/Limit/Initial.v's header
-   (:127-145) records for a RELATED collapse; the axis there is the
+ records for a RELATED collapse; the axis there is the
    shape's own hom against its own proof, and it names [IsALimit] as a
    third donor.  [IsALimit] is a donor on THIS axis too, as are [Limit],
    [ConeIso] and [FCone], each rejected alone at these levels while
@@ -218,13 +218,13 @@ End ShapeUniverseProbe.
 
 (** ** Non-vacuity: the torsion-free abelian groups *)
 
-(* [TorsionFree_Reflective] (Instance/Ab/TorsionFree.v:563) is a full
+(* [TorsionFree_Reflective] (Instance/Ab/TorsionFree.v) is a full
    reflective subcategory of [Ab], and [Ab] has a terminal object
-   ([Ab_Terminal], Instance/Ab.v:258).  The empty diagram therefore has a
+   ([Ab_Terminal], Instance/Ab.v).  The empty diagram therefore has a
    limit downstairs, and Mac Lane's exercise produces one upstairs.
 
    The limit downstairs is built here rather than taken from
-   [Terminal_Limit] (Structure/Limit/Terminal.v:33): that theorem is
+   [Terminal_Limit] (Structure/Limit/Terminal.v): that theorem is
    closed with [Qed], so its apex would not reduce and the readbacks below
    would say nothing.  The hand-built version is [Defined], and the
    created apex then reduces all the way to the quotient of the terminal

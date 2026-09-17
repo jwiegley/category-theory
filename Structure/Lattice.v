@@ -39,7 +39,7 @@ Generalizable All Variables.
    issues claim Structure/Lattice.v -- #340 (this one, Mac Lane III.6),
    #389 (Mac Lane IV.6: powerset lattices and Boolean algebras are
    cartesian closed) and #1003 (Riehl 5.5: lattices and semilattices as
-   categories over Set).  Instance/Proset/Limit.v:101-109 records that
+   categories over Set).  Instance/Proset/Limit.v records that
    claim explicitly and DELIBERATELY RESERVES the vocabulary: it "defines
    no [Meet], [Join], [Lattice] or [BooleanAlgebra] class and creates no
    such module", its [IsGLB] and [IsLUB] being "family-level PREDICATES
@@ -59,7 +59,7 @@ Generalizable All Variables.
    NAMING.  [InternalLattice] and [InternalSemilattice] follow
    Structure/Ring.v's [InternalRing] / [InternalSemiring]; that file
    explains why the [*Object] convention of [MonoidObject] and
-   [GroupObject] could not be used (Theory/Algebra/Rig.v:570 already takes
+   [GroupObject] could not be used (Theory/Algebra/Rig.v already takes
    [RingObject] for the set-level notion).  All four names are free
    tree-wide, as are [SetoidLattice], [Sets_Monoid_on] and the witness
    names below.
@@ -68,14 +68,14 @@ Generalizable All Variables.
    object AS [Monoid]-TYPED FIELDS -- and that qualifier is the whole
    claim, an earlier revision having billed this as a search "by shape
    rather than by name" when it is a sweep by the field type's NAME.  By
-   SHAPE the pattern DOES occur: Theory/Algebra/Rig.v:140's [RigObject]
+   SHAPE the pattern DOES occur: Theory/Algebra/Rig.v's [RigObject]
    carries [(rig_zero, rig_add)] and [(rig_one, rig_mul)] on one setoid
    carrier, elementwise rather than as internal monoid objects.
    [GroupObject] (Structure/Group.v)
    is the only record anywhere with a [MonoidObject] field, and the only
    records with a field of the sibling class [Monoid] of
-   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v:49 and
-   Theory/Algebra/Frobenius.v:128, each carrying exactly one -- the latter
+   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v and
+   Theory/Algebra/Frobenius.v, each carrying exactly one -- the latter
    pairs its monoid with a COMONOID, which is a different variance and
    carries no absorption.  (This file's [Monoid] is Structure/Monoid.v's
    [@MonoidObject C CC_Monoidal], not the identically named class of
@@ -86,9 +86,9 @@ Generalizable All Variables.
    vocabulary is order-theoretic and unrelated to this file's classes:
    Instance/Proset/Limit.v's [IsGLB]/[IsLUB]/[HasAllMeets]/[HasAllJoins],
    Instance/Proset/Order.v's [tmeet]/[tjoin] for total orders, and
-   Instance/Two/Monoidal.v:34's [two_meet] on the walking arrow's objects.
-   (Instance/FinSet.v:173's [fin_join] and
-   Instance/Ab/DirectedColimit.v:494's [fg_join] are a coproduct decoder
+   Instance/Two/Monoidal.v's [two_meet] on the walking arrow's objects.
+   (Instance/FinSet.v's [fin_join] and
+   Instance/Ab/DirectedColimit.v's [fg_join] are a coproduct decoder
    and a subgroup join; neither is lattice vocabulary.)
 
    WHAT IS DELIVERED, and at what strength.
@@ -154,7 +154,7 @@ Generalizable All Variables.
    so that importing both files is unambiguous.  [bool_setoid_obj] below
    is a SECOND, undeclared duplication of the same kind: it re-declares
    the two-element setoid this file already imports as
-   Instance/Sets.v:563's [bool_setoid_object], with which it agrees by
+   Instance/Sets.v's [bool_setoid_object], with which it agrees by
    [eq_refl].  It is kept only so the witness block reads self-contained,
    and it is recorded here rather than left for a reader to discover.
 
@@ -182,7 +182,7 @@ Generalizable All Variables.
    out; unannotated, [Sets_Monoid_on] minimizes to
    [SetoidObject@{Set Set}], which would have confined every [Sets] result
    to Set-sized carriers.  Same minimization hazard as
-   Instance/Sets/Products.v:409-424 and the #300 erratum.
+   Instance/Sets/Products.v and the #300 erratum.
 
    NON-VACUITY, proved rather than gestured at.  [Bool_Lattice] is the
    two-element bounded lattice (disjunction with bottom [false],

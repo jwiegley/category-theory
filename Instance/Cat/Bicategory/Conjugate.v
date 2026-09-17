@@ -26,7 +26,7 @@ Generalizable All Variables.
    Adjunction/Conjugate.v develops Mac Lane §IV.7 in ordinary-category
    vocabulary, with no bicategorical machinery, so that it applies to
    categories of any size.  This file reconciles that development with
-   Theory/Bicategory/Mates.v:486 [mate], of which it is the case where both
+   Theory/Bicategory/Mates.v [mate], of which it is the case where both
    bounding 1-cells are identities.
 
    Two things have to be arranged.  First, the types differ: an ordinary
@@ -36,23 +36,23 @@ Generalizable All Variables.
    [Cat_conj_unpadL], [Cat_conj_padR] and [Cat_conj_unpadR] are the identity
    on components and mediate, and each pair is an isomorphism in Sets
    ([Cat_conj_padL_iso], [Cat_conj_unpadR_iso]).  Second, the bridge is taken
-   through the TRANSPARENT Instance/Cat/Bicategory/Adjunction.v:159
-   [Cat_Adjunction_BicatAdjunction], never through :163
+   through the TRANSPARENT Instance/Cat/Bicategory/Adjunction.v
+   [Cat_Adjunction_BicatAdjunction], never through that file's
    [Cat_BicatAdjunction_Adjunction_iff], which is Type-valued data closed
    with Qed: nothing about the record it returns reduces, so a consumer
    cannot compute with it.  Through the transparent constructor the unit and
    counit of the reconstructed BicatAdjunction are definitionally the
    caller's own, and [Cat_conj_mate_component] reduces to [reflexivity] after
-   Instance/Cat/Bicategory/Adjunction.v:244 [Cat_mate_unfold_raw] and the
-   transpose-unit collapse [to_adj_unit].  The :260
+   Instance/Cat/Bicategory/Adjunction.v [Cat_mate_unfold_raw] and the
+   transpose-unit collapse [to_adj_unit].  The neighbouring
    variant [Cat_mate_unfold] is deliberately not used: it phrases the
    transpose through the reconstructed adjunction rather than the caller's
    own, which agree only up to ≈.
 
-   [Cat_mate_inv_unfold_raw] is the dual of that :244 donor and is proved
-   here because the tree carries no [mate_inv] component lemma.  It is stated
-   at full generality, arbitrary bounding functors, matching :244; its
-   eventual home is beside :244 in the donor file.
+   [Cat_mate_inv_unfold_raw] is the dual of [Cat_mate_unfold_raw] and is
+   proved here because the tree carries no [mate_inv] component lemma.  It
+   is stated at full generality, arbitrary bounding functors, matching its
+   donor; its eventual home is beside that donor in the donor file.
 
    The last section is the boundary that keeps [conjugate_invertible_iff] of
    Adjunction/Conjugate.v from being read too widely.  With the bounding
@@ -63,13 +63,13 @@ Generalizable All Variables.
    [mate_of_iso_not_invertible] witnesses that rather than asserting it.  The
    bounding functor is [Erase _2] : _2 ⟶ 1, the square is the identity 2-cell
    of Erase _2 ◯ Id, and its mate has a component TwoX ~> TwoY whose inverse
-   would be an arrow TwoY ~> TwoX, refuted by Instance/Two.v:123
+   would be an arrow TwoY ~> TwoX, refuted by Instance/Two.v
    [TwoHom_Y_X_absurd].  Two honest notes on the witness.  The invertible
    2-cell is an identity: that is a natural isomorphism, which is all Riehl
    §4.3(iv) asks for, but a non-identity one is not obtainable here, since
    the hom-category [_2, 1] is a singleton and _2 has no non-identity
-   isomorphisms (Instance/Two.v:219 [TwoXY_not_iso]).  And
-   [boundary_mate_component] holds by Instance/Two.v:200 [Two_thin], which
+   isomorphisms (Instance/Two.v [TwoXY_not_iso]).  And
+   [boundary_mate_component] holds by Instance/Two.v [Two_thin], which
    identifies every pair of parallel arrows of _2, so it records the mate's
    TYPE and is not a computation. *)
 

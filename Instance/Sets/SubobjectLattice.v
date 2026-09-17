@@ -47,7 +47,7 @@ Generalizable All Variables.
 
    (a) [Sets_zero_monic]: the unique arrow out of the empty setoid is
        monic, so [sub_bot] is available at every object of [Sets].  This is
-       NOT routed through Structure/BiCCC/Strict.v:24's
+       NOT routed through Structure/BiCCC/Strict.v's
        [Sets_initial_strict]; the direct argument is one line, because a
        competing pair of arrows INTO the empty setoid is already absurd on
        elements (the same observation that file's
@@ -55,9 +55,9 @@ Generalizable All Variables.
 
    (b) [Sets_HasImages]: Instance/Sets/Image.v's factorization, read as an
        [ImageOf].  Nothing is reproved -- the object is
-       Instance/Sets/Image.v:75's [Sets_Image], the mono is :94's
-       [Sets_Image_mono], its monicity :134's [Sets_Image_mono_monic], the
-       factoring arrow :82's [Sets_Image_epi] and the triangle :103's
+       Instance/Sets/Image.v's [Sets_Image], the mono that file's
+       [Sets_Image_mono], its monicity [Sets_Image_mono_monic], the
+       factoring arrow [Sets_Image_epi] and the triangle
        [Sets_Image_comm].  The ONE new piece of mathematics is
        [im_least]: given a competing subobject w and a factorization
        g of f through it, the comparison arrow sends an image point to
@@ -65,13 +65,13 @@ Generalizable All Variables.
        respectful -- two image points with one Y-component may carry
        DIFFERENT preimages, and their g-values need identifying -- and
        what identifies them is injectivity of [sub_mono w], the BACKWARD
-       leg of Instance/Sets.v:379's [injectivity_is_monic] applied to
-       [sub_is_monic w].  Instance/Powerset/Subobject.v:172 spends
+       leg of Instance/Sets.v's [injectivity_is_monic] applied to
+       [sub_is_monic w].  Instance/Powerset/Subobject.v spends
        monicity in exactly the same place, for the same reason, and its
        header says so in terms.
 
    (c) [Sets_HasWidePullbacks]: THE CLASS IS INHABITED HERE FOR THE FIRST
-       TIME.  Structure/Pullback/Wide.v:257 declares [HasWidePullbacks]
+       TIME.  Structure/Pullback/Wide.v declares [HasWidePullbacks]
        and its own header records under NOT DELIVERED that it builds no
        instance for any concrete category; docs/INDEX.md's
        Structure/Pullback/Wide.v clause said "declared but UNINHABITED".
@@ -83,7 +83,7 @@ Generalizable All Variables.
          { a : ∀ i, carrier (A i) & ∀ i j, f i (a i) ≈ f j (a j) },
 
        compared pointwise at every index, which is the evident
-       generalization of Instance/Sets/Products.v:260's [Sets_iprod_obj]
+       generalization of Instance/Sets/Products.v's [Sets_iprod_obj]
        by an equation; the projections evaluate at an index, the
        commutativity field IS the second component of a point, and the
        mediator tuples a competing family and carries its own agreement
@@ -102,7 +102,7 @@ Generalizable All Variables.
 
    (e) The Seven Sketches §1.2.1 worked case, at the STRONGEST available
        strength.  The ambient object is [Sets_nat], the discrete setoid on
-       [nat] built by Instance/Sets/Products.v:394's [Sets_discrete]; the
+       [nat] built by Instance/Sets/Products.v's [Sets_discrete]; the
        family is [fs_seg n], the subobject {k | 1 ≤ k ≤ n}, so that
        [fs_seg 0] is empty and the family increases.  Then
 
@@ -110,15 +110,15 @@ Generalizable All Variables.
          [fs_inter_is_empty]     : fs_inter ≈ fs_bot
 
        where [fs_union] is [sub_wide_join_via] at Instance/Sets/
-       Products.v:379's [Sets_IsIndexedCoproduct] and this file's images,
+       Products.v's [Sets_IsIndexedCoproduct] and this file's images,
        and [fs_inter] is [sub_wide_intersection] at index 0 and this
        file's wide pullbacks.  BOTH are ≈ on [SubObj Sets_nat] -- that is
-       Theory/Subobject.v:33's setoid, an ISOMORPHISM OF DOMAINS COMMUTING
+       Theory/Subobject.v's setoid, an ISOMORPHISM OF DOMAINS COMMUTING
        WITH THE MONOS -- and NOT the weaker membership-equivalence that
        Instance/Powerset/Subobject.v's [subset_le_of_sub_le] would give
        through the Prop-valued subsets.  Neither statement is routed
        through the powerset bridge at all.  Both are assembled from mutual
-       [sub_le] by Theory/Subobject.v:112's [sub_equiv_iff_mutual].
+       [sub_le] by Theory/Subobject.v's [sub_equiv_iff_mutual].
 
    ** WHERE EACH HALF OF THE UNION PROOF GETS ITS CONTENT
 
@@ -162,7 +162,7 @@ Generalizable All Variables.
    Type@{o}"), so neither sentence is quoted as THE text.  The same
    definition with its universes left free elaborates at a DIFFERENT
    instance (the index category one level below the family's), which is
-   the careful form Instance/Sets/Products.v:128-132 records for its own
+   the careful form Instance/Sets/Products.v records for its own
    class, and the refusal should not be read as more.  [Sets_HasImages]
    carries the same block plus [o <= projections.u0/u1],
    [so <= projections.u0/u1] and [o <= Logic_lemmas.equality.u0], which
@@ -177,10 +177,10 @@ Generalizable All Variables.
    [Set] in binder or block.  One collapse IS inherited and is disclosed
    here rather than left to be found: every constant consuming [SubObj]
    binds [Category@{u u0 u0}], hom universe identified with proof
-   universe, because Theory/Subobject.v:15's [SubObj] record itself does
+   universe, because Theory/Subobject.v's [SubObj] record itself does
    ([About SubObj] prints
    [∀ {C : Category@{u u0 u0}}, obj[C] → Type@{max(u,u0)}])
-   and [sub_le]'s block at :60 carries [h = p]; Theory/Subobject/Lattice.v's
+   and [sub_le]'s block carries [h = p]; Theory/Subobject/Lattice.v's
    header attributes it the same way.  Neither that file nor this one
    introduces it.
 
@@ -219,7 +219,7 @@ Generalizable All Variables.
    distributivity, no complement, no Heyting structure, and no comparison
    with Instance/Sets/Powerset.v's Prop-valued subsets.  The binary
    [sub_meet] is not instantiated at [Sets] -- it wants [HasPullbacks
-   Sets], which Instance/Sets/Pullback.v:393 supplies as
+   Sets], which Instance/Sets/Pullback.v supplies as
    [Sets_HasPullbacks], but nothing below calls for it, and the FinSet
    companion is where the binary meet is exercised instead.  The
    right unit law X ∪ ∅ ≅ X is not stated -- only the left one is, since

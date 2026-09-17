@@ -29,31 +29,32 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED.  The issue's "the fixed-object evaluation
    functor [P, X] ⟶ X is nowhere materialised" is FALSE, and its hit list
    is wrong in two of four entries.
-     - Adjunction/Diagonal/Connected.v:700 [EvalAt@{jo jh co ch +} (j : J) :
+     - Adjunction/Diagonal/Connected.v [EvalAt@{jo jh co ch +} (j : J) :
        [J, C] ⟶ C] IS this functor, general in shape and target, closed
-       under the global context, and docs/INDEX.md:93 records it as NEW
+       under the global context, and docs/INDEX.md records it as NEW
        there with a by-type sweep.  [Eval] below has the same two data
        fields at [eq_refl] under [EvalAt]'s own annotation (probe); the
        RECORDS do not convert (probe N1: both are [Program Definition]s with
-       opaque law fields).  Also present: Functor/Hom/Yoneda/Natural.v:388
-       [YoEvalAt : [C, Sets] ⟶ Sets] and :226 [YoEval : [C, Sets] ∏ C ⟶ Sets]
+       opaque law fields).  Also present: Functor/Hom/Yoneda/Natural.v
+       [YoEvalAt : [C, Sets] ⟶ Sets] and [YoEval : [C, Sets] ∏ C ⟶ Sets]
        (the two-variable one, at Sets, in the OTHER arrow order, bridged by
-       [yo_eval_map_alt] :241), and Theory/Shapes.v:254 [One_Eval : [_1, C]
+       [yo_eval_map_alt]), and Theory/Shapes.v [One_Eval : [_1, C]
        ⟶ C].  Both [YoEvalAt] and [One_Eval] agree with [Eval] at [eq_refl]
        (probe).
-     - The hit list: Theory/Kan/Extension.v:127 is a comment ([Induced] is
-       :131); Instance/CMon.v:247 is [CMon_Forget : CMon ⟶ Sets], not out of
-       a functor category; Construction/Day.v:921 is the Day tensor; only
-       Theory/Lawvere/Sets.v:83 [ev1] is as described.
+     - The hit list: the Theory/Kan/Extension.v entry lands on a comment
+       rather than on [Induced] itself;
+       Instance/CMon.v is [CMon_Forget : CMon ⟶ Sets], not out of
+       a functor category; Construction/Day.v is the Day tensor; only
+       Theory/Lawvere/Sets.v [ev1] is as described.
      - "record [J ∏ P, X] ≅ [J, [P, X]] from [Cat_Closed]": it exists as an
-       isomorphism in [Cat], Instance/Cat/Exponential.v:57 [Cat_exp_prod_l]
+       isomorphism in [Cat], Instance/Cat/Exponential.v [Cat_exp_prod_l]
        — cited by Instance/Fun/Eval/Cat.v's [eval_transpose], not rebuilt.
      - "[Functor/Bifunctor.v] supplies [bimap] but no partial-application
-       constructor": Functor/Bifunctor/Partial.v:121 [Partial_l] and :144
+       constructor": Functor/Bifunctor/Partial.v's [Partial_l] and
        [Partial_r] exist (its INDEX bullet warns about the [Cat_Closed]
        currying route's universe pinning, measured again below).
-     - Correct as cited: Structure/Cartesian/Closed.v:75 [eval],
-       Instance/Cat/Cartesian/Closed.v:47 [Cat_Closed], Theory/Lawvere/
+     - Correct as cited: Structure/Cartesian/Closed.v [eval],
+       Instance/Cat/Cartesian/Closed.v [Cat_Closed], Theory/Lawvere/
        Model.v's [Models] as a FULL subcategory of [[law_cat T, C]].
 
    WHAT IS DELIVERED (11 named constants here plus 17 [Program]
@@ -85,7 +86,7 @@ Generalizable All Variables.
          [EvalFunctor : P ⟶ [[P, X], X]] with [EvalFunctor_obj]/
          [EvalFunctor_map] at [eq_refl].  The GENERAL form is new; the
          construction itself appears at one object of one category as
-         Functor/Representable/Functorial.v:403's [wit_ev_tau n : YoEvalAt
+         Functor/Representable/Functorial.v's [wit_ev_tau n : YoEvalAt
          ttt ⟹ YoEvalAt ttt] over [BNat] and [Sets], whose component
          converts with [Eval_nat]'s at [eq_refl] (probe).  [EvalFunctor]
          has no precedent: a tree-wide sweep for a functor into a double
@@ -97,7 +98,7 @@ Generalizable All Variables.
          [eq_refl] (an earlier revision recorded [One_Eval] on objects
          only, implying a boundary that is not there), and Awodey's
          increment [p424_ev1_via_Eval : Models T Sets ⟶ Sets := Eval
-         (law_of_nat 1) ◯ Incl] agreeing with Theory/Lawvere/Sets.v:83's
+         (law_of_nat 1) ◯ Incl] agreeing with Theory/Lawvere/Sets.v's
          [ev1] in both data fields at [eq_refl].  They live in Test/
          because the identified constants sit in heavier layers
          (Adjunction/, Functor/Hom/Yoneda/, Theory/Lawvere/) that no
@@ -113,8 +114,8 @@ Generalizable All Variables.
          functor.  Aliasing [EvalAt := Eval] would edit
          Adjunction/Diagonal/Connected.v (with its exact annotation, and a
          re-check of [EvalAt_retracts], [colimit_is_EvalAt] and
-         Test/ProbeConnected378.v:343); deleting it is a removal of working
-         code.  Neither is done here: docs/INDEX.md:93's "NEW" is corrected
+         Test/ProbeConnected378.v); deleting it is a removal of working
+         code.  Neither is done here: docs/INDEX.md's "NEW" is corrected
          in place and both remain.
 
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 17

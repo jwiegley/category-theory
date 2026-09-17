@@ -56,7 +56,7 @@ Require Import Category.Instance.Two.
     ** The design crux: "counit the identity" is not an equation
 
     In this library the counit of [F ⊣ G] at [a] runs [F (G a) ~> a]
-    (Theory/Adjunction.v:218) while [id[a]] runs [a ~> a], so the two
+    (Theory/Adjunction.v) while [id[a]] runs [a ~> a], so the two
     live in one hom-set only when [F (G a)] and [a] are the same object at
     LEIBNIZ equality.  The equation "counit ~ id", and with it the reading
     "counit ~ nat_id" that suggests itself, is therefore not merely
@@ -68,9 +68,9 @@ Require Import Category.Instance.Two.
     DATA -- a left adjoint [F], an adjunction, a family
     [lali_obj a : F (G a) = a], and the counit condition stated against the
     identity TRANSPORTED along it, [counit a ~ id_cast (lali_obj a)], over
-    Construction/Quotient.v:56's transport kit.  The equivalent phrasing on
+    Construction/Quotient.v's transport kit.  The equivalent phrasing on
     functors ([F ◯ G] strictly equal to [Id[A]], i.e. [~] at
-    Theory/Functor.v:606's [Functor_StrictEq_Setoid]) is the same data
+    Theory/Functor.v's [Functor_StrictEq_Setoid]) is the same data
     rearranged: its object component is [lali_obj] and its morphism
     coherence is the naturality that [counit] already has.  That
     rearrangement is not performed here.
@@ -93,7 +93,7 @@ Require Import Category.Instance.Two.
     stated about [G]), all three [:=] terms.
 
     Clause (c) is the record [ReflectiveIsoPresentation]: a subcategory
-    [ri_sub], a [Reflective] structure on it (Construction/Reflective.v:60,
+    [ri_sub], a [Reflective] structure on it (Construction/Reflective.v,
     whose [reflective_full] field is the fullness clause), an isomorphism
     [ri_iso : A ≅[StrictCat] Sub X ri_sub], and the factorization
     [ri_factor] stating [G] strictly equal to [Incl ◯ to ri_iso] -- Mac
@@ -131,7 +131,7 @@ Require Import Category.Instance.Two.
     proof-irrelevance of membership on inhabited fibres, which Mac Lane's
     set-theoretic subcategory has for free and this library's
     [Subcategory] does not supply.  What a bare [Reflective] gives is an
-    ISOMORPHISM [reflective_counit_iso] (Construction/Reflective.v:92),
+    ISOMORPHISM [reflective_counit_iso] (Construction/Reflective.v),
     never an identity; the corresponding ill-typed equation is pinned as
     the probe's second TYPING negative.
 
@@ -214,7 +214,7 @@ Require Import Category.Instance.Two.
     used, and the loop it exists to kill never appears.
 
     Two by-products, both small and both stated for reuse:
-    [strict_id_cast_nat] is the missing inverse of Theory/Skeleton.v:229's
+    [strict_id_cast_nat] is the missing inverse of Theory/Skeleton.v's
     [strict_equiv_of_id_cast_nat] (that file packages only one direction of
     [transport_square]), and [strict_equivalence] is the passage
     [StrictCat]-isomorphism => [EquivalenceOfCategories] with CONTROLLED
@@ -224,20 +224,20 @@ Require Import Category.Instance.Two.
 
     [InjectiveOnObjects] is new: the tree's only prior statements of that
     shape are [GrpAt_Incl_injective_on_objects]
-    (Instance/Grp/TwoFunctors.v:366) and [slice_arrow_reflect]/
-    [coslice_arrow_reflect] (Instance/Cat/Pullback.v:716, :885, each
-    under that section's [ObjUIP C]; its comment at :708 names the
+    (Instance/Grp/TwoFunctors.v) and [slice_arrow_reflect]/
+    [coslice_arrow_reflect] (Instance/Cat/Pullback.v, each
+    under that section's [ObjUIP C]; its comment names the
     property), each for one concrete functor, with no general predicate
     anywhere -- an audit found the two slice ones after a first draft
     named only the first.  The
-    nearest relatives to clause (a) are Adjunction/Compose.v:71's
+    nearest relatives to clause (a) are Adjunction/Compose.v's
     [Adjunction_Id_counit] (the counit of [Id ⊣ Id] is the identity -- the
     degenerate case, recovered here as [Id_LALI]),
-    Construction/Reflective.v:92's [reflective_counit_iso] (an
+    Construction/Reflective.v's [reflective_counit_iso] (an
     isomorphism, strictly weaker) and
-    Construction/Localization/Universal.v:126's [reflection_retract]
+    Construction/Localization/Universal.v's [reflection_retract]
     ([Refl ◯ Iota ≈ Id] at [Cat] level, i.e. up to natural isomorphism
-    rather than on the nose).  Theory/Skeleton.v:336's
+    rather than on the nose).  Theory/Skeleton.v's
     [skeletal_equivalence_is_isomorphism] is the precedent for building a
     [≅[StrictCat]] out of fullness, faithfulness and object data, and its
     [Finv] is the pattern [ImageFrom] follows.
@@ -245,7 +245,7 @@ Require Import Category.Instance.Two.
     Two constants are rebuilt rather than consumed, each for a measurement:
 
       - [PointAt], the functor [1 ⟶ C] picking an object, duplicates
-        Theory/Shapes.v:205's [Point], whose source is pinned at
+        Theory/Shapes.v's [Point], whose source is pinned at
         [_1@{_ Set Set}]: over a category whose homs are declared strictly
         above [Set], [Point x : _1@{o h h} ⟶ C] is rejected with "Cannot
         enforce Set = h" while [PointAt] is accepted (both pinned in the
@@ -253,7 +253,7 @@ Require Import Category.Instance.Two.
         to [Set]-homed categories.  The pin is the donor's minimization,
         not a property of [_1] (whose three levels are free), and is not
         claimed unavoidable.
-      - [TwoY_Terminal] duplicates Instance/Two/Monoidal.v:95's
+      - [TwoY_Terminal] duplicates Instance/Two/Monoidal.v's
         [Two_Terminal] (renamed here to avoid the collision).  That module
         costs 16 modules on this file's closure (36 -> 52, measured) for a
         twelve-line witness, so it is not required.
@@ -294,8 +294,8 @@ Require Import Category.Instance.Two.
     REJECTED (both in the probe), and [lali_left : X ⟶ A] is a field, so
     with the parameter [G : A ⟶ X] the identification is forced before
     either of the other two is consulted; [Adjunction]
-    (Theory/Adjunction.v:133) carries [h1 = p1], [h1 = h2], [h1 = p2] in
-    its own block, and [Functor_StrictEq_Setoid] (Theory/Functor.v:606)
+    (Theory/Adjunction.v) carries [h1 = p1], [h1 = h2], [h1 = p2] in
+    its own block, and [Functor_StrictEq_Setoid] (Theory/Functor.v)
     is declared over [Category@{u1 u4 u4}] and [Category@{u2 u4 u4}] --
     only the last is probed in isolation, its command naming no reverse
     functor.  The probe's [Au ⟶ Xu] control shows only that [Functor]
@@ -942,7 +942,7 @@ Context (T : @Terminal C).
 Local Notation One := (_1@{o h h}).
 Local Notation t := (@terminal_obj C T).
 
-(* The functor 1 ⟶ C picking out an object.  [Theory/Shapes.v:205]'s
+(* The functor 1 ⟶ C picking out an object.  [Theory/Shapes.v]'s
    [Point] is this functor, but its source is pinned at [_1@{_ Set Set}]
    (measured: [Point x : _1@{o h h} ⟶ C] is rejected with "Cannot enforce
    Set = h"), which would confine the example below to categories whose

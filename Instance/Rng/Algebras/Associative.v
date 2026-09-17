@@ -154,7 +154,7 @@ Arguments aalg_central {K} _ _ _.
 
 (* A morphism of K-algebras is a ring homomorphism commuting with the two
    structure maps.  The orientation of the triangle is [KAlgHom]'s, hence
-   [Coslice]'s (Construction/Slice.v:171). *)
+   [Coslice]'s (Construction/Slice.v). *)
 Definition AAlgHom {K : CRng} (A B : AAlgObject K) : Type :=
   ∃ f : aalg_ring A ~{Rng}~> aalg_ring B, aalg_unit B ≈ f ∘ aalg_unit A.
 

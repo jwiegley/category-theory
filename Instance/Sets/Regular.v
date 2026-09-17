@@ -99,7 +99,7 @@ Context (P : Prop).
 
 (* Two booleans count as equal when they are equal, or when P holds.  The
    relation is [Type]-valued, as every hom-setoid relation in this library is
-   ([crelation], Lib/Setoid.v:32), so a proof of it can be taken apart by
+   ([crelation], Lib/Setoid.v), so a proof of it can be taken apart by
    [destruct] into the informative case distinction the theorems below run
    on. *)
 Definition sets_coarse_equiv (b b' : bool) : Type := ((b = b') + P)%type.
@@ -120,7 +120,7 @@ Definition sets_coarse : SetoidObject :=
 
 (* The identity on carriers, read as an arrow into the coarser setoid.  It
    respects the equivalences because it only ever has to make things MORE
-   equal.  Its domain is [bool_setoid_object] (Instance/Sets.v:493), which is
+   equal.  Its domain is [bool_setoid_object] (Instance/Sets.v), which is
    inhabited by [true], so the blanket principle applies to it. *)
 Program Definition sets_coarsen : bool_setoid_object ~{Sets}~> sets_coarse := {|
   morphism := fun b : bool => b

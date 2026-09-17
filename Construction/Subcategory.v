@@ -80,7 +80,7 @@ Program Instance Incl : Sub ⟶ C := {
    even that [shom] is inhabited. What the lemma buys is that the argument is
    now made once, generically, instead of per subcategory: it is exactly the
    proof re-derived for one particular subcategory at
-   Theory/Sheaf/Category.v:103.
+   Theory/Sheaf/Category.v.
 
    The substance of a faithfulness claim sits in the hom-setoid being injected
    out of, not in the injection; see Construction/Subcategory/Finite.v for an
@@ -163,7 +163,7 @@ Qed.
    identities — so the property is named here and taken as a hypothesis rather
    than derived. It holds trivially for the usual case of a full subcategory
    cut out by a predicate on objects alone, where [shom] ignores its morphism
-   argument: Theory/Sheaf/Category.v:77 and Construction/Subcategory/Finite.v
+   argument: Theory/Sheaf/Category.v and Construction/Subcategory/Finite.v
    are both of that shape, and the latter discharges it. *)
 
 Definition ShomRespects : Type :=

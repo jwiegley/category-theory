@@ -13,7 +13,7 @@
 
    Instance/Mod/Tensor.v built the object V ⊗ V' by generators and relations
    together with its universal property, and then said in terms what it did
-   NOT build (Instance/Mod/Tensor.v:219-224):
+   NOT build (Instance/Mod/Tensor.v):
 
      "NO BIFUNCTORIALITY.  Instance/Ab/Tensor.v's [AbTensor_Functor] has no
       counterpart here: nothing below makes ⊗ a functor
@@ -38,9 +38,9 @@
      Context (Rcomm : ∀ a b : carrier (rig_setoid (ring_rig R)),
                  rig_mul (ring_rig R) a b ≈ rig_mul (ring_rig R) b a).
 
-   which is, after elaboration, the predicate of Instance/Rng.v:412's
+   which is, after elaboration, the predicate of Instance/Rng.v's
    [CRng_Sub], so an object of [CRng] supplies it by projection and
-   Instance/Rng.v:426's [Int_Ring_commutative] discharges it at ℤ.  Indexing
+   Instance/Rng.v's [Int_Ring_commutative] discharges it at ℤ.  Indexing
    by [CRng] instead would have been the wrong move twice over: the module
    category the tree actually has is [RMod R] for a [RingObject] R, so a
    [CRng]-indexed statement would have to project its first component back
@@ -102,12 +102,12 @@
    generator is itself an arbitrary formal expression.  The obvious route is
    to induct through that factor, which is what Instance/Ab/Monoidal.v does:
    its [AgreeOnL] / [AgreeOnR] predicates with their eight closure lemmas
-   occupy [Section GeneratorClosure], lines 603-700 of that file, and the
-   three principles that iterate them to depth two and three occupy lines
-   709-775 — 98 and 67 lines, so 165 in all (measured on that file at the
-   revision this one was written against).  The contiguous SPAN 603-775 is
-   173, but the eight lines between the two ranges belong to neither, so 165
-   is the like-for-like figure and 173 would pad the denominator.
+   occupy [Section GeneratorClosure] of that file, and the three principles
+   that iterate them to depth two and three occupy the block that follows
+   it — 98 and 67 lines, so 165 in all (measured on that file at the
+   revision this one was written against).  The contiguous span covering
+   both is 173 lines, but the eight lines between them belong to neither, so
+   165 is the like-for-like figure and 173 would pad the denominator.
 
    The route taken here instead makes generator insertion a first-class
    module homomorphism.  [gen_r b : A ~> A ⊗ B] is `a ↦ a ⊗ b` and [gen_l a]
@@ -127,7 +127,7 @@
    against the Ab side's 165.  Read that comparison narrowly.  56 of the 129
    are the uniform four-way obligation body repeated across the eight
    [Program] obligations of [gen_r] and [gen_l], following
-   Instance/Mod/Tensor.v:694's own idiom, so the substantive remainder is 73;
+   Instance/Mod/Tensor.v's own idiom, so the substantive remainder is 73;
    and the two developments quotient by different relations, so no claim is
    made that the Ab-side machinery could have been written this way.  It was
    not re-attempted.
@@ -219,7 +219,7 @@
          unknown.  Supplying them makes the head rigid, so the [Ltac]s below
          use `match goal with |- ?f ≈ ?g => refine (tensor_hom_ext f g _)
          end`.
-     (b) [mt_eq_Equivalence] (Instance/Mod/Tensor.v:479) is a [Lemma], not an
+     (b) [mt_eq_Equivalence] (Instance/Mod/Tensor.v) is a [Lemma], not an
          [Instance], so setoid [rewrite] and [transitivity] cannot see it and
          the resulting error names the wrong culprit.  Nothing below needs
          it; a consumer that does should add
@@ -234,7 +234,7 @@
          Instance/Ab/Monoidal.v records at its [tensor_hom_ext2], and it is
          pinned as a TYPING negative below.
      (d) [Program] silently discharges [rbl_respects] by instance resolution
-         when the map is literally [rm_smul], because Tensor.v:286 exports
+         when the map is literally [rm_smul], because Tensor.v exports
          that field as an instance.  The obligation numbering then SHIFTS and
          the remaining proofs land on the wrong goals.  [act_bilin] therefore
          supplies [rbl_respects] explicitly; [act_bilin_r], whose map is
@@ -248,11 +248,11 @@
          needs no hypothesis; neither reason applies here.)  Consumers pass
          the structure explicitly, as the acceptance tests below do.
      (f) Name collisions found and avoided.  `assoc_to` is taken by
-         Construction/Day.v:1279, hence [mod_assoc_to] / [mod_assoc_fr];
-         `rmod_hom_neg` is taken by Instance/FdVect/DoubleDual.v:158, hence the
+         Construction/Day.v, hence [mod_assoc_to] / [mod_assoc_fr];
+         `rmod_hom_neg` is taken by Instance/FdVect/DoubleDual.v, hence the
          scaling map is [rmod_hom_smul] and no negation map is declared; and
          `probe_instrument`, the obvious name for the probe section's
-         instrument check, is taken by Test/ProbePolynomial.v:85, hence
+         instrument check, is taken by Test/ProbePolynomial.v, hence
          [mod_monoidal_instrument].  That last one matters even though the
          name sits inside a [Fail] and so creates no constant: the
          `print-assumptions` gate loads many files into one scope, where a
@@ -299,7 +299,7 @@
        need a refutation nobody has written.  What is claimed instead is
        narrower and is evidence of two weaker kinds: a sweep for the
        SPELLINGS `@Monoidal … RMod` and `Monoidal (RMod` returns nothing, and
-       Instance/Mod/Tensor.v:221 disclaims the structure in its own prose.
+       Instance/Mod/Tensor.v disclaims the structure in its own prose.
        Neither rules out some generic construction inhabiting
        [@Monoidal (RMod R)] under another name.
      - NO [Instance] REGISTRATION, for reason (e) above; [ModMonoidal],
@@ -362,7 +362,7 @@ Definition mval {V W : RModObject R} (f : V ~{RMod R}~> W)
 
 (* a ↦ a ⊗ b, as a module homomorphism A ~> A ⊗ B.  One uniform body serves
    all four obligations so the proof does not depend on the order [Program]
-   emits them in — the Instance/Mod/Tensor.v:694 idiom. *)
+   emits them in — the Instance/Mod/Tensor.v idiom. *)
 Program Definition gen_r {A B : RModObject R}
   (b : carrier (cmon_setoid B)) : A ~{RMod R}~> TensorMod A B := {|
   rm_hom := {| cmon_map := {| morphism := fun a => mt_gen a b |} |}
@@ -844,7 +844,7 @@ End AssociatorLegs.
 (** ** The associator
 
     Named [mod_assoc_to] / [mod_assoc_fr] because `assoc_to` is taken by
-    Construction/Day.v:1279.  Both round trips reduce to generators through
+    Construction/Day.v.  Both round trips reduce to generators through
     [tensor_hom_ext_l] and [tensor_hom_ext_r] and close by [mt_refl]: the
     two maps are mutually inverse BY COMPUTATION, not by an equational
     argument. *)
@@ -1056,7 +1056,7 @@ End ModBraiding.
 
 (** ** Acceptance tests over ℤ
 
-    ℤ is a commutative ring (Instance/Rng.v:426's [Int_Ring_commutative]), so
+    ℤ is a commutative ring (Instance/Rng.v's [Int_Ring_commutative]), so
     the whole structure is inhabited at a concrete base.  Every example below
     closes by [eq_refl]: these are computations, not equational arguments. *)
 
@@ -1162,7 +1162,7 @@ Example mod_pentagon_value :
 (* Instrument check: the [Fail] mechanism is live and scope-free in this
    file.  If this ever stops failing, every negative below is worthless.
    Named for this file rather than [probe_instrument], which
-   Test/ProbePolynomial.v:85 already declares — the collision hazard
+   Test/ProbePolynomial.v already declares — the collision hazard
    engineering note (f) records. *)
 Fail Example mod_monoidal_instrument : (true = false) := eq_refl.
 

@@ -39,7 +39,7 @@
 
    HOW THE COMPARISONS COMPOSE.  Both are [iso_compose] of the outer
    functor's comparison with the image of the inner one under
-   [fobj_iso] (Theory/Functor.v:228, which is [Defined], so its [to]
+   [fobj_iso] (Theory/Functor.v, which is [Defined], so its [to]
    reduces to [fmap[K] (to _)]).  For products the composite comparison
    is thus
 

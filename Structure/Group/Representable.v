@@ -26,26 +26,26 @@
    Construction/Deloop/Functors.v and a dozen other files.  The genuine
    gap is narrower and is what this file fills: a group structure on the
    hom-OBJECT, the group analogue of [Hom_Monoid]
-   (Structure/Monoid.v:290).
+   (Structure/Monoid.v).
 
    (2) The reason Awodey's counterexample -- a field K whose ring C(K)
    of continuous functions is not a field, the pointwise inverse of
    x ↦ x² being discontinuous at 0 -- is not built here is NOT that the
    reals, topology and fields are missing.  All three are in tree, and
-   the C(X) functor itself exists: Instance/Top/ContinuousRing.v:418
-   supplies [CRingOb X : RingObject] and :495 supplies
+   the C(X) functor itself exists: Instance/Top/ContinuousRing.v
+   supplies [CRingOb X : RingObject] and
    [ContinuousRingFunctor : Top^op ⟶ Rng].  The actual obstruction is
    narrower: there is no ℝ [FieldObject].  The inhabitants of
    Instance/FdVect.v's [FieldObject] class are [Q_Field]
-   (Instance/FdVect.v:231), [F2_Field] (Instance/Field.v:528) and the
-   PARAMETRIC [FracField] (Instance/Field/Frac.v:734, the field of
+   (Instance/FdVect.v), [F2_Field] (Instance/Field.v) and the
+   PARAMETRIC [FracField] (Instance/Field/Frac.v, the field of
    quotients of an integral domain); a search for a reals-based
    [FieldObject] returns nothing.  And [CRingOb X] is a [RingObject],
    not a field.  So the statement "K is a field but C(K) is not" cannot
    even be TYPED here, and no impossibility is claimed -- only that the
    witness object does not exist.
 
-   (3) Structure/Group.v:28 already ASSERTS this file's theorem in
+   (3) Structure/Group.v already ASSERTS this file's theorem in
    prose -- "equivalently, [grp] is a group object iff each hom
    Hom(X, grp) is a group naturally in X" -- with no formal statement
    anywhere.  This file is what discharges that sentence.
@@ -952,7 +952,7 @@ End RoundTripsObject.
 
 (** ** Clause (a): the exponential of a group object
 
-    The group analogue of [Hom_Monoid] (Structure/Monoid.v:290),
+    The group analogue of [Hom_Monoid] (Structure/Monoid.v),
     obtained by transporting the hom-set data along curry/uncurry rather
     than by an internal diagram chase. *)
 

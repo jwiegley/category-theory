@@ -104,7 +104,7 @@ Generalizable All Variables.
     by construction and gives a false verdict), the copy recompiled
     under a scratch module name (rc=0 in all ten, so every rename was
     real), and this file recompiled against the copy.  10/10 broke it,
-    at lines 147-156, EVERY ONE a [Check] control line and NONE inside a
+    EVERY ONE at a [Check] control line and NONE inside a
     [Fail].  Zero vacuous guards.  The DENOMINATOR is exactly the
     constants DECLARED IN THE TARGET that a negative names; the donors a
     negative also names -- [Opposite], [Subcategory], [Adj], [AdjObj],

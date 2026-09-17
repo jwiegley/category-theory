@@ -33,7 +33,7 @@
                    between two DECLARED universes ("Cannot enforce qh = qo
                    because qo < qh"), while 8 reports the literal [Set]
                    ("Cannot enforce Set = ... because Set < ..."), which
-                   is what makes Instance/Grp.v:1188's [Z2] unusable
+                   is what makes Instance/Grp.v's [Z2] unusable
                    here.
 
     Every constant a negative names also appears in a command OUTSIDE any
@@ -213,14 +213,14 @@ End AntitoneIsNotCovariant.
 (** ** Negatives 6 and 7 (FORMABILITY): [Subsets] identifies the two
        universes of the setoid it is handed *)
 
-(* Instance/Powerset.v:304 declares [Subsets (X : SetoidObject@{o o})], so
+(* Instance/Powerset.v declares [Subsets (X : SetoidObject@{o o})], so
    forming the power set of a group's carrier IDENTIFIES that group's
    carrier and relation universes -- which is why the target's section
    binds [G : GrpObject@{gu o o}] with the level reused rather than
    [GrpObject@{gu o1 o2}].  (An earlier revision of this sentence wrote the
    instances as [@{o o gu}] and [@{o1 o2 gu}]; the roles permuted when
    [grp_prop] landed, and the reading is the same.)  [Subsets] is the LAST of four donors that
-   each force it alone: [Powerset_Prop_obj] (Instance/Sets/Powerset.v:981,
+   each force it alone: [Powerset_Prop_obj] (Instance/Sets/Powerset.v,
    the one the target meets first), [subset_le] and [subset_le_preorder]
    are rejected at these very levels too (measured out of tree; only
    [Subsets] is pinned here).  The controls show that naming the group's

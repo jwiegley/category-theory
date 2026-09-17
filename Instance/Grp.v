@@ -64,7 +64,7 @@ Generalizable All Variables.
        ([grp_mul_inv_r], [grp_mul_unit_r]) by the classical argument that
        runs left inverse + associativity into right inverse and then into
        the right unit law.  This is the group-theoretic strengthening of
-       what Instance/CMon.v:77 does with commutativity, where only
+       what Instance/CMon.v does with commutativity, where only
        [cmon_plus_zero_r] is derivable.
 
      - [grp_inv] carries NO respectfulness field.  Congruence of inversion
@@ -80,7 +80,7 @@ Generalizable All Variables.
        Lib/Setoid/Propositional.v rather than proved by hand.)
 
    [GrpHom] does keep unit preservation as a field alongside
-   multiplication preservation, matching [CMonHom] (Instance/CMon.v:86)
+   multiplication preservation, matching [CMonHom] (Instance/CMon.v)
    and the issue's stated shape.  That field is REDUNDANT, and the file
    says so constructively rather than in prose: [grp_map_unit_from_mul]
    derives it from multiplication preservation alone by cancelling
@@ -91,13 +91,13 @@ Generalizable All Variables.
    WHAT THIS FILE ESTABLISHES BEYOND THE CATEGORY.  The forgetful functor
    [Grp_Forget] to [Sets] with its faithfulness ([Grp_Forget_Faithful]);
    the one-element group as a zero object ([Grp_Zero], packaged for
-   Structure/ZeroObject.v:35, whose [ZeroObject] class wants a [Terminal],
+   Structure/ZeroObject.v, whose [ZeroObject] class wants a [Terminal],
    an [Initial] and a coincidence isomorphism -- here the identity, since
-   one record plays both roles, exactly as at Instance/CMon/Biproduct.v:160);
+   one record plays both roles, exactly as at Instance/CMon/Biproduct.v);
    binary direct products as a [Cartesian] structure ([Grp_Cartesian],
-   against the class at Structure/Cartesian.v:121); the characterization
+   against the class at Structure/Cartesian.v); the characterization
    of monomorphisms as the injections ([Grp_injectivity_is_monic]); the
-   reconciliation with the internal [GroupObject] of Structure/Group.v:109
+   reconciliation with the internal [GroupObject] of Structure/Group.v
    in both directions; and Riehl's opposite-group endofunctor with its
    inversion natural isomorphism. *)
 
@@ -137,7 +137,7 @@ Generalizable All Variables.
    different objects; in [Grp] the one-element group is BOTH, because
    there is no empty group (a group must contain a unit) and because a
    homomorphism out of the trivial group is pinned by [grp_map_unit].
-   [Grp_Zero] records the coincidence.  Instance/CMon/Biproduct.v:162
+   [Grp_Zero] records the coincidence.  Instance/CMon/Biproduct.v
    makes the same observation for commutative monoids, where it is the
    first step of a semiadditive structure; groups go further -- [Grp] is
    not semiadditive, since the direct product is not a biproduct unless
@@ -183,14 +183,14 @@ Generalizable All Variables.
 
    Three earlier in-tree treatments of groups are superseded or
    complemented by this file, none of which built the category.
-   Structure/Group.v:109 defines [GroupObject], a group internal to a
+   Structure/Group.v defines [GroupObject], a group internal to a
    cartesian monoidal category -- the right notion for topological
    groups, group schemes and Hopf algebras, but internal-only.
    [Grp_GroupObject] and [GroupObject_GrpObject] below show that at
    C = [Sets] with the cartesian monoidal structure of
-   Structure/Monoidal/Internal/Product.v:435 the two notions carry the
+   Structure/Monoidal/Internal/Product.v the two notions carry the
    same data, in both directions and with the round trip on the
-   operations checked by computation.  Instance/Comp.v:382 defines
+   operations checked by computation.  Instance/Comp.v defines
    [Group] as a universal-algebra structure (an algebra for a signature
    with equations) with no category attached and, unlike this file,
    at the cost of [functional_extensionality].  Theory/Algebra/Monoid.v
@@ -402,7 +402,7 @@ Qed.
 (* The unit-preservation FIELD of [GrpHom] is redundant: it follows from
    multiplication preservation by cancelling f e from
    f e * f e ≈ f (e * e) ≈ f e ≈ f e * e.  The field is retained anyway,
-   to mirror [cmon_map_zero] at Instance/CMon.v:89 and to keep the
+   to mirror [cmon_map_zero] at Instance/CMon.v and to keep the
    projection available without a detour; [Build_GrpHom'] is the
    constructor that exploits the redundancy. *)
 Lemma grp_map_unit_from_mul {G H : GrpObject}
@@ -451,7 +451,7 @@ Qed.
 (* G1: the hom-setoid is propositional, pointwise into the CODOMAIN's own
    [grp_prop].  The domain needs nothing -- the relation quantifies over its
    carrier but never compares two of its elements.  This is the same shape as
-   [hom_PropEquiv] (Instance/Sets/Propositional.v:91) and as
+   [hom_PropEquiv] (Instance/Sets/Propositional.v) and as
    [CMonHom_PropEquiv] (Instance/CMon.v), restated here because
    [GrpHom_Setoid] is a setoid on [GrpHom G H] rather than on
    [SetoidMorphism]s, and the two records are not convertible. *)
@@ -888,7 +888,7 @@ Proof.
 Qed.
 
 (* In [Grp] the monomorphisms are exactly the injections (up to `≈`),
-   mirroring [injectivity_is_monic] at Instance/Sets.v:369.  The forward
+   mirroring [injectivity_is_monic] at Instance/Sets.v.  The forward
    direction is soft.  The reverse direction probes f with the kernel:
    monicity collapses the inclusion to the constant map, so the kernel is
    trivial, and f a ≈ f b then puts a * b⁻¹ in the kernel. *)
@@ -1049,7 +1049,7 @@ Qed.
 (** ** Reconciliation with the internal [GroupObject] of Structure/Group.v *)
 
 (* A NOTE ON DUPLICATION, for the reader who greps.  The tree already carries
-   a monoidal structure with the same underlying data at Instance/Sets.v:283,
+   a monoidal structure with the same underlying data at Instance/Sets.v,
    the exported instance [Sets_Product_Monoidal].  The definition below is a
    DISTINCT, NON-CONVERTIBLE term (their units agree by reflexivity; their
    tensors do not -- one is a Program-built bifunctor, the other the CC_

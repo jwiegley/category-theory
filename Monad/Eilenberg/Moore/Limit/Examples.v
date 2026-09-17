@@ -32,7 +32,7 @@ Generalizable All Variables.
    paragraph.)
 
    Two small points of usage.  [Terminal_Limit]
-   (Structure/Limit/Terminal.v:33) is an [↔], which in this library is
+   (Structure/Limit/Terminal.v) is an [↔], which in this library is
    [iffT] (Lib/Foundation.v), so its halves are taken with [fst] and [snd]
    rather than [proj1]/[proj2].  And it is [Qed]-opaque, so the strictness
    equality below is stated against [vertex_obj[Lbelow]] — the apex of the

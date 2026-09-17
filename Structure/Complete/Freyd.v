@@ -34,46 +34,47 @@ Generalizable All Variables.
    ⇉ b, the 2^K choices "f or g at each index" would give 2^K arrows into
    the K-fold power of b, more than the K arrows there are in all — Cantor.
    So a small complete category is a preorder, and the completeness that
-   matters is that of LARGE categories; Adjunction/GAFT.v:104-105 and
-   Instance/Poset.v:92-95 record the consequence for the adjoint functor
-   theorems, and Structure/Complete.v:64-77 the statement.  Near-namesakes:
+   matters is that of LARGE categories; Adjunction/GAFT.v and
+   Instance/Poset.v record the consequence for the adjoint functor
+   theorems, and Structure/Complete.v the statement.  Near-namesakes:
    Structure/Premonoidal/Freyd.v is about Freyd CATEGORIES (premonoidal),
-   unrelated; Structure/Limit/FromProducts.v:292 opens a [Section
+   unrelated; Structure/Limit/FromProducts.v opens a [Section
    ArrowIndex] around its [ArrowIx] index type (section names do not
-   survive [End], so there is no clash), and Theory/Size.v:328's [TotalMor]
+   survive [End], so there is no clash), and Theory/Size.v's [TotalMor]
    is the same idea as a Σ-type — the witness of item (2) uses it.
 
    STALE PREMISES, RE-MEASURED.  The issue's "Verified ABSENT" paragraph is
    wrong on three of its four clauses; both files postdate the issue text.
-     - "no thin-category predicate": Structure/Thin.v:76 [Thin C := ∀ x y
-       (f g : x ~> y), f ≈ g], with [Thin_Opposite]/[Opposite_Thin] (:83/:86),
-       [thin_preorder] (:136), [thin_PreOrder] (:142) and [HomChoice] (:170),
+     - "no thin-category predicate": Structure/Thin.v [Thin C := ∀ x y
+       (f g : x ~> y), f ≈ g], with [Thin_Opposite]/[Opposite_Thin],
+       [thin_preorder], [thin_PreOrder] and [HomChoice],
        all consumed here.
-     - "no smallness predicate, no global arrow-set": Theory/Size.v:106
-       [LocallySmall], :161 [Small], :280 [TotalMor C := {x & {y & x ~> y}}];
-       Adjunction/SAFT.v:56's "NO size / smallness machinery" is stale as to
+     - "no smallness predicate, no global arrow-set": Theory/Size.v's
+       [LocallySmall], [Small] and [TotalMor C := {x & {y & x ~> y}}];
+       Adjunction/SAFT.v's "NO size / smallness machinery" is stale as to
        smallness.  [Small] is deliberately NOT consumed (below).
      - "no cardinality vocabulary beyond the finite counter": true, and
-       none is added — but the counter is Theory/Metacategory.v:434
-       [cardinality] (the issue says :415), its note "counts the identity
-       arrows" is at :114 (not :102), [ThreeArrows_card_3] at :466 (not
-       :447), and it counts OBJECTS, so it is not Riehl 3.7.2 either.
-     - The Cantor step is in the tree: Instance/Fun/Discrete.v:524
-       [cantor_predicates], :536 [cantor_bool] (four lines).  A Structure/
+       none is added — but the counter is Theory/Metacategory.v's
+       [cardinality], which the issue cites at the wrong place, as it
+       does that constant's note "counts the identity arrows" and
+       [ThreeArrows_card_3]; and it counts OBJECTS, so it is not Riehl
+       3.7.2 either.
+     - The Cantor step is in the tree: Instance/Fun/Discrete.v's
+       [cantor_predicates] and [cantor_bool] (four lines).  A Structure/
        file does not require Instance/Fun, so [freyd_cantor_bool] below is a
        named twin; relocating the original to Lib/ is surfaced, not done.
-     - #422 has landed: Instance/Proset/Limit.v:485
+     - #422 has landed: Instance/Proset/Limit.v
        [proset_Complete_iff_all_meets], consumed by item (7).
-     - Decidable object equality is in the tree: Construction/Quotient.v:163
-       [ObjDecEq] (a definitional class; [obj_uip] at :167 is [UIP_dec] on
+     - Decidable object equality is in the tree: Construction/Quotient.v's
+       [ObjDecEq] (a definitional class; [obj_uip] is [UIP_dec] on
        it), consumed by item (2).  An earlier revision declared a duplicate
        [DecObj] with the same statement; the audit found the twin.
-     - Prose locations: the Freyd paragraph of Structure/Complete.v is
-       :64-77 (issue: :63-72), the Hyland caveat :102-112 (issue: :99-106),
-       Instance/Poset.v's sentence :92-95 (issue: :83-86); GAFT.v:104-105
-       is right.  Still absent, measured: [SmallCategory]/[is_small] (0
+     - Prose locations: the issue's pointers into Structure/Complete.v
+       are stale for both the Freyd paragraph and the Hyland caveat, as
+       is its pointer to Instance/Poset.v's sentence; the one into
+       GAFT.v is right.  Still absent, measured: [SmallCategory]/[is_small] (0
        hits), a morphism cardinal, and any [Complete C → HasIndexedProducts]
-       bridge (every consumer builds its product by hand, e.g. SAFT.v:184).
+       bridge (every consumer builds its product by hand, e.g. SAFT.v).
 
    WHAT IS DELIVERED (38 constants, every one closed under the global
    context).
@@ -92,7 +93,7 @@ Generalizable All Variables.
          Theory/Size.v's [Small] is not consumed: it resizes per hom-set
          through [ObjEq] transports, and the proof needs one index type for
          all arrows.
-     (2) THE WITNESS IS NOT VACUOUS.  Over Construction/Quotient.v:163's
+     (2) THE WITNESS IS NOT VACUOUS.  Over Construction/Quotient.v's
          [ObjDecEq C] (decidable object equality), [td]/[td_enc] (decode a
          bundled arrow at requested endpoints, round trip by
          Coq.Logic.Eqdep_dec's [UIP_dec] — a theorem, not an axiom),
@@ -124,11 +125,11 @@ Generalizable All Variables.
          Refuting it needs a left inverse, i.e. testing at each index
          whether the leg is f or g, i.e. [DecHom]; the Russell/Cantor
          no-injection argument for Prop-valued families (stated by no
-         in-tree constant — Instance/Fun/Discrete.v:524's
+         in-tree constant — Instance/Fun/Discrete.v's
          [cantor_predicates] is the surjection form) is not available
          because the family needs a BOOLEAN choice.  This is exactly
          Hyland's effective-topos
-         counterexample (Structure/Complete.v:102-112): the theorem is NOT
+         counterexample (Structure/Complete.v): the theorem is NOT
          constructively provable without [DecHom], which is why the
          decider is an explicit hypothesis and [Print Assumptions] stays
          closed.  The probe carries the injection as a positive control
@@ -139,7 +140,7 @@ Generalizable All Variables.
          Structure/Limit/Comparison.v's annotated [DiscreteCat_Functor'] and
          [discrete_IsIndexedProduct_of_IsLimitCone]; the unannotated route
          pins C's hom level to [Set] (probe N1, "Cannot enforce Set = uh"),
-         and the carrier of that pin is Structure/Limit/Product.v:119's
+         and the carrier of that pin is Structure/Limit/Product.v's
          [limit_is_indexed_product], whose binder is [C : Category@{_ Set
          Set}] — [DiscreteCat_Functor]'s own binder leaves C free; it
          emits a shape with [Set] homs, and the limit vocabulary identifies
@@ -148,7 +149,7 @@ Generalizable All Variables.
          IsIndexedProduct] bridge the tree lacked.  Then the issue's pinned
          [small_complete_is_thin : ArrowIndex C → Complete C → DecHom C →
          Thin C] and [small_cocomplete_is_thin] (Riehl §E.1's cocomplete
-         half, via Construction/Product/Limit.v:389's
+         half, via Construction/Product/Limit.v's
          [Complete_op_of_Cocomplete]).
      (7) THE SECOND HALF: GREATEST LOWER BOUNDS.  [complete_has_glbs :
          Complete C → HomChoice C → HasAllMeets (thin_preorder C)]: a
@@ -156,17 +157,17 @@ Generalizable All Variables.
          ANY category — neither smallness nor thinness enters, which is why
          the issue's pinned NAME [small_complete_has_glbs] is not declared
          (a name asserting a hypothesis the statement does not use).  The
-         one hypothesis is [HomChoice] (Structure/Thin.v:170): the lower
+         one hypothesis is [HomChoice] (Structure/Thin.v): the lower
          bounds arrive [inhabited]-squashed and the mediator needs the
          arrows.  [complete_Proset_Complete : Complete C → HomChoice C →
          Complete (Proset (thin_PreOrder C))] closes the loop with #422's
          [proset_Complete_iff_all_meets].
-     (8) PROSE.  Structure/Complete.v:64-77 now points at
-         [small_complete_is_thin]/[complete_has_glbs] and :102-112 names
-         [DecHom] as the constructive hypothesis — both edits LINE-NEUTRAL,
-         so Instance/Sets/Products.v:160's citation of ":64-72" still
-         lands on Freyd's statement.  GAFT.v:104-105 and Poset.v:92-95 are
-         untouched (pointers surfaced, not added).
+     (8) PROSE.  Structure/Complete.v now points at
+         [small_complete_is_thin]/[complete_has_glbs] and names
+         [DecHom] as the constructive hypothesis — both edits
+         LINE-NEUTRAL, so the citation Instance/Sets/Products.v makes
+         into that file still lands on Freyd's statement.  GAFT.v and
+         Poset.v are untouched (pointers surfaced, not added).
 
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 38
    constants).
@@ -175,7 +176,7 @@ Generalizable All Variables.
        [complete_iprod_proj] — each carry [o = u0], [h = p], [h = uh],
        [h = up] and [uh = up]: the limit vocabulary identifies the shape's
        hom and proof levels with C's and the shape's object level with
-       [Complete]'s index, the fact Adjunction/SAFT.v:138-139 records in
+       [Complete]'s index, the fact Adjunction/SAFT.v records in
        prose and the FromProducts.v bullet as [u2 = u4].  No equation
        reaches the kernel, [freyd_thin], [small_complete_is_thin],
        [complete_has_glbs] or [complete_Proset_Complete].  (An earlier
@@ -208,7 +209,7 @@ Generalizable All Variables.
        shape-object level [Complete] quantifies over) and no [Set].
      - The ONLY [Set] in any block: [complete_Proset_Complete] concludes
        [Complete@{u u Set u0}] — the hom level of [Proset], whose homs are
-       Props, inherited from Instance/Proset/Limit.v:485's statement.
+       Props, inherited from Instance/Proset/Limit.v's statement.
 
    COUNTS AND CONVENTIONS.
      - 38 constants (19 [def], 14 [prf], 4 [proj], 1 [rec] DECLARATION
@@ -268,7 +269,7 @@ Generalizable All Variables.
 
 (** ** The Cantor step, as a boolean diagonal *)
 
-(* Twin of Instance/Fun/Discrete.v:536's [cantor_bool], re-proved here
+(* Twin of Instance/Fun/Discrete.v's [cantor_bool], re-proved here
    because a Structure/ file does not require Instance/Fun.  Relocating the
    original to Lib/ is surfaced, not done. *)
 Theorem freyd_cantor_bool {A : Type} (f : A → A → bool) :
@@ -316,7 +317,7 @@ Definition ArrowIndex_op {C : Category} (AI : ArrowIndex C) :
 
 (** ** The canonical witness: decidable object equality suffices *)
 
-(* Decidable object equality is Construction/Quotient.v:163's [ObjDecEq]
+(* Decidable object equality is Construction/Quotient.v's [ObjDecEq]
    (a definitional class: an instance IS the decider), consumed as is —
    an earlier revision declared a duplicate [DecObj]; the audit found the
    twin. *)
@@ -324,7 +325,7 @@ Definition ArrowIndex_op {C : Category} (AI : ArrowIndex C) :
 (* Decode a bundled arrow at a requested pair of endpoints, falling back on
    the default when the endpoints do not match.  No universe binders are
    written here on purpose: stdlib [eq] is pinned to a global universe on
-   Coq 8.19/8.20 (Theory/Size.v:74-90). *)
+   Coq 8.19/8.20 (Theory/Size.v). *)
 Definition td {C : Category} (DO : ObjDecEq C) {x y : obj[C]}
   (m : TotalMor C) (d : x ~> y) : x ~> y :=
   match DO (projT1 m) x with

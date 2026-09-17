@@ -46,9 +46,9 @@ Generalizable All Variables.
         containing the image ([normal_closure_least]), which is what earns
         the word "closure".
 
-    REUSE, not restatement.  [IsCokernel] is Structure/Kernel.v:58
-    ([IsCokernel f e := IsCoequalizer f zero_mor q e]) with its API at
-    :106 [cokernel_epic], :132 [cokernel_desc], :151 [normal_epi] and :160
+    REUSE, not restatement.  [IsCokernel] is Structure/Kernel.v
+    ([IsCokernel f e := IsCoequalizer f zero_mor q e]) with its API
+    [cokernel_epic], [cokernel_desc], [normal_epi] and
     [cokernel_regular_epi]; nothing of that is redefined, and the
     consequences below are those lemmas applied.
 
@@ -74,7 +74,7 @@ Generalizable All Variables.
 
 (* [zero_mor] in [Grp] is the constant map at the unit -- Awodey's "the
    constant map" -- and this is a computation rather than a claim, since
-   [Grp_Zero] (Instance/Grp.v:679) has the one-element group on both
+   [Grp_Zero] (Instance/Grp.v) has the one-element group on both
    sides.  Recorded with `≈` because the composite passes through
    [zero_coincide]; the underlying element equation is the point. *)
 Lemma grp_zero_mor_is_unit {G K : GrpObject} (a : carrier G) :
@@ -84,19 +84,20 @@ Proof. simpl; reflexivity. Qed.
 (** ** G/N as the coequalizer of N ↪ G against the trivial map *)
 
 (* NO SECTION CONTEXT below, and the reason is a measured universe pin
-   rather than a style choice.  [Grp_Zero] (Instance/Grp.v:679) elaborates
+   rather than a style choice.  [Grp_Zero] (Instance/Grp.v) elaborates
    at [ZeroObject@{u Set} Grp@{u Set}], because [Grp_trivial]
-   (Instance/Grp.v:600) elaborates at [GrpObject@{u u Set}] -- its
+   (Instance/Grp.v) elaborates at [GrpObject@{u u Set}] -- its
    hom/proof universe is pinned to [Set], even though the donor
-   [unit_setoid@{t u}] (Lib/Setoid.v:59) is polymorphic in exactly that
+   [unit_setoid@{t u}] (Lib/Setoid.v) is polymorphic in exactly that
    argument.  Consequently every statement mentioning [zero_mor] at [Grp],
    hence every [IsCokernel] and every coequalizer-against-zero statement,
    is confined to [GrpObject@{Set Set Set}].
 
    CORRECTION, the PR "algebraic carriers are sets" (2026-09-17).  An
    earlier revision of the sentence above wrote the readback as
-   [GrpObject@{u Set u}] and cited [Grp_Zero] at Instance/Grp.v:600 and
-   [Grp_trivial] at :522.  That PR permuted [GrpObject]'s universe roles
+   [GrpObject@{u Set u}] and cited [Grp_Zero] and [Grp_trivial] at lines
+   of Instance/Grp.v they have since left.  That PR permuted
+   [GrpObject]'s universe roles
    from (carrier, proof, aux) to (aux, carrier, proof) and moved both
    constants down the file.  Re-measured by [About] under
    [Set Printing Universes] after it: [Grp_trivial@{u} : GrpObject@{u u

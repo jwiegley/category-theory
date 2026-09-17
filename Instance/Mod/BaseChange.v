@@ -83,8 +83,8 @@
        **[RMod_Forget_Ab]** (the right adjoint, taken as given),
        [rm_smul_zero_r], [Ring_RMod], [Int_RMod].
      - Instance/Ab.v: [AbHom], [ab_cancel_l].
-     - Instance/CMon.v: [cmon_hom_id] (:94) and [cmon_hom_compose]
-       (:108) — declared there, not in Instance/Ab.v, which only uses
+     - Instance/CMon.v: [cmon_hom_id] and [cmon_hom_compose] — declared
+       there, not in Instance/Ab.v, which only uses
        them.
      - Structure/AbCategory.v: [ab_hom_add], the pointwise sum of two
        homomorphisms into an abelian group — which is what lets the
@@ -178,12 +178,12 @@
    re-annotation was attempted.
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
-   Instance/Ab/Free.v:87–91 says the tree "has only the forgetful
-   direction ([RMod_Forget_Ab], Instance/Mod.v:350)";
-   Instance/Mod/Quotient.v:147–145 says "an [AbObject] is not exhibited
+   Instance/Ab/Free.v says the tree "has only the forgetful
+   direction ([RMod_Forget_Ab], Instance/Mod.v)";
+   Instance/Mod/Quotient.v says "an [AbObject] is not exhibited
    as a ℤ-module anywhere in the tree" and names
-   Instance/Rng/Mod.v:675's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
-   the near miss that is NOT it; Instance/Mod/Tensor.v:234 records the
+   Instance/Rng/Mod.v's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
+   the near miss that is NOT it; Instance/Mod/Tensor.v records the
    same.  A type-level sweep confirms it: before this file NO constant in
    the tree had type [Ab ⟶ RMod _] (zero hits), and no [AbTensor] is
    applied to a [ring_ab] anywhere else.

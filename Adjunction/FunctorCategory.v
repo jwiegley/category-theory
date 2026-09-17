@@ -43,27 +43,29 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED.
      - "The postcomposition functors [F ◯ −] are not defined anywhere; the
        only functor between functor categories is precomposition": FALSE.
-       Functor/Construction/Postcompose.v:355's [Postcompose : [D, E] ⟶
+       Functor/Construction/Postcompose.v's [Postcompose : [D, E] ⟶
        [D, E']] (#318) is [J ◯ −] on objects and left whiskering on arrows,
        with its three laws; docs/INDEX.md's Adjunction/Diagonal/Limit.v
        bullet lists eleven constants typed [[X, Y] ⟶ _].  Work item 1 was
        done by #318; [postcompose] below is that functor at a fixed shape.
      - "[Cat_Hcompose] is a bifunctor never partially applied": FALSE
-       (Postcompose.v:509's [PostcomposeViaHcompose]; and it sits at
-       Instance/Cat/Bicategory.v:64, [Induced] at Theory/Kan/
-       Extension.v:131).
+       (Postcompose.v's [PostcomposeViaHcompose]; and it sits at
+       Instance/Cat/Bicategory.v, [Induced] at Theory/Kan/
+       Extension.v).
      - "[Lim] is never a functor [[J, C] ⟶ C]; the general [Δ ⊣ Lim] exists
        only in the binary-product case": STALE since #353.
-       Adjunction/Diagonal/Limit.v has [HasLimitsOfShape] (:363),
-       [LimitFunctor : [J, C] ⟶ C] (:434), [Diagonal_Limit_Adjunction : Δ ⊣
-       LimitFunctor] (:527) and [lim_counit] (:547), whose components ARE
-       the limit legs (:551 at [eq_refl], :554 at [≈]) — the "cone being
+       Adjunction/Diagonal/Limit.v has [HasLimitsOfShape],
+       [LimitFunctor : [J, C] ⟶ C], [Diagonal_Limit_Adjunction : Δ ⊣
+       LimitFunctor] and [lim_counit], whose components ARE
+       the limit legs, one identification at [eq_refl] and the other at
+       [≈] — the "cone being
        the value of the [Δ ⊣ Lim] counit" of work item 3.
-     - "[right_adjoint_iso] at Theory/Adjunction.v:364": :367 ([Qed]);
-       [left_adjoint_iso] :407.  The Riehl clauses' citations are off by a
-       few lines each ([left_adjoint_impl] :332, the Kan class fields
-       [ran_adjoint] :149 and [lan_adjoint] :229, [precomp_zig_id]
-       Theory/Bicategory/Mates.v:209); their substance holds: before this
+     - "[right_adjoint_iso] at Theory/Adjunction.v": the cited site is a
+       [Qed] line, and [left_adjoint_iso] is likewise miscited.  The
+       Riehl clauses' citations are off by a few lines each
+       ([left_adjoint_impl], the Kan class fields
+       [ran_adjoint] and [lan_adjoint], and [precomp_zig_id] in
+       Theory/Bicategory/Mates.v); their substance holds: before this
        file no standalone [Adjunction] term had both functors between
        functor categories.
      - Work item 3 writes the square as an EQUALITY, [F^J ∘ Δ = Δ ∘ F].  It
@@ -85,15 +87,15 @@ Generalizable All Variables.
          naturality in the diagram is the naturality of the original unit
          and counit — taken from [Adjunction_to_Transform]'s two
          [Transform] fields, Adjunction/Natural/Transformation/
-         Universal.v:84, so nothing about them is re-derived), the two
+         Universal.v, so nothing about them is re-derived), the two
          triangle identities componentwise from the originals in
          [postcompose_adjunction_transform], and
          [postcompose_adjunction : postcompose F ⊣ postcompose G] through
-         [Adjunction_from_Transform] (Universal.v:42).  The readbacks
+         [Adjunction_from_Transform] (Universal.v).  The readbacks
          [postcompose_unit_component] and [postcompose_counit_component]
          say, at [eq_refl], that the CONSTRUCTED unit and counit ARE the
          whiskered originals.  The delivered adjunction's own accessors
-         [unit] and [counit] (Theory/Adjunction.v:217-218, the transposes
+         [unit] and [counit] (Theory/Adjunction.v, the transposes
          of identities) carry a [fmap_id] residue — [⌊id⌋] is [fmap
          [postcompose G] id ∘ postcompose_unit] — so THEY are the whiskered
          originals at [≈] only ([postcompose_adjunction_unit],
@@ -112,7 +114,7 @@ Generalizable All Variables.
          as functor equality in the orientation the transport wants.
      (5) MAC LANE'S REMARK 1.  [left_route : postcompose F ◯ Δ ⊣ LimitFunctor
          ◯ postcompose G] and [right_route : Δ ◯ F ⊣ G ◯ LimitFunctor] by
-         Adjunction/Compose.v:173's [Adjunction_Compose]; [left_route'] by
+         Adjunction/Compose.v's [Adjunction_Compose]; [left_route'] by
          transporting the first across the square with Theory/Adjunction.v's
          [adjunction_along_left_iso] (see RELOCATION); then
          [Lim_commutes_right_adjoint : LimitFunctor LX ◯ postcompose G ≈ G ◯
@@ -124,9 +126,9 @@ Generalizable All Variables.
          IsLimitCone (FCone G (limit_cone (LA T)))] — a right adjoint carries
          the limiting cone of [T], whose legs are the components of the
          [Δ ⊣ Lim] counit ([carried_leg_is_counit], at [≈] through
-         Adjunction/Diagonal/Limit.v:554), to a limiting cone.  Its proof
-         is Adjunction/Continuity.v:205's [right_adjoint_PreservesLimitCone]
-         (an earlier revision cited :209, [right_adjoint_Continuous]),
+         Adjunction/Diagonal/Limit.v), to a limiting cone.  Its proof
+         is Adjunction/Continuity.v's [right_adjoint_PreservesLimitCone]
+         (an earlier revision cited [right_adjoint_Continuous] instead),
          the tree's DIRECT proof of RAPL, and NOT a consequence drawn from
          (5): [right_adjoint_iso] is [Qed], so the components of the
          remark's isomorphism cannot be identified with the canonical
@@ -143,10 +145,10 @@ Generalizable All Variables.
    file would have added 44 files to the closure (an earlier revision said
    48; measured 74 → 118 by coqdep and by [Print Libraries]).  The section
    [AdjunctionAlongIso] is moved verbatim to the end of Theory/Adjunction.v
-   (Section at :477, [adjunction_along_left_iso] at :542; it needs a
+   (carrying [adjunction_along_left_iso] with it; it needs a
    section-local [Obligation Tactic := idtac], Bimodule.v's file-wide
    setting, or Lib's global [cat_simpl] runs on its obligations first);
-   Bimodule.v keeps a pointer comment at :2462-2469 and its
+   Bimodule.v keeps a pointer comment and its
    header figures are corrected in place (427 constants, 213 [Qed], five
    [Defined], 82 [eq_refl] — 440, 220, six and 83 before); the gate
    entries for the thirteen moved constants are requalified; the one
@@ -159,8 +161,8 @@ Generalizable All Variables.
    two categories ([u0 = u2], [u0 = u4]; the two naturality lemmas, in
    which [J] does not occur, carry [u2 = u4] alone; the four [≈] accessor
    lemmas carry the same blocks as their adjunctions and no cap) — the identification
-   is Instance/Fun.v:127's [Fun] ([u0 = u2]) and [Postcompose]'s /
-   [Induced]'s own, exactly as Postcompose.v:237-258 records, and bare and
+   is Instance/Fun.v's [Fun] ([u0 = u2]) and [Postcompose]'s /
+   [Induced]'s own, exactly as Postcompose.v records, and bare and
    annotated binders give the same blocks; nothing minimizes and no block
    or type names [Set].  Stdlib caps, each attributed by [About] on the
    donor: [prod_rect] is first carried by [square_at]'s own obligations
@@ -189,7 +191,7 @@ Generalizable All Variables.
        Adjunction/Natural/Transformation/Universal.v 1, the other fourteen
        [Require]s 0.  Name collisions: [postcompose] and [precompose] occur
        as WORDS in the prose of 3 and 8 files (Theory/Natural/
-       Transformation.v:341/:323, Theory/Equivalence/Colimit.v:451, …),
+       Transformation.v, Theory/Equivalence/Colimit.v, …),
        never as declarations; the other 37 names have 0 occurrences.
      - Test/ProbeFunctorCategory431.v mirrors the [Require] list and carries
        6 refutation commands (1 instrument + N1 and N5 CONVERSION + N2-N3

@@ -47,7 +47,7 @@ Generalizable All Variables.
          measurement by TYPE rather than by name: no constant of type
          [Sets ⟶ Cat] or [Sets ⟶ StrictCat] is declared in any `.v`
          file, the only occurrences of those two tokens being prose --
-         Theory/Connected/Components.v:293 recording the absence, and
+         Theory/Connected/Components.v recording the absence, and
          Instance/Indiscrete.v's item II anticipating this file by
          name.  The only [Cat ⟶ Sets] is [Pi0] itself.
 
@@ -73,7 +73,7 @@ Generalizable All Variables.
 
       FIRST, the catalog issue's work item 4 asks that the
       connected-components functor be defined.  That is FALSE.
-      Theory/Connected/Components.v:579 declares [Pi0 : Cat ⟶ Sets]
+      Theory/Connected/Components.v declares [Pi0 : Cat ⟶ Sets]
       with [fobj := pi0] and [fmap := pi0_fmap], and proves its three
       functor laws.  It is CONSUMED here and nothing rebuilds it: the
       names [pi0], [pi0_fmap], [ZigZag], [hom_zigzag] and [zigzag_fmap]
@@ -81,13 +81,13 @@ Generalizable All Variables.
       declare them, and this file declares no zig-zag machinery of its
       own.  What was missing is the ADJUNCTION, and that absence is
       recorded in the donor's own NOT-delivered list, at
-      Theory/Connected/Components.v:292-293: "NO LEFT ADJOINT.
+      Theory/Connected/Components.v: "NO LEFT ADJOINT.
       [Pi0 : Cat ⟶ Sets] is built, but the discrete functor
       [Sets ⟶ Cat] and the adjunction π₀ ⊣ discrete are not."  That
       standing deferral is what this file discharges.
 
       SECOND, the discrete category on a SETOID already exists too:
-      Construction/Comma/Special.v:218's [DiscreteSetoidCat], built
+      Construction/Comma/Special.v's [DiscreteSetoidCat], built
       there so that the comma of two constant functors could be
       identified.  It is CONSUMED here and gets its first consumer
       outside its own file (measured: before this commit the token
@@ -98,7 +98,7 @@ Generalizable All Variables.
       the required action on it.
 
       THIRD, the same correction the sibling module records applies:
-      Instance/Discrete/Reconstruct.v:416's [Indiscrete] exists.  It
+      Instance/Discrete/Reconstruct.v's [Indiscrete] exists.  It
       plays no part below -- the indiscrete half of Mac Lane's string is
       the OTHER wing -- and is named here only so that this header does
       not appear to contradict the sibling's.
@@ -158,8 +158,8 @@ Generalizable All Variables.
       marked as citations.
 
       NAMING.  [Objects], [Discrete] and [Indiscrete] are all taken -- by
-      Solver/Expr.v:38's reification class, by Structure/Discrete.v:33's
-      predicate and by Instance/Discrete/Reconstruct.v:416's category
+      Solver/Expr.v's reification class, by Structure/Discrete.v's
+      predicate and by Instance/Discrete/Reconstruct.v's category
       respectively -- so the sibling module adopted the
       Instance/Top/Forgetful.v convention of prefixing with the structured
       category.  This file follows it: [Cat_Disc] for the functor into [Cat],
@@ -190,8 +190,8 @@ Generalizable All Variables.
       [pi0_rt_from_to_strict] is refuted at [eq_refl], while
       [pi0_rt_from_to_at] (the value at each point) and [pi0_rt_from_to_fn]
       (the whole [morphism] FIELD) both hold on the nose.  [SetoidMorphism] is
-      a [Record] under [Set Primitive Projections] (Lib/Setoid.v:9,
-      Instance/Sets.v:126), so it has eta and record equality IS field
+      a [Record] under [Set Primitive Projections] (Lib/Setoid.v,
+      Instance/Sets.v), so it has eta and record equality IS field
       equality: what differs is therefore exactly [proper_morphism], which
       [pi0_from] rebuilds from [zigzag_setoid_contract].
 
@@ -216,7 +216,7 @@ Generalizable All Variables.
       in [pi0_adj_iso]'s two [Proper] fields; the two round trips of
       the isomorphism and both naturality clauses demanded by
       [Build_Adjunction'] are discharged by the ambient obligation
-      tactic.  [Build_Adjunction'] (Theory/Adjunction.v:159) is used
+      tactic.  [Build_Adjunction'] (Theory/Adjunction.v) is used
       rather than [Build_Adjunction] for the same measured economy the
       sibling module records: it asks only for the two [to]-side
       clauses.
@@ -257,7 +257,7 @@ Generalizable All Variables.
       rejected: [pi0_fmap_respects] and, with it, [fobj[Pi0] C], both
       reporting "Cannot enforce ch = co because ch < co".  So the cause
       is neither [Cat], nor [pi0], nor the arrow action, but the single
-      lemma [pi0_fmap_respects] (Theory/Connected/Components.v:538),
+      lemma [pi0_fmap_respects] (Theory/Connected/Components.v),
       which is declared over [Category@{u0 u0 u0}].
 
       THAT IDENTIFICATION IS MINIMIZATION AND NOT CONTENT, AND THE CLAIM
@@ -310,12 +310,11 @@ Generalizable All Variables.
       declared in the source and 42 + 31 = 73).  ZERO of the 73
       names collides anywhere in the tree -- a sweep that FOUND TEN, all
       of which were renamed away before this file landed, and two of
-      which were live rather than cosmetic: Instance/Cat/Objects.v:555
-      and :526 declare [Disc_Faithful] and [Disc_Full] as
+      which were live rather than cosmetic: Instance/Cat/Objects.v declare [Disc_Faithful] and [Disc_Full] as
       [#[export] Program Instance]s, so a [Print Assumptions Disc_Full]
       with both modules in one scope would have audited whichever was
       imported last.  The other eight were [disc_obj]
-      (Functor/Construction/Postcompose.v:732), [disc_adj_iso],
+      (Functor/Construction/Postcompose.v), [disc_adj_iso],
       [disc_map], [adj_to_forgets], [adj_from_extends], [unit_is_id] and
       [BlurBool] (all Instance/Cat/Objects.v), and [counit_is_id]
       (Instance/Indiscrete.v).
@@ -576,7 +575,7 @@ Example cat_disc_hom_trivial (A : Sets) (x y : carrier A)
    of the recovered [Sets]-morphism is the functor's object action and
    its certificate is the functor's arrow action.  Its ONE obligation is
    that certificate, supplied by a one-step script rather than as a field
-   for the reason Theory/Connected/Components.v:519 records at
+   for the reason Theory/Connected/Components.v records at
    [sets_quot_proj] -- [Proper (equiv ==> equiv) fobj[F]] is CONVERTIBLE
    with the type of [fmap[F]], but the elaborator does not unfold
    [Proper] and [respectful] during unification, so the field assignment
@@ -623,9 +622,9 @@ Example pi0_counit_iso_from (A : Sets) (a : carrier A) :
 
 (* The constant functors out of the terminal category.  [Roof] is the
    walking span [RNeg ← RZero → RPos]: it is CONNECTED
-   ([Roof_Connected], Structure/Groupoid/Connected.v:431), so π₀ merges
+   ([Roof_Connected], Structure/Groupoid/Connected.v), so π₀ merges
    its three objects, while [RoofHom RNeg RPos] is EMPTY
-   ([RNeg_RPos_absurd], Instance/Roof.v:70), so [Roof] itself does not.
+   ([RNeg_RPos_absurd], Instance/Roof.v), so [Roof] itself does not.
    That gap is what both refutations below exploit. *)
 Program Definition roof_pt@{o h p ru rh} (r : Roof@{ru rh}) :
   _1@{o h p} ⟶ Roof@{ru rh} :=
@@ -708,7 +707,7 @@ Qed.
 (* The general form, which says WHAT the obstruction is rather than
    exhibiting one instance of it: a functor [Sets ⟶ Cat] whose objects
    carry the points of the setoid injectively and naturally cannot have
-   SKELETAL fibres.  [Kskel] is Theory/Skeleton.v:243's [Skeletal]
+   SKELETAL fibres.  [Kskel] is Theory/Skeleton.v's [Skeletal]
    predicate ([∀ x y : C, x ≅ y → x = y]) spelled out at each fibre;
    that module is not required here, so the hypothesis is written out
    rather than imported.
@@ -787,7 +786,7 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
    innocent -- it accepts a category whose homs sit STRICTLY BELOW its
    objects.  [pi0 C] shows the object map is innocent.  [pi0_fmap] at
    that same C shows the arrow map is innocent.  What is left is
-   [pi0_fmap_respects] (Theory/Connected/Components.v:538), declared over
+   [pi0_fmap_respects] (Theory/Connected/Components.v), declared over
    [Category@{u0 u0 u0}], and it is rejected -- as is [fobj[Pi0] C] with
    it, on the same message.  So [Pi0], and hence every constant of this
    file that mentions it, accepts only categories whose object, hom and
@@ -833,7 +832,7 @@ End Pi0Accepted.
    levels could collapse and the command would demonstrate nothing.
 
    This is a PROBE.  The repair belongs to
-   Theory/Connected/Components.v:538 and is NOT performed here; nothing
+   Theory/Connected/Components.v and is NOT performed here; nothing
    in this file uses the restatement, and no claim is made that [Pi0]
    itself would then be free, which would require rebuilding it.  Note
    also what the repair does not remove: the restated lemma still carries

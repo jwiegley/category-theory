@@ -53,7 +53,7 @@ Generalizable All Variables.
     never live at an arbitrary object of [B], only on the [nf] family indexed
     by [nat].
 
-    The [id_cast]/[hom_cast] kit is Construction/Quotient.v:56-190. *)
+    The [id_cast]/[hom_cast] kit is Construction/Quotient.v. *)
 
 Section Normal.
 

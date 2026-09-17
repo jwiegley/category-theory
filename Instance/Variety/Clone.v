@@ -21,18 +21,18 @@ Generalizable All Variables.
    Nothing arity-graded with a substitution action.  Instance/Comp.v's
    [Tree] is a term over a WHOLE variable type, not an operator of a
    specific arity, and names no composition or substitution operation.
-   Construction/PROP/Term.v:39's [Term] is arity-graded and closes under
+   Construction/PROP/Term.v's [Term] is arity-graded and closes under
    composition, tensor and braids, but NOT under substitution along an
    arbitrary function between finite arities — braids are bijections, and
    Mac Lane's substitution duplicates and deletes variables.
 
    ** The index type costs nothing
 
-   [Fin.t] is already in scope everywhere: Lib/Setoid.v:5 requires
-   Coq.Vectors.Fin and :89 defines [Fin_Setoid], and every file in
+   [Fin.t] is already in scope everywhere: Lib/Setoid.v requires
+   Coq.Vectors.Fin and defines [Fin_Setoid], and every file in
    _CoqProject requires Category.Lib.  So grading on [Fin.t n] and
    substituting along an ARBITRARY [Fin.t m → Fin.t n] adds no [Require].
-   Instance/FinSet.v:118 is built on exactly this shape, which is to say
+   Instance/FinSet.v is built on exactly this shape, which is to say
    the tree's own [FinSet] already IS "arbitrary maps between finite
    arities".
 
@@ -66,8 +66,8 @@ Generalizable All Variables.
    step compares [op A o (fun j => F (args j) env)] with
    [op A o (fun j => clone_act (args j) env)], two argument bundles that
    the induction hypothesis makes pointwise equal and that are not
-   convertible.  That is the identical wall as Instance/Comp.v:116's
-   [from_free_unique], whose own marker comment at :124 already names the
+   convertible.  That is the identical wall as Instance/Comp.v's
+   [from_free_unique], whose own marker comment already names the
    cure.
 
    Nothing is smuggled by the setoid form.  [sact_op_respects] is
@@ -79,7 +79,7 @@ Generalizable All Variables.
 
    ** Not delivered
 
-   No setoid on [Tree] itself — the cure Instance/Comp.v:124 proposes.
+   No setoid on [Tree] itself — the cure Instance/Comp.v proposes.
    AN EARLIER REVISION OF THIS PARAGRAPH GAVE A REASON THAT IS WRONG, and
    it is corrected here rather than quietly dropped.  It said such a
    congruence "risks pulling in [Eqdep]/[JMeq_eq]", because transitivity
@@ -125,7 +125,7 @@ Definition clone_op {n} (o : UA.operation S)
 
 (** ** Closure under substitution, along an ARBITRARY map of arities
 
-    [clone_subst] is Instance/Comp.v:102's [induced_map] at the free
+    [clone_subst] is Instance/Comp.v's [induced_map] at the free
     algebra on [Fin.t n]; [clone_rename] is substitution by variables, and
     it is where "arbitrary function between finite arities" — duplication
     and deletion included, not merely a braid — enters. *)
@@ -152,7 +152,7 @@ Record SetoidAction := {
     @equiv _ sact_setoid (sact_op o k1) (sact_op o k2)
 }.
 
-(* A [#[local]] notation, and it SHADOWS Theory/Category.v:186/:189's
+(* A [#[local]] notation, and it SHADOWS Theory/Category.v's
    [x ≈[ C ] y] for morphism equivalence in a named category, for the
    remainder of this section.  That is harmless here — this file never
    compares morphisms of a category — and the [#[local]] keeps it out of

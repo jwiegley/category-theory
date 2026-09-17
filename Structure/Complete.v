@@ -127,7 +127,7 @@ Generalizable All Variables.
 
    1. THREE LINES OF SIZE ARITHMETIC.  Measured with [About] under
       [Set Printing Universes]; the readbacks and the two refusals are
-      pinned in Test/ProbePropEquiv.v (:211, :218, :310, :328):
+      pinned in Test/ProbePropEquiv.v:
 
         PropRelSpace@{u}   : Type@{u} → Type@{u}
         CRelSpace@{u v}    : Type@{u} → Type@{v}     with u < v
@@ -140,8 +140,8 @@ Generalizable All Variables.
       it is expected to have type "Type@{u}"".
 
       This library's `≈` is [Type]-valued -- [equiv : crelation A],
-      Lib/Setoid.v:33 -- and stays so, because in [Cat] an [F ≈ G] IS a
-      family of isomorphisms (Theory/Functor.v:149, [Functor_Setoid]):
+      Lib/Setoid.v -- and stays so, because in [Cat] an [F ≈ G] IS a
+      family of isomorphisms (Theory/Functor.v, [Functor_Setoid]):
       data, which truncation would discard.  CONSEQUENCE: for a setoid
       whose `≈` is [Type]-valued, the congruences on its carrier -- and so
       the family of quotient presentations of a term model, which is what
@@ -155,7 +155,7 @@ Generalizable All Variables.
 
       (b) Adjunction/GAFT.v applies a [Complete] to the DISCRETE category
           on the solution-set index ([DiscreteCat_Functor (wif_obj W)],
-          Adjunction/GAFT.v:348), so the index universe of a solution set
+          Adjunction/GAFT.v), so the index universe of a solution set
           EQUALS the shape-object universe of the completeness hypothesis.
           Measured: [GAFT] carries [@Complete@{h h h cobj} C] beside
           [SolutionSet@{h dobj cobj h}], and [representability_theorem]
@@ -172,7 +172,7 @@ Generalizable All Variables.
           mechanism is written out at Adjunction/GAFT.v's [GAFT] header.
 
       And the cap from the other side: [Sets_Complete@{u u0} :
-      Complete@{u u u u0}] (Instance/Sets/Complete.v:196) puts the
+      Complete@{u u u u0}] (Instance/Sets/Complete.v) puts the
       shape-object universe AT the carrier universe [u], because the limit
       carrier quantifies over the shape's objects and must itself be a
       carrier.  [Ab_Complete] and [RMod_Complete] inherit that shape through
@@ -190,7 +190,7 @@ Generalizable All Variables.
       [crelation] at all); a [Prop]-truncated kernel eliminated into a
       [Type]-sorted goal (refused even when `≈` is [eq], because the sort
       of [equiv x y] is judged from the declared type of [equiv] --
-      Test/ProbePropEquiv.v:261); propositional resizing (the index is not
+      Test/ProbePropEquiv.v); propositional resizing (the index is not
       an hProp, and the core is axiom-free); and an index-free "large
       completeness" ([RMod@{u}] has no object-indexed products at its own
       universe).  The surviving in-tree refusal is recorded verbatim in
@@ -199,7 +199,7 @@ Generalizable All Variables.
       SEPARATELY, and now HISTORY: until the PR "algebraic carriers are
       sets" (2026-09-17) a literal [Set] appeared in these signatures as
       well.  It was a universe-minimization artifact of the unannotated
-      [DiscreteCat_Functor] (Instance/Discrete.v:81), not part of the size
+      [DiscreteCat_Functor] (Instance/Discrete.v), not part of the size
       condition; annotating that donor removed every such [Set] and, as
       measured beforehand, left the refusals of this paragraph exactly
       where they were.  Prose quoting a [Set]-carrying signature predates
@@ -208,7 +208,7 @@ Generalizable All Variables.
    4. THE RESOLUTION ADOPTED BY THIS PR.  Concrete algebraic categories
       (CMon, Ab, RMod, Grp, Rig/Rng) are categories of SETS with structure,
       and this library now says so in their object records: each carries
-      [PropEquiv] (Lib/Setoid/Propositional.v:127), the property that the
+      [PropEquiv] (Lib/Setoid/Propositional.v), the property that the
       carrier's `≈` is logically a [Prop]-valued relation.  By 1 the
       congruences on a term model are then [Prop]-valued and carrier-sized,
       so they index a solution set at exactly the shape-object universe
@@ -231,20 +231,20 @@ Generalizable All Variables.
       reader who found one of those missing should read this item as the
       plan it was.  Those commits landed, and the item is now measured
       throughout rather than planned.  Concretely: the class and its
-      elimination lemma are Lib/Setoid/Propositional.v:127 and :188, the
+      elimination lemma are Lib/Setoid/Propositional.v, the
       transports through Sets and [LocallyPropositional] are
-      Instance/Sets/Propositional.v:91/:132/:169/:203/:240; the object
-      records carry the field at Instance/CMon.v:70 ([cmon_prop], reaching
+      Instance/Sets/Propositional.v; the object
+      records carry the field at Instance/CMon.v ([cmon_prop], reaching
       Ab, RMod, Rg and their satellites by coercion),
-      Theory/Algebra/Rig.v:180 ([rig_prop], reaching Ring, Rng, CRng and
-      Field) and Instance/Grp.v:228 ([grp_prop]); hom-setoids inherit it
+      Theory/Algebra/Rig.v ([rig_prop], reaching Ring, Rng, CRng and
+      Field) and Instance/Grp.v ([grp_prop]); hom-setoids inherit it
       pointwise and limit vertices from their legs, with no hypothesis on
       the limit ([alim_prop], [glim_prop], [rlim_prop]); the resizing
       vocabulary is Adjunction/GAFT/Resize.v with [SmallType] at
-      Theory/Size.v:214; and the applications named above are
+      Theory/Size.v; and the applications named above are
       unconditional, with Mac Lane's own spanning family proved small up
-      to isomorphism at Instance/Mod/TensorAFT.v:2138 and fed to the
-      theorem at :2163.  Every constant of that work is reported "Closed
+      to isomorphism at Instance/Mod/TensorAFT.v and fed to the
+      theorem.  Every constant of that work is reported "Closed
       under the global context" and gated.
 
       WHAT IS STILL NOT IN TREE, so that this item is not read as more
@@ -285,7 +285,7 @@ Generalizable All Variables.
    and say only that the datum lives above the levels it quantifies over.
    NOTHING here relates [so] to [h] or to [o]: a complete category may be
    indexed by shapes at any level.  What ties them is the APPLICATION --
-   Adjunction/GAFT.v:348 applies a [Complete] at a discrete shape whose
+   Adjunction/GAFT.v applies a [Complete] at a discrete shape whose
    objects are a solution-set index, and Adjunction/GAFT.v's own binders
    record the identification that forces there.
 
@@ -294,7 +294,7 @@ Generalizable All Variables.
      Complete@{r so h o} : Category@{o h h} → Type@{max(r,so+1,h+1,o)}
      (* r so h o |= so <= r / h <= r *)
 
-   -- and, since Instance/Discrete.v:81's [DiscreteCat_Functor] was
+   -- and, since Instance/Discrete.v's [DiscreteCat_Functor] was
    annotated in the PR "algebraic carriers are sets" (2026-09-17), with no
    literal [Set] in it.  An earlier revision of this file's consumers
    quoted [Complete@{Set Set Set u}] and [Complete@{u0 u0 Set u2}]; those

@@ -46,7 +46,7 @@ Generalizable All Variables.
    "strictly weaker", an ordering an audit showed does not hold in either
    direction).  Structure/Generator.v therefore states
    the positive cancellation law — all precompositions agree implies the
-   arrows agree — exactly as Adjunction/SAFT.v:99's [Cogenerator] states
+   arrows agree — exactly as Adjunction/SAFT.v's [Cogenerator] states
    its dual, and every statement below is in that form.  No weakened
    negative form is proved here, in either direction.
 
@@ -59,18 +59,17 @@ Generalizable All Variables.
    Theory/Concrete.v already carries, under Awodey's §1.5 Remark 1.7
    reading of concreteness:
 
-     - [Class Separator (t : C)] at :174, a one-field class whose field
+     - [Class Separator (t : C)], a one-field class whose field
        [separates] is the same cancellation law as [IsSeparator];
-     - [Concrete_of_Separator] at :183 and [Separator_of_Faithful] at
-       :197 — BOTH directions of the Awodey equivalence with
-       faithfulness of [fobj[Curried_Hom C] t] (Functor/Hom.v:60),
-       already proved;
-     - [WellPointedCategory] at :218, the terminal-object case;
-     - [Sets_Separator] at :279, an [#[export] Instance] proving that
+     - [Concrete_of_Separator] and [Separator_of_Faithful] — BOTH
+       directions of the Awodey equivalence with faithfulness of
+       [fobj[Curried_Hom C] t] (Functor/Hom.v), already proved;
+     - [WellPointedCategory], the terminal-object case;
+     - [Sets_Separator], an [#[export] Instance] proving that
        [@terminal_obj Sets Sets_Terminal] separates [Sets], with
-       [Sets_point] at :273 as its probe;
-     - [Sets_empty_not_Separator] at :299, the empty setoid as a
-       non-example, using [empty_setoid_object] at :296.
+       [Sets_point] as its probe;
+     - [Sets_empty_not_Separator], the empty setoid as a
+       non-example, using [empty_setoid_object].
 
    So the issue's Awodey checkbox "the terminal object generates Sets"
    was already discharged in the CLASS vocabulary before this file
@@ -90,9 +89,9 @@ Generalizable All Variables.
    removed the copies.)
 
    THE SINGLETON AND THE TERMINAL OBJECT ARE TWO STATEMENTS.  This is a
-   measurement, not a caution.  Instance/Sets.v:372's
+   measurement, not a caution.  Instance/Sets.v's
    [unit_setoid_object] is [{| carrier := poly_unit ; is_setoid :=
-   unit_setoid |}], a bare record; Instance/Sets.v:258's [Sets_Terminal]
+   unit_setoid |}], a bare record; Instance/Sets.v's [Sets_Terminal]
    is a [Program Instance] whose [terminal_obj] field is
    [{| carrier := poly_unit |}] with the setoid field left to an
    obligation term.  The two records therefore do not convert, and with
@@ -125,7 +124,7 @@ Generalizable All Variables.
         the reusable half — it is what makes "is a separator" an
         invariant of the isomorphism class rather than of the record.
      3. FROM THE PRIOR ART, [Sets_terminal_separates_from_Concrete]:
-        unpack Theory/Concrete.v:279's [Sets_Separator] through the
+        unpack Theory/Concrete.v's [Sets_Separator] through the
         bridge.  This one exists to make the staleness disclosure above
         machine-checked rather than a claim in prose.
 
@@ -136,7 +135,7 @@ Generalizable All Variables.
 
    WHAT THE EMPTY SETOID SHOWS, AND WHY IT IS A THEOREM.  Separation is a
    genuine condition, and the witness is the initial object:
-   Instance/Sets.v:275's [Sets_Initial] has [False] as carrier, so every
+   Instance/Sets.v's [Sets_Initial] has [False] as carrier, so every
    hypothesis of the separator condition holds vacuously for it, and it
    would identify two arrows that differ.  [Sets_empty_not_separates]
    states this as [IsSeparator … → False].  It is stated positively, and
@@ -145,19 +144,19 @@ Generalizable All Variables.
    this is a mathematical theorem about a perfectly well-typed statement
    that simply has no inhabitant.  The probe idiom cannot express it, and
    the distinction matters because the two kinds of evidence are not
-   interchangeable.  Theory/Concrete.v:299's [Sets_empty_not_Separator]
-   proves the same thing about ITS [empty_setoid_object] (:296); the
+   interchangeable.  Theory/Concrete.v's [Sets_empty_not_Separator]
+   proves the same thing about ITS [empty_setoid_object]; the
    statement here is about [@terminal_obj (Sets^op) Sets_Initial] — the
-   initial object of [Sets] as Structure/Initial.v:97 defines it, by the
+   initial object of [Sets] as Structure/Initial.v defines it, by the
    notation [Initial C := @Terminal (C^op)] — so the two are about
    different terms and neither subsumes the other.
 
    Two arrows that differ are available from two places, and the choice
    costs a universe.  [Sets_empty_not_separates] uses
-   Theory/Concrete.v:259's [Sets_two_arrows] (the identity against
-   [Sets_negb] at :253, on that file's [bool_setoid_object] at :244), and
+   Theory/Concrete.v's [Sets_two_arrows] (the identity against
+   [Sets_negb], on that file's [bool_setoid_object]), and
    is polymorphic in the object universe.  [Sets_empty_not_separates_pick]
-   uses instead Instance/Sets.v:573's [pick_true] against :579's
+   uses instead Instance/Sets.v's [pick_true] against its
    [pick_false], the pair issue #447 named; that route is pinned at
    object universe [Set], and the pin is attributed by [About] rather
    than guessed — [About pick_true] reports [pick_true@{u}] with codomain
@@ -176,7 +175,7 @@ Generalizable All Variables.
    theorem held only for setoids whose carriers live in [Set].  As
    written it gives [Sets_unit_separates@{o so} : IsSeparator@{so so o}
    unit_setoid_object@{o o}] with [o < so], matching
-   Theory/Concrete.v:279's [Sets_Separator@{o so}].
+   Theory/Concrete.v's [Sets_Separator@{o so}].
 
    One collapse is inherited and cannot be annotated away here:
    [About IsSeparator] reports [IsSeparator@{u u0 u1} : forall {C :
@@ -185,16 +184,17 @@ Generalizable All Variables.
    constraint is only [h <= p].  That is not a defect of the frozen
    interface: its model has it too ([About Cogenerator] gives
    [Cogenerator@{u u0 u1} : Category@{u0 u1 u1} -> Type…] at
-   Adjunction/SAFT.v:99), and so does the prior art ([About Separator]
+   Adjunction/SAFT.v), and so does the prior art ([About Separator]
    gives [Separator@{u u0} : forall {C : Category@{u u0 u0}}, …] at
-   Theory/Concrete.v:174).  Every statement in this file therefore
+   Theory/Concrete.v).  Every statement in this file therefore
    carries [p = h].
 
    NOT DELIVERED HERE.  The joint-faithfulness characterization of the
    family form (Structure/Generator.v's [JointlyFaithful] against
    [Generator]) is the theory half of #447 and is not restated here; the
-   single-object case of it is already Theory/Concrete.v:183 and :197 and
-   is only cited.  No claim is made that [Sets_Generator] and
+   single-object case of it is already Theory/Concrete.v's
+   [Concrete_of_Separator] and [Separator_of_Faithful], and is only
+   cited.  No claim is made that [Sets_Generator] and
    [Sets_terminal_Generator] are equal, isomorphic, or related as
    [Generator] records — only that each is a [Generator Sets].  Nothing
    here is said about generating SETS of more than one object in [Sets],
@@ -205,9 +205,9 @@ Generalizable All Variables.
 (** ** The singleton separates *)
 
 (* A global element of [X], as a map out of the singleton setoid.  This is
-   the same probe Instance/Sets.v:379's [injectivity_is_monic] uses to
+   the same probe Instance/Sets.v's [injectivity_is_monic] uses to
    characterize monos as injections, and the same one
-   Theory/Concrete.v:273's [Sets_point] uses out of the terminal object.
+   Theory/Concrete.v's [Sets_point] uses out of the terminal object.
 
    It must stay TRANSPARENT, and that is measured: replacing this
    [Program Definition] by a tactic proof closed with [Qed], everything
@@ -292,7 +292,7 @@ Definition Sets_terminal_separates_by_transport@{o so+} :
 
 (* Route 3: the prior art, unpacked through Structure/Generator/
    Concrete.v's bridge.  This constant exists so that the header's claim
-   about Theory/Concrete.v:279 is checked by the compiler rather than
+   about Theory/Concrete.v is checked by the compiler rather than
    asserted. *)
 Definition Sets_terminal_separates_from_Concrete@{o so+} :
   @IsSeparator Sets@{o so}

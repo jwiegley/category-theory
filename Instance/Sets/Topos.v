@@ -124,12 +124,12 @@ Open Scope category_scope.
    THE ROUTE IS PURE ASSEMBLY: five fields, five pre-existing donors,
    NOTHING re-proved.
 
-     topos_terminal    Instance/Sets.v:258's           [Sets_Terminal]
-     topos_cartesian   Instance/Sets/Cartesian.v:32's  [Sets_Cartesian]
-     topos_pullbacks   Instance/Sets/Pullback.v:393's  [Sets_HasPullbacks]
-     topos_closed      Instance/Sets/Cartesian/Closed.v:38's [Sets_Closed]
-     topos_classifier  Instance/Sets/Classifier/OneLevel.v:642's
-                       [Sets_Classifier] (:814's [Sets_Classifier_dec]
+     topos_terminal    Instance/Sets.v's [Sets_Terminal]
+     topos_cartesian   Instance/Sets/Cartesian.v's [Sets_Cartesian]
+     topos_pullbacks   Instance/Sets/Pullback.v's [Sets_HasPullbacks]
+     topos_closed      Instance/Sets/Cartesian/Closed.v's [Sets_Closed]
+     topos_classifier  Instance/Sets/Classifier/OneLevel.v's
+                       [Sets_Classifier] (with [Sets_Classifier_dec]
                        on the decidable route)
 
    Instance/FinSet/Topos.v is NOT offered as a witness for anything
@@ -236,7 +236,7 @@ Open Scope category_scope.
                               which is derived there, applied.
      app1_char_rule_U/_dec    [sets_classifier_char_iff] and
                               [sets_classifier_dec_char_iff]
-                              (OneLevel.v:912/:920), applied verbatim at
+                              (OneLevel.v), applied verbatim at
                               the topos-level classifier; [:=] with no
                               tactic.
      app1_classifying_square  [char_pullback], re-exposed at the bundle.
@@ -272,11 +272,11 @@ Open Scope category_scope.
 
    Mac Lane's "P b, the set of all subsets s of b" is DEFINITIONAL here,
    not an isomorphism.  The reason is that two files build the same
-   record: Instance/Sets/Powerset.v:981's [Powerset_Prop_obj X] packages
+   record: Instance/Sets/Powerset.v's [Powerset_Prop_obj X] packages
    [SetoidMorphism X Powerset_Prop_truth] with [SetoidMorphism_Setoid],
-   Instance/Sets/Cartesian/Closed.v:38's [exponent_obj x y] packages
+   Instance/Sets/Cartesian/Closed.v's [exponent_obj x y] packages
    [SetoidMorphism x y] with the same, and
-   Instance/Sets/Powerset/Universal.v:263 defines [Powerset_Omega] to BE
+   Instance/Sets/Powerset/Universal.v defines [Powerset_Omega] to BE
    [Powerset_Prop_truth].  So Ω^b and the power set are one term.
 
    ON THE DECIDABLE ROUTE THE POWER OBJECT IS THE **DECIDABLE** POWER
@@ -305,7 +305,7 @@ Open Scope category_scope.
 
    FOUR IDENTIFICATIONS COME OUT AT [≈] AND NOT AT [eq_refl], all in
    section (B), and their cause is structural rather than incidental:
-   Instance/Sets/Pullback.v:321 makes the apex a SIGMA carrying the
+   Instance/Sets/Pullback.v makes the apex a SIGMA carrying the
    agreement witness,
 
      sets_pb_carrier := { p : carrier x * carrier y
@@ -342,8 +342,8 @@ Open Scope category_scope.
      UNCONDITIONAL at [Sets]; only Axiom 8 is not.
 
      WHAT THE HYPOTHESES ARE, verbatim from
-     Instance/Sets/Classifier/OneLevel.v:292, :297, :299 and
-     Instance/Sets/Powerset.v:951:
+     Instance/Sets/Classifier/OneLevel.v and
+     Instance/Sets/Powerset.v:
 
        Definition Untruncate@{o} :=
          ∀ P : Type@{o}, Powerset_squash@{o} P -> P.
@@ -357,11 +357,10 @@ Open Scope category_scope.
          ∀ Q : Prop, (A → Q) → Q.
 
      WHERE THE HYPOTHESIS IS SPENT: exactly once.  In
-     OneLevel.v:626-640's [small_of_untruncate] the argument [U] occurs
-     on two lines, the binder at :626 and one use at :636
+     OneLevel.v's [small_of_untruncate] the argument [U] occurs
+     on two lines, the binder and one use
      ([exact (U P (proj2 Hp I))]), inside the obligation which by the
-     field order of [Record SmallClassifierExt] (:324-:336) is
-     [sce_elim].
+     field order of [Record SmallClassifierExt] is [sce_elim].
 
      WHY IT IS NEEDED AT ALL: [≈] in this library is [Type@{o}]-valued,
      so the characteristic predicate [λ b, ∃ a, m a ≈ b] is
@@ -371,7 +370,7 @@ Open Scope category_scope.
      elimination [fun P h => h P (fun p => p)] is refused with "Cannot
      enforce o <= Prop", against the [Prop]-valued instantiation
      [powerset_squash_prop_inert] as the accepted control; that pair is
-     already Test/ProbeClassifier402.v:176 and its control, and is CITED
+     already Test/ProbeClassifier402.v and its control, and is CITED
      here rather than duplicated.
 
      NO IMPOSSIBILITY IS PROVED, AND THE PREMISE HAS NO IN-TREE
@@ -384,7 +383,7 @@ Open Scope category_scope.
      [untruncate_of_IEM], [DecImage_of_IEM], [IEM_of_DecImage] and
      [DecImage_iff_IEM]'s packaged pair, every one a PASSAGE between the
      hypotheses and not an inhabitant, and one refutation command,
-     Test/ProbeFunClassifier403.v:425, which never enters the
+     Test/ProbeFunClassifier403.v, which never enters the
      environment.
      Instance/Sets/Classifier/OneLevel.v's three-part disclosure applies
      verbatim here: (i) no unconditional axiom-free instance is built,
@@ -393,7 +392,7 @@ Open Scope category_scope.
      [constructive_indefinite_description], so an in-tree impossibility
      theorem would refute a classically valid statement.  PART (iii) IS
      A HEADER CLAIM OF THAT FILE, quoted here and NOT re-run.
-     Instance/Sets/Classifier.v:33-37 additionally records, as folklore
+     Instance/Sets/Classifier.v additionally records, as folklore
      and explicitly not as an in-tree theorem, that no small classifier
      can exist over predicative [Type].
 
@@ -402,7 +401,7 @@ Open Scope category_scope.
 
      TRUE AT THE BASE COMMIT: "no [ElementaryTopos Sets]", and "the
      only [ElementaryTopos] inhabitant anywhere is
-     Instance/FinSet/Topos.v:38".  CRITERION, stated so that it produces
+     Instance/FinSet/Topos.v".  CRITERION, stated so that it produces
      the numbers below: declaration heads whose type MENTIONS
      [ElementaryTopos] after a colon -- which therefore also catches the
      two that take one as a HYPOTHESIS -- swept comment-stripped ACROSS
@@ -410,48 +409,48 @@ Open Scope category_scope.
      [rg -n ':\s*ElementaryTopos' -g '*.v'] is NOT sound for this claim:
      it misses every head whose type wraps, which is all three bundles
      of THIS file.  Under the sound criterion the base commit returns
-     three heads, two of them Structure/Topos.v:167's [Pow] and :184's
+     three heads, two of them Structure/Topos.v's [Pow] and its
      [relations_iso] taking one as a hypothesis, so [FinSet_Topos] is
      the sole INHABITANT; the shipped tree returns ten.
 
      FALSE: "There is no [HasPullbacks Sets]" --
-     Instance/Sets/Pullback.v:393's [#[export] Instance
+     Instance/Sets/Pullback.v's [#[export] Instance
      Sets_HasPullbacks], landed by #333, which the issue itself lists as
      a dependency.  FALSE: "no [SubobjectClassifier Sets]" -- three
-     conditional ones at OneLevel.v:642, :814 and :836, plus the engine
-     at :460.  FALSE FOR TWO OF THREE: "a tree-wide search finds exactly
+     conditional ones in OneLevel.v, plus its engine.  FALSE FOR TWO
+     OF THREE: "a tree-wide search finds exactly
      one instance of each of those three classes, all for FinSet" --
      true of [ElementaryTopos]; false of [SubobjectClassifier]
      (FinSet's, OneLevel.v's three, and four for functor categories at
-     Instance/Fun/Classifier.v:794, :805, :810 and :1251) and false of
+     Instance/Fun/Classifier.v) and false of
      [HasPullbacks] (FinSet's, [Sets_HasPullbacks],
-     Instance/Cat/Pullback.v:496's [StrictCat_HasPullbacks],
-     Instance/Fun/Pullback.v:316's [Fun_HasPullbacks], plus generic
+     Instance/Cat/Pullback.v's [StrictCat_HasPullbacks],
+     Instance/Fun/Pullback.v's [Fun_HasPullbacks], plus generic
      conditionals).
 
      STALE AS A CITATION: "The setoid half is blocked by a documented
-     and deliberate universe obstruction (Instance/Sets/Classifier.v:29
-     -:45)".  That file's :25-:38 now record the OPPOSITE -- that the
+     and deliberate universe obstruction (Instance/Sets/Classifier.v)".
+     That file's header now records the OPPOSITE -- that the
      conditional one-level instance exists -- and the obstruction
      paragraph proper is now the section headed "WHY ONE LEVEL DOES NOT
-     SUFFICE UNCONDITIONALLY", beginning at :39.
+     SUFFICE UNCONDITIONALLY".
 
-     LINE DRIFT in four of the issue's citations: [Sets_Terminal] is
-     Instance/Sets.v:258, not :248; [sets_char_pullback],
-     [sets_char_unique] and [sets_char_subobject] are
-     Instance/Sets/Classifier.v:243, :302 and :360, not :224, :283 and
-     :341 -- all three off by 19 in the same direction.  CORRECT as
-     cited: Instance/Sets/Cartesian.v:32, Instance/Sets/Cartesian/Closed.v:38
-     and Instance/FinSet/Topos.v:38.
+     LOCATION DRIFT in four of the issue's citations: the places it
+     gives for [Sets_Terminal] in Instance/Sets.v and for
+     [sets_char_pullback], [sets_char_unique] and
+     [sets_char_subobject] in Instance/Sets/Classifier.v are all
+     stale, the last three by the same amount and in the same
+     direction.  CORRECT as cited: Instance/Sets/Cartesian.v,
+     Instance/Sets/Cartesian/Closed.v and Instance/FinSet/Topos.v.
 
      A SECOND-INHABITANT NOTE, because it makes another file's header
      stale.  Through Structure/Topos/Colimits.v this bundle yields an
      initial object, a binary coproduct, coequalizers, pushouts and
      equalizers for [Sets]; unlike the presheaf side, where all five
      would be firsts, at [Sets] all five are SECOND inhabitants --
-     Instance/Sets.v:275, Instance/Sets/Cocartesian.v:28,
-     Instance/Sets/Coequalizer.v:293, Instance/Sets/Pushout.v:185 and
-     Adjunction/GAFT/Sets.v:175 already have them.  That last file's
+     Instance/Sets.v, Instance/Sets/Cocartesian.v,
+     Instance/Sets/Coequalizer.v, Instance/Sets/Pushout.v and
+     Adjunction/GAFT/Sets.v already have them.  That last file's
      header CALLED itself "the tree's only inhabitant of that class" and
      is corrected in this same change to "the only such LIBRARY-file
      inhabitant" -- which the derived one does NOT falsify, since it

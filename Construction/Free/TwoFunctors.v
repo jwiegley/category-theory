@@ -46,9 +46,9 @@ Generalizable All Variables.
    about the shape of the terms.
 
    The distinctness is stated in [Functor_StrictEq_Setoid]
-   (Theory/Functor.v:508), the hom-setoid of [StrictCat]
-   (Instance/StrictCat.v:59).  No claim is made here about the weak setoid
-   [Functor_Setoid] (Theory/Functor.v:148) of [Cat] (Instance/Cat.v:145),
+   (Theory/Functor.v), the hom-setoid of [StrictCat]
+   (Instance/StrictCat.v).  No claim is made here about the weak setoid
+   [Functor_Setoid] (Theory/Functor.v) of [Cat] (Instance/Cat.v),
    which identifies naturally isomorphic functors; the twisted pair of
    Functor/Twist.v and Instance/Grp/TwoFunctors.v is the one that
    deliberately exhibits a pair separated strictly and identified weakly. *)

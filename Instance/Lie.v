@@ -51,7 +51,7 @@ Generalizable All Variables.
     unital K-algebras over a commutative base, with a CENTRAL structure
     map in place of commutativity of the ring) are
     Instance/Rng/Algebras.v's centre-valued sibling
-    Instance/Rng/Algebras/Associative.v:143,:188.  So the first half of
+    Instance/Rng/Algebras/Associative.v.  So the first half of
     the issue's work item 1 was already discharged, and this file
     CONSUMES [AAlgObject], [AAlg], [AAlg_RMod], [AAlg_RModHom],
     [AAlg_Forget_Mod] and the non-commutative witness [UT2] rather than
@@ -63,7 +63,7 @@ Generalizable All Variables.
     A DIFFERENT LIE DEFERRAL IS NOT DISCHARGED, and the two must not be
     confused.  Instance/Rng/Frac.v's header descopes "THE LIE HALF of
     Mac Lane's exercise -- the Lie algebra of a Lie GROUP as a functor"
-    (§I.3 Exercise 1), and Instance/Roster.v:178 cites that descope
+    (§I.3 Exercise 1), and Instance/Roster.v cites that descope
     under its Man entry.  That item needs smooth manifolds and is
     untouched here; this file is about abstract Lie algebras over a
     ring, which need no differential structure at all.  Neither header
@@ -148,7 +148,7 @@ Generalizable All Variables.
         per term, through [lie_comm_triple]), commutativity of ADDITION
         (in [lie_add_shuffle4] and [lie_add_rot]), and -- inside
         [lie_comm_triple] itself -- BOTH distributivity laws
-        ([rig_distr_l] at :773 and [rig_distr_r] at :776) together with
+        ([rig_distr_l] and [rig_distr_r]) together with
         the negation calculus ([ring_neg_add] twice,
         [ring_neg_involutive], [lie_mul_neg_l], [lie_mul_neg_r]).  Read
         the neighbouring bullets' exhaustive phrasing as NOT applying
@@ -257,12 +257,12 @@ Generalizable All Variables.
     [RingObject], and claiming so would have repeated a census
     Instance/Rng/Algebras/Associative.v's header took before its
     neighbours landed.  AT LEAST TWO MORE are proved non-commutative
-    elsewhere: [TensorRing] (Instance/Vect/TensorAlgebra.v:495, by that
-    file's [tensor_not_commutative]:1113) and [MonoidRing]
-    (Instance/Rng/MonoidRing.v:404, by [zmring_not_commutative]:778).
+    elsewhere: [TensorRing] (Instance/Vect/TensorAlgebra.v, by that
+    file's [tensor_not_commutative]) and [MonoidRing]
+    (Instance/Rng/MonoidRing.v, by [zmring_not_commutative]).
     No total is given, and deliberately: a NAME-ANCHORED declaration-head
     sweep -- one matching `Definition <name> : RingObject` -- undercounts,
-    [Int_Ring] itself (Theory/Algebra/Rig.v:704) being invisible to it
+    [Int_Ring] itself (Theory/Algebra/Rig.v) being invisible to it
     because a universe annotation sits between the name and the colon.
     Say name-anchored rather than "a sweep for [: RingObject]": the bare
     literal DOES match that line, so only the anchored form misses it.

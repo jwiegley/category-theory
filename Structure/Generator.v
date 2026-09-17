@@ -48,7 +48,7 @@ Generalizable All Variables.
 
    THE TWO FORMS.  [Generator C] is the family form: a small [Type] of
    indices, an object for each index, and the separation clause.  It is
-   shaped field for field after Adjunction/SAFT.v:99's [Cogenerator],
+   shaped field for field after Adjunction/SAFT.v's [Cogenerator],
    its dual, so that the bridge between them moves no data (that bridge
    is Structure/Generator/Dual.v, kept in a separate file because
    SAFT.v's requirement closure must not be pulled into Structure/).
@@ -72,7 +72,7 @@ Generalizable All Variables.
    and it is landed rather than described: [gen_separates_contra] and
    [separator_contra] below take f ≉ g to the statement that the tests
    cannot all agree.  A reader who wants Riehl's form as written must
-   supply a decider -- Structure/Complete/Freyd.v:443's [DecHom] is the
+   supply a decider -- Structure/Complete/Freyd.v's [DecHom] is the
    tree's vocabulary for that -- and nothing here assumes one.  The
    weakened ≠ form is NOT stated as though it were the definition.
 
@@ -83,14 +83,14 @@ Generalizable All Variables.
    correction is recorded here rather than silently: with
    grep -rn 'Separator' --include='*.v' over this worktree,
    Theory/Concrete.v carries a whole single-object development already.
-   [Class Separator (t : C)] at :174 is the same condition as
-   [IsSeparator] with the two objects implicit; [Separator_of_Faithful]
-   at :197 is one half of Awodey's characterization, already proved;
-   [Concrete_of_Separator] at :183 contains the OTHER half, not as a
+   [Class Separator (t : C)] is the same condition as [IsSeparator]
+   with the two objects implicit; [Separator_of_Faithful] is one half
+   of Awodey's characterization, already proved;
+   [Concrete_of_Separator] contains the OTHER half, not as a
    named lemma but as the [underlying_faithful] obligation of the
-   concretization it builds; and the Sets witness the issue asks for is
-   at :279, [Sets_Separator], with [Sets_WellPointed] (:287) and the
-   non-vacuity refutation [Sets_empty_not_Separator] (:299) beside it.
+   concretization it builds; and the Sets witness the issue asks for
+   is [Sets_Separator], with [Sets_WellPointed] and the
+   non-vacuity refutation [Sets_empty_not_Separator] beside it.
    So what is genuinely new here is the FAMILY notion, the joint-
    faithfulness characterization in both directions, the transport
    lemmas, and the duality file -- not the single-object condition.
@@ -102,25 +102,25 @@ Generalizable All Variables.
    [Separator_of_IsSeparator] / [IsSeparator_of_Separator] in both
    directions, so the tree does not end with two unrelated notions.
    That bridge is a THIRD file for a measured reason: Theory/Concrete.v
-   defines [bool_setoid_object] at :244 and Instance/Sets.v defines a
-   different [bool_setoid_object] at :569, so requiring Concrete here
+   defines [bool_setoid_object] and Instance/Sets.v defines a
+   different [bool_setoid_object], so requiring Concrete here
    would shadow the Sets one for every later file, and the witnesses
    built against this interface use Sets.
 
-   The dual side is as the issue described it.  Adjunction/SAFT.v:99's
-   [Cogenerator] is the only cogenerating vocabulary, its header says at
-   :96-98 "Equivalently the representables [C(-, cog_obj j)] are jointly
-   faithful" as PROSE and proves it nowhere, and :227 really consumes
-   the field (apply (cog_separates G g1 g2) inside
+   The dual side is as the issue described it.  Adjunction/SAFT.v's
+   [Cogenerator] is the only cogenerating vocabulary, its header says
+   "Equivalently the representables [C(-, cog_obj j)] are jointly
+   faithful" as PROSE and proves it nowhere, and exactly one site
+   really consumes the field (apply (cog_separates G g1 g2) inside
    [cogenerator_canonical_monic]).  Structure/Generator/Dual.v proves
    that prose, both ways.
 
    WHAT THE CHARACTERIZATIONS COST: UNPACKING, NOT PROOF.  Every
    equivalence below is a term, never a tactic script, because the two
    sides have literally the same hypothesis once two definitions are
-   unfolded.  [Hom c,─] is Functor/Hom.v:60's [Curried_Hom C] applied to
+   unfolded.  [Hom c,─] is Functor/Hom.v's [Curried_Hom C] applied to
    c, whose [fmap] at f : x ~> y is the setoid map k ↦ f ∘ k
-   (post-composition); the Sets hom-setoid is Instance/Sets.v:144's
+   (post-composition); the Sets hom-setoid is Instance/Sets.v's
    [SetoidMorphism_equiv], which is pointwise -- f ≈ g means ∀ a, f a ≈
    g a with ≈ taken in the codomain.  So the faithfulness hypothesis
    [fmap[[Hom c,─]] f ≈ fmap[[Hom c,─]] g] unfolds to
@@ -141,7 +141,7 @@ Generalizable All Variables.
    TYPING ALONE.  For a family [F : J -> C], the statement
    [JointlyFaithful (fun j => [Hom ─, F j])] -- the CONTRAVARIANT
    representables -- is perfectly well formed: [Hom ─, A] is
-   Functor/Hom.v:146's [Curried_CoHom C] at A, a functor C^op ⟶ Sets, so
+   Functor/Hom.v's [Curried_CoHom C] at A, a functor C^op ⟶ Sets, so
    the joint-faithfulness statement is about C^op arrows and says that
    the family COseparates.  It is a different statement, not a
    malformed one.  What is refused is deriving it from [Generator C]:
@@ -156,10 +156,10 @@ Generalizable All Variables.
 
    WHY THE ISOMORPHISM TRANSPORT IS HERE.  [separator_iso] moves
    [IsSeparator] along c ≅ d.  It is not decoration: the Sets witness
-   needs it.  The singleton [unit_setoid_object] (Instance/Sets.v:372)
-   takes its setoid field from Lib/Setoid.v:59's [unit_setoid], while
-   the terminal object of [Sets_Terminal] (Instance/Sets.v:258) takes
-   its from :251's [Unit_Setoid] -- measured, not read off the source:
+   needs it.  The singleton [unit_setoid_object] (Instance/Sets.v)
+   takes its setoid field from Lib/Setoid.v's [unit_setoid], while
+   the terminal object of [Sets_Terminal] (Instance/Sets.v) takes
+   its from [Unit_Setoid] -- measured, not read off the source:
      Example t1 : @terminal_obj Sets Sets_Terminal
        = {| carrier := poly_unit ; is_setoid := Unit_Setoid |} := eq_refl.
    is ACCEPTED, while
@@ -185,14 +185,14 @@ Generalizable All Variables.
    goes one step further and identifies the two CATEGORIES' hom and
    proof levels with EACH OTHER -- it prints
    [∀ {C : Category@{u1 u2 u2}} {D : Category@{u3 u2 u2}} ...] -- which
-   is the shape Theory/Functor.v:343's [Faithful] already prints and is
-   NOT forced by the [Functor] record (Theory/Functor.v:97 prints six
+   is the shape Theory/Functor.v's [Faithful] already prints and is
+   NOT forced by the [Functor] record (Theory/Functor.v prints six
    independent levels with only ≤ bounds between them), so the collapse
    belongs to the faithfulness layer rather than being introduced here.
    The constants that mention [Sets] ([separator_faithful],
    [faithful_separator], [generator_jointly_faithful],
    [jointly_faithful_generator], [generator_iff_jointly_faithful]) carry
-   in addition the block of Instance/Sets.v:198's
+   in addition the block of Instance/Sets.v's
    [Sets@{o so} : Category@{so o o}] -- the strict [u0 < u2], the
    setoid-object level above the carrier level, and [u0 <= compose.u0],
    [u0 <= compose.u1], [u0 <= compose.u2], [u0 <= ID.u0] -- together
@@ -203,7 +203,7 @@ Generalizable All Variables.
    [Sets], [IsSeparator] and [Faithful] rather than guessed.
    [hom_test_iso] and its three consumers
    carry the stdlib [u0 <= prod_rect.u0/u1/u2]; [gen_extend] adds the
-   strict [u0 < u4], which is [iso_id]'s own (Theory/Isomorphism.v:155
+   strict [u0 < u4], which is [iso_id]'s own (Theory/Isomorphism.v
    prints [p < u]); [separator_of_generator] carries
    [u0 <= eq_rect_r.u1] and [u2 <= eq_rect_r.u0], the price of the
    [rewrite] on the index equation.  [gen_separates_contra] has an
@@ -212,7 +212,7 @@ Generalizable All Variables.
    NOT DELIVERED.  No example in this file: the witnesses live in
    Instance/Sets/Generator.v, Instance/Grp/Generator.v and
    Instance/Ab/Generator.v, and Mac Lane's one-point set for Set was IN
-   TREE already under another name (Theory/Concrete.v:279's
+   TREE already under another name (Theory/Concrete.v's
    [Sets_Separator], for the class; Structure/Generator/Concrete.v's
    bridge reads it as an [IsSeparator], and the Sets witness file proves
    the terminal-object statement directly as well).  Mac Lane's integers
@@ -299,7 +299,7 @@ Context {C : Category}.
 
 (* Forward.  The hypothesis of [Faithful [Hom c,─]] at f, g is
    [fmap[[Hom c,─]] f ≈ fmap[[Hom c,─]] g], which unfolds -- through
-   Instance/Sets.v:144's pointwise hom-setoid and Functor/Hom.v:60's
+   Instance/Sets.v's pointwise hom-setoid and Functor/Hom.v's
    post-composition [fmap] -- to [∀ k : c ~> x, f ∘ k ≈ g ∘ k], the
    hypothesis of [IsSeparator c].  Only the packaging moves: [Faithful]
    is a class, so the term is built with its constructor. *)

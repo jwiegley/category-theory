@@ -178,7 +178,7 @@ Fail Definition n1 (u v : SubObj x) : SubObj x := sub_meet u v.
 
 (* N3 -- FORMABILITY.  Over an EMPTY index there is no j0 to present the
    intersection at, and the wide pullback is the terminal object rather
-   than the top subobject (Structure/Pullback/Wide.v:338); the hole cannot
+   than the top subobject (Structure/Pullback/Wide.v); the hole cannot
    be filled: "Cannot infer this placeholder of type Empty_set".  The
    intersection of the empty family is [sub_top] ([IsIntersection_empty]),
    not anything read off a wide pullback. *)
@@ -203,7 +203,7 @@ Context {x : C}.
 Fail Definition n2 (u v : SubObj x) : sub_meet u v = sub_meet v u :=
   sub_meet_comm u v.
 
-(* N5 -- CONVERSION.  Structure/Pullback/Wide.v:453's [binary_wide_pullback]
+(* N5 -- CONVERSION.  Structure/Pullback/Wide.v's [binary_wide_pullback]
    is stated over [two_fam (sub_dom u) (sub_dom v)], and that family is
    convertible with [fun b => sub_dom (sub_pair u v b)] at the two literals
    but NOT as a function of a variable b: "cannot unify P ~{ C }~>

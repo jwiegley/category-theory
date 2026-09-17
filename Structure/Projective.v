@@ -37,38 +37,39 @@ Generalizable All Variables.
      - "No projectivity or injectivity notion exists": TRUE (0 declarations
        matching Projective/Injective; the issue's own occurrence counts are
        off — 'projective' occurs in 9 lines of 6 [.v] files, all prose:
-       projective limits (Structure/Limit.v:43/:51, Instance/Sets/
-       InverseLimit.v:51), a free module (Instance/Mod/Free.v:176),
-       projective geometry (Construction/Opposite.v:27/:40/:43), the
-       projective tensor product of Banach spaces (Structure/Closed.v:67) and
-       "enough projectives" (Structure/Abelian.v:97, the one line about this
+       projective limits (Structure/Limit.v, Instance/Sets/
+       InverseLimit.v), a free module (Instance/Mod/Free.v),
+       projective geometry (Construction/Opposite.v), the
+       projective tensor product of Banach spaces (Structure/Closed.v) and
+       "enough projectives" (Structure/Abelian.v, the one line about this
        file's notion); and 'injective' in 437 lines of 100 files, all but
-       one the SETOID-MAP notion — Lib/Setoid.v:117 [injective],
-       Instance/Sets.v:379 [injectivity_is_monic], Theory/Concrete/
-       Morphisms.v:70 [concrete_injective_monic], Adjunction/LeftInverse.v:
-       352 [InjectiveOnObjects], … — the exception being Structure/
-       Abelian.v:98's "injective resolutions", prose about the categorical
+       one the SETOID-MAP notion — Lib/Setoid.v [injective],
+       Instance/Sets.v [injectivity_is_monic], Theory/Concrete/
+       Morphisms.v [concrete_injective_monic],
+       Adjunction/LeftInverse.v [InjectiveOnObjects], … — the
+       exception being Structure/
+       Abelian.v's "injective resolutions", prose about the categorical
        notion).  (An earlier revision glossed the nine as "limits or modules"
        and the 437 as all setoid-map; corrected to the measured lists.)
-     - "No lifting property beyond Theory/Orthogonality.v:43": PARTIAL.
+     - "No lifting property beyond Theory/Orthogonality.v": PARTIAL.
        [Orthogonal e m] (unique filler, two arrows, over [≈]) is also what
-       Structure/Factorization/StrongEpi.v:36-39's [strong_lift] and
+       Structure/Factorization/StrongEpi.v's [strong_lift] and
        Theory/Morphisms/Stability.v's cobase change route through; every
        lifting statement in the tree carries the uniqueness clause, so the
        lift-EXISTENCE notion was indeed absent.
      - "No lemma about hom-functors preserving epis": TRUE (Theory/
-       Functor.v:443/:459 has REFLECTION, [faithful_reflects_monic] and
+       Functor.v has REFLECTION, [faithful_reflects_monic] and
        [faithful_reflects_epic]; Functor/Hom/Limit.v has preservation of
        limits, not of epis).
      - What the issue does not mention and this file rests on:
-       Instance/Sets.v:515 [surjectivity_is_epic : (∀ b, ∃ a, h a ≈ b) ↔
-       Epic h], BOTH directions, constructively ([surjective_implies_epic]
-       :534, [epic_implies_surjective] :538, the latter through the
-       cokernel-pair probe of :454-511), which makes both halves of the
-       hom-functor characterization provable.
+       Instance/Sets.v [surjectivity_is_epic : (∀ b, ∃ a, h a ≈ b) ↔
+       Epic h], BOTH directions, constructively
+       ([surjective_implies_epic] and [epic_implies_surjective], the
+       latter through that file's cokernel-pair probe), which makes
+       both halves of the hom-functor characterization provable.
      - "As data or as an ∃-statement, disclosing which": in this library
-       there is no choice.  [∃] IS [sigT] (Lib/Foundation.v:61 rebinds
-       [exists], :66 defines [∃] from it), and a Prop-valued existential
+       there is no choice.  [∃] IS [sigT] (Lib/Foundation.v rebinds
+       [exists] and defines [∃] from it), and a Prop-valued existential
        over [≈] cannot even be stated, [≈] on morphisms being Type-valued
        (probe N6).  The lift is data, written [∃ h, g ∘ h ≈ f] as
        Structure/Pullback.v's [ump_pullbacks] and Theory/Morphisms.v's
@@ -81,10 +82,10 @@ Generalizable All Variables.
          : p ~> b, g ∘ h ≈ f] — with the accessors [proj_lift] /
          [proj_lift_comm].
      (2) [Injective C] as a NOTATION for [@Projective (C^op)] (with the
-         [@Injective C] form), the idiom of Structure/Initial.v:97-100 and
-         Structure/Cocartesian.v:115-118; covariant accessors
+         [@Injective C] form), the idiom of Structure/Initial.v and
+         Structure/Cocartesian.v; covariant accessors
          [injective_extend m Hm f : ∃ h : b ~> q, h ∘ m ≈ f] (through
-         Theory/Morphisms/Duality.v:44-58's [op_Epic_of_Monic] — [Monic] in
+         Theory/Morphisms/Duality.v's [op_Epic_of_Monic] — [Monic] in
          C and [Epic] in [C^op] are DISTINCT records, probe N4-N5, though
          the objects and homs of the duality convert), [inj_extend],
          [inj_extend_comm]; readbacks [inj_is_op_proj] and
@@ -112,7 +113,7 @@ Generalizable All Variables.
          between projectivity and [StrongEpi] is claimed: the latter lifts a
          MORPHISM against monos, a different class.
      (5) CLOSURE.  [Retraction_Projective] and [Section_Projective]
-         (Theory/Morphisms.v:56/:70's [Section]/[Retraction]; the tree has
+         (Theory/Morphisms.v's [Section]/[Retraction]; the tree has
          no [Retract] name), [Coprod_Projective] (binary, through
          [merge_comp] / [merge_inl_inr]), [IndexedCoprod_Projective]
          (Structure/Limit/Coproduct.v's [IsIndexedCoproduct], the lift at
@@ -130,7 +131,7 @@ Generalizable All Variables.
          [epic_implies_surjective]'s and respectfulness is free on a Leibniz
          carrier — and, on the walking arrow, [TwoX_Projective] (through
          [two_X_initial : @Initial _2]) with [TwoY_not_Projective]
-         ([TwoXY] is epic, [id[TwoY]] has no lift, Instance/Two.v:128's
+         ([TwoXY] is epic, [id[TwoY]] has no lift, Instance/Two.v's
          [TwoHom_Y_X_absurd] closes it), packaged as
          [two_projective_not_all]: the property is neither vacuous nor
          universal in one category.  The three witnesses' lifts COMPUTE
@@ -140,7 +141,7 @@ Generalizable All Variables.
          splits), [all_projective_iff_every_epi_splits], and over Sets
          [sets_all_projective_entails_splitting] and
          [sets_all_projective_entails_LEM : (∀ p : Sets, Projective p) → ∀ P
-         : Prop, P + (P → False)] through Instance/Sets/Regular.v:242/:256's
+         : Prop, P + (P → False)] through Instance/Sets/Regular.v's
          [BlanketSplitting] and its Diaconescu-shaped [blanket_splitting_
          entails_LEM] — "every set is projective" decides every proposition,
          so Awodey's examples of that shape (awodey:2.4:example15,
@@ -170,7 +171,7 @@ Generalizable All Variables.
      - [Set] appears in exactly five blocks or types, all inherited: the
        four [_2] witnesses ([two_X_initial], [TwoX_Projective],
        [TwoY_not_Projective], [two_projective_not_all]) because [_2]
-       (Instance/Two.v:140) is declared bare with a [Set]-valued hom, and
+       (Instance/Two.v) is declared bare with a [Set]-valued hom, and
        [sets_all_projective_entails_LEM@{u}] with [Set < u], from
        [bool_setoid_object] inside [blanket_splitting_entails_LEM] — which
        STRENGTHENS the reading: the entailment holds already at [Set]-sized
@@ -201,7 +202,7 @@ Generalizable All Variables.
        Functor/Hom/Limit.v's [HomFrom], which would add 23 files for the
        same functor (an earlier revision said 12; measured 34 → 57).
        [two_X_initial : @Initial _2] DUPLICATES
-       Theory/Equivalence/Strict.v:725's [Two_Initial], whose [Require]
+       Theory/Equivalence/Strict.v's [Two_Initial], whose [Require]
        would add 17 files; the consolidation of both into Instance/Two.v is
        surfaced for the maintainer, not done.  Name collisions: [Projective]
        occurs as a word in Structure/Limit.v's prose ("projective limit"),
@@ -239,9 +240,9 @@ Generalizable All Variables.
 
    NOT DELIVERED.
      - Enough projectives, projective or injective resolutions, injective
-       hulls, Baer's criterion (Structure/Abelian.v:96-106 frames these as
+       hulls, Baer's criterion (Structure/Abelian.v frames these as
        background prose; nothing built).
-     - Free modules are projective (Instance/Mod/Free.v:176 records the
+     - Free modules are projective (Instance/Mod/Free.v records the
        absence; it needs that module's machinery).
      - Any relation between projectivity and [StrongEpi] (different
        classes; none holds without further hypotheses).
@@ -450,7 +451,7 @@ Definition Section_Injective {C : Category} {p q : C} (s : q ~> p)
   @Retraction_Projective (C^op) p q s (op_Retraction_of_Section s S) P.
 
 (* The hypothesis is stated in C's own vocabulary: [IsIndexedCoproduct] over
-   [C^op] IS [IsIndexedProduct] over C (Structure/Limit/Coproduct.v:82-84). *)
+   [C^op] IS [IsIndexedProduct] over C (Structure/Limit/Coproduct.v). *)
 Definition IndexedProd_Injective {C : Category} {A : Type} (fam : A → C)
   (s : C) (proj : ∀ a : A, s ~> fam a)
   (H : @IsIndexedProduct C A fam s proj)

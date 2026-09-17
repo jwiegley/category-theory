@@ -245,7 +245,7 @@ Defined.
 
 (* [fmap[Powerset_Prop_op]] IS the inverse image: the two sides are the
    very same term, so the equality is Leibniz [=] rather than [≈].  This is
-   the convertibility exception, on the Functor/Bifunctor.v:42-45
+   the convertibility exception, on the Functor/Bifunctor.v
    precedent the donor file cites for its own five same-term lemmas. *)
 Lemma Powerset_Prop_op_fmap_preimage@{o so} {X Y : SetoidObject@{o o}}
   (f : Y ~{Sets@{o so}}~> X) (T : carrier (Powerset_Prop_obj@{o} X)) :

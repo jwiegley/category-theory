@@ -60,7 +60,7 @@ Generalizable All Variables.
    inverse transposes) and Mac Lane's two unit/counit forms
    [AdjointSquareUnit] and [AdjointSquareCounit]; the two mate operators
    [sq_mate] and [sq_mate_inv], defined by the transpose exactly as
-   Adjunction/Conjugate.v:333/:350 defines [conj_mate]/[conj_mate_inv];
+   Adjunction/Conjugate.v defines [conj_mate]/[conj_mate_inv];
    and the ledger of passages between the four forms, in which EVERY
    hypothesis is an explicit argument so that each type records what it
    consumes.  [adjoint_square_iff_mate] and [adjoint_square_iff_mate_inv]
@@ -74,7 +74,7 @@ Generalizable All Variables.
 
    (C) [Transform]-typed wrappers [SqMate]/[SqMateInv] and the bijection
    [square_bijection] : sq_dom ≅ sq_cod in Sets, packaged with
-   Adjunction/Conjugate.v:445's inline [{| carrier := … |}] idiom.
+   Adjunction/Conjugate.v's inline [{| carrier := … |}] idiom.
 
    (D) Palmquist's bijection [palmquist_bijection], built DIRECTLY with
    both round trips, together with the two generic factor bijections
@@ -85,7 +85,7 @@ Generalizable All Variables.
 
    (E) Riehl 4.3.v as two compatibility LAWS: [adjoint_square_paste_h] and
    [sq_mate_paste_h] for horizontal pasting, [adjoint_square_paste_v] and
-   [sq_mate_paste_v] for vertical pasting over Adjunction/Compose.v:173's
+   [sq_mate_paste_v] for vertical pasting over Adjunction/Compose.v's
    [Adjunction_Compose].  Both mate laws are proved BY UNIQUENESS
    ([SqMate_uniq]), not by a second chase.
 
@@ -100,7 +100,7 @@ Generalizable All Variables.
    records carry different [fmap_respects], [fmap_id] and [fmap_comp]
    fields, which are data here.  Over bare families the padding does not
    arise, because [Compose]'s object action is literal composition
-   (Theory/Functor.v:261, inside the :259 [Program Definition]), so a
+   (Theory/Functor.v, inside the [Program Definition] for [Compose]), so a
    component already has the type the bare family wants.
 
    Second, it is what keeps the two adjunctions' hom universes APART.
@@ -136,7 +136,7 @@ Generalizable All Variables.
    it becomes the invertible-comparison instance, [square_is_map_adj_hom].
 
    The two naturality donors are consumed rather than copied:
-   Adjunction/Conjugate.v:166's [conj_unit_nat] and :173's
+   Adjunction/Conjugate.v's [conj_unit_nat] and its
    [conj_counit_nat] discharge with only one adjunction and are used as
    [conj_unit_nat A g] / [conj_counit_nat A f].
 
@@ -153,7 +153,7 @@ Generalizable All Variables.
    [sq_unit_iff_counit].  This mirrors Map.v's ledger; the ADDITION beyond
    it is [sq_hom_iff_from], which consumes neither and which Map.v does not
    state at all (its identity-bounding-functor case is
-   Adjunction/Conjugate.v:150's [conjugate_iff_from]).
+   Adjunction/Conjugate.v's [conjugate_iff_from]).
 
    ** Strengths, strict first
 
@@ -262,7 +262,7 @@ Generalizable All Variables.
    bifunctoriality result — without discharging the entry, whose
    arbitrary-bicategory and double-category content remains open.  No
    pasting for [sq_mate_inv]; nothing relates either pasting to
-   Adjunction/Conjugate.v:479's [conjugate_compose]; no naturality of any
+   Adjunction/Conjugate.v's [conjugate_compose]; no naturality of any
    of the identifications in the bounding functors; no concrete witness at
    a named pair of adjunctions; nothing is registered as an [Instance].
    The comparison with Theory/Bicategory/Mates.v's [mate] is NOT here: it
@@ -275,17 +275,16 @@ Generalizable All Variables.
 
    Its "Missing for Exercise 4: the adjoint-square condition itself,
    quantified over all transposable arrows" is stale since #393:
-   Adjunction/Map.v:289's [MapAdjHom] IS that square over every
+   Adjunction/Map.v's [MapAdjHom] IS that square over every
    transposable arrow.  What was genuinely absent is only the BARE-FAMILY
    generality, and [square_is_map_adj_hom] measures exactly that gap by
    closing it at [eq_refl].  Its "the exercise's first ask … has exactly
-   one in-tree expression" is stale twice over: Map.v:294/:299 state the
-   unit and counit forms with six passages between them at :304, :313,
-   :328, :339, :355 and :361, and at H = K = Id
-   Adjunction/Conjugate.v:314's [conjugate_characterizations] gives four
+   one in-tree expression" is stale twice over: Map.v states the
+   unit and counit forms, with six passages between them, and at H = K = Id
+   Adjunction/Conjugate.v's [conjugate_characterizations] gives four
    equivalent forms.  And its "nor the packaging as an isomorphism of
    setoids" overlooks the precedent this file copies,
-   Adjunction/Conjugate.v:450's [conjugate_bijection].  Two further notes.
+   Adjunction/Conjugate.v's [conjugate_bijection].  Two further notes.
    The Riehl checkbox's command
    [rg 'mate_compose|mate_functorial|mate_hcomp|mate_vcomp'] is claimed to
    return no hits; as written, un-anchored, and run over the tree EXCLUDING
@@ -297,7 +296,7 @@ Generalizable All Variables.
    "associator bookkeeping lining up the two factors" turns out to be
    AVOIDABLE rather than merely unwritten: the mate route needs none, and
    where one is wanted the tree already supplies it as
-   Theory/Natural/Transformation.v:201's [fun_comp_assoc]. *)
+   Theory/Natural/Transformation.v's [fun_comp_assoc]. *)
 
 (* ====================================================================== *)
 (* (A) The condition, over BARE component families.                       *)

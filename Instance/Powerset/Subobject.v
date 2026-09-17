@@ -24,11 +24,11 @@ Generalizable All Variables.
       "monotonicity of the subobject preimage"
 
     The second is a gap in the tree that can be stated precisely: the
-    reindexing map [sub_reindex] of Theory/Subobject/Functor.v:35 is
-    proved to respect the [SubObj] SETOID ([sub_reindex_respects], :60),
-    to be the identity at [id] (:143) and to turn composition into
-    composition (:152), but nothing anywhere says it is monotone for
-    Theory/Subobject.v:60's ORDER [sub_le] -- measured: the token
+    reindexing map [sub_reindex] of Theory/Subobject/Functor.v is
+    proved to respect the [SubObj] SETOID ([sub_reindex_respects]),
+    to be the identity at [id] and to turn composition into
+    composition, but nothing anywhere says it is monotone for
+    Theory/Subobject.v's ORDER [sub_le] -- measured: the token
     [sub_le] does not occur in Theory/Subobject/Functor.v at all.  That
     is [sub_reindex_monotone] below.
 
@@ -47,7 +47,7 @@ Generalizable All Variables.
     adjunction; Instance/Powerset.v's [Subsets] is the Prop-valued
     counterpart where those DO apply, and the last section relates the
     two.  (The same Type-versus-Prop wall is what keeps
-    Instance/Sets/Powerset.v:238's proof-relevant [Powerset_obj] out of
+    Instance/Sets/Powerset.v's proof-relevant [Powerset_obj] out of
     Instance/Powerset.v; that rejection is pinned as the probe's formability
     negative 2, a sort rejection.)
 
@@ -80,7 +80,7 @@ Generalizable All Variables.
         RESPECTFULNESS is where monicity of [sub_mono v] is spent --
         two image points with the same first projection may carry
         different preimages, and only injectivity of a mono in [Sets]
-        (Instance/Sets.v:374's [injectivity_is_monic], backward leg)
+        (Instance/Sets.v's [injectivity_is_monic], backward leg)
         identifies their values.
 
     (D) The bridges to #311's passages, at [≈] (NOT at [eq_refl] -- the
@@ -119,7 +119,7 @@ Generalizable All Variables.
     ** REGISTRATION
 
     Nothing is an [Instance] except [sub_image_respects], which is
-    declared [#[export] Instance] to match Theory/Subobject/Functor.v:60's
+    declared [#[export] Instance] to match Theory/Subobject/Functor.v's
     [sub_reindex_respects] -- the two are the same kind of fact about the
     same setoid, and a [Proper] instance is what setoid rewriting
     consumes. *)

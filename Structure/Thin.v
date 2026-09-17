@@ -31,24 +31,23 @@ Generalizable All Variables.
    same section.  (The internal numbering — construction 7, definition 4 — is
    as cited by the issue this file answers; the section is the one to read.)
 
-   The predicate below is stated exactly as Structure/Discrete.v:28 states its
+   The predicate below is stated exactly as Structure/Discrete.v states its
    own: a property ASSERTED of a given category, rather than a construction
    BUILDING one.  That is why this file sits in Structure/ next to
    [Discrete] rather than in Instance/ next to [Proset] — Instance/Discrete.v
    records the same split in its header, calling [DiscreteCat] the
    object-level construction and Structure/Discrete.v's [Discrete] the
    predicate, and its [DiscreteCat_Discrete] the bridge.  Here
-   Instance/Proset.v:33's [Proset] is the construction, [Thin] is the
+   Instance/Proset.v's [Proset] is the construction, [Thin] is the
    predicate, and [proset_thin] (Instance/Proset/Order.v) is the bridge.
 
    Thinness is what makes the order-theoretic dictionary of
-   Instance/Poset.v:35-109 work: with all parallel arrows identified, every
+   Instance/Poset.v work: with all parallel arrows identified, every
    diagram commutes and every coherence law holds for free.  The library
-   already exploits this pointwise — Instance/Two/Monoidal.v:26's [two_thin]
-   discharges the whole [Two_Cartesian] obligation at :87 and the
-   [Two_Terminal] one at :102 by a single appeal each (the monoidal structure
-   at :105 is then derived from those through [Cartesian_Monoidal]), and
-   Construction/Enriched/Two.v:156-159 closes the three enrichment laws the
+   already exploits this pointwise — Instance/Two/Monoidal.v's [two_thin]
+   discharges the whole [Two_Cartesian] obligation and the
+   [Two_Terminal] one by a single appeal each (the monoidal structure is then derived from those through [Cartesian_Monoidal]), and
+   Construction/Enriched/Two.v closes the three enrichment laws the
    same way — but the property itself had no name.  This file gives it one,
    and Instance/Proset/Order.v puts it to work.
 
@@ -64,20 +63,20 @@ Generalizable All Variables.
    NOTE on instance resolution: [thin_PreOrder] is deliberately left a plain
    [Definition] rather than being registered as a typeclass instance, and is
    passed explicitly at each use.  That matches how the tree already handles
-   [PreOrder] arguments — Instance/Poset.v:121 hands [PeanoNat.Nat.le_preorder]
+   [PreOrder] arguments — Instance/Poset.v hands [PeanoNat.Nat.le_preorder]
    to [Poset] by hand — and it keeps a rule whose conclusion is
    [PreOrder (thin_preorder ?C)] out of the search space for [PreOrder] goals
    whose relation is still a metavariable. *)
 
 (* A category is thin when parallel morphisms are identified by the hom-setoid
    equivalence.  Note that this is `≈`, not `=`: on the library's setoid
-   hom-sets that is the right notion, and it is what Instance/Proset.v:39
+   hom-sets that is the right notion, and it is what Instance/Proset.v
    supplies for a proset by declaring the equivalence to be [True]. *)
 Definition Thin (C : Category) : Type :=
   ∀ (x y : C) (f g : x ~{C}~> y), f ≈ g.
 
 (* Thinness is self-dual: reversing arrows neither creates nor merges parallel
-   pairs.  Both directions hold on the nose because Construction/Opposite.v:106
+   pairs.  Both directions hold on the nose because Construction/Opposite.v
    defines hom[C^op] x y as hom[C] y x and reuses the same hom-setoid. *)
 
 Lemma Thin_Opposite {C : Category} : Thin C → Thin (C^op).
@@ -87,7 +86,7 @@ Lemma Opposite_Thin {C : Category} : Thin (C^op) → Thin C.
 Proof. intros T x y f g; exact (T y x f g). Qed.
 
 (* In a thin category every morphism is both monic and epic (the classes at
-   Theory/Morphisms.v:104 and :116), because both cancellation laws conclude
+   Theory/Morphisms.v), because both cancellation laws conclude
    an equation between parallel morphisms.  The converse does not hold: being
    a bimorphism everywhere is far weaker than thinness. *)
 
@@ -101,12 +100,12 @@ Proof. constructor; intros z g1 g2 _; apply T. Qed.
    isomorphism: the two composites are endomorphisms, hence equal to the
    identity.  This is the categorical reading of "x ≤ y and y ≤ x", and it is
    exactly what antisymmetry rules out in Instance/Poset.v — a poset is a
-   SKELETAL thin category (Instance/Poset.v:20), the isomorphic objects being
+   SKELETAL thin category (Instance/Poset.v), the isomorphic objects being
    forced equal.
 
    Both inverse laws are supplied directly rather than through [Program], so
    that the two appeals to thinness are visible in the term instead of being
-   found by the [cat_simpl] obligation tactic (Lib/Tactics.v:225), whose [auto]
+   found by the [cat_simpl] obligation tactic (Lib/Tactics.v), whose [auto]
    would pick [T] out of the context. *)
 Definition thin_iso {C : Category} (T : Thin C) {x y : C}
   (f : x ~> y) (g : y ~> x) : x ≅ y :=
@@ -120,15 +119,15 @@ Definition thin_iso {C : Category} (T : Thin C) {x y : C}
 (* The ∃-a-morphism preorder on objects, squashed to Prop.
 
    The library ALREADY carries a preorder of this shape at the Type level:
-   Theory/Category.v:282's exported instance [hom_preorder : PreOrder hom[C]]
+   Theory/Category.v's exported instance [hom_preorder : PreOrder hom[C]]
    over CRelationClasses, whose "proofs" are the morphisms themselves.  That
    instance is deliberately NOT reused here, and the reason is the honest
    version of this file's choice story: fed to a Type-valued preorder, the
    reconstruction below would need no [HomChoice] at all -- the witness IS the
-   morphism.  What forces the squash is Instance/Proset.v:33's [Proset], which
+   morphism.  What forces the squash is Instance/Proset.v's [Proset], which
    is hard-wired to [Relation_Definitions.relation], i.e. Prop-valued; a
    Prop-squashed relation is the only thing it accepts, and recovering a
-   morphism from the squash is then a genuine choice.  (Instance/Omega.v:17-21
+   morphism from the squash is then a genuine choice.  (Instance/Omega.v
    documents the same Prop-vs-Type obstruction and routes around it with a
    bespoke Type-valued order; here the point is precisely to meet [Proset]
    where it is.)  The new name [thin_preorder] avoids shadowing the exported

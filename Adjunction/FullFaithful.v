@@ -84,11 +84,11 @@ Generalizable All Variables.
 
    CONVENTION MAP.  This library writes an adjunction `A : F ⊣ U` with
    `F : D ⟶ C` the LEFT adjoint and `U : C ⟶ D` the RIGHT adjoint
-   (Theory/Adjunction.v:133).  So Mac Lane's G is this file's U, his F is
+   (Theory/Adjunction.v).  So Mac Lane's G is this file's U, his F is
    F, his A is C and his X is D; Riehl's G is likewise U and her C is D.
    The transposes are ⌊−⌋ (Mac Lane's φ) and ⌈−⌉ (his φ⁻¹); the unit is
-   `unit x = ⌊id⌋ : x ~> U (F x)` (:217) and the counit is
-   `counit a = ⌈id⌉ : F (U a) ~> a` (:218).  Both notations, and ⌊−⌋/⌈−⌉,
+   `unit x = ⌊id⌋ : x ~> U (F x)` and the counit is
+   `counit a = ⌈id⌉ : F (U a) ~> a`.  Both notations, and ⌊−⌋/⌈−⌉,
    are SECTION-LOCAL in Theory/Adjunction.v and do not export, so they are
    re-declared here; as #368 measured, `Notation "'ε'"` with no argument
    re-inserts the implicit object and is rejected with "Illegal
@@ -123,16 +123,16 @@ Generalizable All Variables.
    plus Mac Lane's Exercise 5 in the book's orientation,
    [right_adjoint_faithful_iff_from_adj_epic].
 
-   "Split monic" is the library's [Section] (Theory/Morphisms.v:56,
-   aliased [SplitMono] at :130) — a chosen LEFT inverse carried as data —
-   and NOT [Monic]; "split epi" is [Retraction] (:70, aliased [SplitEpi]
-   at :129).  The three dual clauses are stated COVARIANTLY: no `^op`
+   "Split monic" is the library's [Section] (Theory/Morphisms.v,
+   aliased [SplitMono]) — a chosen LEFT inverse carried as data —
+   and NOT [Monic]; "split epi" is [Retraction] (aliased [SplitEpi]).
+   The three dual clauses are stated COVARIANTLY: no `^op`
    occurs in any of their types, so a consumer holding a left adjoint
    uses them directly.
 
    ROUTE.  Mac Lane's, and the transfer lemma is genuinely consumed
    rather than cited.  The bridge is [fmap_to_adj_counit]
-   (Theory/Adjunction.v:306), `fmap[U] f ≈ ⌊f ∘ ε⌋`, which says that
+   (Theory/Adjunction.v), `fmap[U] f ≈ ⌊f ∘ ε⌋`, which says that
    Mac Lane's displayed composite
 
        A(a, c) --U--> D(U a, U c) --φ⁻¹--> C(F U a, c)
@@ -156,7 +156,7 @@ Generalizable All Variables.
    [hom_transfer_monic_of_epic], [hom_transfer_epic_of_section] appear
    literally in the scripts.  The FORWARD direction of (ii) does not
    route through the lemma in the shipped biconditional — it CONSUMES
-   #368's [counit_split_mono_of_full_right] (Adjunction/Fullness.v:347),
+   #368's [counit_split_mono_of_full_right] (Adjunction/Fullness.v),
    which is that half already proved by a shorter argument (naturality of
    ε at the chosen preimage plus one triangle identity).  The transfer
    route for it is nevertheless built and shipped, as
@@ -169,18 +169,18 @@ Generalizable All Variables.
    PRIOR ART, and what is consumed versus restated.
 
    - Adjunction/Fullness.v (#368) supplies
-     [counit_split_mono_of_full_right] (:347) and
-     [unit_split_epi_of_full_left] (:370), the forward halves of (ii) and
-     of its dual, and [unit_iso_of_full_monic] (:603), "split epi +
+     [counit_split_mono_of_full_right] and
+     [unit_split_epi_of_full_left], the forward halves of (ii) and
+     of its dual, and [unit_iso_of_full_monic], "split epi +
      monic ⟹ invertible" packaged for the unit.  All three are CONSUMED.
-     Its [reflective_fmap_counit_IsIsomorphism] (:682) and
-     [equiv_fmap_counit_IsIsomorphism] (:709) are SIBLINGS, not
+     Its [reflective_fmap_counit_IsIsomorphism] and
+     [equiv_fmap_counit_IsIsomorphism] are SIBLINGS, not
      duplicates: they are about `U ε`, the WHISKERED counit, which is
      invertible under fullness of EITHER adjoint, where (iii) here is
      about ε itself and needs fullness and faithfulness of the right one.
-   - Instance/Coq/Monoid/Free.v:476 [adjunction_counit_epic] already
+   - Instance/Coq/Monoid/Free.v [adjunction_counit_epic] already
      proves the forward half of (i), for an ARBITRARY adjunction, inside
-     `Section AdjunctionCounit` (:456-462); :465
+     `Section AdjunctionCounit`, where
      [adjunction_counit_underlying_retraction] is `U ε` split by the
      unit.  Both predate this file.  The forward half of (i) is RESTATED
      here rather than consumed, and the reason is closure, not novelty:
@@ -192,23 +192,23 @@ Generalizable All Variables.
      The issue's claim that "a whole-tree inspection of every [Epic]
      occurrence finds none touching a counit" is therefore FALSE at
      commit 418e970a; see CORRECTIONS.
-   - Theory/Adjunction.v:314 [adj_monic] is the only meeting of
+   - Theory/Adjunction.v [adj_monic] is the only meeting of
      faithfulness with an adjunction in Theory/Adjunction.v itself (its
-     sole [Faithful] mention is :315); other files meet the two as well
-     (Monad/Lifting.v:508, Theory/Equivalence/Adjoint.v:128 among them),
+     sole [Faithful] mention is in that statement); other files meet the two as well
+     (Monad/Lifting.v, Theory/Equivalence/Adjoint.v among them),
      and none of those is consumed here.  [adj_monic] IS consumed, at the
      opposite adjunction, to give the forward half of Exercise 5 — which
      is the issue's request that the two be "visibly the same fact".
-   - Functor/Hom/Induced.v:144/:161 ([hom_action_faithful_iff],
+   - Functor/Hom/Induced.v ([hom_action_faithful_iff],
      [hom_action_full_iff]) say faithfulness and fullness are injectivity
      and surjectivity of the arrow map, packaged as one natural
      transformation.  That is the first step of Mac Lane's proof, and it
      is cited rather than consumed: the [Faithful] and [Full] classes are
      already stated as injectivity and as a section of [fmap]
-     (Theory/Functor.v:343/:332), so nothing is gained by the detour and
+     (Theory/Functor.v), so nothing is gained by the detour and
      one module of closure is saved.
-   - Construction/Reflective.v:92 [reflective_counit_iso] and
-     Construction/Reflective/Idempotent.v:175 [reflective_counit_IsIso]
+   - Construction/Reflective.v [reflective_counit_iso] and
+     Construction/Reflective/Idempotent.v [reflective_counit_IsIso]
      are the special case the issue names.  Section (E) below re-derives
      the conclusion from (iii); the comparison with the existing lemma is
      BLOCKED and the obstruction is measured, see DONOR DEFECT.
@@ -217,25 +217,24 @@ Generalizable All Variables.
 
    - "a whole-tree inspection of every [Epic] occurrence finds none
      touching a counit" is false: `rg -n 'Epic' Instance/Coq/Monoid/Free.v`
-     returns [adjunction_counit_epic] at :476, whose conclusion is
+     returns [adjunction_counit_epic], whose conclusion is
      `Epic (counit x)`.
-   - Its line numbers for the donors are off by one or two throughout,
-     because they point at the comment or the [Proof] line rather than at
-     the declaration: [adj_monic] is Theory/Adjunction.v:314, not :311
-     (:311 is inside the preceding proof); the [Full] and [Faithful]
-     classes are Theory/Functor.v:332 and :343, not :331/:342 (those are
-     comment lines); [Yoneda_Lemma], [Covariant_Yoneda_Lemma] and
-     [Yoneda_Embedding] are Functor/Hom/Yoneda.v:157, :206 and :255, not
-     :133/:182/:231/:253; and [Section], [Retraction], [Epic], [Monic]
-     are Theory/Morphisms.v:56, :70, :107 and :119 with the aliases
-     [SplitEpi]/[SplitMono] at :129/:130, not :104/:126/:127.
+   - Its citations for the donors land on the comment or the [Proof] line
+     rather than on the declaration throughout.  The declarations
+     themselves are: [adj_monic] in Theory/Adjunction.v, the cited site
+     falling inside the preceding proof; the [Full] and [Faithful]
+     classes in Theory/Functor.v, the cited sites being comment lines;
+     [Yoneda_Lemma], [Covariant_Yoneda_Lemma] and [Yoneda_Embedding] in
+     Functor/Hom/Yoneda.v; and [Section], [Retraction], [Epic], [Monic]
+     in Theory/Morphisms.v, which is also where the aliases
+     [SplitEpi]/[SplitMono] are declared.
    - "there are no [Monic]/[Epic] occurrences in Functor/Hom.v, ...,
      Instance/Fun.v" was true of Instance/Fun.v but is now beside the
      point: Instance/Fun/Morphisms.v (#369) is exactly that development
      and this file consumes it through the transfer lemma.
 
-   DONOR DEFECT.  [reflective_counit_iso] (Construction/Reflective.v:92)
-   produces DATA — an [Isomorphism] — and is closed with [Qed] (:115).
+   DONOR DEFECT.  [reflective_counit_iso] (Construction/Reflective.v)
+   produces DATA — an [Isomorphism] — and is closed with [Qed].
    The whole term is therefore opaque, so `to (reflective_counit_iso R x)`
    does not reduce to the counit even though the proof script supplies it
    as exactly that, and no equation naming any of its four fields is
@@ -258,8 +257,8 @@ Generalizable All Variables.
      therefore say [Full] meaning the functor class, and section (E),
      which needs both, says [Functor.Full] and
      [Construction.Subcategory.Full] — the idiom Adjunction/Fullness.v
-     uses at its own :661.
-   - [Epic_Section_Iso] (Theory/Isomorphism.v:418) yields an
+     uses at its own collision with that export.
+   - [Epic_Section_Iso] (Theory/Isomorphism.v) yields an
      object-level [Isomorphism], not the predicate [IsIsomorphism] that
      (iii) is stated with.  The repackaging [Epic_Section_IsIsomorphism]
      below CONSUMES it for the one law that is not already a field of
@@ -272,7 +271,7 @@ Generalizable All Variables.
      [counit_split_mono_of_full_right] are not claimed equal at any
      grade, and in general they cannot be — two left inverses of an arrow
      that is not epi need not agree.
-   - No generalization of Construction/Localization.v:184
+   - No generalization of Construction/Localization.v
      [unit_at_local_iso].  The issue's appended note observes that it
      never uses W-locality; that observation is neither used nor acted on
      here, and that file is not required.
@@ -283,7 +282,7 @@ Generalizable All Variables.
      to `F ◯ U ⟹ Id`, which is not built here).
    - No statement about when U REFLECTS or CREATES anything, no
      [AdjointEquivalence] corollary, and no relation to
-     Theory/Equivalence/Adjoint.v:73 ([adj_equiv_counit_iso], where an
+     Theory/Equivalence/Adjoint.v ([adj_equiv_counit_iso], where an
      adjoint equivalence carries its counit isomorphism as a FIELD; (iii)
      here DERIVES such an isomorphism from fullness and faithfulness, and
      the two are not connected).
@@ -298,7 +297,7 @@ Generalizable All Variables.
 (* ------------------------------------------------------------------ *)
 (** ** A packaging lemma: split monic + epi ⟹ invertible *)
 
-(* Theory/Isomorphism.v:418's [Epic_Section_Iso] already runs the
+(* Theory/Isomorphism.v's [Epic_Section_Iso] already runs the
    cancellation argument, but it concludes with the object-level
    [Isomorphism].  This repackages it as the predicate [IsIsomorphism]
    that Theorem 1(iii) is stated with, reusing that instance for the one
@@ -498,7 +497,7 @@ Defined.
 
 (* "prove that G is faithful if and only if φ⁻¹ carries epis to epis."
    φ⁻¹ is ⌈−⌉.  The BACKWARD direction is the cheap one: id is epi, and
-   ⌈id⌉ IS the counit by definition (Theory/Adjunction.v:218), so (i)
+   ⌈id⌉ IS the counit by definition (Theory/Adjunction.v), so (i)
    applies.  The identity `⌈id⌉ = ε a` is pinned as an [eq_refl] Example
    below.
 
@@ -552,19 +551,19 @@ End FullFaithful.
 
    — because `unit := ⌊id⌋` and `counit := ⌈id⌉` while the opposite
    adjunction is built by swapping [to] and [from] of the very same
-   isomorphism (Adjunction/Opposite.v:34).  #368 measured this out of
+   isomorphism (Adjunction/Opposite.v).  #368 measured this out of
    tree and pinned it nowhere; it is pinned here, and again in the probe.
 
    The remaining transport is the Monic/Epic and Section/Retraction
-   quartets of Theory/Morphisms/Duality.v (:44-:56 and :142-:166), and
+   quartets of Theory/Morphisms/Duality.v, and
    [Full_op]/[Faithful_op]/[Full_of_op]/[Faithful_of_op] of
-   Functor/Opposite.v (:68-:87).  Six of those twelve are record literals
+   Functor/Opposite.v.  Six of those twelve are record literals
    with no proof content — the Monic/Epic quartet, which is what
-   Duality.v:38's "one constructor application" sentence covers, and the
+   Duality.v's "one constructor application" sentence covers, and the
    two [Faithful] passages; the other six ([op_Retraction_of_Section]
    and its three siblings, [Full_op], [Full_of_op]) are [Program
    Definition]s whose single obligation is an [exact] of the other
-   side's law at the swapped indices (Functor/Opposite.v:63-64 says so
+   side's law at the swapped indices (Functor/Opposite.v says so
    of its own two).  None runs an argument of its own, so the dual
    clauses cost no argument here: no direct proof is cheaper and none is
    shipped.
@@ -650,7 +649,7 @@ Example unit_retract_agrees (HF : Full F) (x : D) :
     (@unit_split_epi_of_full_left C D F U A HF x) := eq_refl.
 
 (* Riehl 4.6.11 dual (iii): F fully faithful ⟺ η is an isomorphism.  The
-   forward half CONSUMES #368's [unit_iso_of_full_monic] (:603) rather
+   forward half CONSUMES #368's [unit_iso_of_full_monic] rather
    than re-running the split-plus-cancellation argument. *)
 
 Definition left_adjoint_fully_faithful_iff_unit_iso :
@@ -674,7 +673,7 @@ Proof.
 Defined.
 
 (* ... and the derivation the issue asks for: the SAME fact is
-   [adj_monic] (Theory/Adjunction.v:314) read at the opposite adjunction.
+   [adj_monic] (Theory/Adjunction.v) read at the opposite adjunction.
    At `Opposite_Adjunction F U A` the left adjoint is [Opposite_Functor U],
    so `Faithful F` there is `Faithful U` here (through [Faithful_op]),
    `Monic f` there is `Epic f` here (through [op_Monic_of_Epic]), the
@@ -719,10 +718,10 @@ End Duals.
       reflective in B, then by Theorem 1 each object a ∈ A is isomorphic
       to F K a, and hence R a ≅ a for all a."
 
-   That is exactly Construction/Reflective.v:92's [reflective_counit_iso],
+   That is exactly Construction/Reflective.v's [reflective_counit_iso],
    and here it becomes a corollary: the inclusion is faithful
-   ([Incl_Faithful], Construction/Subcategory.v:89) and full as a functor
-   whenever the subcategory is full ([Full_Implies_Full_Functor], :104),
+   ([Incl_Faithful], Construction/Subcategory.v) and full as a functor
+   whenever the subcategory is full ([Full_Implies_Full_Functor]),
    so (iii) applies.
 
    Two facts about the inclusion are used and nothing else; in

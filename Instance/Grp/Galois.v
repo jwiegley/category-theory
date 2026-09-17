@@ -20,7 +20,7 @@ Require Import Category.Instance.Grp.
 Require Import Category.Instance.Grp.Quotient.
 Require Import Category.Adjunction.Right.
 
-(* Same two as Instance/Powerset.v:25-27 and Instance/Proset/Galois.v, and
+(* Same two as Instance/Powerset.v and Instance/Proset/Galois.v, and
    for the same reason and in the same position: [relation] and [PreOrder]
    below are the stdlib Prop-valued ones, not Category.Lib's [crelation]
    ones, and they must be required AFTER Category.Lib to win. *)
@@ -80,11 +80,11 @@ Generalizable All Variables.
     a functor P -> Q^op, and the construction paragraph says "L X >= S in
     Q".  So the pair here is order-REVERSING in each variable, which is
     what the classical Galois correspondence between subgroups and
-    subfields is.  Instance/Proset/Galois.v:118's [GaloisConnection RA RB]
+    subfields is.  Instance/Proset/Galois.v's [GaloisConnection RA RB]
     is stated covariantly -- its [gal_mono_l] concludes [RB (gal_l a)
     (gal_l a')] from [RA a a'] -- so the antitone reading is obtained by
     taking [RB] to be the REVERSED inclusion on P(G), which is
-    Instance/Proset/Limit.v:135's [op_rel].  That is a faithful rendering
+    Instance/Proset/Limit.v's [op_rel].  That is a faithful rendering
     of the book's [Q^op] and not a departure from it; the covariant
     ascription is rejected, and that rejection is pinned in
     Test/ProbeGalois381.v as a typing negative.
@@ -92,32 +92,32 @@ Generalizable All Variables.
     ** THE ISSUE'S "Current state" IS STALE ON FOUR COUNTS, MEASURED AT THE
        BASE COMMIT
 
-    The catalog entry says: "Absent.  Structure/Group.v:109 declares only
+    The catalog entry says: "Absent.  Structure/Group.v declares only
     [GroupObject] ... no action, no subgroup lattice", and asks for the
     group, the action, the subgroup notion and the powerset preorder to be
     built.  All four exist.
 
-    (1) Instance/Grp.v:212's [GrpObject] is the setoid-level group (carrier,
+    (1) Instance/Grp.v's [GrpObject] is the setoid-level group (carrier,
         unit, multiplication, inversion, with the right-handed laws and
-        respectfulness of inversion DERIVED), with [GrpHom] at :345 and the
-        category [Grp] at :466.
+        respectfulness of inversion DERIVED), with [GrpHom] and the
+        category [Grp].
 
     (2) A monoid acting on a setoid is
-        Construction/Deloop/Functors.v:224's [Record MSetoidAction (M :
+        Construction/Deloop/Functors.v's [Record MSetoidAction (M :
         MonObject)] -- fields [act_setoid], [act], [act_respects],
         [act_unit], [act_op], in Riehl 1.3.9's left convention
         [act (g . h) x = act g (act h x)] -- with equivariant maps at
-        Instance/Fun/Action.v:115 and the category [MSet M] there.  It is
+        Instance/Fun/Action.v and the category [MSet M] there.  It is
         CONSUMED below; no second action record is declared.
 
-    (3) Instance/Grp/Quotient.v:177's [Record Subgroup (G : GrpObject)] --
+    (3) Instance/Grp/Quotient.v's [Record Subgroup (G : GrpObject)] --
         fields [sub_mem : carrier G -> Type], [sub_resp], [sub_unit],
         [sub_mul], [sub_inv] -- is the subgroup notion.  It is what
         [stab_Subgroup] below inhabits.
 
-    (4) The powerset preorder is Instance/Powerset.v:294-304's
+    (4) The powerset preorder is Instance/Powerset.v's
         [subset_le] / [subset_le_preorder] / [Subsets X := Proset
-        (subset_le_preorder X)], over Instance/Sets/Powerset.v:981's
+        (subset_le_preorder X)], over Instance/Sets/Powerset.v's
         [Powerset_Prop_obj X] -- the [equiv]-respecting Prop-valued
         predicates on a setoid, that is [SetoidMorphism X
         Powerset_Prop_truth].
@@ -126,8 +126,8 @@ Generalizable All Variables.
     suggested module [Instance/Group/Galois.v] names a directory that does
     not exist; the tree's group directory is [Instance/Grp/], so the file
     is placed there.  And the bridge from a group to the monoid an
-    [MSetoidAction] acts by is Instance/Rep.v:184's [grp_mon], consumed
-    here.  ([Construction/Deloop.v:267] declares a SECOND record also named
+    [MSetoidAction] acts by is Instance/Rep.v's [grp_mon], consumed
+    here.  ([Construction/Deloop.v] declares a SECOND record also named
     [GrpObject], layered on [MonObject]; it is not the one
     Instance/Grp/Quotient.v's [Subgroup] is over, so the file imports
     Instance.Grp LAST and every [GrpObject] below is Instance/Grp.v's.)
@@ -135,15 +135,15 @@ Generalizable All Variables.
     ** PRIOR ART: THE THREE EXISTING GALOIS CONNECTIONS, AND WHAT IS NEW
 
     At the base commit exactly three library constants inhabit
-    [GaloisConnection] at NAMED relations (Instance/Proset/Galois.v:190's
-    [GaloisOfAdjunction] and :306's [galois_of_unit_counit] are parametric
+    [GaloisConnection] at NAMED relations (Instance/Proset/Galois.v's
+    [GaloisOfAdjunction] and its [galois_of_unit_counit] are parametric
     constructions over arbitrary [RA]/[RB], so a grep finds five):
-    Instance/Proset/Galois.v:249's [nat_shift_galois]
+    Instance/Proset/Galois.v's [nat_shift_galois]
     (truncated subtraction left adjoint to addition on the naturals),
-    Instance/Powerset.v:396's [image_preimage_galois] (direct image left
-    adjoint to inverse image) and Instance/FinSet/Subsets.v:599's
+    Instance/Powerset.v's [image_preimage_galois] (direct image left
+    adjoint to inverse image) and Instance/FinSet/Subsets.v's
     [finpow_image_preimage_galois] (the same over decidable finite
-    subsets).  A fourth occurrence, Test/ProbePowerset382.v:381, is a probe
+    subsets).  A fourth occurrence, Test/ProbePowerset382.v, is a probe
     control.  ALL THREE library ones are COVARIANT: each has both maps
     monotone for the given inclusions.  [group_action_galois] below is
     therefore the tree's first ANTITONE one -- the first whose second
@@ -165,13 +165,13 @@ Generalizable All Variables.
     library is [crelation]-valued, hence [Type]-valued -- while a member of
     [Powerset_Prop_obj X] must be [Prop]-valued, since [subset_le] has to
     be a stdlib [relation] for [Proset] and [GaloisConnection] to apply at
-    all (Instance/Powerset.v:292 records that constraint).  The fixing
-    condition is therefore TRUNCATED, by Instance/Sets/Powerset.v:951's
+    all (Instance/Powerset.v records that constraint).  The fixing
+    condition is therefore TRUNCATED, by Instance/Sets/Powerset.v's
     impredicative [Powerset_squash A := forall Q : Prop, (A -> Q) -> Q],
     exactly as [Powerset_Prop_image] truncates its existential.  Nothing is
     lost where it matters: every goal into which the truncation has to be
     eliminated below is itself a [Prop], and
-    Instance/Sets/Powerset/Universal.v:327's [powerset_squash_prop_inert]
+    Instance/Sets/Powerset/Universal.v's [powerset_squash_prop_inert]
     records that over a [Prop] the truncation is inert -- which is the case
     at both witnesses, whose setoids are [eq_Setoid]s.
 
@@ -181,8 +181,8 @@ Generalizable All Variables.
         preorders: [gal_lrl_below]/[gal_lrl_above] and
         [gal_rlr_below]/[gal_rlr_above], which ARE Mac Lane's display (2)
         --- [L p >= L R L p >= L p] and [R q <= R L R q <= R q] -- each a
-        [:=] term with no tactic over the donor's [gal_unit] (:284) and
-        [gal_counit] (:287): [gal_lrl_below] IS the counit evaluated at
+        [:=] term with no tactic over the donor's [gal_unit] and
+        [gal_counit]: [gal_lrl_below] IS the counit evaluated at
         [gal_l a] and [gal_rlr_above] IS the unit evaluated at [gal_r b],
         with no further step, while [gal_lrl_above] and [gal_rlr_below]
         are the other two pushed through one monotonicity field; the
@@ -197,7 +197,7 @@ Generalizable All Variables.
         [Powerset_Prop_obj X].  A [:=] term (the setoid's [equiv] on
         that object is pointwise [Powerset_Prop_truth_equiv], so the
         witness is [fun x => conj (H1 x) (H2 x)]).  It belongs beside
-        Instance/Powerset.v:331's [subsets_iso_of_equiv], which is the
+        Instance/Powerset.v's [subsets_iso_of_equiv], which is the
         converse direction read into the category; it is declared here
         because that file is not edited.
 
@@ -253,7 +253,7 @@ Generalizable All Variables.
         conversion negative; an earlier draft blamed [id] and [compose],
         which an audit refuted by measurement.  [op_rel_is_flip] records that
         Instance/Proset/Limit.v's [op_rel] and stdlib's [Basics.flip],
-        which Instance/Proset/Order.v:305-320 uses for the same job, are
+        which Instance/Proset/Order.v uses for the same job, are
         the SAME function by [eq_refl].
 
     (H) TWO WITNESSES, both over transparent groups whose operations
@@ -264,10 +264,11 @@ Generalizable All Variables.
         literal [Set], while [Subsets] demands a [SetoidObject@{o o}] with
         [Set < o]; [Subsets (grp_setoid Z2)] is rejected with "Cannot
         enforce Set = ...".  (An earlier revision quoted
-        [GrpObject@{u Set u}] / [SetoidObject@{u Set}] and cited :1087;
+        [GrpObject@{u Set u}] / [SetoidObject@{u Set}] and cited [Z2] at a
+        line it has since left;
         re-measured after the PR "algebraic carriers are sets"
         (2026-09-17).)  The witnesses are therefore built on [eq_Setoid]
-        (Lib/Setoid.v:65), which is polymorphic in exactly the needed way.
+        (Lib/Setoid.v), which is polymorphic in exactly the needed way.
 
         (H1) [GalZ2] on [bool] under [xorb], acting on [bool] by [xorb].
              [galois_stab_true_trivial] computes the stabiliser of the
@@ -296,7 +297,7 @@ Generalizable All Variables.
 
     (I) MAC LANE'S OWN TYPING.  Theorem 1 types the pair as
         [L : P -> Q^op] and [R : Q^op -> P], which is exactly the shape of
-        Adjunction/Right.v:342's [AdjointOnTheRight]; [StabOp], [FixedOp]
+        Adjunction/Right.v's [AdjointOnTheRight]; [StabOp], [FixedOp]
         and [group_action_AdjointOnTheRight] deliver it, with the two
         object actions at [eq_refl] and with the hom-set isomorphism's two
         legs the two projections of [fixed_transpose_iff].  Its eight
@@ -346,7 +347,7 @@ Generalizable All Variables.
     already inside one of those four.  Without the section (I) bridge the
     figure is 126.
 
-    Instance/Grp/Free.v:341's [grp_deloop_monoid] is the SAME monoid
+    Instance/Grp/Free.v's [grp_deloop_monoid] is the SAME monoid
     bridge by a cheaper route -- swapping it in for [grp_mon] measures 126
     rather than 129, and unlike [grp_mon] it is a plain [Definition]
     rather than a [Program] one -- but the two produce DIFFERENT
@@ -364,9 +365,9 @@ Generalizable All Variables.
     the group's carrier and relation universes -- and of the action
     setoid's -- is the DONORS' and not this file's, and it has FOUR donors
     each sufficient alone: [Powerset_Prop_obj] is declared over a
-    [SetoidObject@{o o}] (Instance/Sets/Powerset.v:981) and is the one
+    [SetoidObject@{o o}] (Instance/Sets/Powerset.v) and is the one
     this file meets first, in section (C); [subset_le],
-    [subset_le_preorder] and [Subsets] (Instance/Powerset.v:294-295) each
+    [subset_le_preorder] and [Subsets] (Instance/Powerset.v) each
     demand the same, measured out of tree at levels declared apart.  So
     both [grp_setoid G] and [act_setoid A] must have their two universes
     equal before any subset can be named, and [Set < o] is
@@ -515,7 +516,7 @@ Definition subset_le_antisym@{o} {X : SetoidObject@{o o}}
   fun x => conj (H1 x) (H2 x).
 
 (* Instance/Proset/Limit.v's reversed preorder and stdlib's [Basics.flip],
-   which Instance/Proset/Order.v:305-320 uses for the same job, are the
+   which Instance/Proset/Order.v uses for the same job, are the
    same function: both delta-reduce to [fun x y => R y x]. *)
 Example op_rel_is_flip {A : Type} (R : relation A) :
   op_rel R = Basics.flip R := eq_refl.
@@ -547,7 +548,7 @@ Context (A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{gu o o} G)).
 (* Mac Lane's [sigma . x = x], truncated: [equiv] is [Type]-valued here,
    and a member of a [Powerset_Prop_obj] must be a [Prop].  Every use below
    eliminates the truncation into a [Prop] goal, and over a [Prop] the
-   truncation is inert (Instance/Sets/Powerset/Universal.v:327). *)
+   truncation is inert (Instance/Sets/Powerset/Universal.v). *)
 Definition fixes (s : carrier (grp_setoid G))
                  (x : carrier (act_setoid A)) : Prop :=
   Powerset_squash@{o} (act A s x ≈ x).
@@ -646,7 +647,7 @@ Definition stab_PreOrder_G :
 (** ** (D) The stabiliser is a subgroup *)
 
 (* Mac Lane's "L X is the subgroup of G which fixes all points x in X",
-   as an inhabitant of Instance/Grp/Quotient.v:177's record.  [sub_mem]
+   as an inhabitant of Instance/Grp/Quotient.v's record.  [sub_mem]
    wants a [Type]-valued membership and [stab X s] is a [Prop], which is a
    [Type] by cumulativity; nothing is wrapped.  The four laws are the four
    the action supplies: saturation is [stab]'s own respectfulness, the unit
@@ -856,7 +857,7 @@ Example galois_PG_hom
 (** ** (I) Mac Lane's own typing: a pair adjoint on the right *)
 
 (* Theorem 1 types the two maps as [L : P -> Q^op] and [R : Q^op -> P], and
-   Adjunction/Right.v:342's [AdjointOnTheRight S T] -- for
+   Adjunction/Right.v's [AdjointOnTheRight S T] -- for
    [S : A^op ⟶ X] and [T : X^op ⟶ A], with the hom-set isomorphism
    [A(a, T x) ≅ X(x, S a)] -- is exactly that shape.  So the pair here IS a
    pair adjoint on the right, and saying so costs three modules of closure
@@ -918,13 +919,14 @@ Arguments ClosedU {G A} X.
 (* ------------------------------------------------------------------------ *)
 (** ** (H1) A witness: the two-element group acting on two points *)
 
-(* The two-point setoid, at ONE universe.  [eq_Setoid] (Lib/Setoid.v:65) is
+(* The two-point setoid, at ONE universe.  [eq_Setoid] (Lib/Setoid.v) is
    polymorphic in exactly the level [Subsets] needs, which
    Instance/Grp.v's [Z2] is not: that one is declared
    [Z2@{u} : GrpObject@{u Set Set}], pinning both the carrier and the
    relation universe to the literal [Set], and [Subsets (grp_setoid Z2)] is
    then rejected.  The rejection is pinned in Test/ProbeGalois381.v.
-   (An earlier revision quoted [GrpObject@{u Set u}] and cited :1087;
+   (An earlier revision quoted [GrpObject@{u Set u}] and cited [Z2] at a
+   line it has since left;
    re-measured after the PR "algebraic carriers are sets" (2026-09-17), which
    permuted [GrpObject]'s universe roles from (carrier, proof, aux) to
    (aux, carrier, proof).  The obstruction is if anything sharper and the

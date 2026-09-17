@@ -64,9 +64,9 @@ Generalizable All Variables.
    [rg] for `adjoint on the right`, `AdjointOnTheRight`, and
    `mutually (right|left) adjoint` returned ZERO hits before this file,
    and Adjunction/Right.v did not exist.  The catalogue issue's citation
-   of the ordinary class as Theory/Adjunction.v:130 is off by three --
-   :129 and :130 are the two [Reserved Notation] lines for ⌊-⌋ and ⌈-⌉,
-   and [Class Adjunction] begins at :133.  The drift is minor and the
+   of the ordinary class in Theory/Adjunction.v is off by three -- the
+   lines it names are the two [Reserved Notation] lines for ⌊-⌋ and ⌈-⌉,
+   and [Class Adjunction] begins after them.  The drift is minor and the
    class is real; it is recorded here only so that a later reader
    checking the citation is not misled into thinking the class moved.
 

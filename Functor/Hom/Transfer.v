@@ -63,7 +63,7 @@ Generalizable All Variables.
    - [hom_transfer_monic_iff_epic] : monic in [A, Sets] ⟺ f is [Epic].
    - [hom_transfer_epic_iff_section] : epic in [A, Sets] ⟺ f is
      [Section].  The library's split monomorphism is [Section]
-     (Theory/Morphisms.v:56, aliased [SplitMono] at :130): a chosen LEFT
+     (Theory/Morphisms.v, aliased [SplitMono]): a chosen LEFT
      inverse, carried as data.  It is deliberately NOT [Monic]: a monic
      need not split, and the reviewer check for this issue asks for the
      split notion.
@@ -78,18 +78,18 @@ Generalizable All Variables.
        paragraph above, which is the catalog item maclane:IV.3:remark1
        and is IN TREE as Instance/Fun/Morphisms.v.  The scripts below
        consume its four one-directional halves by name — the two
-       target-agnostic ones [pointwise_monic_is_monic] (:341) and
-       [pointwise_epic_is_epic] (:350) for the backward directions, and
+       target-agnostic ones [pointwise_monic_is_monic] and
+       [pointwise_epic_is_epic] for the backward directions, and
        the two [Sets]-specific converses [sets_functor_monic_pointwise]
-       (:427) and [sets_functor_epic_pointwise] (:504) for the forward
+ and [sets_functor_epic_pointwise] for the forward
        ones — rather than the packaged biconditionals
-       [sets_functor_monic_iff_pointwise] (:437) and
-       [sets_functor_epic_iff_pointwise] (:513), which are those same
+       [sets_functor_monic_iff_pointwise] and
+       [sets_functor_epic_iff_pointwise], which are those same
        halves paired.  Nothing here is restated.
    (2) The characterisation of monos and epis in Sets as the injections
        and the surjections: Instance/Sets.v's [injectivity_is_monic]
-       (:374) and [surjectivity_is_epic] (:509), the second's backward
-       leg exposed as [epic_implies_surjective] (:532).  Also consumed.
+ and [surjectivity_is_epic], the second's backward
+       leg exposed as [epic_implies_surjective].  Also consumed.
    (3) The two elementary observations Mac Lane's proof then makes:
        injectivity of h ↦ h ∘ f at every c IS right-cancellability of f,
        and surjectivity at c := b applied to id[b] produces the left
@@ -98,8 +98,8 @@ Generalizable All Variables.
 
    THE YONEDA BIJECTION IS CITED, NOT ROUTED THROUGH.  Mac Lane's
    remark that f ↦ f* is the Yoneda bijection is true here as well —
-   [Yoneda_Full]/[Yoneda_Faithful] (Functor/Hom.v:96/:85) and
-   [Yoneda_Embedding'] (:109) are exactly that — but no statement below
+   [Yoneda_Full]/[Yoneda_Faithful] (Functor/Hom.v) and
+   [Yoneda_Embedding'] are exactly that — but no statement below
    consumes them, and that is a deliberate universe decision, not an
    oversight: [Yoneda_Embedding'] is stated over a category whose
    object, hom and proof universes are IDENTIFIED, and routing the
@@ -118,7 +118,7 @@ Generalizable All Variables.
      Leibniz [=] ([hom_transfer_is_fmap_value], [eq_refl]): both sides
      compute h ∘ f, because [Curried_Hom]'s arrow action is
      `fun g => g ∘ op f` and [op] moves no data
-     (Construction/Opposite.v:137).  The COMPONENT record does NOT
+     (Construction/Opposite.v).  The COMPONENT record does NOT
      ([SetoidMorphism] carries a [proper_morphism] certificate, and the
      two are separately elaborated obligations), and neither does the
      whole [Transform] record, which additionally rebuilds [naturality]
@@ -140,10 +140,10 @@ Generalizable All Variables.
 
    ENGINEERING FINDINGS.
 
-   - `[Hom a,─]` is the notation of Functor/Hom.v:80 for
+   - `[Hom a,─]` is the notation of Functor/Hom.v for
      `@Curried_Hom _ a`, which parses as the OBJECT action of
      [Curried_Hom] at a — the [Curried_Hom : Category >-> Functor]
-     coercion (Functor/Hom.v:78) is what makes `a` land in the object
+     coercion (Functor/Hom.v) is what makes `a` land in the object
      slot.  So `[Hom a,─] : A ⟶ Sets`, not a functor out of A^op.
    - An arrow `f : b ~{A}~> a` IS an arrow `a ~{Opposite A}~> b` on the
      nose, so [fmap[Curried_Hom A] f] typechecks with no coercion; the

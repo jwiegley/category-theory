@@ -79,11 +79,11 @@ Generalizable All Variables.
     carrier IS the ambient's hom-setoid [c ~> c]; an arbitrary category
     supplies no [Prop] mirror of its `≈` — in [Cat] an [F ≈ G] IS a
     family of isomorphisms, so there is none (Lib/Setoid/
-    Propositional.v:42-54, Instance/Sets/Propositional.v's header).
+    Propositional.v, Instance/Sets/Propositional.v's header).
     So [EndRig] and, through it, [rig_iff_one_object_preadditive]'s
     second and third components now take
     [{LP : LocallyPropositional C}] (declared at
-    Instance/Sets/Propositional.v:240).  Those two constants are the
+    Instance/Sets/Propositional.v).  Those two constants are the
     only ones in this file whose statement changed; [DeloopRig],
     [DeloopRig_Preadditive] and the rig side of the bridge are as they
     were, and so is every instance and the initiality argument.
@@ -98,9 +98,9 @@ Generalizable All Variables.
     [DeloopRig_LocallyPropositional] below — which is why the four
     [eq_refl] round-trip [Example]s and [EndRig_DeloopRig] are
     unchanged — and at [Ab], [RMod R] and [CMon] by
-    [Ab_LocallyPropositional] (Instance/Ab.v:713),
-    [RMod_LocallyPropositional] (Instance/Mod.v:337) and
-    [CMon_LocallyPropositional] (Instance/CMon.v:236).
+    [Ab_LocallyPropositional] (Instance/Ab.v),
+    [RMod_LocallyPropositional] (Instance/Mod.v) and
+    [CMon_LocallyPropositional] (Instance/CMon.v).
 
     INSTANCES.  [Nat_Rig] assembles the stdlib arithmetic lemmas into the
     rig of Example 5.37; [Bool_Rig] is Example 5.38's (false, ∨, true, ∧),
@@ -287,7 +287,7 @@ Qed.
    a [Set+1], the elaborator stops identifying the record's own sort variable
    with the category's object universe, and [Rig] would acquire a third,
    redundant universe -- refusing the `Rig@{uo uh}` annotations of
-   Instance/Rng/Free.v:1240 and :1200 for arity.  Measured after the change,
+   Instance/Rng/Free.v for arity.  Measured after the change,
    [Rig@{u p} : Category@{u p p}] with the one new constraint [Set < u]. *)
 Program Definition Rig@{u p} : Category@{u p p} := {|
   obj     := RigObject@{p p p};
@@ -420,7 +420,7 @@ Next Obligation. intros R x y z f; apply rig_mul_zero_r. Qed.
 
    It DOES need one thing it did not need before the PR "algebraic carriers
    are sets" (2026-09-17): the ambient category must be LOCALLY PROPOSITIONAL
-   (Instance/Sets/Propositional.v:240), since the rig's carrier setoid IS
+   (Instance/Sets/Propositional.v), since the rig's carrier setoid IS
    [C]'s hom-setoid and [rig_prop] has to be supplied from it.  The hypothesis
    is a class, so it is discharged by instance resolution wherever an instance
    is in scope -- at a delooping by [DeloopRig_LocallyPropositional] above, at

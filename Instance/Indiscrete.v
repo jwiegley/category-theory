@@ -87,7 +87,7 @@ Generalizable All Variables.
       The catalog issue states that the indiscrete half "has no
       construction at all -- searching for it finds only comments".  That
       is FALSE, and Instance/Cat/Objects.v's item I already records it:
-      Instance/Discrete/Reconstruct.v:432 has declared
+      Instance/Discrete/Reconstruct.v has declared
       [Indiscrete (A : Type) : Category], with [hom := fun _ _ => unit],
       [homset := Morphism_equality] and every category law discharged by
       the ambient obligation tactic, since it was written.  It is
@@ -98,7 +98,7 @@ Generalizable All Variables.
       What this file supplies is the part that genuinely was missing, and
       Objects.v states it precisely: [Indiscrete] was an OBJECT MAP ONLY.
       Its three prior consumers -- Theory/Skeleton/Separation.v,
-      Instance/Cat/Pullback.v:539 (whose [IB := Indiscrete bool] drives
+      Instance/Cat/Pullback.v (whose [IB := Indiscrete bool] drives
       [FibreProduct_not_Cat_pullback]) and Instance/Cat/Objects.v:§6
       (whose [SwapI] drives [objects_not_functorial_over_Cat]) -- all
       three use it on OBJECTS alone, and each of the latter two uses it
@@ -114,7 +114,7 @@ Generalizable All Variables.
 
       A SECOND, SMALLER PIECE OF PRIOR ART IS DISCLOSED IN PLACE RATHER
       THAN DUPLICATED SILENTLY: §10's [ind_bool_iso] is
-      Theory/Skeleton/Separation.v:76's [Indiscrete_iso] -- already
+      Theory/Skeleton/Separation.v's [Indiscrete_iso] -- already
       general in both the type and the two points -- specialized at
       [bool].  That module is not required, for a measured reason: it
       would add TEN modules to this file's 49-module closure, among them
@@ -142,7 +142,7 @@ Generalizable All Variables.
 
       CONSEQUENCE FOR THE FOURTH ADJOINT, REPEATED BECAUSE IT IS WHAT
       "as far as it goes" IN §6 MEANS.  [Pi0] (Theory/Connected/
-      Components.v:579) runs [Cat ⟶ Sets] and shares NEITHER end with
+      Components.v) runs [Cat ⟶ Sets] and shares NEITHER end with
       [StrictCat_Objects : StrictCat ⟶ Coq]; by the source refutation it
       cannot be restricted and re-aimed, since there is no objects
       functor over [Cat] to be adjoint to.  So [adjoint_string] has two
@@ -166,9 +166,9 @@ Generalizable All Variables.
       precedent (prefix = the structured category, whichever way the
       functor runs).  The obvious short names were unavailable there and
       remain so: [Indiscrete] is the category constructor of item I,
-      [Discrete] is Structure/Discrete.v:33's predicate (required here,
+      [Discrete] is Structure/Discrete.v's predicate (required here,
       and used once, in [disc_indisc_not_eq]), and [Objects] is
-      Solver/Expr.v:38's reification class.
+      Solver/Expr.v's reification class.
 
    III. WHAT IS CONSUMED, AND WHAT IS BUILT.
 
@@ -239,7 +239,7 @@ Generalizable All Variables.
       [adj_to_from_equiv], straight from [iso_to_from].
 
       The adjunction is packaged through [Build_Adjunction']
-      (Theory/Adjunction.v:159) for the same measured reason as on the
+      (Theory/Adjunction.v) for the same measured reason as on the
       left wing, though the arithmetic differs: the smart constructor
       asks only for the two [to]-side naturality clauses, which here land
       in [StrictCat] rather than in [Coq] -- but both close with an
@@ -330,7 +330,7 @@ Generalizable All Variables.
       attribute prefixes.  THAT SWEEP FOUND A LIVE COLLISION and it is
       recorded rather than quietly fixed: [counit_is_id] -- the mirror of
       Instance/Cat/Objects.v's [unit_is_id], and the obvious name --
-      clashes with Instance/Cat/Components.v:447, which landed while
+      clashes with Instance/Cat/Components.v, which landed while
       this file was being written; §4's is renamed
       [indisc_counit_is_id].  The hazard is not cosmetic, since the
       [make print-assumptions] gate reads its targets by bare name in a
@@ -442,7 +442,7 @@ Generalizable All Variables.
 
    A SECOND CORRECTION: the same revision added "A [Program Definition]
    cannot be annotated here in any case, since its obligations mint fresh
-   universes."  That is FALSE, and Instance/Discrete.v:81's annotated
+   universes."  That is FALSE, and Instance/Discrete.v's annotated
    [Program Definition DiscreteCat_Functor@{o h p uo uh up +}] is the
    counterexample: a trailing [+] allows exactly the universes the
    obligations mint.  The [refine] is kept for the narrower reason that it
@@ -498,7 +498,7 @@ Defined.
    at one level.  That was invisible while [Indiscrete] was pinned at
    [Category@{u Set Set}] -- [ch] was then the literal [Set] and [co] was
    free by construction -- and it became visible the moment [Indiscrete]
-   was annotated (Instance/Discrete/Reconstruct.v:430, PR "algebraic
+   was annotated (Instance/Discrete/Reconstruct.v, PR "algebraic
    carriers are sets", 2026-09-17).  Naming the instance keeps both free,
    so §8's two sections can exhibit homs strictly above [Set] AND objects
    strictly above homs.  The trailing [+] allows the universes
@@ -522,7 +522,7 @@ Defined.
 
 (* Mac Lane's right-hand adjunction.  Both naturality clauses close with
    an [eq_refl] object family and one [indiscrete_hom_eq], for the reason
-   §2's comment gives.  [Build_Adjunction'] (Theory/Adjunction.v:159)
+   §2's comment gives.  [Build_Adjunction'] (Theory/Adjunction.v)
    asks only for the two [to]-side clauses; see item IV. *)
 Definition Objects_Indisc_Adjunction :
   StrictCat_Objects ⊣ StrictCat_Indisc.
@@ -688,7 +688,7 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
    ALL THREE ARE NOW ACCEPTED, and that gloss was the one thing measured
    wrongly.  No annotation of [indisc_lift] could free it, true -- but an
    annotation of [Indiscrete] could, and did: [Indiscrete@{o h p}]
-   (Instance/Discrete/Reconstruct.v:430, PR "algebraic carriers are sets",
+   (Instance/Discrete/Reconstruct.v, PR "algebraic carriers are sets",
    2026-09-17) is [Set]-free, so the bound [Functor] puts on the source's
    hom universe is now a bound by a free level rather than by the literal
    [Set], and the whole propagation chain travels.  All three commands are
@@ -821,7 +821,7 @@ Example ind_bool_objs_distinct : (true : Indiscrete bool) = false -> False.
 Proof. discriminate. Qed.
 
 (* PRIOR ART, disclosed rather than duplicated silently: this is
-   Theory/Skeleton/Separation.v:76's [Indiscrete_iso] -- which is already
+   Theory/Skeleton/Separation.v's [Indiscrete_iso] -- which is already
    general in the type and the two points -- specialized at [bool].  That
    module is NOT required, for a measured reason rather than taste:
    through [Theory/Skeleton.v] it would add TEN modules to this file's
@@ -859,7 +859,7 @@ Proof. discriminate. Qed.
    [{u0 u1}] and the right at [{u3 u4}] with [u1 < u0] and [u4 < u3] --
    so the shared-middle reading is still a statement about a shared
    INSTANCE and not about the default one.  What is gone is the price:
-   [Indiscrete] was annotated (Instance/Discrete/Reconstruct.v:430, PR
+   [Indiscrete] was annotated (Instance/Discrete/Reconstruct.v, PR
    "algebraic carriers are sets", 2026-09-17), so no [Set] appears in the
    shared instance at all.  The check below identifies the two middles on
    the nose -- both print [StrictCat_Objects@{a a b a b b}] -- with the

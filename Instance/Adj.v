@@ -100,9 +100,9 @@ Generalizable All Variables.
    are discharged by naming a theorem that was ALREADY IN TREE before this
    file was retyped, and neither is re-proved here:
 
-       Adjunction/Conjugate.v:471  conjugate_id
+       Adjunction/Conjugate.v  conjugate_id
          : Conjugate A1 A1 nat_id nat_id
-       Adjunction/Conjugate.v:479  conjugate_compose
+       Adjunction/Conjugate.v  conjugate_compose
          : Conjugate A1 A2 sigma tau → Conjugate A2 A3 sigma' tau'
            → Conjugate A1 A3 (sigma ∙ sigma') (tau' ∙ tau)
 

@@ -3,11 +3,11 @@
 (*                                                                           *)
 (* This file is where issue #253's NEGATIVE demonstrations live, because they *)
 (* need the rejection vernacular, and each use of it is a hit for the         *)
-(* [make todo] hygiene sweep (Makefile:5 greps case-insensitively over every  *)
+(* [make todo] hygiene sweep (Makefile greps case-insensitively over every  *)
 (* .v file for a small set of trigger words, one of which is that vernacular's*)
 (* own name).  Confining them here follows the in-tree precedent set by        *)
-(* Test/Issue138.v:75-76 and Test/ProbeFunnyPoly.v:69,77, which use it the     *)
-(* same way; Monad/Transformer.v:207 does too.  This file contributes exactly *)
+(* Test/Issue138.v and Test/ProbeFunnyPoly.v,77, which use it the     *)
+(* same way; Monad/Transformer.v does too.  This file contributes exactly *)
 (* four such hits, and the pull request states that number rather than         *)
 (* hiding it.  Prose elsewhere in this file is deliberately worded to avoid    *)
 (* the trigger words, so the sweep's delta is exactly the four commands.      *)
@@ -15,7 +15,7 @@
 (* WHAT THE VERNACULAR DOES AND DOES NOT SHOW.  It succeeds when the command  *)
 (* it wraps raises ANY error.  It does not report WHICH error, so on its own  *)
 (* it cannot distinguish a universe inconsistency from an ordinary type        *)
-(* mismatch or a typo.  Test/Issue138.v:70-74 sets the precedent of saying so *)
+(* mismatch or a typo.  Test/Issue138.v sets the precedent of saying so *)
 (* out loud, and the distinction is load-bearing here -- see BLOCK B.         *)
 (* ========================================================================= *)
 
@@ -48,10 +48,10 @@ Check (fun C : Category => locally_small_ambient C : LocallySmall C).
    below demonstrate that the discharge does not go through.
 
    [LocallySmall] is NOT strict -- it is declared [uh <= h] on purpose -- so no
-   such claim holds for it, and the [Check] on line 41 above is precisely the
-   universal discharge in question.  The first rejected command below is
-   therefore about [LocallySmall] AT A STRICT INSTANTIATION, not about the
-   class as declared.
+   such claim holds for it, and the [locally_small_ambient] [Check] above is
+   precisely the universal discharge in question.  The first rejected command
+   below is therefore about [LocallySmall] AT A STRICT INSTANTIATION, not
+   about the class as declared.
 
    Unlike BLOCK B, the rejections here are unambiguous: every term is
    well-typed apart from its universe constraints, so the only thing that can
@@ -110,7 +110,7 @@ Fail Definition A253_no_object_resize@{o uo | uo < o} (A : Type@{o})
    the ascription is type-correct in shape, since [obj[Cat]] is [Category] and
    [Cat] is a [Category], so nothing but the constraint solver can refuse it.
    This is the genuine formal counterpart of Mac Lane's remark, and the reason
-   Instance/Cat.v:108-114 can say self-membership is "a universe inconsistency
+   Instance/Cat.v can say self-membership is "a universe inconsistency
    caught by the elaborator rather than a paradox to be excluded by axiom". *)
 Fail Definition B253_cat_self@{a b c d e}
   : obj[Cat@{a b c d e}] := Cat@{a b c d e}.

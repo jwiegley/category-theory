@@ -20,13 +20,13 @@ Generalizable All Variables.
    unique mediating map [u : p ~> c] with [u ∘ inj a ≈ iota a] for every [a].
    That is precisely the [A]-indexed product of [f] read in [C^op], and this
    file takes it as the definition.  Two files in the tree already dualize
-   this way, by two different mechanisms.  Structure/Cocartesian.v:23 states
+   this way, by two different mechanisms.  Structure/Cocartesian.v states
    the idea -- "To be cocartesian is just to be cartesian in the opposite
    category" -- and realizes it with a NOTATION pair, [Notation "'Cocartesian'
-   C" := (@Cartesian (C^op))] at :115 and :117.  [Comonad] instead uses a
-   [Definition], [Comonad := @Monad (C^op) (M^op)] at Theory/Monad.v:144,
+   C" := (@Cartesian (C^op))].  [Comonad] instead uses a
+   [Definition], [Comonad := @Monad (C^op) (M^op)] at Theory/Monad.v,
    with [Existing Class Comonad] declared separately in the API module at
-   Comonad/Core.v:124.  This file follows the second, splitting [Definition]
+   Comonad/Core.v.  This file follows the second, splitting [Definition]
    from [Existing Class] in exactly that way; see below for why.
 
    WHAT IS NEW HERE AND WHAT IS NOT.  No constant below carries a proof
@@ -53,7 +53,7 @@ Generalizable All Variables.
    keys on the head constant of a goal and does not look through the
    unfolding, so without the declaration a coproduct witness in scope would
    not be found for the implicit argument of the accessors below.  That is
-   the reasoning recorded at Comonad/Core.v:110-124 for [Comonad], the
+   the reasoning recorded at Comonad/Core.v for [Comonad], the
    [Definition]-plus-[Existing Class] precedent this file follows.  (One
    difference: [Comonad]'s two halves are deliberately kept in separate files,
    the definition in Theory/Monad.v and the class declaration in the API
@@ -63,9 +63,9 @@ Generalizable All Variables.
    COLIMIT PRESENTATION.  [icoprod] and its companions read a [Limit] of the
    discrete diagram taken IN [C^op], namely
    [Limit (@DiscreteCat_Functor A (C^op) f)] -- not a [Colimit] in the sense
-   of Structure/Limit.v:158, which sets [Colimit F := Limit (F^op)] and so
+   of Structure/Limit.v, which sets [Colimit F := Limit (F^op)] and so
    indexes over [(DiscreteCat A)^op].  The hom from [x] to [y] is [x = y] in
-   [DiscreteCat A] (Instance/Discrete.v:39) and [y = x] in its opposite
+   [DiscreteCat A] (Instance/Discrete.v) and [y = x] in its opposite
    (Construction/Opposite.v), and Coq does not identify the two categories:
    [eq_refl : (DiscreteCat A)^op = DiscreteCat A] is rejected, "cannot unify".
    (Checked outside the tree, so that the [make todo] scan stays clean.)  A

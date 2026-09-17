@@ -13,8 +13,8 @@ Generalizable All Variables.
    variables occurring in a statement.  Every statement below mentions the
    section's R, HR and HC only THROUGH [sets_part_pred] and [SetsParts],
    which are section-local definitions and so do not register as syntactic
-   occurrences; "All" is the precedent of Theory/EckmannHilton.v:110 and
-   Theory/Category/Monoid.v:919. *)
+   occurrences; "All" is the precedent of Theory/EckmannHilton.v and
+   Theory/Category/Monoid.v. *)
 #[local] Set Default Proof Using "All".
 
 (** * The quotient as a set of parts *)
@@ -69,8 +69,8 @@ Generalizable All Variables.
        [sets_part_of] gives back [SquashStable R]
        ([partition_stability_is_the_conclusion] -- the name is prefixed
        because the tree already carries TWO constants called
-       [stability_is_the_conclusion], at Instance/Grp/Epi.v:1197 and
-       Instance/Field.v:319).  So no cheaper hypothesis exists,
+       [stability_is_the_conclusion], at Instance/Grp/Epi.v and
+       Instance/Field.v).  So no cheaper hypothesis exists,
        which is the discipline Instance/Grp/Epi.v and Instance/Field.v
        use for their constructive stratifications.  A [Prop]-valued R is
        squash-stable ([prop_rel_squash_stable]), by instantiating the
@@ -93,7 +93,7 @@ Generalizable All Variables.
    type theory is that "the set of classes" is a set of SUBSETS, and the
    power set is a universe-raising operation, while "the same set with a
    coarser equality" raises nothing.  The library's design (stated at
-   Instance/Sets.v:66) takes the second reading for exactly this reason,
+   Instance/Sets.v) takes the second reading for exactly this reason,
    and every quotient in the tree follows it -- the hom-congruence
    quotient of Construction/Quotient.v, the group and module quotients of
    Instance/Grp/Quotient.v and Instance/Mod/Quotient.v, and

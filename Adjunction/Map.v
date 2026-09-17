@@ -134,10 +134,9 @@ Generalizable All Variables.
 
    RELATION TO Adjunction/Conjugate.v, WHICH IS THE SAME SECTION OF THE
    SAME BOOK.  That file already states both of the conditions Proposition 1
-   equates with the hom-set square: [ConjugateUnit] (:183) and
-   [ConjugateCounit] (:186), with [conjugate_characterizations] (:309)
-   proving the four-way equivalence including [Conjugate ↔ ConjugateCounit]
-   at :313.  Its configuration is different -- two adjunctions between the
+   equates with the hom-set square: [ConjugateUnit] and
+   [ConjugateCounit], with [conjugate_characterizations]
+   proving the four-way equivalence including [Conjugate ↔ ConjugateCounit].  Its configuration is different -- two adjunctions between the
    SAME pair of categories, compared by natural transformations σ : F' ⟹ F
    and τ : U ⟹ U', with no functors and no squares -- and this file is the
    general case with arbitrary K and L between DIFFERENT categories.  The
@@ -162,7 +161,7 @@ Generalizable All Variables.
    pair with both legs pointwise invertible does arise this way -- is NOT
    built below, and no constant in this file takes an invertibility-family
    hypothesis.  Conjugate.v's own
-   [conjugate_invertible_iff] (:632) says that under the square those two
+   [conjugate_invertible_iff] says that under the square those two
    pointwise invertibility conditions imply each other, so demanding it of
    one of the two comparison families is no weaker than demanding it of
    both.  Nothing here claims more.

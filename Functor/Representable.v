@@ -153,7 +153,7 @@ Coercion Representable_to_obj `(F : C ⟶ Sets) (R : Representable F) : C :=
     A UNIVERSE NOTE, MEASURED
 
     The issue this development answers suggests routing through
-    [Yoneda_Embedding'] (Functor/Hom.v:109), which packages the hom-bijection
+    [Yoneda_Embedding'] (Functor/Hom.v), which packages the hom-bijection
     as an [IsIsomorphism] in Sets.  That route was not taken, because
     [Yoneda_Embedding'] — like [Yoneda_Full] and [Yoneda_Faithful], from which
     it is assembled — is stated over [C : Category@{u u u}], with the object,
@@ -196,7 +196,7 @@ Context (C : Category@{o h h}).
    copresheaves acts by PRECOMPOSITION with its value at the identity.  This
    is naturality at g, evaluated at id, with [id_right] cleaning up.  Up to
    the orientation of [≈] it is the same equation as [Yoneda_Full]'s
-   [fmap_sur] obligation (Functor/Hom.v:96-103), with the same proof,
+   [fmap_sur] obligation (Functor/Hom.v), with the same proof,
    re-derived here so that this development does not inherit that constant's
    universe pin. *)
 Lemma hom_transform_precomp (r r' : C)
@@ -317,7 +317,7 @@ Context {K K' K'' : C ⟶ Sets}.
 Context (R : Representable K) (R' : Representable K') (R'' : Representable K'').
 
 (* The identity transformation names the identity arrow.  [nat_id]'s component
-   is [fmap[K] id] rather than [id] (Theory/Natural/Transformation.v:220), so
+   is [fmap[K] id] rather than [id] (Theory/Natural/Transformation.v), so
    [fmap_id] is spent once here and once in [repr_induced_compatible]. *)
 Lemma repr_induced_id : repr_induced R R nat_id ≈ id.
 Proof.

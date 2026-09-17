@@ -119,7 +119,7 @@ Definition control_iso_to (θ : finpost_K ⟹ finpost_K) :
 
 (* NEGATIVE 4 (conversion).  The BACKWARD leg does not.  Cause, read off the
    stripped error: the [Full] instance in play is produced by
-   Construction/Subcategory.v:104's [Full_Implies_Full_Functor], which is a
+   Construction/Subcategory.v's [Full_Implies_Full_Functor], which is a
    `Qed` lemma; its [prefmap] field is therefore an opaque constant and no
    component of it reduces.  The obstruction is the donor's opacity — nothing
    about this construction, and nothing about [Full] as a class. *)
@@ -212,7 +212,7 @@ End UniverseFormability.
 (** ** Group 4 (FORMABILITY): the enlargement of Sets is out of reach *)
 
 (* Mac Lane's remark 1 is about enlarging the ambient category of SETS.  The
-   in-tree functor that does that is Instance/Sets/Powerset.v:262's
+   in-tree functor that does that is Instance/Sets/Powerset.v's
    [Sets_Lift : Sets@{o so} ⟶ Sets@{so sso}], the identity on carriers
    re-typed one level up.  Postcomposition along it does not exist, and the
    two probes below locate the obstruction precisely: one need not reach the

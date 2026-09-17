@@ -37,7 +37,7 @@ Generalizable All Variables.
     #314's "Current state in the library" section says the area is
     "Absent", that the search
     [rg -i 'submodule|quotient module|quotient ring|\bideal\b'] "finds
-    only background-essay comments (Structure/Abelian.v:69,111)", that
+    only background-essay comments (Structure/Abelian.v)", that
     "no module or ring categories exist in-tree", and that there are "no
     isomorphism-theorem statements anywhere".  Measured against the
     parent commit rather than taken on the issue's word, the last three
@@ -110,7 +110,7 @@ Generalizable All Variables.
 
     RECONCILIATION WITH THE PRE-EXISTING QUOTIENT, which the issue does
     not mention and which a reader will otherwise trip over.
-    Instance/Mod.v:589 already has an [RModQuotient], built as the probe
+    Instance/Mod.v already has an [RModQuotient], built as the probe
     object for the epic half of Mac Lane's §I.7 proposition.  It is NOT a
     quotient by an arbitrary submodule and it carries NO universal
     property: it quotients N by the IMAGE of a given homomorphism
@@ -135,7 +135,7 @@ Generalizable All Variables.
 
     ...AND WITH [AbQuotient], which is NOT unified, for a dependency
     reason of the same shape as #313's and with the arrow pointing the
-    other way.  Instance/Ab.v:531's [AbQuotient] is the abelian-group
+    other way.  Instance/Ab.v's [AbQuotient] is the abelian-group
     quotient by an image, and Instance/Mod.v's [RModQuotient] is built
     ON it.  Routing it through a submodule quotient would make
     Instance/Ab.v depend on Instance/Mod.v, i.e. on a category defined
@@ -146,8 +146,8 @@ Generalizable All Variables.
     defensible change and it is deliberately not made here.  Note also
     that no bridge exists to make one a literal instance of the other:
     an [AbObject] is not exhibited as a ℤ-module anywhere in the tree
-    (Instance/Mod/Tensor.v:235 records the same absence).  The near miss
-    is Instance/Rng/Mod.v:675's
+    (Instance/Mod/Tensor.v records the same absence).  The near miss
+    is Instance/Rng/Mod.v's
     [ZRestrict R : RMod R ⟶ RMod Int_Ring], and it is NOT it:
     restriction of scalars along ℤ → R needs an R-module to start with,
     not a bare abelian group.
@@ -215,7 +215,7 @@ Qed.
     a hom-setoid equation."  That reason is GONE since the PR "algebraic
     carriers are sets" (2026-09-17): every carrier now carries [cmon_prop],
     so [pequiv_to] does exactly that elimination
-    (Lib/Setoid/Propositional.v:180).  Membership stays [Type]-valued anyway,
+    (Lib/Setoid/Propositional.v).  Membership stays [Type]-valued anyway,
     and for a different reason: the leastness theorems below and in
     Instance/Mod/Quotient/Isomorphism.v READ WITNESSES out of it -- the
     preimage in [ImageSubmod], the exponent in a torsion argument -- and
@@ -384,7 +384,7 @@ Proof. apply rmod_injective_monic, smod_incl_injective. Qed.
    [Prop].  [smod_mem] STAYS [Type]-valued -- the leastness theorems below read
    witnesses out of it -- and the relation is its PROPOSITIONAL TRUNCATION.
    [inhabited] is the truncation; [pequiv_elim_inhabited]
-   (Lib/Setoid/Propositional.v:180) is what gets back out, and the six
+   (Lib/Setoid/Propositional.v) is what gets back out, and the six
    congruence lemmas below each gain one [destruct … as [K]] going in and one
    [constructor] coming out. *)
 Definition mquot_rel {R : RingObject} {M : RModObject R} (S : Submodule M)

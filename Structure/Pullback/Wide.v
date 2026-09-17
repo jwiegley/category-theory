@@ -78,7 +78,7 @@ Generalizable All Variables.
    WIDE FORK "CARRIES A SECOND LEG WHICH THE EMPTY CONDITION LEAVES
    UNCONSTRAINED".  THAT IS FALSE, AND IT IS FALSE ABOUT ANOTHER FILE'S
    RECORD, SO IT IS RECORDED HERE AS BAD EVIDENCE RATHER THAN QUIETLY
-   DELETED.  [IsWideEqualizer] (Structure/Equalizer/Wide.v:141) has exactly
+   DELETED.  [IsWideEqualizer] (Structure/Equalizer/Wide.v) has exactly
    TWO fields and ONE leg [e : q ~> x]; it carries no second leg, and that
    file says three separate times that a leg-carrying record is NOT built
    there.  The second leg belongs to the CONE, and is MANUFACTURED from a

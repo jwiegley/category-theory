@@ -35,7 +35,7 @@
 
     (1) THE KERNEL SUBGROUP IS NOT THE PRE-EXISTING KERNEL GROUP.
     Instance/Grp/Quotient.v's [KernelNS_carrier_is_Grp_kernel] records
-    that [SubgroupGrp (KernelNS h)] and Instance/Grp.v:809's [Grp_kernel h]
+    that [SubgroupGrp (KernelNS h)] and Instance/Grp.v's [Grp_kernel h]
     have the same CARRIER by [eq_refl].  The whole records are NOT
     convertible, the group-law fields being different proof terms
     ([SubgroupGrp] is [Program]-built, [Grp_kernel] is built by
@@ -64,7 +64,7 @@
     (4) ZERO MORPHISMS IN [Grp] ARE CONFINED TO [Set].
     [Grp_trivial] elaborates at [GrpObject@{u u Set}] and hence [Grp_Zero]
     at [ZeroObject@{u Set} Grp@{u Set}], even though
-    the donor [unit_setoid@{t u}] (Lib/Setoid.v:59) is polymorphic in
+    the donor [unit_setoid@{t u}] (Lib/Setoid.v) is polymorphic in
     exactly the pinned argument.  So every [IsCokernel] and every
     coequalizer-against-zero statement about [Grp] — the whole of
     Instance/Grp/Quotient/Colimit.v — holds only for groups whose carriers
@@ -74,7 +74,7 @@
     is the guard: if a later change to Instance/Grp.v lifts it, this probe
     breaks and Colimit.v's disclosure should be deleted.  (An earlier
     revision of this paragraph quoted [GrpObject@{u Set u}] and cited
-    Instance/Grp.v:522; re-measured after the PR "algebraic carriers are
+    Instance/Grp.v; re-measured after the PR "algebraic carriers are
     sets" (2026-09-17), which permuted [GrpObject]'s universe roles from
     (carrier, proof, aux) to (aux, carrier, proof).  The same reading, one
     position over; the pin and every negative below are unchanged.)

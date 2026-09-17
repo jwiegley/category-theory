@@ -22,7 +22,7 @@
     over it lives in [Vct^op] — the reason the diagram uses
     Structure/Limit/Comparison.v's [DiscreteCat_Functor']".  The donor was
     annotated in place in the PR "algebraic carriers are sets"
-    (2026-09-17), Instance/Discrete.v:81, and the cocone type IS now
+    (2026-09-17), Instance/Discrete.v, and the cocone type IS now
     formable; §C keeps the line as a positive control and no UNIVERSE
     refusal remains here.  The [eq_refl]
     readbacks are positive controls (the coordinate projections, the
@@ -127,7 +127,7 @@ Fail Check (dual_vct_Adjunction F : Dual F ⊣ Opposite_Functor (Dual F)).
     [Set], which no cocone in [Vct^op] could share, so the file's own
     [LineDiagram] had to be used instead.  The attribution was right and
     the donor was annotated in place in the PR "algebraic carriers are
-    sets" (2026-09-17), Instance/Discrete.v:81; both lines are now
+    sets" (2026-09-17), Instance/Discrete.v; both lines are now
     accepted and are kept as positive controls at the same place.
     [LineDiagram] is retained because it names the diagram this file
     reasons about, not because [DiscreteCat_Functor] is unusable here. *)

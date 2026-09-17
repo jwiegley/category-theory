@@ -63,7 +63,7 @@ Generalizable All Variables.
    [Structure/Limit/Unique] -- which supplies [limit_unique_iso], i.e. the
    whole comparison -- costs it one more, and the natural-bijection block
    costs four.  Those go here instead, and the number is the reason.  (ii)
-   Adjunction/Diagonal/Limit.v:356 REQUIRES Category.Instance.Sets.Complete,
+   Adjunction/Diagonal/Limit.v REQUIRES Category.Instance.Sets.Complete,
    so the adjunction identification cannot live in that file at all: it
    would be a dependency cycle.  That is what makes this file necessary
    rather than merely tidy.
@@ -101,11 +101,11 @@ Generalizable All Variables.
    prove it -- that is this issue's work item 4, first half, and it is
    proved here.  [ConeSet_Natural_Iso] is a genuine isomorphism in the
    functor category [[Sets^op, Sets]] between [ConePresheaf F] -- the left
-   side of (3) AS A FUNCTOR OF X, which is exactly what Structure/Cone.v:79
+   side of (3) AS A FUNCTOR OF X, which is exactly what Structure/Cone.v
    already is -- and [Curried_CoHom Sets (cone_apex F)], the right side.
    Every naturality clause closes by [reflexivity].  [ConeSet_Representable]
    reads the same isomorphism as representability of the cone presheaf,
-   which is the content Structure/UniversalProperty/Limit.v:141 states
+   which is the content Structure/UniversalProperty/Limit.v states
    abstractly and which is here inhabited.
 
    THE ADJUNCTION, AND WHICH ORACLE YOU FEED IT
@@ -143,10 +143,10 @@ Generalizable All Variables.
    OBVIOUS ONE.  The FORWARD transposition applied to a cone, compared as a
    whole morphism with [cone_transpose], is refused at CONVERSION.  One
    donor fact is measured and true: [Cone_Natural_Transform]'s [ACone] round
-   trip (Structure/Cone/Const.v:53) returns the LEG FAMILY on the nose --
+   trip (Structure/Cone/Const.v) returns the LEG FAMILY on the nose --
    [vertex_map] of the round trip is [vertex_map] of the original at
    [eq_refl] -- while the WHOLE record is refused, its [cone_coherence]
-   proof being [abstract]ed at Const.v:58.  But that does NOT localize the
+   proof being [abstract]ed at Const.v.  But that does NOT localize the
    refusal here, and an earlier revision of this paragraph said it did: the
    two sides of the negative differ ALREADY at the value, refused at a
    point [x : X] and again at the produced cone's leg at [d], both measured.
@@ -162,9 +162,9 @@ Generalizable All Variables.
    singleton.
 
    [HasEqualizers Sets] ALREADY EXISTS THREE TIMES OVER in library files --
-   [Sets_HasEqualizers] (Adjunction/GAFT/Sets.v:191), [SetsEqualizers]
-   (Adjunction/CokernelPair.v:1119) and [DiagSets_HasEqualizers]
-   (Adjunction/Diagonal/Finite.v:1129) -- so no fourth is added here, and
+   [Sets_HasEqualizers] (Adjunction/GAFT/Sets.v), [SetsEqualizers]
+   (Adjunction/CokernelPair.v) and [DiagSets_HasEqualizers]
+   (Adjunction/Diagonal/Finite.v) -- so no fourth is added here, and
    the issue's checkbox asking for the class "delivered by name" is already
    met by the first of those.  What is delivered instead is what was
    missing: the CONCRETE presentation and the measured relation to it.
@@ -179,11 +179,11 @@ Generalizable All Variables.
    at [ParX] -- so the existing equalizer is the compatible-family setoid
    over the walking parallel pair, and is neither Awodey's subset nor a cone
    set.  The gap to Awodey's is exactly one application of an existing
-   donor, [equalizer_unique] (Structure/Equalizer/Fork.v:106), delivered as
+   donor, [equalizer_unique] (Structure/Equalizer/Fork.v), delivered as
    [concrete_vs_existing]; the strict form is refused at CONVERSION and is
    pinned.
 
-   RIEHL'S KAROUBI CHECKBOX.  Instance/Sets/Karoubi.v:41's [sets_split_obj e]
+   RIEHL'S KAROUBI CHECKBOX.  Instance/Sets/Karoubi.v's [sets_split_obj e]
    has carrier [{ a : X & e a ≈ a }].  The issue names the [(id, e)] order,
    and that is what [karoubi_IsEqualizer] delivers.  NOTE THE ASYMMETRY, and
    it is the carrier's: written [e a ≈ a], the [(e, id)] order costs ONE
@@ -255,7 +255,7 @@ Generalizable All Variables.
    phrasing.  It does not by itself say the limit is computed from the
    generating edges -- that is the tuple form above.  The two are not
    composed here; composing them would need
-   [presented_restrict] (Construction/Free/Quiver/Presented.v:289), which is
+   [presented_restrict] (Construction/Free/Quiver/Presented.v), which is
    not exercised.
 
    CLOSURE.  86 modules by [coqdep -sort] counting this file; the drop-one
@@ -544,7 +544,7 @@ Section Karoubi.
 Context {X : SetoidObject}.
 Context (e : X ~{Sets}~> X).
 
-(* Instance/Sets/Karoubi.v:41's fixed-point sub-setoid, recorded as the
+(* Instance/Sets/Karoubi.v's fixed-point sub-setoid, recorded as the
    [(id, e)] equalizer the issue names.  No idempotency is required.  The
    carrier is spelled [e a ≈ a], so this order costs two [symmetry] steps
    MORE than [(e, id)] does; the third, in the uniqueness obligation, is

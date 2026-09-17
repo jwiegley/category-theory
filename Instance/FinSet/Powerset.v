@@ -114,7 +114,7 @@ Generalizable All Variables.
    power-set functor of any kind over [FinSet]; the only power-set
    functors over a Sets-like category at one level were the four in
    Instance/Sets/Powerset.v, none of them contravariant at a single
-   universe level (Instance/Concrete.v:295's [Rel_Powerset : Rel ⟶ Sets]
+   universe level (Instance/Concrete.v's [Rel_Powerset : Rel ⟶ Sets]
    is a fifth, but it is COVARIANT and out of [Rel], so it bears on
    neither), and no universal
    element was stated for any of them.  Instance/Sets/Powerset/Universal.v
@@ -131,7 +131,7 @@ Generalizable All Variables.
    power object and nothing further: no comparison morphism is built, and
    the internal version has no arrow action to compare with — that is
    exactly the gap Instance/Sets/Powerset.v's header records about
-   [Structure/Topos.v:129].  Nothing here is stated for a general topos,
+   [Structure/Topos.v].  Nothing here is stated for a general topos,
    and the [Sub ≅ FinPowerset_Sets] comparison lives in [[FinSet^op, Sets]]
    rather than inside [FinSet]. *)
 
@@ -510,7 +510,7 @@ Example finpow_is_topos_Pow (n : nat) :
   @Pow FinSet FinSet_Topos n = finpow n := eq_refl.
 
 (* This numeric instance is the pre-existing [FinSet_Pow_two]
-   (Instance/FinSet/Topos.v:52) restated; the general [finpow_is_topos_Pow]
+   (Instance/FinSet/Topos.v) restated; the general [finpow_is_topos_Pow]
    above is what is new here. *)
 Example finpow_topos_Pow_two :
   @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl.

@@ -37,7 +37,7 @@ Generalizable All Variables.
           Theory/Universal/Arrow.v's [AdjunctionFromUniversalArrows]
           delivers the functoriality as the [fmap] of the constructed
           left adjoint, and Instance/Mod/Free.v does exactly that
-          ([FreeMod], :513, with [free_module_adjunction], :517, and
+          ([FreeMod], with [free_module_adjunction] and
           [free_module_fmap_generators] recording that the induced action
           relabels basis vectors).  The citation is recorded here because
           this is the file the exercise's other half — the pointwise

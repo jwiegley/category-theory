@@ -3,8 +3,8 @@
     Mac Lane CWM 2nd ed. §III.6, book p. 75.
 
     The two targets already ship FOUR refutations of their own, and all
-    four are CONVERSION (`Structure/Ring.v:596`, `:602`,
-    `Structure/Lattice.v:518`, `:536` -- the Sets round trips, whole record
+    four are CONVERSION (`Structure/Ring.v`,,
+    `Structure/Lattice.v`, -- the Sets round trips, whole record
     and internal `Monoid` record respectively; each was stripped and each
     gives exactly one `cannot unify`, zero universe and zero typing
     errors).  This file pins what they CANNOT state: the universe

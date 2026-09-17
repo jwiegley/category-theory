@@ -38,7 +38,7 @@ Generalizable All Variables.
 
    NOTATION.  Mac Lane's c^b is this tree's [exponent_obj b c], and the
    tree's notation [y ^ x] abbreviates [exponent_obj x y]
-   (Structure/Cartesian/Closed.v:65).  The two spellings therefore agree on
+   (Structure/Cartesian/Closed.v).  The two spellings therefore agree on
    the DISPLAY -- [internal_compose : c^b × b^a ~> c^a] reads the same in
    both -- while the [exponent_obj] argument pairs are (b,c), (a,b) and
    (a,c) respectively; [internal_compose_obj] pins that by [eq_refl].
@@ -51,8 +51,8 @@ Generalizable All Variables.
                      --eval----------->  c.
 
    The DEFINITION spends exactly two [Closed] fields, [exponent_obj]
-   (:44) and [exp_iso] (:51): [curry], [uncurry] and [eval] are all
-   derived from [exp_iso] (:53-56).  The beta law [ump_exponents'] (:61)
+ and [exp_iso]: [curry], [uncurry] and [eval] are all
+   derived from [exp_iso].  The beta law [ump_exponents']
    is what the PROOFS below spend, through [eval_curry] and
    [ump_exponents].  [internal_id x : 1 ~> x^x] is the transpose of the
    projection [exr : 1 × x ~> x].
@@ -89,7 +89,7 @@ Generalizable All Variables.
    an inhabitant of the tree's own vocabulary rather than as a bare
    equation: [internal_compose_dinatural] is the equation,
    [internal_compose_Cowedge_cond] is that equation read as
-   Structure/Coend.v:160's [Cowedge_cond] at the mixed-variance
+   Structure/Coend.v's [Cowedge_cond] at the mixed-variance
    bifunctor [ComposeB a c : C^op ∏ C ⟶ C],
    [ComposeB a c (b1, b2) = c^b1 × b2^a], with constant apex [c^a], and
    [internal_compose_Wedge] is the resulting
@@ -101,7 +101,7 @@ Generalizable All Variables.
 
    ASSOCIATIVITY is Mac Lane's own closing demand, "prove it (like
    composition) associative".  It is stated in exactly the shape
-   Construction/Enriched.v:133's [ecompose_assoc] field needs, that is
+   Construction/Enriched.v's [ecompose_assoc] field needs, that is
    through the associator, so that the enrichment below discharges that
    field by [exact] rather than by a restatement:
 
@@ -110,7 +110,7 @@ Generalizable All Variables.
 
    Over [CC_Monoidal] the tensor of morphisms IS [split], the associator
    IS the cartesian one and the two unitors ARE the projections, all at
-   [eq_refl]; Structure/Ring.v:258-269 records the same identifications
+   [eq_refl]; Structure/Ring.v records the same identifications
    and [assoc_bimap_is_split], [assoc_tensor_is_prod],
    [assoc_unit_left_is_exr] and [assoc_unit_right_is_exl] re-check them
    here, so a later change to either side would be caught.
@@ -122,14 +122,14 @@ Generalizable All Variables.
    the unit and associativity theorems above, so the enrichment adds no
    equational content of its own.  [Sets_Enriched] instantiates it.
    Self-enrichment as such is NOT new in tree --
-   Construction/Enriched/Ab.v:437's [Enriched_Ab_itself] is an
+   Construction/Enriched/Ab.v's [Enriched_Ab_itself] is an
    [@Enriched Ab Ab_Monoidal] -- so the gap this closes is the narrower
    one: no CARTESIAN CLOSED category was enriched over itself.  Nor is
    [CC_Monoidal] a first, and the reason it looks like one is an ALIAS:
-   Construction/Enriched/Two.v:131's [Enriched_of_TwoPreorder] is an
+   Construction/Enriched/Two.v's [Enriched_of_TwoPreorder] is an
    [@Enriched _2 Two_Monoidal], and [Two_Monoidal] IS
    [@CC_Monoidal _2 Two_Cartesian Two_Terminal] at [eq_refl] through the
-   plain Definition at Structure/Monoidal/Cartesian.v:49, so a name grep
+   plain Definition at Structure/Monoidal/Cartesian.v, so a name grep
    for [CC_Monoidal] -- which returns 18 files -- does not see it.  That
    instance is not self-enrichment: its [eobj] is [tpre_carrier P], an
    arbitrary preorder carrier rather than the objects of [_2].
@@ -148,7 +148,7 @@ Generalizable All Variables.
    rebuild.  The strict form is refuted and pinned in the probe.
 
    AN ENGINEERING HAZARD, met again and measured more narrowly than the
-   donor states it.  Structure/Cartesian/Closed/Natural.v:315-321 records
+   donor states it.  Structure/Cartesian/Closed/Natural.v records
    that elaborating a functor's object action INSIDE its own [Program
    Definition] lets [Program] defer an unresolved instance argument of
    [product_obj] into an obligation, which Lib/Foundation.v's [Unset
@@ -178,8 +178,8 @@ Generalizable All Variables.
    plus the 18 [Program] obligations of the five functors and the
    enrichment, which no source sweep sees -- report "Closed under the
    global context".  [Sets_Closed] obtains its exponentials with no axiom
-   (Instance/Coq.v:80-81 records the contrast), so the [Set] clause costs
-   nothing; the axiom-carrying [Coq_Closed] (Instance/Coq.v:84) is
+   (Instance/Coq.v records the contrast), so the [Set] clause costs
+   nothing; the axiom-carrying [Coq_Closed] (Instance/Coq.v) is
    deliberately NOT instantiated here and Instance/Coq.v is not required.
 
    PRIOR ART, measured.  [internal_compose], [internal_comp],
@@ -187,21 +187,21 @@ Generalizable All Variables.
    in the tree, and no declaration elsewhere has an object action of the
    shape [c^b × b^a].  Structure/Closed.v does declare a [hom_compose]
    field, but the whole [Class Closed] block there sits inside the
-   comment opened at Structure/Closed.v:154 by a dated deferral marker
-   and closed at :195, and its shape is the CURRIED Eilenberg-Kelly one,
-   [[y, z] ~> [[x, y], [x, z]]] (:175), which is not the shape this
+   comment opened at Structure/Closed.v by a dated deferral marker
+   and closed, and its shape is the CURRIED Eilenberg-Kelly one,
+   [[y, z] ~> [[x, y], [x, z]]], which is not the shape this
    exercise asks for; it is not revived here.  What did exist, and is
    CONSUMED rather than rebuilt, is Structure/Cartesian/Closed/Natural.v's
-   [ihom f h := curry (h ∘ eval ∘ second f)] (:180) -- the internal hom's
+   [ihom f h := curry (h ∘ eval ∘ second f)] -- the internal hom's
    own two-variable action, which IS [fmap[InternalHomFunctor]] at
-   [eq_refl] (:222) -- together with [ihom_id], [ihom_comp] and the
+   [eq_refl] -- together with [ihom_id], [ihom_comp] and the
    [opobj]/[oparr] readings of a contravariant slot.
 
    NOT DELIVERED.  No coend or end of [ComposeB], so nothing says the
    cowedge is universal; no [EnrichedFunctor] and no comparison of
-   [CCC_Enriched] with Construction/Enriched.v:169's
+   [CCC_Enriched] with Construction/Enriched.v's
    [Category_is_Enriched_over_Set]; no relation between [ExpBase] and
-   Structure/Cartesian/Closed/Adjunction.v:188's [Exp_Functor], which
+   Structure/Cartesian/Closed/Adjunction.v's [Exp_Functor], which
    would need that module -- see the note before the functors for what
    is read off its source and what requiring it would cost; no
    monoidal-closed generalisation, so nothing here is stated over
@@ -222,7 +222,7 @@ Definition internal_compose {a b c : C} : c^b × b^a ~> c^a :=
 
 (* [unfork] and [cat] both call [simpl]; without this they would unfold
    [internal_compose] into its transpose and destroy every rewrite below.
-   Same discipline as Structure/Cartesian/Closed/Natural.v:185 for [ihom]. *)
+   Same discipline as Structure/Cartesian/Closed/Natural.v for [ihom]. *)
 Arguments internal_compose : simpl never.
 
 (* The three exponentials, pinned in their [exponent_obj] spelling, so that
@@ -428,8 +428,7 @@ Qed.
 
     The four functors below are built here rather than imported, and the
     reason is NOT that nothing else would serve.  Two in-tree candidates
-    do: Functor/Bifunctor/Partial.v:121's [Partial_l] and :144's
-    [Partial_r], applied to Functor/Hom/Internal.v:40's
+    do: Functor/Bifunctor/Partial.v's [Partial_l] and [Partial_r], applied to Functor/Hom/Internal.v's
     [InternalHomFunctor C], give functors agreeing with [ExpBase] and
     [ExpExp] on BOTH actions at [eq_refl] -- object and arrow alike, with
     no residue, only the whole functor RECORD refused because [Program]
@@ -439,7 +438,7 @@ Qed.
     They are not adopted here only because doing so is a refactor rather
     than a correction; nothing below depends on the hand-built forms
     beyond their being these functors.  A THIRD candidate,
-    Structure/Cartesian/Closed/Adjunction.v:188's [Exp_Functor S], fits
+    Structure/Cartesian/Closed/Adjunction.v's [Exp_Functor S], fits
     worse: read off its source its object action is [ExpBase]'s but its
     arrow action is [curry (f ∘ eval)] where [ihom id f] is
     [curry (f ∘ eval ∘ second id)], and requiring that module takes
@@ -458,7 +457,7 @@ Qed.
    which Lib/Foundation.v's [Unset Transparent Obligations] makes opaque,
    and the resulting [fobj] then converts with nothing -- in particular
    not with the endpoints of [internal_compose].  This is the hazard
-   Structure/Cartesian/Closed/Natural.v:315-321 records; it was met again
+   Structure/Cartesian/Closed/Natural.v records; it was met again
    here, and the probe measures its boundary: an inline [exponent_obj]
    alone reduces, an inline [product_obj] does not. *)
 
@@ -635,7 +634,7 @@ Next Obligation.
 Qed.
 
 (* The constant family [internal_compose] satisfies the tree's own covariant
-   cowedge condition (Structure/Coend.v:160) at that bifunctor, with apex
+   cowedge condition (Structure/Coend.v) at that bifunctor, with apex
    [c^a]. *)
 Definition internal_compose_Cowedge_cond (a c : C) :
   @Cowedge_cond C C (ComposeB a c) (c^a)

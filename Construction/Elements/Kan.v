@@ -92,7 +92,7 @@ Generalizable All Variables.
    [fmap[F] f ∘ τ x ≈ τ y ∘ id], so the two differ by an [id_right] and
    a [Transform] additionally carries [naturality_sym].  A choice had to
    be made and it is [ACone], for one reason that is not a matter of
-   taste: Structure/Cone.v:79 already builds [ConePresheaf F : C^op ⟶
+   taste: Structure/Cone.v already builds [ConePresheaf F : C^op ⟶
    Sets], the presheaf of cones over F, whose reindexing along
    g : a' ~> a precomposes every leg with g.  That IS the right-hand
    side of the exercise AS A FUNCTOR OF a, already assembled, with its
@@ -203,10 +203,10 @@ Generalizable All Variables.
    [kan_cone_nat_cone], which must itself destruct the sigma object, per
    (2) above.  The contrast is the [id_right], not the tactic.)  The same
    [nat_id] fact is recorded twice in this tree — at
-   Functor/Representable.v:319-321, about [repr_induced_id], and at
-   Functor/Representable/Functorial.v:239-244, about the comparison with
+   Functor/Representable.v, about [repr_induced_id], and at
+   Functor/Representable/Functorial.v, about the comparison with
    [repr_pair_iso] (which is itself declared in
-   Functor/Hom/Yoneda/Iso.v:162, not in Functor/Representable.v).  It is
+   Functor/Hom/Yoneda/Iso.v, not in Functor/Representable.v).  It is
    restated here because a reader comparing the two isomorphism proofs
    below would otherwise take the asymmetry for an accident.
 

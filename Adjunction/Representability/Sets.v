@@ -49,7 +49,7 @@ Generalizable All Variables.
     singleton: [sols_of_esols] and [esols_of_sols] pass between them,
     keeping index, objects and elements on the nose (four [eq_refl]
     readbacks).  The passage rests on elements being global points, which
-    is Theory/Universal/Element.v:292's [global_elements_iso] — the issue
+    is Theory/Universal/Element.v's [global_elements_iso] — the issue
     asks for that bridge to be proved as a "reusable lemma"; it has existed
     since #318 and nothing here re-proves it.  The two records are NOT
     convertible, only inter-derivable (probe N1).
@@ -61,12 +61,12 @@ Generalizable All Variables.
     inside [GAFT]'s [Qed], so this issue exports it as
     Adjunction/GAFT.v's [comma_initial_of_sols] (appended at that file's
     end — every line above it stays put, eleven external citations pointing
-    at its line 241 — with [GAFT_via_comma_initial] re-deriving GAFT from
+    into it — with [GAFT_via_comma_initial] re-deriving GAFT from
     it as a cross-check that it IS the same step; the theorem itself is not
     rewritten to use it).  [representability_theorem] is then four existing
     constants composed with no tactic, and [representability_iff] adds the
     converse: a representable functor preserves limits
-    ([continuous_of_representable], through Functor/Hom/Continuous.v:723's
+    ([continuous_of_representable], through Functor/Hom/Continuous.v's
     [representable_iso_ContinuousFunctor] — the #428 leg the issue does not
     name) and supplies its own element-wise solution set, the single object
     being the representing one and the single element the identity read
@@ -109,8 +109,8 @@ Generalizable All Variables.
     STALE PREMISES — the issue's "Current state" is wrong in five
     substantive claims and six line numbers.  FALSE: "no
     [(1 ~{Sets}~> X) ≅ carrier X] lemma" (it is [global_elements_iso],
-    Theory/Universal/Element.v:292, with the natural form at :1015);
-    "the library never performs that instantiation" (Element.v:810 and :829
+    Theory/Universal/Element.v, with the natural form);
+    "the library never performs that instantiation" (Element.v does
     relate [AUniversalArrow SetsOne H r] and [AUniversalElement H r] with
     [eq_refl] and [≈] round trips); "nothing produces a [Representable]
     from anything, and in particular not from an adjunction; no file even
@@ -118,23 +118,25 @@ Generalizable All Variables.
     [Representable] — counted by taking each [Definition]/[Theorem]/[Lemma]/
     [Corollary]/[Instance] head with comments stripped and testing whether
     the conclusion begins with [Representable] — and 33 files [Require] it;
-    one of the 26 is Adjunction/Representability.v:268's [adj_representable],
+    one of the 26 is Adjunction/Representability.v's [adj_representable],
     an adjunction-sourced instance); "no category
     of elements for a [Sets]-valued functor" (Construction/Elements.v has
     [Elements], [ElementsComma] and the proved comparison
     [Elements_Comma]); and "#366 is the filed obligation" for copowers
-    (#366 landed).  STALE LINE NUMBERS: [Representable] is
-    Functor/Representable.v:51, not :46 (the issue cites :46 five times, at
-    its lines 18, 83, 120, 147 and 162);
-    [representability_by_yoneda] is Structure/UniversalProperty.v:73, not
-    :67-72; Instance/Sets.v:248 is :258 and the object wanted is
-    Construction/Elements.v:230's [SetsOne]; Adjunction/Continuity.v:202 is
-    :205-:218 ([right_adjoint_PreservesLimitCone] :205,
-    [right_adjoint_Continuous] :209, [right_adjoint_preserves_limit] :214,
-    [right_adjoint_preserves_limits] :218; the cited :202 is header prose);
-    Construction/Comma/Limit.v:245 is :247;
-    Theory/WeaklyInitial.v:89 is :102.  Correct as cited: GAFT.v:159 and
-    :241, SAFT.v:274, Theory/Profunctor/Adjunction.v:70.  The
+    (#366 landed).  STALE LINE NUMBERS: the issue's citation for
+    [Representable] misses its declaration in Functor/Representable.v,
+    and that same miss is repeated five times;
+    [representability_by_yoneda] is in Structure/UniversalProperty.v,
+    over a narrower range than cited; the Instance/Sets.v citation is
+    off, and the object wanted there is
+    Construction/Elements.v's [SetsOne]; the Adjunction/Continuity.v
+    citation lands on header prose rather than on any of the four
+    constants there, which are [right_adjoint_PreservesLimitCone],
+    [right_adjoint_Continuous], [right_adjoint_preserves_limit] and
+    [right_adjoint_preserves_limits]; and the citations for
+    Construction/Comma/Limit.v and
+    Theory/WeaklyInitial.v are each off by a few lines.
+    Correct as cited: GAFT.v, SAFT.v, Theory/Profunctor/Adjunction.v.  The
     [Sets_global_points] named in the issue's Verification block exists
     nowhere in tree, and is not created here — the bridge it seems to want
     is [global_elements_iso].
@@ -152,7 +154,7 @@ Generalizable All Variables.
     at [Sets@{Set u}], the same place Adjunction/GAFT/Sets.v's header
     records for [GAFT_at_Sets_Id]."  GAFT has no such pin any more:
     Instance/Discrete.v's [DiscreteCat_Functor] was annotated in place at
-    its :81 in the PR "algebraic carriers are sets" (2026-09-17), and
+    its declaration in the PR "algebraic carriers are sets" (2026-09-17), and
     measured after it
 
       representability_theorem@{cobj h su +} :

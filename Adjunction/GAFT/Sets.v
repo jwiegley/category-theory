@@ -17,7 +17,7 @@ Generalizable All Variables.
 (* nLab:      https://ncatlab.org/nlab/show/adjoint+functor+theorem
    Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functor_theorem
 
-   [GAFT] (Adjunction/GAFT.v:338) has the shape, its named hypotheses
+   [GAFT] (Adjunction/GAFT.v) has the shape, its named hypotheses
    rewritten here as arrows,
 
      GAFT (U : C ⟶ D) : @Complete C
@@ -26,7 +26,7 @@ Generalizable All Variables.
                         → { F : D ⟶ C & F ⊣ U }
 
    and before this file no closed constant of the library applied it.
-   [Adjunction/SAFT.v:326] does call it, and [SAFT] is applied since #437;
+   [Adjunction/SAFT.v] does call it, and [SAFT] is applied since #437;
    [Adjunction/GAFT/Examples.v] exercises the universal-arrow half
    [GAFT_from_initials], which consumes comma-category initial objects
    directly and so meets none of the three premises above.  This file applies
@@ -47,8 +47,8 @@ Generalizable All Variables.
                                           tree's first [Complete] instance;
 
      [@PreservesImageLimit Sets Sets Id]  [right_adjoint_PreservesImageLimit]
-                                          (Construction/Comma/Limit.v:266) at
-                                          [adj_id] (Instance/Adjoints.v:70);
+                                          (Construction/Comma/Limit.v) at
+                                          [adj_id] (Instance/Adjoints.v);
 
      [∀ d, SolutionSet Id d]              [Sets_Id_SolutionSet] below: the
                                           one-member family at [d] itself,
@@ -102,7 +102,7 @@ Generalizable All Variables.
    restriction was a universe-minimization artifact of Instance/Discrete.v's
    unannotated [DiscreteCat_Functor], reaching [GAFT]'s statement through
    the discrete shape its proof takes a limit over; annotating the donor at
-   Instance/Discrete.v:81 lifted it.  So the standing reading is the
+   Instance/Discrete.v lifted it.  So the standing reading is the
    opposite of the old one: this file's application is at [Sets] in the
    generality the rest of the development speaks of, and no [Set] instance
    is involved.  What is NOT affected is the honesty of the application
@@ -111,7 +111,7 @@ Generalizable All Variables.
 
    A BY-PRODUCT: EQUALIZERS IN [Sets]
 
-   [Complete_HasEqualizers] (Adjunction/GAFT.v:214) turns any [Complete]
+   [Complete_HasEqualizers] (Adjunction/GAFT.v) turns any [Complete]
    category into a [HasEqualizers] one.  At [Sets_Complete] it yields
    [Sets_HasEqualizers], one of THREE library-file inhabitants -- see the
    note below the definition.  It is left a [Definition], not an [Instance]:
@@ -177,7 +177,7 @@ Definition GAFT_at_Sets_Id : { F : Sets ⟶ Sets & F ⊣ Id } :=
 
 (* The produced left adjoint is naturally isomorphic to [Id], as it must be:
    left adjoints to a fixed functor are unique up to natural isomorphism
-   ([left_adjoint_iso], Theory/Adjunction.v:404), and [adj_id] exhibits [Id]
+   ([left_adjoint_iso], Theory/Adjunction.v), and [adj_id] exhibits [Id]
    as a second left adjoint to [Id].  This is what makes the "toy" label
    above a proved statement rather than an editorial one. *)
 Definition GAFT_at_Sets_Id_is_Id : projT1 GAFT_at_Sets_Id ≈ @Id Sets :=
@@ -193,9 +193,9 @@ Definition Sets_HasEqualizers : HasEqualizers Sets :=
 
 (* IT IS NOT THE ONLY ONE, IN EITHER SENSE.  THREE library files inhabit
    [HasEqualizers Sets]: this one, [SetsEqualizers]
-   (Adjunction/CokernelPair.v:1119, whose own comment at :1114 calls its
+   (Adjunction/CokernelPair.v, whose own comment calls its
    route "the cheapest of the three in-tree routes"), and
-   [DiagSets_HasEqualizers] (Adjunction/Diagonal/Finite.v:1129); all three
+   [DiagSets_HasEqualizers] (Adjunction/Diagonal/Finite.v); all three
    are registered in _CoqProject.  Test/ProbeToposInstances404.v adds a
    fourth, CONDITIONAL one resting on [Untruncate].  None of the four is
    compared with any other: their types line up and no agreement proof is

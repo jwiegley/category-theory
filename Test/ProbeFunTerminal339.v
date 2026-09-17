@@ -3,7 +3,7 @@
     Mac Lane CWM 2nd ed. §III.5 Exercise 5, book p. 74.
 
     The target ships its own two CONVERSION refutations with controls
-    (`Instance/Fun/Terminal.v:612` and `:634`).  This file pins the SEVEN
+    (`Instance/Fun/Terminal.v` and).  This file pins the SEVEN
     boundaries it cannot: six FORMABILITY negatives, which need a section
     declaring universe levels strictly apart and so cannot live in a
     library file, and one three-way SEPARATION that is a positive
@@ -52,7 +52,7 @@
     the ambient's; it takes BOTH."  Both halves were correct measurements
     of the tree of the time, and the FIRST donor has since been repaired:
     `DiscreteCat_Functor` was annotated in place at
-    `Instance/Discrete.v:81` in the PR "algebraic carriers are sets"
+    `Instance/Discrete.v` in the PR "algebraic carriers are sets"
     (2026-09-17), so it fixes no shape universe at all and the third row
     is now FREE like the other two.  The separation therefore no longer
     has a `Set` to locate, and the three definitions are kept as positive
@@ -65,9 +65,9 @@
     the second half narrowly: the
     `Cone` RECORD is innocent, but that licenses no claim that
     `IsALimit`/`Limit` are the ONLY other donors, and they are not --
-    `cone_leg` (`Structure/Limit/Preservation.v:108`, over
+    `cone_leg` (`Structure/Limit/Preservation.v`, over
     `J : Category@{u u0 u0}` and `C : Category@{u1 u0 u0}`) and
-    `IsLimitCone` (`:166`) identify them in exactly the same way, so
+    `IsLimitCone` identify them in exactly the same way, so
     CONE VOCABULARY is among the donors even though the record is not.
     `Structure/Limit/Initial.v`'s own bullet already warns that an
     `ACone` control rules out only `ACone`/`Cone`; an earlier revision of

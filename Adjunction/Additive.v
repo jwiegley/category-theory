@@ -22,7 +22,7 @@ Generalizable All Variables.
    them, those statements being equations between morphisms that
    mention no functor class, so they would be discarded.  "All"
    retains them, the Theory/EckmannHilton.v and
-   Theory/Category/Monoid.v:919 precedent. *)
+   Theory/Category/Monoid.v precedent. *)
 Local Set Default Proof Using "All".
 
 (** * Adjunctions between Ab-categories are additive
@@ -43,14 +43,14 @@ Local Set Default Proof Using "All".
     THE CLASS IS CONSUMED, NOT BUILT.  The catalog issue behind this
     file records the tree as having no notion of an additive functor.
     That is FALSE, and the correction is not a matter of naming:
-    [AdditiveFunctor] is declared at Structure/AbCategory.v:168 with
+    [AdditiveFunctor] is declared at Structure/AbCategory.v with
     preservation of [padd] as its ONLY field, and that file already
     proves the two clauses a reader would expect to owe here —
-    [fmap_pzero] (:183, "whence T0 = 0", by the idempotency
-    cancellation [padd_idem_zero]) and [fmap_abneg] (:191, by
+    [fmap_pzero] ("whence T0 = 0", by the idempotency
+    cancellation [padd_idem_zero]) and [fmap_abneg] (by
     uniqueness of additive inverses) — as well as the closure
-    instances [Id_AdditiveFunctor] (:202) and
-    [Compose_AdditiveFunctor] (:208).  Nothing in this file redefines
+    instances [Id_AdditiveFunctor] and
+    [Compose_AdditiveFunctor].  Nothing in this file redefines
     or reproves any of them; the pzero and abneg clauses below are
     applications of those two theorems.
 
@@ -105,7 +105,7 @@ Local Set Default Proof Using "All".
         construction the tree did not have: nothing anywhere
         inhabits [Preadditive (C^op)] or [AbEnriched (C^op)] —
         searching for the application shape rather than for a name,
-        the only hit outside this file is Structure/Preadditive.v:26's
+        the only hit outside this file is Structure/Preadditive.v's
         PROSE remark that the laws are self-dual, which is a sentence
         and not a term.  [Preadditive_op]
         and [AbEnriched_op] supply them here — every field is the
@@ -225,7 +225,7 @@ Local Set Default Proof Using "All".
     [hom_ab]'s carrier IS [C]'s hom-setoid; an arbitrary category
     supplies no [Prop] mirror of its `≈`, [Cat] being the standing
     counterexample, where an [F ≈ G] is itself a family of
-    isomorphisms (Lib/Setoid/Propositional.v:42-54,
+    isomorphisms (Lib/Setoid/Propositional.v,
     Instance/Sets/Propositional.v's header).  So the hypothesis sits
     exactly at the PASSAGE from the internal enrichment to the
     concrete record, and nowhere else: [AbEnriched] and
@@ -243,10 +243,10 @@ Local Set Default Proof Using "All".
     [left_adjoint_additive], [right_adjoint_additive] and the
     biproduct section read as they did.  [LocallyPropositional] is a
     class, so every concrete ambient discharges it by resolution:
-    [Ab_LocallyPropositional] (Instance/Ab.v:713),
-    [RMod_LocallyPropositional] (Instance/Mod.v:337),
-    [CMon_LocallyPropositional] (Instance/CMon.v:236) and
-    [DeloopRig_LocallyPropositional] (Theory/Algebra/Rig.v:392).
+    [Ab_LocallyPropositional] (Instance/Ab.v),
+    [RMod_LocallyPropositional] (Instance/Mod.v),
+    [CMon_LocallyPropositional] (Instance/CMon.v) and
+    [DeloopRig_LocallyPropositional] (Theory/Algebra/Rig.v).
     Those are the ambients the nine module and bimodule objects
     built on [hom_ab] actually use, so none of them gained a
     hypothesis.
@@ -288,7 +288,7 @@ Local Set Default Proof Using "All".
     A transpose is one leg of an isomorphism of setoids, so it is
     injective; the two round-trip corollaries of Theory/Adjunction.v
     are all that is needed.  Stated here rather than upstream because
-    the copy a name search finds, [Instance/Rng/Free.v:782]'s
+    the copy a name search finds, [Instance/Rng/Free.v]'s
     [to_adj_injective], sits in a file this one does not require —
     that search was by NAME, so it is not evidence that no other
     spelling of the same fact exists.  The names are kept apart
@@ -468,7 +468,7 @@ Qed.
    "the produced witness leaves F unperturbed" has no content to state.
    The [Example] asserting [@fmap D C F x y f = fmap[F] f] was a
    SYNTACTIC TAUTOLOGY — [fmap[F]] IS notation for [@fmap _ _ F _ _]
-   (Theory/Functor.v:143) — so it never mentioned
+   (Theory/Functor.v) — so it never mentioned
    [left_adjoint_additive] and compiled at an arbitrary functor with no
    adjunction in sight.  Removed rather than repaired. *)
 

@@ -46,26 +46,26 @@ Require Import Category.Instance.Discrete.Reconstruct.
     ** The design crux: "unit the identity" is not an equation
 
     In this library the unit of [T ⊣ S] at [c] runs [c ~> S (T c)]
-    (Theory/Adjunction.v:217) while [id[c]] runs [c ~> c], so the two live
+    (Theory/Adjunction.v) while [id[c]] runs [c ~> c], so the two live
     in one hom-set only when [S (T c)] and [c] are the same object at
     LEIBNIZ equality.  So surjectivity on objects must carry that equation
     as DATA, and "the unit is the identity" must be stated against the
     identity TRANSPORTED along it.  This is Adjunction/LeftInverse.v's
     situation one variance over, and the same [id_cast] transport kit
-    (Construction/Quotient.v:56, :69, :73, :97) does the work.
+    (Construction/Quotient.v) does the work.
 
     [SurjectiveOnObjects S := ∀ c, { a & S a = c }] is therefore a chosen
     preimage together with its object equation, the exact mirror of
-    Adjunction/LeftInverse.v:352's [InjectiveOnObjects], with the same
+    Adjunction/LeftInverse.v's [InjectiveOnObjects], with the same
     three closure constants -- but note the ASYMMETRY in the cancellation
     lemma: [InjectiveOnObjects_cancel] recovers the INNER factor [F] of an
     injective [G ◯ F], while [SurjectiveOnObjects_cancel] recovers the
     OUTER factor [G] of a surjective one.  No choice principle is
     consumed anywhere: the tree's [∃] is [sigT], so the witness is data.
 
-    [surjective_ESO] repackages it as Theory/Equivalence.v:154's
+    [surjective_ESO] repackages it as Theory/Equivalence.v's
     [EssentiallySurjective], the generic form of
-    Construction/Grothendieck/RoundTrip.v:1579's [RT_EssSurj]; at an
+    Construction/Grothendieck/RoundTrip.v's [RT_EssSurj]; at an
     [eq_refl] witness -- the shape [RT_EssSurj] is in -- both legs of the
     witnessing isomorphism are [id] on the nose
     ([surjective_ESO_refl_to], [surjective_ESO_refl_from]).
@@ -78,14 +78,14 @@ Require Import Category.Instance.Discrete.Reconstruct.
     [lari_unit c : unit c ≈ id_cast (eq_sym (lari_obj c))].
 
     Mac Lane's Exercise 3 is [ff_surjective_adjoint_equivalence], an
-    [AdjointEquivalence ff_surjective_left S] (Adjoint.v:69), with
+    [AdjointEquivalence ff_surjective_left S] (Adjoint.v), with
     [ff_surjective_LARI] the left-adjoint-right-inverse it carries.  The
     left adjoint [T := ff_surjective_left] has object action the chosen
     preimage and arrow action [prefmap] of the conjugate
     [id_cast⁻¹ ∘ f ∘ id_cast]; every functor law is [fmap_inj] followed by
     [fmap_sur], the [ImageFrom] pattern of Adjunction/LeftInverse.v.  The
     adjunction is built DIRECTLY from the hom-set isomorphism through
-    [Build_Adjunction'] (Theory/Adjunction.v:159), which is why the unit
+    [Build_Adjunction'] (Theory/Adjunction.v), which is why the unit
     computes; see the route note below.
 
     Strengths, measured strict first.  Holding at [eq_refl]:
@@ -102,24 +102,24 @@ Require Import Category.Instance.Discrete.Reconstruct.
     ** The two routes, and which one computes
 
     The alternative route is the one Construction/Subcategory/Dense.v
-    takes: [surjective_ESO], then Theory/Equivalence/FullFaithful.v:160's
-    [FF_ESO_Equivalence], then Adjoint.v:333's
-    [Equivalence_to_AdjointEquivalence], then Adjoint.v:407's
+    takes: [surjective_ESO], then Theory/Equivalence/FullFaithful.v's
+    [FF_ESO_Equivalence], then Adjoint.v's
+    [Equivalence_to_AdjointEquivalence], then its
     [AdjointEquivalence_swap] to put the correct functor on the left.  It
     is built here as [ff_surj_eso_adjoint_equivalence] and MEASURED
     against the direct one.
 
     The two left adjoints agree on BOTH actions at [eq_refl]
     ([ff_surj_eso_inverse_obj], [ff_surj_eso_inverse_map]), hence at
-    Theory/Functor.v:606's [Functor_StrictEq_Setoid] with every object
+    Theory/Functor.v's [Functor_StrictEq_Setoid] with every object
     component [eq_refl] ([ff_surj_eso_inverse_strict]); the whole functor
     RECORDS are not Leibniz-equal, the three law fields being rebuilt.
     But the ADJUNCTIONS are not the same, and the difference is exactly
     what the exercise is about: the alternative route's unit does not
     reduce to the transported identity, and it does not reduce at all --
     it is stuck at [equiv_adj_to EquivalenceOfCategories_sym id], i.e. at
-    the [symmetry] taken on Theory/Functor.v:149's [Functor_Setoid], whose
-    [Equivalence] obligation is closed opaquely at Theory/Functor.v:193 --
+    the [symmetry] taken on Theory/Functor.v's [Functor_Setoid], whose
+    [Equivalence] obligation that file closes opaquely --
     a chain confirmed constant by constant (every route constant prints a
     body; [equiv_adj_to] is [equivalence_prefmap], which projects
     [`1 equivalence_unit], and the symmetric equivalence's unit field IS
@@ -142,8 +142,8 @@ Require Import Category.Instance.Discrete.Reconstruct.
     is an invertible COUNIT that would make S fully faithful.  The record
     demands nothing of the counit.  Both halves of that statement are
     already theorems in tree, cited rather than consumed:
-    Adjunction/FullFaithful.v:656's [left_adjoint_fully_faithful_iff_unit_iso]
-    and :475's [right_adjoint_fully_faithful_iff_counit_iso].
+    Adjunction/FullFaithful.v's [left_adjoint_fully_faithful_iff_unit_iso]
+    and its [right_adjoint_fully_faithful_iff_counit_iso].
     [lari_left_Full] and [lari_left_Faithful] ARE derivable from the first
     in one line ([snd left_adjoint_fully_faithful_iff_unit_iso] at
     [lari_unit_IsIsomorphism], compiled out of tree), so the five lemmas
@@ -156,13 +156,13 @@ Require Import Category.Instance.Discrete.Reconstruct.
     left-adjoint-right-inverse [erase_LARI], the left adjoint being
     constant at the initial object.  Instantiated at the walking arrow it
     gives [lari_does_not_imply_Full] -- there is no arrow TwoY ~> TwoX
-    (Instance/Two.v:128) while there is one between their images -- and at
+    (Instance/Two.v) while there is one between their images -- and at
     [Sets] it gives [lari_does_not_imply_Faithful], the identity and the
     constant [true] on the two-element setoid being distinct arrows with
     equal images.  The same [Sets] witness gives
     [lari_does_not_imply_AdjointEquivalence]: the counit at that setoid
     is the unique arrow out of the empty setoid ([Sets_Initial],
-    Instance/Sets.v:270), whose inverse would carry [true] into [False].
+    Instance/Sets.v), whose inverse would carry [true] into [False].
     [Sets] is chosen over [Coq] on a measurement: both refutations go
     through verbatim over either, and [Instance/Sets] is already in this
     file's closure through [Theory/Adjunction], where [Instance/Coq]
@@ -180,7 +180,7 @@ Require Import Category.Instance.Discrete.Reconstruct.
     ** Non-vacuity
 
     [indiscrete_LARI] and [indiscrete_adjoint_equivalence] instantiate the
-    headline at [Erase (Indiscrete bool)] (Reconstruct.v:416), which is
+    headline at [Erase (Indiscrete bool)] (Reconstruct.v), which is
     full, faithful and surjective on objects without being injective on
     objects: [IndT ttt] is [true] on the nose, so at the other point the
     counit connects [true] to [false], two objects proved distinct by
@@ -233,16 +233,17 @@ Require Import Category.Instance.Discrete.Reconstruct.
 
     No constant named for surjectivity on objects existed anywhere:
     [rg -n 'surjective on objects|SurjectiveOnObjects'] over [*.v] returns
-    prose only (Theory/Lawvere/Sets.v:39, Theory/Connected/Components.v:687,
-    Construction/Grothendieck/RoundTrip.v:55,
-    Construction/Coproduct/Indexed.v:253).  Neither was there any
+    prose only (Theory/Lawvere/Sets.v, Theory/Connected/Components.v,
+    Construction/Grothendieck/RoundTrip.v,
+    Construction/Coproduct/Indexed.v).  Neither was there any
     left-adjoint-right-inverse packaging.  The issue's own line reference
-    for [EssentiallySurjective] is stale -- it is Theory/Equivalence.v:154,
-    not :141; its references to [FF_ESO_Equivalence] (:160) and
-    [Equivalence_to_AdjointEquivalence] (:333) are right.
+    for [EssentiallySurjective] is stale -- it points into
+    Theory/Equivalence.v at the wrong place; its references to
+    [FF_ESO_Equivalence] and [Equivalence_to_AdjointEquivalence] are
+    right.
 
     [poly_unit_all_eq] is deliberately NOT called [poly_unit_eq]:
-    Instance/StrictCat/Terminal.v:28 has that name for the identical
+    Instance/StrictCat/Terminal.v has that name for the identical
     statement.
 
     ** Registration
@@ -653,7 +654,7 @@ Proof. destruct f, g; reflexivity. Qed.
    the lemma just above on such a goal: [hom _1] ignores its endpoints, so
    the implicit [y] is not determined by unification.  The endpoint-free
    spelling below is what those goals need.  It is NOT called
-   [poly_unit_eq]: that name is taken by Instance/StrictCat/Terminal.v:28
+   [poly_unit_eq]: that name is taken by Instance/StrictCat/Terminal.v
    for the identical statement, and the print-assumptions target loads many
    modules into one scope, where a shared name audits the wrong constant. *)
 Lemma poly_unit_all_eq (f g : poly_unit) : f = g.

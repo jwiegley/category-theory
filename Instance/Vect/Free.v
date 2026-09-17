@@ -44,7 +44,7 @@ Generalizable All Variables.
     the adjunction as the headline.  All of that is delivered here, and
     the adjunction — [free_vect_adjunction] — is the principal artifact.
 
-    WHERE THE WORK ACTUALLY IS.  Instance/FdVect.v:224 defines
+    WHERE THE WORK ACTUALLY IS.  Instance/FdVect.v defines
     [Vct_F F := RMod (field_ring F)]: a vector space over F IS an
     F-module, by DEFINITION and not by an isomorphism of categories.  The
     construction of the free object therefore uses nothing about fields,

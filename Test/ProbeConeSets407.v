@@ -205,7 +205,7 @@ Definition ctrl_right_oracle {J : Category} (F : J ⟶ Sets)
     identification but carries no [Set] of its own: it merely transmitted
     the one that donor 1, the unannotated [DiscreteCat_Functor], minimized
     into existence.  With that constant annotated in the PR "algebraic
-    carriers are sets" (2026-09-17), Instance/Discrete.v:81, both lines
+    carriers are sets" (2026-09-17), Instance/Discrete.v, both lines
     are ACCEPTED and are kept below as positive controls at the same
     levels.  [Cone] remains the discriminating control it always was.
 
@@ -247,7 +247,7 @@ End SetPin.
    [ACone] round trip of [Cone_Natural_Transform] does return the leg
    family on the nose (measured, accepted) while rebuilding the whole
    record, whose [cone_coherence] proof is [abstract]ed at
-   Structure/Cone/Const.v:58 -- but these two sides differ ALREADY at a
+   Structure/Cone/Const.v -- but these two sides differ ALREADY at a
    point [x : X], and again at the produced cone's leg at [d], both
    measured, so the refusal is not confined to that law field.  The [≈]
    form is [coneset_adj_to_is_transpose], which holds. *)

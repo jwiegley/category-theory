@@ -110,7 +110,7 @@ Generalizable All Variables.
     elements is a cone out of the singleton, its mediator evaluated at [ttt]
     is the element it names, and the legs of a limiting cone are jointly
     monic on elements.  The last is not reproved -- it is
-    Instance/Ab/Limit.v:318's [absets_limit_ext], which this file consumes
+    Instance/Ab/Limit.v's [absets_limit_ext], which this file consumes
     rather than copying, exactly as Instance/Mod/Limit.v does.  These four
     are the whole element calculus, and BOTH continuity proofs below are
     stated against them.
@@ -170,53 +170,53 @@ Generalizable All Variables.
 
     THE CIRCULAR ROUTE IS NAMED AND NOT USED.
     [preserves_image_of_representable (tensor_repr_of_UE V V')]
-    (Adjunction/Representability/Sets.v:450) inhabits the same type in one
+    (Adjunction/Representability/Sets.v) inhabits the same type in one
     line, and is CIRCULAR: it derives the theorem's hypothesis from the very
     tensor the theorem is meant to construct.  That is the circularity
-    Instance/Ab/Limit.v:58-68 warns against and Instance/Grp/FreeAFT.v:
-    182-185 discloses for its own solution set.  It is checked as a positive
+    Instance/Ab/Limit.v warns against and Instance/Grp/FreeAFT.v
+    discloses for its own solution set.  It is checked as a positive
     control in the probe, and NEGATIVE 6 there pins that the delivered term
     is a different one.
 
     (4) [Bilin_PreservesImageLimit] is [Continuous_PreservesImageLimit
-    Bilin_continuous] (Construction/Comma/Creation.v:245).  That bridge is
+    Bilin_continuous] (Construction/Comma/Creation.v).  That bridge is
     LOAD-BEARING and cannot be skipped: a [ContinuousFunctor] does not
     ascribe where the theorem asks for [PreservesImageLimit], the refusal
     being "cannot unify \"Limit.Limit K\" and \"Cone.Cone K\"", quoted at
-    Instance/Ab/Limit.v:70-81.
+    Instance/Ab/Limit.v.
 
     (5) THE CONSTRUCTION.  [tensor_via_AFT_of_esols V V' E : Representable
     (Bilin V V')] is [representability_theorem] at [RMod_Complete R],
     [Bilin_PreservesImageLimit V V'] and a solution set [E].  It is stated
     at TOP LEVEL, outside any [Section], for the reason
-    Adjunction/Representability/Sets.v:301-305 gives.
+    Adjunction/Representability/Sets.v gives.
     [tensor_esols_from_tensor] -- index [unit], object [TensorMod V V'],
     element [tensor_gen] -- inhabits the hypothesis and is CIRCULAR, named
     so that the circularity is visible at every use site, exactly as
-    Instance/Grp/FreeAFT.v:417's [Grp_Forget_solution_set_from_adjunction]
+    Instance/Grp/FreeAFT.v's [Grp_Forget_solution_set_from_adjunction]
     is.  Its only role is to show the conditional is not vacuous;
     [tensor_via_AFT_from_tensor] is that instantiation.
     (CORRECTION, this PR: an earlier revision of this step wrote the
     conditional as [tensor_via_AFT V V' E].  Since the unconditional
     solution set landed, [tensor_via_AFT V V'] takes NO solution set --
-    it is [tensor_via_AFT_of_esols V V' (tensor_esols_prop V V')] at
-    :1193 -- and the [E]-taking form is the [_of_esols] one.  The
-    definition site at :1183-1187 carries the same correction.)
+    it is [tensor_via_AFT_of_esols V V' (tensor_esols_prop V V')] -- and
+    the [E]-taking form is the [_of_esols] one.  The
+    definition site carries the same correction.)
 
     (6) THE COMPARISON, AT `≅` AND NOT AT [eq_refl].  [tensor_AFT_iso] is
-    [repr_unique_iso] (Functor/Representable.v:395) against
+    [repr_unique_iso] (Functor/Representable.v) against
     [tensor_repr_of_UE], the representation read off Instance/Mod/Tensor.v's
     [tensor_UniversalElement] through the DIRECT route
-    [Representable_of_UniversalElement] (Theory/Universal/Element.v:695;
-    the header at :638-648 says why the Yoneda-composed route at :621 is the
+    [Representable_of_UniversalElement] (Theory/Universal/Element.v;
+    the header says why the Yoneda-composed route is the
     wrong one at a category whose objects sit above its homs).  The
     uniqueness clause is [tensor_AFT_iso_universal]
-    ([repr_unique_iso_universal], Functor/Representable.v:402 -- the bare
-    line number would otherwise read as Element.v's, which it is not), and
+    ([repr_unique_iso_universal], Functor/Representable.v -- named with
+    its file, since an unqualified citation would read as Element.v's), and
     the two [eq_refl] legs are
-    [repr_of_ue_obj] (Theory/Universal/Element.v:705) and
+    [repr_of_ue_obj] (Theory/Universal/Element.v) and
     [tensor_UniversalElement_obj]
-    (Instance/Mod/Tensor.v:860), read back here as
+    (Instance/Mod/Tensor.v), read back here as
     [tensor_repr_of_UE_obj].  THE OBJECT COMPARISON IS `≅`, NOT [eq_refl]:
     the adjoint functor theorem builds its object as a limit inside the
     comma category and [TensorMod] is a quotient of formal terms.
@@ -228,9 +228,9 @@ Generalizable All Variables.
     proof is naturality of the representation followed by
     [repr_induced_compatible] at the identity, and nothing about the
     solution set enters.  [tensor_AFT_elem_iso] is the element-level
-    comparison ([universal_element_iso], Theory/Universal/Element.v:766),
+    comparison ([universal_element_iso], Theory/Universal/Element.v),
     [tensor_AFT_elem_unique] its uniqueness clause
-    ([universal_element_unique], :784), and [tensor_AFT_isos_agree] proves
+    ([universal_element_unique]), and [tensor_AFT_isos_agree] proves
     the two comparisons are the same isomorphism at `≈`.  That theorem and
     its [bal_] twin are the only two of the nine [E]-taking constants whose
     STATEMENT this PR changed, and only by the forced rename of their
@@ -239,15 +239,15 @@ Generalizable All Variables.
 
     (8) EXERCISE 3: THE BALANCED TENSOR.  The balanced tensor of a right and
     a left module over a possibly non-commutative ring already exists
-    (Instance/Mod/Bimodule.v:710's [BalTensor], landing in [Ab]); what did
+    (Instance/Mod/Bimodule.v's [BalTensor], landing in [Ab]); what did
     not exist is the FUNCTOR it represents.  [BalBiadd N M : Ab ⟶ Sets] is
     it -- object part [BalBiadditive N M A] with the pointwise setoid,
     arrow part postcomposition, on the pattern of Instance/Mod/
-    Tensor.v:736-790 -- together with [bal_universal_element :
+    Tensor.v -- together with [bal_universal_element :
     AUniversalElement (BalBiadd N M) (BalTensor N M)] built from [bal_med]
     and [bal_med_unique], whose object and element read back at [eq_refl].
     [BalBiadd_continuous] is the continuity, elementwise over [Ab]'s created
-    limits ([Ab_Forget_creates_continuous], Instance/Ab/Limit.v:816) through
+    limits ([Ab_Forget_creates_continuous], Instance/Ab/Limit.v) through
     the SAME four lemmas of step (1); [bal_tensor_via_AFT_of_esols N M E]
     is the construction over [Ab_Complete], and [bal_tensor_via_AFT N M]
     takes no solution set (an earlier revision of this step wrote
@@ -262,7 +262,7 @@ Generalizable All Variables.
     [ABGen] has exactly the five fields of Instance/Ab/DirectedColimit.v:
     273's [AbSubgroup], so this is repackaging with no obligation),
     [AbImageSub] (the image of a homomorphism as a subgroup, the [Ab]
-    counterpart of Instance/Mod/Quotient.v:833's [ImageSubmod]), [ab_split]
+    counterpart of Instance/Mod/Quotient.v's [ImageSubmod]), [ab_split]
     (a bijective homomorphism splits) and [abg_subobj] (a subgroup as a
     [SubObj Ab], through [ab_injective_monic]).
     [bal_spanning_to_spanning] is then the [Ab] form of Instance/Mod/
@@ -285,7 +285,7 @@ Generalizable All Variables.
     universe of the [Complete] the theorem is handed, and [RMod_Complete]
     puts that at the ring's carrier universe.  The current signature of
     [representability_theorem] is carried by
-    Adjunction/Representability/Sets.v:386-393 and is CITED rather than
+    Adjunction/Representability/Sets.v and is CITED rather than
     re-quoted here: an earlier revision of this comment quoted it as
 
       representability_theorem@{u u0 … u9} :
@@ -346,13 +346,13 @@ Generalizable All Variables.
     whole probe so the refusal kind could be read rather than guessed.
 
     A WALL OF THE SAME FAMILY AS #1309, MEASURED NOT TO BE LIFTED BY IT.
-    Instance/Grp/FreeAFT.v:127-146 measures a wall of this family at [Grp]
+    Instance/Grp/FreeAFT.v measures a wall of this family at [Grp]
     -- Mac Lane's literal index [Subgroup Gfix] refused there too -- and
     attributes the [Set] to a universe-MINIMIZATION artifact of
     Instance/Discrete.v's [DiscreteCat_Functor], which carries no universe
     binders; it reports the repair as three annotated lines filed as #1309
-    (CORRECTION: it said "eleven recorded boundaries"; :154-162 measures
-    TWENTY-TWO in FIFTEEN), and at :148-152 that the index IS accepted.
+    (CORRECTION: it said "eleven recorded boundaries"; its own measurement
+    paragraph finds TWENTY-TWO in FIFTEEN), and that the index IS accepted.
     THE REPAIR WAS APPLIED AND MEASURED; IT DOES NOT LIFT THIS WALL.
     With only the #1309 edit
     ([Program Definition DiscreteCat_Functor@{o h p co ch cp +} ...])
@@ -479,7 +479,7 @@ Generalizable All Variables.
     A DIFFERENT criterion, and the one that now matters: "a [Set < …] line
     in the CONSTRAINT block".  Of the 133 names that print a universe list
     at all, 100 carry one.  These are bounds, not pins -- [Set < u] only
-    says [u] is above [Set], which Lib.v:17's
+    says [u] is above [Set], which Lib.v's
     [Unset Universe Minimization ToSet] makes the default -- and the one
     that is a genuine SIDE CONDITION rather than noise is section 3A's
     [Set < carrier] on the unconditional constants.  Headlines:
@@ -569,11 +569,11 @@ Generalizable All Variables.
     supplies is the SMALLNESS premise, not [GAFT_from_spanning]'s wide
     pullbacks.  The tensor's parametrized adjunctions already in tree
     (Instance/Mod/Closed.v's [RMod_SymMonClosed],
-    Instance/Mod/Bimodule.v:1494) are untouched and unrelated.
+    Instance/Mod/Bimodule.v) are untouched and unrelated.
 
     (3) NO CARDINALITY BOUND, and a correction.  This clause read "NO
     SMALLNESS, hence no cardinality bound: [esol_index] is a bare [Type],
-    as Adjunction/SpanningArrow.v:199-206 says of itself."  The premise is
+    as Adjunction/SpanningArrow.v says of itself."  The premise is
     still true of [esol_index] and of [tensor_esols_direct], and the
     conclusion no longer follows for the file: section 10 proves the
     spanning family SMALL UP TO ISOMORPHISM ([SmallUpToIso],
@@ -594,7 +594,7 @@ Generalizable All Variables.
     for Exercise 3 -- which was impossible while the construction took a
     solution set it had no honest inhabitant for.  THE OTHER HALF STANDS:
     the tree still has no non-commutative ring at all
-    (Instance/Mod/Tensor.v:120-176 records that gap), so Exercise 3's
+    (Instance/Mod/Tensor.v records that gap), so Exercise 3's
     non-commutative reading stays uninstantiated here as elsewhere, the
     opposite ring of a commutative one being commutative.
 
@@ -901,7 +901,7 @@ End BilinContinuity.
    carrier strictly above [Set].  The conditional [tensor_via_AFT_of_esols]
    below carries [Set < u0] and [Set < u11]; it does NOT carry [Set < u2],
    the ring's carrier slot, and the unconditional form does.  In practice
-   it costs nothing -- Lib.v:17's [Unset Universe Minimization ToSet] keeps
+   it costs nothing -- Lib.v's [Unset Universe Minimization ToSet] keeps
    carrier universes off [Set] -- but it is a real side condition, and it is
    pinned as a probe in Test/ProbeModTensorAFT449.v beside the positive
    control of its [Section SetPin].
@@ -958,7 +958,7 @@ Qed.
    [PropEquiv_of_relation]'s setoid argument is found by resolution, which
    picks the AMBIENT [mt_Setoid] rather than the quotient's, and both
    implications are then refused ("The term "h" has type "Rq f f0" while it
-   is expected to have type "f ≈ f0"").  Instance/Mod/Tensor.v:502 gives
+   is expected to have type "f ≈ f0"").  Instance/Mod/Tensor.v gives
    [mt_Setoid] by name for the same reason. *)
 Definition QMod_Setoid (Rq : MTerm V V' → MTerm V V' → Prop)
   (HRq : IsCongruence V V' Rq) : Setoid (MTerm V V') :=
@@ -1011,7 +1011,7 @@ Definition QMod_gen (Rq : MTerm V V' → MTerm V V' → Prop)
     (fun r v w => cg_gen _ _ Rq HRq _ _ (mte_sym (mte_act_r r v w))).
 
 (* THE ELEMENTARY TENSORS SPAN EVERY QUOTIENT.  This is Instance/Mod/
-   Spanning.v:775's [tensor_gen_spanning] verbatim, five cases with
+   Spanning.v's [tensor_gen_spanning] verbatim, five cases with
    [mt_neg] discharged by [smod_neg]: the carrier is the same [MTerm] and
    [rbl_map (QMod_gen …)] is [mt_gen], so nothing about the congruence
    enters the induction.  Section 10 consumes it. *)
@@ -1125,7 +1125,7 @@ Proof.
 Defined.
 
 (* ...and therefore an ISOMORPHISM of [RMod R], through
-   Instance/Mod/Spanning.v:650's [rmod_split].  This is the content of Mac
+   Instance/Mod/Spanning.v's [rmod_split].  This is the content of Mac
    Lane's Lemma 2 at [RMod R]: every spanning codomain is (isomorphic to) a
    quotient of ONE fixed object, the term module. *)
 Definition ker_iso (Hsp : RBilinearSpanning beta) :
@@ -1175,7 +1175,7 @@ Defined.
 (** ** 4. Mac Lane's Construction 1: the tensor product from the AFT *)
 
 (* Stated at TOP LEVEL, outside any [Section], for the reason
-   Adjunction/Representability/Sets.v:356-360 gives: the comma-initial step
+   Adjunction/Representability/Sets.v gives: the comma-initial step
    pins the hom AND proof universes of both categories to [Set], and inside
    a section that has already elaborated a category with those levels apart
    the ascription is refused.  The pin is measured in the header.
@@ -1367,7 +1367,7 @@ Qed.
    isomorphism is [tensor_AFT_iso_of_esols], which is the old
    [tensor_AFT_iso] verbatim.  Nothing else about the theorem moved -- same
    name, same binders, same proof -- and the same note applies to
-   [bal_AFT_isos_agree] at :1889.  An earlier report said the nine
+   [bal_AFT_isos_agree].  An earlier report said the nine
    [E]-taking constants kept "their exact statements"; these two did not,
    and the correction is recorded here rather than in that report. *)
 Theorem tensor_AFT_isos_agree {R : RingObject} (V V' : RModObject R)
@@ -1928,7 +1928,7 @@ Context {A : AbObject}.
 Context (P : carrier (cmon_setoid A) → Type).
 
 (* Instance/Mod/Spanning.v's [ABGen] has exactly the five fields of
-   Instance/Ab/DirectedColimit.v:273's [AbSubgroup]; this is the
+   Instance/Ab/DirectedColimit.v's [AbSubgroup]; this is the
    repackaging, with no proof obligation. *)
 Definition ABGenSub : AbSubgroup A :=
   @Build_AbSubgroup A (ABGen P) (abgen_resp P) (abgen_zero P)
@@ -1937,7 +1937,7 @@ Definition ABGenSub : AbSubgroup A :=
 End AbGeneratedSub.
 
 (* The image of a homomorphism of abelian groups, as a subgroup -- the [Ab]
-   counterpart of Instance/Mod/Quotient.v:833's [ImageSubmod]. *)
+   counterpart of Instance/Mod/Quotient.v's [ImageSubmod]. *)
 Program Definition AbImageSub {A B : AbObject} (f : A ~{Ab}~> B) :
   AbSubgroup B := {|
   absub_mem := fun b => { a : carrier (cmon_setoid A) & cmon_map f a ≈ b }
@@ -2129,7 +2129,7 @@ Example bal_esols_direct_elem {X : RingObject} (N : RModObject (Ring_op X))
    discharged is the SMALLNESS premise.  It is NOT
    [GAFT_from_spanning]'s hypotheses, which are [HasWidePullbacks A] and
    [PreservesWidePullbacks G]; the first is still universe-refused at
-   [RMod R] (Instance/Mod/Spanning.v:149-180), and the widening of
+   [RMod R] (Instance/Mod/Spanning.v), and the widening of
    Adjunction/SpanningArrow.v's [Section GAFTFromSpanning] in this same PR
    does not reach it either (that file's header measures the surviving
    refusal).  [GAFT_from_spanning] is not reachable at [RMod R] by this

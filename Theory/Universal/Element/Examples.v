@@ -24,7 +24,7 @@ Generalizable All Variables.
    [nat_succ_Representable : Representable Endos_Forget] -- the pair
    ⟨(nat, S), 0⟩ representing the forgetful functor from sets-with-an-endomap
    -- and separately checks by [reflexivity] that the image of the identity
-   under its representing isomorphism is [O] ([nat_universal_element], :415).
+   under its representing isomorphism is [O] ([nat_universal_element]).
    That check is the SPECIAL CASE, for one functor, of the general equation
    [ue_of_repr_elem]; here the general class is run at that representation and
    the same [O] comes back out, by [eq_refl].
@@ -54,7 +54,7 @@ Definition nat_UniversalElement : UniversalElement Endos_Forget :=
 Example nat_ue_obj : @ue_obj Endos Endos_Forget nat_UniversalElement = NatSucc.
 Proof. reflexivity. Qed.
 
-(* ... and its element is [O] -- Instance/Coq/Nat.v:415's
+(* ... and its element is [O] -- Instance/Coq/Nat.v's
    [nat_universal_element], obtained here through the general definition
    rather than checked for this one functor.  Note the type: an element of
    [Endos_Forget NatSucc] IS a [nat]. *)

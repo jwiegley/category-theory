@@ -414,15 +414,15 @@ Proof.
 Qed.
 
 (* The binders are load-bearing, for the same reason as
-   [DiscreteCat_Functor] (Instance/Discrete.v:81): declared bare, this
+   [DiscreteCat_Functor] (Instance/Discrete.v): declared bare, this
    minimized to [Indiscrete@{u} : Type@{u} → Category@{u Set Set}], pinning
    the hom and proof levels of the indiscrete category to [Set] and so
    pinning every limit taken over it.  The pin is INDEPENDENT of
    [DiscreteCat_Functor]'s — annotating that one does not touch this one,
-   which is why Instance/Cat/Objects.v:795 and :796 behaved differently
+   which is why Instance/Cat/Objects.v behaved differently
    while only one of the two donors was annotated.  (Both are annotated
    now, so both of those lines are plain [Check]s and both are accepted;
-   an earlier revision of this sentence cited them at :747 and :748,
+   an earlier revision of this sentence cited them,
    where they stood as [Fail Check]s before the PR "algebraic carriers
    are sets" (2026-09-17).)  The measured signature is
 

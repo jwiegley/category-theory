@@ -21,7 +21,7 @@
     UNIVERSE, for n6, "the biconditional inherits [GAFT]'s pin of both hom
     universes to [Set] — which the necessity direction does NOT".  [GAFT]'s
     [Set] came from Instance/Discrete.v's unannotated
-    [DiscreteCat_Functor] through GAFT.v:249; the donor was annotated in
+    [DiscreteCat_Functor] through GAFT.v; the donor was annotated in
     the PR "algebraic carriers are sets" (2026-09-17) and n6 is now an
     accepted positive control beside its former control.  No UNIVERSE
     refusal remains in this file.
@@ -143,7 +143,7 @@ Fail Check (fun (C D : Category) (U : C ⟶ D) (comp : @Complete C)
     formable over a category whose hom level is declared strictly above
     [Set], while [solution_set_of_adjunction] was.  [GAFT]'s [Set] came
     from Instance/Discrete.v's unannotated [DiscreteCat_Functor] through
-    Adjunction/GAFT.v:348 and [initial_from_weakly_initial]; annotating
+    Adjunction/GAFT.v and [initial_from_weakly_initial]; annotating
     that donor in the PR "algebraic carriers are sets" (2026-09-17)
     removes it, and [GAFT_iff] is now ACCEPTED at those levels.  Both
     lines are kept as positive controls, so dropping the annotation

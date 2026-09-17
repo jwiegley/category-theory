@@ -313,7 +313,8 @@ Defined.
    [C : Category@{u1 Set Set}] and [Complete@{u4 u4 Set u1}], with [h] the
    literal [Set].  That [Set] was a universe-minimization artifact of
    Instance/Discrete.v's unannotated [DiscreteCat_Functor], reaching this
-   statement through line 249 below; the donor was annotated in the PR
+   statement through the [DiscreteCat_Functor] limits taken in the proof
+   below; the donor was annotated in the PR
    "algebraic carriers are sets" (2026-09-17) and no literal [Set] remains.
    The size condition (i)+(ii) survives it unchanged, which is the point:
    it is structural and was never about [Set].
@@ -418,7 +419,7 @@ Example sols_of_comma_initial_obj {C D : Category} (U : C ⟶ D) (d : D)
     [Complete_HasEqualizers].  #437 needs that object on its own, so the
     five lines are repeated here as a [Definition] — the theorem's proof is
     NOT rewritten to use it, since every line of this file above stays put
-    (eleven external citations point at line 241). *)
+    (eleven external citations point into it). *)
 
 (* The same two identifications as [GAFT] — [Complete]'s shape-object
    universe and the solution-set index are both the ambient hom universe
@@ -472,7 +473,7 @@ Definition GAFT_via_comma_initial@{cobj dobj h +}
    a left adjoint is EQUIVALENT to preserving limits and satisfying the
    solution set condition.  The sufficient direction is [GAFT]; the
    necessary one is two statements, of which the tree already had the first
-   ([right_adjoint_PreservesImageLimit], Construction/Comma/Limit.v:266) and
+   ([right_adjoint_PreservesImageLimit], Construction/Comma/Limit.v) and
    none of the second — nothing anywhere built a [SolutionSet U d] out of an
    adjunction.
 

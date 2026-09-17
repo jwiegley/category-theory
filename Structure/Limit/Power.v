@@ -61,10 +61,10 @@ Generalizable All Variables.
    those names -- which returns nothing.  [Pow] was NOT free and is
    deliberately not used: two
    different in-tree notions already carry it, NEITHER of them Mac Lane's --
-   Instance/Fun/Discrete.v:254's [Fixpoint Pow (B : Category) (n : nat) :
-   Category], the n-fold product OF CATEGORIES, and Structure/Topos.v:130's
+   Instance/Fun/Discrete.v's [Fixpoint Pow (B : Category) (n : nat) :
+   Category], the n-fold product OF CATEGORIES, and Structure/Topos.v's
    [Definition Pow (a : C) := Ω ^ a], the topos power OBJECT.  A third
-   near-name, [Sets_pow] (Instance/Sets/Products.v:400), IS the same notion at
+   near-name, [Sets_pow] (Instance/Sets/Products.v), IS the same notion at
    [Sets] and is not shadowed either: Structure/Limit/Power/Hom.v proves the
    two ISOMORPHIC rather than redefining it -- only that.  They are NOT
    convertible, and Test/ProbePower.v pins it: a power's carrier is the bare
@@ -80,7 +80,7 @@ Generalizable All Variables.
 
    [J ⋔ b] for the power and [J · b] for the copower, in their own
    [power_scope] with key [%power], following the [addition_scope]
-   precedent of Structure/Preadditive.v:77-81: a consumer opts in with
+   precedent of Structure/Preadditive.v: a consumer opts in with
    [Open Scope power_scope] or the [%power] key, and nothing is imposed on a
    file that merely Requires this one.  [⋔] is the nLab's symbol for powering
    and was entirely free tree-wide:
@@ -95,15 +95,15 @@ Generalizable All Variables.
         -g '!Structure/Limit/Power*' | grep -c -e '·'
 
    which returns 0.  Both notations are declared at level 30, right
-   associativity -- the level Structure/Cartesian/Closed.v:65 gives the
+   associativity -- the level Structure/Cartesian/Closed.v gives the
    exponential, these being operators of the same kind.
 
    Mac Lane's own [b^J] is not available at all: [y ^ x] is already the
    exponential of a cartesian closed category, declared twice in
    Structure/Cartesian/Closed.v -- at [object_scope] inside the [Closed]
-   section (:65) and at [category_scope] at the end of the file (:433).
+   section and at [category_scope] at the end of the file.
    [⊙], sometimes used for the copower, is also unavailable --
-   Theory/Isomorphism.v:441 declares [f ⊙ g] for isomorphism composition with
+   Theory/Isomorphism.v declares [f ⊙ g] for isomorphism composition with
    NO scope annotation, so it is global.
 
    WHAT IS DELIVERED HERE
@@ -152,7 +152,7 @@ Generalizable All Variables.
      Structure/Limit/Product.v's, not this file's".  The attribution was
      one step short and the pin is now gone: it came from
      Instance/Discrete.v's then-unannotated [DiscreteCat_Functor], which
-     was annotated in place at its :81 in the PR "algebraic carriers are
+     was annotated in place there in the PR "algebraic carriers are
      sets" (2026-09-17).  Measured after it, [iprod] and its limit-shaped
      siblings are stated over [C : Category@{u1 u2 u2}] with no literal
      [Set], so these two constants no longer pin [C]'s hom and proof
@@ -167,7 +167,7 @@ Generalizable All Variables.
    THE GAFT SPINE: ONE OF THE TWO ANONYMOUS PRODUCTS IS A POWER AND THE
    OTHER IS NOT.
 
-   Theory/WeaklyInitial.v:145-149 forms
+   Theory/WeaklyInitial.v forms
    [Limit (DiscreteCat_Functor (fun _ : (P0 ~> P0) => P0))].  The family is
    CONSTANT, so that is a power -- the endomorphism-indexed power of [P0] --
    and Theory/WeaklyInitial.v now says so, through [power_of_limit] and
@@ -176,8 +176,8 @@ Generalizable All Variables.
 
    State that precisely, because the obvious phrasing is false.  [Instance/Sets]
    ITSELF is already in this file's dependency closure, one hop away:
-   Structure/Cone.v:6 Requires it, and this file Requires Structure/Cone at
-   line 5.  It is likewise already in Adjunction/GAFT.v's closure, through
+   Structure/Cone.v Requires it, and this file Requires Structure/Cone.
+   It is likewise already in Adjunction/GAFT.v's closure, through
    Structure/Limit.  So "kept free of Instance/Sets" would be wrong, and a
    textual grep of GAFT.v for [Instance.Sets] -- which returns zero -- measures
    that file's own text, not what it Requires.
@@ -190,16 +190,16 @@ Generalizable All Variables.
    That is the cost avoided, and it is why the naming layer is separated from
    the hom-bijection satellite -- the same split #320 made between
    Structure/Limit/Product.v and Structure/Limit/Indexed/Hom.v, and which
-   Structure/Limit/Weighted.v:6 shows is not obligatory for a
+   Structure/Limit/Weighted.v shows is not obligatory for a
    Structure/Limit/ file.
 
    The change in Theory/WeaklyInitial.v is by conversion only: the statement
    of [initial_from_weakly_initial] is untouched.
 
-   Adjunction/SAFT.v:188-190's [cogen_power] is NOT a power, despite the
+   Adjunction/SAFT.v's [cogen_power] is NOT a power, despite the
    name, and this file makes no attempt to re-express it.  Its family is
    [cogen_power_fam G c p := cog_obj G (projT1 p)] over the Σ-index
-   [{ j : cog_index G & c ~> cog_obj G j }] (Adjunction/SAFT.v:175-181),
+   [{ j : cog_index G & c ~> cog_obj G j }] (Adjunction/SAFT.v),
    which varies with [projT1 p]; there is no single object [b] for which it
    is [fun _ => b].  It is a product of a genuinely indexed family, and the
    word "power" in that file names the classical phrase "the unit into the

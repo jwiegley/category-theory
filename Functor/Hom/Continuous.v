@@ -53,44 +53,44 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED.
      - "There is no preservation witness for the hom-functor — no
        [PreservesLimit G (Curried_Hom C c)]": FALSE since #331.
-       Functor/Hom/Limit.v has [HomFrom c := [Hom c ,─]] (:260),
-       [hom_PreservesLimitCone] (:325), [hom_ContinuousFunctor] (:338),
-       [hom_PreservesLimit] (:345), [hom_PreservesAllLimits] (:349),
-       [hom_IsIndexedProduct] (:413), [HomTo c := [Hom ─, c]] (:492) with
-       [hom_to_is_op_hom_from : HomTo = @HomFrom (C^op) c := eq_refl] (:494),
-       [cohom_ContinuousFunctor] (:496), [cohom_colimit_to_limit] (:507),
-       [cohom_IsIndexedProduct] (:519).  Work items 1 (Theorem 1) and 3
+       Functor/Hom/Limit.v has [HomFrom c := [Hom c,─]],
+       [hom_PreservesLimitCone], [hom_ContinuousFunctor],
+       [hom_PreservesLimit], [hom_PreservesAllLimits],
+       [hom_IsIndexedProduct], [HomTo c := [Hom ─, c]] with
+       [hom_to_is_op_hom_from : HomTo = @HomFrom (C^op) c := eq_refl],
+       [cohom_ContinuousFunctor], [cohom_colimit_to_limit],
+       [cohom_IsIndexedProduct].  Work items 1 (Theorem 1) and 3
        (Remark 3) were therefore done before this issue was opened; the
        issue's pinned names are supplied here as aliases,
        [hom_preserves_limits] and [cohom_carries_colimits_to_limits].
      - "[Curried_CoHom] has no consumer beyond Yoneda": FALSE
-       (Functor/Hom/Limit.v:503 consumes it as [HomTo]).  "There is no
+       (Functor/Hom/Limit.v consumes it as [HomTo]).  "There is no
        [Cocartesian] companion file" to Adjunction/Diagonal/Product.v: FALSE
-       (Adjunction/Diagonal/Coproduct.v:117 [Diagonal_Coproduct_Adjunction]).
+       (Adjunction/Diagonal/Coproduct.v [Diagonal_Coproduct_Adjunction]).
        Awodey's ingredients "missing" — equalizers in Sets and the general
        Sets limit — exist: [Sets_HasEqualizers], and [Sets_Limit] /
-       [Sets_Complete] at Instance/Sets/Complete.v:184/:196.
+       [Sets_Complete] at Instance/Sets/Complete.v.
      - "The cone-level statement that h ↦ (limit_leg L x ∘ h) is a limiting
        cone over [HomDiagram c F] in Sets is absent": PARTIAL.  It is present
        over [HomFrom c ◯ F], and that functor is NOT definitionally
-       [HomDiagram c F] (Structure/Limit/Weighted.v:49): the two agree on
+       [HomDiagram c F] (Structure/Limit/Weighted.v): the two agree on
        objects and on the ACTION of [fmap], both at [eq_refl], and differ at
        the whole [fmap] field, whose respectfulness proof is an opaque
        [Program] obligation: [Curried_Hom]'s ([Curried_Hom_obligation_1],
        discharged by Functor/Hom.v's default obligation tactic, no line of
-       its own) against [HomDiagram]'s (Weighted.v:54-56, written out) —
+       its own) against [HomDiagram]'s (Weighted.v, written out) —
        probe N1, beside its two accepted controls.  A
        naming gap, not a mathematical one; this file states Remark 2 over
        the composite (#331's vocabulary) and the Riehl items over
        [HomDiagram] (Weighted.v's), and builds no bridge.
      - The Riehl §3.5 verifier notes are TRUE as stated: [cone_of_nat] /
-       [nat_of_cone] (Weighted.v:145/:157) had no round-trip lemma outside
-       [wl_iso]'s obligations (:313/:320), which presuppose a limit; nothing
+       [nat_of_cone] (Weighted.v) had no round-trip lemma outside
+       [wl_iso]'s obligations, which presuppose a limit; nothing
        related [Sets_End] to [Limit]; [wlim_natural] is naturality of the
        composite through C(X, lim F), not of (3.5.1) itself.
      - Work item 4's "discharge the Instance/Ens.v header caveat": that
        header carries no universe caveat (a search of the file finds
-       "caveat" nowhere and "universe" only at :41, describing [EnsV] as Mac
+       "caveat" nowhere and "universe" only, describing [EnsV] as Mac
        Lane's set-sized sub-universe); it explains that [Ens] is not the
        classical category of sets.  Nothing to discharge; not edited.
 
@@ -99,7 +99,7 @@ Generalizable All Variables.
      (A) TRANSPORT (Awodey §7.2).  For [e : F ≈ G] (a natural isomorphism of
          functors C ⟶ D): [fun_equiv_whisker] (whiskering [e] by a diagram;
          [Proof using e], the Structure/Equalizer/Wide.v idiom),
-         [transport_isalimit] (Theory/Equivalence/Limit.v:245's
+         [transport_isalimit] (Theory/Equivalence/Limit.v's
          [isalimit_transport], which transports along an isomorphism of
          DIAGRAMS — nothing in tree transported [PreservesLimitCone] along
          an isomorphism of FUNCTORS), [transport_cone],
@@ -143,7 +143,7 @@ Generalizable All Variables.
          C(colim F, c)] and [remark3_natural], instantiations of (D) at
          [(J^op, C^op, F^op)] — the first a bare [:=], the second a one-line
          [exact] under [Qed]: [Colimit F] IS [Limit F^op]
-         (Structure/Limit.v:158) and [HomTo c] IS [HomFrom c] on [C^op], so
+         (Structure/Limit.v) and [HomTo c] IS [HomFrom c] on [C^op], so
          no proof step beyond the instantiation is needed.
      (F) THE PRODUCT AND COPRODUCT INSTANCES AS ISOMORPHISMS.  [hom_iprod_iso
          : C(c, ∏ aᵢ) ≅[Sets] ∏ᵢ C(c, aᵢ)] and [cohom_icoprod_iso : C(∐ aⱼ,
@@ -168,7 +168,7 @@ Generalizable All Variables.
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 50
    constants).
      - REMARK 1, DELIVERED ONLY AS POLYMORPHISM OVER C.  [Sets@{o so} :
-       Category@{so o o}] (Instance/Sets.v:198) instantiates
+       Category@{so o o}] (Instance/Sets.v) instantiates
        [SetoidObject@{o o}], so a set's CARRIER and RELATION levels are one
        level [o], and the second parameter [so] is only the level of the
        universe HOLDING the collection of setoids — Sets' object level.

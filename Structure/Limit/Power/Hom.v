@@ -86,7 +86,7 @@ Import EqNotations.
    THE [Sets] IDENTIFICATIONS, AND HOW MUCH OF EACH WAS ALREADY THERE
 
    Power side: mostly already in tree, and reused rather than reproved.
-   Instance/Sets/Products.v:449-486 already builds
+   Instance/Sets/Products.v already builds
    [Sets_exponent_IsIndexedProduct] and [Sets_constant_iprod_exponent] -- the
    function set [X ^ Sets_discrete I] satisfying the constant-family universal
    property, and its isomorphism with [indexed_product (fun _ : I => X)] --
@@ -101,7 +101,7 @@ Import EqNotations.
 
    Copower side: new here.  [Sets_copower_prod] is Riehl's [I · A ≅ I × A],
    with [I] read as the discrete setoid [Sets_discrete I] -- the same reading
-   Instance/Sets/Products.v:478 takes for the exponential, and forced by the
+   Instance/Sets/Products.v takes for the exponential, and forced by the
    same fact, that the index of [HasIndexedCoproducts] is a bare [Type] while
    a product in [Sets] takes two setoids.  No claim is made about a coarser
    setoid on the index.
@@ -121,7 +121,7 @@ Import EqNotations.
 
    AN ENGINEERING FINDING, MEASURED, AND A SECOND SIGHTING OF A KNOWN HAZARD
 
-   Instance/Sets/Products.v:409-424 records that letting instance resolution
+   Instance/Sets/Products.v records that letting instance resolution
    close a [proper_morphism] field can pin a constant's index universe to
    [Set].  That happened again here, at a different construction, and was
    fixed the same way.  Written as a [Program Definition],

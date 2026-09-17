@@ -40,12 +40,12 @@ Generalizable All Variables.
    ** Which ambient category
 
    This library carries two categories of categories, and they answer this
-   question differently.  [Cat] (Instance/Cat.v:28-37) has [Functor_Setoid]
+   question differently.  [Cat] (Instance/Cat.v) has [Functor_Setoid]
    as its hom-setoid, which identifies functors that are merely NATURALLY
    ISOMORPHIC; its own header says so in terms -- it is the homotopy
    category Ho(Cat), "NOT the strict 1-category of categories of the
    textbooks", and an isomorphism in it is an EQUIVALENCE of categories.
-   [StrictCat] (Instance/StrictCat.v:56) has [Functor_StrictEq_Setoid],
+   [StrictCat] (Instance/StrictCat.v) has [Functor_StrictEq_Setoid],
    under which two functors are identified by a Leibniz equality of their
    object maps together with a transported agreement of their arrow maps.
 
@@ -76,7 +76,7 @@ Generalizable All Variables.
    agreeing in both coordinates, and the uniqueness clause of the pullback
    is exactly the statement that they do not.  So [ObjUIP C] -- uniqueness of
    identity proofs on the objects of the BASE, the honest hypothesis of
-   Theory/Category/Monoid.v:546, never an axiom here -- is taken, and it is
+   Theory/Category/Monoid.v, never an axiom here -- is taken, and it is
    spent by exactly one of the pullback's fields, the uniqueness clause
    [FP_med_unique] -- literally it is destructed inside the helper
    [FP_obj_eq], which has no other consumer, so the two readings agree.
@@ -106,7 +106,7 @@ Generalizable All Variables.
 
    ** Comma categories as pullbacks of the arrow-category projections
 
-   Construction/Comma.v:105-108 already records the framing -- comma objects
+   Construction/Comma.v already records the framing -- comma objects
    are PIE-limits, constructible from pullbacks and the power C^2 -- and that
    framing is consumed rather than restated.  The two one-object instances
    are proved: the slice C/c is the pullback of [Arrow_cod : C^2 ⟶ C] along
@@ -129,9 +129,9 @@ Generalizable All Variables.
    PRIOR ART, disclosed rather than left for a reader to find: the tree
    ALREADY has a comma universal property over these same two
    arrow-category projections, and in a module this file Requires --
-   [comma_diagram_ump] (Construction/Comma/Diagram.v:484), Mac Lane §II.6
-   Exercise 5, whose own header at :38-42 calls it "what exhibits it as a
-   'pullback'-style limit" and at :128-136 re-records the same PIE-limit
+   [comma_diagram_ump] (Construction/Comma/Diagram.v), Mac Lane §II.6
+   Exercise 5, whose own header calls it "what exhibits it as a
+   'pullback'-style limit" and re-records the same PIE-limit
    framing cited above.  Nothing here is a restatement of it and nothing it
    proves is falsified: it mediates into the GENERAL comma [(S ↓ T)] over
    the [MediatesDiagram] competitor class with uniqueness at [≈[Cat]],
@@ -193,14 +193,14 @@ Generalizable All Variables.
    [StrictCat] (measured: [rg "IsPullback StrictCat|Pullback StrictCat"] and
    the [Cat] analogue return only this file), and no fibre product of
    categories is constructed anywhere -- the two "fibre/fiber product"
-   occurrences elsewhere are prose, about schemes (Structure/Pullback.v:113)
-   and about base change along a slice (Construction/Slice/Pullback.v:26).
+   occurrences elsewhere are prose, about schemes (Structure/Pullback.v)
+   and about base change along a slice (Construction/Slice/Pullback.v).
    BEFORE this commit the concrete [HasPullbacks] inhabitants were
-   [Sets_HasPullbacks] (Instance/Sets/Pullback.v:393) and [FinSet_Pullbacks]
-   (Instance/FinSet/Classifier.v:264), with three generic conditionals
+   [Sets_HasPullbacks] (Instance/Sets/Pullback.v) and [FinSet_Pullbacks]
+   (Instance/FinSet/Classifier.v), with three generic conditionals
    besides; that roster, and the correction of the older "exactly one
-   inhabitant" reading, are Instance/Sets/Pullback.v's own (its header,
-   lines 37-46), cited here rather than re-derived.  This commit adds a
+   inhabitant" reading, are Instance/Sets/Pullback.v's own (its header),
+   cited here rather than re-derived.  This commit adds a
    FOURTH conditional, [StrictCat_HasPullbacks] -- not a generic one, being
    for one named category under a blanket hypothesis.
 
@@ -657,7 +657,7 @@ Context (uip : ObjUIP C).
 
 (* [Default Proof Using "All"] reaches the section's [Qed]/[Defined] proofs,
    so those take [uip] positionally even where it does not appear in the
-   statement (the Theory/Category/Monoid.v:919 idiom).  It does NOT reach a
+   statement (the Theory/Category/Monoid.v idiom).  It does NOT reach a
    [Program Definition]: [Slice_proj], [Slice_Arrow] and [Slice_med] -- and
    their coslice twins -- are genuinely free of [ObjUIP], as [Check] shows,
    so a consumer reusing them drags in no hypothesis. *)

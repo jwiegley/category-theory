@@ -162,7 +162,7 @@ Generalizable All Variables.
     measured against the tree rather than inherited from the issue text.
     (i) The issue proposes [Theory/Metacategory.v]'s [Three] as the
     linear order on three objects, for the 2 × 3 shape.  [Three] HAS NO
-    OBJECTS — that file's own header (lines 31-32) says so in terms —
+    OBJECTS — that file's own header says so in terms —
     so the product would be objectless.  The three-object linear
     category to use is [Instance/Ordinal.v]'s [_3 := Ordinal 3], and
     [Instance/Square/Rectangle.v] uses it.  (ii) The issue states that
@@ -206,7 +206,7 @@ Definition wsq_k : Sq_C ~{FreeSquare}~> Sq_D :=
     composition in [FreeOnQuiver] is [tlist] concatenation with the
     arguments flipped.  Recorded as a Leibniz equality because the two
     sides are the very same term after reduction; this is the
-    convention documented at [Functor/Bifunctor.v]:42-45. *)
+    convention documented at [Functor/Bifunctor.v]. *)
 Example free_diag_fh_is_composite :
   @compose FreeSquare _ _ _ wsq_h wsq_f = square_diag_fh := eq_refl.
 

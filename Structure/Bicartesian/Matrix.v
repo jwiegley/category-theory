@@ -81,14 +81,14 @@ Generalizable All Variables.
        [can_matrix_ump] say it is the only morphism with those entries.
        Specialized at the folds this is [fin_can] and at the classes
        [finite_can].  That this generalizes the binary [can_comparison] of
-       Structure/Semiadditive.v:289 is not asserted but *proved*:
+       Structure/Semiadditive.v is not asserted but *proved*:
        [binary_IsIndexedProduct] and [binary_IsIndexedCoproduct] exhibit the
        ordinary binary product and coproduct as indexed ones over
        [fin2fam x y], and [binary_can_is_can_comparison] shows the identity
        matrix there IS [can_comparison x y] -- at [≈]; the [eq_refl] reading
        is refuted and located below.  The four matrix-entry
        lemmas [exl_can_inl], [exr_can_inl], [exl_can_inr], [exr_can_inr]
-       (Structure/Semiadditive.v:300-322) are exactly the four entries that
+       (Structure/Semiadditive.v) are exactly the four entries that
        proof consumes.
 
    (3) RIEHL EXERCISE 3.1.ix.  With a zero object the coproduct injections
@@ -96,8 +96,8 @@ Generalizable All Variables.
        structure: [inl_Section] and [inr_Section] exhibit the retractions
        [id ▽ zero_mor] and [zero_mor ▽ id], whose defining equations are
        literally instances of [inl_merge] / [inr_merge]
-       (Structure/Cocartesian.v:175,182), and [inl_Monic] / [inr_Monic]
-       follow through [sections_are_monic] (Theory/Morphisms.v:182).
+       (Structure/Cocartesian.v), and [inl_Monic] / [inr_Monic]
+       follow through [sections_are_monic] (Theory/Morphisms.v).
        [indexed_inj_Section] and [indexed_inj_Monic] are the n-ary form, the
        retraction being the cotuple of a column of the Kronecker delta --
        note the asymmetry, that the *binary* statement needs no decidable
@@ -111,16 +111,16 @@ Generalizable All Variables.
    whose left side composes something with [inl] and whose right side is
    [id]", plus a search for [Section]/[SplitMono]/[Monic] applied to a
    coproduct injection.  It returns three things, none of them this
-   statement.  (i) Structure/Semiadditive.v:300's [exl_can_inl] is the only
+   statement.  (i) Structure/Semiadditive.v's [exl_can_inl] is the only
    in-tree DERIVED retraction for a [Cocartesian] [inl]; it additionally
    assumes [Cartesian] and routes through [can_comparison].  (ii)
-   Structure/Biproduct.v:51's [bi_exl_inl] is a FIELD of the [Biproduct]
+   Structure/Biproduct.v's [bi_exl_inl] is a FIELD of the [Biproduct]
    record -- assumed data about that record's own [bi_inl], not about
    [inl], and no [Cocartesian] structure is in sight.  (iii)
-   Instance/Grp/Pushout.v:699,653 prove the free-product injections of
+   Instance/Grp/Pushout.v proves the free-product injections of
    [Grp] split and are monic, but concretely and from a FACTORIZATION
    hypothesis ([am_inj1_Section_of_factor]) rather than from a zero object.
-   Adjacent but not subsuming: Structure/Pushout/Split.v:191's
+   Adjacent but not subsuming: Structure/Pushout/Split.v's
    [pushout_both_Monic] derives monic injections from split legs of a
    pushout, and a binary coproduct is a pushout over the initial object --
    but that identification is issue #862's and is not in tree, so the
@@ -129,7 +129,7 @@ Generalizable All Variables.
 
    ** Without a zero object the injections need not be monic
 
-   Structure/Cocartesian.v:75 makes this point in prose, citing the nLab.
+   Structure/Cocartesian.v makes this point in prose, citing the nLab.
    It is RECORDED here and not proved: no in-tree category is exhibited
    whose coproduct injections fail to be monic, and no impossibility is
    claimed either.  What the file does establish is where the hypothesis is
@@ -140,8 +140,8 @@ Generalizable All Variables.
 
    Riehl remarks that the identity matrix is invertible in any abelian
    category.  As this library is arranged that is not a theorem waiting to
-   be proved but a statement with no content: Structure/Abelian.v:137-138
-   carries [abelian_additive : Additive C] and Structure/Additive.v:37,40
+   be proved but a statement with no content: Structure/Abelian.v
+   carries [abelian_additive : Additive C] and Structure/Additive.v
    carries [additive_biproducts : HasBiproducts] as DATA, so an in-tree
    abelian category HAS biproducts by hypothesis and there is nothing left
    to derive.  The remark is therefore stated here and left alone.
@@ -246,8 +246,8 @@ Generalizable All Variables.
 
    Structure/Limit/Indexed/Hom.v delivers Riehl 3.1.27 clauses (i) and
    (ii) over the SAME arbitrary-index API, as NATURAL ISOMORPHISMS
-   ([iprod_hom_iso], [icoprod_hom_iso]); its header points forward twice
-   (:41, :234) saying clause (iii) "is issue #336 and is NOT here".  This
+   ([iprod_hom_iso], [icoprod_hom_iso]); its header points forward
+   twice, saying clause (iii) "is issue #336 and is NOT here".  This
    file supplies clause (iii), so the back pointer belongs here and an
    earlier draft omitted it entirely.  Two honest notes rather than one
    convenient one.  First, clause (iii) is NOT derived from (i) and (ii)
@@ -261,13 +261,14 @@ Generalizable All Variables.
 
    ** Citations corrected against the issue
 
-   Five of #336's own line numbers are stale and are silently corrected
-   above; recording them so the correction is visible.  The issue cites
-   Structure/Semiadditive.v:288 ([can_comparison], really :289) and :299
-   ([exl_can_inl], really :300); Structure/Biproduct.v:52 ([bi_exl_inl],
-   really :51); Theory/Morphisms.v:179 ([sections_are_monic], really
-   :182); and Structure/Additive.v:34,37 ([additive_biproducts], really
-   :37,40).  Each corrected number was checked by reading the line.
+   Five of #336's own citations are stale and are silently corrected
+   above; recording that so the correction is visible.  The issue
+   points at the wrong place for [can_comparison] and [exl_can_inl] in
+   Structure/Semiadditive.v, for [bi_exl_inl] in
+   Structure/Biproduct.v, for [sections_are_monic] in
+   Theory/Morphisms.v and for [additive_biproducts] in
+   Structure/Additive.v.  Each was checked by reading the
+   declaration.
 
    ** NOT delivered
 
@@ -299,15 +300,15 @@ Generalizable All Variables.
    are conditionals here (the [Coq] examples witness only (1), [Coq]
    having no zero object -- its initial object is [False] and its terminal
    [unit], asserted rather than proved, though the tree proves the
-   analogue twice at Instance/Top.v:505 and for [Rng]).  READ THAT AS A
+   analogue twice at Instance/Top.v and for [Rng]).  READ THAT AS A
    CHOICE, NOT AN UNAVAILABILITY: an earlier draft of this paragraph
    explained the gap by the witness category alone, which misleads.  The
    tree carries SIX registered [ZeroObject] instances -- [Grp_Zero]
-   (Instance/Grp.v:679), [Ab_Zero] (Instance/Ab.v:290), [CMon_Zero]
-   (Instance/CMon/Biproduct.v:160), [RMod_Zero] (Instance/Mod.v:439),
-   [Rel_Zero] (Instance/Rel/Dagger.v:191), [PointedSets_Zero]
-   (Instance/Sets/Pointed.v:302) -- and [Ab] supplies BOTH hypotheses as
-   exported instances, [Ab_Cocartesian] being Instance/Ab/Coproduct.v:228.
+   (Instance/Grp.v), [Ab_Zero] (Instance/Ab.v), [CMon_Zero]
+   (Instance/CMon/Biproduct.v), [RMod_Zero] (Instance/Mod.v),
+   [Rel_Zero] (Instance/Rel/Dagger.v), [PointedSets_Zero]
+   (Instance/Sets/Pointed.v) -- and [Ab] supplies BOTH hypotheses as
+   exported instances, [Ab_Cocartesian] being Instance/Ab/Coproduct.v.
    The Exercise 3.1.ix witness is therefore two lines of pure
    instantiation, and it IS shipped, in Test/ProbeMatrix336.v.  It is kept
    out of THIS file for a measured reason: [Instance/Ab] is not in this

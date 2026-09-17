@@ -107,7 +107,7 @@ Definition unit_carrier (M : MonObject) : Type :=
    the sigma it builds, and Coq 8.19/8.20 then infer a CONSTANT predicate and
    refuse the term ("has type ∃ _ : …, … while it is expected to have type
    carrier …"; Instance/Rng/Zp.v's header records the trap, and
-   Instance/Grp/Center.v:125 records the same one for [mk_central]).  Rocq 9.1
+   Instance/Grp/Center.v records the same one for [mk_central]).  Rocq 9.1
    accepts either.  The obligation route keeps every term below exactly as the
    released toolchains already compiled it. *)
 Program Definition UnitsOf (M : MonObject)

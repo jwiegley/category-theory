@@ -204,11 +204,11 @@ Generalizable All Variables.
    element and an arbitrary coset representative whose conjugate escapes, and
    [grp_image_acts_nontrivially], for a translating element of the form f g.
 
-   WHY THE TRUTH VALUES COME FROM Prop.  Instance/Sets.v:429 states the
+   WHY THE TRUTH VALUES COME FROM Prop.  Instance/Sets.v states the
    analogous characterization of epimorphisms in [Sets] and leaves its reverse
    direction unproved, with the reason recorded in that file's header: the
    truth-value object it needs does not fit at the universe of the setoids
-   being classified.  Instance/Sets/Classifier.v:151 is that object,
+   being classified.  Instance/Sets/Classifier.v is that object,
    [PropSetoid], carrier Type@{o} under bi-implication, and the classifier
    theorems there are consequently cross-universe.  Here the truth values are
    drawn from [Prop] instead.  Because [Prop] is impredicative, [StableProp]
@@ -228,7 +228,7 @@ Generalizable All Variables.
    contrast is recorded because it is what makes the present theorem a fact
    about groups rather than a general fact about algebraic categories.
 
-   CONTRAST, NEARER TO HOME.  Instance/Grp.v:895 proves the monomorphism
+   CONTRAST, NEARER TO HOME.  Instance/Grp.v proves the monomorphism
    counterpart, [Grp_injectivity_is_monic], as a biconditional with no side
    hypothesis at all.  The asymmetry is not an accident of presentation.  The
    monic direction is probed by the KERNEL, a sub-setoid of a carrier already
@@ -238,8 +238,8 @@ Generalizable All Variables.
    two statements parts company.
 
    NOTATION.  [∃] is [sigT] and [∧] is [prod] in this library
-   (Lib/Foundation.v:66, :78), so [GrpImage] is [Type]-valued and a proof of it
-   yields an actual preimage; [↔] is [iffT] (Lib/Foundation.v:72).  Morphism
+   (Lib/Foundation.v), so [GrpImage] is [Type]-valued and a proof of it
+   yields an actual preimage; [↔] is [iffT] (Lib/Foundation.v).  Morphism
    equality is `≈` throughout, never `=`: the token `=` does not occur in a
    single statement or proof term in this file, only in these comments. *)
 
@@ -347,7 +347,7 @@ Definition GrpImage {G H : GrpObject} (f : G ~{Grp}~> H) (h : carrier H) : Type 
 
 (* Surjectivity of a group homomorphism: every element of the codomain has a
    preimage.  Stated with `≈`, never with `=`.  This is the [Type]-valued
-   reading, matching [surjective] at Lib/Setoid.v:121 -- forced, since `≈` is
+   reading, matching [surjective] at Lib/Setoid.v -- forced, since `≈` is
    itself [Type]-valued and a [Prop] existential could not be eliminated into
    it.  It does NOT make a surjection a split epimorphism: the preimage chosen
    for h need not respect `≈`, so it assembles no setoid map and a fortiori no

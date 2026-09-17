@@ -67,7 +67,7 @@ Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {|
    discrete shape, and thence [GAFT] and [representability_theorem], which
    printed [Category@{u1 Set Set}] and refused instantiation at any category
    whose homs live above [Set].  Annotating here, on the model of
-   [DiscreteCat_Functor'] (Structure/Limit/Comparison.v:559), leaves the
+   [DiscreteCat_Functor'] (Structure/Limit/Comparison.v), leaves the
    shape's levels free; the trailing [+] allows the auxiliary universes that
    [Program]'s obligations introduce.  The measured signature is
 

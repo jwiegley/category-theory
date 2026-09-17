@@ -47,7 +47,7 @@
 
     THE ISSUE'S PINNED NAMES [Cat_HasEqualizers] AND [Cat_Complete] ARE NOT
     DELIVERED, AND THE REASON IS RIEHL'S OWN SHARPENING ON THE ISSUE.
-    Instance/Cat.v:142-145 gives [Cat] the hom-setoid [Functor_Setoid],
+    Instance/Cat.v gives [Cat] the hom-setoid [Functor_Setoid],
     natural isomorphism of functors, so this [Cat] is Ho(Cat) and an
     isomorphism in it is an EQUIVALENCE of categories.  The on-the-nose
     subcategory (B) is then not merely unproven but WRONG as an equalizer
@@ -181,8 +181,8 @@
     [Category@{u0 u0 u0}], the same universe instance as the small
     categories, the collapse forced by [Complete_from_products_equalizers],
     whose index universe IS the ambient hom universe (the discipline of
-    Instance/Sets/Complete.v:196's [Sets_Complete@{u u0} : Complete@{u u u
-    u0}], and Structure/Complete.v:27-38's note).  The necessity theorems
+    Instance/Sets/Complete.v's [Sets_Complete@{u u0} : Complete@{u u u
+    u0}], and Structure/Complete.v's note).  The necessity theorems
     match the sufficiency statements' shapes: [Eq_uniqueness_forces_UIP@{o h
     u u0 u1 u2}] carries no equation, [PiCat_uniqueness_forces_funext@{i o h
     u u0}] carries [h = i].  [Chaotic@{o h p}] is free in all three levels
@@ -210,10 +210,10 @@
     files green and are kept [Defined] by the data convention.  Closure 52
     modules excluding self.
     Zero collisions over the 58 names after THREE were renamed before
-    landing: [punit_eq] is Instance/Cat/Pullback.v:578's (same statement,
+    landing: [punit_eq] is Instance/Cat/Pullback.v's (same statement,
     a module deliberately not required), and [CB] matched the section
     variables of two files and a section-local [Notation CB]
-    (Structure/Limit/Power/Adjunction.v:1726) — not global collisions,
+    (Structure/Limit/Power/Adjunction.v) — not global collisions,
     but a two-letter global name in a gate that loads many modules into
     one scope is a hazard, hence [ChaoticBool]; [CBtrue]/[CBfalse]
     matched nothing and were renamed with it ([ChaoticBool_true]/

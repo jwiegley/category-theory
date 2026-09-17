@@ -63,7 +63,7 @@ Generalizable All Variables.
    categories whose arrows are constrained; Mac Lane's Ens_V constrains nothing.
    Both files are kept, and neither construction subsumes the other.
 
-   Instance/Coq.v:120 ([Coq]) and Instance/Sets.v:188 ([Sets]) are the
+   Instance/Coq.v ([Coq]) and Instance/Sets.v ([Sets]) are the
    "everything at one universe level" categories: objects are all of [Type@{o}],
    respectively all setoids at level o, and arrows are all functions,
    respectively all setoid maps. They are Ens_V with the bound fixed at a
@@ -173,7 +173,7 @@ End Spanned.
 
 (* Mac Lane's Ens_V. The decoding lands in bare types, so an arrow is an
    arbitrary function and morphism equivalence is pointwise Leibniz equality,
-   exactly as in Instance/Coq.v:120. *)
+   exactly as in Instance/Coq.v. *)
 Definition EnsV {V : Type} (El : V → Type) : Category := @Spanned Coq V El.
 
 (* The inclusion Ens_V ⟶ Set, full and faithful by the section above. *)
@@ -209,7 +209,7 @@ Definition EnsV_compose_is_usual {V : Type} (El : V → Type) (x y z : V)
 (* The same construction with the decoding landing in setoids. An arrow is a
    setoid map (a function together with its respectfulness certificate) and two
    arrows agree when they are pointwise `≈`-equal, exactly as in
-   Instance/Sets.v:188. This variant is the one to use when Ens_V must serve as
+   Instance/Sets.v. This variant is the one to use when Ens_V must serve as
    the codomain of a hom-functor or otherwise interact with the library's
    setoid-enriched machinery; the [Coq]-flavoured one above is the literal
    reading of Mac Lane, where a set is a bare type and equality of elements is

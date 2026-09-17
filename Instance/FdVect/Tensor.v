@@ -14,7 +14,7 @@
 
     THE PRE-EXISTING ABSTRACT COUNTERPART, and how it differs.  This
     tree already carries a no-cloning statement:
-    Structure/Monoidal/Collapse.v:526's
+    Structure/Monoidal/Collapse.v's
 
       Theorem no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object]
 

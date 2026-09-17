@@ -49,7 +49,7 @@
           step further out than [iprod]: [DiscreteCat_Functor], declared
           with bare binders and minimized to [DiscreteCat@{u Set Set}].
           Annotated in place in the PR "algebraic carriers are sets"
-          (2026-09-17), Instance/Discrete.v:81, both commands are ACCEPTED
+          (2026-09-17), Instance/Discrete.v, both commands are ACCEPTED
           and are kept as positive controls at the same levels, so
           dropping the annotation refuses them again and breaks this file.
           Part (a) is still stated first at [IsIndexedProduct], which is

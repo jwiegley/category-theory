@@ -6,12 +6,12 @@
     printed pp. 24-25 (PDF pp. 34-35), following issue #256's locations).  It
     is the base of homological algebra.  Be careful about the relationship to
     Structure/Abelian.v, in two steps that are easy to run together.  Hom-sets
-    carrying abelian-group structure is [Additive] (Structure/Additive.v:38-40,
+    carrying abelian-group structure is [Additive] (Structure/Additive.v,
     "each hom-setoid UPGRADES from a commutative monoid to an abelian group"),
-    NOT [Preadditive] -- Structure/Preadditive.v:20-21 is explicit that
+    NOT [Preadditive] -- Structure/Preadditive.v is explicit that
     "additive inverses are deliberately not demanded, so the class is precisely
     enrichment in commutative monoids".  And [Class Abelian]
-    (Structure/Abelian.v:137-152) is not that either: hom-group structure is
+    (Structure/Abelian.v) is not that either: hom-group structure is
     one of its five fields, reached transitively through [abelian_additive],
     alongside kernels, cokernels and normality of monos and epis.  This file
     instantiates NONE of [Preadditive], [Additive] or [Abelian] (see SCOPE),
@@ -36,14 +36,13 @@
     map.
 
     WHY NOT [Instance/Comp.v].  That file does have group inverses concretely
-    -- [inv] at :288, [inv_left]/[inv_right] at :322-323, the variety [Group]
-    at :382, a [Bool] witness at :405 -- so it is NOT true that additive
+    -- [inv], [inv_left]/[inv_right], the variety [Group], a [Bool] witness -- so it is NOT true that additive
     inverses are absent from the concrete layer, and this file does not claim
     that.  What is true, and what matters here, is narrower: [Instance/Comp.v]
     is a LEIBNIZ-EQUALITY development.  Its [AlgHom]'s [op_commute] uses [=]
-    (:67-68), its hom-setoid is [∀ x, f x = g x] (:76), and it invokes
-    [functional_extensionality] (:370, :375) and
-    [functional_extensionality_dep] (:440).  [Ab] lives in the
+, its hom-setoid is [∀ x, f x = g x], and it invokes
+    [functional_extensionality] and
+    [functional_extensionality_dep].  [Ab] lives in the
     setoid-carrier layer with [≈] throughout and no axioms, so [CMon] is the
     donor and [Comp] cannot be.
 
@@ -70,7 +69,7 @@
     enter the environment: its proof was abandoned, because the argument then
     used needed a truth-value object whose carrier is [Type], which does not
     fit as an [obj[Sets]] at the same universe.  That is no longer so.
-    Instance/Sets.v:509 now proves it outright, via a cokernel-pair setoid
+    Instance/Sets.v now proves it outright, via a cokernel-pair setoid
     ([CKSetoid], [ck_left], [ck_right], [ck_agree]) -- which is to say, by
     exactly the kind of quotient probe used here.
 
@@ -224,7 +223,7 @@ Program Definition Ab@{u p} : Category@{u p p} := {|
 
   (* [compose_respects] is inherited from [CMon] literally.  The remaining four
      laws are NOT: they are [Program] obligations, discharged afresh by the
-     file-global [Obligation Tactic] (Lib/Tactics.v:225's [cat_simpl]).  What is
+     file-global [Obligation Tactic] (Lib/Tactics.v's [cat_simpl]).  What is
      true is that no new mathematical content is needed -- [Ab]'s homs,
      identities and composition ARE [CMon]'s -- not that nothing is reproved. *)
   compose_respects := fun A B C => @cmon_hom_compose_respects@{u p} A B C
@@ -289,7 +288,7 @@ Next Obligation.
 Qed.
 
 (** The same object is both, so the coincidence iso is the identity -- exactly
-    as at Instance/CMon/Biproduct.v:160. *)
+    as at Instance/CMon/Biproduct.v. *)
 #[export] Instance Ab_Zero : ZeroObject Ab :=
   @Build_ZeroObject Ab Ab_Terminal Ab_Initial iso_id.
 
@@ -468,7 +467,7 @@ Qed.
     and a quotient's equality has to be a [Prop] too or the field could not be
     supplied.  So [ab_coset_eq] is Coq's [ex], spelled [(exists a, …)%type]
     because this library's bare [∃] and [exists] are [sigT]
-    (Lib/Foundation.v:61, :66).  The consequence is stated where it bites:
+    (Lib/Foundation.v).  The consequence is stated where it bites:
     [ab_epic_surjective] below concludes PROPOSITIONAL surjectivity, and the
     split form [AbSurjective] is no longer derivable from an epi.  Its body
     compares through [pequiv] rather than `≈` for the same reason -- the body

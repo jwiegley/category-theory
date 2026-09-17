@@ -41,17 +41,17 @@ Generalizable All Variables.
     of which quotient by something.  What IS absent, and was measured
     against the parent commit rather than taken on the issue's word, is a
     [NormalSubgroup] interface: AT THE PARENT COMMIT the token occurred in
-    the tree exactly once, at Instance/Grp/Abelianization.v:78, and there
+    the tree exactly once, at Instance/Grp/Abelianization.v, and there
     it occurred inside a prose disclosure that no such class existed.
     (That paragraph is rewritten by this same change, so the line number
     is a statement about the parent commit and not about the tree as it
     now stands.)  The only [Subgroup] record in the tree is
-    Instance/Ab/Character/Finite.v:624, which is over [AbObject] and
+    Instance/Ab/Character/Finite.v, which is over [AbObject] and
     carries a DECIDABILITY field [sg_dec]; it is therefore not a donor
     here, since nothing below decides membership.
 
     THE FIVE FACTS.  Instance/Grp/Abelianization.v's "SCOPE OF THE
-    QUOTIENT" paragraph (at the parent commit, :71-81) disclosed that its
+    QUOTIENT" paragraph (at the parent commit) disclosed that its
     quotient by the commutator subgroup consumes only five properties of
     that subgroup -- "≈-saturation, unit, closure under product and
     inverse, normality" -- and that a generic quotient "is extractable by
@@ -70,19 +70,19 @@ Generalizable All Variables.
     this one)".  Reading the two other constructions' actual record types
     corrects the count:
 
-      - Instance/Grp/Epi.v:456's [Grp_Coset] is a [SetoidObject], NOT a
+      - Instance/Grp/Epi.v's [Grp_Coset] is a [SetoidObject], NOT a
         [GrpObject], and it is the coset space of the image of an
         ARBITRARY homomorphism.  Epi.v's whole argument turns on that
-        image being possibly NON-normal (its own header, :171 and :1488,
-        and the witness [grp_two_sym3] at :1644, are explicit that the
+        image being possibly NON-normal (its own header, two later
+        passages, and the witness [grp_two_sym3] are explicit that the
         non-normal case is the one the file exists for).  So it is not a
         quotient GROUP, is not an instance of anything below, and could
         not be: a normal-subgroup quotient is exactly what it declines to
         assume.  It is left untouched.
 
-      - Instance/Ab.v:479's [ab_coset_eq] IS a quotient group, of an
+      - Instance/Ab.v's [ab_coset_eq] IS a quotient group, of an
         abelian group by the image of a homomorphism.  (An earlier revision
-        of this sentence cited :427, which is where that definition stood
+        of this sentence cited where that definition stood
         before the PR "algebraic carriers are sets" (2026-09-17); the same
         PR also turned the relation into a [Prop] -- it is now Coq's [ex],
         spelled [(exists a, …)%type] -- so it is no longer a [Type]-valued
@@ -91,7 +91,7 @@ Generalizable All Variables.
         direction rather than a mathematical obstruction: [AbObject]
         extends [CMonObject], Instance/Ab.v requires neither
         Instance/Grp.v nor anything below it, and the only bridge in tree,
-        [Ab_to_GrpOb], lives DOWNSTREAM in Abelianization.v:333.  Routing
+        [Ab_to_GrpOb], lives DOWNSTREAM in Abelianization.v.  Routing
         Ab.v's quotient through a [GrpObject]-level construction would
         move that bridge upstream and give Ab.v a dependency on Grp.
         That is a defensible change and it is deliberately not made here.
@@ -172,7 +172,7 @@ Generalizable All Variables.
    below.
 
    There is deliberately NO decidability field, unlike
-   Instance/Ab/Character/Finite.v:625, and nothing below decides
+   Instance/Ab/Character/Finite.v, and nothing below decides
    membership. *)
 Record Subgroup (G : GrpObject) := {
   sub_mem : carrier G → Type;
@@ -195,7 +195,7 @@ Arguments sub_mul {G} _ _ _ _ _.
 Arguments sub_inv {G} _ _ _.
 
 (* A normal subgroup adds the fifth fact: closure under conjugation.  The
-   five laws are exactly the five that Abelianization.v:71-81 names. *)
+   five laws are exactly the five that Abelianization.v names. *)
 Record NormalSubgroup (G : GrpObject) := {
   ns_sub :> Subgroup G;
 
@@ -215,7 +215,7 @@ Definition sub_at {G : GrpObject} (S : Subgroup G) {a b : carrier G}
 (** ** The subgroup as an object of Grp *)
 
 (* The sigma carrier over membership, compared on elements -- the shape
-   Instance/Grp.v:789's [Grp_kernel] and Instance/Grp/Center.v use, so the
+   Instance/Grp.v's [Grp_kernel] and Instance/Grp/Center.v use, so the
    membership witness carries no equational weight. *)
 Definition sub_carrier {G : GrpObject} (S : Subgroup G) : Type :=
   { a : carrier G & sub_mem S a }.
@@ -229,7 +229,7 @@ Definition sub_carrier {G : GrpObject} (S : Subgroup G) : Type :=
    sigma it builds, and Coq 8.19/8.20 then infer a CONSTANT predicate and
    refuse the term ("has type ∃ _ : …, … while it is expected to have type
    carrier …"; Instance/Rng/Zp.v's header records the trap, and
-   Instance/Grp/Center.v:125 records the same one for [mk_central]).  Rocq 9.1
+   Instance/Grp/Center.v records the same one for [mk_central]).  Rocq 9.1
    accepts either.  The obligation route keeps every term below exactly as the
    released toolchains already compiled it, which is why it is taken here and
    at [Grp_kernel] (Instance/Grp.v). *)
@@ -283,7 +283,7 @@ Qed.
 (** ** The quotient relation *)
 
 (* a ~ b when a * b⁻¹ lies in N.  The orientation matches
-   Instance/Grp/Abelianization.v:234's [abel_eq], which this generalizes. *)
+   Instance/Grp/Abelianization.v's [abel_eq], which this generalizes. *)
 Definition quot_rel {G : GrpObject} (N : Subgroup G) (a b : carrier G) : Type :=
   sub_mem N (grp_mul G a (grp_inv G b)).
 
@@ -466,7 +466,7 @@ Qed.
 (* NO NOTATION for the quotient.  An unscoped infix [/] at level 40 would
    sit in the core scope and compete with the stdlib's scope-bound
    division notations in every file that imports this one; the tree's only
-   other [/] notation, Instance/Field/Frac.v:429, is [Local] and prefix
+   other [/] notation, Instance/Field/Frac.v, is [Local] and prefix
    for exactly that kind of reason.  [QuotientGrp N] is written out. *)
 
 (* The projection: the identity function, read from the fine setoid into
@@ -753,7 +753,7 @@ Example KernelNS_mem {G K : GrpObject} (h : G ~{Grp}~> K) (a : carrier G) :
 Proof. reflexivity. Qed.
 
 (* The subgroup object of the kernel normal subgroup has the same carrier
-   as Instance/Grp.v:809's [Grp_kernel], by convertibility. *)
+   as Instance/Grp.v's [Grp_kernel], by convertibility. *)
 Example KernelNS_carrier_is_Grp_kernel {G K : GrpObject} (h : G ~{Grp}~> K) :
   carrier (SubgroupGrp (KernelNS h)) = carrier (Grp_kernel h).
 Proof. reflexivity. Qed.
@@ -854,11 +854,11 @@ Qed.
 (** ** Non-degeneracy over a nonabelian witness
 
     Everything above holds for all groups, so nothing yet shows the
-    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v:249, the
+    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v, the
     semidirect presentation over the decidable carrier rot * bool) with
     its rotation subgroup A3 is the smallest witness with a PROPER
     nontrivial normal subgroup, and it is nonabelian, so the degeneracies
-    that make conjugation inert (Instance/Grp/TwoFunctors.v:195's
+    that make conjugation inert (Instance/Grp/TwoFunctors.v's
     [Grp_conj_abelian]) are excluded by proof rather than by assumption. *)
 
 (* A3, the rotations: the elements whose reflection component is false.

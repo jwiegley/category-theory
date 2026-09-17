@@ -16,7 +16,7 @@ Require Import Category.Instance.Proset.Limit.
 Require Import Category.Instance.Powerset.
 Require Import Category.Instance.Props.
 
-(* The same two as Instance/Powerset.v:25-27 and Instance/Proset.v:4-5:
+(* The same two as Instance/Powerset.v and Instance/Proset.v:
    [relation] and [PreOrder] below are the stdlib Prop-valued ones, not
    the [crelation] ones [Category.Lib] exports, and they must come AFTER
    [Category.Lib].  The cost is that stdlib's [equiv] then shadows
@@ -225,29 +225,28 @@ Generalizable All Variables.
 
     The catalog entry says the power set of a set as a category "has no
     witness".  It has one: #382's Instance/Powerset.v declares
-    [subset_le] (:285), [subset_le_preorder] (:288) and
-    [Subsets X := Proset (subset_le_preorder X)] (:295), and supplies the
-    LEFT half of this issue outright -- [image_preimage_galois] (:387),
-    [DirectImage] (:397), [InverseImage] (:401),
-    [image_preimage_adjunction] (:405), the meets and joins
-    [subset_inter] (:504) / [subset_union] (:522) with
-    [Subsets_Cartesian] .. [Subsets_Cocomplete] (:609-:641), the three
-    preservation theorems (:661, :678, :700), the RAPL/LAPC routes (:737,
-    :769) and the witnesses (:844, :884).  All of that is CONSUMED, none
+    [subset_le], [subset_le_preorder] and
+    [Subsets X := Proset (subset_le_preorder X)], and supplies the
+    LEFT half of this issue outright -- [image_preimage_galois],
+    [DirectImage], [InverseImage], [image_preimage_adjunction], the
+    meets and joins [subset_inter] / [subset_union] with
+    [Subsets_Cartesian] through [Subsets_Cocomplete], the three
+    preservation theorems, the RAPL/LAPC routes and the witnesses.
+    All of that is CONSUMED, none
     of it rebuilt: [exists_substitution_adjunction] is literally
     [image_preimage_adjunction] under the name this issue pins, so "the
     existential IS the direct image" holds at a general [f] BY DEFINITION
     rather than by a comparison.
 
-    What was genuinely absent is the RIGHT half.  Three sites say so in
-    terms: Instance/Powerset.v:166, :206 and :695 each record that the
-    dual image and [f^* -| forall_f] are #384's.
+    What was genuinely absent is the RIGHT half.  Three separate
+    comments in Instance/Powerset.v say so in terms: each records that
+    the dual image and [f^* -| forall_f] are #384's.
 
     The issue also says "in-tree the dual image has no counterpart of any
-    kind".  That is stale for finite CODES: Instance/FinSet/Subsets.v:478
-    declares [finpow_dual] with [finpow_dual_mem] (:494) and six
-    [eq_refl] evaluations (:520-:545, among them [dual_apple0] and
-    [dual_apple01]), and its :111, :116 and :122 record that only the
+    kind".  That is stale for finite CODES: Instance/FinSet/Subsets.v
+    declares [finpow_dual] with [finpow_dual_mem] and six
+    [eq_refl] evaluations (among them [dual_apple0] and
+    [dual_apple01]), and three of its comments record that only the
     ADJUNCTION is missing and that it is this issue's.  That file is
     cited, not rebuilt, and the finite-code adjunction is NOT built here:
     the setoid-level one is the deliverable.
@@ -276,7 +275,7 @@ Generalizable All Variables.
          [proset_adjunction_at], the eight [Instance/Proset] files build
          an adjunction between prosets only through
          Instance/Proset/Galois.v's [GaloisAdjunction], which makes its
-         own two functors, and its one [Context (Adj : F ⊣ U)] (:187-188)
+         own two functors, and its one [Context (Adj : F ⊣ U)]
          -- the only [⊣] in all eight files -- runs the OTHER way,
          consuming an adjunction rather than producing one.  The two
          preservation lemmas are plain terms with no tactic;
@@ -284,7 +283,7 @@ Generalizable All Variables.
          [Proper] certificates for the legs, the two isomorphism laws in
          [Sets] and the two naturality clauses -- are each equations
          between parallel arrows in a thin category ([Proset]'s hom-setoid
-         is [fun _ _ => True], Instance/Proset.v:41), which is why the
+         is [fun _ _ => True], Instance/Proset.v), which is why the
          default tactic closes all six; an earlier draft said "two".
 
     (A)  [Powerset_Prop_dual f S] with predicate
@@ -335,11 +334,11 @@ Generalizable All Variables.
          the adjunction's OWN [unit] and [counit] with them at Leibniz
          [=].  That is STRICTLY BETTER than #382's corresponding
          [adj_unit_has_incl_type], which is an ascription only; that
-         file's note (:461-:467) explains why -- its four donor lemmas
+         file's note on that constant explains why -- its four donor lemmas
          are [Qed] -- and predicts the strict form would hold were they
          [Defined].  Here every step is a [:=] term, so it does.  In a
          thin category an [≈] between parallel arrows is [True]
-         (Instance/Powerset.v:326), so the Leibniz statement is the only
+         (Instance/Powerset.v), so the Leibniz statement is the only
          informative one available.
 
     (B)  MAC LANE'S OWN SITE.  [ProdSetoid U V] is [product_obj] over
@@ -403,19 +402,19 @@ Generalizable All Variables.
          connection IS the dual image), and
          [dual_image_meet_routes_agree] is the #382-style pair showing
          the two inhabit one type.  #382's
-         [inverse_image_preserves_joins] (:700) is re-derived as the
+         [inverse_image_preserves_joins] is re-derived as the
          COROLLARY [inverse_image_preserves_joins_via_galois] -- that
-         file proved it directly and its comment (:694-:697) says why: it
+         file proved it directly and the comment beside it says why: it
          needed f^*'s right adjoint, which is this file's -- with
          [inverse_image_join_routes_agree] beside it.  #382's
-         [direct_image_preserves_joins] (:678) is cited, not restated.
+         [direct_image_preserves_joins] is cited, not restated.
 
          THE CONTRAPOSITIVES ARE THEOREMS ABOUT ADJUNCTIONS, not prose.
          [exists_not_right_adjoint] and [forall_not_left_adjoint] refute
          the EXISTENCE of an adjoint on the wrong side at
          [powerset_const0], by feeding #380's [GaloisOfAdjunction] to the
          (A0) preservation lemmas and contradicting a concrete refutation:
-         #382's [direct_image_not_meet_preserving] (:884) for the first,
+         #382's [direct_image_not_meet_preserving] for the first,
          and the new [dual_image_not_join_preserving] for the second.
          [∃] is the library's Type-valued [sigT] and each sigma binds the
          functor once.
@@ -498,7 +497,7 @@ Generalizable All Variables.
     have to be imported AFTER [Category.Lib], because [Proset] and
     [GaloisConnection] want the stdlib Prop-valued [PreOrder] and
     [relation] rather than the [crelation] ones the library exports --
-    Instance/Powerset.v:25-27 says so and this file copies it.  What that
+    Instance/Powerset.v says so and this file copies it.  What that
     costs, and what the donor never had to pay because it writes no
     explicit [equiv], is that stdlib's [equiv] then SHADOWS
     [Category.Lib.Setoid.equiv].  Two consequences, both measured: an
@@ -516,7 +515,7 @@ Generalizable All Variables.
     ** A DONOR RESTATED RATHER THAN REQUIRED, ON A MEASUREMENT
 
     [subset_le_antisym] -- mutual inclusion gives [≈] -- already exists,
-    at Instance/Grp/Galois.v:512, with this file's exact statement and
+    at Instance/Grp/Galois.v, with this file's exact statement and
     proof term.  It is NOT required: that module's transitive closure is
     129 modules against this file's 89, so importing it for a one-line
     definition would nearly double the cost.  The single place this file
@@ -779,7 +778,7 @@ Definition forall_counit_incl (S : carrier (Powerset_Prop_obj@{o} X)) :
   fun x Hx => Hx x (quant_refl (f x)).
 
 (* And the adjunction's OWN unit and counit ARE those two, at Leibniz
-   [=].  This is the strict form Instance/Powerset.v:471-476 predicts for
+   [=].  This is the strict form Instance/Powerset.v predicts for
    its own adjunction and declines to ship; here every step is a term, so
    it holds. *)
 Example adj_unit_is_forall_incl (T : carrier (Powerset_Prop_obj@{o} Y)) :
@@ -857,8 +856,8 @@ Definition dual_image_meet_routes_agree {Idx : Type}
   (dual_image_preserves_meets S m H,
    dual_image_preserves_meets_via_galois S m H).
 
-(* Instance/Powerset.v:718 proved this DIRECTLY, and its comment
-   (:694-:697) says why: the adjoint route needs f^*'s right adjoint,
+(* Instance/Powerset.v proved this DIRECTLY, and the comment beside it
+   says why: the adjoint route needs f^*'s right adjoint,
    which is this file's.  Here it is, as that corollary. *)
 Definition inverse_image_preserves_joins_via_galois {Idx : Type}
   (T : Idx → carrier (Powerset_Prop_obj@{o} Y))
@@ -1211,8 +1210,8 @@ Example pointwise_is_subset_le@{o} {X : SetoidObject@{o o}}
   @subset_le@{o} X S T = (∀ x : carrier X, S x → T x) := eq_refl.
 
 (* The one-point setoid, and the unique map into it.  Named locally: both
-   [SetsOne] (Construction/Elements.v:230, Instance/Sets/Pointed/
-   Coslice.v:70) and [Sets_Terminal] are taken. *)
+   [SetsOne] (Construction/Elements.v, Instance/Sets/Pointed/
+   Coslice.v) and [Sets_Terminal] are taken. *)
 Definition quant_one@{o so} : SetoidObject@{o o} :=
   @terminal_obj Sets@{o so} Sets_Terminal.
 
@@ -1369,7 +1368,7 @@ Qed.
 
 (* Every element of the two-point carrier lies in {0} join {1}: the
    exhaustiveness the join witness needs, by the [Fin.caseS']/[Fin.case0]
-   idiom of Structure/Limit/Product/Finite.v:393-395. *)
+   idiom of Structure/Limit/Product/Finite.v. *)
 Lemma fin2_in_sng0_join_sng1@{o +} (i : Fin.t 2%nat) :
   subset_join powerset_sng0@{o} powerset_sng1@{o} i.
 Proof.
@@ -1459,7 +1458,7 @@ Proof.
                (subset_meet_l _ _)).
     - exact (image_monotone powerset_const0@{o so} _ _
                (subset_meet_r _ _)). }
-  (* Mutual inclusion IS [≈] -- Instance/Grp/Galois.v:512's
+  (* Mutual inclusion IS [≈] -- Instance/Grp/Galois.v's
      [subset_le_antisym], written inline for the measured reason in the
      header. *)
   exact (direct_image_not_meet_preserving

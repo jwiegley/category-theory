@@ -61,15 +61,15 @@ Generalizable All Variables.
    Wikipedia: https://en.wikipedia.org/wiki/Cartesian_closed_category
 
    The issue this file answers describes [Functor_Category_Cartesian]
-   (Instance/Fun/Cartesian.v:111) as the only structure lemma for
+   (Instance/Fun/Cartesian.v) as the only structure lemma for
    functor categories in the tree.  That is stale.  Sweeping the
    declaration heads that put a structure CLASS on a functor category
    as a whole, inherited from the target, returns five, and every one
    of them is POSITIVE and POINTWISE: that one, plus
    [Functor_Category_Terminal] and [Fun_HasIndexedProducts]
-   (Instance/Fun/Terminal.v:371 and :519, both landed with #339),
-   [Thin_Fun] (Instance/Proset/Closure.v:154) and [Fun_IsGroupoid]
-   (Construction/Deloop/Transform.v:781).  Read the criterion, since
+   (Instance/Fun/Terminal.v, both landed with #339),
+   [Thin_Fun] (Instance/Proset/Closure.v) and [Fun_IsGroupoid]
+   (Construction/Deloop/Transform.v).  Read the criterion, since
    the same sweep also returns constants of a DIFFERENT shape that are
    not counted among the five: subcategories OF a functor category
    ([ReprSubcat], [Models_sub]), structures on particular OBJECTS or
@@ -77,9 +77,9 @@ Generalizable All Variables.
    [pare_SplitIdempotent], [two_pick_Monic]), and instantiations of the
    five at a fixed pair ([Two_Sets_Terminal],
    [Two_Sets_HasIndexedProducts], [Deloop_Fun_IsGroupoid] of
-   Construction/Deloop/Transform.v:798), and structures on a functor
+   Construction/Deloop/Transform.v), and structures on a functor
    category as a whole that are NOT inherited from the target
-   ([Compose_Monoidal], Structure/Monoidal/Compose.v:42, which is
+   ([Compose_Monoidal], Structure/Monoidal/Compose.v, which is
    monoidal under COMPOSITION rather than pointwise).
 
    Exponentials are where that pattern stops, in two distinct senses,
@@ -125,7 +125,7 @@ Generalizable All Variables.
    APPLICATION ONE (Mac Lane, Exercise 5).  Take A := skeletal [FinSet],
    which IS cartesian closed ([FinSet_Closed], Instance/FinSet/Closed.v),
    and J := [Omega], the ordinal omega, which HAS an initial object
-   ([Omega_Initial], Structure/Limit/Initial.v:679).  In [FinSet] the
+   ([Omega_Initial], Structure/Limit/Initial.v).  In [FinSet] the
    hom-set Hom(1, n) is the maps [Fin.t 1 -> Fin.t n], and two of them
    agree as soon as they agree at [Fin.F1], so that hom-set has at most
    n elements: it is FINITE.  The engine therefore makes every hom-set
@@ -148,7 +148,7 @@ Generalizable All Variables.
    APPLICATION TWO (Awodey's objectwise no-go).  Presheaves on the
    walking arrow, [_2^op, Sets].  The initial object of [_2^op] is
    [TwoY], because [TwoY] is terminal in [_2] ([Two_Terminal],
-   Instance/Two/Monoidal.v:95); this needs no transport, since
+   Instance/Two/Monoidal.v); this needs no transport, since
    [Initial C] is NOTATION for [@Terminal (C^op)] and [(C^op)^op] is [C]
    definitionally.  [PresheafP] takes [TwoX] to the terminal setoid and
    [TwoY] to the initial (empty) one -- the representable at [TwoX],
@@ -210,15 +210,15 @@ Generalizable All Variables.
    LOCAL LEMMA.  Section D proves a pigeonhole principle for
    [Fin.t]: there is no injective family [nat -> Fin.t N].  It is local
    because the tree has none.  The nearest thing is the [assert] inside
-   the proof of [fin_bijection_index] (Instance/FinSet/Skeleton.v:325),
+   the proof of [fin_bijection_index] (Instance/FinSet/Skeleton.v),
    which runs the same counting argument but is sealed by [Qed] and so
-   cannot be reused; the [pigeon] of Instance/Ab/Character/Finite.v:286
+   cannot be reused; the [pigeon] of Instance/Ab/Character/Finite.v
    is a different statement, over a setoid with a decider, in a section
    whose context this file does not have.  The ingredients [fin_enum],
    [fin_enum_length], [fin_enum_full], [fin_enum_nodup] and
    [length_of_map] ARE taken from Skeleton.v, and only
    [List.NoDup_incl_length] comes from the standard library -- the same
-   lemma Skeleton.v:334 already uses, so the portability across the
+   lemma Skeleton.v already uses, so the portability across the
    supported Coq/Rocq versions is the one that file already relies on.
 
    SETOID DISCIPLINE.  Morphism equality is written [~] everywhere
@@ -410,7 +410,7 @@ End Engine.
 
     Neither statement below exists in the tree; see the header for what
     was searched and what was reused.  The nearest prior art for
-    [nodup_map_inj] is [map_FS_NoDup] (Instance/Matr/Determinant.v:1227),
+    [nodup_map_inj] is [map_FS_NoDup] (Instance/Matr/Determinant.v),
     which is its instance at [h := Fin.FS]; the general statement is
     absent. *)
 

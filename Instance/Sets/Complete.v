@@ -19,7 +19,7 @@ Generalizable All Variables.
    Wikipedia: https://en.wikipedia.org/wiki/Complete_category
 
    [Complete C] is [∀ (D : Category) (F : D ⟶ C), Limit F]
-   (Structure/Complete.v:115): an oracle assigning a chosen limit to every
+   (Structure/Complete.v): an oracle assigning a chosen limit to every
    diagram.  This file inhabits it at [Sets].
 
    THE CONSTRUCTION
@@ -48,7 +48,7 @@ Generalizable All Variables.
 
    It is NOT routed through the standard reduction "a category with all small
    products and equalizers has all small limits".  That theorem does not exist
-   in this development: [Complete_HasEqualizers] (Adjunction/GAFT.v:214) runs
+   in this development: [Complete_HasEqualizers] (Adjunction/GAFT.v) runs
    the other way, deriving equalizers FROM completeness -- it is applied to
    this very constant, as [Sets_HasEqualizers] in Adjunction/GAFT/Sets.v --
    and no constant here builds a limit out of two products and an equalizer.
@@ -56,7 +56,7 @@ Generalizable All Variables.
    reduction is real but informal, and the equalizer step is done by carrying
    a proof alongside the family rather than by invoking [HasEqualizers].  The
    description at
-   Structure/Limit.v:103-106, "a limit is the part of the product of all F x
+   Structure/Limit.v, "a limit is the part of the product of all F x
    whose components are compatible along every arrow of J, exactly the shape
    of the funext-free end of Instance/Sets/End.v", is the shape this file
    follows; Instance/Sets/End.v is its closest in-tree relative.
@@ -66,13 +66,13 @@ Generalizable All Variables.
    [Complete@{u u0 u1 u2}] abbreviates
    [λ C : Category@{u2 u1 u1}, ∀ (D : Category@{u0 u1 u1}) (F : D ⟶ C),
     Limit F], so the diagram category's HOM universe is already forced to
-   coincide with [C]'s -- the fact recorded at Adjunction/SAFT.v:138 -- and
+   coincide with [C]'s -- the fact recorded at Adjunction/SAFT.v -- and
    its OBJECT universe [u0] is a separate parameter.  [About Sets_Complete]
    prints
 
      Sets_Complete@{u u0} : Complete@{u u u u0}      (* with u < u0 *)
 
-   so, writing [Sets@{o so}] as Instance/Sets.v:198 does, [u] is [o] -- the
+   so, writing [Sets@{o so}] as Instance/Sets.v does, [u] is [o] -- the
    universe of the CARRIERS of [Sets]' objects, and of its homs -- and [u0] is
    [so], where [obj[Sets]] itself lives.  The diagram category is
    [Category@{u u u}], i.e. BOTH its objects and its homs live at [o],
@@ -80,7 +80,7 @@ Generalizable All Variables.
    is exactly what the construction needs: the compatible-family carrier
    quantifies over the objects and arrows of [D], so it fits as a [Sets]
    carrier when both sit at [o].  This is the universe-polymorphic stand-in
-   for "D small relative to C" that Structure/Complete.v:32-36 describes.
+   for "D small relative to C" that Structure/Complete.v describes.
 
    WHAT THIS UNLOCKS, AND WHAT IT DOES NOT
 
@@ -90,7 +90,7 @@ Generalizable All Variables.
    [Cocomplete] instance existed anywhere in the tree, and that absence was
    the last one standing between [GAFT] and an actual application: its other
    two premises were already reachable, [PreservesImageLimit] through
-   [right_adjoint_PreservesImageLimit] (Construction/Comma/Limit.v:266, which
+   [right_adjoint_PreservesImageLimit] (Construction/Comma/Limit.v, which
    covers every right adjoint) and [SolutionSet] by direct construction.
    Adjunction/GAFT/Sets.v now assembles all three and runs [GAFT] at
    [Id : Sets ⟶ Sets], and docs/INHABITATION.md lists the result among the
@@ -108,7 +108,7 @@ Generalizable All Variables.
 
    [Cocomplete Sets] is not provided BY THIS FILE.  It is NOT missing from
    the tree, correcting what this sentence used to say: Instance/Sets/
-   Cocomplete.v:484's [Sets_Cocomplete] is exactly the quotient of the
+   Cocomplete.v's [Sets_Cocomplete] is exactly the quotient of the
    disjoint union this paragraph once called unattempted.
 
    STATUS: axiom-free.  [Print Assumptions Sets_Complete] reports "Closed
@@ -250,7 +250,7 @@ Definition Sets_Complete : @Complete Sets := fun D F => Sets_Limit F.
 
    THE APEX IS THE CONE PRESHEAF AT THE TERMINAL SETOID
 
-   [cone_apex F] is [fobj[ConePresheaf F] 1] -- Structure/Cone.v:79's
+   [cone_apex F] is [fobj[ConePresheaf F] 1] -- Structure/Cone.v's
    presheaf, applied at [Sets]' terminal object -- and not a re-derived
    copy.  Both of its fields are pinned by [eq_refl] below: its carrier is
    [ACone 1 F] and its setoid is [AConeEquiv 1 F].  Since [AConeEquiv]
@@ -271,7 +271,7 @@ Definition Sets_Complete : @Complete Sets := fun D F => Sets_Limit F.
    [tau e].  Commuting is [reflexivity] -- the leg of [cone_set_med N e] at
    [d] evaluated at the point IS [vertex_map N d e].  UNIQUENESS is the one
    place the singleton's unique-inhabitant property is spent, in a single
-   [destruct u]: [poly_unit] (Lib/Setoid.v:56) is an inductive with no eta,
+   [destruct u]: [poly_unit] (Lib/Setoid.v) is an inductive with no eta,
    so a variable [u : poly_unit] is not definitionally [ttt].  That
    [destruct] IS Riehl's "restricting along each element regarded as a map
    out of the singleton".  It is essential and not cosmetic: without it the
@@ -314,7 +314,7 @@ Definition Sets_Complete : @Complete Sets := fun D F => Sets_Limit F.
    equation is refused at CONVERSION and is pinned in
    Test/ProbeConeSets407.v.
 
-   [Structure/Limit/Product/Finite.v:545]'s [iprod_unique_iso] would give
+   [Structure/Limit/Product/Finite.v]'s [iprod_unique_iso] would give
    the same isomorphism in one term, since both sides are indexed products.
    It is deliberately NOT used: requiring that module costs this file
    twenty-one further modules of closure for twelve lines, against
@@ -350,7 +350,7 @@ Definition Sets_Complete : @Complete Sets := fun D F => Sets_Limit F.
    BOTH donors -- [Cone] alone is accepted at levels declared apart, so it
    is the discriminating control -- with both pinned in the probe."  The
    attribution was right and the donor has been repaired:
-   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v
    in the PR "algebraic carriers are sets" (2026-09-17).  Measured after
    it, [iprod] is declared over [C : Category@{u1 u2 u2}] with no literal
    [Set], and applying it AT [Sets@{o so}] TO A [Type@{o}]-INDEXED FAMILY
@@ -378,7 +378,7 @@ Section ConeSet.
 Context {D : Category}.
 Context (F : D ⟶ Sets).
 
-(* Mac Lane's [Cone ( *, F)]: the cone presheaf of Structure/Cone.v:79
+(* Mac Lane's [Cone ( *, F)]: the cone presheaf of Structure/Cone.v
    evaluated at the terminal setoid.  Not a copy -- the two [eq_refl]
    Examples below pin both fields of the [SetoidObject]. *)
 Definition cone_apex : obj[Sets] :=

@@ -35,27 +35,27 @@
 
     ** Reused, and what that saves
 
-    [OrdObject] is Instance/Pos.v:81's [PosetObject] MINUS its last field
+    [OrdObject] is Instance/Pos.v's [PosetObject] MINUS its last field
     [pos_antisym], field for field and name for name with an [ord_]
-    prefix; [OrdHom] is :99's [MonoHom] likewise; [OrdHom_Setoid],
+    prefix; [OrdHom] is that file's [MonoHom] likewise; [OrdHom_Setoid],
     [ord_hom_id], [ord_hom_compose], [ord_hom_compose_respects], [Ord]
-    and [Ord_Forget] are :112, :125, :130, :139, :150 and :164 with the
+    and [Ord_Forget] are its six corresponding declarations, with the
     same proofs.  That is deliberate and it is what makes the comparison
     below cheap: the two records differ in exactly one field, so
     [OrdObject_of_Poset] drops it and [Poset_of_antisym] supplies it, and
-    BOTH object round trips close by [eq_refl] (record eta -- Lib.v:10
+    BOTH object round trips close by [eq_refl] (record eta -- Lib.v
     sets [Set Primitive Projections], and [About] reports both records as
     having primitive projections with eta conversion).
 
-    Also reused: Construction/Subcategory.v's [Subcategory] (:36), [Sub]
-    (:55), [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99) and
-    [Full_Implies_Full_Functor] (:104), with the trivially-true [shom] of
-    Instance/Ab/TorsionFree.v:405's [TorsionFree_Sub] and
+    Also reused: Construction/Subcategory.v's [Subcategory], [Sub],
+    [Incl], [Incl_Faithful], [Full] and
+    [Full_Implies_Full_Functor], with the trivially-true [shom] of
+    Instance/Ab/TorsionFree.v's [TorsionFree_Sub] and
     Instance/Rng.v's [CRng_Sub]; [Full] is written qualified as
     [Category.Construction.Subcategory.Full] for the reason that file
     gives -- it exports its OWN [Full], whose first argument is a
-    Category.  Instance/Proset.v:35's [Proset] supplies the thin category.
-    Instance/StrictCat.v:56's [StrictCat] hosts the comparison.
+    Category.  Instance/Proset.v's [Proset] supplies the thin category.
+    Instance/StrictCat.v's [StrictCat] hosts the comparison.
 
     NEW here: everything about the ANTISYMMETRY-FREE record, the
     subcategory of partial orders inside it, the two passages to and from
@@ -65,20 +65,20 @@
        stale in one direction and right in another)
 
     Issue #372 says "both ambient categories are missing" and "there is no
-    Instance/Top.v".  Both are false: Instance/Top.v:273 declares [Top],
-    and Instance/Pos.v:150 declares [Pos], the category whose OBJECTS are
+    Instance/Top.v".  Both are false: Instance/Top.v declares [Top],
+    and Instance/Pos.v declares [Pos], the category whose OBJECTS are
     posets.  What IS absent, and is supplied here, is a category of ALL
     preorders: [rg -i 'PreorderObject|ProsetObject|OrdObject|OrdHom'] over
     the .v files returns ZERO hits at d658518e, and the only in-tree
-    reading of "preorder as a category" is Instance/Proset.v:35's
+    reading of "preorder as a category" is Instance/Proset.v's
     [Proset P], which turns ONE preorder into a thin category.  A
     case-sensitive [rg -n '\bPreord\b'] returns three lines, all in
-    Instance/Roster.v (:128, :140, :413) and all prose.
+    Instance/Roster.v and all prose.
 
     Two pieces of that prose are made false by this file and are NOT
-    edited here (they belong to their own files): Instance/Proset.v:20-22
+    edited here (they belong to their own files): Instance/Proset.v
     says the preorder analogue "does not exist yet", and
-    Instance/Roster.v:140 says Mac Lane's "Preord" is [Proset] -- which
+    Instance/Roster.v says Mac Lane's "Preord" is [Proset] -- which
     was never right, [Proset] being one preorder rather than the category
     of all of them.
 
@@ -91,7 +91,7 @@
     [OrdAsCategory_obj_are_points] records
     [obj[OrdAsCategory P] = carrier (ord_setoid P)], each by [eq_refl];
     their IDENTIFICATION is refuted in Test/ProbeOrd372.v.  The passage
-    between them runs one way only and is the one Instance/Pos.v:191/:197
+    between them runs one way only and is the one Instance/Pos.v
     already takes for posets: [OrdAsCategory] sends a preorder to its thin
     category and [OrdHomAsFunctor] sends a monotone map to the induced
     functor, whose three laws are equations between parallel morphisms in
@@ -105,12 +105,12 @@
     ISOMORPHISM OF CATEGORIES, not merely an equivalence.  The weaker
     [≅[Cat]] reading is what [Cat]'s hom-setoid ([Functor_Setoid], natural
     isomorphism) would give; [StrictCat] compares functors by
-    Theory/Functor.v:606's [Functor_StrictEq_Setoid], object equality on
+    Theory/Functor.v's [Functor_StrictEq_Setoid], object equality on
     the nose plus a transported agreement of the arrow actions, and both
     round trips meet it.  One of the two [eq_on_obj] families is
     [fun P => eq_refl] outright; the other, [posets_pos_posets_obj], needs
     a [destruct] first, because an object of [Posets] is a stdlib [sigT]
-    and stdlib [sigT] is not covered by Lib.v:10's [Set Primitive
+    and stdlib [sigT] is not covered by Lib.v's [Set Primitive
     Projections], so [(`1 x; `2 x) = x] is not definitional.  That
     rejection is pinned as the probe's first negative, with
     [posets_pos_posets_obj] itself as its control -- the SAME statement
@@ -125,7 +125,7 @@
     and the [Pos]-side round trip on objects and on the underlying map);
     [ord_functor_fobj]; [Ord_obj_are_preorders] and
     [OrdAsCategory_obj_are_points]; and [monotone_functor_fobj]'s
-    counterpart is Instance/Pos.v:210, not restated.
+    counterpart is Instance/Pos.v, not restated.
 
     ** Universes
 
@@ -162,7 +162,7 @@
     -> carrier s -> Prop }] elaborates at [Type@{max(Set+1,u+1,u0+1)}]
     while the same record with [Type] in place of [Prop] elaborates at
     [Type@{max(u+1,u0+1,u1+1)}], with [Set] nowhere.  [Prop]-valuedness is
-    Instance/Pos.v:81's choice, inherited here so that the two records
+    Instance/Pos.v's choice, inherited here so that the two records
     differ in one field only.
 
     ** An engineering finding: [reverse_coercion] eats a negative
@@ -184,13 +184,13 @@
     - No passage from a thin category back to an [OrdObject], hence no
       comparison of [Ord] with any subcategory of [Cat], and nothing
       about thinness or skeletality as in-tree predicates.  Instance/
-      Proset/Skeletal.v:53's [Proset_Skeletal_iff_Antisymmetric], :80's
-      [skeleton_of_proset_antisymmetric] and :95's [Proset_Skeleton] are
+      Proset/Skeletal.v's [Proset_Skeletal_iff_Antisymmetric],
+      [skeleton_of_proset_antisymmetric] and [Proset_Skeleton] are
       the thin-category shadow of the sibling file's reflection; they are
       CITED and no bridge to them is built.
-    - No relation to Instance/Proset/Monotone.v:82's [MonotoneFun] (bare
+    - No relation to Instance/Proset/Monotone.v's [MonotoneFun] (bare
       monotone functions between prosets, no setoid) or to
-      Construction/Enriched/Two.v:60's [TwoPreorder] (a [Type]-valued
+      Construction/Enriched/Two.v's [TwoPreorder] (a [Type]-valued
       relation carrying a decider).
     - No limits, colimits, monoidal structure, or completeness for [Ord];
       no [Ord]-analogue of Instance/Pos.v's [Pos_Forget] beyond
@@ -204,7 +204,7 @@
     Each is a measurement.  (1) The brief asked for the predicate to be
     named [Antisymmetric]; it is named [OrdAntisymmetric], because
     [Antisymmetric] is a stdlib class ([Coq.Classes.RelationClasses]) used
-    in tree at Instance/Proset/Skeletal.v:95, and [make print-assumptions]
+    in tree at Instance/Proset/Skeletal.v, and [make print-assumptions]
     loads many modules into ONE scope where a shared name audits the wrong
     constant.  No in-tree file DECLARES [Antisymmetric], so this is a
     hazard avoided rather than a collision repaired.  (2) The brief left

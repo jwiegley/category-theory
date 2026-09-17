@@ -66,7 +66,7 @@ Generalizable All Variables.
    y ^ x, so the endofunctor (-)^S is [fun x => x ^ S], i.e.
    [fun x => exponent_obj S x], and [eval] at x is the arrow x^S × S ~> x.
 
-   The header of Theory/Adjunction.v (lines 93-94, in the paragraph beginning
+   The header of Theory/Adjunction.v (in the paragraph beginning
    "For the functional programmer") says in prose that "the function type
    arises from − × a ⊣ (−)^a with eval as counit". [Curry_Adjunction] and
    [curry_adj_counit] are that sentence as a theorem. The Sets model — where

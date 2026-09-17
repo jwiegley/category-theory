@@ -80,7 +80,7 @@
       setoid, and [ehom_ab] takes its carrier setoid straight from
       [C]'s hom-setoid; an arbitrary category supplies no [Prop]
       mirror of its `≈` — in [Cat] an [F ≈ G] IS a family of
-      isomorphisms (Lib/Setoid/Propositional.v:42-54,
+      isomorphisms (Lib/Setoid/Propositional.v,
       Instance/Sets/Propositional.v's header).  So the whole of
       Section FromAbEnriched now assumes
       [{LP : LocallyPropositional C}], which is where the hypothesis
@@ -99,11 +99,11 @@
       so the equivalence is the same one with its content made
       explicit.  Nothing in Section ToAbEnriched gained a hypothesis.
       The class is discharged by resolution at every concrete ambient:
-      [Ab_LocallyPropositional] (Instance/Ab.v:713) is what
+      [Ab_LocallyPropositional] (Instance/Ab.v) is what
       [Enriched_Ab_itself] uses, and [RMod_LocallyPropositional]
-      (Instance/Mod.v:337), [CMon_LocallyPropositional]
-      (Instance/CMon.v:236) and [DeloopRig_LocallyPropositional]
-      (Theory/Algebra/Rig.v:392) serve the others. *)
+      (Instance/Mod.v), [CMon_LocallyPropositional]
+      (Instance/CMon.v) and [DeloopRig_LocallyPropositional]
+      (Theory/Algebra/Rig.v) serve the others. *)
 
 Require Import Coq.ZArith.BinInt.
 

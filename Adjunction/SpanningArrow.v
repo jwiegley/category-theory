@@ -54,9 +54,9 @@ Generalizable All Variables.
    [spanning_factor_commutes] is his h = G(v) f at ≈, and
    [spanning_factor_spanning] is "f spans b".  [factors_through_spanning]
    packages the four, and [spanning_solution_set] is his consequence:
-   a [SolutionSet] (Adjunction/GAFT.v:159) whose index is exactly
+   a [SolutionSet] (Adjunction/GAFT.v) whose index is exactly
    [SpanningArrowsOutOf G x].  [GAFT_from_spanning] feeds it to
-   Adjunction/GAFT.v:341.  Nothing below is stated up to an isomorphism
+   Adjunction/GAFT.v.  Nothing below is stated up to an isomorphism
    that is not exhibited: every equation is ≈ between named arrows.
    Two elementary facts, [sub_le_top_iso] (a subobject above the top one
    has an invertible mono) and [spanning_forces_top] (a spanning arrow
@@ -77,7 +77,7 @@ Generalizable All Variables.
    satisfies [sub_le sub_top m], i.e. the top subobject factors through
    m, i.e. m is the whole of a.  This is the same move
    Structure/Generator.v makes for Riehl's Definition 4.7.7 and the same
-   one Adjunction/SAFT.v:99's [Cogenerator] makes for "distinct arrows".
+   one Adjunction/SAFT.v's [Cogenerator] makes for "distinct arrows".
    The positive form is strictly stronger constructively: it hands back
    the splitting [k] with [sub_mono m ∘ k ≈ id], which is what
    [spanning_factor_spanning]'s proof produces and what a consumer needs.
@@ -97,29 +97,29 @@ Generalizable All Variables.
 
    THE IN-TREE SITUATION, MEASURED.  Issue #448 recorded as its verified
    current state that [SolutionSet] "is manufactured only in
-   Adjunction/SAFT.v:269, never from spanning arrows".  The second half
+   Adjunction/SAFT.v, never from spanning arrows".  The second half
    holds; the first is STALE, and the correction is recorded here rather
    than silently.  With
    grep -rn 'SolutionSet' --include='*.v' . over this worktree (107 lines
    in 16 files with this file and its probes excluded; an earlier
    revision said 109 in 17, measured with the stub still on disk), the
    constants whose result
-   type is [SolutionSet] are: Adjunction/GAFT.v:377 [sols_of_wif] and
-   :287 [sols_of_comma_initial] (repackagings of a weakly initial family
-   and of a comma initial object), :367 [solution_set_of_adjunction] and
-   :428 [solution_set_of_adjunction_via_comma] (from an adjunction that
-   already exists), Adjunction/SAFT.v:273 [SAFT_solution_set] (the
-   cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v:155
+   type is [SolutionSet] are: Adjunction/GAFT.v's [sols_of_wif] and
+   [sols_of_comma_initial] (repackagings of a weakly initial family
+   and of a comma initial object), its [solution_set_of_adjunction] and
+   [solution_set_of_adjunction_via_comma] (from an adjunction that
+   already exists), Adjunction/SAFT.v's [SAFT_solution_set] (the
+   cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v's
    [Sets_Id_SolutionSet] (hand-built at the identity functor of Sets) and
-   :220 its adjunction-built twin, Adjunction/Representability/Sets.v:301
-   [sols_of_esols], Instance/Grp/FreeAFT.v:417 and Instance/Rng/AFT.v:787
-   and :791, and Test/ProbeGrpFreeAFT442.v:239.
+   its adjunction-built twin, Adjunction/Representability/Sets.v's
+   [sols_of_esols], and the ones in Instance/Grp/FreeAFT.v,
+   Instance/Rng/AFT.v and Test/ProbeGrpFreeAFT442.v.
 
    CORRECTION, PR "algebraic carriers are sets" (2026-09-17), to the
    sentence that followed and to the parenthetical inside that list.  The
    parenthetical read "(all three [solution_set_of_adjunction] applied to
-   an adjunction the file already has -- Instance/Grp/FreeAFT.v:50 and
-   Instance/Rng/AFT.v:166 both say so in their own headers)", and the
+   an adjunction the file already has -- Instance/Grp/FreeAFT.v and
+   Instance/Rng/AFT.v both say so in their own headers)", and the
    sentence read "So of the structural routes to a solution set -- routes
    that do not presuppose the adjoint -- the tree had exactly one, SAFT's,
    and this file adds the second."
@@ -128,9 +128,9 @@ Generalizable All Variables.
    to an adjunction the file already has, and their headers still say so.
    What is false is the count.  The same PR added, in the same three files,
    solution sets built from the QUOTIENTS OF A TERM MODEL by [Prop]-valued
-   congruences: Instance/Rng/AFT.v:729 and :759, the [Prop]-congruence
+   congruences: Instance/Rng/AFT.v, the [Prop]-congruence
    family of Instance/Mod/TensorAFT.v's section 3A, and (the [Grp] layer
-   has landed) Instance/Grp/FreeAFT.v:396.  Those presuppose no adjoint, so
+   has landed) Instance/Grp/FreeAFT.v.  Those presuppose no adjoint, so
    the structural routes are now THREE families -- SAFT's cogenerator
    route, this file's subobject-intersection route, and the congruence
    route -- and the two GAFT applications at [Rng] are no longer circular.
@@ -140,11 +140,11 @@ Generalizable All Variables.
    three share a hypothesis.
 
    The donors are the ones the two preceding §V.7 issues landed.
-   [sub_le] is Theory/Subobject.v:60, [sub_top] Theory/Subobject/
-   Lattice.v:250, [sub_compose] :430, [sub_wide_intersection] :621 with
-   [sub_wide_intersection_IsIntersection] :634 and the [IsIntersection]
-   record :262; [IsWidePullback] is Structure/Pullback/Wide.v:182,
-   [WidePullback] :202, [HasWidePullbacks] :257.  Every lattice fact used
+   [sub_le] is in Theory/Subobject.v; [sub_top], [sub_compose],
+   [sub_wide_intersection], [sub_wide_intersection_IsIntersection] and the
+   [IsIntersection] record are in Theory/Subobject/Lattice.v; and
+   [IsWidePullback], [WidePullback] and [HasWidePullbacks] are in
+   Structure/Pullback/Wide.v.  Every lattice fact used
    below is TRANSPORTED from Lattice.v and none is re-proved: the two
    halves of Mac Lane's argument are [inter_le] (b is contained in every
    u_j) and nothing else -- [inter_greatest] is not needed, because the
@@ -154,7 +154,7 @@ Generalizable All Variables.
    re-established.
 
    WHY [PreservesWidePullbacks] IS BESPOKE.  Structure/Limit/
-   Preservation.v:98's [PreservesLimit] is stated for a diagram functor
+   Preservation.v's [PreservesLimit] is stated for a diagram functor
    [J ⟶ C] and its limit cone; Structure/Pullback/Wide.v presents a wide
    pullback ELEMENTARILY, as a family [∀ i, P ~> A i] with a pairwise
    commutation clause and a unique mediator, and never builds the
@@ -174,7 +174,7 @@ Generalizable All Variables.
    [Spanning@{u u0 u1 u2 u3} : ∀ {A : Category@{u u0 u0}}
    {X : Category@{u1 u2 u2}} ...] -- A's hom universe is identified with
    its proof universe.  That identification is NOT this file's: it is
-   [SubObj@{u u0} : ∀ {C : Category@{u u0 u0}}] of Theory/Subobject.v:15,
+   [SubObj@{u u0} : ∀ {C : Category@{u u0 u0}}] of Theory/Subobject.v,
    and it is also what a bare [{A X : Category}] minimizes to anyway (a
    control definition over a bare pair of categories and a functor
    between them reports [Category@{u u0 u0}] and [Category@{u1 u0 u0}]).
@@ -182,7 +182,7 @@ Generalizable All Variables.
    [spanning_solution_set@{...}], which carries [u0 = u2] -- A's hom
    universe identified with X's.  That comes from the donor record:
    [SolutionSet@{i dobj cobj h} : ∀ {C : Category@{cobj h h}}
-   {D : Category@{dobj h h}}] at Adjunction/GAFT.v:179 shares one hom
+   {D : Category@{dobj h h}}] at Adjunction/GAFT.v shares one hom
    universe between source and target.  (An earlier revision quoted the
    same record with the inferred binder names [@{u u0 u1 u2}]; the binders
    were written out in the PR "algebraic carriers are sets", 2026-09-17,
@@ -221,11 +221,11 @@ Generalizable All Variables.
    [sol_index] delivered is [SpanningArrowsOutOf G x] with no cardinality
    statement of any kind.  Nothing below shows that index is small.
    (2) No variety instance.  Mac Lane's Remark is about Alg_τ and its
-   underlying-set functor; Instance/Variety/Free.v:291's [SVariety] has
+   underlying-set functor; Instance/Variety/Free.v's [SVariety] has
    no pullbacks, no wide pullbacks and no subalgebra vocabulary in tree
    (grep -rn 'subalgebra' --include='*.v' . finds four lines, all prose:
-   Theory/Lawvere.v:89, Instance/Lie.v:313, Instance/Variety/Free.v:22
-   and :108), so neither [HasWidePullbacks] nor [PreservesWidePullbacks]
+   Theory/Lawvere.v, Instance/Lie.v and Instance/Variety/Free.v), so
+   neither [HasWidePullbacks] nor [PreservesWidePullbacks]
    is discharged there and the Remark is not attempted here.  His Remark
    also REDEFINES subobject for that application ("a morphism u : s -> a
    for which Gu is injective in Set"), which is a different notion from
@@ -272,7 +272,7 @@ Definition SubFactorsThrough {x : X} {a : A} (f : x ~> G a) (m : SubObj a) :
    the whole of a, i.e. lies above the top subobject [sub_top] (so its
    mono is an isomorphism).  "Proper subobject" -- one for which
    [sub_le sub_top m] does not hold -- never needs to be named, exactly
-   as Adjunction/SAFT.v:99's [Cogenerator] avoids "distinct arrows". *)
+   as Adjunction/SAFT.v's [Cogenerator] avoids "distinct arrows". *)
 Definition Spanning {x : X} {a : A} (f : x ~> G a) : Type :=
   ∀ m : SubObj a, SubFactorsThrough f m → sub_le sub_top m.
 
@@ -357,7 +357,7 @@ Proof. intros m _; exact (H m). Defined.
    [spanning_forces_top], while [sub_le_top_iso] is stated for the
    reading it gives and is not yet consumed anywhere.  Neither re-proves
    a lattice fact: they TRANSPORT
-   Theory/Subobject/Lattice.v:256's [sub_top_greatest] and :284's
+   Theory/Subobject/Lattice.v's [sub_top_greatest] and its
    [sub_le_antisym]. *)
 
 (* A subobject that the top subobject factors through has an invertible
@@ -531,12 +531,12 @@ End SpanningLemma.
       Set Printing Universes, [About GAFT] reports
         GAFT@{u u0 u1 u2 u3 u4} :
           ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}} ...
-      -- Adjunction/GAFT.v:341 is pinned at hom = proof = Set in BOTH
+      -- Adjunction/GAFT.v is pinned at hom = proof = Set in BOTH
       arguments.  The pin is ATTRIBUTED BY About, not guessed: of the
       five constants GAFT's proof consumes, [Comma_Complete],
       [wif_of_sols], [Complete_HasEqualizers] and [GAFT_from_initials]
       all report a free hom universe, and [initial_from_weakly_initial]
-      (Theory/WeaklyInitial.v:143) reports
+      (Theory/WeaklyInitial.v) reports
         initial_from_weakly_initial@{u u0 u1 u2} :
           ∀ {C : Category@{u2 Set Set}} ...
       so that is the carrier.  (Instance/One.v's [_1],
@@ -554,7 +554,7 @@ End SpanningLemma.
    link further back than [initial_from_weakly_initial]: at
    Instance/Discrete.v's then-unannotated [DiscreteCat_Functor], which
    [initial_from_weakly_initial] takes two limits over.  That donor was
-   annotated in place at Instance/Discrete.v:81 in the PR "algebraic
+   annotated in place at Instance/Discrete.v in the PR "algebraic
    carriers are sets" (2026-09-17).  Measured after it:
 
      GAFT@{cobj dobj h u u0 u1} :
@@ -614,7 +614,7 @@ End SpanningLemma.
    refused, now with "Cannot enforce u_hom = b because u_hom < u_obj <= b"
    rather than with the old [Set] message.  That refusal, and the
    independent fact that [HasWidePullbacks (RMod R)] is itself universe-
-   refused, are recorded at Instance/Mod/Spanning.v:149-180 and pinned as
+   refused, are recorded at Instance/Mod/Spanning.v and pinned as
    NEGATIVE 2 of Test/ProbeModTensorAFT449.v.  The route that DOES reach
    [RMod R] is the congruence-indexed solution set of
    Instance/Mod/TensorAFT.v, which goes through [representability_theorem]

@@ -368,7 +368,7 @@ Proof. reflexivity. Qed.
    below is stated with [Yoneda_Lemma C F c], and deliverable 2 composes with
    it, so the mate must be that term.  The instantiation is free --
    (D^op)^op IS D and [Curried_CoHom (D^op) r] IS [Curried_Hom D r], both by
-   conversion (Construction/Opposite.v, Functor/Hom.v:146) -- so no [op]
+   conversion (Construction/Opposite.v, Functor/Hom.v) -- so no [op]
    appears in the type. *)
 Definition ue_mate (H : D ⟶ Sets) (r : D) (x : H r)
   : @Curried_Hom D r ~{[D, Sets]}~> H :=

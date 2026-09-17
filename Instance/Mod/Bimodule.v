@@ -46,7 +46,7 @@
    S-action; hom_S(E, M) is the set of right-S-module maps E → M, made a
    right R-module through E's LEFT R-action by (f ⊲ r)(e) = f (r · e).
    In this tree a right R-module is an object of
-   [ModR R := RMod (Ring_op R)] (Instance/Mod.v:816), so it IS an
+   [ModR R := RMod (Ring_op R)] (Instance/Mod.v), so it IS an
    [RModObject (Ring_op R)] and its homs ARE [RModHom]s.  Do not write
    [ModR (Ring_op R) = RMod R]: [Ring_op] is not strictly involutive.
 
@@ -77,7 +77,7 @@
      ModR S ⟶ ModR R]; the two transposes [bth_to]/[bth_from]; the
      hom-setoid isomorphism [bth_adj]; and
      **[bimodule_tensor_hom_adjunction E : TensorWith E ⊣ HomS E]**,
-     built through Theory/Adjunction.v:159's [Build_Adjunction'].
+     built through Theory/Adjunction.v's [Build_Adjunction'].
 
      §C, the parameter.  [BimodHom E E'], a map of the left R-modules
      commuting with the right S-action (one field of its own, the rest
@@ -87,7 +87,7 @@
      [bt_partial_adj E : Partial_l BimodTensor E ⊣ HomS E]; and
      **[bimodule_parametrized_adjunction :
      ParametrizedAdjunction BimodTensor]**, an inhabitant of
-     Adjunction/Parameter.v:361's record with [pa_right := HomS].  From
+     Adjunction/Parameter.v's record with [pa_right := HomS].  From
      it, [bimodule_hom_bifunctor : (BimodCat R S)^op ∏ ModR S ⟶ ModR R]
      is Mac Lane's G, obtained as
      [parametrized_right_adjoint_bifunctor] applied — its arrow action
@@ -105,11 +105,12 @@
      both sides send e ⊗ e1 to (r · e) ⊗ (e1 ⊲ t).  Then
      **[bimodule_adjunction_composite E E1 :
      (TensorWith E1 ◯ TensorWith E) ⊣ (HomS E ◯ HomS E1)]**, which is
-     Adjunction/Compose.v:173 applied and nothing else, with the
+     Adjunction/Compose.v applied and nothing else, with the
      composite's unit and counit read back at [eq_refl] as the DOUBLE
      generator n ⊗ e ⊗ e1 and DOUBLE evaluation f ⊗ e ⊗ e1 ↦ (f e) e1
      ([bac_unit_is_gen], [bac_counit_is_eval]) and Mac Lane's
-     whiskered descriptions carried over from that file's :216/:224 —
+     whiskered descriptions carried over from that file's two
+     corresponding lemmas —
      at ≈ only, their [eq_refl] forms refuted in the probe (N16, N17).
      The comparison is **[tensor_assoc_iso E E1]**, a natural
      isomorphism in [Functor_Setoid] whose per-object leg [ta_iso] is
@@ -121,7 +122,7 @@
      **[adjunction_along_left_iso]**, a functor naturally isomorphic
      to a left adjoint is a left adjoint with the SAME right adjoint —
      and that gives [bimodule_tensor_bimod_adjunction] and hence, by
-     Theory/Adjunction.v:367's uniqueness of right adjoints,
+     Theory/Adjunction.v's uniqueness of right adjoints,
      **[bimodule_hom_composite_iso : HomS E ◯ HomS E1 ≈
      HomS (BimodTensorBimod E E1)]**.  That pair IS Mac Lane's
      "describe the composite": the composite adjunction is the
@@ -135,7 +136,7 @@
      mirror of §B's translation; [LHomS E : RMod R ⟶ RMod S]; and
      **[bimodule_left_tensor_hom_adjunction E : LTensorWith E ⊣
      LHomS E]**, again through [Build_Adjunction'], again with unit
-     and counit at [eq_refl].  From it and Adjunction/Continuity.v:239,
+     and counit at [eq_refl].  From it and Adjunction/Continuity.v,
      [bimodule_left_tensor_preserves_colimits], its right-module twin
      [bimodule_tensor_preserves_colimits] and the composite's
      [bimodule_tensor_bimod_preserves_colimits], each a [:=] with no
@@ -148,18 +149,18 @@
      [bm_compat] holds POINTWISE with no law consumed —
      [HomAbFunctor N : ModR S ⟶ BimodCat R S], and
      [hab_partial_adj N : Partial_r BimodTensor N ⊣ HomAbFunctor N],
-     which is exactly the mirror hypothesis Adjunction/Parameter.v:1795
+     which is exactly the mirror hypothesis Adjunction/Parameter.v
      asks for.  [bimodule_mirror_family] packages it and
-     **[bimodule_two_variable_adjunction]** is that file's :1978
+     **[bimodule_two_variable_adjunction]** is that file's
      [mutually_right_adjoint] applied, an inhabitant of
-     Adjunction/Right.v:342's own [AdjointOnTheRight]; the third leg
+     Adjunction/Right.v's own [AdjointOnTheRight]; the third leg
      with both hom-setoids written out is [bimodule_third_leg], a map
      of bimodules E → hom_Ab(N, M) being the same thing as a map of
      right R-modules N → hom_S(E, M).  With §C's [pa_adj] that is all
      three legs of Riehl's Definition 4.4.7 for [BimodTensor].
 
      §G, a concrete witness.  Everything instantiates at
-     Instance/Mod.v:982's [Int_Bimodule] with no new algebra, and
+     Instance/Mod.v's [Int_Bimodule] with no new algebra, and
      COMPUTES on closed integers: the right action, the unit, the
      counit, both actions of the tensor of two bimodules and both legs
      of the associativity comparison are [eq_refl] readbacks, and
@@ -193,7 +194,7 @@
    rings, bimodules and modules and nothing else — §D and §F add a
    third ring and two module variables, §E none, and no hypothesis
    relating any two rings is ever taken.  Contrast
-   Instance/Mod/Closed.v:469, whose [HomMod] takes a commutativity proof
+   Instance/Mod/Closed.v, whose [HomMod] takes a commutativity proof
    as an EXPLICIT ARGUMENT at the signature and so cannot host
    hom_S(E, −) over a non-commutative S; and Instance/Mod/Extension.v,
    whose [CentralImage] hypothesis is spent at eight proof sites (its
@@ -319,15 +320,15 @@
    natural isomorphism, which is what Mac Lane's "describe" asks for.
 
    AN Ab-ENRICHMENT THAT WAS ONE NEGATION AWAY.
-   Instance/Mod/Coextension.v:309 records that the tree has no
-   [AbEnriched (RMod R)] and only Instance/Mod.v:913's [Preadditive];
+   Instance/Mod/Coextension.v records that the tree has no
+   [AbEnriched (RMod R)] and only Instance/Mod.v's [Preadditive];
    a whole-tree search for the string "AbEnriched (RMod" returns that
    one line of prose and nothing else.  [RMod_AbEnriched] supplies it
    here in thirteen lines, over [rmod_hom_negate] (the obvious name
-   [rmod_hom_neg] is taken by Instance/FdVect/DoubleDual.v:158, a
-   collision Instance/Mod/Closed.v:355 also records and works around).
+   [rmod_hom_neg] is taken by Instance/FdVect/DoubleDual.v, a
+   collision Instance/Mod/Closed.v also records and works around).
    The payoff is that hom_S(E, M)'s underlying group is
-   Adjunction/Additive.v:546's [hom_ab] read at it, so its carrier,
+   Adjunction/Additive.v's [hom_ab] read at it, so its carrier,
    addition and zero are [RMod_Preadditive]'s own — pinned by
    [hs_group_carrier], [hs_group_plus] and [hs_group_zero] at
    [eq_refl].  It is a plain [Definition], not an [Instance]: this is a
@@ -341,7 +342,7 @@
    the scalar argument's type against S and infers the record's ring
    parameter to be S rather than [Ring_op S] — the two being
    convertible — and then asks the associativity field for the WRONG
-   multiplication order.  Instance/Mod.v:866-869 records the same trap
+   multiplication order.  Instance/Mod.v records the same trap
    for [bimodule_right_RMod].  Both [RTensor] and [HomSObj] therefore
    name [@Build_RModObject] with its ring argument written out, and so
    do §D's, §E's and §F's — five [@Build_RModObject] literals in all,
@@ -366,7 +367,7 @@
    inside a [Section] can be entered after the section binders; §G's
    [int_mult_bal] is a record literal instead, which is better anyway —
    every field is a rig law applied and it raises no obligation at all.
-   (iv) [unit] is Theory/Adjunction.v:217's, so a witness wanting a
+   (iv) [unit] is Theory/Adjunction.v's, so a witness wanting a
    placeholder type must not write it.
 
    WHY NOT Instance/Mod/Tensor.v's [TensorMod].  MEASURED, by four
@@ -386,12 +387,12 @@
 
    THE ISSUE'S "Current state" IS STALE ON EVERY COUNT IT MAKES, and
    the corrections are greps: module categories exist
-   (Instance/Mod.v:315 [RMod], :712 [ModR]), the [Bimodule] record
-   exists (:718) with [bimodule_right_RMod] at :760 and two witnesses at
-   :866 and :878, tensor products exist (Instance/Ab/Tensor.v and
+   (Instance/Mod.v's [RMod] and [ModR]), the [Bimodule] record
+   exists with [bimodule_right_RMod] and two witnesses, tensor products
+   exist (Instance/Ab/Tensor.v and
    Instance/Mod/Tensor.v), and Adjunction/Parameter.v carries Theorem 3
-   with [ParametrizedAdjunction] at :361 and
-   [parametrized_right_adjoint_bifunctor] at :577.  What was genuinely
+   with [ParametrizedAdjunction] and
+   [parametrized_right_adjoint_bifunctor].  What was genuinely
    absent is narrower and is what this file adds: a search for
    [BimodCat], [BimoduleHom] or [bm_hom] over every `.v` in the tree
    returns ZERO lines outside this file, so there was no category of
@@ -510,7 +511,7 @@
    avoided by construction: [rmod_hom_neg], taken as above; [HomFrom],
    which Functor/Hom/Limit.v owns and which the brief had suggested
    for the hom functor — hence [HomS] and [HomSObj]; and [unit], which
-   Theory/Adjunction.v:217 owns, so §G's witnesses name no [unit] and
+   Theory/Adjunction.v owns, so §G's witnesses name no [unit] and
    the probe's control uses [nat] where a placeholder is wanted.
 
    CLOSURE.  93 modules, excluding the file itself, measured with
@@ -552,7 +553,7 @@
        [bm_left] demands [RModObject Int_Ring] where a right R-module
        is [RModObject (Ring_op R)] — so the ℤ-instance route is closed
        off (pinned as the probe's N8 and N9), and the one in-tree
-       passage, Instance/Rng/Mod.v:675's [ZRestrict], is pinned at
+       passage, Instance/Rng/Mod.v's [ZRestrict], is pinned at
        [RingObject@{Set Set Set}].
      - A finite-colimit or right-exactness vocabulary.  A whole-tree
        sweep ([right.?exact] 0 hits, [finitely-cocomplete] 3, [finite
@@ -563,11 +564,11 @@
        is not the same statement.  Corollary 4.6.9's additivity clause
        is not delivered either.
      - The one-ring tensor-hom parametrized adjunction that
-       Adjunction/Parameter.v:200-231 discloses as its own follow-on.
+       Adjunction/Parameter.v discloses as its own follow-on.
        It compiles out of tree — twenty-two lines of substance, four
        declarations, re-verified at this commit — over [ModTensor]
-       (Instance/Mod/Monoidal.v:550) and [HomMod]
-       (Instance/Mod/Closed.v:469) with that file's [exp_iso_Mod],
+       (Instance/Mod/Monoidal.v) and [HomMod]
+       (Instance/Mod/Closed.v) with that file's [exp_iso_Mod],
        [cur_natural_V] and [cur_natural_X]; it is NOT shipped here,
        because it is Mac Lane's SECOND example rather than Exercise 3
        and because requiring those two modules would cost this file
@@ -615,7 +616,7 @@ Require Import Category.Instance.Rng.
 Require Import Category.Instance.Mod.
 Require Import Category.Structure.AbCategory.
 Require Import Category.Theory.Algebra.Rig.
-(* The integer witness of §G needs the [Z] scope; Theory/Algebra/Rig.v:17
+(* The integer witness of §G needs the [Z] scope; Theory/Algebra/Rig.v
    takes the same import, this is the spelling the tree uses, and on Rocq
    9.1 it emits the tree-wide "From Coq" deprecation warning, as that
    file does. *)
@@ -924,7 +925,7 @@ Arguments bal_gen_zero_r {X} N M n.
 
 (* Instance/Mod.v supplies [rmod_hom_add] and [rmod_hom_zero] but no
    negation, and the name [rmod_hom_neg] is taken by
-   Instance/FdVect/DoubleDual.v:158 (Instance/Mod/Closed.v:355 records
+   Instance/FdVect/DoubleDual.v (Instance/Mod/Closed.v records
    the same collision and works around it with a file-local name). *)
 Program Definition rmod_hom_negate {R : RingObject} {M N : RModObject R}
         (f : RModHom M N) : RModHom M N := {|
@@ -936,8 +937,8 @@ Next Obligation.
   symmetry; apply rm_smul_neg_r.
 Qed.
 
-(* Instance/Mod/Coextension.v:308-310 records that the tree has no
-   [AbEnriched (RMod R)], only Instance/Mod.v:913's [Preadditive].  It
+(* Instance/Mod/Coextension.v records that the tree has no
+   [AbEnriched (RMod R)], only Instance/Mod.v's [Preadditive].  It
    is one negation away, and the hom-group below is Adjunction/
    Additive.v's [hom_ab] read at it, so nothing is rebuilt.  A plain
    [Definition], not an [Instance]: this is a reading of a hom-setoid,
@@ -1072,7 +1073,7 @@ Qed.
    the scalar argument's type against [S] and infers the parameter to be
    [S] rather than [Ring_op S], which silently asks the associativity
    field for the WRONG multiplication order.  This is the trap
-   Instance/Mod.v:866-869 records for [bimodule_right_RMod]. *)
+   Instance/Mod.v records for [bimodule_right_RMod]. *)
 Definition RTensor (N : RModObject (Ring_op R)) :
   RModObject (Ring_op S) :=
   @Build_RModObject (Ring_op S)
@@ -1192,8 +1193,8 @@ Example hs_group_zero (M : RModObject (Ring_op S)) :
   cmon_zero (hs_group M) = @rmod_hom_zero (Ring_op S) EE M := eq_refl.
 
 (* The right R-action, by TRANSLATION through E's LEFT R-action:
-   (f ⊲ r)(e) = f (r · e).  This is Instance/Mod/Coextension.v's idiom
-   (:33), with the translating action supplied by the bimodule instead
+   (f ⊲ r)(e) = f (r · e).  This is Instance/Mod/Coextension.v's idiom,
+   with the translating action supplied by the bimodule instead
    of by the ring's own multiplication. *)
 Program Definition hs_act (M : RModObject (Ring_op S)) (r : RC)
   (f : EE ~{ModR S}~> M) : EE ~{ModR S}~> M := {|
@@ -1454,7 +1455,7 @@ Next Obligation.
 Qed.
 
 (* Multiplication by a scalar, as a homomorphism of the underlying
-   group; the Instance/Mod/BaseChange.v:492 idiom. *)
+   group; the Instance/Mod/BaseChange.v idiom. *)
 Program Definition bth_lmul (M : RModObject (Ring_op S)) (s : SC) :
   AbHom (rm_ab M) (rm_ab M) := {|
   cmon_map := {| morphism := fun m => rm_smul M s m |}
@@ -1615,7 +1616,7 @@ Arguments bh_hom {E E'} _.
 Arguments bh_right {E E'} _ _ _.
 
 (* The hom-setoid: two bimodule maps agree when their underlying maps
-   agree pointwise, which is Instance/Mod.v:232's [RModHom_Setoid] one
+   agree pointwise, which is Instance/Mod.v's [RModHom_Setoid] one
    field further in.  Neither action plays a part. *)
 #[export]
 Program Instance BimodHom_Setoid {E E' : Bimodule R S} :
@@ -2115,7 +2116,7 @@ Context (E1 : Bimodule S T).
 
 Local Notation EE := (bimodule_right_RMod E).
 
-(* Adjunction/Compose.v:173, applied.  Nothing is re-proved: the composite
+(* Adjunction/Compose.v, applied.  Nothing is re-proved: the composite
    of two hom-setoid bijections is one, and all four naturality fields are
    that file's. *)
 Definition bimodule_adjunction_composite :
@@ -2154,7 +2155,7 @@ Example bac_counit_is_eval (M : RModObject (Ring_op T))
     = cmon_map (rm_hom (cmon_map (rm_hom f) e)) e1 := eq_refl.
 
 (* Mac Lane's own description of the composite's unit and counit, read
-   off Adjunction/Compose.v:216 and :224. *)
+   off Adjunction/Compose.v's own two lemmas. *)
 Lemma bac_unit_whiskered (N : RModObject (Ring_op R)) :
   bac_unit N
     ≈ fmap[HomS E]
@@ -2492,7 +2493,7 @@ Proof.
   intros e e1; exact (H n e e1).
 Qed.
 
-(* THE COMPARISON.  [≈] at a functor category is Theory/Functor.v:149's
+(* THE COMPARISON.  [≈] at a functor category is Theory/Functor.v's
    [Functor_Setoid]: a family of isomorphisms together with the coherence
    square, and both halves are supplied here. *)
 Definition tensor_assoc_iso :
@@ -3022,8 +3023,8 @@ End BimoduleLeftAdjunction.
    right-exactness or finite-colimit vocabulary returns three lines, all
    prose in unrelated headers, so there is no [RightExact] and no
    [PreservesFiniteColimits] to inhabit.  What IS available is
-   Structure/Limit/Preservation.v:647's [PreservesAllColimits] through
-   Adjunction/Continuity.v:239, and preservation of ALL colimits is
+   Structure/Limit/Preservation.v's [PreservesAllColimits] through
+   Adjunction/Continuity.v, and preservation of ALL colimits is
    STRICTLY STRONGER than right exactness — it is not the same
    statement, and the difference is disclosed rather than glossed.
    Riehl's Corollary 4.6.9 additivity clause is NOT delivered. *)
@@ -3059,7 +3060,7 @@ Arguments bh_right {R S E E'} b m s.
    [BimodTensor] the first leg is §C's [bimodule_parametrized_adjunction]
    and the bifunctor G is [bimodule_hom_bifunctor]; what is added here is
    the SECOND closure, the right adjoint of ⊗ in the MODULE variable, and
-   with it the third leg through Adjunction/Parameter.v:1978's
+   with it the third leg through Adjunction/Parameter.v's
    [mutually_right_adjoint].
 
    The second closure of a bimodule tensor is again a BIMODULE: for a
@@ -3442,11 +3443,11 @@ Arguments HomAbFunctor {R S} N.
 
 (** *** All three legs of Riehl's Definition 4.4.7 *)
 
-(* The mirror hypothesis of Adjunction/Parameter.v:1795 is a family
+(* The mirror hypothesis of Adjunction/Parameter.v is a family
    [∀ x, Partial_r F x ⊣ H x], which is exactly what §F has just built;
-   [mirror_family] packages it, and [mutually_right_adjoint] (:1978) then
+   [mirror_family] packages it, and [mutually_right_adjoint] then
    supplies Riehl's Proposition 4.4.6(iii) — her Exercise 4.4.ii — as an
-   inhabitant of Adjunction/Right.v:342's own [AdjointOnTheRight].  With
+   inhabitant of Adjunction/Right.v's own [AdjointOnTheRight].  With
    §C's [pa_adj] that is all three legs of Definition 4.4.7 for
    [BimodTensor]. *)
 
@@ -3496,8 +3497,8 @@ Definition bimodule_third_leg {R S : RingObject}
 
 (** ** G. A concrete witness at a named pair of rings *)
 
-(* Instance/Mod.v:970's [Ring_Bimodule] makes every ring an
-   (R,R)-bimodule over itself and :878's [Int_Bimodule] is that at ℤ, so
+(* Instance/Mod.v's [Ring_Bimodule] makes every ring an
+   (R,R)-bimodule over itself and its [Int_Bimodule] is that at ℤ, so
    the whole development instantiates with no new algebra.  Everything
    below COMPUTES: the actions, the unit, the counit and both legs of the
    associativity comparison reduce on closed integers.  The stdlib

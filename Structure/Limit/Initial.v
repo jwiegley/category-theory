@@ -68,15 +68,15 @@ Generalizable All Variables.
    returns twenty-nine distinct two-word matches tree-wide.  Five are prose
    inside comments ("Initial object", "Initial and", "Initial in", "Initial
    structure", and "Initial Algebra" in the paper title at
-   Structure/Initial.v:76).  Of the remaining twenty-four, twenty-one name
+   Structure/Initial.v).  Of the remaining twenty-four, twenty-one name
    a category outright (`AST`, `Ab`, `Algs`, `CMon`, `Cat`, `Coq`, `Field`,
    `FinSet`, `Grp`, `MonS`, `Nat_Proset`, `Par`, `ParE`, `PointedSets`,
    `Props`, `QuiverCategory`, `Rel`, `Rig`, `Rng`, `Sets`, `Top`) and three
    are variables: `C`, the ambient category of the surrounding
    construction; `D`, the target of an equivalence, at
-   Theory/Equivalence/Terminal.v:96; and `K`, which occurs only inside
-   comments, at Theory/Universal/Arrow/Dual.v:262 and
-   Test/ProbeCouniversal.v:128.  That is a search over the SPELLING of the
+   Theory/Equivalence/Terminal.v; and `K`, which occurs only inside
+   comments, at Theory/Universal/Arrow/Dual.v and
+   Test/ProbeCouniversal.v.  That is a search over the SPELLING of the
    hypothesis, not over its meaning: it establishes that nothing in tree
    writes an initial-object hypothesis on a category occupying the index
    position of a diagram.  It does not rule out an equivalent statement
@@ -85,7 +85,7 @@ Generalizable All Variables.
 
    Two further absences, each checked by its own search and each the reason
    a checkbox below had to be BUILT rather than instantiated.
-   `Instance/One.v:58`'s [Cat_Terminal] makes `_1` the terminal object OF
+   `Instance/One.v`'s [Cat_Terminal] makes `_1` the terminal object OF
    Cat; that is not `_1` having an initial object WITHIN itself, which is
    what the point-diagram corollary needs, and `rg 'Terminal _1|Initial _1'`
    finds no such instance.  Likewise `rg 'Terminal.*Ordinal|ord_top'`
@@ -134,8 +134,9 @@ Generalizable All Variables.
    NOT [IsALimit]'s alone, and an earlier draft of this header said it
    was.  Measured in a section declaring the levels apart
    (`Constraint jh < jp`): `ACone c F` and `Cone F` both elaborate, while
-   `cone_leg N x` (Structure/Limit/Preservation.v:108), `IsLimitCone N`
-   (:166) and `IsALimit F c` (Structure/Limit.v:129) are ALL rejected,
+   `cone_leg N x` and `IsLimitCone N`
+   (Structure/Limit/Preservation.v) and `IsALimit F c`
+   (Structure/Limit.v) are ALL rejected,
    each with the same `Cannot enforce jp = jh because jh < jp`.  So there
    are at least three co-equal donors, TWO OF THEM CONE VOCABULARY, and
    the `ACone`/`Cone` control does not show the cause to be [IsALimit]
@@ -183,7 +184,7 @@ Generalizable All Variables.
    data in a different field order — so no second argument is given.
 
    NAMING HAZARD, DISCLOSED AND NOT ACTED ON.  Functor/Structure/Terminal.v
-   :59 declares `Notation "'InitialFunctor' F" := (@TerminalFunctor _ _
+   declares `Notation "'InitialFunctor' F" := (@TerminalFunctor _ _
    (F^op) _ _)`, so in this tree "initial functor" means "preserves the
    initial object".  The standard meaning of "initial functor" is the
    cofinality notion recalled above — the one under which the inclusion of
@@ -206,7 +207,7 @@ Generalizable All Variables.
    - No converse, in any form.  It is not shown that a shape all of whose
      diagrams have limits computed by evaluation must have an initial
      object, and no `Limit F ↔ Initial J` is claimed.
-   - No shape-indexed completeness statement.  Structure/Complete.v:273's
+   - No shape-indexed completeness statement.  Structure/Complete.v's
      [Complete] quantifies over ALL shapes, so it is not inhabited by a
      result about one shape, and no "has all limits of shape J" class
      exists in tree to inhabit; none is introduced.
@@ -225,16 +226,16 @@ Generalizable All Variables.
      ARE evaluation at stage 0) and provably no terminal object, which is
      exactly why a sequential colimit indexed by ω is not its value
      anywhere.  Nothing below claims `Ordinal (S n)` is ω+1.
-   - Theory/Shapes.v:213's [point_of F := F ttt] names the same object as
+   - Theory/Shapes.v's [point_of F := F ttt] names the same object as
      the apex of the point-diagram corollary below, but that file is NOT
      required here (it drags Equations, StrictCat, Two, Comma and Arrow),
      so this is a cross-reference and not reuse.  The five in-tree
-     [bool_setoid_object] definitions (Instance/Sets.v:563,
-     Theory/Concrete.v:244, Theory/Algebra/Rig.v:540, Instance/Top.v:784,
-     Instance/Met/Extended.v:389) are a different matter — see the note at
+     [bool_setoid_object] definitions (Instance/Sets.v,
+     Theory/Concrete.v, Theory/Algebra/Rig.v, Instance/Top.v,
+     Instance/Met/Extended.v) are a different matter — see the note at
      [bool_set] below, which corrects an earlier claim about them.  The
      same holds of [iso_of_op]/[iso_to_op]: Theory/Morphisms/CokernelPair.v
-     :658 already carries that field permutation, and that module is not
+     already carries that field permutation, and that module is not
      required here either. *)
 
 (** ** The limit of a diagram over a shape with an initial object *)
@@ -398,7 +399,7 @@ End LimitFromInitial.
 
 (* [IsIsomorphism] at C^op and at C carry the same inverse and swap their
    two law fields, so passing between them is a field permutation with no
-   proof content.  Theory/Morphisms/CokernelPair.v:658 already carries this
+   proof content.  Theory/Morphisms/CokernelPair.v already carries this
    pair, as [IsIsomorphism_of_op] and [op_IsIsomorphism_of]; that module is
    NOT required here — it pulls Theory/Morphisms.v, Structure/Pullback.v,
    Structure/Pushout.v, Theory/Morphisms/Stability.v and
@@ -520,7 +521,7 @@ End ColimitFromTerminal.
 (** ** Deliverable: the point shape (Seven Sketches §3.5.3 Ex 3.98) *)
 
 (* `_1` has an initial object — its unique object — and that instance did
-   not exist: Instance/One.v:58's [Cat_Terminal] says `_1` is terminal in
+   not exist: Instance/One.v's [Cat_Terminal] says `_1` is terminal in
    Cat, a different statement (see the header). *)
 
 Program Definition One_Initial : @Initial _1 := {|
@@ -558,16 +559,16 @@ Example point_Cones_strict {C : Category} (F : _1 ⟶ C) :
    note gave a reason for it that is false.  That draft said the tree had
    TWO [bool_setoid_object] definitions, in Theory/Concrete.v and
    Theory/Algebra/Rig.v, "neither of which this file has any other reason
-   to require".  There are FIVE, and one of them — Instance/Sets.v:563,
+   to require".  There are FIVE, and one of them — Instance/Sets.v,
    `bool_setoid_object@{t u}` — is byte-identical in content to [bool_set]
-   and lives in a module this file ALREADY requires at line 16.  It is
+   and lives in a module this file ALREADY requires.  It is
    convertible on the nose (`bool_setoid_object = bool_set := eq_refl`
    compiles against this file's own import list, no new Require), and both
    [Sets] witnesses below replay verbatim against it.  So the copy was
    never forced.  It is kept rather than removed because deleting it is a
    code change, not a correction of the record.  The cone apex, by
    contrast, IS reused
-   — it is Instance/Sets.v:253's terminal singleton, so a cone over a point
+   — it is Instance/Sets.v's terminal singleton, so a cone over a point
    diagram with that apex is literally a global element, and the mediator
    below is the element it names. *)
 

@@ -14,7 +14,7 @@
     ** What is delivered
 
     [TorsionFree_Reflective : Reflective TorsionFree_Sub] -- the record
-    of Construction/Reflective.v:60, whose three fields are exactly the
+    of Construction/Reflective.v, whose three fields are exactly the
     three things Mac Lane's phrase names: FULLNESS of the subcategory
     ([TorsionFree_Full]), a REFLECTOR ([TorsionFree_reflector]), and the
     ADJUNCTION ([TorsionFree_adj]) making it left adjoint to the
@@ -36,42 +36,42 @@
 
     Universal arrows, exactly the path Instance/Grp/Abelianize.v takes
     for §III.1 Exercise 3: state the ∃! ([torsion_universal],
-    Abelianize.v:305's shape), package it with
-    Theory/Universal/Arrow.v:158's [universal_arrow_from_UMP]
-    ([torsion_universal_arrow], Abelianize.v:328), then read the functor
-    and the adjunction off :295's
-    [LeftAdjointFunctorFromUniversalArrows] and :324's
+    Abelianize.v's shape), package it with
+    Theory/Universal/Arrow.v's [universal_arrow_from_UMP]
+    ([torsion_universal_arrow], Abelianize.v), then read the functor
+    and the adjunction off that same file's
+    [LeftAdjointFunctorFromUniversalArrows] and
     [AdjunctionFromUniversalArrows] with no further proof.  Nothing in
     that chain is re-derived here.
 
     ** Reused, and what that saves
 
-    - Instance/Ab.v: [AbObject] (:115), [AbHom] (:184), [Ab] (:201),
-      [ab_map_neg] (:186), and -- the load-bearing one -- the image
-      quotient [AbQuotient] (:472) with [ab_coset_eq] (:427) and
-      [ab_quot_proj] (:520).  A/T(A) is that PRE-EXISTING quotient
+    - Instance/Ab.v: [AbObject], [AbHom], [Ab],
+      [ab_map_neg], and -- the load-bearing one -- the image
+      quotient [AbQuotient] with [ab_coset_eq] and
+      [ab_quot_proj].  A/T(A) is that PRE-EXISTING quotient
       applied to the subgroup inclusion; NO new quotient machinery is
       built here, and no coset object is formed anywhere in this file.
-    - Instance/Ab/DirectedColimit.v: [AbSubgroup] (:273),
-      [AbSubgroupAb] (:309), [absub_incl] (:333).  The torsion subgroup
+    - Instance/Ab/DirectedColimit.v: [AbSubgroup],
+      [AbSubgroupAb], [absub_incl].  The torsion subgroup
       is that record, not a third subgroup record; the other two in tree
-      are this one and Instance/Ab/Character/Finite.v:624's [Subgroup],
+      are this one and Instance/Ab/Character/Finite.v's [Subgroup],
       which additionally demands DECIDABLE membership and so cannot host
       a torsion predicate whose exponent is found rather than decided.
-    - Instance/Ab/Monoidal.v: the ℕ-action [nat_smul] (:179) with
-      [nat_smul_respects] (:185), [_add] (:194), [_plus] (:204),
-      [_zero] (:218), [_neg] (:226), [_hom] (:235); [ZAb] (:416),
-      [ZAb_one] (:422), [nat_smul_int_one] (:428).
-    - Adjunction/Unitalization.v:448's [nat_smul_mul] -- see the closure
+    - Instance/Ab/Monoidal.v: the ℕ-action [nat_smul] with
+      [nat_smul_respects], [_add], [_plus],
+      [_zero], [_neg], [_hom]; [ZAb],
+      [ZAb_one], [nat_smul_int_one].
+    - Adjunction/Unitalization.v's [nat_smul_mul] -- see the closure
       note below for why it is required rather than restated.
-    - Construction/Subcategory.v: [Subcategory] (:36), [Sub] (:55),
-      [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99),
-      [Full_Implies_Full_Functor] (:104).  The trivially-true [shom] is
-      Instance/Rng.v:417's [CRng_Sub] pattern, and [Full] is written
+    - Construction/Subcategory.v: [Subcategory], [Sub],
+      [Incl], [Incl_Faithful], [Full],
+      [Full_Implies_Full_Functor].  The trivially-true [shom] is
+      Instance/Rng.v's [CRng_Sub] pattern, and [Full] is written
       qualified for the same reason that file writes it so:
       Construction/Subcategory.v exports its OWN [Full], whose first
       argument is a Category, shadowing Theory/Functor.v's.
-    - Construction/Reflective.v: [Reflective] (:60) and
+    - Construction/Reflective.v: [Reflective] and
       [reflective_counit_iso].
 
     NEW here: the torsion predicate and its five closure lemmas,
@@ -87,7 +87,7 @@
 
     AN EARLIER REVISION continued: "Nothing anywhere in this file extracts a
     witness from a [Prop]-valued existential; the same design note
-    Instance/Ab.v:417-420 makes about [ab_coset_eq] being [Type]-valued
+    Instance/Ab.v makes about [ab_coset_eq] being [Type]-valued
     applies verbatim, and it is what lets the coset witness be taken apart."
     Since the PR "algebraic carriers are sets" (2026-09-17) that note is
     itself corrected: [ab_coset_eq] is a [Prop].  The torsion EXPONENT is
@@ -101,22 +101,22 @@
 
     The issue says the ambient category is missing ("there is no Ab, Grp
     or AbGrp instance") and that "a whole-tree search for 'torsion'
-    returns nothing".  Both are false: [Ab] is Instance/Ab.v:215 and
+    returns nothing".  Both are false: [Ab] is Instance/Ab.v and
     Instance/Grp.v exists.  A case-insensitive search for 'torsion' over
     the .v files, excluding this file and its probe, returns SEVEN
-    lines, in Instance/Ab/Character.v:49 and
-    Instance/Ab/Character/NonNatural.v:46,:403,:446,:462,:463,:491; five
-    are prose, the sixth is [ZZ_no_2_torsion] (:416), a lemma that
+    lines, in Instance/Ab/Character.v and
+    Instance/Ab/Character/NonNatural.v; five
+    are prose, the sixth is [ZZ_no_2_torsion], a lemma that
     ℤ has no nonzero 2-torsion -- a statement about one group at one
-    exponent, not a torsion predicate -- and the seventh (:444) is that
+    exponent, not a torsion predicate -- and the seventh is that
     lemma's one use.  What IS absent, and is supplied
     here, is a torsion predicate, a torsion subgroup and a torsion-free
     predicate.
 
     Sharper, and this is the claim worth carrying: [rg -n
     'Build_Reflective'] over the .v files, excluding these two, returns
-    exactly ONE hit, Construction/Reflective/Idempotent.v:346 --
-    inside [Idempotent_Reflective] (declared at :345), which is over an
+    exactly ONE hit, Construction/Reflective/Idempotent.v --
+    inside [Idempotent_Reflective] (declared), which is over an
     ABSTRACT category with an idempotent monad; every other
     [Reflective]-typed term in tree is a HYPOTHESIS ([Context (R :
     Reflective S)] and the like, in Adjunction/FullFaithful.v,
@@ -131,7 +131,7 @@
     j (nat_smul k a)], is needed twice: for closure of torsion under
     addition (exponents k and l give k*l) and for torsion-freeness of
     the quotient.  It exists in tree exactly once, at
-    Adjunction/Unitalization.v:448.  Criterion for the numbers below:
+    Adjunction/Unitalization.v.  Criterion for the numbers below:
     transitive in-project .vo dependencies via [coqdep -R . Category],
     excluding the file itself.  This file's closure is 61 modules.
     Dropping [Category.Adjunction.Unitalization] gives 59 -- a delta of
@@ -142,7 +142,7 @@
     duplicate of it is declared here.  Dropping
     [Category.Instance.Ab.Character.Finite] likewise gives 59 (delta
     two: [Instance/Ab/Character.vo] and Finite.v itself), which is why
-    [ZMod2] (Finite.v:1813) is reused as the torsion witness rather
+    [ZMod2] (Finite.v) is reused as the torsion witness rather
     than a local bool group being built; dropping both gives 57, so the
     two deltas are independent.  (A first count read 62/60/60/58: it
     counted the queried module itself, which the stated criterion
@@ -151,10 +151,10 @@
     ** ℤ has five names in tree
 
     [ring_ab Int_Ring] is named five times: [ZAb]
-    (Instance/Ab/Monoidal.v:416), [ab_Z] (Instance/Ab/Coproduct.v:264),
-    [Zgroup] (Instance/Ab/Graded.v:281), [Ab_Z]
-    (Structure/Kernel/Universal/Examples.v:263) and [ab_int]
-    (Instance/Ab/Free.v:883).  This file uses [ZAb] throughout and only
+    (Instance/Ab/Monoidal.v), [ab_Z] (Instance/Ab/Coproduct.v),
+    [Zgroup] (Instance/Ab/Graded.v), [Ab_Z]
+    (Structure/Kernel/Universal/Examples.v) and [ab_int]
+    (Instance/Ab/Free.v).  This file uses [ZAb] throughout and only
     [ZAb], because [nat_smul_int_one] is stated at it.
 
     ** Strengths, measured strict-first
@@ -164,7 +164,7 @@
     the reflector's object part is the quotient
     ([torsion_reflector_obj]); the universal arrow IS [ab_quot_proj] and
     its object IS [TorsionFreeMod] ([torsion_arrow_is_proj],
-    [torsion_arrow_obj] -- the Abelianize.v:351 precedent, since
+    [torsion_arrow_obj] -- the Abelianize.v precedent, since
     [universal_arrow_from_UMP] stores the supplied morphism as the
     second projection of the comma object it builds); the quotient's
     zero and addition ARE the base group's ([quot_zero_strict],
@@ -181,7 +181,7 @@
       ∘ arrow], so the class unit is a COMPOSITE record, [fmap[Incl] id
       ∘ ab_quot_proj …]; applied to an element that composite reduces,
       as a record it does not.  Note the precedent this development was
-      pointed at, Instance/Mod/Free.v:560's [free_module_unit_is_insert],
+      pointed at, Instance/Mod/Free.v's [free_module_unit_is_insert],
       is likewise stated POINTWISE and not as a morphism equality.
     - [nat_smul] at a VARIABLE scalar is only Leibniz-equal by induction
       ([nat_smul_quot]).  Cause: the [Fixpoint] is stuck on [k], so
@@ -201,7 +201,7 @@
       while [AbModTorsion ZAb = ZAb] is refused.
     - The COUNIT is not read back at all.  It is the other transpose,
       i.e. [unique_obj (ump_universal_arrows …)], and
-      [ump_universal_arrows] (Theory/Universal/Arrow.v:139) is closed
+      [ump_universal_arrows] (Theory/Universal/Arrow.v) is closed
       with [Qed], so nothing on that side reduces and no [eq_refl] is
       claimed for it.
 
@@ -268,13 +268,13 @@
     the blocks for [u = u'] after stripping the [|=] separator; zero
     hits), and the two identifications still sitting in binders.  The
     [ZAb_one] routing is unchanged, and is
-    Instance/Ab/Monoidal.v:418-421's own design note.
+    Instance/Ab/Monoidal.v's own design note.
 
     ** NOT delivered
 
     - The COREFLECTION of the page's preceding paragraph -- torsion
       groups as a coreflective subcategory, with TA as coreflector.
-      [Coreflective] is Construction/Reflective.v:85 and the torsion
+      [Coreflective] is Construction/Reflective.v and the torsion
       subgroup built here is its object part, but that is a different
       catalog item and nothing here states or proves it.
     - Functoriality of [TorsionSub] or of [TorsionAb] in A; no

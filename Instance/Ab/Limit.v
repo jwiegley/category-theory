@@ -26,7 +26,7 @@ Generalizable All Variables.
    Awodey:   Category Theory, 1st ed. (CMU pre-print, September 2005),
              §5.6 Proposition 5.32, printed p. 119 (PDF p. 128)
 
-   [Ab_Forget] (Instance/Ab.v:231) STRICTLY CREATES every limit.  Given a
+   [Ab_Forget] (Instance/Ab.v) STRICTLY CREATES every limit.  Given a
    limiting cone over the underlying diagram of sets, there is exactly one
    abelian-group structure on its apex making every projection a
    homomorphism ([alim_structure_unique], Mac Lane's Theorem 2), the
@@ -46,10 +46,10 @@ Generalizable All Variables.
    ** WHY A SECOND [ContinuousFunctor Ab_Forget] -- THE MAIN REASON THIS
       FILE EXISTS
 
-   Instance/Ab/FreeNotContinuous.v:475 ALREADY declares
+   Instance/Ab/FreeNotContinuous.v ALREADY declares
    [Ab_Forget_Continuous : ContinuousFunctor Ab_Forget], and its proof term
-   is [right_adjoint_Continuous free_ab_adjunction] (:476) -- RAPL applied
-   to Instance/Ab/Free.v:582's [free_ab_adjunction : FreeAb ⊣ Ab_Forget].
+   is [right_adjoint_Continuous free_ab_adjunction] -- RAPL applied
+   to Instance/Ab/Free.v's [free_ab_adjunction : FreeAb ⊣ Ab_Forget].
    That constant is not touched here, not reused here, and not restated:
    the one declared below is [Ab_Forget_creates_continuous]
    (a DIFFERENT name for a DIFFERENT term), and the difference is the
@@ -59,7 +59,7 @@ Generalizable All Variables.
    [Ab_Forget_creates_continuous] presupposes NOTHING beyond
    [Sets_Complete] and the creation result below; no adjunction, no free
    object, no [FreeAb].  That matters for exactly one consumer shape.
-   Freyd's General Adjoint Functor Theorem (Adjunction/GAFT.v:338) takes
+   Freyd's General Adjoint Functor Theorem (Adjunction/GAFT.v) takes
    [comp : @Complete C] and [cont : @PreservesImageLimit C D U] and RETURNS
    a left adjoint to [U].  Feeding it [Ab_Forget_Continuous] would feed it
    a term built out of the very adjunction it is being asked to produce, so
@@ -75,7 +75,7 @@ Generalizable All Variables.
    \"ContinuousFunctor Ab_Forget\" while it is expected to have type
    \"Limit.PreservesImageLimit\" (cannot unify \"Limit.Limit K\" and
    \"Cone.Cone K\")".  The bridge
-   [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v:245) is
+   [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v) is
    load-bearing and must stand in the term, exactly as it does at [Grp]
    (Instance/Grp/FreeAFT.v's [free_group_via_GAFT]), whose probe pins the
    same refusal as its N6.  So the [Ab] triple would be [Ab_Complete],
@@ -105,7 +105,7 @@ Generalizable All Variables.
 
    ** WHAT IS LIFTED, AND WHY IT IS ONE OPERATION MORE THAN [CMon]
 
-   Instance/Ab.v:122-122's [AbObject] EXTENDS Instance/CMon.v:32-44's
+   Instance/Ab.v's [AbObject] EXTENDS Instance/CMon.v's
    [CMonObject] by [ab_neg] with [ab_neg_respects] and [ab_neg_left]; the
    coercion [ab_cmon :> CMonObject] supplies [carrier], [cmon_zero],
    [cmon_plus] and the four commutative-monoid laws.  So three operations
@@ -118,11 +118,11 @@ Generalizable All Variables.
 
    THE MORPHISM SIDE COSTS EXACTLY WHAT THE GROUP CASE COSTS -- an earlier
    draft of this header said it was cheaper, and the measurement refutes
-   that.  [AbHom A B] is DEFINED as [CMonHom A B] (Instance/Ab.v:191), so a
+   that.  [AbHom A B] is DEFINED as [CMonHom A B] (Instance/Ab.v), so a
    homomorphism owes [cmon_map_zero] and [cmon_map_plus] and nothing else,
-   preservation of negation being the theorem [ab_map_neg] (:186) rather
+   preservation of negation being the theorem [ab_map_neg] rather
    than a field -- but [GrpHom] is the same shape, with [grp_map_inv]
-   (Instance/Grp.v:393) playing [ab_map_neg]'s part.  Measured on the two
+   (Instance/Grp.v) playing [ab_map_neg]'s part.  Measured on the two
    [.vo] files, both carry TEN [Program] obligations with matching names:
    two each for the legs, the mediator and the reflected mediator, one each
    for the three leg families and the constant map.
@@ -132,9 +132,9 @@ Generalizable All Variables.
    Instance/Grp/Limit.v's 73; the two extra are [alim_comm], which has no
    counterpart because [GrpObject] states no commutativity, and
    [alim_neg_respects], which has none because [GrpObject] does not make
-   respectfulness of inversion a FIELD (Instance/Grp.v:212-225 lists only
-   [grp_mul_respects]; [grp_inv_Proper] is derived afterwards at :276)
-   whereas [AbObject] does (Instance/Ab.v:126).
+   respectfulness of inversion a FIELD (Instance/Grp.v lists only
+   [grp_mul_respects]; [grp_inv_Proper] is derived afterwards)
+   whereas [AbObject] does (Instance/Ab.v).
 
    ** THE ENGINE IS ONE REUSABLE LEMMA WITH NOTHING ALGEBRAIC IN IT
 
@@ -148,7 +148,7 @@ Generalizable All Variables.
 
    ON THE DUPLICATION, DISCLOSED RATHER THAN GLOSSED, AND THE COUNT IS
    FOUR.  [absets_pre], [absets_med_eq], [absets_const] and
-   [absets_limit_ext] are Instance/Grp/Limit.v:238-263's [sets_pre],
+   [absets_limit_ext] are Instance/Grp/Limit.v's [sets_pre],
    [sets_med_eq], [sets_const] and [sets_limit_ext] reproved here under
    different names -- character-for-character identical after
    [s/absets_/sets_/g], which is how the audit measured it.  An earlier
@@ -241,8 +241,8 @@ Generalizable All Variables.
    so no completeness, creation, preservation or reflection statement about
    [Ab] or [Ab_Forget] existed.  What DID exist about [Ab_Forget] and limits
    is the single constant discussed above, [Ab_Forget_Continuous]
-   (Instance/Ab/FreeNotContinuous.v:475), together with its file's negative
-   results about the LEFT adjoint [FreeAb] (:466, :469).  No [CMon_Complete]
+   (Instance/Ab/FreeNotContinuous.v), together with its file's negative
+   results about the LEFT adjoint [FreeAb].  No [CMon_Complete]
    exists either; the argument below is written at [Ab] and the [CMon] case
    is not extracted from it.
 
@@ -508,7 +508,7 @@ Qed.
 
    The relation below is instead the one the section already has a theorem
    about: two points of the vertex are related when every LEG relates them.
-   [alim_ext] (:318) is exactly the implication into `≈`, and it holds at an
+   [alim_ext] is exactly the implication into `≈`, and it holds at an
    arbitrary limit because a limit's vertex is detected by its projections;
    the converse is each leg being a setoid map.  So a limit of propositional
    carriers is propositional, with no extra hypothesis anywhere. *)
@@ -538,8 +538,8 @@ Definition LimitAb : AbObject :=
 (** ** The legs are homomorphisms *)
 
 (* Only [cmon_map_zero] and [cmon_map_plus] are owed: [AbHom] IS [CMonHom]
-   (Instance/Ab.v:191), and preservation of negation is the theorem
-   [ab_map_neg] (:186) rather than a field. *)
+   (Instance/Ab.v), and preservation of negation is the theorem
+   [ab_map_neg] rather than a field. *)
 Program Definition alim_hom (j : J) : AbHom LimitAb (K j) :=
   {| cmon_map := alim_leg j |}.
 Next Obligation. apply alim_zero_triangle. Qed.
@@ -804,12 +804,12 @@ Definition Ab_Complete : @Complete Ab :=
 (* [ContinuousFunctor] is [PreservesLimitCone] quantified over every shape
    and diagram, which is what the word means in Mac Lane §V.4 -- the
    apex-only [PreservesAllLimits] below is its CONSEQUENCE, not the
-   definition (Structure/Limit/Preservation.v:46-56).
+   definition (Structure/Limit/Preservation.v).
 
-   NAME.  This is NOT Instance/Ab/FreeNotContinuous.v:475's
+   NAME.  This is NOT Instance/Ab/FreeNotContinuous.v's
    [Ab_Forget_Continuous], which is the same TYPE by a different TERM:
-   that one is [right_adjoint_Continuous free_ab_adjunction] (:476) and so
-   presupposes Instance/Ab/Free.v:582's adjunction, while this one comes
+   that one is [right_adjoint_Continuous free_ab_adjunction] and so
+   presupposes Instance/Ab/Free.v's adjunction, while this one comes
    from limit creation and presupposes only [Sets_Complete].  See the
    header for why the distinction is load-bearing rather than cosmetic. *)
 

@@ -23,8 +23,8 @@ Require Import Category.Instance.Cat.
     assertion.
 
     (1) The library's `≈` cannot be truncated.  Cat's hom-setoid is
-        [Functor_Setoid] (Theory/Functor.v:149, installed as Cat's [homset] at
-        Instance/Cat.v:145) and an [F ≈ G] there IS a family of isomorphisms.
+        [Functor_Setoid] (Theory/Functor.v, installed as Cat's [homset] at
+        Instance/Cat.v) and an [F ≈ G] there IS a family of isomorphisms.
         Replacing it by [inhabited (F ≈ G)] and asking for the isomorphism at
         an object is refused -- NEGATIVE 1.  The same refusal, in the shape a
         would-be blanket instance takes, is NEGATIVE 3.  This is why

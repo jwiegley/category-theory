@@ -14,7 +14,7 @@
    Instance/Mod/Monoidal.v supplied the ⊗ half — the bifunctor [ModTensor],
    the unitors, the associator, both coherence laws, the braiding and the
    symmetry.  Its own header says in terms that the closed structure is a
-   companion file's business (Instance/Mod/Monoidal.v:284-286):
+   companion file's business (Instance/Mod/Monoidal.v):
 
      "NO CLOSED STRUCTURE.  The internal hom, the tensor-hom adjunction
       and any [SymMonClosed] instance are a companion file's business,
@@ -37,9 +37,9 @@
 
    COMMUTATIVITY, AND WHERE IT IS SPENT.  Everything is stated over an
    arbitrary [RingObject] together with an explicit commutativity
-   hypothesis, the same proposition after elaboration as Instance/Rng.v:412's
+   hypothesis, the same proposition after elaboration as Instance/Rng.v's
    [CRng_Sub] predicate so that an object of [CRng] supplies it by
-   projection and Instance/Rng.v:426's [Int_Ring_commutative] discharges it
+   projection and Instance/Rng.v's [Int_Ring_commutative] discharges it
    at ℤ:
 
      Context (Rcomm : ∀ a b : carrier (rig_setoid (ring_rig R)),
@@ -50,7 +50,7 @@
    r · (s · φ v) and linearity demands s · (r · φ v); [Rcomm] is what turns
    one into the other, and nothing else in the file reaches for it.
 
-   THAT IS MACHINE-MEASURED, NOT ASSERTED.  Lib.v:13 sets
+   THAT IS MACHINE-MEASURED, NOT ASSERTED.  Lib.v sets
    [Default Proof Using "Type"], which keeps only the section variables a
    lemma's STATEMENT mentions.  [Rcomm] appears in no statement in
    Section [InternalHom] — so the build DEMANDS the annotation
@@ -75,31 +75,31 @@
    [hm_curry], whose codomain is [HomMod], does.
 
    PRIOR ART, AND [HomMod] IS NOT A FIRST SIGHTING.  Instance/FdVect/
-   DoubleDual.v:267's [DualMod] is ALREADY the W := R case of this internal
+   DoubleDual.v's [DualMod] is ALREADY the W := R case of this internal
    hom.  That is an identification, not an analogy: its carrier
-   (DoubleDual.v:179, the carrier field of the record opened at :178) is
+   (DoubleDual.v, the carrier field of [DualMod]'s record) is
    `RModHom V (Ring_RMod (field_ring F))`, which is
-   [hm_setoid]'s carrier at W := Ring_RMod; and since Instance/Mod.v:953's
+   [hm_setoid]'s carrier at W := Ring_RMod; and since Instance/Mod.v's
    [Ring_RMod] has `rm_smul := rig_mul (ring_rig R)` and
    `rm_smul_assoc := rig_mul_assoc`, its scalar action r · φ is this file's
-   pointwise action on the nose, its [dual_smul_linear] (DoubleDual.v:236)
+   pointwise action on the nose, its [dual_smul_linear] (DoubleDual.v)
    is [hm_smul_linear] with the same three rewrites in the same order, and
-   its own header at DoubleDual.v:209 already localises "the one use of
+   its own header at DoubleDual.v already localises "the one use of
    commutativity" to exactly that lemma.  So [HomMod] GENERALISES an
    existing construction in two independent directions — an arbitrary
    target module W in place of the base ring, and an arbitrary
    [RingObject] with an explicit [Rcomm] in place of a [FieldObject] — and
    the localisation of commutativity is INHERITED rather than discovered.
    What is new here is the tensor-hom adjunction over it, which
-   DoubleDual.v does not have (its own header, DoubleDual.v:106, records
+   DoubleDual.v does not have (its own header, DoubleDual.v, records
    that the library then had no monoidal structure to state it against).
 
    NO BRAID IS NEEDED, AND THAT IS A FACT ABOUT THE CLASS'S ORIENTATION.
-   Structure/Monoidal/StarAutonomous.v:115 declares
+   Structure/Monoidal/StarAutonomous.v declares
 
      exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z
 
-   with `eval' {x y} : (x ⇒ y) ⨂ x ~> y` at :120.  Read at x := V, y := W,
+   with `eval' {x y} : (x ⇒ y) ⨂ x ~> y`.  Read at x := V, y := W,
    z := X this is Hom(V ⊗ W, X) ≅ Hom(V, Hom(W, X)), which is the module
    theorist's own statement, and evaluation puts the internal hom on the
    LEFT of the tensor — so [uncur_bilinear]'s underlying map is the
@@ -137,10 +137,10 @@
    than described.
 
    ONE CORRECTION TO THE ROUTE, AND IT MADE EVERY PROOF CHEAPER.
-   Instance/Mod/Tensor.v exposes the mediator twice: [tensor_med] (:664),
-   whose generator equation is `eq_refl` (:687), and [tensor_factor]
-   (:840), a bare alias for it (:846, `tensor_factor β = tensor_med β` by
-   `eq_refl`) whose companion [tensor_factor_commutes] (:848) is a `Qed`
+   Instance/Mod/Tensor.v exposes the mediator twice: [tensor_med],
+   whose generator equation is `eq_refl`, and [tensor_factor],
+   a bare alias for it (`tensor_factor β = tensor_med β` by
+   `eq_refl`) whose companion [tensor_factor_commutes] is a `Qed`
    lemma stating an `≈`.  Routing through the second makes every step
    opaque; this file uses the first throughout.  The consequences are
    measured below rather than claimed:
@@ -178,16 +178,16 @@
    the class's own (Structure/Monoidal/StarAutonomous.v), three that take it
    as a HYPOTHESIS (Structure/Monoidal/Dual.v, Test/ProbeDual359.v,
    Structure/Closed.v's prose), and two comment mentions
-   (Instance/FdVect/DoubleDual.v:105-108, Structure/Monoidal/Symmetric.v:83).
+   (Instance/FdVect/DoubleDual.v, Structure/Monoidal/Symmetric.v).
    The revision matters: sweeping at THIS commit returns eight, the two
    extra being this file and Instance/Mod/Monoidal.v, so a sweep that names
    a sibling introduced by the same commit is reporting its own arrival.
    None of the six declares an inhabitant, and
-   Structure/Monoidal/Dual.v:227-229 says
+   Structure/Monoidal/Dual.v says
    so in its own words: "Nothing here exhibits a [SymMonClosed] instance,
    so every result is a conditional".  [RMod_SymMonClosed] is therefore the
    first.  The sibling class [ClosedMonoidal] has exactly one inhabitant,
-   Instance/Coq.v:179's [Coq_ClosedMonoidal], which is
+   Instance/Coq.v's [Coq_ClosedMonoidal], which is
    `CCC_ClosedMonoidal` and so cartesian by construction.
 
    MEASUREMENTS RECORDED.  93/93 constants closed under the global context
@@ -215,7 +215,7 @@
    WHAT IS NOT THEREBY CLAIMED.  This file does NOT prove that ⊗ is not a
    categorical product in [RMod R], so "the first non-cartesian closed
    monoidal witness" is NOT established here.  The obstacle is concrete
-   rather than rhetorical: Instance/Mod/Coproduct.v:308 registers
+   rather than rhetorical: Instance/Mod/Coproduct.v registers
    [RMod_Cartesian], so [RMod R] genuinely has products, and separating
    them from ⊗ would need a rank argument (over ℤ, Instance/Mod/Tensor.v's
    [Int_tensor_iso] gives ℤ ⊗ ℤ ≅ ℤ, and one would then have to refute
@@ -237,7 +237,7 @@
      REJECTED there — [ModSymmetric], [RMod_SymMonClosed].
 
    AN EARLIER REVISION of those two lines put [tensor_med] (the donor,
-   Instance/Mod/Tensor.v:694), [mt_fmap] and [hm_curry] on the REJECTED
+   Instance/Mod/Tensor.v), [mt_fmap] and [hm_curry] on the REJECTED
    side, and concluded "So [tensor_med] is A donor, rejected ALONE with
    [TensorMod] and [tensor_gen] accepted at the very same levels".  All
    three were re-measured after the PR "algebraic carriers are sets"
@@ -337,7 +337,7 @@ Generalizable All Variables.
 
 #[local] Obligation Tactic := idtac.
 
-(* Engineering note (c): [mt_eq_Equivalence] (Instance/Mod/Tensor.v:479) is
+(* Engineering note (c): [mt_eq_Equivalence] (Instance/Mod/Tensor.v) is
    a Lemma, not an Instance, so [transitivity] and setoid [rewrite] cannot
    see it on goals that have unfolded to [mt_eq] — and the error names the
    wrong culprit when they cannot. *)
@@ -358,7 +358,7 @@ Context (Rcomm : ∀ a b : carrier (rig_setoid (ring_rig R)),
 
 (* Negation of a module homomorphism.  Instance/Mod.v supplies
    [rmod_hom_add] and [rmod_hom_zero] but no negation, and the obvious name
-   [rmod_hom_neg] is taken by Instance/FdVect/DoubleDual.v:158 — hence the
+   [rmod_hom_neg] is taken by Instance/FdVect/DoubleDual.v — hence the
    local name. *)
 Program Definition hm_neg {M N : RModObject R} (f : RModHom M N) :
   RModHom M N := {|
@@ -428,7 +428,7 @@ Qed.
 (* THE ONE USE OF COMMUTATIVITY IN THE WHOLE FILE.
 
    The `Proof using R Rcomm` annotation is LOAD-BEARING and is the
-   instrument the header describes: Lib.v:13 sets
+   instrument the header describes: Lib.v sets
    [Default Proof Using "Type"], [Rcomm] occurs in no statement here, and
    without the annotation this lemma fails at [Qed] with "The following
    section variable is used but not declared: Rcomm."  Do not remove it,
@@ -647,7 +647,7 @@ Arguments hm_uncurry {V W X} g.
 
 (* The uncurried map's value at a generator is φ applied to the argument,
    at LEIBNIZ equality.  This is [tensor_med]'s own `eq_refl` generator
-   equation (Instance/Mod/Tensor.v:717) instantiated, and it is what makes
+   equation (Instance/Mod/Tensor.v) instantiated, and it is what makes
    everything below cheap. *)
 Example hm_uncurry_gen {V W X : RModObject R}
   (g : V ~{RMod R}~> IH W X) v w :
@@ -939,9 +939,9 @@ End Naturality.
 
 (** ** Acceptance tests over ℤ
 
-    ℤ is commutative (Instance/Rng.v:426's [Int_Ring_commutative]), so the
+    ℤ is commutative (Instance/Rng.v's [Int_Ring_commutative]), so the
     whole structure is inhabited at a concrete base.  The bilinear map is
-    Instance/Mod/Tensor.v:935's own [Int_mul_bilinear] — nothing is
+    Instance/Mod/Tensor.v's own [Int_mul_bilinear] — nothing is
     rebuilt — and every Example below closes by `eq_refl`: these are
     computations, not equational arguments. *)
 
@@ -1136,7 +1136,7 @@ Check (HomMod Ru Rcu V W).
 Check (@ihom_post Ru Rcu V W W).
 
 (* CONTROLS 6, 7 and 8, WHICH USED TO BE NEGATIVES.  An earlier revision read:
-   "NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v:694) already
+   "NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v) already
    identifies the ring's first and third universes, while [TensorMod] and
    [tensor_gen] above do not"; "NEGATIVE 7.  Instance/Mod/Monoidal.v's arrow
    action inherits it"; "NEGATIVE 8.  Hence this file's currying."  All three

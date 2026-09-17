@@ -26,7 +26,7 @@ Generalizable All Variables.
    WHAT IS DELIVERED (6 constants, every one closed under the global
    context).
      - [CatEval P X : [P, X] ∏ P ⟶ X := @eval Cat Cat_Cartesian Cat_Closed P
-       X] — the functor Instance/Cat/Cartesian/Closed.v:34-36 describes in
+       X] — the functor Instance/Cat/Cartesian/Closed.v describes in
        prose and leaves unnamed.
      - [CatEval_obj]/[CatEval_map]: its two data fields ARE Instance/Fun/
        Eval.v's [EvalBi]'s, at [eq_refl] — which is why [EvalBi] uses the
@@ -37,7 +37,7 @@ Generalizable All Variables.
        [eval_partial_map]'s: [Partial_l] carries an [fmap id]).
      - [eval_transpose J P X : [J ∏ P, X] ≅[Cat] [J, [P, X]] :=
        Cat_exp_prod_l J P X] — the issue's "record the parameter/adjunct
-       passage" is Instance/Cat/Exponential.v:57's existing isomorphism,
+       passage" is Instance/Cat/Exponential.v's existing isomorphism,
        cited, not rebuilt.
 
    UNIVERSES (measured by [About] under [Set Printing Universes]).  The

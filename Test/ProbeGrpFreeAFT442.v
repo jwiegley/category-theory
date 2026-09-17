@@ -34,7 +34,7 @@
 
     N5 is the universe claim, measured: at this application the solution
     set's index is squeezed onto [Set], and Mac Lane's own index
-    [Subgroup G] (Instance/Grp/Quotient.v:177) is never there.  The control
+    [Subgroup G] (Instance/Grp/Quotient.v) is never there.  The control
     beside it is the same builder at a [Set]-level index ([bool]), which IS
     accepted — so the refusal is about the universe and not about the shape
     of the hypothetical.  N5 pins the REFUSAL, which is real; it does not
@@ -64,7 +64,7 @@
 
     SECTION H, added after the rest, covers the target's injectivity clause:
     that the general result's statement IS the tree's own two-letter one
-    (Instance/Grp/Free.v:680) on the nose, while the two proofs are separate
+    (Instance/Grp/Free.v) on the nose, while the two proofs are separate
     terms (N9) and the decision procedure is a real argument (N10).
 
     SECTION I, added by the PR "algebraic carriers are sets" (2026-09-17),
@@ -254,14 +254,14 @@ Check (fun o a cov =>
    the refusal, in the tree as it stands.  It does NOT pin a cause, and an
    earlier revision of the target's header attributed the cause to [GAFT]
    and [Grp_Complete], which is wrong: the [Set] is a universe-
-   minimization artifact of Instance/Discrete.v:81's unannotated
-   [DiscreteCat_Functor], reaching GAFT's statement through GAFT.v:249,
+   minimization artifact of Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor], reaching GAFT's statement through GAFT.v,
    and [Grp_Complete] only transmits it.  Annotating that one donor —
    three lines, no [Qed]-opaque term touched — makes this very [Check]
    succeed, so THIS REFUTATION IS EXPECTED TO TURN OVER when
    Instance/Discrete.v's follow-on lands.  It is one of eleven such
-   boundaries in the tree (Instance/Cat/Objects.v:747,
-   Structure/Limit/Components.v:1166 and nine Test/Probe* lines); measured
+   boundaries in the tree (Instance/Cat/Objects.v,
+   Structure/Limit/Components.v and nine Test/Probe* lines); measured
    2026-09-12 in a full copy of this worktree, that annotation breaks no
    proof anywhere in the 977-file build set and turns over exactly those
    eleven and nothing else."
@@ -269,7 +269,7 @@ Check (fun o a cov =>
    The cause was diagnosed correctly and the prediction held.  The
    annotation landed in the PR "algebraic carriers are sets"
    (2026-09-17): [DiscreteCat_Functor@{o h p uo uh up +}], now
-   Instance/Discrete.v:81, and this line is ACCEPTED.  It is kept at Mac
+   Instance/Discrete.v, and this line is ACCEPTED.  It is kept at Mac
    Lane's own index [Subgroup G] as a positive control, so dropping the
    annotation refuses it again and breaks this file.
 
@@ -317,8 +317,8 @@ Example p442_monad_functor_obj (X : Sets) :
 
 (* N8 CONVERSION: the multiplication inherits the counit's opacity.
    Instance/Grp/Free.v records that the counit is [unique_obj] of
-   [ump_universal_arrows], which is [Qed]-sealed (Theory/Universal/Arrow.v:139,
-   closed at :153), so nothing on this side reduces; the agreement with word
+   [ump_universal_arrows], which is [Qed]-sealed (Theory/Universal/Arrow.v,
+   closed), so nothing on this side reduces; the agreement with word
    evaluation is [free_group_counit_evaluates], up to `≈` and no more. *)
 Fail Example p442_join_is_word_evaluation (X : Sets) :
   @join Sets _ free_group_monad X
@@ -449,7 +449,7 @@ Check @p442_repr_obj_not_trivial.
 
 (* The corollary's statement is the tree's own, converted: [free_group_unit]
    IS [fg_insert] at a generator, so the general result is not a weaker
-   restatement of Instance/Grp/Free.v:680. *)
+   restatement of Instance/Grp/Free.v. *)
 Example p442_two_letters_same_statement :
   (free_group_unit TwoLetters true ≈ free_group_unit TwoLetters false → False)
   = (fg_insert TwoLetters true ≈ fg_insert TwoLetters false → False)
@@ -675,7 +675,7 @@ Fail Definition p442_uncond_app_at_set_carrier : obj[Grp] :=
 End SetCarrierPin.
 
 (* AND IT BITES AT A NAMED IN-TREE OBJECT, which is why it is a cost and
-   not a formality.  [TwoLetters] (Instance/Grp/Free.v:630) is the bool
+   not a formality.  [TwoLetters] (Instance/Grp/Free.v) is the bool
    setoid, and [bool : Set] pins its carrier universe there.  The circular
    application applies to it; the unconditional one is refused, measured by
    stripping this [Fail] in a copy of the WHOLE file:

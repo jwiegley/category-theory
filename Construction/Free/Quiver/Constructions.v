@@ -72,7 +72,7 @@ Generalizable All Variables.
 
    (3) The opposite is a DEFINITIONAL INVOLUTION, [QuiverOp_invol] by [eq_refl],
        both on quivers and on homomorphisms ([QuiverOp_map_invol]).  Contrast
-       [Construction/Opposite.v:126]'s [op_invol], which is [Qed]-opaque; here
+       [Construction/Opposite.v]'s [op_invol], which is [Qed]-opaque; here
        record eta makes the doubly-reversed quiver convertible to the original,
        so no isomorphism is needed.
 
@@ -108,7 +108,7 @@ Generalizable All Variables.
          [Forgetful_preserves_fst]/[_snd] — [Fst] and [Snd] of
          [Construction/Product.v] are [Program Instance]s, so their
          [fmap_respects] field is an opaque obligation (the tree runs
-         [Unset Transparent Obligations], Lib/Tactics.v:36) and cannot be
+         [Unset Transparent Obligations], Lib/Tactics.v) and cannot be
          convertible to this file's explicit term.
 
          [QuiverSwap_invol] — the node action of the twice-swapped quiver is
@@ -142,7 +142,7 @@ Generalizable All Variables.
 
    A SMALL HISTORICAL NOTE the issue points out and this file finally acts on:
    Quiver.v has required [Construction.Opposite] and [Construction.Product]
-   since its introduction WITHOUT USING EITHER (Quiver.v:10-11; neither name
+   since its introduction WITHOUT USING EITHER (Quiver.v; neither name
    occurs in its body).  Those two imports are exactly what this exercise
    needs, so the requirement is at last discharged rather than removed.
 
@@ -250,14 +250,14 @@ Section ProductQuiver.
 
    First, the three [Equivalence] fields are written out as explicit terms
    rather than discharged by a tactic or by [Program].  The tree runs
-   [Unset Transparent Obligations] (Lib/Tactics.v:36), so an obligation-built
+   [Unset Transparent Obligations] (Lib/Tactics.v), so an obligation-built
    equivalence proof is an opaque constant, and [Setoid] has primitive
    projections with eta — conversion therefore compares the [setoid_equiv]
    fields, and an opaque one defeats the definitional agreement recorded in
    [QuiverOfCat_Product].  The spelling deliberately mirrors
-   Construction/Product.v:98-119.
+   Construction/Product.v.
 
-   Second, this is NOT [Lib/Datatypes.v:139]'s [prod_setoid], which is a global
+   Second, this is NOT [Lib/Datatypes.v]'s [prod_setoid], which is a global
    [Program Instance] with exactly this [equiv] but an opaque [setoid_equiv];
    substituting it here breaks [QuiverOfCat_Product].  That is a deliberate
    non-reuse, so it is guarded rather than merely stated:

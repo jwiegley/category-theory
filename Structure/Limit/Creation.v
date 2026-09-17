@@ -62,14 +62,14 @@ Generalizable All Variables.
 
    CONE LEVEL, NOT APEX LEVEL.  The predicate [IsLimitCone] below says
    that a GIVEN cone is universal.  The library's [IsALimit]
-   (Structure/Limit.v:129) pins only the apex and carries its own chosen
+   (Structure/Limit.v) pins only the apex and carries its own chosen
    [limit_acone], whose legs are unrelated to any cone one holds; the
-   argument at Construction/Comma/Limit.v:47-66 shows why that is
+   argument at Construction/Comma/Limit.v shows why that is
    genuinely too weak here.  The cone-level notion was already being
    written out by hand at three places — [PreservesImageLimit]
-   (Construction/Comma/Limit.v:110), the leg hypothesis of
-   [ff_reflect_ump] (Theory/Equivalence/Limit.v:391) and [rapl_ump]
-   (Adjunction/Continuity.v:176) — so this file names an existing notion
+   (Construction/Comma/Limit.v), the leg hypothesis of
+   [ff_reflect_ump] (Theory/Equivalence/Limit.v) and [rapl_ump]
+   (Adjunction/Continuity.v) — so this file names an existing notion
    rather than introducing one.  The two bridges to [PreservesImageLimit]
    are identity functions and live in Construction/Comma/Creation.v; the
    leg side condition of [ff_reflect_ump] discharges by [reflexivity]
@@ -77,7 +77,7 @@ Generalizable All Variables.
    cone-level preservation as such; when it lands, [IsLimitCone],
    [PreservesLimitCone] and [FCone] belong next to [cone_leg] in
    Structure/Limit/Preservation.v, and [FCone] merges with [fmap_cone]
-   (Theory/Equivalence/Limit.v:283).  They are restated here — some 35
+   (Theory/Equivalence/Limit.v).  They are restated here — some 35
    lines, including [cone_leg_coh] — only because that file sits above
    this layer: importing it here would compile, but it would invert the
    layering.  The name [ReflectsLimit]
@@ -94,7 +94,7 @@ Generalizable All Variables.
    [equivalence_creates_limits] is the quasi-inverse of the given apex, in
    general only isomorphic to it.  The iso-invariant reading is the usable default and
    is the one [CreatesLimit] carries, following the same decision recorded
-   at Monad/Monadicity/Beck.v:39-59 for one diagram shape.  Both notions
+   at Monad/Monadicity/Beck.v for one diagram shape.  Both notions
    ship, and [StrictlyCreatesLimit_CreatesLimit] relates them in the
    derivable direction.
 
@@ -109,7 +109,7 @@ Generalizable All Variables.
    apex — which is why it is stated below as a derived theorem rather than
    ruled out.)  Uniqueness is
    therefore a theorem rather than a field, in the form the setting
-   supports and the one Monad/Monadicity/Beck.v:187 already uses at its
+   supports and the one Monad/Monadicity/Beck.v already uses at its
    own shape: [creates_lift_unique] says any cone lying over N is
    canonically isomorphic to the created one.  With it, Mac Lane's second
    clause ([creates_limiting], the lift is itself limiting) is likewise
@@ -118,18 +118,18 @@ Generalizable All Variables.
    derivable from the other two: relating a lift to a competing cone
    upstairs would need F full and conservative, which is why Beck.v
    carries [create_coeq_reflects] separately and needed a section of its
-   own (Beck.v:795-905) to discharge it.
+   own (Beck.v) to discharge it.
 
    CONVENTIONS.  Arguments are DIAGRAM FIRST, [CreatesLimit K F], matching
-   [PreservesLimit K F] (Structure/Limit/Preservation.v:48) so the two
+   [PreservesLimit K F] (Structure/Limit/Preservation.v) so the two
    read alike in the same statement.  None of the classes below is
    registered for instance resolution: creation witnesses are always
-   passed explicitly, exactly as Structure/Limit/Preservation.v:35-36
+   passed explicitly, exactly as Structure/Limit/Preservation.v
    records for preservation.  On size: [CreatesLimit] pins J, C and D to
    one hom/proof universe just as [PreservesLimit] does, and
    [creates_limits_Complete] additionally shares one shape universe
    between its two [Complete] occurrences; the library's [Complete] carries
-   no explicit smallness hypothesis (Structure/Complete.v:27-37), so
+   no explicit smallness hypothesis (Structure/Complete.v), so
    "creates all small limits" here reads as "creates limits of every shape
    the use site's universes allow".  Creation of finite limits is out of
    scope here: the finiteness predicate on shapes is now
@@ -138,8 +138,8 @@ Generalizable All Variables.
    named shape is what is offered instead.  [(F ◯ K)^op] and
    [F^op ◯ K^op] are not convertible, so the colimit side repackages cones
    field by field, following [preserves_colimit]
-   (Structure/Limit/Preservation.v:205) and [isalimit_op_comp]
-   (Theory/Equivalence/Limit.v:539); the covariant strict-side accessors
+   (Structure/Limit/Preservation.v) and [isalimit_op_comp]
+   (Theory/Equivalence/Limit.v); the covariant strict-side accessors
    are not provided, since every in-tree colimit-side creation consumer
    speaks the elementary cofork API of Structure/Coequalizer.v instead. *)
 
@@ -168,7 +168,7 @@ Definition creates_limiting {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
 
 (* Mac Lane's uniqueness clause, in the form the setting supports: any cone
    upstairs lying over N is canonically isomorphic to the created one.  This
-   is the pattern of [create_coeq_unique] (Monad/Monadicity/Beck.v:187) one
+   is the pattern of [create_coeq_unique] (Monad/Monadicity/Beck.v) one
    level up. *)
 
 Definition creates_lift_unique {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
@@ -271,7 +271,7 @@ Definition hom_rew {D : Category} {d d' : D} (p : d = d') {t : D}
   match p in _ = z return z ~{D}~> t with eq_refl => f end.
 
 (* The isomorphism induced by an equality of objects.  Deliberately not
-   named [iso_of_eq]: that name is taken by Instance/StrictCat/ToCat.v:36,
+   named [iso_of_eq]: that name is taken by Instance/StrictCat/ToCat.v,
    which this Structure-layer file must not import. *)
 
 Definition obj_eq_iso {D : Category} {d d' : D} (p : d = d') : d ≅ d' :=

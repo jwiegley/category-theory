@@ -8,7 +8,7 @@
     THE TWO KINDS ARE NOT THE SAME AND ARE NOT DESCRIBED WITH ONE WORD.
 
     (1) FORMABILITY.  [Covariant_Yoneda_Lemma] and [Yoneda_Lemma]
-    (Functor/Hom/Yoneda.v:206 and :157) are stated over
+    (Functor/Hom/Yoneda.v) are stated over
     [C : Category@{u u u}] — object, hom and proof universes IDENTIFIED —
     so nothing built over them can be applied to a category whose objects
     live strictly below its homs.  [yoneda_natural] inherits exactly that,

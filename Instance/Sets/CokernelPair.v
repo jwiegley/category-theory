@@ -19,12 +19,12 @@ Generalizable All Variables.
    Mac Lane, CWM 2nd ed., §III.3 p. 66 and §III.4 Exercise 4 p. 72; Fong
    and Spivak, *Seven Sketches*, §7.2.1 Definition 7.5.
 
-   Instance/Sets.v:448-505 already builds, for f : A ~> B in [Sets], the
+   Instance/Sets.v already builds, for f : A ~> B in [Sets], the
    setoid [CKSetoid f] — two copies of B glued exactly along the image of
    f — with two inclusions [ck_left]/[ck_right] and the equation
    [ck_agree : ck_left ∘ f ≈ ck_right ∘ f].  It was built to probe an
    epimorphism, and it stops there: NO universal property of it is proved
-   in that file, the word "pushout" occurs there only at :116 in an
+   in that file, the word "pushout" occurs there only in an
    unrelated header line, and it is nowhere related to
    Instance/Sets/Pushout.v's [Sets_HasPushouts], which sits in a different
    file and glues by a five-constructor inductive closure instead.
@@ -105,8 +105,8 @@ Generalizable All Variables.
      deliberately does not provide.  No claim is made here about whether
      they are isomorphic; the question is simply not addressed.
 
-   - The [Top] and pointed-sets cokernel pairs (Instance/Top.v:579-726,
-     Instance/Sets/Pointed.v:401-523) are NOT given universal properties.
+   - The [Top] and pointed-sets cokernel pairs (Instance/Top.v,
+     Instance/Sets/Pointed.v) are NOT given universal properties.
      Only the [Sets] one is treated here.
 
    - No [Sets]-specific statement about [Monic] and kernel pairs. *)

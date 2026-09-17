@@ -35,18 +35,18 @@ Generalizable All Variables.
     Three records in this tree could be called a monoid, and the choice
     is stated rather than left to drift.
 
-      (1) Theory/Algebra/Monoid/Hom.v:83's [Mon C] — internal monoids in
+      (1) Theory/Algebra/Monoid/Hom.v's [Mon C] — internal monoids in
           a monoidal category C, objects the sigma { x : C & Monoid x },
           homs the sigma { f & MonoidHom }, morphism equivalence being
           equivalence of the underlying C-morphisms.  Instantiated at
           [(Sets, ∏)] this is THE category of setoid monoids: [@Mon] is
           applied at three bases (an earlier draft said two, missing
     Construction/Opposite/Monoidal.v) tree-wide — at [Sets] in
-          Theory/Algebra/Rig.v:347, Instance/Roster.v:390 and
-          Instance/Rng/MonoidRing.v:170, and at [Coq] in
-          Instance/Coq/Monoid/Free.v:126.
-          Instance/Roster.v:390 names the [Sets] one [Mon_Sets]
-          and Instance/Rng/MonoidRing.v:170 names the same term
+          Theory/Algebra/Rig.v, Instance/Roster.v and
+          Instance/Rng/MonoidRing.v, and at [Coq] in
+          Instance/Coq/Monoid/Free.v.
+          Instance/Roster.v names the [Sets] one [Mon_Sets]
+          and Instance/Rng/MonoidRing.v names the same term
           [MonSets]; both are plain [Definition]s of
           [@Mon Sets Sets_Product_Monoidal], which is what this file
           builds over.  Neither is REQUIRED here — Roster.v is a leaf
@@ -60,22 +60,22 @@ Generalizable All Variables.
           checked in this file; see ENGINEERING NOTES for what WAS
           checked out of file.
 
-      (2) Construction/Deloop.v:123's [MonObject] — a bare record
+      (2) Construction/Deloop.v's [MonObject] — a bare record
           (carrier setoid, unit, operation, respectfulness, associativity
           and both unit laws), used by the delooping dictionary and by
           Instance/Matr/GL.v's [UnitsOf].  It is NOT usable here, and the
           reason is decisive rather than aesthetic: no category anywhere
           in the tree has [MonObject] as its objects (Structure/
-          Groupoid.v:408 declares a [MonHom] record but assembles no
+          Groupoid.v declares a [MonHom] record but assembles no
           category from it), so "the coproduct" could not be stated as a
           [Cocartesian] instance at all.
 
-      (3) Instance/Coq/Monoid/Free.v:126's [MonCoq] — [@Mon Coq
+      (3) Instance/Coq/Monoid/Free.v's [MonCoq] — [@Mon Coq
           Coq_Monoidal], monoids over TYPES rather than setoids.  That is
           a different category and is not conflated with (1); the free
           monoid and its adjunction in that file live there, not here.
 
-    Instance/CMon.v:204's [CMon] is a fourth category of monoid-like
+    Instance/CMon.v's [CMon] is a fourth category of monoid-like
     objects and is ruled out for a different reason again: its
     [CMonObject] carries a [cmon_plus_comm] field, so its objects are
     COMMUTATIVE monoids and the free product of two of them is not an
@@ -86,7 +86,7 @@ Generalizable All Variables.
     available.  The first section re-reads the class through element
     accessors ([mon_ob], [mon_mul], [mon_one], [mon_fun] and the six
     one-line law projections).  That kit is a NEAR-DUPLICATE of
-    Instance/Rng/MonoidRing.v:172-206's [mcar]/[mop]/[mone]/[mmap]/
+    Instance/Rng/MonoidRing.v's [mcar]/[mop]/[mone]/[mmap]/
     [mhom]; the duplication is deliberate, for the layering reason in
     (1) above, and every member is a single projection of the class
     applied at a literal pair, with no proof content of its own.
@@ -239,7 +239,7 @@ Generalizable All Variables.
     a free-monoid left adjoint at Mon(Sets), and the only free-monoid
     adjunction in tree is Instance/Coq/Monoid/Free.v's, which is over
     [Coq], so no such adjoint exists at this category to preserve
-    colimits.  Construction/Funny.v:112-114 asserts IN PROSE, and
+    colimits.  Construction/Funny.v asserts IN PROSE, and
     without proof, that on one-object categories the funny tensor
     [M □ N] is the coproduct in Mon; that corollary was NOT attempted
     here, because closing it needs the funny tensor's [FunHom] words

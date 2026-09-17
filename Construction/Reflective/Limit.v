@@ -79,7 +79,7 @@ Generalizable All Variables.
    Structure/Limit/Preservation.v ([IsLimitCone], [ConeIso],
    [PreservesLimitCone]); the apex-only [PreservesLimit] is known in this
    library to be insufficient for these purposes (the argument is at
-   Construction/Comma/Limit.v:47-66, and Preservation.v:347-350 records
+   Construction/Comma/Limit.v, and Preservation.v records
    that only one direction of the bridge holds).
 
    ** The route, and what is reused rather than re-derived
@@ -87,7 +87,7 @@ Generalizable All Variables.
    Write I := Incl C S and let R be the reflection, so that
    [reflective_adj R : reflector R ⊣ I].
 
-   (1) THE LIFT is [rapl_transposed_cone] (Adjunction/Continuity.v:126)
+   (1) THE LIFT is [rapl_transposed_cone] (Adjunction/Continuity.v)
        instantiated at this adjunction.  That constant sits inside a
        section whose [Context (L : Limit G)] it never consumes, so -- as
        [About] reports at commit 35511442 -- its discharged type takes NO
@@ -127,12 +127,12 @@ Generalizable All Variables.
 
        Injectivity of ⌊-⌋ is [reflective_to_adj_inj], four tactic lines
        from [to_adj_comp_law] and [from_adj_respects].  The tree does carry
-       this fact already, as [adj_to_inj] (Adjunction/Additive.v:306), but
+       this fact already, as [adj_to_inj] (Adjunction/Additive.v), but
        that file is not in this one's dependency closure and requiring it
        would drag the whole Ab-enrichment layer behind every consumer of
        reflective limits; restating it locally costs four tactic lines.
 
-       [reflective_counit_iso] (Construction/Reflective.v:92) does NOT
+       [reflective_counit_iso] (Construction/Reflective.v) does NOT
        shorten this, and the reason is structural rather than one of
        opacity: that lemma is about an object OF THE SUBCATEGORY, whereas
        L here is an arbitrary object of C, so it does not apply.  (It is
@@ -140,13 +140,13 @@ Generalizable All Variables.
        through it; that is a second, independent obstruction, pinned in
        Test/ProbeReflectiveLimit373.v.)
 
-   (3) REFLECTION is [ff_reflect_ump] (Theory/Equivalence/Limit.v:355,
-       with [ff_reflects_limit] at :365) applied to the fullness and
+   (3) REFLECTION is [ff_reflect_ump] (Theory/Equivalence/Limit.v,
+       with [ff_reflects_limit]) applied to the fullness and
        faithfulness of I, in exactly the packaging
-       Theory/Equivalence/Creation.v:72 uses for an equivalence: the leg
+       Theory/Equivalence/Creation.v uses for an equivalence: the leg
        side condition is [fun x => reflexivity _] because [FCone]'s legs
-       ARE the image legs ([FCone_leg], Preservation.v:323).  Faithfulness
-       is [Incl_Faithful] (Construction/Subcategory.v:89), which holds for
+       ARE the image legs ([FCone_leg], Preservation.v).  Faithfulness
+       is [Incl_Faithful] (Construction/Subcategory.v), which holds for
        every subcategory whatsoever.
 
    Nothing in (1)-(3) is a re-derivation: the lift, the reflection lemma,
@@ -158,23 +158,24 @@ Generalizable All Variables.
    Measured in this file's worktree, whose base is commit 35511442, by
    the searches named:
 
-   - The issue's donor line numbers have drifted.  [ff_reflects_limit] is
-     Theory/Equivalence/Limit.v:365 (the issue says :401);
-     [right_adjoint_preserves_limits] is Adjunction/Continuity.v:218 (the
-     issue says :202); [equivalence_creates_limits] is
-     Theory/Equivalence/Limit.v:450 (an appended note says :486).  Every
-     line cited in this header was re-grepped at that commit.
+   - The issue's donor line numbers have drifted.  [ff_reflects_limit]
+     and [equivalence_creates_limits] are both in
+     Theory/Equivalence/Limit.v and
+     [right_adjoint_preserves_limits] is in Adjunction/Continuity.v,
+     none of them where the issue -- or, for the last, an appended note --
+     places it.  Every donor cited in this header was re-grepped at that
+     commit.
 
    - The issue's first appended note says the tree has no general
      limit-creation predicate and that a reusable class is the real
      deliverable.  That premise is false: Structure/Limit/Creation.v
-     declares [Class CreatesLimit] at :154 with the derived
-     [creates_limiting] :163, [creates_lift_unique] :174,
-     [creates_reflects_limits] :185, [creates_limit_lift] :191,
-     [creation_preserves_limit] :205, [CreatesLimitsOfShape] :225,
-     [CreatesAllLimits] :228, [creates_limits_Complete] :246,
-     [creates_limits_continuous] :252, [CreatesLimit_compose] :366 and the
-     strict variant [StrictlyCreatesLimit] :325.  Six files outside the
+     declares [Class CreatesLimit] with the derived
+     [creates_limiting], [creates_lift_unique],
+     [creates_reflects_limits], [creates_limit_lift],
+     [creation_preserves_limit], [CreatesLimitsOfShape],
+     [CreatesAllLimits], [creates_limits_Complete],
+     [creates_limits_continuous], [CreatesLimit_compose] and the
+     strict variant [StrictlyCreatesLimit].  Six files outside the
      declaring one already consume it (rg -l 'CreatesLimit\b' at 35511442
      returns seven: Structure/Limit/Creation itself,
      Structure/Limit/Constant, Structure/Limit/Components,
@@ -196,12 +197,12 @@ Generalizable All Variables.
    ** Riehl's monadic route, measured and not taken
 
    Riehl reaches 5.6.6 through monadicity, and the tree has most of the
-   pieces: Construction/Reflective/Idempotent.v:198 gives
+   pieces: Construction/Reflective/Idempotent.v gives
    [Reflective_IdempotentMonad R] for the monad [Incl C S ◯ reflector R],
-   Monad/Eilenberg/Moore/Limit.v:399 gives [em_strict_lift] and the strict
+   Monad/Eilenberg/Moore/Limit.v gives [em_strict_lift] and the strict
    creation for [EM_Forget], Theory/Equivalence/Creation.v transports
    creation across an equivalence, and [CreatesLimit_compose] composes.
-   The step that is missing is the join: Idempotent.v:464's
+   The step that is missing is the join: Idempotent.v's
    [Idempotent_EM_Equivalence] is an equivalence for
    [Sub C MLocal_Subcategory] -- the full subcategory of objects at which
    the unit is invertible -- and NOT for the given S, and no equivalence
@@ -217,8 +218,9 @@ Generalizable All Variables.
    obtained by applying the reflector -- is NOT proved here.  It is #434's
    ("MacLane V.5: A full reflective subcategory of a cocomplete category is
    cocomplete"), Construction/Reflective/Colimit.v: [reflective_colimit] and
-   [reflective_Cocomplete], from [lapc_is_acolimit] (Adjunction/Continuity.v
-   :264) and Theory/Equivalence/Colimit.v's transport along the counit
+   [reflective_Cocomplete], from [lapc_is_acolimit]
+   (Adjunction/Continuity.v) and Theory/Equivalence/Colimit.v's transport
+   along the counit
    isomorphism whiskered into a diagram isomorphism; no creation is claimed.
 
    ** Strengths, strict first
@@ -238,10 +240,10 @@ Generalizable All Variables.
    appeal, not a computation: the mediators are unique, so any two of them
    coincide.  Read from the two definitions, they are visibly different
    terms of one type -- [creation_preserves_limit]
-   (Structure/Limit/Creation.v:205) transports limit-ness along a
+   (Structure/Limit/Creation.v) transports limit-ness along a
    composite cone isomorphism assembled from [limitcone_iso],
    [FCone_iso] and [ConeIso_sym], while
-   [right_adjoint_PreservesLimitCone] (Adjunction/Continuity.v:205) is
+   [right_adjoint_PreservesLimitCone] (Adjunction/Continuity.v) is
    [rapl_ump] at the cone repackaged as a [Limit].  That is a reading of
    the two sources, not an isolating experiment, and no single step is
    named as THE cause.
@@ -284,7 +286,7 @@ Generalizable All Variables.
    the same levels with the same message -- measured out of tree, NOT
    pinned, so the two the probe pins are a sample of the family and not
    an enumeration.  These are the same donor family
-   Structure/Limit/Initial.v's header (:127-145) records for a RELATED
+   Structure/Limit/Initial.v's header records for a RELATED
    collapse -- there the axis is the shape's own hom against its own
    proof, and [IsALimit] is a third donor there as it is here.  All three
    formability rejections and their controls are in the probe.
@@ -296,8 +298,8 @@ Generalizable All Variables.
 
    ** Not delivered
 
-   - STRICT creation.  [StrictlyCreatesLimit] (Creation.v:325) is built on
-     [StrictLift] (:288), whose [slift_eq] field demands
+   - STRICT creation.  [StrictlyCreatesLimit] (Creation.v) is built on
+     [StrictLift], whose [slift_eq] field demands
      [F (vertex_obj[slift_cone]) = vertex_obj[N]] at LEIBNIZ equality of
      objects of C.  The lift here has apex [I (reflector R L)], which is
      isomorphic to L but not equal to it -- that isomorphism is the whole
@@ -318,7 +320,7 @@ Generalizable All Variables.
      isomorphism); it shows the assembly runs end to end and reduces,
      nothing more.
    - Nothing is registered as an [Instance].  [CreatesLimit] IS a [Class]
-     (Creation.v:154), so [reflective_CreatesLimit] could be registered;
+     (Creation.v), so [reflective_CreatesLimit] could be registered;
      it deliberately is not, since it would make instance resolution
      search for a [Reflective] structure on every subcategory it meets.
      [reflective_incl_adj] is likewise a plain [Definition], not an
@@ -350,7 +352,7 @@ Definition reflective_Incl_Full : Functor.Full I :=
   Full_Implies_Full_Functor C S (reflective_full R).
 
 (* Injectivity of the forward transpose.  [adj_to_inj]
-   (Adjunction/Additive.v:306) is the same fact, in a module outside this
+   (Adjunction/Additive.v) is the same fact, in a module outside this
    file's closure. *)
 
 Lemma reflective_to_adj_inj {x : C} {y : Sub C S}
@@ -476,9 +478,9 @@ End Compare.
 (** ** Reflection *)
 
 (* Full and faithful functors reflect limiting cones.  The packaging is
-   the one at Theory/Equivalence/Creation.v:72.  (That file's own comment
-   at :69 cites [ff_reflect_ump] at Theory/Equivalence/Limit.v:391, which
-   is stale -- it is :355; a defect in an untouched file, recorded here
+   the one at Theory/Equivalence/Creation.v.  (That file's own comment
+   cites [ff_reflect_ump] at a line of Theory/Equivalence/Limit.v that no
+   longer holds it; a defect in an untouched file, recorded here
    and not edited.) *)
 
 Definition reflective_ReflectsLimitCone : ReflectsLimitCone K I :=

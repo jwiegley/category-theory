@@ -47,7 +47,7 @@ Generalizable All Variables.
         FreePointedObject X  =  X ⊔ {∗},
 
     realised as [option (carrier X)] under [option_setoid]
-    (Lib/Datatypes.v:211), pointed at [None]; [free_pointed_insert] is
+    (Lib/Datatypes.v), pointed at [None]; [free_pointed_insert] is
     the insertion [Some]; and the universal property
     ([free_pointed_universal]) says every setoid map h : X ~> U Y into
     the underlying setoid of a pointed set Y extends along the insertion
@@ -68,15 +68,15 @@ Generalizable All Variables.
     (Instance/Sets/Pointed.v and its satellites Coslice.v, Finite.v,
     Part.v).  Tree-wide, before this file there was exactly ONE functor
     whose SOURCE is [PointedSets] -- [Pointed_to_Coslice]
-    (Instance/Sets/Pointed/Coslice.v:78) -- and its codomain is
+    (Instance/Sets/Pointed/Coslice.v) -- and its codomain is
     [Coslice Sets SetsOne], not [Sets]; the two functors INTO
-    [PointedSets] were [Coslice_to_Pointed] (ibid.:94) and
-    [Part_to_Pointed] (Instance/Sets/Pointed/Part.v:97).
+    [PointedSets] were [Coslice_to_Pointed] (ibid.) and
+    [Part_to_Pointed] (Instance/Sets/Pointed/Part.v).
 
     But the honest statement is weaker than "unreachable", and the
     difference is worth stating because a reviewer will find it:
     [Coslice_proj : Coslice C c ⟶ C] DOES exist
-    (Instance/Cat/Pullback.v:847), so the composite
+    (Instance/Cat/Pullback.v), so the composite
     [Coslice_proj ◯ Pointed_to_Coslice] was ASSEMBLABLE in tree.  It was
     never assembled and never named, and it is not the route taken here,
     for a dependency reason: Instance/Cat/Pullback.v is a large file
@@ -119,7 +119,7 @@ Generalizable All Variables.
 
       (1) The carrier is a datatype the library already has:
           [option (carrier X)] under [option_setoid], which
-          Lib/Datatypes.v:206-211 describes as the coproduct setoid
+          Lib/Datatypes.v describes as the coproduct setoid
           1 + A.  Nothing is declared here except the pairing of that
           setoid with its basepoint.
       (2) A pointed map carries exactly ONE law, [preserves_pt], and for
@@ -175,7 +175,7 @@ Generalizable All Variables.
     THE CAUSE OF THOSE THREE REJECTIONS IS DIAGNOSED, AND THE DIAGNOSIS
     DISCRIMINATES.  All three route through
     [unique_obj (ump_universal_arrows …)], and [ump_universal_arrows]
-    (Theory/Universal/Arrow.v:139) is [Qed]-opaque, so nothing reduces
+    (Theory/Universal/Arrow.v) is [Qed]-opaque, so nothing reduces
     through it.  Two controls show that this is the cause and not a
     generic property of the adjunction record.  First, the OTHER
     transpose of the SAME [Isomorphism] does reduce
@@ -287,7 +287,7 @@ Generalizable All Variables.
     map of a pointed map.  Both are projections, so all three functor
     laws are [reflexivity] and faithfulness is the identity implication:
     equivalence in [PointedSets] IS pointwise equivalence of the
-    underlying maps (Instance/Sets/Pointed.v:160). *)
+    underlying maps (Instance/Sets/Pointed.v). *)
 
 Program Definition Pointed_Forget : PointedSets ⟶ Sets := {|
   fobj := fun X => pointed_setoid X;
@@ -303,7 +303,7 @@ Next Obligation. intros X Y f g Hfg a; exact (Hfg a). Qed.
 (** ** The free pointed set X ⊔ {∗}
 
     The carrier is [option (carrier X)] and the setoid is
-    [option_setoid] (Lib/Datatypes.v:211), which relates [Some a] to
+    [option_setoid] (Lib/Datatypes.v), which relates [Some a] to
     [Some b] exactly when a ≈ b, relates [None] to itself, and relates
     nothing across the two constructors.  The basepoint is the adjoined
     element [None].  No equation is imposed, so nothing is quotiented. *)
@@ -314,7 +314,7 @@ Definition FreePointedObject (X : SetoidObject) : PointedSetoid := {|
 |}.
 
 (* The insertion of generators.  Its respectfulness certificate is
-   [Some_respects] (Lib/Datatypes.v:231), resolved during elaboration;
+   [Some_respects] (Lib/Datatypes.v), resolved during elaboration;
    the universe measurement in the header was taken after that
    resolution, so it reports the term that is actually built. *)
 Definition free_pointed_insert (X : SetoidObject) :
@@ -641,7 +641,7 @@ Definition fpt_one : SetoidObject := {| carrier := poly_unit |}.
 
 Definition fpt_two : SetoidObject := {| carrier := option poly_unit |}.
 
-(** The two-point probe object of Instance/Sets/Pointed.v:352 IS the
+(** The two-point probe object of Instance/Sets/Pointed.v IS the
     free pointed set on the one-point setoid -- whole record, [eq_refl].
     So the smallest object that file needed in order to detect
     monomorphisms is the free one on a single generator. *)

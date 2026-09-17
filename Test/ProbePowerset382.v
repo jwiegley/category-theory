@@ -186,7 +186,7 @@ Definition probe_prop_le@{o} (X : SetoidObject@{o o}) :
   relation (carrier (Powerset_Prop_obj@{o} X)) :=
   fun S T => ∀ x, S x → T x.
 
-(* NEGATIVE 2.  Instance/Sets/Powerset.v:238's PROOF-RELEVANT carrier has
+(* NEGATIVE 2.  Instance/Sets/Powerset.v's PROOF-RELEVANT carrier has
    [Type@{o}]-valued members, so inclusion between two of its subsets is
    [Type]-valued and is not a [relation] at all.  This is why the order
    is put on the truncated carrier and not on this one. *)
@@ -232,7 +232,7 @@ Definition probe_small_union@{o} (X : TopSpace@{o}) (I : Type@{o})
    [Proset_Limit] and hence through Instance/Discrete.v's unannotated
    [DiscreteCat_Functor], which fixes the shape at
    [DiscreteCat@{u Set Set}]".  That donor was annotated in place at
-   Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   Instance/Discrete.v in the PR "algebraic carriers are sets"
    (2026-09-17) and fixes nothing now.  The refusal below SURVIVES that
    repair unchanged, because the [Set] it fires on is written into
    Instance/Powerset.v's own statement -- [Subsets_Complete] is declared

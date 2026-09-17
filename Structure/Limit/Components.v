@@ -55,7 +55,7 @@ Generalizable All Variables.
      (c) [components_IsALimit]: a limit over any shape carrying a
          decomposition is a product of limits over connected shapes.
 
-     ( ) [xfer_IsALimit]: a FULL, ESSENTIALLY SURJECTIVE functor of
+      [xfer_IsALimit]: a FULL, ESSENTIALLY SURJECTIVE functor of
          shapes transfers limits.  Faithfulness is not consumed.
 
    1. A PRIOR-ART CORRECTION.  The catalog issue states that "no
@@ -67,7 +67,7 @@ Generalizable All Variables.
       [Definition Connected (C : Category)] for an ARBITRARY category,
       together with [zigzag_trans], [zigzag_sym] and [hom_zigzag].
       Theory/Connected/Components.v REUSES them -- it Requires that
-      module at its line 14 and declares neither -- and so does this
+      module and declares neither -- and so does this
       file.  Nothing here redeclares a zig-zag.
 
    2. THE CENTRAL ABSENCE IS REAL, AND MEASURED BY CONSUMER RATHER THAN
@@ -78,12 +78,12 @@ Generalizable All Variables.
       of shapes.  An earlier revision of this paragraph said "none of the
       three mentions a limit or a cone", and the LIMIT half of that is
       FALSE: all three mention [Limit], 2, 11 and 2 times, in [Require]
-      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v:37-66 is
+      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v is
       a numbered section headed "THE [Colimit] READING IS NOT
       DELIVERED").  The CONE half stands -- zero hits in all three -- and
       the conclusion is unaffected, but the evidence as first stated was
       wrong.  The near-hit a
-      name search does return, Structure/Limit/Coproduct.v:113's
+      name search does return, Structure/Limit/Coproduct.v's
       [colimit_is_indexed_coproduct], is a different statement: it
       reads a COLIMIT OVER A DISCRETE DIAGRAM as an indexed coproduct
       OF OBJECTS, and no coproduct of index CATEGORIES occurs in it.
@@ -109,7 +109,7 @@ Generalizable All Variables.
       along a quasi-inverse -- not done here.
 
       The decomposition is therefore packaged as DATA, on the model of
-      Theory/Skeleton.v:355's [Skeleton] record, which carries a chosen
+      Theory/Skeleton.v's [Skeleton] record, which carries a chosen
       representative [skel_rep] together with a uniqueness field
       [skel_uniq].  [ComponentDecomposition] carries [cd_rep] (a chosen
       representative per index), [cd_part] (the index of an object),
@@ -487,7 +487,7 @@ Definition coprod_IsALimit_HasIndexedProducts {I : Type} {J : I → Category}
    [Limit (DiscreteCat_Functor f)] and so is declared at
    [C : Category@{_ Set Set}], where [coprod_IsALimit] above leaves both
    levels free."  The pin is gone: the donor was annotated in place at
-   Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   Instance/Discrete.v in the PR "algebraic carriers are sets"
    (2026-09-17), and [iprod@{u u0 u1 u2 u3}] is now declared over
    [C : Category@{u1 u2 u2}].  What it still inherits is [Limit]'s
    IDENTIFICATION of the discrete shape's hom-and-proof universe with the
@@ -521,7 +521,7 @@ Example coprod_IsALimit_iprod_leg {I : Type} {J : I → Category}
 (** ** Part (b): the decomposition of a category into its components *)
 
 (* A DECOMPOSITION OF [C] INTO CONNECTED COMPONENTS, PACKAGED AS DATA.
-   The design follows Theory/Skeleton.v:355's [Skeleton] record exactly:
+   The design follows Theory/Skeleton.v's [Skeleton] record exactly:
    an index type, a CHOSEN representative for each index, the assignment
    of an index to each object, a chain joining every object to its
    representative, and a uniqueness clause.  It is data and not a
@@ -1052,7 +1052,7 @@ Definition no_ESO_into_naive_pi0_sum (F : _2 ⟶ naive_pi0_sum) :
 (** ** Non-vacuity, part 3: part (a) computing in [Coq] *)
 
 (* The constant functor out of the point.  Named [coq_point] rather than
-   [One_Const], which Theory/Shapes.v:262 already takes for the DIFFERENT
+   [One_Const], which Theory/Shapes.v already takes for the DIFFERENT
    functor [C ⟶ [_1, C]]; that module is deliberately not required here,
    its identifications being pinned at [Category@{_ Set Set}]. *)
 
@@ -1168,7 +1168,7 @@ Proof. discriminate. Qed.
    [Cone]) identifies with the AMBIENT hom-and-proof universe.
 
    In the PR "algebraic carriers are sets" (2026-09-17)
-   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81,
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v,
    and both lines below are now ACCEPTED.  They are kept as positive
    controls at exactly the levels that used to refuse them, so this
    section now guards the repair rather than the pin: were the annotation

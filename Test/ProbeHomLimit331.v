@@ -37,7 +37,7 @@
         defect and not a structural obstruction.  In the PR "algebraic
         carriers are sets" (2026-09-17) that annotation was applied in
         place -- [DiscreteCat_Functor@{o h p uo uh up +}] at
-        Instance/Discrete.v:81 -- and the prediction held: the command is
+        Instance/Discrete.v -- and the prediction held: the command is
         now ACCEPTED, and it is kept below as a positive control at
         exactly the levels that used to refuse it.  Dropping the
         annotation would refuse it again and break this file.
@@ -49,7 +49,7 @@
         and an earlier draft ALSO mis-attributed the [Set] to the shape.
 
       * TYPING -- written [FCone (HomFrom unit) (…)] elaboration reports
-          "HomFrom () has type Coq ⟶ Sets while it is expected to have
+          "HomFrom  has type Coq ⟶ Sets while it is expected to have
            type Coq ⟶ Coq".
         THE CAUSE IS [HomFrom]'s IMPLICIT [{C : Category}], undeterminable
         from a bare [unit : Type] -- NOT [FCone]'s category arguments.

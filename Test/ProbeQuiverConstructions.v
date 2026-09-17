@@ -30,7 +30,7 @@
       - [Forgetful_preserves_fst]/[_snd]: [Fst] and [Snd] of
         Construction/Product.v are [Program Instance]s, so their
         [fmap_respects] field is an opaque obligation (the tree runs
-        [Unset Transparent Obligations], Lib/Tactics.v:36).  The node and edge
+        [Unset Transparent Obligations], Lib/Tactics.v).  The node and edge
         actions do agree definitionally; it is respectfulness alone that
         blocks.
 
@@ -39,7 +39,7 @@
         for the standard library's [prod] — it holds on a constructor and not
         on a variable.
 
-      - [prod_setoid]: Lib/Datatypes.v:139's global instance has exactly the
+      - [prod_setoid]: Lib/Datatypes.v's global instance has exactly the
         [equiv] that Constructions.v's [edgeset_prod] spells out, but an opaque
         [setoid_equiv].  Since [Setoid] has primitive projections with eta,
         conversion compares that field, and an opaque one defeats the

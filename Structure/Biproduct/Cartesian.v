@@ -66,7 +66,7 @@ Generalizable All Variables.
 
    THE ROUND TRIP AGAINST Structure/Semiadditive.v.  The converse passage
    already existed: [cartesian_biproduct] and [cartesian_has_biproducts]
-   (Structure/Semiadditive.v:228, :244) turn a preadditive category with
+   (Structure/Semiadditive.v) turn a preadditive category with
    binary products into one with biproducts.  Composing it with this
    file's [biproduct_Cartesian] returns the original biproduct OBJECT by
    [eq_refl] ([biproduct_roundtrip_obj]) and the original projections by
@@ -182,7 +182,7 @@ Definition biproduct_Cartesian : @Cartesian C := {|
 (* Dually — and this is the half Mac Lane's roster is about — the SAME
    object with the two injections and the copairing [bi_copair] is a
    cocartesian structure.  Recall that [Cocartesian C] is notation for
-   [@Cartesian (C^op)] (Structure/Cocartesian.v:115), so the field names
+   [@Cartesian (C^op)] (Structure/Cocartesian.v), so the field names
    below are the product ones read in the opposite category: [product_obj]
    is the coproduct x + y, [exl]/[exr] are [inl]/[inr], [fork] is the
    copairing ▽, and [ump_products] arrives with its composition order

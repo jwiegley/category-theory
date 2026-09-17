@@ -24,7 +24,7 @@ Generalizable All Variables.
    Adjunction/Square.v develops Mac Lane §IV.7 Exercises 4 and 5 in
    ordinary-category vocabulary, with no bicategorical machinery, so that
    it applies to categories of any size.  This file reconciles that
-   development with Theory/Bicategory/Mates.v:486 [mate] and :490
+   development with Theory/Bicategory/Mates.v's [mate] and
    [mate_inv] read in Cat, of which it is the ordinary-functor case, and
    it is the sibling of Instance/Cat/Bicategory/Conjugate.v, which does
    the same for the identity-bounding-cell development of
@@ -37,8 +37,8 @@ Generalizable All Variables.
    the bounding cells are genuine functors K and L rather than identities,
    so the F' ◯ Id trap that Instance/Cat/Bicategory/Conjugate.v records
    does not arise on this route.  The bridge to the bicategorical side is
-   taken through the TRANSPARENT Instance/Cat/Bicategory/Adjunction.v:159
-   [Cat_Adjunction_BicatAdjunction], never through :163
+   taken through the TRANSPARENT Instance/Cat/Bicategory/Adjunction.v
+   [Cat_Adjunction_BicatAdjunction], never through that file's
    [Cat_BicatAdjunction_Adjunction_iff], which is data closed with Qed.
 
    WHAT THE COMPARISON COSTS, MEASURED.  After [simpl; unfold sq_mate] the
@@ -48,7 +48,7 @@ Generalizable All Variables.
    [fmap[L] (fmap[U] id)]), against the intended
    [fmap[U'] (fmap[K] counit) ∘ (fmap[U'] (sg (U a)) ∘ unit)].  They are
    cleared by exactly [rewrite !fmap_id; rewrite ?id_left, ?id_right],
-   which is what Instance/Cat/Bicategory/Adjunction.v:244
+   which is what Instance/Cat/Bicategory/Adjunction.v
    [Cat_mate_unfold_raw] does; the extra steps on this side are
    [to_adj_unit], which turns the caller's own transpose into the pasted
    form, then one [fmap_comp] and one [comp_assoc] to reassociate it.
@@ -76,7 +76,7 @@ Generalizable All Variables.
    not edit Mates.v; Instance/Adj/Bicategory.v (#399) later narrows that
    note without discharging the entry, and its arbitrary-bicategory half
    remains open.
-   No comparison with :525 [mate_iso] as an isomorphism of setoids, so
+   No comparison with Mates.v's [mate_iso] as an isomorphism of setoids, so
    Adjunction/Square.v's [square_bijection] is not identified with it.  No
    [mate_inv] component lemma is added to the donor file.  Nothing is
    registered as an [Instance], and there is no concrete witness. *)

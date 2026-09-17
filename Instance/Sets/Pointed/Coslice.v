@@ -26,8 +26,8 @@ Generalizable All Variables.
    WHAT THAT STRENGTH IS, EXACTLY (the first commit of this file got this
    wrong and an audit corrected it).  An isomorphism in this library's [Cat]
    IS an equivalence of categories, because [Functor_Setoid] identifies
-   functors that are merely naturally isomorphic — Instance/Cat.v:28-30 says
-   so in as many words, and Theory/Equivalence.v:163,172 ships the
+   functors that are merely naturally isomorphic — Instance/Cat.v says
+   so in as many words, and Theory/Equivalence.v,172 ships the
    interconversion pair [Equivalence_to_Cat_Iso]/[Cat_Iso_to_Equivalence]
    with both round trips.  So `≅[Cat]` here is NOT the on-the-nose
    isomorphism of categories that Awodey's §1.6 Example 1.8 asserts, and

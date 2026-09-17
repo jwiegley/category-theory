@@ -41,7 +41,7 @@
     UNIVERSE-FREE FORMS DO NOT.  [kernel_universal_element_iso] is stated
     over [C : Category@{u u0 u0}] with [u <= u0] -- objects at or below
     homs -- because [obj[Sets@{o so}]] is [SetoidObject@{o o}]
-    (Instance/Sets.v:194), identifying a setoid's carrier and relation
+    (Instance/Sets.v), identifying a setoid's carrier and relation
     universes, while [KernelData]'s carrier sits at C's object universe
     and its relation at C's proof universe.  [Ab@{u u0}] is declared with
     [u0 < u], so neither it nor [Rng] can be substituted.  The passages,

@@ -20,7 +20,7 @@
     small index show the rejection is the index and not the vocabulary.
 
     Group (1b), one negative, and it guards an ENGINEERING FINDING rather
-    than a mathematical boundary.  Instance/Sets/Products.v:409-424 records
+    than a mathematical boundary.  Instance/Sets/Products.v records
     that letting instance resolution close a [proper_morphism] field can pin
     a constant's index universe to [Set].  Written as a [Program Definition]
     the map [Sets_discrete J → J · 1] raises no obligation at all --

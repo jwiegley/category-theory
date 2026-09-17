@@ -28,12 +28,12 @@ Generalizable All Variables.
    their limits are created out of [Sets].
 
    WHAT TRANSPORTS.  Hom-setoids, whose `≈` is pointwise into the target
-   ([SetoidMorphism_equiv], Instance/Sets.v:144); binary products, whose `≈` is
-   componentwise ([Sets_Cartesian], Instance/Sets/Cartesian.v:33); indexed
+   ([SetoidMorphism_equiv], Instance/Sets.v); binary products, whose `≈` is
+   componentwise ([Sets_Cartesian], Instance/Sets/Cartesian.v); indexed
    products, whose `≈` is pointwise in the index ([Sets_iprod_equiv],
-   Instance/Sets/Products.v:256); and limits, whose `≈` is the underlying
+   Instance/Sets/Products.v); and limits, whose `≈` is the underlying
    indexed product's, the compatibility witness playing no part
-   ([Sets_limit_equiv], Instance/Sets/Complete.v:141).  In each case the
+   ([Sets_limit_equiv], Instance/Sets/Complete.v).  In each case the
    [Prop] relation is the obvious pointwise or componentwise one, and the
    [Example]s below read that back at [eq_refl] rather than asserting it.
 
@@ -49,7 +49,7 @@ Generalizable All Variables.
    then stops: [pequiv_to] would have to eliminate a [Prop] into the
    [Type]-valued goal [f ≈ g].  For [Cat] that is not merely inconvenient, and
    Test/ProbePropEquiv.v measures it: an [F ≈ G] in [Cat] IS a family of
-   isomorphisms (Theory/Functor.v:149, installed at Instance/Cat.v:145), and
+   isomorphisms (Theory/Functor.v, installed at Instance/Cat.v), and
    projecting the isomorphism at [x] out of an [inhabited (F ≈ G)] is refused.
    For [Sets] the situation is weaker and is stated as such: an arbitrary
    [SetoidObject] carries an arbitrary [Type]-valued `≈`, so no route to a
@@ -76,7 +76,7 @@ Definition PropEquivObj (X : SetoidObject) : Type := PropEquiv (is_setoid X).
 (** ** Hom-setoids *)
 
 (* Two setoid maps are `≈` when they agree pointwise up to the target's `≈`
-   (Instance/Sets.v:144), so a [Prop] mirror on the TARGET gives one on the
+   (Instance/Sets.v), so a [Prop] mirror on the TARGET gives one on the
    hom-setoid, pointwise.  The source needs nothing.
 
    Measured:
@@ -99,7 +99,7 @@ Proof.
 Defined.
 
 (* The hom-setoid of [Sets] IS [SetoidMorphism_Setoid] on the nose
-   (Instance/Sets.v:201), so the instance above is an instance for [Sets]'s
+   (Instance/Sets.v), so the instance above is an instance for [Sets]'s
    [homset] without further work. *)
 Example hom_PropEquiv_is_Sets_homset (x y : SetoidObject) :
   @SetoidMorphism_Setoid x y = @homset Sets x y := eq_refl.
@@ -113,7 +113,7 @@ Example hom_pequiv_is_pointwise {x y : SetoidObject}
 (** ** Binary products *)
 
 (* [Sets_Cartesian]'s product setoid is componentwise
-   (Instance/Sets/Cartesian.v:33).  The conjunction below is Coq's [and],
+   (Instance/Sets/Cartesian.v).  The conjunction below is Coq's [and],
    written `/\`; the library's `∧` is [prod] and would leave the relation in
    [Type].
 
@@ -150,7 +150,7 @@ Example product_pequiv_is_componentwise {x y : SetoidObject}
 
 (** ** Indexed products *)
 
-(* [Sets_iprod_equiv F g h := ∀ i, g i ≈ h i] (Instance/Sets/Products.v:256):
+(* [Sets_iprod_equiv F g h := ∀ i, g i ≈ h i] (Instance/Sets/Products.v):
    pointwise in the index, so the [Prop] mirror is pointwise too.  The index
    type [A] is arbitrary and carries no setoid, exactly as [HasIndexedProducts]
    asks.
@@ -183,7 +183,7 @@ Example iprod_pequiv_is_pointwise {A : Type} (F : A -> SetoidObject)
 
 (** ** Limits *)
 
-(* [Sets_limit_equiv p q := `1 p ≈ `1 q] (Instance/Sets/Complete.v:141): the
+(* [Sets_limit_equiv p q := `1 p ≈ `1 q] (Instance/Sets/Complete.v): the
    compatibility witness carried alongside a family is not compared, so the
    [Prop] mirror is the underlying indexed product's, i.e. pointwise in the
    shape.
@@ -252,7 +252,7 @@ Definition LocallyPropositional_of_relation (C : Category)
   {| locally_prop := fun x y =>
        PropEquiv_of_relation (R x y) (to x y) (from x y) |}.
 
-(* The hom-setoid whose `≈` is Coq's [eq] (Theory/Category.v:242) is
+(* The hom-setoid whose `≈` is Coq's [eq] (Theory/Category.v) is
    propositional outright.  Any category declaring [homset := Morphism_equality]
    -- Instance/One.v's [_1] and Instance/Zero.v's [_0] among them -- is
    therefore locally propositional by [LocallyPropositional_of_relation] with

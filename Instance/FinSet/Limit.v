@@ -14,7 +14,7 @@
     this file no constant anywhere in the tree had type
     [HasEqualizers FinSet] (a tree-wide grep for that phrase finds nothing),
     and the string "qualizer" occurs under Instance/FinSet* exactly once,
-    as prose (Instance/FinSet/Subsets.v:95).
+    as prose (Instance/FinSet/Subsets.v).
 
     WHAT IS DELIVERED.
     (A) [FinSet_HasEqualizers : HasEqualizers FinSet], NATIVE and
@@ -34,7 +34,7 @@
         simpler than [FinSet_Pullbacks]'s, which it mirrors: no pair codec
         is needed, so no [fin_unpair] layer.
     (B) [FinSet_FinitelyComplete : @FinitelyComplete FinSet], the
-        quantified statement of Structure/Limit/Finite.v:611 — a [Limit]
+        quantified statement of Structure/Limit/Finite.v — a [Limit]
         for EVERY functor out of EVERY [FiniteCategory]-witnessed shape, the
         reading the issue's reviewer note asks for, not a bundle of named
         shapes — as ONE application of Mac Lane §V.2 Corollary 1 in the
@@ -65,7 +65,7 @@
         pullback UMP that [Program] closed opaquely (the probe pins both).
 
     RELATION TO WHAT EXISTED, AND THREE STALE PREMISES OF THE ISSUE.
-    Test/ProbeFinite417.v:271 already carried a [FinSet_FinitelyComplete]
+    Test/ProbeFinite417.v already carried a [FinSet_FinitelyComplete]
     at probe strength, by the pullback route, and its N10 records that the
     route does not compute; it is renamed there to
     [FinSet_FinitelyComplete_pb] so that this file owns the pinned name
@@ -79,14 +79,14 @@
     now a finiteness predicate on [Category] ([FiniteCategory], #417); the
     passage from the generators to all finite limits IS formalized, and the
     three places the issue cites as saying otherwise no longer do —
-    Structure/Topos.v:22-51 and Structure/Regular.v:26-31 name
+    Structure/Topos.v and Structure/Regular.v name
     [finitely_complete_of_pullbacks_terminal] as the theorem, and
-    Structure/Pullback.v:255-263 and :276-278 record the reduction as PROVED in
-    Structure/Pullback/Reduction.v, its :279-282 alone still scoping the
-    general claim away from that file without saying where it lives — so the
+    Structure/Pullback.v records the reduction as PROVED in
+    Structure/Pullback/Reduction.v, one sentence of it alone still scoping
+    the general claim away from that file without saying where it lives — so the
     issue's "discharge the disclosure" step edits TWO sentences, each line-
-    neutrally: Structure/Pullback.v:279-282, and the like-worded
-    Structure/Topos/Monadic.v:170-171 ("no such statement is made anywhere in
+    neutrally: Structure/Pullback.v, and the like-worded
+    Structure/Topos/Monadic.v ("no such statement is made anywhere in
     this library", a leftover of #417) — both now point at Finite.v's
     [FinitelyComplete], built from products and equalizers rather than by shape
     induction — and nothing in the other two files; and the premise that stood,

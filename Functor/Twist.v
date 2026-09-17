@@ -45,15 +45,15 @@ Generalizable All Variables.
    candidates out in full, and both do collapse.
 
    STRICT VERSUS WEAK EQUALITY OF FUNCTORS.  The library has two
-   equivalences on [C ⟶ D].  [Functor_Setoid] (Theory/Functor.v:148),
-   which is the hom-setoid of [Cat] (Instance/Cat.v:145), identifies two
+   equivalences on [C ⟶ D].  [Functor_Setoid] (Theory/Functor.v),
+   which is the hom-setoid of [Cat] (Instance/Cat.v), identifies two
    functors as soon as they are naturally isomorphic.
-   [Functor_StrictEq_Setoid] (Theory/Functor.v:508), the hom-setoid of
-   [StrictCat] (Instance/StrictCat.v:59), asks instead for a propositional
+   [Functor_StrictEq_Setoid] (Theory/Functor.v), the hom-setoid of
+   [StrictCat] (Instance/StrictCat.v), asks instead for a propositional
    equality of the object maps together with agreement of the arrow maps
    after transport along it; it refines the weak one
-   ([strict_equiv_implies_fun_equiv], Instance/StrictCat/ToCat.v:57, and
-   Test/Issue138.v:109 pins both hom-setoids).
+   ([strict_equiv_implies_fun_equiv], Instance/StrictCat/ToCat.v, and
+   Test/Issue138.v pins both hom-setoids).
 
    The twist sits exactly on that seam.  [Twist_Id_weak_equiv] shows that
    for F = Id the twisted functor is ALWAYS identified with [Id] by the

@@ -45,7 +45,7 @@ Import EqNotations.
      - Awodey, "Category Theory", 1st ed. (Carnegie Mellon pre-print,
        September 2005), section 2.9 exercise 7, printed p. 56, parts (a) and
        (b).  Part (a) -- the universal property of an I-indexed product -- is
-       already in the tree as [IsIndexedProduct], Structure/Limit/Product.v:51.
+       already in the tree as [IsIndexedProduct], Structure/Limit/Product.v.
        Part (b) -- the function set X^I satisfies it for the constant family
        -- is [Sets_exponent_IsIndexedProduct] and
        [Sets_constant_iprod_exponent] below.
@@ -68,7 +68,7 @@ Import EqNotations.
 
    WHAT THIS DOES NOT SETTLE ELSEWHERE
 
-   Theory/WeaklyInitial.v:43-50 takes its two products as explicit hypotheses
+   Theory/WeaklyInitial.v takes its two products as explicit hypotheses
    "rather than harvested from a [Complete] / [HasIndexedProducts] instance",
    and that note is NOT a record of the absence just described: its reason is
    a universe one, and it survives an instance existing.  The second of its
@@ -95,7 +95,7 @@ Import EqNotations.
 
    THE UNIVERSE DISCIPLINE, WHICH IS THE POINT OF THE EXERCISE
 
-   [Sets@{o so} : Category@{so o o}] (Instance/Sets.v:188): its objects are
+   [Sets@{o so} : Category@{so o o}] (Instance/Sets.v): its objects are
    [SetoidObject@{o o}], whose carriers live at [Type@{o}], and its homs also
    live at [Type@{o}].  A dependent function type [∀ i : A, F i] over
    [A : Type@{u}] lands at [Type@{max(u,o)}], so it is a carrier of an object
@@ -104,7 +104,7 @@ Import EqNotations.
    development, the universe level of the index type, and it is not imposed by
    hand -- it is what universe inference records.
 
-   [HasIndexedProducts] of Structure/Limit/Product.v:128 quantifies its index
+   [HasIndexedProducts] of Structure/Limit/Product.v quantifies its index
    as [{A : Type}], and under the library's [Set Universe Polymorphism]
    (Lib.v) that [Type] is a universe PARAMETER of the class, not a quantifier
    over all universes.  Printing the class shows the three parameters, one per
@@ -157,7 +157,7 @@ Import EqNotations.
 
    which reports that [SetoidObject@{o o}] "has type Type@{o+1} while it is
    expected to have type Type@{o}".  Why a bound of this kind must exist at
-   all is not argued here; Structure/Complete.v:64-72 records Freyd's theorem
+   all is not argued here; Structure/Complete.v records Freyd's theorem
    that a category with products of families as large as its own morphism set
    is a preorder.
 
@@ -166,7 +166,7 @@ Import EqNotations.
    Two elements of [Sets_iprod_obj F] are identified when they agree at every
    index up to the codomain's own [≈].  That is extensional equality of
    dependent functions realised as the object's chosen equivalence rather than
-   as an axiom, exactly the move Instance/Sets.v:26 makes for the hom-setoid.
+   as an axiom, exactly the move Instance/Sets.v makes for the hom-setoid.
    Nothing here appeals to [funext], choice, or [UIP]: the coproduct
    equivalence transports along an equality of indices and every proof about
    it proceeds by destructing that equality.  [Print Assumptions] reports
@@ -176,13 +176,13 @@ Import EqNotations.
    WHICH EXISTING CONSTANTS DO THE WORK
 
    Reused unchanged: [IsIndexedProduct] and [HasIndexedProducts]
-   (Structure/Limit/Product.v:51, :128); [Sets], [SetoidObject],
-   [SetoidMorphism] (Instance/Sets.v); [eq_Setoid] (Lib/Setoid.v:65) for the
+   (Structure/Limit/Product.v); [Sets], [SetoidObject],
+   [SetoidMorphism] (Instance/Sets.v); [eq_Setoid] (Lib/Setoid.v) for the
    discrete setoid on an index type; and, for the Awodey comparison and the
    witnesses only,
-   [Sets_Cartesian] (Instance/Sets/Cartesian.v:32), [Sets_Cocartesian]
-   (Instance/Sets/Cocartesian.v:28), [Sets_Closed]
-   (Instance/Sets/Cartesian/Closed.v:38), [Sets_Terminal] and [Sets_Initial]
+   [Sets_Cartesian] (Instance/Sets/Cartesian.v), [Sets_Cocartesian]
+   (Instance/Sets/Cocartesian.v), [Sets_Closed]
+   (Instance/Sets/Cartesian/Closed.v), [Sets_Terminal] and [Sets_Initial]
    (Instance/Sets.v).  Genuinely new: every [Sets_*] constant below, together
    with the [HasIndexedCoproducts] vocabulary of Structure/Limit/Coproduct.v.
 

@@ -11,7 +11,7 @@ Require Import Category.Theory.Universal.Element.
 
 Generalizable All Variables.
 
-(* The global obligation tactic ([cat_simpl], Lib/Tactics.v:225) introduces
+(* The global obligation tactic ([cat_simpl], Lib/Tactics.v) introduces
    the obligations' binders under names of its own choosing, which makes the
    proof scripts below brittle; [idtac] hands each obligation over
    untouched, as Instance/Sets/Complete.v does. *)
@@ -32,8 +32,8 @@ Generalizable All Variables.
 
    In a setoid library that construction is not a construction at all: a
    quotient IS another choice of `≈` on the same carrier.  The design is
-   stated as such at Instance/Sets.v:66 ("a quotient is just another
-   choice of `≈` on the same carrier") and at Theory/Category.v:93, and
+   stated as such at Instance/Sets.v ("a quotient is just another
+   choice of `≈` on the same carrier") and at Theory/Category.v, and
    it is what Construction/Quotient.v does one dimension up (a quotient
    of a CATEGORY by a hom-congruence, identity on objects).  This file
    supplies the missing element-level operator: given a [SetoidObject] A
@@ -156,7 +156,7 @@ Generalizable All Variables.
 
    * NO [Cocomplete Sets] IN THIS FILE.  It supplies one colimit shape's
      object, not the general construction; that is at
-     Instance/Sets/Cocomplete.v:484, as Instance/Sets/Complete.v:109 says.
+     Instance/Sets/Cocomplete.v, as Instance/Sets/Complete.v says.
 
    * NO FUNCTORIALITY IN THE RELATION.  A refinement R ⊆ R' induces a map
      A/R -> A/R', and that map is not built; nor is any comparison with

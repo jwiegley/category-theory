@@ -144,8 +144,8 @@ Generalizable All Variables.
     PRIOR ART, measured against the tree at the time of writing.  The names
     [FreeGroupoid], [FreeGrp], [FreeGroup], [free_groupoid], [free_group]
     and [ReducedWord] occurred in zero files.  "free group" occurred as
-    PROSE in four places — Theory/Universal/Arrow.v:39 and :45,
-    Instance/Grp.v:158, Structure/Terminal.v:38 — and nowhere as a
+    PROSE in four places — Theory/Universal/Arrow.v,
+    Instance/Grp.v, Structure/Terminal.v — and nowhere as a
     construction.  Nothing in tree formed a formal inverse of a free arrow:
     Construction/Free/Quiver.v's syntactic [Mor] has [Ident], [Morph] and
     [Comp] and no inverse constructor; Construction/Groupoid.v discards

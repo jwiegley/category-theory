@@ -84,15 +84,15 @@ Generalizable All Variables.
     HOM-CONGRUENCE quotient, so an object-level quotient may have to be
     built.  That is true of THAT module, but it does not follow that
     nothing object-level exists: Instance/Rng/Quotient.v supplies
-    [Ideal] (:125), [QuotientRing] (:423), [rquot_proj] (:468),
-    [rquot_proj_epic] (:498) and the descent [rquot_med] (:572) --
+    [Ideal], [QuotientRing], [rquot_proj],
+    [rquot_proj_epic] and the descent [rquot_med] --
     quotients of RINGS by ideals, exactly the layer route (a) needs.
     What route (a) would still have to build is measured rather than
     guessed: a sweep for the REQUIRED field [idl_mem :=], which every
     [Ideal] literal must supply, returns SIX inhabitants
     ([KernelIdeal], [TrivialIdeal], [TotalIdeal], [EvenIdeal],
     [SixIdeal] in Instance/Rng/Quotient.v, and [StrictUpper] in
-    Instance/Rng/Quotient/OneSided.v:177 -- an ideal of UT2, this
+    Instance/Rng/Quotient/OneSided.v -- an ideal of UT2, this
     development's own witness ring).  A NAME-based sweep returns five
     and misses [StrictUpper], whose name omits the word "Ideal"; the
     field-based one is exhaustive by construction.  All six are

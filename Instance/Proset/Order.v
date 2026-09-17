@@ -32,7 +32,7 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/preorder
    nLab: https://ncatlab.org/nlab/show/total+order
 
-   Instance/Proset.v:33 builds the thin category of a preorder; this file
+   Instance/Proset.v builds the thin category of a preorder; this file
    closes the circle and works out the order theory the correspondence buys.
 
    MAC LANE §I.2 AND ITS ROUND TRIP.  That section lists among its examples
@@ -56,7 +56,7 @@ Generalizable All Variables.
        to an honest equality.
 
      - [thin_Proset_iso] gives the other leg as an isomorphism in [Cat].
-       Instance/Cat.v:28-30 discloses that its [Functor_Setoid] identifies
+       Instance/Cat.v discloses that its [Functor_Setoid] identifies
        functors up to natural isomorphism, so an isomorphism there is only an
        EQUIVALENCE of categories.  More than that is proved, and recorded
        separately so the extra strength is checkable rather than asserted:
@@ -105,21 +105,21 @@ Generalizable All Variables.
    SEVEN SKETCHES §1.3.1.  Infimum and supremum are introduced under their
    order-theoretic names and identified with the limit and the colimit of the
    two-object discrete diagram: [infimum_iff_limit] and
-   [supremum_iff_colimit], stated over Structure/Limit.v:129's [IsALimit] and
-   Instance/Discrete.v:37's [DiscreteCat] on [bool].  Instance/Poset.v:50-51
+   [supremum_iff_colimit], stated over Structure/Limit.v's [IsALimit] and
+   Instance/Discrete.v's [DiscreteCat] on [bool].  Instance/Poset.v
    announces the dictionary entry as prose ("a product is a meet, and more
    generally the limit over a subset is its greatest lower bound"); these two
    theorems prove it at the two-object shape, for an ARBITRARY preorder.  The
    tree does already contain one instance of the identification — the
    cartesian structure on the walking arrow, whose product object is
-   Instance/Two/Monoidal.v:37's [two_meet] fed to [Two_Cartesian] at :80 —
+   Instance/Two/Monoidal.v's [two_meet] fed to [Two_Cartesian] —
    but that is a single fixed two-element order presented as a [Cartesian]
    instance rather than as a limit over a discrete diagram.
 
    SCOPE NOTE on the general identification lemma.  The library contains no
    thin-category-wide "a limit is a meet" lemma: a case-insensitive search of
    every .v file for [infimum], [supremum], "greatest lower" and "least
-   upper" returns exactly one hit, the prose comment at Instance/Poset.v:51.
+   upper" returns exactly one hit, the prose comment at Instance/Poset.v.
    The general identification lemma belongs to issue #422 (MacLane V.2:
    products in a preorder are greatest lower bounds), whose suggested module
    is Instance/Proset/Limit.v -- this same directory.  The two theorems below
@@ -140,24 +140,24 @@ Generalizable All Variables.
    equivalence between a category of preorders and a category of thin
    categories, and no adjunction between [Proset] and [thin_preorder] is
    stated.  The morphism leg of the correspondence already exists in another
-   guise: Construction/Enriched/Two.v:175-215 identifies enriched functors
+   guise: Construction/Enriched/Two.v identifies enriched functors
    between preorders enriched in the walking arrow with monotone maps. *)
 
 (** ** Thinness of prosets and posets *)
 
-(* Instance/Proset.v:39 declares the hom-setoid equivalence of a proset to be
+(* Instance/Proset.v declares the hom-setoid equivalence of a proset to be
    [True], so thinness holds by the unit constructor.  This is the bridge
    between Instance/Proset.v's construction and Structure/Thin.v's predicate,
    in the same relation as Instance/Discrete.v's [DiscreteCat_Discrete] to
-   Structure/Discrete.v:28. *)
+   Structure/Discrete.v. *)
 Lemma proset_thin {A : Type} {R : relation A} (P : PreOrder R) :
   Thin (Proset P).
 Proof. intros x y f g; exact I. Qed.
 
-(* A poset is a proset with antisymmetry imposed, and Instance/Poset.v:117
+(* A poset is a proset with antisymmetry imposed, and Instance/Poset.v
    defines it as literally [Proset P], so the thin category is the same
    object; antisymmetry constrains the OBJECTS (making the category skeletal,
-   Instance/Poset.v:20), not the homs. *)
+   Instance/Poset.v), not the homs. *)
 Lemma Poset_is_Proset {A : Type} {R : relation A} (P : PreOrder R)
       (H : @Antisymmetric A eq eq_equiv R) :
   @Poset A R P H = Proset P.
@@ -178,7 +178,7 @@ Proof. intro i; exact (H x y (to i) (from i)). Qed.
 (** ** Round trip, leg one: the preorder of the thin category of P is P *)
 
 (* Recovery up to pointwise logical equivalence.  Note this is [iffT] (the
-   library rebinds `↔`, Lib/Foundation.v:72), so the two directions carry
+   library rebinds `↔`, Lib/Foundation.v), so the two directions carry
    computational content: forward eliminates the [inhabited] witness (legal,
    since the goal [R x y] is itself a Prop), backward is [inhabits]. *)
 Theorem hom_preorder_Proset {A : Type} {R : relation A} (P : PreOrder R)
@@ -211,7 +211,7 @@ Qed.
 
 (* The comparison functor, defined for an ARBITRARY category: identity on
    objects, sending an arrow to the fact that it exists.  Every obligation is
-   an equation in the target hom-setoid, which Instance/Proset.v:39 declares
+   an equation in the target hom-setoid, which Instance/Proset.v declares
    to be [True]. *)
 Program Definition thin_to_Proset_Functor (C : Category) :
   C ⟶ Proset (thin_PreOrder C) := {|
@@ -254,7 +254,7 @@ Program Definition Proset_hom_Functor {C : Category}
 (* The isomorphism in [Cat].  Both composites are the identity on objects, and
    every `≈` involved is an equation between parallel arrows of a thin
    category, so the natural-isomorphism data [Functor_Setoid]
-   (Theory/Functor.v:148) asks for is discharged by the [cat_simpl] obligation
+   (Theory/Functor.v) asks for is discharged by the [cat_simpl] obligation
    tactic. *)
 Program Definition thin_Proset_iso {C : Category}
         (T : Thin C) (ch : HomChoice C) :
@@ -265,13 +265,13 @@ Program Definition thin_Proset_iso {C : Category}
 
 (** *** Measuring the strength of that isomorphism
 
-    Instance/Cat.v:28-30 records that `≅[Cat]` means equivalence of
+    Instance/Cat.v records that `≅[Cat]` means equivalence of
     categories, because [Functor_Setoid] compares functors up to natural
     isomorphism.  The first two facts below say more: the comparison is the
     identity on objects on the nose, and the C-side morphism round trip holds
     up to `≈` with real content (it is discharged by thinness of C).  The
     third is recorded for symmetry only and is VACUOUS: the Proset-side
-    hom-setoid is Instance/Proset.v:39's constantly-[True] relation, so ANY
+    hom-setoid is Instance/Proset.v's constantly-[True] relation, so ANY
     two parallel morphisms there are `≈`, and the lemma would hold with both
     functors replaced by arbitrary maps. *)
 
@@ -304,7 +304,7 @@ Definition Proset_roundtrip {A : Type} {R : relation A} (P : PreOrder R) :
 (* The reversed preorder is stdlib's [Basics.flip] with stdlib's
    [flip_PreOrder]; both already exist, so nothing is defined here.  The two
    categories below have convertible objects and convertible homs — the first
-   because Construction/Opposite.v:106 keeps [obj] and the second because it
+   because Construction/Opposite.v keeps [obj] and the second because it
    sets hom[C^op] x y := hom[C] y x, which for a proset is [R y x], which is
    [Basics.flip R x y] by delta. *)
 
@@ -333,7 +333,7 @@ Program Definition Proset_op_from {A : Type} {R : relation A}
    Together with the identity object maps that makes [Proset_op_iso] below an
    isomorphism of categories in the textbook sense (a bijection on objects and
    on each hom), rather than only the equivalence that `≅[Cat]` on its own
-   records (Instance/Cat.v:28-30).  What is NOT claimed is equality of the
+   records (Instance/Cat.v).  What is NOT claimed is equality of the
    composite functors with [Id]: their [fobj] and [fmap] agree with [Id]'s by
    [eq_refl], but their law fields are the opaque obligation constants
    [Program] generated, which are not [eq_refl]-equal to [Id]'s. *)
@@ -385,7 +385,7 @@ Qed.
 
 (* The two extreme preorder structures on an arbitrary [Type]: equality, and
    the relation that always holds.  [discrete_rel] is the order-theoretic
-   shadow of Instance/Discrete.v:37's [DiscreteCat] (whose homs are exactly
+   shadow of Instance/Discrete.v's [DiscreteCat] (whose homs are exactly
    equality proofs); [codiscrete_rel] is the shadow of the codiscrete
    category, which Structure/Discrete.v's header mentions as the other
    adjoint. *)
@@ -412,7 +412,7 @@ Proof. constructor; [ intro x; exact I | intros x y z _ _; exact I ]. Defined.
    other such bottom agrees with it.  This is deliberately a statement about
    preorder structures on ONE fixed carrier.  Whether the codiscrete category
    is also terminal in [Cat] is a different question and is left open here —
-   Instance/Cat.v:28-30's `≅` compares functors up to natural isomorphism, and
+   Instance/Cat.v's `≅` compares functors up to natural isomorphism, and
    [codiscrete_all_iso] below shows every pair of objects of the codiscrete
    category is isomorphic, which makes that question subtler than it looks. *)
 
@@ -464,7 +464,7 @@ Proof. exact (thin_iso (proset_thin (codiscrete_PreOrder A)) I I). Qed.
 (** ** Comparability, and how it differs from decidability (§1.2.2) *)
 
 (* Two elements are comparable when the order relates them one way or the
-   other AND the witness records which way: `∨` is Lib/Foundation.v:79's
+   other AND the witness records which way: `∨` is Lib/Foundation.v's
    notation for [sum], so [comparable] is Type-valued and can be matched on
    to compute.  That is the whole point — [TotalOrder_meet] below builds the
    binary infimum by dispatching on it.
@@ -481,7 +481,7 @@ Proof. exact (thin_iso (proset_thin (codiscrete_PreOrder A)) I I). Qed.
    decidability, which needs reflexivity, antisymmetry AND a decision
    procedure for equality on the carrier — strictly more input than
    comparability alone.  (Those three are shown sufficient, not necessary.)
-   Construction/Enriched/Two.v:65's [tpre_dec] is the
+   Construction/Enriched/Two.v's [tpre_dec] is the
    decidability side of the same coin: that file needs to COMPUTE a truth
    value in the walking arrow for every pair, which comparability alone
    would not supply. *)
@@ -542,7 +542,7 @@ Proof. intros ne [e|e]; [ exact (ne e) | exact (ne (eq_sym e)) ]. Qed.
    [total_comparable] is: a Prop-valued totality would not let the meet below
    be computed.  Antisymmetry is stated in the elementary form and converted
    to Instance/Poset.v's [Antisymmetric] shape by [TotalOrder_Antisymmetric],
-   so that the thin category is built by Instance/Poset.v:116's [Poset]
+   so that the thin category is built by Instance/Poset.v's [Poset]
    rather than by a fresh construction. *)
 
 Class TotalOrder {A : Type} (R : relation A) : Type := {
@@ -589,9 +589,9 @@ Definition nat_TotalOrder : TotalOrder PeanoNat.Nat.le := {|
     end
 |}.
 
-(* The thin category of (ℕ, ≤).  Instance/Proset.v:47 and Instance/Poset.v:120
+(* The thin category of (ℕ, ≤).  Instance/Proset.v and Instance/Poset.v
    both already export a [LessThanEqualTo_Category] for this order (a clash
-   Test/Poset.v:35-41 documents), so no third name is introduced; this one is
+   Test/Poset.v documents), so no third name is introduced; this one is
    built through [TotalOrder_Category] to exercise the class. *)
 Definition Nat_TotalOrder_Category : Category :=
   TotalOrder_Category nat_TotalOrder.
@@ -630,7 +630,7 @@ Definition nat_ge_TotalOrder : TotalOrder (Basics.flip PeanoNat.Nat.le) :=
 
 (* Order-theoretic names first: m is an infimum (greatest lower bound) of x
    and y when it is a lower bound and dominates every lower bound.  The
-   connectives are Lib/Foundation.v:78-79's, so these are [Type]-valued;
+   connectives are Lib/Foundation.v's, so these are [Type]-valued;
    nothing is eliminated from Prop into Type, the Prop components are only
    carried. *)
 
@@ -647,7 +647,7 @@ Lemma supremum_is_flipped_infimum {A : Type} (R : relation A) (x y m : A) :
 Proof. reflexivity. Qed.
 
 (* The two-object discrete diagram in the thin category of P, picking out x
-   at [false] and y at [true].  Instance/Discrete.v:52's [DiscreteCat_Functor]
+   at [false] and y at [true].  Instance/Discrete.v's [DiscreteCat_Functor]
    turns any function out of a [Type] into a functor out of the discrete
    category on it. *)
 Definition PairDiagram {A : Type} {R : relation A} (P : PreOrder R)
@@ -655,8 +655,8 @@ Definition PairDiagram {A : Type} {R : relation A} (P : PreOrder R)
   DiscreteCat_Functor (C:=Proset P) (fun b : bool => if b then y else x).
 
 (* A lower bound of x and y IS a cone over the pair diagram (Structure/Cone.v
-   :24 for the legs, :51 for the bundle with an apex), and an upper bound IS a
-   COCONE over it — which Structure/Cone.v:72 defines as a cone over the
+   declares the legs, and bundles them with an apex), and an upper bound IS a
+   COCONE over it — which Structure/Cone.v defines as a cone over the
    opposed diagram, exactly the type written below.  These two constructors
    are separated out so that the mediating arrow supplied by [ump_limit] has
    an apex Coq can see is [n]. *)
@@ -683,7 +683,7 @@ Proof.
 Defined.
 
 (* THE IDENTIFICATION.  Being an infimum of x and y is being a limit of that
-   diagram, with the apex pinned (Structure/Limit.v:129's [IsALimit]).  Note
+   diagram, with the apex pinned (Structure/Limit.v's [IsALimit]).  Note
    what each half costs.  Building the limit needs: the two legs (the lower
    bound), cone coherence (an equation in the trivial hom-setoid, hence
    free), the mediating arrow (the greatest-lower-bound clause), and its
@@ -716,13 +716,13 @@ Proof.
       exact (unique_obj (@ump_limit _ _ _ _ L (pair_cone P x y n lx ly))).
 Qed.
 
-(* The dual identification.  Structure/Limit.v:158 defines a colimit of F as a
+(* The dual identification.  Structure/Limit.v defines a colimit of F as a
    limit of F^op, so the apex-pinned colimit of the pair diagram is
    [IsALimit ((PairDiagram P x y)^op) m]; unfolding, its legs are arrows
    x ~> m and y ~> m of [Proset P], i.e. upper bounds, and its mediator is
    the least-upper-bound clause. *)
 (* The apex-pinned colimit notion below is spelled out by hand; the library
-   already names it -- Structure/Limit/Preservation.v:130's
+   already names it -- Structure/Limit/Preservation.v's
    [IsAColimit F c := IsALimit (F^op) c] -- and [supremum_iff_IsAColimit]
    restates the theorem through that name. *)
 Theorem supremum_iff_colimit {A : Type} {R : relation A} (P : PreOrder R)
@@ -915,7 +915,7 @@ Proof. reflexivity. Qed.
 
     Each of these holds by [eq_refl], so together they pin down that nothing
     above is stated at one remove from the concrete objects it is about.
-    Numerals carry [%nat] because Lib/Foundation.v:9 closes [nat_scope]. *)
+    Numerals carry [%nat] because Lib/Foundation.v closes [nat_scope]. *)
 
 (* The thin category of a total order has the carrier as its objects and the
    order itself as its homs. *)
@@ -928,7 +928,7 @@ Proof. reflexivity. Qed.
 
 (* Box: the reverse order, concretely.  Reading an arrow of the OPPOSITE thin
    category as a proposition gives [ge] on the nose — this is
-   [flip_le_is_ge] seen through Construction/Opposite.v:106's hom reversal,
+   [flip_le_is_ge] seen through Construction/Opposite.v's hom reversal,
    and it is what [Nat_op_iso] packages as an isomorphism of categories. *)
 Example nat_op_hom_is_ge (x y : nat) :
   (x ~{((Proset PeanoNat.Nat.le_preorder)^op)%category}~> y) = ge x y.
@@ -942,8 +942,8 @@ Example nat_tjoin_3_5 : tjoin nat_TotalOrder 3%nat 5%nat = 5%nat.
 Proof. reflexivity. Qed.
 
 (* [Thin] is inhabited on the two examples the tree already ships.  The poset
-   one is fully qualified because Instance/Proset.v:47 and Instance/Poset.v:120
-   both export the name (Test/Poset.v:35-41). *)
+   one is fully qualified because Instance/Proset.v and Instance/Poset.v
+   both export the name (Test/Poset.v). *)
 
 Definition thin_proset_nat : Thin (Proset PeanoNat.Nat.le_preorder) :=
   proset_thin PeanoNat.Nat.le_preorder.
@@ -954,7 +954,7 @@ Definition thin_poset_nat :
     (partial_order_antisym PeanoNat.Nat.le_partialorder).
 
 (* The colimit half restated through the library's own apex-pinned name
-   (Structure/Limit/Preservation.v:130), as promised above. *)
+   (Structure/Limit/Preservation.v), as promised above. *)
 Corollary supremum_iff_IsAColimit {A : Type} {R : relation A} (P : PreOrder R)
         (x y m : A) :
   IsSupremum R x y m ↔ IsAColimit (PairDiagram P x y) m.

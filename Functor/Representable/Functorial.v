@@ -31,7 +31,7 @@ Generalizable All Variables.
 
     (1) THE COMPARISON WITH THE YONEDA EMBEDDING.  The issue this development
     answers suggests obtaining the arrow by transporting τ to ψ'⁻¹ ∘ τ ∘ ψ and
-    inverting the hom-bijection [Yoneda_Embedding'] (Functor/Hom.v:109).
+    inverting the hom-bijection [Yoneda_Embedding'] (Functor/Hom.v).
     Functor/Representable.v does the first half — that is [repr_transport] —
     and then names the arrow directly rather than through the packaged
     bijection, for the universe reason recorded in that file's header.  The
@@ -39,15 +39,15 @@ Generalizable All Variables.
     both are formable they are the same TERM, not merely equivalent arrows.
 
     (2) THE CROSS-LINK WITH Structure/UniversalProperty.v.  That file's
-    [univ_property_unique_up_to_unique_iso] (:138) is the τ = id case for
+    [univ_property_unique_up_to_unique_iso] is the τ = id case for
     objects satisfying a universal PREDICATE, and its [univ_property_unique]
-    (:115) is the underlying uniqueness.  Before this file there was no
+ is the underlying uniqueness.  Before this file there was no
     passage in either direction between [IsUniversalProperty] and
     [Representable] anywhere in the tree — before this one the two names
     occurred together in only two files, Structure/UniversalProperty.v (where
     "representable" is a URL and a paragraph of prose) and
     Structure/Cartesian/Closed/Adjunction.v
-    (a comment, at :341 now that it has been amended to point here) — so the
+    (a comment, now that it has been amended to point here) — so the
     cross-link is a construction and not a citation, and the absence claim is
     scoped to what was searched: the two class NAMES, over every [.v] file in
     the tree.  It is a short one: [Representable_of_UnivProperty] is a record
@@ -56,7 +56,7 @@ Generalizable All Variables.
     [univ_property_iso_from_is_induced] identifies the backward leg of that
     proposition's isomorphism with [repr_induced] at the identity
     transformation.  The identification factors through [repr_pair_iso]
-    (Functor/Hom/Yoneda/Iso.v:162), which is what [univ_property_unique]
+    (Functor/Hom/Yoneda/Iso.v), which is what [univ_property_unique]
     consumes: [up_unique_obj_is_repr_pair_iso] records by [eq_refl] that the
     proposition's [unique_obj] IS that isomorphism, and
     [repr_pair_iso_from_is_induced] compares it with the induced arrow.
@@ -90,7 +90,7 @@ Generalizable All Variables.
       arrow is a non-identity too, in two forms — against the tautological
       representations of Functor/Representable.v ([wit_tau], where the induced
       arrow COMPUTES, [wit_induced_computes] being [eq_refl]) and against the
-      in-tree [YoEvalAt_Representable] (Functor/Hom/Yoneda/Natural.v:413),
+      in-tree [YoEvalAt_Representable] (Functor/Hom/Yoneda/Natural.v),
       where it does not compute on the nose and the agreement is [≈].
 
     WHAT IS NOT DELIVERED
@@ -236,7 +236,7 @@ Context {F : C ⟶ Sets}.
 Context {c v : C}.
 Context (b1 : [Hom c,─] ≅[Fun] F) (b2 : [Hom v,─] ≅[Fun] F).
 
-(* [repr_pair_iso] (Functor/Hom/Yoneda/Iso.v:162) is the isomorphism of
+(* [repr_pair_iso] (Functor/Hom/Yoneda/Iso.v) is the isomorphism of
    representing objects that Structure/UniversalProperty.v consumes.  Its two
    legs are the two induced arrows at the identity transformation.  They are
    NOT the same term — [nat_id]'s component is [fmap[F] id] rather than [id],
@@ -301,7 +301,7 @@ Context (C : Category@{o h h}).
 
 (* The full subcategory of [C, Sets] on the functors carrying a chosen
    representation.  [shom := True] is the full-subcategory idiom of
-   Theory/Skeleton.v:553 and Construction/Localization.v. *)
+   Theory/Skeleton.v and Construction/Localization.v. *)
 Program Definition ReprSubcat : Subcategory ([C, Sets]) := {|
   sobj := fun K => Representable K;
   shom := fun _ _ _ _ _ => True
@@ -397,7 +397,7 @@ Lemma wit_induced_not_id :
 Proof. intro Hx; simpl in Hx; discriminate. Qed.
 
 (* The same at an in-tree [Representable] instance rather than the
-   tautological one: [YoEvalAt_Representable] (Functor/Hom/Yoneda/Natural.v:413)
+   tautological one: [YoEvalAt_Representable] (Functor/Hom/Yoneda/Natural.v)
    represents evaluation at an object by the representable copresheaf.  Acting
    on each functor by [fmap] at n is a transformation of evaluations. *)
 Program Definition wit_ev_tau (n : nat)

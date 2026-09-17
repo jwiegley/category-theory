@@ -13,7 +13,7 @@ Require Import Category.Instance.StrictCat.
 Require Import Category.Instance.StrictCat.ToCat.
 
 (* [Category.Instance.Grp] and its satellites are required LAST, deliberately,
-   for the reason [Instance/Grp/Free.v]:15-23 gives: [Construction/Deloop.v]
+   for the reason [Instance/Grp/Free.v] gives: [Construction/Deloop.v]
    also declares a record called [GrpObject], and the two names would
    otherwise collide.  With this order the unqualified [GrpObject],
    [grp_unit], [grp_mul] and [grp_inv] below are always [Instance/Grp.v]'s --
@@ -55,10 +55,10 @@ Generalizable All Variables.
 
     WHY THE INTERESTING PART IS A NAMING PROBLEM.  The tree carries TWO
     records called [GrpObject], and the exercise straddles them.
-    [Construction/Deloop.v]:267 layers one on [MonObject], carrying both
+    [Construction/Deloop.v] layers one on [MonObject], carrying both
     unit laws and both inverse laws as fields; that is the record
     [Deloop]'s group-case results ([Deloop_group_invertible],
-    [Deloop_IsGroupoid]) are stated over.  [Instance/Grp.v]:184 declares a
+    [Deloop_IsGroupoid]) are stated over.  [Instance/Grp.v] declares a
     flat one with only the left-handed laws, the right-handed ones and
     respectfulness of inversion being derived; that is the record [Grp] is
     the category of, and hence the record #313's [NormalSubgroup],
@@ -67,19 +67,19 @@ Generalizable All Variables.
 
     HOW THE GAP IS CLOSED, and the measured surprise: NO RECORD
     CONVERSION IS NEEDED, because the delooping of an [Instance/Grp.v]
-    group is already in tree.  [Instance/Grp/Free.v]:272-295 builds
+    group is already in tree.  [Instance/Grp/Free.v] builds
     [grp_deloop_monoid], [grp_deloop] and [grp_deloop_IsGroupoid] --
     incidentally, on its way to the free group -- and that is exactly "the
     one-object groupoid of an [Instance/Grp.v] group".  Everything below
     is stated over [grp_deloop], so the correspondence is with congruences
     on THE delooping in tree rather than on a fresh copy of it.  (The one
-    bridge the tree names, [Instance/Rep.v]:176's [grp_mon], is a
+    bridge the tree names, [Instance/Rep.v] [grp_mon], is a
     different thing: it lands in [MonObject] and drops the inverse.
-    [Instance/Grp/Free.v]:91-92 says in terms that [grp_mon] is "the only
+    [Instance/Grp/Free.v] says in terms that [grp_mon] is "the only
     bridge between them in tree", so no record-to-record converter existed
     at the parent commit -- and this file supplies one below, which is
     exactly what makes that sentence stale rather than a limitation.
-    [Instance/Rng/MonoidRing.v]:66 is cited by Free.v's neighbours for a
+    [Instance/Rng/MonoidRing.v] is cited by Free.v's neighbours for a
     RELATED but different observation: that Rep.v "had to bridge two
     identically named [GrpObject] records with [grp_mon]", which records
     the bridge's existence, not an absence.)  What this file observes is
@@ -106,7 +106,7 @@ Generalizable All Variables.
     place.
 
     WHAT THE FOUR CONGRUENCE FIELDS COST: NOTHING.  [HomCongruence]
-    ([Construction/Quotient.v]:296) asks for containment of `≈`, symmetry,
+    ([Construction/Quotient.v]) asks for containment of `≈`, symmetry,
     transitivity and compatibility with composition.  At [grp_deloop G]
     with the relation "f * g⁻¹ lies in N" these are, in order, #313's
     [quot_rel_of_equiv], [quot_rel_sym], [quot_rel_trans] and
@@ -185,7 +185,7 @@ Generalizable All Variables.
     which presupposes something to specialize, so the tree was searched
     before the word was used.  A case-insensitive search for the phrase
     "homomorphism theorem" over every .v file returns, outside this file's
-    own prose, exactly one hit -- [Instance/Grp/Quotient.v]:572 -- and
+    own prose, exactly one hit -- [Instance/Grp/Quotient.v] -- and
     that is the GROUP statement.  So nothing in the tree is NAMED the
     categorical homomorphism theorem.  The STATEMENT is nevertheless
     present, as the universal property of the quotient category:
@@ -299,7 +299,7 @@ Example ns_rel_is_quot_rel {G : GrpObject} (N : NormalSubgroup G)
 
 (** Mac Lane §II.8 Exercise 2, one direction.  Kept a plain [Definition]
     rather than an [Instance], following [FunctorKernel_Congruence]'s own
-    convention in [Construction/Quotient.v]:555-558: nothing new enters
+    convention in [Construction/Quotient.v]: nothing new enters
     typeclass search, and the witness stays transparent. *)
 Definition ns_congruence {G : GrpObject} (N : NormalSubgroup G)
   : @HomCongruence (grp_deloop G) (ns_rel N) :=
@@ -641,9 +641,9 @@ Definition congruence_normal_subgroup (G : GrpObject)
 (** ** Normality is necessary, not merely sufficient
 
     #313 has seven [quot_rel] lemmas, and TWO of them apply [ns_conj]:
-    [quot_rel_mul] (:316) and [quot_rel_inv] (:338), as that file's own
-    comments say (":290-291" calls the first "the first of the two places
-    where NORMALITY is spent").  Only the first is consumed by
+    [quot_rel_mul] and [quot_rel_inv], as that file's own
+    comments say (the comment on [quot_rel_mul] calls it "the first of the
+    two places where NORMALITY is spent").  Only the first is consumed by
     [ns_congruence] -- [HomCongruence] has no field about inverses -- and
     the other three fields draw on [quot_rel_of_equiv], [quot_rel_sym] and
     [quot_rel_trans], whose proofs apply [sub_at], [sub_unit],
@@ -828,7 +828,7 @@ End Homomorphisms.
     here, which this is.  What is added is the REASON, which is
     categorical and costs no group-level obligation at all: the kernel
     congruence of a FUNCTOR is a congruence ([FunctorKernel_Congruence],
-    Construction/Quotient.v:559), and [cong_ns] turns any congruence on
+    Construction/Quotient.v), and [cong_ns] turns any congruence on
     the delooping into a normal subgroup.  Composing the two gives the
     kernel of h as a normal subgroup with no FURTHER argument about
     conjugation: [cong_ns]'s fifth obligation is that argument, made once
@@ -993,7 +993,7 @@ Definition hom_theorem_from_category {G K : GrpObject} (N : NormalSubgroup G)
     [QuotientProj] and #313's [quot_proj] are the same map: both are the
     identity on the underlying set, only the equivalence coarsening.  The
     arrow actions agree by convertibility; the object actions do NOT, and
-    the reason is the one [Construction/Deloop/Transform.v]:282-289
+    the reason is the one [Construction/Deloop/Transform.v]
     already records -- [poly_unit] has no definitional eta, so the
     constant function at [ttt] and the identity on a one-element type are
     different terms (Test/ProbeGrpCongruence.v, negative 6). *)
@@ -1013,18 +1013,18 @@ Proof. destruct x; reflexivity. Qed.
     Everything above holds for every group and every normal subgroup, so
     nothing yet shows the congruence separates anything or merges
     anything.  #313's witnesses are reused rather than rebuilt: S3
-    ([Instance/Grp/TwoFunctors.v]:248, the semidirect presentation over
+    ([Instance/Grp/TwoFunctors.v], the semidirect presentation over
     the decidable carrier rot * bool, proved nonabelian there), its
     rotation subgroup A3, and the reflection subgroup [S3_refl_sub], which
     #313 proves is a subgroup and is NOT normal.
 
-    NOT [Structure/Groupoid.v]:741's [S3_Grp], although that file is
+    NOT [Structure/Groupoid.v] [S3_Grp], although that file is
     imported here and although its S3 is already a
     [Category.Construction.Deloop.GrpObject] and already delooped
     ([deloop_S3_groupoid]).  The tree has exactly THREE presentations of
-    the symmetric group: that one, [TwoFunctors.v]:248's semidirect S3 on
-    rot * bool, and [Instance/Grp/Epi.v]:1605's [GrpSym3].
-    [Instance/Grp/Center.v]:35-39 counts the latter two, both being
+    the symmetric group: that one, [TwoFunctors.v] semidirect S3 on
+    rot * bool, and [Instance/Grp/Epi.v] [GrpSym3].
+    [Instance/Grp/Center.v] counts the latter two, both being
     [Instance/Grp.v] groups; [S3_Grp] is over the OTHER record and so
     falls outside that count.  #313's [A3] and [S3_refl_sub] are over
     [TwoFunctors.v]'s S3, so using [S3_Grp] would mean rebuilding both

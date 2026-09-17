@@ -34,7 +34,7 @@
                         is built over the unannotated functor."
                      [DiscreteCat_Functor] was annotated in place in the
                      PR "algebraic carriers are sets" (2026-09-17),
-                     Instance/Discrete.v:81, with exactly the binders
+                     Instance/Discrete.v, with exactly the binders
                      [DiscreteCat_Functor'] already carried; both
                      commands are now ACCEPTED and are kept in §B as
                      positive controls beside their former controls.

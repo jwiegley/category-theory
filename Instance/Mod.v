@@ -428,7 +428,7 @@ Program Definition RMod_Initial (R : RingObject) : @Initial (RMod R) := {|
   one          := @RMod_zero_hom R
 |}.
 Next Obligation.
-  (* As at Instance/Ab.v:280, routed through transitivity at the
+  (* As at Instance/Ab.v, routed through transitivity at the
      hom-setoid level rather than by [rewrite]. *)
   intros R M f g.
   etransitivity;

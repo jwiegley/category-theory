@@ -56,7 +56,7 @@ Generalizable All Variables.
    (a) [MonDiscrete M] — objects the carrier of M, a morphism x ~> y being a
        proof of the monoid's own `≈`.  This is Construction/Comma/Special.v's
        [DiscreteSetoidCat], reused rather than rebuilt, and it is the reading
-       that file argues for at length (its lines 86-110): in a setoid library
+       that file argues for at length in its header: in a setoid library
        the identifications available between two elements are the inhabitants
        of `≈`, not of Rocq's `=`.  Over this category the development carries
        NO hypothesis on M beyond its being a monoid —
@@ -100,7 +100,7 @@ Generalizable All Variables.
 
    ** RELATION TO deloop_groupoid_iff — A DIFFERENT CATEGORIFICATION
 
-   Structure/Groupoid.v:343 proves [deloop_groupoid_iff]: a monoid is a group
+   Structure/Groupoid.v proves [deloop_groupoid_iff]: a monoid is a group
    exactly when its DELOOPING is a groupoid.  There the elements of M are the
    ARROWS of a one-object category.  Here they are the OBJECTS of a discrete
    category and the translations are ENDOFUNCTORS.  These are two different
@@ -208,9 +208,9 @@ Generalizable All Variables.
      [DiscreteCat_Functor] is NOT used anywhere below; the functors out of
      the strict category are hand-written records instead.  RECORDED
      CORRECTION: an earlier revision gave the reason as "(Instance/
-     Discrete.v:59) it is unannotated and pins its source at
+     Discrete.v) it is unannotated and pins its source at
      [DiscreteCat@{u Set Set}]".  That held when written and does not now —
-     the donor was annotated in place at Instance/Discrete.v:81 in the PR
+     the donor was annotated in place at Instance/Discrete.v in the PR
      "algebraic carriers are sets" (2026-09-17) and pins nothing.  The
      hand-written records are kept, and no re-measurement was made of
      whether the donor would now serve, since nothing here consumes it.
@@ -239,10 +239,10 @@ Generalizable All Variables.
 
    Two names in the tree are near neighbours and are deliberately NOT
    shadowed, both verified at the lines given: [translation_functor]
-   (Construction/Deloop/Functors.v:465) is a functor
+   (Construction/Deloop/Functors.v) is a functor
    [Proset Z.le_preorder ⟶ Deloop Int_Plus] out of Awodey's cocycle
    construction, not a translation endofunctor; and [grp_translate]
-   (Instance/Grp/Epi.v:490) is left translation as a setoid MAP on a coset
+   (Instance/Grp/Epi.v) is left translation as a setoid MAP on a coset
    space, not a functor at all.
 
    [make todo] grows by the five [Fail] lines below and by nothing else: no
@@ -291,7 +291,7 @@ Generalizable All Variables.
 (** ** Block A: the discrete category on a monoid *)
 
 (* The elements of M as objects, its own `≈` as the only identifications.
-   [DiscreteSetoidCat] is Construction/Comma/Special.v:218, reused rather
+   [DiscreteSetoidCat] is Construction/Comma/Special.v, reused rather
    than rebuilt.  That file also explains why Instance/Proset.v's [Proset]
    was not the construction it wanted: [Proset] is stated over `Prop`-valued
    relations while `≈` is a `crelation`.  A `Prop`-squashed variant would in
@@ -458,9 +458,9 @@ End Adjoints.
 (* The mathematical content of the converse, isolated: a monoid in which
    every element has a right inverse is a group.  With b := r a and
    c := r (r a) we have a·b ≈ 1 and b·c ≈ 1, so [mon_inverse_unique]
-   (Construction/Deloop.v:159) gives a ≈ c, whence b·a ≈ b·c ≈ 1.
+   (Construction/Deloop.v) gives a ≈ c, whence b·a ≈ b·c ≈ 1.
 
-   Instance/Grp.v:241's [grp_mul_inv_r] is the MIRROR IMAGE of this — right
+   Instance/Grp.v's [grp_mul_inv_r] is the MIRROR IMAGE of this — right
    inverses from left ones — but over that file's own [GrpObject] record, in
    which the inverse operation is a FIELD; it is a different statement over a
    different record, and no attempt is made here to derive either from the
@@ -539,7 +539,7 @@ Defined.
 
 (** ** Block F: the same over [DiscreteCat], where homs are Rocq's `=` *)
 
-(* The two hypotheses, in the shape of Construction/Comma/Special.v:395-405's
+(* The two hypotheses, in the shape of Construction/Comma/Special.v's
    [HomStrict] and [HomUIP].  Sufficient for the forward direction below; NOT
    shown necessary. *)
 Definition MonStrict (M : MonObject) : Type :=

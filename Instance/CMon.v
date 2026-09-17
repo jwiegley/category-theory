@@ -120,7 +120,7 @@ Qed.
 (* L1: the hom-setoid is propositional, pointwise into the CODOMAIN's own
    [cmon_prop].  The domain needs nothing -- the relation quantifies over its
    carrier but never compares two of its elements.  This is the same shape as
-   [hom_PropEquiv] (Instance/Sets/Propositional.v:91), restated here because
+   [hom_PropEquiv] (Instance/Sets/Propositional.v), restated here because
    [CMonHom_Setoid] is a setoid on [CMonHom M N] rather than on
    [SetoidMorphism]s, and the two records are not convertible.
 
@@ -200,7 +200,7 @@ Qed.
    [Category@{u p p}] and every field's instance keeps the arity at two,
    exactly as before the field landed; measured after the change,
    [CMon@{u p} : Category@{u p p}] with the single new constraint [Set < u],
-   which [Unset Universe Minimization ToSet] (Lib.v:17) makes harmless. *)
+   which [Unset Universe Minimization ToSet] (Lib.v) makes harmless. *)
 Program Definition CMon@{u p} : Category@{u p p} := {|
   obj     := CMonObject@{p p p};
   hom     := CMonHom@{p};
@@ -232,7 +232,7 @@ Qed.
    endomorphism rig of an object of a preadditive category, which since the PR
    "algebraic carriers are sets" (2026-09-17) asks its ambient category for a
    [Prop] equality on homs -- be applied at [CMon] itself
-   (Theory/Algebra/Rig/Connections.v:69). *)
+   (Theory/Algebra/Rig/Connections.v). *)
 #[export] Instance CMon_LocallyPropositional : LocallyPropositional CMon.
 Proof.
   constructor.

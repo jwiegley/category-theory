@@ -49,10 +49,10 @@ Generalizable All Variables.
      ----------------------------------------------------------------------
      T : E ⟶ C     S : A ⟶ C
      S : D ⟶ C     T : B ⟶ C
-     P             [comma_proj1]                   Construction/Comma.v:196
-     Q             [comma_proj2]                   Construction/Comma.v:204
+     P             [comma_proj1]                   Construction/Comma.v
+     Q             [comma_proj2]                   Construction/Comma.v
      R             [Comma_to_Arrow]                this file
-     C^2           [Arrow C] = (Id[C] ↓ Id[C])     Construction/Arrow.v:131
+     C^2           [Arrow C] = (Id[C] ↓ Id[C])     Construction/Arrow.v
      C^{d0}        [Arrow_dom]                     this file
      C^{d1}        [Arrow_cod]                     this file
 
@@ -127,7 +127,7 @@ Generalizable All Variables.
    morphism as data and a setoid library supplies only [≈] between morphisms.
    Second, the PSEUDO version, in which the hypotheses commute only up to
    natural isomorphism: that is the comma OBJECT in the 2-categorical sense,
-   which Construction/Comma.v:104-108 already records as documentation-level
+   which Construction/Comma.v already records as documentation-level
    only -- comma objects are PIE-limits, constructible from pullbacks and the
    power C^2 (nLab, "comma object") -- and Mac Lane's Exercise 5 is the
    strict statement, which is what is proven here.  Third, and a consequence
@@ -148,7 +148,7 @@ Generalizable All Variables.
 
    ** Reuse, and two small kits
 
-   [comma_proj_nat] (Construction/Comma.v:214) is Mac Lane's R in
+   [comma_proj_nat] (Construction/Comma.v) is Mac Lane's R in
    transformation form, and this file relates itself to it rather than
    duplicating it.  It cannot simply be plugged in: its component is a
    [Program] obligation that MATCHES on the comma object, and neither [sigT]

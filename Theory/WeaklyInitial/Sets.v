@@ -11,14 +11,14 @@ Generalizable All Variables.
 (** * The initial-object characterization at Sets
 
     The witness for Theory/WeaklyInitial.v's biconditional (#435, Mac Lane
-    §V.6 Theorem 1): [Sets] is complete (Instance/Sets/Complete.v:196
-    [Sets_Complete]) and has equalizers (Adjunction/GAFT/Sets.v:175
+    §V.6 Theorem 1): [Sets] is complete (Instance/Sets/Complete.v
+    [Sets_Complete]) and has equalizers (Adjunction/GAFT/Sets.v
     [Sets_HasEqualizers]), so [initial_iff_weakly_initial_family_complete]
     applies, and the round trip runs — the initial object
-    (Instance/Sets.v:275 [Sets_Initial]) becomes the singleton family
+    (Instance/Sets.v [Sets_Initial]) becomes the singleton family
     [Sets_wif], Freyd's product-and-equalizer construction turns that back
     into an initial object [Sets_initial_recovered], and
-    Structure/Initial.v:138's [initial_unique] gives the canonical
+    Structure/Initial.v's [initial_unique] gives the canonical
     isomorphism [Sets_roundtrip_iso] with the original.  The DERIVED
     singleton family's index and member read back at [eq_refl], through
     the transparent biconditional; nothing about the recovered initial

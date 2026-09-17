@@ -30,7 +30,7 @@
         a [Prop -> Prop] function -- a variant that compiles and yields the
         same colimit.  What this negative measures is a consequence of the
         target's [Type]-valued membership CONVENTION, not an impossibility.
-        [Structure/Thin.v:57] records the [relation]-is-Prop-valued fact
+        [Structure/Thin.v] records the [relation]-is-Prop-valued fact
         independently.
 
     PROBE HYGIENE.  This file carries the target's import list in the

@@ -93,7 +93,7 @@
    need the [Preadditive] reading of a hom-setoid — the commutative
    monoid of homomorphisms.  What is absent is narrower than it first
    looks, and the wide claim would be false: Instance/FdVect/
-   DoubleDual.v's [dual_cmon] (:185) and [dual_ab] (:199) ARE that
+   DoubleDual.v's [dual_cmon] and [dual_ab] ARE that
    reading, their plus and zero being [RMod_Preadditive]'s own [padd]
    and [pzero].  What the tree lacks is a GENERAL operator
    [Preadditive C → x → y → CMonObject] — [dual_cmon] is instance-level
@@ -258,7 +258,7 @@
        artifact — that statement would need both in one scope and is
        listed as not delivered.  (The description above is from reading
        that file, not from a check performed in this one.)
-     - Instance/Mod/Extension.v (pre-existing, _CoqProject:338, issue
+     - Instance/Mod/Extension.v (pre-existing, _CoqProject, issue
        #312) is a DIFFERENT pair over a different pair of categories:
        [ExtendScalars phi Hc ⊣ Restrict phi] between [RMod R] and
        [RMod S] along an arbitrary ring homomorphism, over
@@ -307,7 +307,7 @@
      - No enriched reading: both hom-sets in play are abelian groups and
        Adjunction/Additive.v's [adj_hom_ab_iso] is one Require away, but
        it needs [AbEnriched (RMod R)], which the tree does not have
-       (Instance/Mod.v:913 supplies only [RMod_Preadditive]).  So the
+       (Instance/Mod.v supplies only [RMod_Preadditive]).  So the
        bijection is NOT exhibited as an isomorphism in [Ab], and no
        additivity of either adjoint is claimed.
      - No isomorphism Hom_ℤ(ℤ, A) ≅ A, hence nothing says

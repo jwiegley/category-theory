@@ -258,7 +258,7 @@
        isomorphism of functors.  AN EARLIER DRAFT OF THIS BULLET STATED
        THE OBSTRUCTION WRONGLY IN BOTH CLAUSES; an audit refuted each, and
        what follows is the measured position.  An evaluation functor DOES
-       exist: Theory/Shapes.v:254's [One_Eval : [_1, C] ⟶ C], whose
+       exist: Theory/Shapes.v's [One_Eval : [_1, C] ⟶ C], whose
        constraint block contains no [Set] and leaves C's three levels
        free.  And [Sets] DOES meet [Category@{o Set Set}] --
        [Check (@One_Fun_iso Sets)] SUCCEEDS, universe polymorphism

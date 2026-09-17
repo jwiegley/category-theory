@@ -463,8 +463,8 @@ Qed.
 (* A functor naturally isomorphic to a left adjoint is a left adjoint,
    with the SAME right adjoint.  [right_adjoint_iso] and [left_adjoint_iso]
    above run the other way (from two adjunctions to an isomorphism),
-   Theory/Equivalence/Adjunction.v:105 transports along an EQUIVALENCE OF
-   CATEGORIES rather than along a 2-cell, and Theory/Functor.v:535's
+   Theory/Equivalence/Adjunction.v transports along an EQUIVALENCE OF
+   CATEGORIES rather than along a 2-cell, and Theory/Functor.v's
    [transport_adjunction] is a Type-level transport of a relation along
    an equality of indices, not an adjunction at all.  Built for
    Instance/Mod/Bimodule.v's part (c) (#401), which declared it there as

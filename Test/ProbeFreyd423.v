@@ -35,7 +35,7 @@
      - [fr_inj_injective]: from [f ≉ g] alone an injection [(K → bool) → K]
        on the nose.  That this injection cannot be refuted without deciding
        the hom-setoid is METATHEORETIC (Hyland's effective-topos model,
-       Structure/Complete.v:102-112); unprovability is not a refusal, so no
+       Structure/Complete.v); unprovability is not a refusal, so no
        refutation command is written for it.
      - [p423_small_and_products]: Theory/Size.v's [Small] and products over
        the category's own total arrow collection coexist in one binder.
@@ -95,7 +95,7 @@ Context {C : Category@{uo uh uh}} (comp : @Complete C) (fam : TotalMor C → C).
    [Complete] instance yields an indexed product only at a category whose
    hom level IS [Set]."  The attribution to [DiscreteCat_Functor] was
    right; in the PR "algebraic carriers are sets" (2026-09-17) that donor
-   was annotated in place (Instance/Discrete.v:81) and the command is
+   was annotated in place (Instance/Discrete.v) and the command is
    ACCEPTED.  It is kept at the same levels as a positive control, so
    dropping the annotation refuses it again and breaks this file.  What
    the section now records is that the direct [limit_is_indexed_product]

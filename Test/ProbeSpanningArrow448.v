@@ -167,7 +167,7 @@ Context (GP : PreservesWidePullbacks G).
    an UNANNOTATED section, applying [GAFT] to the spanning solution set is
    refused, 'universe inconsistency: Cannot enforce Set = <the section's
    hom universe>' -- a section Context binds rigid universes and GAFT is
-   pinned at [Category@{_ Set Set}] through Theory/WeaklyInitial.v:143's
+   pinned at [Category@{_ Set Set}] through Theory/WeaklyInitial.v's
    [initial_from_weakly_initial].  This is why [GAFT_from_spanning] sits
    in its own section over [Category@{oA Set Set}]; the annotated form is
    the positive control, [GAFT_from_spanning] itself, checked above."
@@ -177,7 +177,7 @@ Context (GP : PreservesWidePullbacks G).
    [Set] because it takes two [Limit (DiscreteCat_Functor …)] premises and
    [DiscreteCat_Functor] was declared with bare binders, minimizing to
    [DiscreteCat@{u Set Set}].  Annotated in place in the PR "algebraic
-   carriers are sets" (2026-09-17), Instance/Discrete.v:81, that [Set] is
+   carriers are sets" (2026-09-17), Instance/Discrete.v, that [Set] is
    gone from [GAFT]'s statement and this application is ACCEPTED over a
    section whose universes are rigid.  It is kept here as a positive
    control: dropping the annotation refuses it again and breaks this file.
