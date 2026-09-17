@@ -55,14 +55,24 @@ Generalizable All Variables.
     with [QuotientMod (ImageSubmod f)] by the BICONDITIONAL
     [rmod_quotient_relations_agree] and by an isomorphism whose legs are
     the identity on elements.  The header says the two relations are not
-    convertible -- [{ a & x ≈ y + f a }] against [{ a & x + (-y) ≈ f a }]
-    -- and this is that measurement.
+    convertible -- [∃ a, x ≈ y + f a] against
+    [inhabited { a & x + (-y) ≈ f a }] -- and this is that measurement.
 
     Stripped, the first probe reports
       "(cannot unify "ab_coset_eq f x y" and
         "mquot_rel (ImageSubmod f) x y")"
-    -- a genuine conversion failure between the two [sigT] types.  (The
-    printed form drops [rm_hom], which is a coercion.) *)
+    -- a genuine conversion refusal.  (The printed form drops [rm_hom],
+    which is a coercion.)
+
+    AN EARLIER REVISION wrote both relations as [sigT]s and called the
+    refusal "a conversion failure between the two [sigT] types".  Since the
+    PR "algebraic carriers are sets" (2026-09-17) the left side is an [ex]
+    and the right side the propositional TRUNCATION of a [sigT], so they
+    now differ in shape as well as in sort, and neither is a bare [sigT].
+    The refusal itself was RE-MEASURED at this revision, by stripping this
+    probe in a copy of the whole file, and its "cannot unify" clause is
+    unchanged word for word; P2-I could not re-measure it because the ring
+    layer was not building then. *)
 
 Section RelationBoundary.
 

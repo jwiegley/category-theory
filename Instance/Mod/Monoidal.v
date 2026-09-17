@@ -66,9 +66,13 @@
    than the header is what checks this claim.
 
    Note the register precisely: [mt_refl], not [reflexivity].  `≈` on
-   [TensorMod] is the [Type]-valued [mt_eq], whose reflexivity is a DERIVED
-   lemma rather than a constructor, so after [simpl] the tactic [reflexivity]
-   does not close the goal and names no useful culprit; [apply mt_refl] does.
+   [TensorMod] is [mt_eq], whose reflexivity is a DERIVED lemma rather than a
+   constructor, so after [simpl] the tactic [reflexivity] does not close the
+   goal and names no useful culprit; [apply mt_refl] does.  An earlier
+   revision called [mt_eq] "[Type]-valued"; since the PR "algebraic carriers
+   are sets" (2026-09-17) it is a [Prop], which is what lets [TensorMod]
+   supply its own [cmon_prop].  The register point is unaffected -- the issue
+   is that reflexivity is derived, not the relation's sort.
 
    ONLY THREE OBLIGATIONS CARRY MATHEMATICAL CONTENT.  Of [ModMonoidal]'s
    eight fields, five close by conversion once the extensionality principles

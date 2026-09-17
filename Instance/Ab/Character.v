@@ -5,6 +5,7 @@ Require Import Coq.QArith.QArith.
 Require Import Coq.QArith.Qreduction.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
@@ -130,23 +131,55 @@ Proof.
     apply Qred_inject_Z_den.
 Qed.
 
-(* The circle as an abelian group object: ℚ with the integer-difference
-   setoid, addition, and negation. *)
-Program Definition QZ : AbObject := {|
-  ab_cmon := {|
-    cmon_setoid := {| carrier := Q;
-                      is_setoid := {| equiv := qz_eq |} |};
-    cmon_zero := 0;
-    cmon_plus := Qplus
-  |};
-  ab_neg := Qopp
-|}.
+(* The setoid is NAMED, and so is its [Prop] mirror, because since the PR
+   "algebraic carriers are sets" (2026-09-17) the [AbObject] below owes a
+   [cmon_prop] and a field of a [Program] record literal cannot mention a
+   setoid that is still an evar while the literal is being elaborated. *)
+Program Definition qz_setoid : Setoid Q := {| equiv := qz_eq |}.
 Next Obligation.
   constructor.
   - exact qz_eq_refl.
   - exact qz_eq_sym.
   - exact qz_eq_trans.
 Qed.
+
+(* [qz_eq] KEEPS its [sigT]: the integer witness is computed, not chosen, and
+   several results below read it back out.  What the [PropEquiv] adds is a
+   [Prop] relation that holds exactly when [qz_eq] does -- and the implication
+   BACK into [qz_eq], which is an elimination of a [Prop] into a [Type], goes
+   through the DECISION PROCEDURE [qz_eq_dec] above rather than through the
+   [Prop] proof: the left branch supplies the witness outright, and the right
+   branch contradicts the hypothesis.  No choice principle is consumed. *)
+Definition qz_peq (x y : Q) : Prop :=
+  (exists z : Z, Qeq (Qminus x y) (inject_Z z))%type.
+
+Definition qz_PropEquiv : PropEquiv qz_setoid.
+Proof.
+  unshelve refine (@PropEquiv_of_relation _ qz_setoid qz_peq _ _).
+  - intros x y H.
+    destruct (qz_eq_dec x y) as [Hd|Hd].
+    + exact Hd.
+    + exfalso.
+      destruct H as [z Hz].
+      exact (Hd (existT _ z Hz)).
+  - intros x y H.
+    destruct H as [z Hz].
+    exists z.
+    exact Hz.
+Defined.
+
+(* The circle as an abelian group object: ℚ with the integer-difference
+   setoid, addition, and negation. *)
+Program Definition QZ : AbObject := {|
+  ab_cmon := {|
+    cmon_setoid := {| carrier := Q;
+                      is_setoid := qz_setoid |};
+    cmon_zero := 0;
+    cmon_plus := Qplus;
+    cmon_prop := qz_PropEquiv
+  |};
+  ab_neg := Qopp
+|}.
 Next Obligation.
   intros x x' [z1 H1] y y' [z2 H2].
   exists (z1 + z2)%Z.
@@ -243,7 +276,8 @@ Program Definition D_ob (G : AbObject) : AbObject := {|
     cmon_setoid := {| carrier := AbHom G QZ;
                       is_setoid := @CMonHom_Setoid G QZ |};
     cmon_zero := char_zero G;
-    cmon_plus := char_plus G
+    cmon_plus := char_plus G;
+    cmon_prop := @CMonHom_PropEquiv G QZ
   |};
   ab_neg := char_neg G
 |}.

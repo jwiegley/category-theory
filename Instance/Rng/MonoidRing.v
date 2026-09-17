@@ -1,6 +1,7 @@
 Require Import Coq.ZArith.ZArith.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -249,7 +250,17 @@ Inductive MRTerm : Type :=
   | mr_neg  : MRTerm → MRTerm
   | mr_mul  : MRTerm → MRTerm → MRTerm.
 
-Inductive mr_eq : MRTerm → MRTerm → Type :=
+(* AN EARLIER REVISION of this inductive landed in [Type].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) it lands in [Prop], because
+   [RigObject] carries a [rig_prop : PropEquiv (is_setoid rig_setoid)] field
+   and the `≈` of [MonoidRing R M] IS [mr_eq]: the relation must BE a [Prop]
+   for that field to be the identity pair of implications.  The cost is one
+   elimination — [mreval_respects] below goes through [pequiv_to] at the
+   target ring instead of inducting straight into a [Type]-valued goal — and
+   the non-degeneracy theorems at the end of the file are unaffected, since
+   their conclusion [False] is already a [Prop].
+   Test/ProbeTermModelPropRng.v pins the refusal of the old script. *)
+Inductive mr_eq : MRTerm → MRTerm → Prop :=
   (* congruence for each former, saturating under the two source setoids *)
   | me_scal {a b} : a ≈ b → mr_eq (mr_scal a) (mr_scal b)
   | me_gen {a b} : a ≈ b → mr_eq (mr_gen a) (mr_gen b)
@@ -383,7 +394,11 @@ Definition MonoidRig : RigObject := {|
   rig_distr_l := me_distr_l;
   rig_distr_r := me_distr_r;
   rig_mul_zero_l := me_mul_zero_l;
-  rig_mul_zero_r := me_mul_zero_r
+  rig_mul_zero_r := me_mul_zero_r;
+  (* [mr_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror and
+     both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ mr_Setoid mr_eq
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 Definition MonoidRing : RingObject := {|
@@ -517,13 +532,24 @@ Fixpoint mreval {R : RingObject} {M : MonSets} {S : RingObject}
     products; two are [psi]'s preservation of the operation and of the
     unit, the second of these also spending [phi]'s preservation of the
     one; one is the commutation hypothesis; and the last two are the
-    target setoid's symmetry and transitivity. *)
+    target setoid's symmetry and transitivity.
+
+    AN EARLIER REVISION of this proof inducted on [mr_eq] straight into the
+    [Type]-valued goal `≈`.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) [mr_eq] is a [Prop] inductive and eliminates only into
+    [Prop], so the script opens with [apply pequiv_to] at the TARGET ring's
+    own [rig_prop] and each branch returns to `≈` with [pequiv_from].  The
+    twenty-one cases and the argument in each are unchanged; the induction
+    hypotheses are now [pequiv]-valued, so the branches that consume one
+    spend [pequiv_to] on it.  No hypothesis is added: every [RigObject]
+    carries the field. *)
 Lemma mreval_respects {R : RingObject} {M : MonSets} {S : RingObject}
   (phi : R ~{Rng}~> S) (psi : M ~{MonSets}~> Rng_Forget_Mon S)
   (Hcomm : MRComm phi psi) (s t : MRTerm R M) :
   mr_eq s t → mreval phi psi s ≈ mreval phi psi t.
 Proof.
   intro He.
+  apply pequiv_to.
   induction He as
     [ a b Hab
     | a b Hab
@@ -538,25 +564,32 @@ Proof.
     | a m
     | s t _ IHst
     | s t u _ IHst _ IHtu ]; simpl.
-  - exact (proper_morphism (rig_map phi) _ _ Hab).
-  - exact (proper_morphism (mmap psi : SetoidMorphism _ _) _ _ Hab).
-  - exact (rig_add_respects S _ _ IHs _ _ IHt).
-  - exact (ring_neg_respects S _ _ IHs).
-  - exact (rig_mul_respects S _ _ IHs _ _ IHt).
-  - exact (rig_add_assoc S _ _ _).
-  - exact (rig_add_comm S _ _).
-  - rewrite (rig_map_zero phi); apply rig_add_zero_l.
-  - rewrite (rig_map_zero phi); apply (ring_neg_l S).
-  - exact (rig_mul_assoc S _ _ _).
-  - rewrite (rig_map_one phi); apply rig_mul_one_l.
-  - rewrite (rig_map_one phi); apply rig_mul_one_r.
-  - exact (rig_distr_l S _ _ _).
-  - exact (rig_distr_r S _ _ _).
-  - exact (rig_map_add phi a b).
-  - exact (rig_map_mul phi a b).
-  - exact (mmap_op psi a b).
-  - rewrite (mmap_one psi); symmetry; apply (rig_map_one phi).
-  - exact (Hcomm a m).
+  - apply pequiv_from; exact (proper_morphism (rig_map phi) _ _ Hab).
+  - apply pequiv_from;
+      exact (proper_morphism (mmap psi : SetoidMorphism _ _) _ _ Hab).
+  - apply pequiv_from.
+    exact (rig_add_respects S _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ring_neg_respects S _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rig_mul_respects S _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from; exact (rig_add_assoc S _ _ _).
+  - apply pequiv_from; exact (rig_add_comm S _ _).
+  - apply pequiv_from; rewrite (rig_map_zero phi); apply rig_add_zero_l.
+  - apply pequiv_from; rewrite (rig_map_zero phi); apply (ring_neg_l S).
+  - apply pequiv_from; exact (rig_mul_assoc S _ _ _).
+  - apply pequiv_from; rewrite (rig_map_one phi); apply rig_mul_one_l.
+  - apply pequiv_from; rewrite (rig_map_one phi); apply rig_mul_one_r.
+  - apply pequiv_from; exact (rig_distr_l S _ _ _).
+  - apply pequiv_from; exact (rig_distr_r S _ _ _).
+  - apply pequiv_from; exact (rig_map_add phi a b).
+  - apply pequiv_from; exact (rig_map_mul phi a b).
+  - apply pequiv_from; exact (mmap_op psi a b).
+  - apply pequiv_from;
+      rewrite (mmap_one psi); symmetry; apply (rig_map_one phi).
+  - apply pequiv_from; exact (Hcomm a m).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtu).
 Qed.

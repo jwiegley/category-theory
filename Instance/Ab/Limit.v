@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -468,6 +469,31 @@ Proof.
   apply ab_neg_left.
 Qed.
 
+(** ** The vertex's equality is propositional *)
+
+(* Since the PR "algebraic carriers are sets" (2026-09-17) an [AbObject]
+   carries [cmon_prop], so the lifted group owes a [Prop]-valued relation on
+   [vertex_obj[L]] -- and [L] here is an ARBITRARY limit of the underlying
+   sets, not the one [Sets_Complete] chooses, so
+   Instance/Sets/Propositional.v's [limit_PropEquiv] does not apply on the
+   nose.  The edit list for this phase predicted a hypothesis on [L],
+   discharged at [Ab_Complete]; that turned out not to be needed, and taking
+   one would have been fatal, since [CreatesLimits] quantifies over every [L]
+   and leaves no place to put it.
+
+   The relation below is instead the one the section already has a theorem
+   about: two points of the vertex are related when every LEG relates them.
+   [alim_ext] (:318) is exactly the implication into `≈`, and it holds at an
+   arbitrary limit because a limit's vertex is detected by its projections;
+   the converse is each leg being a setoid map.  So a limit of propositional
+   carriers is propositional, with no extra hypothesis anywhere. *)
+Definition alim_prop : PropEquiv (is_setoid vertex_obj[L]) :=
+  @PropEquiv_of_relation _ (is_setoid vertex_obj[L])
+    (fun x y => forall j : J,
+       @pequiv _ _ (cmon_prop (K j)) (alim_leg j x) (alim_leg j y))
+    (fun x y H => alim_ext x y (fun j => pequiv_to _ _ (H j)))
+    (fun x y H j => pequiv_from _ _ (proper_morphism (alim_leg j) x y H)).
+
 (** ** The lifted abelian group *)
 
 Definition LimitAb : AbObject :=
@@ -478,7 +504,8 @@ Definition LimitAb : AbObject :=
         ; cmon_plus_respects := alim_plus_respects
         ; cmon_plus_assoc    := alim_assoc
         ; cmon_plus_comm     := alim_comm
-        ; cmon_plus_zero_l   := alim_zero_l |}
+        ; cmon_plus_zero_l   := alim_zero_l
+        ; cmon_prop          := alim_prop |}
    ; ab_neg          := alim_neg
    ; ab_neg_respects := alim_neg_respects
    ; ab_neg_left     := alim_neg_l |}.

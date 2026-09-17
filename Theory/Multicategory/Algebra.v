@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
@@ -470,6 +471,13 @@ Definition Comm : Operad := {|
 Section CommToCMon.
 
 Context {X : Sets}.
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [CMonObject]
+   carries [cmon_prop], and [Comm_algebra_to_CMon] below takes its carrier
+   setoid straight from [X] -- an arbitrary object of [Sets], which supplies
+   no [Prop] mirror of its own (Instance/Sets/Propositional.v's header records
+   why there is no such instance in general).  The section therefore takes one
+   as a hypothesis; every concrete [X] in the tree has one. *)
+Context (PX : PropEquiv (is_setoid X)).
 Context (A : OperadAlgebra Comm X).
 
 (* The distinguished actions at concrete arities. *)
@@ -523,7 +531,8 @@ Local Obligation Tactic := idtac.
 Program Definition Comm_algebra_to_CMon : CMonObject := {|
   cmon_setoid := X;
   cmon_zero := comm_eps ttt;
-  cmon_plus := λ a b, comm_mu (a, (b, ttt))
+  cmon_plus := λ a b, comm_mu (a, (b, ttt));
+  cmon_prop := PX
 |}.
 Next Obligation.
   intros a a' Ha b b' Hb.
@@ -683,7 +692,11 @@ End CMonToComm.
     two directions; a full categorical equivalence is not claimed
     here.) *)
 
+(* The left component now asks the carrier for a [PropEquiv]; see
+   [Comm_algebra_to_CMon].  The right component is unchanged: a
+   [CMonObject]'s carrier supplies its own. *)
 Definition Comm_algebra_CMon :
-  (∀ (X : Sets) (A : OperadAlgebra Comm X), CMonObject)
+  (∀ (X : Sets) (PX : PropEquiv (is_setoid X))
+     (A : OperadAlgebra Comm X), CMonObject)
   * (∀ M : CMonObject, OperadAlgebra (C:=Sets) Comm (cmon_setoid M)) :=
-  (λ X A, @Comm_algebra_to_CMon X A, λ M, CMon_to_Comm_algebra M).
+  (λ X PX A, @Comm_algebra_to_CMon X PX A, λ M, CMon_to_Comm_algebra M).

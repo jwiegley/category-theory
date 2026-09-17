@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
@@ -98,7 +99,9 @@ Generalizable All Variables.
 
     THE SETOID QUOTIENT.  As in Instance/Grp/Quotient.v and
     Instance/Ab.v, A/S needs no new carrier: it is A's carrier under the
-    coarser relation [mquot_rel S x y := smod_mem S (x - y)].  Elements
+    coarser relation [mquot_rel S x y := inhabited (smod_mem S (x - y))]
+    (an earlier revision wrote it without the [inhabited]; see the note on
+    [Submodule] above for why the truncation is there).  Elements
     of A/S are therefore elements of A and no coset object is ever
     formed.  That is convenient but it is NOT what makes the derivations
     universal; the sibling file's arguments run through
@@ -112,7 +115,9 @@ Generalizable All Variables.
     quotient by an arbitrary submodule and it carries NO universal
     property: it quotients N by the IMAGE of a given homomorphism
     f : M -> N, its relation being Instance/Ab.v's
-    [ab_coset_eq (rm_hom f) x y := { a & x ≈ y + f a }].  This file does
+    [ab_coset_eq (rm_hom f) x y := ∃ a, x ≈ y + f a] -- an earlier revision
+    spelled it [{ a & x ≈ y + f a }], which it was before the PR "algebraic
+    carriers are sets" (2026-09-17) truncated it.  This file does
     not introduce a second unrelated construction; it exhibits that one
     as the special case, in the strongest form the two relations allow:
     [ImageSubmod f] is the image as a [Submodule N],
@@ -120,10 +125,13 @@ Generalizable All Variables.
     relations at every pair of elements, and
     [RModQuotient_is_quotient_by_image] is an isomorphism in [RMod R]
     whose two legs are the identity on elements.  The two relations are
-    NOT convertible -- [{ a & x ≈ y + f a }] against
-    [{ a & x + (-y) ≈ f a }] -- and the shuffle between them is exactly
-    the content of the biconditional; the strict form was tried and is
-    pinned as a rejection probe in Test/ProbeModQuotient.v.
+    NOT convertible -- [∃ a, x ≈ y + f a] against
+    [inhabited { a & x + (-y) ≈ f a }] -- and the shuffle between them is
+    exactly the content of the biconditional; the strict form was tried and is
+    pinned as a rejection probe in Test/ProbeModQuotient.v.  An earlier
+    revision wrote both sides as [sigT]s; the left is now an [ex] and the
+    right the truncation of a [sigT], so the two differ in sort as well as in
+    shape.
 
     ...AND WITH [AbQuotient], which is NOT unified, for a dependency
     reason of the same shape as #313's and with the arrow pointing the
@@ -200,9 +208,19 @@ Qed.
     A submodule is a `≈`-saturated predicate containing zero and closed
     under addition and the scalar action.  Membership is [Type]-valued,
     following Instance/Grp/Quotient.v's [Subgroup] and
-    Instance/Grp/Epi.v's [GrpImage]: the library's `≈` is itself
-    [Type]-valued, so a [Prop]-valued membership could not be eliminated
-    into a hom-setoid equation.
+    Instance/Grp/Epi.v's [GrpImage].
+
+    AN EARLIER REVISION gave the reason as: "the library's `≈` is itself
+    [Type]-valued, so a [Prop]-valued membership could not be eliminated into
+    a hom-setoid equation."  That reason is GONE since the PR "algebraic
+    carriers are sets" (2026-09-17): every carrier now carries [cmon_prop],
+    so [pequiv_to] does exactly that elimination
+    (Lib/Setoid/Propositional.v:180).  Membership stays [Type]-valued anyway,
+    and for a different reason: the leastness theorems below and in
+    Instance/Mod/Quotient/Isomorphism.v READ WITNESSES out of it -- the
+    preimage in [ImageSubmod], the exponent in a torsion argument -- and
+    those are data.  What DID move is the quotient RELATION [mquot_rel],
+    which is now the propositional truncation of membership.
 
     There is deliberately NO decidability field and nothing below decides
     membership; and, as the header records, NO closure-under-negation
@@ -305,7 +323,13 @@ Proof.
             ; cmon_zero := existT _ (cmon_zero M) (smod_zero S)
             ; cmon_plus := fun p q =>
                 existT _ (cmon_plus M (`1 p) (`1 q))
-                  (smod_plus S _ _ (`2 p) (`2 q)) |}
+                  (smod_plus S _ _ (`2 p) (`2 q))
+            (* Only the first projection is compared, so the submodule's
+               [Type]-valued membership is carried along and never inspected;
+               [sigma_first_PropEquiv] is exactly that observation. *)
+            ; cmon_prop :=
+                sigma_first_PropEquiv (smod_setoid S)
+                  (fun _ _ h => h) (fun _ _ h => h) (cmon_prop M) |}
        ; ab_neg := fun p =>
            existT _ (ab_neg M (`1 p)) (smod_neg S _ (`2 p)) |};
     rm_smul := fun r p =>
@@ -355,8 +379,17 @@ Proof. apply rmod_injective_monic, smod_incl_injective. Qed.
 
 (** ** The quotient relation *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) the quotient is an
+   [RModObject] and so owes [cmon_prop], which forces its equality to be a
+   [Prop].  [smod_mem] STAYS [Type]-valued -- the leastness theorems below read
+   witnesses out of it -- and the relation is its PROPOSITIONAL TRUNCATION.
+   [inhabited] is the truncation; [pequiv_elim_inhabited]
+   (Lib/Setoid/Propositional.v:180) is what gets back out, and the six
+   congruence lemmas below each gain one [destruct … as [K]] going in and one
+   [constructor] coming out. *)
 Definition mquot_rel {R : RingObject} {M : RModObject R} (S : Submodule M)
-  (x y : carrier (cmon_setoid M)) : Type := smod_mem S (ab_sub M x y).
+  (x y : carrier (cmon_setoid M)) : Prop :=
+  inhabited (smod_mem S (ab_sub M x y)).
 
 Section QuotientRelation.
 
@@ -368,6 +401,7 @@ Lemma mquot_rel_of_equiv (x y : carrier (cmon_setoid M)) :
   x ≈ y → mquot_rel S x y.
 Proof.
   intro Hxy; unfold mquot_rel.
+  constructor.
   apply (smod_at S (a := cmon_zero M)); [| exact (smod_zero S) ].
   rewrite <- Hxy.
   symmetry; apply ab_sub_self.
@@ -379,7 +413,8 @@ Proof. apply mquot_rel_of_equiv; reflexivity. Qed.
 Lemma mquot_rel_sym (x y : carrier (cmon_setoid M)) :
   mquot_rel S x y → mquot_rel S y x.
 Proof.
-  unfold mquot_rel; intro K.
+  unfold mquot_rel; intros [K].
+  constructor.
   apply (smod_at S (a := ab_neg M (ab_sub M x y))).
   - apply ab_sub_neg.
   - exact (smod_neg S _ K).
@@ -388,7 +423,8 @@ Qed.
 Lemma mquot_rel_trans (x y z : carrier (cmon_setoid M)) :
   mquot_rel S x y → mquot_rel S y z → mquot_rel S x z.
 Proof.
-  unfold mquot_rel; intros K1 K2.
+  unfold mquot_rel; intros [K1] [K2].
+  constructor.
   apply (smod_at S (a := cmon_plus M (ab_sub M x y) (ab_sub M y z))).
   - apply ab_sub_trans.
   - exact (smod_plus S _ _ K1 K2).
@@ -401,7 +437,8 @@ Lemma mquot_rel_plus (x x' y y' : carrier (cmon_setoid M)) :
   mquot_rel S x x' → mquot_rel S y y' →
   mquot_rel S (cmon_plus M x y) (cmon_plus M x' y').
 Proof.
-  unfold mquot_rel; intros K1 K2.
+  unfold mquot_rel; intros [K1] [K2].
+  constructor.
   apply (smod_at S (a := cmon_plus M (ab_sub M x x') (ab_sub M y y'))).
   - apply ab_sub_plus.
   - exact (smod_plus S _ _ K1 K2).
@@ -412,7 +449,8 @@ Qed.
 Lemma mquot_rel_neg (x x' : carrier (cmon_setoid M)) :
   mquot_rel S x x' → mquot_rel S (ab_neg M x) (ab_neg M x').
 Proof.
-  unfold mquot_rel; intros K.
+  unfold mquot_rel; intros [K].
+  constructor.
   apply (smod_at S (a := ab_neg M (ab_sub M x x'))).
   - now rewrite ab_sub_neg, ab_sub_neg_neg.
   - exact (smod_neg S _ K).
@@ -425,19 +463,39 @@ Lemma mquot_rel_smul (r : carrier (rig_setoid (ring_rig R)))
   (x x' : carrier (cmon_setoid M)) :
   mquot_rel S x x' → mquot_rel S (rm_smul M r x) (rm_smul M r x').
 Proof.
-  unfold mquot_rel; intro K.
+  unfold mquot_rel; intros [K].
+  constructor.
   apply (smod_at S (a := rm_smul M r (ab_sub M x x'))).
   - apply rm_smul_sub.
   - exact (smod_smul S _ _ K).
 Qed.
 
-(* Membership IS congruence to zero, in both directions. *)
+(* Membership IS congruence to zero, in both directions -- up to the
+   truncation.
+
+   AN EARLIER REVISION stated the right-hand side as the bare [smod_mem S x].
+   Since the PR "algebraic carriers are sets" (2026-09-17) [mquot_rel] is the
+   propositional truncation of membership, so the LEFT-to-right direction is
+   an elimination of a [Prop] into a [Type] and is refused; the biconditional
+   is stated up to [inhabited], which is the exact content.  The direction
+   that loses nothing -- membership implies congruence to zero, which is what
+   every consumer in the tree actually uses -- is kept separately as
+   [mquot_rel_of_mem] below, with its [Type]-valued hypothesis intact. *)
 Lemma mquot_rel_zero_iff (x : carrier (cmon_setoid M)) :
-  mquot_rel S x (cmon_zero M) ↔ smod_mem S x.
+  mquot_rel S x (cmon_zero M) ↔ inhabited (smod_mem S x).
 Proof.
-  split; intro K; unfold mquot_rel in *.
+  split; intros [K]; unfold mquot_rel in *; constructor.
   - exact (smod_at S (ab_sub_zero_r M x) K).
   - exact (smod_at S (symmetry (ab_sub_zero_r M x)) K).
+Qed.
+
+(* The half of the biconditional that keeps its [Type]-valued hypothesis:
+   nothing is truncated on the way in. *)
+Lemma mquot_rel_of_mem (x : carrier (cmon_setoid M)) :
+  smod_mem S x → mquot_rel S x (cmon_zero M).
+Proof.
+  intro K; unfold mquot_rel; constructor.
+  exact (smod_at S (symmetry (ab_sub_zero_r M x)) K).
 Qed.
 
 Program Definition mquot_setoid : Setoid (carrier (cmon_setoid M)) := {|
@@ -465,7 +523,11 @@ Proof.
            {| cmon_setoid := {| carrier := carrier (cmon_setoid M)
                               ; is_setoid := mquot_setoid S |}
             ; cmon_zero := cmon_zero M
-            ; cmon_plus := cmon_plus M |}
+            ; cmon_plus := cmon_plus M
+            (* [mquot_rel] IS a [Prop] relation, so it is its own mirror. *)
+            ; cmon_prop :=
+                @PropEquiv_of_relation _ (mquot_setoid S) (mquot_rel S)
+                  (fun _ _ h => h) (fun _ _ h => h) |}
        ; ab_neg := ab_neg M |};
     rm_smul := rm_smul M
   |}.
@@ -519,15 +581,17 @@ Lemma mquot_proj_kills {R : RingObject} {M : RModObject R}
   cmon_map (rm_hom (mquot_proj S)) x ≈ cmon_zero (QuotientMod S).
 Proof.
   intro Hx; simpl.
-  exact (snd (mquot_rel_zero_iff S x) Hx).
+  exact (mquot_rel_of_mem S x Hx).
 Qed.
 
 (* Conversely: the projection's kernel is exactly S, as a
    biconditional. *)
+(* Restated in lockstep with [mquot_rel_zero_iff]: the right-hand side is the
+   truncation.  [mquot_proj_kills] above keeps the [Type]-valued direction. *)
 Lemma mquot_proj_kernel {R : RingObject} {M : RModObject R}
   (S : Submodule M) (x : carrier (cmon_setoid M)) :
   cmon_map (rm_hom (mquot_proj S)) x ≈ cmon_zero (QuotientMod S)
-    ↔ smod_mem S x.
+    ↔ inhabited (smod_mem S x).
 Proof. exact (mquot_rel_zero_iff S x). Qed.
 
 Lemma mquot_proj_surjective {R : RingObject} {M : RModObject R}
@@ -611,6 +675,14 @@ Proof.
   intro Hxy.
   apply (fst (ab_sub_eq_zero_iff K _ _)).
   rewrite <- (ab_map_sub (rm_hom (`1 p)) x y).
+  (* [Hxy] is the TRUNCATED membership since the PR "algebraic carriers are
+     sets" (2026-09-17), so it may not be destructed into this [Type]-valued
+     `≈` goal directly; [pequiv_to] puts a [Prop] goal in front of the
+     elimination and [pequiv_from] returns.  This is
+     [pequiv_elim_inhabited] spelled out. *)
+  apply (@pequiv_to _ _ (cmon_prop K)).
+  destruct Hxy as [Hxy].
+  apply pequiv_from.
   exact (`2 p _ Hxy).
 Qed.
 
@@ -812,13 +884,23 @@ Context (f : M ~{RMod R}~> N).
 Theorem rmod_quotient_relations_agree (x y : carrier (cmon_setoid N)) :
   ab_coset_eq (rm_hom f) x y ↔ mquot_rel (ImageSubmod f) x y.
 Proof.
+  (* Both relations are [Prop]s since the PR "algebraic carriers are sets"
+     (2026-09-17) -- the left one an [ex], the right one the [inhabited]
+     truncation of the [Type]-valued membership -- so each direction is a
+     [Prop]-to-[Prop] elimination and the shuffle is unchanged.  What is new
+     is one [constructor] going into the truncation and one [pequiv_from]
+     going into the left relation's [pequiv] body. *)
   split.
-  - intros [a Ha]; unfold mquot_rel; simpl.
+  - intros [a Ha]; apply pequiv_to in Ha.
+    unfold mquot_rel; simpl.
+    constructor.
     exists a.
     rewrite Ha.
     symmetry; apply ab_sub_add_cancel.
-  - intros [a Ha]; simpl in Ha.
+  - intros [Hm]; simpl in Hm.
+    destruct Hm as [a Ha]; simpl in Ha.
     exists a.
+    apply pequiv_from.
     rewrite Ha.
     symmetry; apply ab_add_sub_cancel.
 Qed.
@@ -870,11 +952,21 @@ Program Definition mquot_congr {R : RingObject} {M : RModObject R}
   from := {| rm_hom := {| cmon_map :=
     {| morphism := fun x : carrier (cmon_setoid (QuotientMod S')) => x |} |} |}
 |}.
-Next Obligation. intros R M S S' H1 H2 x y Hxy; exact (H1 _ Hxy). Qed.
+(* [simpl] before the elimination: the goal is an application of the [equiv]
+   projection, whose ascribed sort is [Type], and [mquot_rel] is the
+   [inhabited] truncation of membership since the PR "algebraic carriers are
+   sets" (2026-09-17). *)
+Next Obligation.
+  intros R M S S' H1 H2 x y Hxy; simpl in Hxy |- *.
+  destruct Hxy as [Hxy]; constructor; exact (H1 _ Hxy).
+Qed.
 Next Obligation. intros R M S S' H1 H2; simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros R M S S' H1 H2 x y; simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros R M S S' H1 H2 r x; simpl; apply mquot_rel_refl. Qed.
-Next Obligation. intros R M S S' H1 H2 x y Hxy; exact (H2 _ Hxy). Qed.
+Next Obligation.
+  intros R M S S' H1 H2 x y Hxy; simpl in Hxy |- *.
+  destruct Hxy as [Hxy]; constructor; exact (H2 _ Hxy).
+Qed.
 Next Obligation. intros R M S S' H1 H2; simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros R M S S' H1 H2 x y; simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros R M S S' H1 H2 r x; simpl; apply mquot_rel_refl. Qed.
@@ -909,14 +1001,29 @@ Next Obligation. intros R M; exact ttt. Qed.
 Next Obligation. intros R M a b Ha Hb; exact ttt. Qed.
 Next Obligation. intros R M r a Ha; exact ttt. Qed.
 
+(* Both directions survive the truncation.  The forward one is the place
+   [pequiv_elim_inhabited] earns its keep: the conclusion `≈` is
+   [Type]-valued, so [pequiv_to] puts a [Prop] goal in front of the
+   elimination and [pequiv_from] returns.  An earlier revision was
+   [exact (ab_sub_eq_zero_iff M x y)], the two relations then being the same
+   [Type]. *)
 Lemma mquot_trivial_iff {R : RingObject} (M : RModObject R)
   (x y : carrier (cmon_setoid M)) :
   mquot_rel (TrivialSub M) x y ↔ x ≈ y.
-Proof. exact (ab_sub_eq_zero_iff M x y). Qed.
+Proof.
+  split.
+  - intro H.
+    apply (@pequiv_to _ _ (cmon_prop M)).
+    destruct H as [H].
+    apply pequiv_from.
+    exact (fst (ab_sub_eq_zero_iff M x y) H).
+  - intro H; constructor.
+    exact (snd (ab_sub_eq_zero_iff M x y) H).
+Qed.
 
 Lemma mquot_total_collapses {R : RingObject} (M : RModObject R)
   (x y : carrier (cmon_setoid M)) : mquot_rel (TotalSub M) x y.
-Proof. exact ttt. Qed.
+Proof. exact (inhabits ttt). Qed.
 
 (** ** Non-vacuity: ℤ modulo 2ℤ
 
@@ -979,14 +1086,16 @@ Qed.
 
 (* THE QUOTIENT DOES NOT COLLAPSE: 1 stays apart from 0 in ℤ/2ℤ. *)
 Theorem Z_mod_2Z_not_collapsed : mquot_rel EvenSub 1%Z 0%Z → False.
-Proof. intros [k Hk]; rewrite int_sub_is_minus in Hk; lia. Qed.
+Proof.
+  intros [[k Hk]]; rewrite int_sub_is_minus in Hk; lia.
+Qed.
 
 (* But it does collapse 2 into 0, so the projection is not injective and
    the quotient is a genuine quotient rather than a relabelling of ℤ. *)
 Theorem Z_mod_2Z_collapses_two :
   cmon_map (rm_hom (mquot_proj EvenSub)) 2%Z
     ≈ cmon_map (rm_hom (mquot_proj EvenSub)) 0%Z.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 Theorem mquot_proj_EvenSub_not_injective :
   RModInjective (mquot_proj EvenSub) → False.
@@ -1000,17 +1109,18 @@ Qed.
    congruent to 1 and not to 0. *)
 Example Z_mod_2Z_smul_three :
   mquot_rel EvenSub (rm_smul Int_RMod 3%Z 1%Z) 1%Z.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 Theorem Z_mod_2Z_smul_three_not_zero :
   mquot_rel EvenSub (rm_smul Int_RMod 3%Z 1%Z) 0%Z → False.
 Proof.
-  intros [k Hk].
+  intros [[k Hk]].
   rewrite int_sub_is_minus, int_smul_is_mul in Hk.
   lia.
 Qed.
 
 (* The kernel of the projection is exactly 2ℤ, in both directions. *)
+(* Restated up to the truncation, in lockstep with [mquot_proj_kernel]. *)
 Lemma EvenSub_is_kernel_of_proj (a : Z) :
-  smod_mem (KernelSub (mquot_proj EvenSub)) a ↔ smod_mem EvenSub a.
+  smod_mem (KernelSub (mquot_proj EvenSub)) a ↔ inhabited (smod_mem EvenSub a).
 Proof. exact (mquot_proj_kernel EvenSub a). Qed.

@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
@@ -85,9 +86,15 @@ Generalizable All Variables.
 
     THE SETOID QUOTIENT.  As throughout this tree, R/I needs no new
     carrier: it is R's carrier under the coarser relation
-    [rquot_rel I x y := idl_mem I (x - y)], with the subtraction taken in
-    the additive group [ring_ab R] and the shuffles supplied by
-    Instance/Ab/Subtract.v.  No coset object is formed.
+    [rquot_rel I x y := inhabited (idl_mem I (x - y))], with the
+    subtraction taken in the additive group [ring_ab R] and the shuffles
+    supplied by Instance/Ab/Subtract.v.  No coset object is formed.  An
+    earlier revision wrote the relation without the [inhabited]; since the
+    PR "algebraic carriers are sets" (2026-09-17) a [RigObject] owes a
+    [Prop]-valued mirror of its equality, and this relation is the
+    PROPOSITIONAL TRUNCATION of a [Type]-valued membership, exactly as
+    Instance/Mod/Quotient.v's [mquot_rel] is.  See the note on [Ideal]
+    below for why membership itself stays [Type]-valued.
 
     WHAT IS DELIVERED HERE.  [Ideal] with the derived [idl_neg];
     [QuotientRing] with the projection [rquot_proj]; the functor
@@ -117,10 +124,23 @@ Generalizable All Variables.
 (** ** Two-sided ideals *)
 
 (* Membership is [Type]-valued, following Instance/Mod/Quotient.v's
-   [Submodule] and Instance/Grp/Quotient.v's [Subgroup]: the library's
-   `≈` is itself [Type]-valued, so a [Prop]-valued membership could not
-   be eliminated into a hom-setoid equation.  There is deliberately no
-   decidability field and nothing below decides membership. *)
+   [Submodule] and Instance/Grp/Quotient.v's [Subgroup].
+
+   AN EARLIER REVISION gave the reason as: "the library's `≈` is itself
+   [Type]-valued, so a [Prop]-valued membership could not be eliminated into
+   a hom-setoid equation."  That reason is GONE since the PR "algebraic
+   carriers are sets" (2026-09-17): every ring carrier now carries
+   [rig_prop], so [pequiv_to] performs exactly that elimination.  Membership
+   stays [Type]-valued for a different reason, the one Instance/Mod/Quotient.v
+   records for [Submodule]: the consumers here READ WITNESSES out of it --
+   [EvenIdeal]'s and [SixIdeal]'s closure obligations below take the integer
+   k apart and rebuild it, and [E11Left_is_not_an_Ideal] in
+   Instance/Rng/Quotient/OneSided.v pulls the column entry out -- and those
+   are data.  What DID move is the quotient RELATION [rquot_rel], which is
+   now the propositional truncation of membership.
+
+   There is deliberately no decidability field and nothing below decides
+   membership. *)
 
 Record Ideal (R : RingObject) := {
   idl_mem : carrier (rig_setoid R) → Type;
@@ -287,9 +307,16 @@ Qed.
 
 (** ** The quotient relation *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) the quotient is a
+   [RingObject] and so owes [rig_prop], which forces its equality to be a
+   [Prop].  [idl_mem] STAYS [Type]-valued -- see the note on [Ideal] above --
+   and the relation is its PROPOSITIONAL TRUNCATION.  [inhabited] is the
+   truncation; [pequiv_elim_inhabited] (Lib/Setoid/Propositional.v) is what
+   gets back out, and the seven congruence lemmas below each gain one
+   [destruct … as [K]] going in and one [constructor] coming out. *)
 Definition rquot_rel {R : RingObject} (I : Ideal R)
-  (x y : carrier (rig_setoid R)) : Type :=
-  idl_mem I (ab_sub (ring_ab R) x y).
+  (x y : carrier (rig_setoid R)) : Prop :=
+  inhabited (idl_mem I (ab_sub (ring_ab R) x y)).
 
 Section QuotientRelation.
 
@@ -300,6 +327,7 @@ Lemma rquot_rel_of_equiv (x y : carrier (rig_setoid R)) :
   x ≈ y → rquot_rel I x y.
 Proof.
   intro Hxy; unfold rquot_rel.
+  constructor.
   apply (idl_at I (a := rig_zero R)); [| exact (idl_zero I) ].
   change (rig_zero R) with (cmon_zero (ring_ab R)).
   rewrite <- Hxy.
@@ -312,7 +340,8 @@ Proof. apply rquot_rel_of_equiv; reflexivity. Qed.
 Lemma rquot_rel_sym (x y : carrier (rig_setoid R)) :
   rquot_rel I x y → rquot_rel I y x.
 Proof.
-  unfold rquot_rel; intro K.
+  unfold rquot_rel; intros [K].
+  constructor.
   apply (idl_at I (a := ring_neg R (ab_sub (ring_ab R) x y))).
   - apply (ab_sub_neg (ring_ab R)).
   - exact (idl_neg I _ K).
@@ -321,7 +350,8 @@ Qed.
 Lemma rquot_rel_trans (x y z : carrier (rig_setoid R)) :
   rquot_rel I x y → rquot_rel I y z → rquot_rel I x z.
 Proof.
-  unfold rquot_rel; intros K1 K2.
+  unfold rquot_rel; intros [K1] [K2].
+  constructor.
   apply (idl_at I (a := rig_add R (ab_sub (ring_ab R) x y)
                                  (ab_sub (ring_ab R) y z))).
   - apply (ab_sub_trans (ring_ab R)).
@@ -332,7 +362,8 @@ Lemma rquot_rel_add (x x' y y' : carrier (rig_setoid R)) :
   rquot_rel I x x' → rquot_rel I y y' →
   rquot_rel I (rig_add R x y) (rig_add R x' y').
 Proof.
-  unfold rquot_rel; intros K1 K2.
+  unfold rquot_rel; intros [K1] [K2].
+  constructor.
   apply (idl_at I (a := rig_add R (ab_sub (ring_ab R) x x')
                                  (ab_sub (ring_ab R) y y'))).
   - apply (ab_sub_plus (ring_ab R)).
@@ -342,7 +373,8 @@ Qed.
 Lemma rquot_rel_neg (x x' : carrier (rig_setoid R)) :
   rquot_rel I x x' → rquot_rel I (ring_neg R x) (ring_neg R x').
 Proof.
-  unfold rquot_rel; intro K.
+  unfold rquot_rel; intros [K].
+  constructor.
   apply (idl_at I (a := ring_neg R (ab_sub (ring_ab R) x x'))).
   - rewrite (ab_sub_neg (ring_ab R)).
     (* [exact] rather than [apply]: [ab_neg (ring_ab R)] and
@@ -357,7 +389,8 @@ Lemma rquot_rel_mul (x x' y y' : carrier (rig_setoid R)) :
   rquot_rel I x x' → rquot_rel I y y' →
   rquot_rel I (rig_mul R x y) (rig_mul R x' y').
 Proof.
-  unfold rquot_rel; intros K1 K2.
+  unfold rquot_rel; intros [K1] [K2].
+  constructor.
   apply (idl_at I
            (a := rig_add R (rig_mul R x (ab_sub (ring_ab R) y y'))
                            (rig_mul R (ab_sub (ring_ab R) x x') y'))).
@@ -367,12 +400,32 @@ Proof.
     + exact (idl_absorb_r I _ y' K1).
 Qed.
 
+(* Membership IS congruence to zero, in both directions -- up to the
+   truncation.
+
+   AN EARLIER REVISION stated the right-hand side as the bare [idl_mem I x].
+   Since the PR "algebraic carriers are sets" (2026-09-17) [rquot_rel] is the
+   propositional truncation of membership, so the LEFT-to-right direction is
+   an elimination of a [Prop] into a [Type] and is refused; the biconditional
+   is stated up to [inhabited], which is its exact content.  The direction
+   that loses nothing -- membership implies congruence to zero, which is what
+   every consumer in the tree actually uses -- is kept separately as
+   [rquot_rel_of_mem] below, with its [Type]-valued hypothesis intact. *)
 Lemma rquot_rel_zero_iff (x : carrier (rig_setoid R)) :
-  rquot_rel I x (rig_zero R) ↔ idl_mem I x.
+  rquot_rel I x (rig_zero R) ↔ inhabited (idl_mem I x).
 Proof.
-  split; intro K; unfold rquot_rel in *.
+  split; intros [K]; unfold rquot_rel in *; constructor.
   - exact (idl_at I (ab_sub_zero_r (ring_ab R) x) K).
   - exact (idl_at I (symmetry (ab_sub_zero_r (ring_ab R) x)) K).
+Qed.
+
+(* The half of the biconditional that keeps its [Type]-valued hypothesis:
+   nothing is truncated on the way in. *)
+Lemma rquot_rel_of_mem (x : carrier (rig_setoid R)) :
+  idl_mem I x → rquot_rel I x (rig_zero R).
+Proof.
+  intro K; unfold rquot_rel; constructor.
+  exact (idl_at I (symmetry (ab_sub_zero_r (ring_ab R) x)) K).
 Qed.
 
 Program Definition rquot_setoid : Setoid (carrier (rig_setoid R)) := {|
@@ -404,9 +457,14 @@ Definition ideal_mul_congruence {R : RingObject} (I : Ideal R) :
    relation is definitionally the two-sided one at [Ideal_LeftIdeal I]
    -- recorded by convertibility, which is what makes the refutation
    downstream a statement about this very construction. *)
+(* Truncated in lockstep with [rquot_rel], and for the same reason: the
+   convertibility recorded by [lquot_rel_is_rquot_rel] below is what makes
+   the refutation in Instance/Rng/Quotient/OneSided.v a statement about THIS
+   construction, and two relations of different SORT could not be
+   convertible.  An earlier revision wrote both without the [inhabited]. *)
 Definition lquot_rel {R : RingObject} (L : LeftIdeal R)
-  (x y : carrier (rig_setoid R)) : Type :=
-  lidl_mem L (ab_sub (ring_ab R) x y).
+  (x y : carrier (rig_setoid R)) : Prop :=
+  inhabited (lidl_mem L (ab_sub (ring_ab R) x y)).
 
 Definition LeftIdealMulCongruence {R : RingObject} (L : LeftIdeal R) : Type :=
   ∀ x x' y y' : carrier (rig_setoid R),
@@ -455,6 +513,12 @@ Proof.
     intros a; apply rquot_rel_of_equiv, rig_mul_zero_l.
   - (* rig_mul_zero_r *)
     intros a; apply rquot_rel_of_equiv, rig_mul_zero_r.
+  - (* rig_prop.  The quotient's `≈` IS [rquot_rel I], which since the PR
+       "algebraic carriers are sets" (2026-09-17) is already a [Prop], so
+       the ring is its own [Prop] mirror and both implications are the
+       identity. *)
+    exact (@PropEquiv_of_relation _ (rquot_setoid I) (rquot_rel I)
+             (fun _ _ h => h) (fun _ _ h => h)).
   - (* ring_neg_respects *)
     intros x y Hxy; now apply rquot_rel_neg.
   - (* ring_neg_l *)
@@ -480,14 +544,21 @@ Lemma rquot_proj_kills {R : RingObject} (I : Ideal R)
   idl_mem I x → rig_map (rquot_proj I) x ≈ rig_zero (QuotientRing I).
 Proof.
   intro Hx; simpl.
-  exact (snd (rquot_rel_zero_iff I x) Hx).
+  (* The [Type]-valued direction: [rquot_rel_of_mem] rather than the
+     truncated biconditional, so nothing is lost on the way in. *)
+  exact (rquot_rel_of_mem I x Hx).
 Qed.
 
-(* Conversely: the projection's kernel is exactly I, as a
-   biconditional. *)
+(* Conversely: the projection's kernel is exactly I, as a biconditional --
+   up to the truncation.  AN EARLIER REVISION stated the right-hand side as
+   the bare [idl_mem I x]; since the PR "algebraic carriers are sets"
+   (2026-09-17) the quotient's `≈` is [rquot_rel], the propositional
+   truncation of membership, so the forward direction would be a [Prop] into
+   a [Type] and the biconditional is stated up to [inhabited].
+   [rquot_proj_kills] above is the untruncated direction. *)
 Lemma rquot_proj_kernel {R : RingObject} (I : Ideal R)
   (x : carrier (rig_setoid R)) :
-  rig_map (rquot_proj I) x ≈ rig_zero (QuotientRing I) ↔ idl_mem I x.
+  rig_map (rquot_proj I) x ≈ rig_zero (QuotientRing I) ↔ inhabited (idl_mem I x).
 Proof. exact (rquot_rel_zero_iff I x). Qed.
 
 Lemma rquot_proj_surjective {R : RingObject} (I : Ideal R) :
@@ -564,6 +635,14 @@ Lemma rkills_descends (x y : carrier (rig_setoid R)) :
   rquot_rel I x y → rig_map (`1 p) x ≈ rig_map (`1 p) y.
 Proof.
   intro Hxy.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [rquot_rel] is
+     a truncation, so [Hxy] is a [Prop] and cannot be destructed into the
+     [Type]-valued goal `≈`.  [pequiv_to] at the TARGET ring K puts a [Prop]
+     goal in front of the elimination; [pequiv_from] returns, and the
+     computation below is unchanged. *)
+  apply pequiv_to.
+  destruct Hxy as [Hxy].
+  apply pequiv_from.
   apply (fst (ab_sub_eq_zero_iff (ring_ab K) _ _)).
   rewrite <- (rig_map_sub (`1 p) x y).
   exact (`2 p _ Hxy).
@@ -701,6 +780,16 @@ Proof. reflexivity. Qed.
 
 (** ** Quotients by coextensive ideals agree *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) [rquot_rel] is a
+   truncation, and an [inhabited] cannot be destructed while the goal still
+   wears the [Type] ascription that [@equiv] carries.  This lemma does the
+   shuffle once, between two statements whose sort is [Prop] by declaration,
+   so the two respectfulness obligations of [rquot_congr] stay one-liners. *)
+Lemma rquot_rel_mono {R : RingObject} (I I' : Ideal R)
+  (H : ∀ a : carrier (rig_setoid R), idl_mem I a → idl_mem I' a)
+  (x y : carrier (rig_setoid R)) : rquot_rel I x y → rquot_rel I' x y.
+Proof. intros [K]; constructor; exact (H _ K). Qed.
+
 Program Definition rquot_congr {R : RingObject} (I I' : Ideal R)
   (H1 : ∀ a : carrier (rig_setoid R), idl_mem I a → idl_mem I' a)
   (H2 : ∀ a : carrier (rig_setoid R), idl_mem I' a → idl_mem I a) :
@@ -710,12 +799,16 @@ Program Definition rquot_congr {R : RingObject} (I I' : Ideal R)
   from := {| rig_map := {| morphism :=
     fun x : carrier (rig_setoid (QuotientRing I')) => x |} |}
 |}.
-Next Obligation. intros R I I' H1 H2 x y Hxy; exact (H1 _ Hxy). Qed.
+Next Obligation.
+  intros R I I' H1 H2 x y Hxy; exact (rquot_rel_mono I I' H1 x y Hxy).
+Qed.
 Next Obligation. intros R I I' H1 H2; simpl; apply rquot_rel_refl. Qed.
 Next Obligation. intros R I I' H1 H2 x y; simpl; apply rquot_rel_refl. Qed.
 Next Obligation. intros R I I' H1 H2; simpl; apply rquot_rel_refl. Qed.
 Next Obligation. intros R I I' H1 H2 x y; simpl; apply rquot_rel_refl. Qed.
-Next Obligation. intros R I I' H1 H2 x y Hxy; exact (H2 _ Hxy). Qed.
+Next Obligation.
+  intros R I I' H1 H2 x y Hxy; exact (rquot_rel_mono I' I H2 x y Hxy).
+Qed.
 Next Obligation. intros R I I' H1 H2; simpl; apply rquot_rel_refl. Qed.
 Next Obligation. intros R I I' H1 H2 x y; simpl; apply rquot_rel_refl. Qed.
 Next Obligation. intros R I I' H1 H2; simpl; apply rquot_rel_refl. Qed.
@@ -754,13 +847,27 @@ Next Obligation. intros R a b Ha Hb; exact ttt. Qed.
 Next Obligation. intros R r a Ha; exact ttt. Qed.
 Next Obligation. intros R a r Ha; exact ttt. Qed.
 
+(* BOTH directions survive the truncation here, and the statement is
+   unchanged.  [TrivialIdeal]'s membership is itself an `≈` on R's carrier,
+   so the [inhabited] in front of it is eliminated by
+   [pequiv_elim_inhabited] through R's own [rig_prop] -- no strength is
+   lost, in contrast with [rquot_rel_zero_iff] at a general ideal.  AN
+   EARLIER REVISION discharged the whole biconditional with one [exact]. *)
 Lemma rquot_trivial_iff (R : RingObject) (x y : carrier (rig_setoid R)) :
   rquot_rel (TrivialIdeal R) x y ↔ x ≈ y.
-Proof. exact (ab_sub_eq_zero_iff (ring_ab R) x y). Qed.
+Proof.
+  split.
+  - intro K.
+    apply (fst (ab_sub_eq_zero_iff (ring_ab R) x y)).
+    exact (pequiv_elim_inhabited _ _ K).
+  - intro Hxy.
+    constructor.
+    exact (snd (ab_sub_eq_zero_iff (ring_ab R) x y) Hxy).
+Qed.
 
 Lemma rquot_total_collapses (R : RingObject)
   (x y : carrier (rig_setoid R)) : rquot_rel (TotalIdeal R) x y.
-Proof. exact ttt. Qed.
+Proof. constructor; exact ttt. Qed.
 
 (* Quotienting by the whole ring gives a ring in which 1 ≈ 0, which is
    the zero ring up to the identification [rquot_total_collapses]
@@ -768,7 +875,7 @@ Proof. exact ttt. Qed.
 Lemma rquot_total_one_is_zero (R : RingObject) :
   rig_one (QuotientRing (TotalIdeal R))
     ≈ rig_zero (QuotientRing (TotalIdeal R)).
-Proof. exact ttt. Qed.
+Proof. exact (rquot_total_collapses R _ _). Qed.
 
 (** ** Non-vacuity: ℤ modulo 2ℤ
 
@@ -840,7 +947,10 @@ Qed.
    ℤ/2ℤ is not the zero ring. *)
 Theorem Z2_ring_not_collapsed : rquot_rel EvenIdeal 1%Z 0%Z → False.
 Proof.
-  intros [k Hk].
+  (* One extra layer since the PR "algebraic carriers are sets"
+     (2026-09-17): [rquot_rel] is the truncation of membership, and the
+     goal [False] is a [Prop], so the elimination is allowed. *)
+  intros [[k Hk]].
   assert (Hz : (1 - 0 = 2 * k)%Z) by exact Hk.
   lia.
 Qed.
@@ -854,7 +964,7 @@ Proof. exact Z2_ring_not_collapsed. Qed.
    and the quotient is a genuine quotient rather than a relabelling. *)
 Theorem Z2_ring_collapses_two :
   rig_map (rquot_proj EvenIdeal) 2%Z ≈ rig_map (rquot_proj EvenIdeal) 0%Z.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 Theorem rquot_proj_EvenIdeal_not_injective :
   (∀ a b : carrier (rig_setoid Int_Ring),
@@ -872,20 +982,26 @@ Qed.
 Theorem Z2_ring_one_plus_one :
   rig_add (QuotientRing EvenIdeal) 1%Z 1%Z
     ≈ rig_zero (QuotientRing EvenIdeal).
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 Theorem Z2_ring_one_times_one :
   rig_mul (QuotientRing EvenIdeal) 1%Z 1%Z
     ≈ rig_one (QuotientRing EvenIdeal).
-Proof. exists 0%Z; reflexivity. Qed.
+Proof. constructor; exists 0%Z; reflexivity. Qed.
 
 Theorem Z2_ring_three_is_one :
   rig_map (rquot_proj EvenIdeal) 3%Z ≈ rig_one (QuotientRing EvenIdeal).
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
-(* The kernel of the projection is exactly 2ℤ, in both directions. *)
+(* The kernel of the projection is exactly 2ℤ, in both directions -- up to
+   the truncation.  AN EARLIER REVISION stated the right-hand side as the
+   bare [idl_mem EvenIdeal a]; since the PR "algebraic carriers are sets"
+   (2026-09-17) the left-hand side is a [Prop] (the kernel's membership IS
+   the quotient's `≈`, which is [rquot_rel]), so the statement is up to
+   [inhabited], exactly as [rquot_proj_kernel] is. *)
 Lemma EvenIdeal_is_kernel_of_proj (a : Z) :
-  idl_mem (KernelIdeal (rquot_proj EvenIdeal)) a ↔ idl_mem EvenIdeal a.
+  idl_mem (KernelIdeal (rquot_proj EvenIdeal)) a
+    ↔ inhabited (idl_mem EvenIdeal a).
 Proof. exact (rquot_proj_kernel EvenIdeal a). Qed.
 
 (** *** The universal property, exercised
@@ -925,6 +1041,7 @@ Lemma six_kills_two (a : Z) :
   rig_map (rquot_proj EvenIdeal) a ≈ rig_zero (QuotientRing EvenIdeal).
 Proof.
   intros [k Hk].
+  constructor.
   exists (3 * k)%Z.
   (* The membership equation is CONVERTIBLE to one about plain ℤ, and
      [exact] is what performs the conversion; [lia] and [ring] see
@@ -955,12 +1072,12 @@ Proof. exact (rquot_med_commutes SixIdeal six_to_two). Qed.
 
 Theorem Z6_to_Z2_five_is_one :
   rig_map Z6_to_Z2 5%Z ≈ rig_one (QuotientRing EvenIdeal).
-Proof. exists 2%Z; reflexivity. Qed.
+Proof. constructor; exists 2%Z; reflexivity. Qed.
 
 Theorem Z6_to_Z2_five_not_zero :
   rig_map Z6_to_Z2 5%Z ≈ rig_zero (QuotientRing EvenIdeal) → False.
 Proof.
-  intros [k Hk].
+  intros [[k Hk]].
   assert (Hz : (5 - 0 = 2 * k)%Z) by exact Hk.
   lia.
 Qed.
@@ -970,11 +1087,11 @@ Qed.
    quotient. *)
 Theorem Z6_three_apart_from_one : rquot_rel SixIdeal 3%Z 1%Z → False.
 Proof.
-  intros [k Hk].
+  intros [[k Hk]].
   assert (Hz : (3 - 1 = 6 * k)%Z) by exact Hk.
   lia.
 Qed.
 
 Theorem Z6_to_Z2_identifies_three_and_one :
   rig_map Z6_to_Z2 3%Z ≈ rig_map Z6_to_Z2 1%Z.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.

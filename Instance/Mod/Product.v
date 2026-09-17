@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.CMon.
@@ -100,10 +101,17 @@ Next Obligation.
   - intros f g h H1 H2 i; now transitivity (g i).
 Qed.
 
+(* The carrier is a pointwise product of propositional carriers, so it is
+   propositional pointwise: Lib/Setoid/Propositional.v's
+   [dep_fun_PropEquiv], with the two implications the identity because the
+   relation [modprod_setoid] writes inline IS the pointwise one. *)
 Program Definition modprod_cmon : CMonObject := {|
   cmon_setoid := modprod_setoid;
   cmon_zero   := fun i => cmon_zero (V i);
-  cmon_plus   := fun f g i => cmon_plus (V i) (f i) (g i)
+  cmon_plus   := fun f g i => cmon_plus (V i) (f i) (g i);
+  cmon_prop   := dep_fun_PropEquiv (is_setoid modprod_setoid)
+                   (fun _ _ h => h) (fun _ _ h => h)
+                   (fun i => cmon_prop (V i))
 |}.
 Next Obligation. intros f f' Hf g g' Hg i; now rewrite (Hf i), (Hg i). Qed.
 Next Obligation. intros f g h i; apply cmon_plus_assoc. Qed.

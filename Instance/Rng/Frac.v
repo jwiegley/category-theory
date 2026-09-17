@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
@@ -520,12 +521,25 @@ Qed.
 
 (** *** The fraction ring *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject]
+   owes a [Prop]-valued mirror of its equality.  [frac_eq] is a single `≈`
+   on D's OWN carrier -- the cross-multiplication equation -- so the mirror
+   is D's own [pequiv] at that equation and the two implications are D's own
+   [pequiv_to] and [pequiv_from].  Nothing is truncated: the fraction
+   setoid is propositional exactly because the base domain's is. *)
 Program Definition FracRig : RigObject := {|
   rig_setoid := FracObj;
   rig_zero := frac_zero;
   rig_add := frac_add;
   rig_one := frac_one;
-  rig_mul := frac_mul
+  rig_mul := frac_mul;
+  rig_prop := @PropEquiv_of_relation _ (is_setoid FracObj)
+                (fun x y => @pequiv _ _ (rig_prop D)
+                              (num x * den y) (num y * den x))
+                (fun x y h => @pequiv_to _ _ (rig_prop D)
+                                (num x * den y) (num y * den x) h)
+                (fun x y h => @pequiv_from _ _ (rig_prop D)
+                                (num x * den y) (num y * den x) h)
 |}.
 Next Obligation.
   intros x x' Hx y y' Hy; apply frac_add_respects; assumption.

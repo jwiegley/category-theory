@@ -142,11 +142,17 @@ Qed.
     ideal) and E₁₂ ~ E₁₂, yet E₁₁·E₁₂ = E₁₂ is not congruent to
     0·E₁₂ = 0. *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) [lquot_rel] is the
+   propositional truncation of membership -- truncated in lockstep with
+   [rquot_rel], so that [lquot_rel_is_rquot_rel] stays a convertibility -- so
+   each witness is wrapped by [constructor] going in and unwrapped by an
+   extra layer of intro pattern coming out.  The refutation is unaffected:
+   its conclusion is [False], already a [Prop]. *)
 Lemma ut2_e11_rel_zero : lquot_rel E11Left ut2_e11 ut2_zero.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 Lemma ut2_e12_rel_self : lquot_rel E11Left ut2_e12 ut2_e12.
-Proof. exists 0%Z; reflexivity. Qed.
+Proof. constructor; exists 0%Z; reflexivity. Qed.
 
 Theorem ut2_left_ideal_not_mul_congruence :
   LeftIdealMulCongruence E11Left → False.
@@ -154,7 +160,7 @@ Proof.
   intro Hcong.
   pose proof (Hcong ut2_e11 ut2_zero ut2_e12 ut2_e12
                 ut2_e11_rel_zero ut2_e12_rel_self) as H.
-  destruct H as [a Ha].
+  destruct H as [[a Ha]].
   discriminate Ha.
 Qed.
 
@@ -217,18 +223,18 @@ Qed.
    nondegenerate non-commutative example and not only on ℤ. *)
 Theorem UT2_mod_strict_not_collapsed :
   rquot_rel StrictUpper ut2_e11 ut2_zero → False.
-Proof. intros [b Hb]; discriminate Hb. Qed.
+Proof. intros [[b Hb]]; discriminate Hb. Qed.
 
 Theorem UT2_mod_strict_collapses_e12 :
   rig_map (rquot_proj StrictUpper) ut2_e12
     ≈ rig_map (rquot_proj StrictUpper) ut2_zero.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 (* The quotient ring UT2/StrictUpper is not the zero ring. *)
 Theorem UT2_mod_strict_nonzero :
   rig_one (QuotientRing StrictUpper) ≈ rig_zero (QuotientRing StrictUpper)
     → False.
-Proof. intros [b Hb]; discriminate Hb. Qed.
+Proof. intros [[b Hb]]; discriminate Hb. Qed.
 
 (* It IS commutative, though UT2 is not -- the quotient of a
    non-commutative ring can be commutative, which is why "quotient" here
@@ -241,6 +247,7 @@ Theorem UT2_mod_strict_commutative :
       ≈ rig_mul (QuotientRing StrictUpper) y x.
 Proof.
   intros [[x1 x2] x3] [[y1 y2] y3].
+  constructor.
   exists (x1 * y2 + x2 * y3 - (y1 * x2 + y2 * x3))%Z.
   unfold rig_mul, UT2, UT2_Rig, ut2_mul; simpl.
   apply ut2_eq3; ring.

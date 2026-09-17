@@ -244,6 +244,7 @@
         universal property already gives. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Opposite.
@@ -315,7 +316,12 @@ Proof using A S.
        ; cmon_zero := existT _ (cmon_zero A) (absub_zero S)
        ; cmon_plus := fun p q =>
            existT _ (cmon_plus A (projT1 p) (projT1 q))
-                    (absub_plus S _ _ (projT2 p) (projT2 q)) |};
+                    (absub_plus S _ _ (projT2 p) (projT2 q))
+       (* Only the first projection is compared, so the [Type]-valued
+          membership rides along untouched. *)
+       ; cmon_prop :=
+           sigma_first_PropEquiv absub_setoid
+             (fun _ _ h => h) (fun _ _ h => h) (cmon_prop A) |};
     ab_neg := fun p =>
       existT _ (ab_neg A (projT1 p)) (absub_neg S _ (projT2 p))
   |}.

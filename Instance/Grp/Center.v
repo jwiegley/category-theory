@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -161,30 +162,41 @@ Lemma CenterGrp_abelian (G : GrpObject) (a b : carrier (CenterGrp G)) :
 Proof. exact (`2 a (`1 b)). Qed.
 
 (* ...and therefore an object of Ab: G ↦ Z(G) really is an object
-   function Grp → Ab. *)
-Program Definition CenterAb (G : GrpObject) : AbObject := {|
+   function Grp → Ab.
+
+   TEMPORARY: removed in phase P3 when GrpObject carries grp_prop.  Since the
+   PR "algebraic carriers are sets" (2026-09-17) an [AbObject] carries
+   [cmon_prop], and the centre's carrier setoid compares first projections in
+   [G] -- so it is propositional exactly when [G]'s own `≈` is.  [GrpObject]
+   does not yet carry that field; until it does, [PG] is taken as an argument
+   here and at the two places below that mention [CenterAb]. *)
+Program Definition CenterAb (G : GrpObject)
+  (PG : PropEquiv (is_setoid (grp_setoid G))) : AbObject := {|
   ab_cmon := {|
     cmon_setoid := center_setoid G;
     cmon_zero := mk_central G (grp_unit G) (central_unit G);
     cmon_plus := fun a b =>
       mk_central G (grp_mul G (`1 a) (`1 b))
-        (central_mul G (`1 a) (`1 b) (`2 a) (`2 b))
+        (central_mul G (`1 a) (`1 b) (`2 a) (`2 b));
+    cmon_prop :=
+      sigma_first_PropEquiv (is_setoid (center_setoid G))
+        (fun _ _ h => h) (fun _ _ h => h) PG
   |};
   ab_neg := fun a =>
     mk_central G (grp_inv G (`1 a)) (central_inv G (`1 a) (`2 a))
 |}.
 Next Obligation.
-  intros G a a' Ha b b' Hb; simpl in *.
+  intros G PG a a' Ha b b' Hb; simpl in *.
   now rewrite Ha, Hb.
 Qed.
-Next Obligation. intros G a b c; simpl; apply grp_mul_assoc. Qed.
-Next Obligation. intros G a b; simpl; exact (`2 a (`1 b)). Qed.
-Next Obligation. intros G a; simpl; apply grp_mul_unit_l. Qed.
+Next Obligation. intros G PG a b c; simpl; apply grp_mul_assoc. Qed.
+Next Obligation. intros G PG a b; simpl; exact (`2 a (`1 b)). Qed.
+Next Obligation. intros G PG a; simpl; apply grp_mul_unit_l. Qed.
 Next Obligation.
-  intros G a a' Ha; simpl in *.
+  intros G PG a a' Ha; simpl in *.
   now rewrite Ha.
 Qed.
-Next Obligation. intros G a; simpl; apply grp_mul_inv_l. Qed.
+Next Obligation. intros G PG a; simpl; apply grp_mul_inv_l. Qed.
 
 (* The center includes into the group. *)
 Program Definition Center_incl (G : GrpObject) :
@@ -281,8 +293,15 @@ Qed.
 
 (** ** The no-functor theorem *)
 
+(* [PG] is TEMPORARY, for the reason given at [CenterAb]: P3 gives
+   [GrpObject] the field [grp_prop] and this hypothesis goes away.  It
+   weakens nothing about the argument -- the two groups the proof actually
+   uses, S₂ and S₃, have decidable carriers -- but it is a hypothesis the
+   statement did not carry before the PR "algebraic carriers are sets"
+   (2026-09-17), and it is recorded as one. *)
 Theorem no_center_functor (T : Grp ⟶ Ab)
-  (HT : ∀ G : GrpObject, fobj[T] G = CenterAb G) : False.
+  (PG : ∀ G : GrpObject, PropEquiv (is_setoid (grp_setoid G)))
+  (HT : ∀ G : GrpObject, fobj[T] G = CenterAb G (PG G)) : False.
 Proof.
   (* The retract factors the identity of T S₂ through T S₃. *)
   assert (Hrt : ∀ x : carrier (fobj[T] GrpTwo),

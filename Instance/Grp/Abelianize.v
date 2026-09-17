@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -20,6 +21,7 @@ Require Import Category.Instance.Grp.Abelianization.
 Generalizable All Variables.
 
 #[local] Obligation Tactic := idtac.
+
 
 (** * Abelianization as a universal arrow, and the adjunction twice over
 
@@ -264,11 +266,20 @@ Lemma ab_is_abelian (A : AbObject) (a b : carrier (Ab_to_GrpOb A)) :
   grp_mul (Ab_to_GrpOb A) a b ≈ grp_mul (Ab_to_GrpOb A) b a.
 Proof. apply cmon_plus_comm. Qed.
 
+(* [abel_eq] is the propositional truncation of [InCommutator] since the PR
+   "algebraic carriers are sets" (2026-09-17), so the witness may not be
+   destructed into the [Type]-valued conclusion directly.  The target is an
+   [AbObject], which carries [cmon_prop], so [pequiv_to] puts a [Prop] goal in
+   front of the elimination and [pequiv_from] returns.  This is the one place
+   in the development where the truncation has to be opened. *)
 Lemma abel_kills {G : GrpObject} {A : AbObject}
   (f : G ~{Grp}~> Ab_to_GrpOb A) (a b : carrier G) :
   abel_eq G a b → grp_map f a ≈ grp_map f b.
 Proof.
   intro Hab.
+  apply (@pequiv_to _ _ (cmon_prop A)).
+  destruct Hab as [Hab].
+  apply pequiv_from.
   pose proof (hom_to_abelian_kills (ab_is_abelian A) f _ Hab) as E.
   rewrite (grp_map_mul f), (grp_map_inv f) in E.
   apply (grp_cancel_r _ (grp_inv (Ab_to_GrpOb A) (grp_map f b))).
@@ -594,10 +605,31 @@ Next Obligation. intros A B h a; simpl; reflexivity. Qed.
     no induction on the generation [InCommutator] could produce a
     negative.  The target is ℤ/2 read as an [AbObject]. *)
 
+(* [GrpTwo]'s `≈` is [grp_two_rel] (Instance/Grp/Epi.v:1312), a match into
+   [poly_unit] and [False].  Its [Prop] mirror is the same match into [True]
+   and [False], and both implications are four-way case analyses -- so no
+   [GrpObject] field is needed here, and this instance does not wait for
+   phase P3. *)
+Definition grp_two_peq (x y : grp_two_carrier) : Prop :=
+  match x, y with
+  | inl _, inl _ => True
+  | inr _, inr _ => True
+  | _, _ => False
+  end.
+
+Definition grp_two_PropEquiv : PropEquiv (is_setoid (grp_setoid GrpTwo)).
+Proof.
+  unshelve refine
+    (@PropEquiv_of_relation _ (is_setoid (grp_setoid GrpTwo)) grp_two_peq _ _).
+  - intros [u|u] [v|v] H; simpl in *; try contradiction; exact ttt.
+  - intros [u|u] [v|v] H; simpl in *; try contradiction; exact I.
+Defined.
+
 Program Definition AbTwo : AbObject := {|
   ab_cmon := {| cmon_setoid := grp_setoid GrpTwo
               ; cmon_zero   := grp_unit GrpTwo
-              ; cmon_plus   := grp_mul GrpTwo |}
+              ; cmon_plus   := grp_mul GrpTwo
+              ; cmon_prop   := grp_two_PropEquiv |}
  ; ab_neg := grp_inv GrpTwo
 |}.
 Solve All Obligations with
@@ -620,6 +652,7 @@ Definition ab_two_sign : S3 ~{Grp}~> Ab_to_GrpOb AbTwo :=
     the unit in the abelianization. *)
 Lemma abelianize_S3_identifies : abel_eq S3 (gcomm S3 S3_r S3_s) s3_unit.
 Proof.
+  constructor.
   apply (inc_resp (a := gcomm S3 S3_r S3_s)).
   - vm_compute; reflexivity.
   - apply inc_comm.

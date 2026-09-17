@@ -844,7 +844,7 @@ Section CoexProbeUniverses.
 Universes ra rb rc.
 Constraint ra < rc.
 
-Context (Ru : RingObject@{ra rb rc}) (Au Bu : AbObject).
+Context (Ru : RingObject@{rc ra rb}) (Au Bu : AbObject).
 
 (* CONTROLS.  With the ring's FIRST and THIRD universes declared strictly
    apart, all of these are formable, each APPLIED to the argument that

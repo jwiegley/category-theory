@@ -382,14 +382,19 @@ Qed.
 
 (** ** The category *)
 
-Program Definition Rg : Category := {|
-  obj     := RgObject;
-  hom     := RgHom;
-  homset  := @RgHom_Setoid;
-  id      := @rg_hom_id;
-  compose := @rg_hom_compose;
+(* The universes are pinned by hand, for the reason recorded at
+   Instance/CMon.v's [CMon]: with [cmon_prop] a field of the underlying
+   [CMonObject] the record sort carries a [Set+1], and left to itself the
+   elaborator gives [Rg] a third, redundant universe -- refusing the
+   `Rg@{u o}` annotations in this file for arity. *)
+Program Definition Rg@{u p} : Category@{u p p} := {|
+  obj     := RgObject@{p p p};
+  hom     := RgHom@{p};
+  homset  := @RgHom_Setoid@{p};
+  id      := @rg_hom_id@{p};
+  compose := @rg_hom_compose@{u p};
 
-  compose_respects := @rg_hom_compose_respects
+  compose_respects := @rg_hom_compose_respects@{u p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.

@@ -1,4 +1,6 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -381,6 +383,21 @@ Example uset_tower_stage (n : nat) :
 
 Definition ZpCarrier : obj[Sets] := tower_obj USetTower.
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject] owes
+   a [Prop]-valued mirror of its equality.  Nothing new is proved here: the
+   inverse limit's `≈` compares only the first projection -- the matching
+   witness is carried along and never inspected -- and that projection is
+   compared POINTWISE in the indexed product, so the mirror is
+   [sigma_first_PropEquiv] over [iprod_PropEquiv] over each stage's own
+   [rig_prop].  The two implications of the sigma step are the identity,
+   [tower_obj]'s setoid being that comparison on the nose
+   (Instance/Sets/InverseLimit.v:220).  Nothing is truncated. *)
+Definition zp_PropEquiv : PropEquiv (is_setoid ZpCarrier) :=
+  sigma_first_PropEquiv (is_setoid ZpCarrier)
+    (fun _ _ h => h) (fun _ _ h => h)
+    (iprod_PropEquiv (fun n : nat => fobj[USetTower] n)
+       (fun n => rig_prop (ResRing Rcomm d n))).
+
 (* Each operation is coordinatewise, and its compatibility is the
    corresponding homomorphism law of the transition map. *)
 Definition zp_zero : carrier ZpCarrier.
@@ -429,7 +446,8 @@ Program Definition ZpRig : RigObject := {|
   rig_zero   := zp_zero;
   rig_add    := zp_add;
   rig_one    := zp_one;
-  rig_mul    := zp_mul
+  rig_mul    := zp_mul;
+  rig_prop   := zp_PropEquiv
 |}.
 Next Obligation.
   intros p q Hpq r t Hrt n; apply rig_add_respects;
@@ -606,9 +624,17 @@ Example padic_and_series_share_the_construction (p : Z) :
     The three facts sections (A)-(D) leave to be measured rather than
     assumed are pinned by [eq_refl] at the head of the section: the
     transition map of the tower is the IDENTITY on integers, [x ≈ y] in the
-    n-th residue ring IS divisibility of [x - y] by [d^n], and [divides] is
-    a Type-valued sigma over ℤ.  Everything after them is ordinary integer
-    arithmetic. *)
+    n-th residue ring IS the propositional truncation of divisibility of
+    [x - y] by [d^n], and [divides] is a Type-valued sigma over ℤ.
+    Everything after them is ordinary integer arithmetic.
+
+    AN EARLIER REVISION of the second fact said [x ≈ y] IS the divisibility
+    itself, which it was before the PR "algebraic carriers are sets"
+    (2026-09-17) truncated the quotient ring's equality.  [divides] is
+    still the Type-valued sigma, and the witness is still available: not by
+    projection out of the relation, which a [Prop] does not permit, but by
+    the decision procedure [res_dvd_dec] below, so [res_to_dvd] returns the
+    same [sigT] it always did. *)
 
 Section Digits.
 
@@ -625,9 +651,16 @@ Local Notation Zpc := (ZpCarrier ZComm p).
 Example digit_transition_is_id (n : nat) (x : Z) :
   fmap[USetTower ZComm p] (tower_step n) x = x := eq_refl.
 
+(* AN EARLIER REVISION read the right-hand side as the bare [divides].  Since
+   the PR "algebraic carriers are sets" (2026-09-17) the quotient ring's
+   equality is the PROPOSITIONAL TRUNCATION of ideal membership
+   (Instance/Rng/Quotient.v's [rquot_rel]), so what the stage's `≈` IS, on the
+   nose, is [inhabited] of that divisibility.  The witness is not lost: it is
+   recomputed by [res_dvd_dec] below, divisibility by [P n] being decidable on
+   ℤ, so [res_to_dvd] keeps its [sigT]-valued conclusion. *)
 Example digit_equiv_is_divides (n : nat) (x y : Z) :
   (@equiv _ (rig_setoid (ResRing ZComm p n)) x y)
-    = @divides Int_Ring (P n) (Z.add x (Z.opp y)) := eq_refl.
+    = inhabited (@divides Int_Ring (P n) (Z.add x (Z.opp y))) := eq_refl.
 
 Example digit_divides_is_sigma (a b : Z) :
   @divides Int_Ring a b = { k : Z & b = Z.mul a k } := eq_refl.
@@ -649,17 +682,46 @@ Proof using Hp p. pose proof (dpow_pos n); lia. Qed.
 
 Lemma res_of_dvd (n : nat) (x y k : Z) (H : (x + - y)%Z = (P n * k)%Z) :
   @equiv _ (rig_setoid (ResRing ZComm p n)) x y.
-Proof. exact (existT _ k H). Qed.
+Proof. exact (inhabits (existT _ k H)). Qed.
+
+(* Divisibility by [P n] is DECIDABLE on ℤ: the quotient is the witness when
+   the remainder vanishes, and otherwise no witness exists.  This is the
+   [z5_eq_dec] pattern of Instance/Ab/Character/NonNatural.v, and it is what
+   lets [res_to_dvd] keep the conclusion it had before the PR "algebraic
+   carriers are sets" (2026-09-17) truncated the quotient's equality: the
+   witness is RECOMPUTED rather than read out of the [Prop].  No choice
+   principle is used. *)
+Lemma res_dvd_dec (n : nat) (x y : Z) :
+  { k : Z & (x + - y)%Z = (P n * k)%Z }
+  + ({ k : Z & (x + - y)%Z = (P n * k)%Z } → False).
+Proof using Hp p.
+  destruct (Z.eq_dec ((x + - y) mod P n) 0) as [He|He].
+  - left.
+    exists ((x + - y) / P n)%Z.
+    pose proof (Z.div_mod (x + - y) (P n) (dpow_nz n)) as Hq.
+    lia.
+  - right.
+    intros [k Hk].
+    apply He.
+    rewrite Hk, Z.mul_comm.
+    apply Z_mod_mult.
+Qed.
 
 Lemma res_to_dvd (n : nat) (x y : Z)
   (H : @equiv _ (rig_setoid (ResRing ZComm p n)) x y) :
   { k : Z & (x + - y)%Z = (P n * k)%Z }.
-Proof. exact H. Qed.
+Proof using Hp p.
+  destruct (res_dvd_dec n x y) as [Hd|Hd].
+  - exact Hd.
+  - exfalso.
+    destruct H as [[k Hk]].
+    exact (Hd (existT _ k Hk)).
+Qed.
 
 Lemma mod_eq_of_res (n : nat) (x y : Z)
   (H : @equiv _ (rig_setoid (ResRing ZComm p n)) x y) :
   (x mod P n)%Z = (y mod P n)%Z.
-Proof.
+Proof using Hp p.
   destruct (res_to_dvd n x y H) as [k Hk].
   rewrite (Z.mul_comm (P n) k) in Hk.
   replace x with (y + k * P n)%Z by lia.
@@ -727,8 +789,12 @@ Lemma dsum_compat (a : nat -> Z) (n : nat) :
   (dsum a (S n) + - dsum a n)%Z = (P n * a n)%Z.
 Proof. cbn [dsum]; ring. Qed.
 
+(* The compatibility witness passes through [res_of_dvd] since the PR
+   "algebraic carriers are sets" (2026-09-17): a stage's `≈` is the
+   truncation of divisibility, so the bare [existT] has to be wrapped. *)
 Definition digits_to_zp (a : nat -> Z) : Zpc :=
-  existT _ (dsum a) (fun n => existT _ (a n) (dsum_compat a n)).
+  existT _ (dsum a)
+    (fun n => res_of_dvd n (dsum a (S n)) (dsum a n) (a n) (dsum_compat a n)).
 
 Example digits_to_zp_stage (a : nat -> Z) (n : nat) :
   `1 (digits_to_zp a) n = dsum a n := eq_refl.
@@ -1029,7 +1095,8 @@ Lemma zp_const_compat (x : Z) (n : nat) : (x + - x)%Z = (P n * 0)%Z.
 Proof using p. ring. Qed.
 
 Definition zp_const (x : Z) : Zpc :=
-  existT _ (fun _ : nat => x) (fun n => existT _ 0%Z (zp_const_compat x n)).
+  existT _ (fun _ : nat => x)
+    (fun n => res_of_dvd n x x 0%Z (zp_const_compat x n)).
 
 Lemma neg_one_mod (m : Z) (Hm : (0 < m)%Z) : ((-1) mod m)%Z = (m - 1)%Z.
 Proof using Type.

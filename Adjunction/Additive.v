@@ -9,6 +9,8 @@ Require Import Category.Adjunction.Opposite.
 Require Import Category.Structure.Preadditive.
 Require Import Category.Structure.AbCategory.
 Require Import Category.Instance.Sets.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Instance.CMon.
 Require Import Category.Instance.Ab.
 
@@ -481,8 +483,21 @@ Section HomGroups.
 
 (* [hom_ab] is a plain [Definition] rather than an [Instance]: it is a
    reading of a hom-setoid, not something typeclass resolution should
-   ever be searching for. *)
-Definition hom_ab {C : Category} (AC : AbEnriched C) (x y : C) :
+   ever be searching for.
+
+   [LP] is new since the PR "algebraic carriers are sets" (2026-09-17).  An
+   [AbObject] carries [cmon_prop], the property that its carrier's `≈` is
+   logically equivalent to a [Prop]-valued relation, and here the carrier IS
+   [C]'s hom-setoid; an arbitrary category supplies no such relation
+   (Instance/Sets/Propositional.v's header records the measurement for [Cat],
+   where an `≈` of functors IS a family of isomorphisms).  So the ambient
+   category must be LOCALLY PROPOSITIONAL.  The hypothesis is a class, so it
+   is discharged by resolution wherever an instance is in scope: at [Ab] and
+   [RMod R] by [Ab_LocallyPropositional] and [RMod_LocallyPropositional], and
+   those are the ambients the nine module and bimodule objects built on
+   [hom_ab] actually use. *)
+Definition hom_ab {C : Category} {LP : LocallyPropositional C}
+  (AC : AbEnriched C) (x y : C) :
   AbObject := {|
   ab_cmon :=
     {| cmon_setoid :=
@@ -492,7 +507,8 @@ Definition hom_ab {C : Category} (AC : AbEnriched C) (x y : C) :
        cmon_plus_respects := @padd_respects C _ x y;
        cmon_plus_assoc := @padd_assoc C _ x y;
        cmon_plus_comm := @padd_comm C _ x y;
-       cmon_plus_zero_l := @padd_zero_left C _ x y |};
+       cmon_plus_zero_l := @padd_zero_left C _ x y;
+       cmon_prop := locally_prop x y |};
   ab_neg := @abneg C AC x y;
   ab_neg_respects := @abneg_respects C AC x y;
   (* [padd_abneg] is stated as f + (−f) ≈ 0 while [ab_neg_left] wants
@@ -506,23 +522,30 @@ Definition hom_ab {C : Category} (AC : AbEnriched C) (x y : C) :
 (* The four data fields are the enrichment's own, on the nose: nothing
    is rebuilt, so every [AbEnriched] law about [padd] is literally a
    law about this group.  Measured at [eq_refl], not assumed. *)
-Example hom_ab_carrier {C : Category} (AC : AbEnriched C) (x y : C) :
+Example hom_ab_carrier {C : Category} {LP : LocallyPropositional C}
+  (AC : AbEnriched C) (x y : C) :
   carrier (cmon_setoid (hom_ab AC x y)) = (x ~{C}~> y).
 Proof. exact eq_refl. Qed.
 
-Example hom_ab_plus {C : Category} (AC : AbEnriched C) (x y : C) :
+Example hom_ab_plus {C : Category} {LP : LocallyPropositional C}
+  (AC : AbEnriched C) (x y : C) :
   cmon_plus (hom_ab AC x y) = @padd C _ x y.
 Proof. exact eq_refl. Qed.
 
-Example hom_ab_zero {C : Category} (AC : AbEnriched C) (x y : C) :
+Example hom_ab_zero {C : Category} {LP : LocallyPropositional C}
+  (AC : AbEnriched C) (x y : C) :
   cmon_zero (hom_ab AC x y) = @pzero C _ x y.
 Proof. exact eq_refl. Qed.
 
-Example hom_ab_neg {C : Category} (AC : AbEnriched C) (x y : C) :
+Example hom_ab_neg {C : Category} {LP : LocallyPropositional C}
+  (AC : AbEnriched C) (x y : C) :
   ab_neg (hom_ab AC x y) = @abneg C AC x y.
 Proof. exact eq_refl. Qed.
 
 Context {C D : Category}.
+(* Both ambients must be locally propositional; see [hom_ab] above. *)
+Context {LPC : LocallyPropositional C}.
+Context {LPD : LocallyPropositional D}.
 Context {AC : AbEnriched C}.
 Context {AD : AbEnriched D}.
 Context {F : D ⟶ C}.

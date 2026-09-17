@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -245,7 +246,9 @@ Proof.
     ab_cmon := {| cmon_setoid := {| carrier := bool
                                   ; is_setoid := eq_Setoid bool |}
                 ; cmon_zero := false
-                ; cmon_plus := xorb |};
+                ; cmon_plus := xorb
+                (* the carrier's `≈` IS [eq], already a [Prop] *)
+                ; cmon_prop := eq_PropEquiv bool |};
     ab_neg := fun b => b
   |}.
   - (* cmon_plus_respects *) repeat intro; simpl in *; subst; reflexivity.

@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -203,7 +204,7 @@ Inductive FVTerm : Type :=
    the generating setoid's [≈] and the ring's), the abelian-group laws,
    the four module laws, symmetry and transitivity.  Reflexivity is
    derived below. *)
-Inductive fv_eq : FVTerm → FVTerm → Type :=
+Inductive fv_eq : FVTerm → FVTerm → Prop :=
   | fe_gen {x y : carrier X} : x ≈ y → fv_eq (fv_gen x) (fv_gen y)
   | fe_plus {s s' t t'} :
       fv_eq s s' → fv_eq t t' → fv_eq (fv_plus s t) (fv_plus s' t')
@@ -262,7 +263,11 @@ Definition fv_Setoid : Setoid FVTerm := {|
     Every law of the module is a constructor of the relation; nothing is
     proved.  The record is written out in one literal so that the
     underlying setoid, the group operations and the action are all
-    visible at a glance and all reduce. *)
+    visible at a glance and all reduce.  An earlier revision stopped there; the record now
+    carries one more field, [cmon_prop], and it too is a one-liner: the
+    relation IS a [Prop] since the PR "algebraic carriers are sets"
+    (2026-09-17), so it is its own [Prop] mirror and both implications are
+    the identity. *)
 Definition FreeModObject : RModObject R := {|
   rm_ab := {|
     ab_cmon := {|
@@ -272,7 +277,10 @@ Definition FreeModObject : RModObject R := {|
       cmon_plus_respects := fun _ _ Hs _ _ Ht => fe_plus Hs Ht;
       cmon_plus_assoc := fe_assoc;
       cmon_plus_comm := fe_comm;
-      cmon_plus_zero_l := fe_zero_l
+      cmon_plus_zero_l := fe_zero_l;
+      (* [fv_eq] IS a [Prop] relation, so it is its own [Prop] mirror. *)
+      cmon_prop := @PropEquiv_of_relation _ fv_Setoid fv_eq
+                     (fun _ _ h => h) (fun _ _ h => h)
     |};
     ab_neg := fv_neg;
     ab_neg_respects := fun _ _ Hs => fe_neg Hs;
@@ -326,6 +334,12 @@ Fixpoint fv_eval (t : FVTerm) : carrier (cmon_setoid W) :=
 Lemma fv_eval_respects (s t : FVTerm) : fv_eq s t → fv_eval s ≈ fv_eval t.
 Proof.
   intro He.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [fv_eq] is a
+     [Prop] inductive and eliminates only into [Prop] goals, while `≈` is
+     [Type]-valued.  [pequiv_to] puts a [Prop] goal in front of the
+     elimination; each branch returns to `≈` with [pequiv_from].  The 14 cases
+     and what discharges each are exactly as before. *)
+  apply pequiv_to.
   induction He as
     [ x y Hxy
     | s s' t t' _ IHs _ IHt
@@ -335,18 +349,22 @@ Proof.
     | r s t | r r' s | r r' s | s
     | s t _ IHst
     | s t u _ IHst _ IHtu ]; simpl.
-  - exact (proper_morphism h _ _ Hxy).
-  - exact (cmon_plus_respects W _ _ IHs _ _ IHt).
-  - exact (ab_neg_respects W _ _ IHs).
-  - exact (rm_smul_respects W _ _ Hr _ _ IHs).
-  - exact (cmon_plus_assoc W _ _ _).
-  - exact (cmon_plus_comm W _ _).
-  - exact (cmon_plus_zero_l W _).
-  - exact (ab_neg_left W _).
-  - exact (rm_smul_distr_l W _ _ _).
-  - exact (rm_smul_distr_r W _ _ _).
-  - exact (rm_smul_assoc W _ _ _).
-  - exact (rm_smul_one W _).
+  - apply pequiv_from; exact (proper_morphism h _ _ Hxy).
+  - apply pequiv_from.
+    exact (cmon_plus_respects W _ _ (pequiv_to _ _ IHs)
+                                _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ab_neg_respects W _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rm_smul_respects W _ _ Hr _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from; exact (cmon_plus_assoc W _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm W _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l W _).
+  - apply pequiv_from; exact (ab_neg_left W _).
+  - apply pequiv_from; exact (rm_smul_distr_l W _ _ _).
+  - apply pequiv_from; exact (rm_smul_distr_r W _ _ _).
+  - apply pequiv_from; exact (rm_smul_assoc W _ _ _).
+  - apply pequiv_from; exact (rm_smul_one W _).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtu).
 Qed.

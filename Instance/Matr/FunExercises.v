@@ -610,7 +610,13 @@ Section MatrixEquivalenceFun.
 
 Universe q.
 
-Context {R : RigObject@{Set Set q}}.
+(* The instance is written [@{q Set Set}], not [@{Set Set q}]: since the PR
+   "algebraic carriers are sets" (2026-09-17) the record's AUXILIARY universe
+   -- the one bounding the [rig_prop] field's own sort, which carries the
+   [Set+1] -- is the FIRST argument rather than the third.  The roles are
+   unchanged: the carrier and proof levels are still pinned at [Set] and the
+   third is still free. *)
+Context {R : RigObject@{q Set Set}}.
 
 Corollary matrix_equivalence_iso_Fun {n1 m1 n2 m2 : nat}
   (A : n1 ~{Matr R}~> m1) (B : n2 ~{Matr R}~> m2) :

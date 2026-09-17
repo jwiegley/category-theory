@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -568,6 +569,30 @@ Proof.
   apply ring_neg_l.
 Qed.
 
+(** ** The vertex's equality is propositional *)
+
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject]
+   carries [rig_prop], so the lifted ring owes a [Prop]-valued relation on
+   [vertex_obj[L]] -- and [L] is an ARBITRARY limit of the underlying sets,
+   not the one [Sets_Complete] chooses, so Instance/Sets/Propositional.v's
+   [limit_PropEquiv] does not apply on the nose.  A HYPOTHESIS on [L] would
+   have been fatal for the same reason it was at [LimitAb]
+   (Instance/Ab/Limit.v): [CreatesLimits] quantifies over every [L] and
+   leaves no place to put it.
+
+   The relation is instead the one this section already has a theorem about:
+   two points of the vertex are related when every LEG relates them.
+   [rlim_ext] (:296) is exactly the implication into `≈`, and it holds at an
+   arbitrary limit because a limit's vertex is detected by its projections;
+   the converse is each leg being a setoid map.  So a limit of propositional
+   carriers is propositional, with no extra hypothesis anywhere. *)
+Definition rlim_prop : PropEquiv (is_setoid vertex_obj[L]) :=
+  @PropEquiv_of_relation _ (is_setoid vertex_obj[L])
+    (fun x y => forall j : J,
+       @pequiv _ _ (rig_prop (K j)) (rlim_leg j x) (rlim_leg j y))
+    (fun x y H => rlim_ext x y (fun j => pequiv_to _ _ (H j)))
+    (fun x y H j => pequiv_from _ _ (proper_morphism (rlim_leg j) x y H)).
+
 (** ** The lifted rig and the lifted ring *)
 
 Definition LimitRig : RigObject :=
@@ -587,7 +612,8 @@ Definition LimitRig : RigObject :=
    ; rig_distr_l      := rlim_distr_l
    ; rig_distr_r      := rlim_distr_r
    ; rig_mul_zero_l   := rlim_mul_zero_l
-   ; rig_mul_zero_r   := rlim_mul_zero_r |}.
+   ; rig_mul_zero_r   := rlim_mul_zero_r
+   ; rig_prop         := rlim_prop |}.
 
 Definition LimitRing : RingObject :=
   {| ring_rig          := LimitRig

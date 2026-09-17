@@ -501,6 +501,7 @@ End RingDerived.
 
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Algebra.Rig.
 Require Import Coq.ZArith.ZArith.
 
@@ -547,13 +548,22 @@ Next Obligation. now rewrite ring_neg_l. Qed.
 Next Obligation. now rewrite rig_distr_l. Qed.
 Next Obligation. now rewrite rig_distr_r. Qed.
 
+(* [PA] is new since the PR "algebraic carriers are sets" (2026-09-17): a
+   [RigObject] carries [rig_prop], and an arbitrary [SetoidObject] of [Sets]
+   supplies no [Prop] mirror for its `≈` (Instance/Sets/Propositional.v's
+   header says why there is no such instance in general).  It is a class
+   argument, so at every in-tree call site where [A] is a rig's own carrier it
+   is discharged by [rig_prop] without being written. *)
 Program Definition Rig_of_InternalSemiring@{o so} {A : SetoidObject@{o o}}
+  {PA : PropEquiv@{o o} (is_setoid A)}
   (S : @InternalSemiring Sets@{o so} _ _ A) : RigObject@{o o o} := {|
   rig_setoid := A;
   rig_zero := (mempty[isr_add] : _ ~{Sets}~> _) ttt;
   rig_add  := fun a b => (mappend[isr_add] : _ ~{Sets}~> _) (a, b);
   rig_one  := (mempty[isr_mul] : _ ~{Sets}~> _) ttt;
-  rig_mul  := fun a b => (mappend[isr_mul] : _ ~{Sets}~> _) (a, b)
+  rig_mul  := fun a b => (mappend[isr_mul] : _ ~{Sets}~> _) (a, b);
+
+  rig_prop := PA
 |}.
 Next Obligation. proper; apply proper_morphism; simpl; split; assumption. Qed.
 Next Obligation. proper; apply proper_morphism; simpl; split; assumption. Qed.
@@ -580,6 +590,7 @@ Next Obligation. exact (@isr_annihilate_r _ _ _ _ S a). Qed.
 
 
 Program Definition Ring_of_InternalRing@{o so} {A : SetoidObject@{o o}}
+  {PA : PropEquiv@{o o} (is_setoid A)}
   (R : @InternalRing Sets@{o so} _ _ A) : RingObject@{o o o} := {|
   ring_rig := Rig_of_InternalSemiring
                 (@InternalRing_InternalSemiring Sets _ _ A R);
@@ -614,6 +625,10 @@ Fail Example rig_round_record :
   (Rig_of_InternalSemiring (Sets_InternalSemiring R)) = R := eq_refl.
 
 Context {A : SetoidObject}.
+(* The round trip below runs at an ARBITRARY carrier, which supplies no
+   [Prop] mirror of its own; [Rig_of_InternalSemiring] therefore asks for one
+   and the section hands it over.  See that definition for why. *)
+Context (PA : PropEquiv (is_setoid A)).
 Context (S : @InternalSemiring Sets _ _ A).
 
 Example semiring_round_add (a b : carrier A) :

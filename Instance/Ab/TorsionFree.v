@@ -83,12 +83,18 @@
     [torsion_mem A a] is [{ k : nat & (0 < k) * (nat_smul A k a ≈ 0) }]
     -- a sigma, so the exponent is DATA and can be READ BACK, which is
     what [AbModTorsion_TorsionFree] does when it multiplies the two
-    exponents.  Nothing anywhere in this file extracts a witness from a
-    [Prop]-valued existential, so no choice principle appears; the same
-    design note Instance/Ab.v:417-420 makes about [ab_coset_eq] being
-    [Type]-valued applies verbatim, and it is what lets the coset
-    witness be taken apart.  All 58 constants are closed under the
-    global context.
+    exponents.  No choice principle appears anywhere in this file.
+
+    AN EARLIER REVISION continued: "Nothing anywhere in this file extracts a
+    witness from a [Prop]-valued existential; the same design note
+    Instance/Ab.v:417-420 makes about [ab_coset_eq] being [Type]-valued
+    applies verbatim, and it is what lets the coset witness be taken apart."
+    Since the PR "algebraic carriers are sets" (2026-09-17) that note is
+    itself corrected: [ab_coset_eq] is a [Prop].  The torsion EXPONENT is
+    still data -- [torsion_mem] is untouched -- but the COSET witness is not,
+    so [quot_eq_elim] below is stated in continuation form, eliminating into
+    an arbitrary [Prop], and its two consumers reach their own goals through
+    [pequiv_to].  All 58 constants are closed under the global context.
 
     ** Prior art, measured at 9a1fe0f2 (the issue's "Current state" is
        stale and is corrected rather than repeated)
@@ -290,6 +296,7 @@
     correct. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -440,19 +447,37 @@ Qed.
 Definition quot_eq_intro (A : AbObject) (x y t : carrier A)
     (Ht : torsion_mem A t) (H : x ≈ cmon_plus A y t) :
   @equiv (carrier (AbModTorsion A)) _ x y.
-Proof. exists (existT _ t Ht); exact H. Defined.
+Proof. exists (existT _ t Ht); apply pequiv_from; exact H. Defined.
 
-Definition quot_eq_elim (A : AbObject) (x y : carrier A) :
-  @equiv (carrier (AbModTorsion A)) _ x y →
-  { t : carrier A & (torsion_mem A t * (x ≈ cmon_plus A y t))%type }.
-Proof. intros [[t Ht] H]; exists t; split; assumption. Defined.
+(* AN EARLIER REVISION of the eliminator returned data:
+
+     quot_eq_elim (A) (x y) : x ≈ y in A/tors →
+       { t & (torsion_mem A t * (x ≈ cmon_plus A y t))%type }
+
+   Since the PR "algebraic carriers are sets" (2026-09-17) the coset relation
+   of Instance/Ab.v is a [Prop], so the torsion witness may not be read back
+   out into a [Type].  The eliminator is therefore stated in CONTINUATION
+   form, eliminating into an arbitrary [Prop]: every consumer in the tree
+   wanted the witness only to finish a proof, and reaches its own goal by
+   [pequiv_to] first.  [torsion_mem] itself stays [Type]-valued -- nothing
+   about the predicate changes. *)
+Definition quot_eq_elim (A : AbObject) (x y : carrier A) (P : Prop)
+  (H : @equiv (carrier (AbModTorsion A)) _ x y)
+  (k : ∀ t : carrier A,
+         torsion_mem A t → x ≈ cmon_plus A y t → P) : P.
+Proof.
+  destruct H as [[t Ht] Hxt].
+  exact (k t Ht (pequiv_to _ _ Hxt)).
+Defined.
 
 Definition AbModTorsion_TorsionFree (A : AbObject) :
   TorsionFree (AbModTorsion A).
 Proof.
   intros x k Hk Hx.
   rewrite nat_smul_quot in Hx.
-  destruct (quot_eq_elim A _ _ Hx) as [t [[l [Hl Hlt]] Hxt]].
+  apply (@pequiv_to _ _ (cmon_prop (AbModTorsion A))).
+  apply (quot_eq_elim A _ _ _ Hx); intros t [l [Hl Hlt]] Hxt.
+  apply pequiv_from.
   apply (quot_eq_intro A x (cmon_zero A) x).
   - exists (l * k)%nat; split; [ lia | ].
     rewrite nat_smul_mul.
@@ -485,7 +510,9 @@ Program Definition torsion_med {A B : AbObject} (HB : TorsionFree B)
   {| cmon_map := {| morphism := fun x : carrier A => cmon_map f x |} |}.
 Next Obligation.
   intros x y Hxy.
-  destruct (quot_eq_elim A x y Hxy) as [t [Ht Hxt]].
+  apply (@pequiv_to _ _ (cmon_prop B)).
+  apply (quot_eq_elim A x y _ Hxy); intros t Ht Hxt.
+  apply pequiv_from.
   rewrite Hxt, cmon_map_plus, (torsion_kills HB f t Ht).
   apply cmon_plus_zero_r.
 Qed.
@@ -677,7 +704,9 @@ Lemma mixed_gen_not_quot_zero :
     (cmon_zero MixedAb) → False.
 Proof.
   intro H.
-  destruct (quot_eq_elim MixedAb _ _ H) as [t [Ht Hgt]].
+  (* The goal is [False], a [Prop], so the continuation-form eliminator
+     applies directly. *)
+  apply (quot_eq_elim MixedAb _ _ _ H); intros t Ht Hgt.
   apply mixed_gen_not_torsion.
   apply (torsion_resp MixedAb t mixed_gen).
   - rewrite Hgt; symmetry; apply cmon_plus_zero_l.

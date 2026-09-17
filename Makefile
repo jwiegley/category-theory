@@ -2588,6 +2588,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_embed_Z_not_surjective.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.PTerm.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_eq_ind.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_eq_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_refl.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_Setoid.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pe_mul_zero_l.'; \
@@ -2686,6 +2688,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.AltFunctor.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.TTerm.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.tt_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.tt_eq_ind.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.tt_eq_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.tt_refl.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.te_gen_zero.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.TensorRig.'; \
@@ -2702,6 +2706,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.ext_extend_self.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.tensor_alg_hom_scal.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.et_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.et_eq_ind.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.et_eq_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.ExtRig.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.ExtRing.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.TensorAlgebra.ext_scal.'; \
@@ -2747,6 +2753,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.Rng_Forget_Mon.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.MRTerm.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.mr_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.mr_eq_ind.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.mr_eq_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.mr_refl.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.MonoidRig.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.MonoidRing.MonoidRing.'; \
@@ -5001,9 +5009,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bsum_rec.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bsum_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq_rect.'; \
+	  : 'bs_eq_rect and bs_eq_rec were gated here until the PR algebraic'; \
+	  : 'carriers are sets (2026-09-17) moved bs_eq to Prop; Coq generates'; \
+	  : 'only _ind and _sind for a Prop inductive, so the two names no'; \
+	  : 'longer exist and the audit could not compile with them.  The two'; \
+	  : 'that DO exist were already gated, on the next two lines, so no'; \
+	  : 'coverage of bs_eq is lost; the eliminators of the four other'; \
+	  : 'relations moved to Prop were added to their own blocks.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq_ind.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq_rec.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq_sind.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_refl.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bs_eq_Equivalence.'; \
@@ -6178,6 +6191,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.USetTower.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.uset_tower_stage.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.ZpCarrier.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Zp.zp_PropEquiv.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.zp_zero.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.zp_one.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.zp_add.'; \
@@ -6240,6 +6254,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.dpow_pos.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.dpow_nz.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.res_of_dvd.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Zp.res_dvd_dec.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.res_to_dvd.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.mod_eq_of_res.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Zp.res_of_mod_eq.'; \
@@ -8397,6 +8412,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_leg.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_leg_coherence.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_ext.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_prop.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_pair.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_add_leg.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_add_coherence.'; \

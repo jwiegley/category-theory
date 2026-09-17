@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -273,7 +274,7 @@ Inductive FATerm : Type :=
    symmetry and transitivity.  Reflexivity is derived below, keeping the
    relation's induction principle one case shorter everywhere it is
    consumed. *)
-Inductive fa_eq : FATerm → FATerm → Type :=
+Inductive fa_eq : FATerm → FATerm → Prop :=
   | fae_gen {x y : carrier X} : x ≈ y → fa_eq (fa_gen x) (fa_gen y)
   | fae_plus {s s' t t'} :
       fa_eq s s' → fa_eq t t' → fa_eq (fa_plus s t) (fa_plus s' t')
@@ -322,7 +323,13 @@ Definition fa_Setoid : Setoid FATerm := {|
     Every law of the group is a constructor of the relation, so the
     record is a literal with ZERO proof obligations.  It is written out in
     one piece so that the underlying setoid, the unit, the addition and
-    the negation are all visible at a glance and all reduce. *)
+    the negation are all visible at a glance and all reduce.
+
+    An earlier revision stopped at "ZERO proof obligations".  That is still
+    true, and since the PR "algebraic carriers are sets" (2026-09-17) the
+    literal has one more field: [fa_eq] IS a [Prop]-valued relation, so it is
+    its own [Prop] mirror and both implications of [cmon_prop] are the
+    identity. *)
 Definition FreeAbObject : AbObject := {|
   ab_cmon := {|
     cmon_setoid := {| carrier := FATerm; is_setoid := fa_Setoid |};
@@ -331,7 +338,9 @@ Definition FreeAbObject : AbObject := {|
     cmon_plus_respects := fun _ _ Hs _ _ Ht => fae_plus Hs Ht;
     cmon_plus_assoc := fae_assoc;
     cmon_plus_comm := fae_comm;
-    cmon_plus_zero_l := fae_zero_l
+    cmon_plus_zero_l := fae_zero_l;
+    cmon_prop := @PropEquiv_of_relation _ fa_Setoid fa_eq
+                   (fun _ _ h => h) (fun _ _ h => h)
   |};
   ab_neg := fa_neg;
   ab_neg_respects := fun _ _ Hs => fae_neg Hs;
@@ -393,6 +402,12 @@ Fixpoint fa_eval (t : FATerm) : carrier (cmon_setoid A) :=
 Lemma fa_eval_respects (s t : FATerm) : fa_eq s t → fa_eval s ≈ fa_eval t.
 Proof.
   intro He.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [fa_eq] is a
+     [Prop] inductive and eliminates only into [Prop] goals, while `≈` is
+     [Type]-valued.  [pequiv_to] puts a [Prop] goal in front of the
+     elimination and each branch returns to `≈` with [pequiv_from]; the nine
+     cases and what discharges each are exactly as before. *)
+  apply pequiv_to.
   induction He as
     [ x y Hxy
     | s s' t t' _ IHs _ IHt
@@ -400,13 +415,16 @@ Proof.
     | s t u | s t | s | s
     | s t _ IHst
     | s t u _ IHst _ IHtu ]; simpl.
-  - exact (proper_morphism h _ _ Hxy).
-  - exact (cmon_plus_respects A _ _ IHs _ _ IHt).
-  - exact (ab_neg_respects A _ _ IHs).
-  - exact (cmon_plus_assoc A _ _ _).
-  - exact (cmon_plus_comm A _ _).
-  - exact (cmon_plus_zero_l A _).
-  - exact (ab_neg_left A _).
+  - apply pequiv_from; exact (proper_morphism h _ _ Hxy).
+  - apply pequiv_from.
+    exact (cmon_plus_respects A _ _ (pequiv_to _ _ IHs)
+                                _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ab_neg_respects A _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from; exact (cmon_plus_assoc A _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm A _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l A _).
+  - apply pequiv_from; exact (ab_neg_left A _).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtu).
 Qed.

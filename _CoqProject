@@ -1020,3 +1020,6 @@ Test/ProbeModTensorAFT449.v
 Test/ProbeModSpanning449.v
 Test/ProbeFractionsAdjunction972.v
 Test/ProbePropEquiv.v
+Test/ProbeTermModelProp.v
+Test/ProbeAbPropSurjective.v
+Test/ProbeTermModelPropRng.v

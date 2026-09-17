@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -99,7 +100,11 @@ Generalizable All Variables.
     additive inverses through the one-line [fr_idem_zero].  So the record
     is not a zero-obligation literal, unlike Instance/Ab/Free.v's; two
     fields are paid for, deliberately, to keep the generating set
-    irredundant.
+    irredundant.  Since the PR "algebraic carriers are sets" (2026-09-17)
+    the record carries a THIRTEENTH field, [rig_prop], which is neither a
+    law nor a constructor: it is [fr_eq] read as its own [Prop] mirror,
+    both implications being the identity, and it costs no obligation
+    either.
 
     STRENGTHS, MEASURED STRICT-FIRST.  The mediator is a [Fixpoint] on
     formal expressions, so a great deal is definitional:
@@ -249,11 +254,20 @@ Generalizable All Variables.
     were added for exactly that reason -- so a rename breaks this file
     instead of turning a negative vacuously green.
 
-    118/118 constants closed under the global context, the count taken
+    116/116 constants closed under the global context, the count taken
     over the source declarations and the constructors UNION what
     [Print Module] lists (which adds the eliminators and the six [Program]
     obligations, ALL SIX of which are reachable only by fully qualified
     name).
+
+    AN EARLIER REVISION of this sentence read 118/118.  Since the PR
+    "algebraic carriers are sets" (2026-09-17) [fr_eq] is a [Prop]
+    inductive, and Coq generates only [fr_eq_ind] and [fr_eq_sind] for it,
+    not [_rec] and [_rect]: measured by grepping the output of
+    [Print Module Free] for [fr_eq_*], which returns exactly those two.
+    Those two vanished names are the whole of the difference.  The "closed
+    under the global context" reading was NOT re-run for all 116 at this
+    revision; what was re-measured is the eliminator count.
 
     NOT DELIVERED, scoped:
       - no normal form for [fr_eq], hence no coefficient uniqueness, no
@@ -292,7 +306,17 @@ Inductive FRTerm : Type :=
   | fr_neg  : FRTerm → FRTerm
   | fr_mul  : FRTerm → FRTerm → FRTerm.
 
-Inductive fr_eq : FRTerm → FRTerm → Type :=
+(* AN EARLIER REVISION of this inductive landed in [Type].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) it lands in [Prop], because
+   [RigObject] carries a [rig_prop : PropEquiv (is_setoid rig_setoid)] field
+   and the `≈` of [FreeRngAbObject] IS [fr_eq]: the relation must BE a [Prop]
+   for that field to be the identity pair of implications.  The cost is one
+   elimination — [fr_eval_respects] below goes through [pequiv_to] at the
+   target ring — and nothing else in the file changes: the non-degeneracy
+   theorems conclude in [False] or in an [eq] of integers, both already
+   [Prop].  Test/ProbeTermModelPropRng.v pins the refusal of the old
+   script. *)
+Inductive fr_eq : FRTerm → FRTerm → Prop :=
   (* congruence for each former, saturating under A's own [≈] *)
   | fre_gen {a b : carrier (cmon_setoid A)} :
       a ≈ b → fr_eq (fr_gen a) (fr_gen b)
@@ -410,7 +434,11 @@ Definition FreeRngAbObject : RingObject := {|
     rig_distr_l := fre_distr_l;
     rig_distr_r := fre_distr_r;
     rig_mul_zero_l := fr_mul_zero_l;
-    rig_mul_zero_r := fr_mul_zero_r
+    rig_mul_zero_r := fr_mul_zero_r;
+    (* [fr_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror
+       and both implications are the identity. *)
+    rig_prop := @PropEquiv_of_relation _ fr_Setoid fr_eq
+                  (fun _ _ h => h) (fun _ _ h => h)
   |};
   ring_neg := fr_neg;
   ring_neg_respects := fun _ _ Hs => fre_neg Hs;
@@ -478,10 +506,20 @@ Fixpoint fr_eval (t : FRTerm) : carrier (rig_setoid R) :=
    congruence for a former; TWO are the two [CMonHom] laws of [h] -- which
    is the only place the hypothesis that [h] is a group homomorphism
    rather than a bare function is spent -- and the last two are the target
-   setoid's symmetry and transitivity. *)
+   setoid's symmetry and transitivity.
+
+   AN EARLIER REVISION of this proof inducted on [fr_eq] straight into the
+   [Type]-valued goal `≈`.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) [fr_eq] is a [Prop] inductive and eliminates only into
+   [Prop], so the script opens with [apply pequiv_to] at the TARGET ring's
+   own [rig_prop] and each branch returns to `≈` with [pequiv_from].  The
+   seventeen cases are unchanged; the induction hypotheses are now
+   [pequiv]-valued, so the branches that consume one spend [pequiv_to] on
+   it.  No hypothesis is added. *)
 Lemma fr_eval_respects (s t : FRTerm) : fr_eq s t → fr_eval s ≈ fr_eval t.
 Proof.
   intro He.
+  apply pequiv_to.
   induction He as
     [ a b Hab
     | s s' t t' _ IHs _ IHt
@@ -493,21 +531,26 @@ Proof.
     | | a b
     | s t _ IHst
     | s t u _ IHst _ IHtu ]; simpl.
-  - exact (proper_morphism (cmon_map h) _ _ Hab).
-  - exact (rig_add_respects R _ _ IHs _ _ IHt).
-  - exact (ring_neg_respects R _ _ IHs).
-  - exact (rig_mul_respects R _ _ IHs _ _ IHt).
-  - exact (rig_add_assoc R _ _ _).
-  - exact (rig_add_comm R _ _).
-  - exact (rig_add_zero_l R _).
-  - exact (ring_neg_l R _).
-  - exact (rig_mul_assoc R _ _ _).
-  - exact (rig_mul_one_l R _).
-  - exact (rig_mul_one_r R _).
-  - exact (rig_distr_l R _ _ _).
-  - exact (rig_distr_r R _ _ _).
-  - exact (cmon_map_zero h).
-  - exact (cmon_map_plus h a b).
+  - apply pequiv_from; exact (proper_morphism (cmon_map h) _ _ Hab).
+  - apply pequiv_from.
+    exact (rig_add_respects R _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ring_neg_respects R _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rig_mul_respects R _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from; exact (rig_add_assoc R _ _ _).
+  - apply pequiv_from; exact (rig_add_comm R _ _).
+  - apply pequiv_from; exact (rig_add_zero_l R _).
+  - apply pequiv_from; exact (ring_neg_l R _).
+  - apply pequiv_from; exact (rig_mul_assoc R _ _ _).
+  - apply pequiv_from; exact (rig_mul_one_l R _).
+  - apply pequiv_from; exact (rig_mul_one_r R _).
+  - apply pequiv_from; exact (rig_distr_l R _ _ _).
+  - apply pequiv_from; exact (rig_distr_r R _ _ _).
+  - apply pequiv_from; exact (cmon_map_zero h).
+  - apply pequiv_from; exact (cmon_map_plus h a b).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtu).
 Qed.

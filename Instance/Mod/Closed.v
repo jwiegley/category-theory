@@ -223,14 +223,27 @@
    at Structure/Ring.v's [dup_left].  The identification is INHERITED and
    the probe section localises it:
 
-     FREE at `R : RingObject@{ra rb rc}` with `ra < rc` declared —
-     [RMod], [TensorMod], [tensor_gen], [HomMod], [ihom_post];
-     REJECTED there — [tensor_med] (the donor, Instance/Mod/Tensor.v:664),
-     [mt_fmap], [hm_curry], [ModSymmetric], [RMod_SymMonClosed].
+     FREE at `R : RingObject@{rc ra rb}` with `ra < rc` declared —
+     [RMod], [TensorMod], [tensor_gen], [HomMod], [ihom_post],
+     [tensor_med], [mt_fmap], [hm_curry];
+     REJECTED there — [ModSymmetric], [RMod_SymMonClosed].
 
-   So [tensor_med] is A donor, rejected ALONE with [TensorMod] and
-   [tensor_gen] accepted at the very same levels; whether it is the only
-   one is NOT established, and no repair was attempted.
+   AN EARLIER REVISION of those two lines put [tensor_med] (the donor,
+   Instance/Mod/Tensor.v:664), [mt_fmap] and [hm_curry] on the REJECTED
+   side, and concluded "So [tensor_med] is A donor, rejected ALONE with
+   [TensorMod] and [tensor_gen] accepted at the very same levels".  All
+   three were re-measured after the PR "algebraic carriers are sets"
+   (2026-09-17) and all three are now free: moving [mt_eq] to [Prop] means
+   [tensor_med_respects] runs through [pequiv] instead of inducting on a
+   [Type]-valued relation into a [Type]-valued goal, and the identification
+   that induction forced is gone.  What survives is that the headline
+   [RMod_SymMonClosed] still carries it, through [ModSymmetric]; the
+   remaining donor is therefore upstream of this file, in
+   Instance/Mod/Monoidal.v.  Nothing was repaired deliberately -- the
+   improvement is a side effect -- and the position of the ring's three
+   universes also moved: the record's auxiliary level is now the FIRST
+   argument rather than the third, which is why the binder reads
+   `RingObject@{rc ra rb}` and not `RingObject@{ra rb rc}`.
 
    A SECOND, INDEPENDENT OBSERVATION, AND IT LOCALISES THE OTHER HALF —
    NOT IN THIS FILE.  The two identifications a [RingObject@{a b c}] can
@@ -1101,7 +1114,7 @@ Section ProbeUniverses.
 Universes ra rb rc.
 Constraint ra < rc.
 
-Context (Ru : RingObject@{ra rb rc}).
+Context (Ru : RingObject@{rc ra rb}).
 Context (Rcu : ∀ a b : carrier (rig_setoid (ring_rig Ru)),
             rig_mul (ring_rig Ru) a b ≈ rig_mul (ring_rig Ru) b a).
 Context (V W : RModObject Ru).
@@ -1114,17 +1127,21 @@ Check (@tensor_gen Ru V W).
 Check (HomMod Ru Rcu V W).
 Check (@ihom_post Ru Rcu V W W).
 
-(* NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v:664)
-   already identifies the ring's first and third universes, while
-   [TensorMod] and [tensor_gen] above do not — so the identification is
-   the mediator's, not the tensor object's nor the generator's. *)
-Fail Check (@tensor_med Ru V W).
-
-(* NEGATIVE 7.  Instance/Mod/Monoidal.v's arrow action inherits it. *)
-Fail Check (@mt_fmap Ru V W).
-
-(* NEGATIVE 8.  Hence this file's currying. *)
-Fail Check (@hm_curry Ru Rcu V W W).
+(* CONTROLS 6, 7 and 8, WHICH USED TO BE NEGATIVES.  An earlier revision read:
+   "NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v:664) already
+   identifies the ring's first and third universes, while [TensorMod] and
+   [tensor_gen] above do not"; "NEGATIVE 7.  Instance/Mod/Monoidal.v's arrow
+   action inherits it"; "NEGATIVE 8.  Hence this file's currying."  All three
+   were re-measured after the PR "algebraic carriers are sets" (2026-09-17)
+   and all three are now FORMABLE at the declared separation.  The cause is
+   the move of [mt_eq] to [Prop]: [tensor_med_respects] no longer inducts on a
+   [Type]-valued relation into a [Type]-valued goal but runs through [pequiv],
+   and the identification the old proof forced is gone.  Negatives 9 and 10
+   below still fire, which is the instrument check that the section still
+   constrains anything at all. *)
+Check (@tensor_med Ru V W).
+Check (@mt_fmap Ru V W).
+Check (@hm_curry Ru Rcu V W W).
 
 (* NEGATIVE 9.  Instance/Mod/Monoidal.v's symmetric structure.  The ring
    is given EXPLICITLY: written `ModSymmetric Rcu` this probe is a FALSE
@@ -1156,7 +1173,7 @@ Section ProbeMiddleUniverse.
 Universes ra rb rc.
 Constraint rb < ra.
 
-Context (Ru : RingObject@{ra rb rc}).
+Context (Ru : RingObject@{rc ra rb}).
 Context (Rcu : ∀ a b : carrier (rig_setoid (ring_rig Ru)),
             rig_mul (ring_rig Ru) a b ≈ rig_mul (ring_rig Ru) b a).
 Context (V W : RModObject Ru).

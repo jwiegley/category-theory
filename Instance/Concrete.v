@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Concrete.
@@ -192,6 +193,9 @@ Proof.
   - intros a b c; simpl; symmetry; apply PeanoNat.Nat.add_assoc.
   - intros a b; simpl; apply PeanoNat.Nat.add_comm.
   - intros a; simpl; reflexivity.
+  (* [cmon_prop] raises no fourth goal: the carrier's `≈` IS Coq's [eq], so
+     [refine]'s typeclass resolution closes the field with [eq_PropEquiv]
+     (Lib/Setoid/Propositional.v:212) before the bullets are reached. *)
 Defined.
 
 (* The constant-zero endomorphism of `nat_CMon`; it preserves the unit and the

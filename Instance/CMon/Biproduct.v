@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Structure.Terminal.
@@ -74,7 +75,8 @@ Proof.
   unshelve notypeclasses refine {|
     cmon_setoid := {| carrier := poly_unit@{o}; is_setoid := unit_setoid@{o o} |};
     cmon_zero := ttt;
-    cmon_plus := fun _ _ => ttt
+    cmon_plus := fun _ _ => ttt;
+    cmon_prop := unit_PropEquiv@{o o}
   |}.
   - (* cmon_plus_respects *)
     intros x y Hxy u v Huv.
@@ -173,7 +175,8 @@ Proof.
                         (is_setoid (cmon_setoid N)) |};
     cmon_zero := (cmon_zero M, cmon_zero N);
     cmon_plus := fun p q =>
-      (cmon_plus M (fst p) (fst q), cmon_plus N (snd p) (snd q))
+      (cmon_plus M (fst p) (fst q), cmon_plus N (snd p) (snd q));
+    cmon_prop := prod_PropEquiv (cmon_prop M) (cmon_prop N)
   |}.
   - (* cmon_plus_respects *)
     intros p p' Hp q q' Hq.

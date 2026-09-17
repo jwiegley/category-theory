@@ -138,6 +138,7 @@
 Require Import Coq.QArith.QArith.
 Require Import Coq.Vectors.Fin.
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -421,10 +422,16 @@ Next Obligation.
     transitivity (v i); [ apply Huv | apply Hvw ].
 Qed.
 
+(* The carrier is a pointwise power of the field's own carrier, so it is
+   propositional pointwise: [dep_fun_PropEquiv] with the two implications the
+   identity, keyed to the field's [rig_prop]. *)
 Program Definition std_cmon : CMonObject := {|
   cmon_setoid := std_setoid;
   cmon_zero   := fun _ => rig_zero F;
-  cmon_plus   := fun v w i => rig_add F (v i) (w i)
+  cmon_plus   := fun v w i => rig_add F (v i) (w i);
+  cmon_prop   := dep_fun_PropEquiv (is_setoid std_setoid)
+                   (fun _ _ h => h) (fun _ _ h => h)
+                   (fun _ => rig_prop F)
 |}.
 Next Obligation.
   intros v v' Hv w w' Hw i; simpl in *.

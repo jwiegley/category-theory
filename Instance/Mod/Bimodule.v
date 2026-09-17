@@ -424,6 +424,17 @@
    the only [Set] tokens in the whole [About] dump are the motive
    sorts of the two eliminators [bsum_rec] and [bs_eq_rec].
 
+   AN EARLIER REVISION of the preceding sentence, and of the arithmetic
+   below, was taken before the PR "algebraic carriers are sets"
+   (2026-09-17).  Since that PR [bs_eq] is a [Prop] inductive, so [bs_eq_rec]
+   CEASES TO EXIST (a [Prop] inductive gets [_ind] and [_sind], not [_rec] or
+   [_rect]) and the count of generated eliminators drops.  The [Set]-token
+   claim, the "eight eliminators" and the 427/409/213 figures were all
+   measured under the old sort and have NOT been re-measured; they are left
+   as recorded with this correction attached rather than silently adjusted.
+   Test/ProbeTermModelProp.v carries the refusal that replaces
+   [bs_eq_rec].
+
    Stage 1 conjectured that the four on [HomSObj] enter at the
    APPLICATION [hom_ab (RMod_AbEnriched (Ring_op S)) …], and that is
    FALSE.  Measured, one donor at a time: [hom_ab] alone, [AbEnriched]
@@ -560,6 +571,7 @@
        [Definition] and no other construction becomes resolvable. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -627,7 +639,7 @@ Inductive bsum : Type :=
 (* The quotienting relation: Instance/Ab/Tensor.v's eleven constructors
    plus ONE balance rule, (n · x) ⊗ m ≈ n ⊗ (x · m).  Reflexivity is
    derived. *)
-Inductive bs_eq : bsum → bsum → Type :=
+Inductive bs_eq : bsum → bsum → Prop :=
   | be_gen {n n' : NC} {m m' : MC} :
       n ≈ n' → m ≈ m' → bs_eq (bs_gen n m) (bs_gen n' m')
   | be_plus {s s' t t'} :
@@ -681,7 +693,10 @@ Definition BalTensor : AbObject := {|
     cmon_plus_respects := fun _ _ Hs _ _ Ht => be_plus Hs Ht;
     cmon_plus_assoc := be_assoc;
     cmon_plus_comm := be_comm;
-    cmon_plus_zero_l := be_zero_l
+    cmon_plus_zero_l := be_zero_l;
+    (* [bs_eq] IS a [Prop] relation, so it is its own [Prop] mirror. *)
+    cmon_prop := @PropEquiv_of_relation _ bs_Setoid bs_eq
+                   (fun _ _ h => h) (fun _ _ h => h)
   |};
   ab_neg := bs_neg;
   ab_neg_respects := fun _ _ Hs => be_neg Hs;
@@ -732,19 +747,36 @@ Fixpoint bal_med_fun {A : AbObject} (β : BalBiadditive A) (s : bsum) :
 Lemma bal_med_respects {A : AbObject} (β : BalBiadditive A) (s t : bsum) :
   bs_eq s t → bal_med_fun β s ≈ bal_med_fun β t.
 Proof.
-  intro He; induction He; simpl.
-  - exact (bal_respects β _ _ e _ _ e0).
-  - exact (cmon_plus_respects A _ _ IHHe1 _ _ IHHe2).
-  - exact (ab_neg_respects A _ _ IHHe).
-  - exact (cmon_plus_assoc A _ _ _).
-  - exact (cmon_plus_comm A _ _).
-  - exact (cmon_plus_zero_l A _).
-  - exact (ab_neg_left A _).
-  - exact (bal_add_l β _ _ _).
-  - exact (bal_add_r β _ _ _).
-  - exact (bal_balance β _ _ _).
-  - exact (symmetry IHHe).
-  - exact (transitivity IHHe1 IHHe2).
+  intro He.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [bs_eq] is a
+     [Prop] inductive and eliminates only into [Prop] goals, while `≈` is
+     [Type]-valued.  [pequiv_to] puts a [Prop] goal in front of the
+     elimination; each branch returns to `≈` with [pequiv_from].  The twelve
+     cases and what discharges each are exactly as before. *)
+  apply pequiv_to.
+  induction He as
+    [ n n' m m' Hn Hm
+    | s s' t t' _ IH1 _ IH2
+    | s s' _ IH
+    | s t u | s t | s | s
+    | n n' m | n m m' | x n m
+    | s t _ IH
+    | s t u _ IH1 _ IH2 ]; simpl.
+  - apply pequiv_from; exact (bal_respects β _ _ Hn _ _ Hm).
+  - apply pequiv_from.
+    exact (cmon_plus_respects A _ _ (pequiv_to _ _ IH1)
+                                _ _ (pequiv_to _ _ IH2)).
+  - apply pequiv_from.
+    exact (ab_neg_respects A _ _ (pequiv_to _ _ IH)).
+  - apply pequiv_from; exact (cmon_plus_assoc A _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm A _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l A _).
+  - apply pequiv_from; exact (ab_neg_left A _).
+  - apply pequiv_from; exact (bal_add_l β _ _ _).
+  - apply pequiv_from; exact (bal_add_r β _ _ _).
+  - apply pequiv_from; exact (bal_balance β _ _ _).
+  - exact (symmetry IH).
+  - exact (transitivity IH1 IH2).
 Qed.
 
 Program Definition bal_med {A : AbObject} (β : BalBiadditive A) :

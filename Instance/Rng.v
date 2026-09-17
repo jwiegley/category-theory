@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -138,16 +139,29 @@ Next Obligation. intros R S T f g a; simpl; reflexivity. Qed.
 
 (* The one-element ring: every operation returns the point.  In a ring
    with 0 ≈ 1 every element is 0, and this is it. *)
+(* The carrier setoid is NAMED rather than written inline inside [Zero_Rig]:
+   [rig_prop] below has to mention the setoid it is a [PropEquiv] of, and
+   inside a [Program] record literal that setoid is still an evar when the
+   field is elaborated, so the two implications cannot be checked. *)
+Program Definition zero_rig_setoid : SetoidObject := {|
+  carrier := poly_unit
+  ; is_setoid := {| Setoid.equiv := fun _ _ => True
+                  ; Setoid.setoid_equiv := _ |}
+|}.
+Next Obligation. equivalence. Qed.
+
 Program Definition Zero_Rig : RigObject := {|
-  rig_setoid := {| carrier := poly_unit
-                 ; is_setoid := {| Setoid.equiv := fun _ _ => True
-                                 ; Setoid.setoid_equiv := _ |} |};
+  rig_setoid := zero_rig_setoid;
   rig_zero := ttt;
   rig_add := fun _ _ => ttt;
   rig_one := ttt;
-  rig_mul := fun _ _ => ttt
+  rig_mul := fun _ _ => ttt;
+
+  (* The relation is [fun _ _ => True], which is already a [Prop]; the two
+     implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation poly_unit (is_setoid zero_rig_setoid)
+                (fun _ _ => True) (fun _ _ h => h) (fun _ _ h => h)
 |}.
-Next Obligation. equivalence. Qed.
 Next Obligation. repeat intro; constructor. Qed.
 Next Obligation. repeat intro; constructor. Qed.
 Next Obligation. intros; constructor. Qed.
@@ -444,18 +458,27 @@ Qed.
 (** ** Mac Lane I.5, Exercise 4: ℤ → ℚ is epi and not surjective *)
 
 (* The rationals as a ring, over the stdlib [Qeq] setoid. *)
-Program Definition Q_Rig : RigObject := {|
-  rig_setoid := {| carrier := Q
-                 ; is_setoid := {| Setoid.equiv := Qeq
-                                 ; Setoid.setoid_equiv := _ |} |};
-  rig_zero := 0%Q;
-  rig_add := Qplus;
-  rig_one := 1%Q;
-  rig_mul := Qmult
+(* Named for the same reason as [zero_rig_setoid] above. *)
+Program Definition q_rig_setoid : SetoidObject := {|
+  carrier := Q
+  ; is_setoid := {| Setoid.equiv := Qeq
+                  ; Setoid.setoid_equiv := _ |}
 |}.
 Next Obligation.
   constructor; [ exact Qeq_refl | exact Qeq_sym | exact Qeq_trans ].
 Qed.
+
+Program Definition Q_Rig : RigObject := {|
+  rig_setoid := q_rig_setoid;
+  rig_zero := 0%Q;
+  rig_add := Qplus;
+  rig_one := 1%Q;
+  rig_mul := Qmult;
+
+  (* [Qeq] is the stdlib's [Prop]-valued equality of rationals. *)
+  rig_prop := @PropEquiv_of_relation Q (is_setoid q_rig_setoid) Qeq
+                (fun _ _ h => h) (fun _ _ h => h)
+|}.
 Next Obligation. repeat intro; now apply Qplus_comp. Qed.
 Next Obligation. repeat intro; now apply Qmult_comp. Qed.
 Next Obligation. intros a b c; simpl; symmetry; apply Qplus_assoc. Qed.

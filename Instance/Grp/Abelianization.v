@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -204,53 +205,79 @@ Definition CommutatorNS (G : GrpObject) : NormalSubgroup G :=
 
 (** ** The quotient relation *)
 
-Definition abel_eq (G : GrpObject) (a b : carrier G) : Type :=
-  InCommutator G (grp_mul G a (grp_inv G b)).
+(* Since the PR "algebraic carriers are sets" (2026-09-17) the abelianization
+   is an [AbObject] and so owes [cmon_prop], which forces its equality to be a
+   [Prop].  [InCommutator] STAYS [Type]-valued -- it is the membership
+   predicate of the commutator subgroup, [sub_mem] of [CommutatorNS] above,
+   and the leastness arguments read witnesses out of it -- and [abel_eq] is
+   its PROPOSITIONAL TRUNCATION, exactly as Instance/Mod/Quotient.v's
+   [mquot_rel] is the truncation of [smod_mem].
 
-(* [abel_eq] IS the generic quotient relation at [CommutatorNS], by
-   convertibility -- the [eq_refl] exception to the `≈` discipline, and
-   what licenses the six one-line proofs below. *)
+   AN EARLIER PLAN for this phase predicted that the abelianization would have
+   to take a [PropEquiv] as a hypothesis until [GrpObject] carries [grp_prop],
+   on the ground that a [Prop] mirror of [abel_eq] would need to eliminate a
+   [Prop] back into the [Type]-valued [InCommutator].  Truncating [abel_eq]
+   ITSELF avoids that: there is nothing to go back to, and the two places that
+   consume the relation land either in a [Prop] goal (the functor's
+   respectfulness obligation) or in an `≈` at an [AbObject], which carries its
+   own [cmon_prop] ([abel_kills] in Instance/Grp/Abelianize.v).  Taking the
+   hypothesis instead was also measured to be fatal: as a section variable it
+   pins [Grp]'s object universe, and [S3] is then refused. *)
+Definition abel_eq (G : GrpObject) (a b : carrier G) : Prop :=
+  inhabited (InCommutator G (grp_mul G a (grp_inv G b))).
+
+(* [abel_eq] is the TRUNCATION of the generic quotient relation at
+   [CommutatorNS].  An earlier revision read
+   [abel_eq G a b = quot_rel (CommutatorNS G) a b] at [eq_refl]; the two are
+   now separated by [inhabited], and the identification is stated up to it.
+   The six one-line proofs below each gain a [constructor] or a [destruct]. *)
 Example abel_eq_is_quot_rel (G : GrpObject) (a b : carrier G) :
-  abel_eq G a b = quot_rel (CommutatorNS G) a b.
+  abel_eq G a b = inhabited (quot_rel (CommutatorNS G) a b).
 Proof. reflexivity. Qed.
 
 (* The finer relation implies the coarser one. *)
 Lemma abel_eq_of_eq (G : GrpObject) (a b : carrier G) :
   a ≈ b → abel_eq G a b.
-Proof. exact (quot_rel_of_equiv (CommutatorNS G) a b). Qed.
+Proof. intro H; constructor; exact (quot_rel_of_equiv (CommutatorNS G) a b H). Qed.
 
 Lemma abel_eq_refl (G : GrpObject) (a : carrier G) : abel_eq G a a.
-Proof. exact (quot_rel_refl (CommutatorNS G) a). Qed.
+Proof. constructor; exact (quot_rel_refl (CommutatorNS G) a). Qed.
 
 Lemma abel_eq_sym (G : GrpObject) (a b : carrier G) :
   abel_eq G a b → abel_eq G b a.
-Proof. exact (quot_rel_sym (CommutatorNS G) a b). Qed.
+Proof. intros [H]; constructor; exact (quot_rel_sym (CommutatorNS G) a b H). Qed.
 
 Lemma abel_eq_trans (G : GrpObject) (a b c : carrier G) :
   abel_eq G a b → abel_eq G b c → abel_eq G a c.
-Proof. exact (quot_rel_trans (CommutatorNS G) a b c). Qed.
+Proof.
+  intros [H1] [H2]; constructor.
+  exact (quot_rel_trans (CommutatorNS G) a b c H1 H2).
+Qed.
 
 (* The operations respect the quotient relation; multiplication and
    inversion are where normality earns its keep. *)
 Lemma abel_eq_mul (G : GrpObject) (a a' b b' : carrier G) :
   abel_eq G a a' → abel_eq G b b' →
   abel_eq G (grp_mul G a b) (grp_mul G a' b').
-Proof. exact (quot_rel_mul (CommutatorNS G) a a' b b'). Qed.
+Proof.
+  intros [H1] [H2]; constructor.
+  exact (quot_rel_mul (CommutatorNS G) a a' b b' H1 H2).
+Qed.
 
 Lemma abel_eq_inv (G : GrpObject) (a a' : carrier G) :
   abel_eq G a a' → abel_eq G (grp_inv G a) (grp_inv G a').
-Proof. exact (quot_rel_inv (CommutatorNS G) a a'). Qed.
+Proof.
+  intros [H]; constructor.
+  exact (quot_rel_inv (CommutatorNS G) a a' H).
+Qed.
 
 (** ** The abelianization of a group *)
 
-Program Definition AbelianizationOb (G : GrpObject) : AbObject := {|
-  ab_cmon := {|
-    cmon_setoid := {| carrier := carrier G
-                    ; is_setoid := {| equiv := abel_eq G |} |};
-    cmon_zero := grp_unit G;
-    cmon_plus := grp_mul G
-  |};
-  ab_neg := grp_inv G
+(* The quotient setoid, NAMED so that the [PropEquiv] hypothesis below can
+   mention it: a field of a [Program] record literal cannot refer to a setoid
+   that is still an evar while the literal is being elaborated. *)
+Program Definition abel_setoid (G : GrpObject) : Setoid (carrier G) := {|
+  equiv := abel_eq G
 |}.
 Next Obligation.
   intro G; equivalence.
@@ -258,6 +285,24 @@ Next Obligation.
   - now apply abel_eq_sym.
   - now apply (abel_eq_trans G x y).
 Qed.
+
+(* [abel_eq] IS a [Prop] relation, so the quotient supplies its own
+   [cmon_prop] and no hypothesis is taken anywhere. *)
+Definition abel_PropEquiv (G : GrpObject) : PropEquiv (abel_setoid G) :=
+  @PropEquiv_of_relation _ (abel_setoid G) (abel_eq G)
+    (fun _ _ h => h) (fun _ _ h => h).
+
+Program Definition AbelianizationOb (G : GrpObject) :
+  AbObject := {|
+  ab_cmon := {|
+    cmon_setoid := {| carrier := carrier G
+                    ; is_setoid := abel_setoid G |};
+    cmon_zero := grp_unit G;
+    cmon_plus := grp_mul G;
+    cmon_prop := abel_PropEquiv G
+  |};
+  ab_neg := grp_inv G
+|}.
 Next Obligation.
   intros G a a' Ha b b' Hb; now apply abel_eq_mul.
 Qed.
@@ -266,7 +311,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   (* Commutativity IS the generating constructor. *)
-  intros G a b; unfold abel_eq.
+  intros G a b; unfold abel_eq; constructor.
   apply (inc_resp (a := gcomm G a b)); [| apply inc_comm ].
   unfold gcomm.
   rewrite (grp_inv_mul G b a).
@@ -363,6 +408,7 @@ Next Obligation.
   (* respect for the coarser relations: push the witness forward *)
   intros G H f a b Hab; simpl in *.
   unfold abel_eq in *.
+  destruct Hab as [Hab]; constructor.
   apply (inc_resp (a := grp_map f (grp_mul G a (grp_inv G b)))).
   - rewrite (grp_map_mul f a (grp_inv G b)).
     rewrite (grp_map_inv f b).
@@ -439,7 +485,7 @@ Qed.
 Lemma abelianization_S3_nontrivial :
   abel_eq S3 S3_s s3_unit → False.
 Proof.
-  intro K.
+  intros [K].
   pose proof (hom_to_abelian_kills GrpTwo_abelian s3_sign _ K) as E.
   vm_compute in E.
   exact E.

@@ -101,7 +101,15 @@ Generalizable All Variables.
    term language and are not covered here.  The [Sets]-level transports --
    hom-setoids, binary and indexed products, limits, and the
    [LocallyPropositional] vocabulary for categories -- are in
-   Instance/Sets/Propositional.v. *)
+   Instance/Sets/Propositional.v.
+
+   AN EARLIER REVISION of this paragraph stopped there.  Since the PR
+   "algebraic carriers are sets" (2026-09-17) the file also carries two
+   TRANSPORTS -- [dep_fun_PropEquiv] and [sigma_first_PropEquiv] -- for setoids
+   the concrete algebra builds INLINE rather than through one of the ten
+   constructors above.  They are stated at the end of the file, and the reason
+   they take their two implications as arguments rather than naming a canonical
+   setoid is recorded there. *)
 
 (* [PropEquiv S] says that the setoid [S] has a [Prop]-valued equality: a
    relation [pequiv] in [Prop] that holds exactly when `≈` does.
@@ -390,4 +398,92 @@ Proof.
   unshelve refine {| pequiv := @eq nat |}.
   - intros x y h; exact h.
   - intros x y h; exact h.
+Defined.
+
+(** ** Transports for setoids built inline *)
+
+(* The two shapes below are the ones the concrete algebraic categories reach
+   for, and neither is one of the ten constructors above: a carrier that is a
+   DEPENDENT FUNCTION SPACE compared pointwise (the product of a family of
+   modules, Instance/Mod/Product.v:92; the standard vector space over a field,
+   Instance/FdVect.v:411) and a carrier that is a SIGMA compared on its first
+   projection (a kernel, Instance/Ab.v:302; a subgroup or submodule,
+   Instance/Ab/DirectedColimit.v:305 and Instance/Mod/Quotient.v:289; the centre
+   of a group, Instance/Grp/Center.v:132).
+
+   WHY BOTH TAKE THEIR TWO IMPLICATIONS AS ARGUMENTS.  Each of those sites
+   writes the relation out inline inside a [Program Definition], so the setoid
+   it produces is a NAMED constant whose [setoid_equiv] field is an opaque
+   [Program] obligation.  A transport stated as [PropEquiv (canonical_setoid …)]
+   would therefore have to unify that constant with a canonical one, and the two
+   opaque obligation proofs are not convertible; the unification is refused even
+   though the [equiv] fields agree on the nose.  Taking the two implications as
+   explicit arguments sidesteps the record entirely: at every site above they
+   are [fun _ _ h => h], since the relations ARE convertible, and the transport
+   then applies to whichever setoid the site happens to have built.  This is a
+   generalisation of the form these lemmas were first drafted in, which named
+   the setoid.
+
+   Measured (About under Set Printing Universes):
+
+     dep_fun_PropEquiv@{u u0 u1 u2 u3} :
+       ∀ {I : Type@{u}} {A : I → Type@{u0}} {SA : ∀ i : I, Setoid@{u0 u3} (A i)}
+         (S : Setoid@{u1 u2} (∀ i : I, A i)),
+       (∀ f g : ∀ i : I, A i,
+          (∀ i : I, @equiv (A i) (SA i) (f i) (g i)) → @equiv _ S f g) →
+       (∀ f g : ∀ i : I, A i,
+          @equiv _ S f g → ∀ i : I, @equiv (A i) (SA i) (f i) (g i)) →
+       (∀ i : I, PropEquiv@{u0 u3} (SA i)) → PropEquiv@{u1 u2} S
+     (* u u0 u1 u2 u3 |= u <= u1, u0 <= u1 *)
+
+   -- the target carrier universe [u1] is bounded below by the index and by the
+   components and by nothing else, so a pointwise product of carrier-sized
+   propositional setoids stays carrier-sized. *)
+Definition dep_fun_PropEquiv {I : Type} {A : I -> Type}
+  {SA : forall i : I, Setoid (A i)} (S : Setoid (forall i : I, A i))
+  (to : forall f g : forall i : I, A i,
+          (forall i : I, @equiv (A i) (SA i) (f i) (g i)) -> @equiv _ S f g)
+  (from : forall f g : forall i : I, A i,
+            @equiv _ S f g -> forall i : I, @equiv (A i) (SA i) (f i) (g i))
+  (H : forall i : I, PropEquiv (SA i)) : PropEquiv S.
+Proof.
+  unshelve refine
+    {| pequiv := fun f g => forall i : I, @pequiv _ _ (H i) (f i) (g i) |}.
+  - intros f g Hfg.
+    apply to; intro i; exact (pequiv_to _ _ (Hfg i)).
+  - intros f g Hfg i.
+    exact (pequiv_from _ _ (from _ _ Hfg i)).
+Defined.
+
+(* The sigma case.  Only the first projection is compared, so the second
+   component's type [P] is arbitrary and no [Prop] mirror is asked of it: a
+   kernel element's proof that it is killed, a subgroup element's proof of
+   membership, are carried along and never inspected by `≈`.  That is why the
+   membership predicates of the concrete algebra may stay [Type]-valued while
+   their carriers become propositional.
+
+   Measured:
+
+     sigma_first_PropEquiv@{u u0 u1 u2 u3} :
+       ∀ {A : Type@{u}} {SA : Setoid@{u u3} A} {P : A → Type@{u0}}
+         (S : Setoid@{u1 u2} (@sigT A P)),
+       (∀ p q : @sigT A P, @equiv A SA (projT1 p) (projT1 q) → @equiv _ S p q) →
+       (∀ p q : @sigT A P, @equiv _ S p q → @equiv A SA (projT1 p) (projT1 q)) →
+       PropEquiv@{u u3} SA → PropEquiv@{u1 u2} S
+     (* u u0 u1 u2 u3 |= u <= u1, u0 <= u1, and the stdlib bounds
+        u <= Projections.u0, u0 <= Projections.u1 *) *)
+Definition sigma_first_PropEquiv {A : Type} {SA : Setoid A} {P : A -> Type}
+  (S : Setoid (@sigT A P))
+  (to : forall p q : @sigT A P,
+          @equiv A SA (projT1 p) (projT1 q) -> @equiv _ S p q)
+  (from : forall p q : @sigT A P,
+            @equiv _ S p q -> @equiv A SA (projT1 p) (projT1 q))
+  (PA : PropEquiv SA) : PropEquiv S.
+Proof.
+  unshelve refine
+    {| pequiv := fun p q => @pequiv _ _ PA (projT1 p) (projT1 q) |}.
+  - intros p q Hpq.
+    apply to; exact (pequiv_to _ _ Hpq).
+  - intros p q Hpq.
+    exact (pequiv_from _ _ (from _ _ Hpq)).
 Defined.

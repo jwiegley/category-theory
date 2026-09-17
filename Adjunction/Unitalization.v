@@ -1136,13 +1136,19 @@ Example dorroh_TwoZ_extend_one :
     declared constraint is ACCEPTED — that variant was written, compiled
     and found not to fail, so no [Fail] guards it. *)
 
+(* The instances are written [@{ap ao ah}], not [@{ao ah ap}]: since the PR
+   "algebraic carriers are sets" (2026-09-17) the record's AUXILIARY universe
+   -- the one bounding the [cmon_prop] field's own sort, which carries the
+   [Set+1] -- is the FIRST argument rather than the third.  The named
+   universes keep their roles: [ao] is the carrier level, [ah] the proof
+   level, [ap] the level the record's sort is read at. *)
 Section ProbeRgObjects.
 Universes ao ah ap.
 Constraint ao < ah.
 
-Check (RgObject@{ao ah ap} : Type).
-Check (fun (R : RgObject@{ao ah ap}) (a b : carrier R) => rg_mul R a b).
-Fail Check (fun R : RgObject@{ao ah ap} => (R : obj[Rg])).
+Check (RgObject@{ap ao ah} : Type).
+Check (fun (R : RgObject@{ap ao ah}) (a b : carrier R) => rg_mul R a b).
+Fail Check (fun R : RgObject@{ap ao ah} => (R : obj[Rg])).
 
 End ProbeRgObjects.
 
@@ -1150,9 +1156,9 @@ Section ProbeDonorPin.
 Universes bo bh bp.
 Constraint Set < bh.
 
-Check (fun R : RgObject@{bo bh bp} => Dorroh R).
-Check (fun R : RgObject@{bo bh bp} => zring (Dorroh R)).
-Fail Check (fun R : RgObject@{bo bh bp} => rng_from_Z (Dorroh R)).
+Check (fun R : RgObject@{bp bo bh} => Dorroh R).
+Check (fun R : RgObject@{bp bo bh} => zring (Dorroh R)).
+Fail Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
 
 End ProbeDonorPin.
 

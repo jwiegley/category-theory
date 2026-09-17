@@ -409,8 +409,14 @@ Proof.
   { apply Huniq; intros n psi.
     symmetry.
     exact (mquot_proj_kills SpanCoords _ (dual_coord_in_span n psi)). }
-  apply Hphi.
-  apply (fst (mquot_proj_kernel SpanCoords phi)).
+  (* [mquot_proj_kernel]'s right-hand side is the [inhabited] truncation of
+     membership since the PR "algebraic carriers are sets" (2026-09-17), so
+     the witness is opened here rather than applied directly.  The goal is
+     [False], a [Prop], so the elimination is allowed and nothing is lost. *)
+  unshelve refine
+    (match fst (mquot_proj_kernel SpanCoords phi) _ with
+     | inhabits Hm => Hphi Hm
+     end).
   transitivity (cmon_map (rm_hom w) phi).
   - symmetry; exact (Hq phi).
   - exact (Hz phi).

@@ -99,9 +99,16 @@ Example probe_carry_control_n2 :
 Fail Example probe_residue_leibniz :
   (2%Z : carrier (rig_setoid (ResRing ZComm 2%Z 1%nat))) = 0%Z := eq_refl.
 
+(* AN EARLIER REVISION of this control read [existT _ 1%Z eq_refl].  Since
+   the PR "algebraic carriers are sets" (2026-09-17) a quotient ring's
+   equality is the propositional TRUNCATION of ideal membership
+   (Instance/Rng/Quotient.v's [rquot_rel]), so the witness is wrapped in
+   [inhabits].  The negative above is unaffected -- what it pins is that the
+   residue relation is coarser than [=], which is still true, and still for
+   the same reason. *)
 Example probe_residue_control :
   @equiv _ (rig_setoid (ResRing ZComm 2%Z 1%nat)) 2%Z 0%Z
-  := existT _ 1%Z eq_refl.
+  := inhabits (existT _ 1%Z eq_refl).
 
 (** ** Negative 3 (CONVERSION): the normalisation in [zpd] is load-bearing
 
@@ -154,10 +161,28 @@ Check (fun (p : Z) (Hp : (1 < p)%Z) =>
     controls below DO discriminate is that sections (A)-(B) are free of
     the identification; they attribute it to nothing.
 
-    Read the two kinds apart: negative 6 is FORMABILITY (its error ends in
+    Read the two kinds apart: negative 8 is FORMABILITY (its error ends in
     a universe clause, "Cannot enforce rr = ro because ro < rr"), while
-    negative 7 is TYPING -- elaboration refuses [RingComm@{rp ro rr}]
-    where [RingComm@{u u u}] is wanted, with no universe clause at all. *)
+    negatives 6 and 7 are TYPING -- elaboration refuses the section's
+    [RingObject]/[RingComm] instance where the all-equal one is wanted,
+    with no universe clause at all.
+
+    AN EARLIER REVISION of this paragraph assigned the FORMABILITY reading
+    to negative 6 and the TYPING reading to negative 7 alone.  Re-measured
+    at the PR "algebraic carriers are sets" (2026-09-17), by stripping each
+    [Fail] in a copy of this whole file: negative 6 now reports
+
+      The term "R" has type "RingObject@{rp ro rr}" while it is expected
+      to have type "RingObject@{u u u}"
+
+    -- one fresh universe repeated three times, printed under whatever name
+    the enclosing module gives it -- with no universe clause, so it reads
+    as TYPING and not as FORMABILITY;
+    negative 7 reports the same shape at [RingComm]; and negative 8 still
+    ends in "(universe inconsistency: Cannot enforce rr = ro because
+    ro < rr)".  What each negative PINS is unchanged -- the identification
+    is still [Rng]'s and still absent from sections (A)-(B) -- only the
+    error kinds were misattributed. *)
 
 Section UniverseBoundary.
 
@@ -165,7 +190,15 @@ Universes ro rr rp.
 Constraint ro < rr.
 Constraint rr < rp.
 
-Context (R : RingObject@{ro rr rp}) (Rc : RingComm R)
+(* AN EARLIER REVISION wrote [RingObject@{ro rr rp}].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) the record's AUXILIARY universe
+   moved from the third argument to the first -- the [PropEquiv] field puts
+   [Set+1] in the record's sort -- so the three roles permuted from
+   (carrier, proof, aux) to (aux, carrier, proof).  Each named universe keeps
+   its original role; only the order changed.  The boundary this section pins
+   is unmoved: [ro < rr < rp] still declares the three levels strictly
+   apart. *)
+Context (R : RingObject@{rp ro rr}) (Rc : RingComm R)
         (d : carrier (rig_setoid R)) (n : nat).
 
 (* Controls: accepted at those very levels. *)
@@ -179,7 +212,11 @@ Fail Check (ResTower Rc d).
 
 (* Negative 8 (FORMABILITY): the donor, ISOLATED.  Neither [RKills] nor
    any constant of [Instance/Rng/Zp.v] occurs in this command -- mere
-   objecthood in [Rng] is already refused, with negative 6's error. *)
+   objecthood in [Rng] is already refused, and this is the one negative of
+   the three whose message ends in a universe clause.  An earlier revision
+   said "with negative 6's error"; re-measured, negative 6's message is a
+   plain instance mismatch and only this one carries "Cannot enforce
+   rr = ro because ro < rr". *)
 Fail Check (R : obj[Rng]).
 
 End UniverseBoundary.
