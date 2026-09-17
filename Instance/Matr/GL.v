@@ -1,6 +1,7 @@
 (** * GL_n and the units functor *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
@@ -8,6 +9,7 @@ Require Import Category.Theory.Algebra.Rig.
 Require Import Category.Construction.Deloop.
 Require Import Category.Structure.Groupoid.
 Require Import Category.Instance.Sets.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Instance.Rng.
 Require Import Category.Instance.Grp.
 Require Import Category.Instance.Matr.
@@ -35,10 +37,15 @@ Generalizable All Variables.
    Instance/Matr/Determinant.v's, and the natural transformation
    det : GL_n ⟹ (−)^* is assembled where the two meet.
 
-     - [UnitsOf]: the group of units of any [MonObject] — carrier the
-       two-sided-invertible elements compared by their underlying
-       element, inverse by swapping the witness — with [UnitsOf_map]:
-       monoid homomorphisms restrict to unit groups
+     - [UnitsOf]: the group of units of a [MonObject] whose carrier setoid
+       is propositional — carrier the two-sided-invertible elements
+       compared by their underlying element, inverse by swapping the
+       witness — with [UnitsOf_map]: monoid homomorphisms restrict to unit
+       groups.  (An earlier revision said "of any [MonObject]".  Since the
+       PR "algebraic carriers are sets" (2026-09-17) an [Instance/Grp.v]
+       group carries [grp_prop] and a [MonObject] does not, so the witness
+       is a hypothesis; see the note at [UnitsOf] below, and note that all
+       three consumer families in tree discharge it.)
      - [Ring_mul_mon]: the multiplicative monoid of a ring
      - [Units_Functor]: (−)^* : CRng ⟶ Grp
      - [mat_mon]: the n × n matrix monoid over a ring, as the
@@ -81,27 +88,54 @@ Definition unit_carrier (M : MonObject) : Type :=
   & { v : carrier M
     & (mon_op u v ≈ mon_unit) * (mon_op v u ≈ mon_unit) } }.
 
-Program Definition UnitsOf (M : MonObject) : GrpObject := {|
-  grp_setoid :=
-    {| carrier := unit_carrier M;
-       is_setoid := {| equiv := fun x y => `1 x ≈ `1 y |} |};
-  grp_unit := (mon_unit; (mon_unit; (_, _)));
-  grp_mul := fun x y =>
-    (mon_op (`1 x) (`1 y); (mon_op (`1 (`2 y)) (`1 (`2 x)); (_, _)));
-  grp_inv := fun x => (`1 (`2 x); (`1 x; (snd (`2 (`2 x)), fst (`2 (`2 x)))))
+(* Named rather than written inline: a [Program] record literal cannot carry
+   a [PropEquiv] field naming a setoid written inline in the same literal. *)
+Program Definition units_setoid (M : MonObject) : SetoidObject := {|
+  carrier := unit_carrier M;
+  is_setoid := {| equiv := fun x y => `1 x ≈ `1 y |}
 |}.
 Next Obligation.
   intro M; equivalence.
 Qed.
+
+(* G6.  The unit group's `≈` compares first projections in [M], so it is
+   propositional exactly when [M]'s carrier `≈` is.  The membership data --
+   the inverse and the two equations -- is a [Type] and is never inspected,
+   which is what [sigma_first_PropEquiv] formalises. *)
+Definition unit_group_PropEquiv (M : MonObject)
+  (PM : PropEquiv (is_setoid (mon_setoid M))) :
+  PropEquiv (is_setoid (units_setoid M)) :=
+  sigma_first_PropEquiv (is_setoid (units_setoid M))
+    (fun _ _ h => h) (fun _ _ h => h) PM.
+
+(* RECORDED STRENGTH CHANGE.  Before the PR "algebraic carriers are sets"
+   (2026-09-17) this read [UnitsOf (M : MonObject) : GrpObject].  An
+   [Instance/Grp.v] group now carries [grp_prop] and a [MonObject] does not
+   (internal algebra keeps the ambient category's equality and carries no
+   field, by design), so turning an internal monoid into a concrete group
+   asks for the carrier's [PropEquiv] as a hypothesis.  All three consumer
+   families in tree discharge it: [hom_monoid (RMod K) V] by
+   [RMod_LocallyPropositional], [Ring_mul_mon R] by [rig_prop], and
+   [mat_mon R n] by [Matr_LocallyPropositional] below.  Nothing in tree
+   became conditional in substance. *)
+Program Definition UnitsOf (M : MonObject)
+  (PM : PropEquiv (is_setoid (mon_setoid M))) : GrpObject := {|
+  grp_setoid := units_setoid M;
+  grp_unit := (mon_unit; (mon_unit; (_, _)));
+  grp_mul := fun x y =>
+    (mon_op (`1 x) (`1 y); (mon_op (`1 (`2 y)) (`1 (`2 x)); (_, _)));
+  grp_inv := fun x => (`1 (`2 x); (`1 x; (snd (`2 (`2 x)), fst (`2 (`2 x)))));
+  grp_prop := unit_group_PropEquiv M PM
+|}.
 Next Obligation.
-  intro M; apply mon_op_unit_l.
+  intros M PM; apply mon_op_unit_l.
 Qed.
 Next Obligation.
-  intro M; apply mon_op_unit_l.
+  intros M PM; apply mon_op_unit_l.
 Qed.
 Next Obligation.
   (* (u·u')·(v'·v) ≈ 1 *)
-  intros M [u [v [pl pr]]] [u' [v' [pl' pr']]]; simpl.
+  intros M PM [u [v [pl pr]]] [u' [v' [pl' pr']]]; simpl.
   rewrite <- mon_op_assoc.
   rewrite (mon_op_assoc u' v' v).
   rewrite pl'.
@@ -110,7 +144,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   (* (v'·v)·(u·u') ≈ 1 *)
-  intros M [u [v [pl pr]]] [u' [v' [pl' pr']]]; simpl.
+  intros M PM [u [v [pl pr]]] [u' [v' [pl' pr']]]; simpl.
   rewrite <- mon_op_assoc.
   rewrite (mon_op_assoc v u u').
   rewrite pr.
@@ -118,52 +152,54 @@ Next Obligation.
   exact pr'.
 Qed.
 Next Obligation.
-  intros M x y Hxy x' y' Hxy'; simpl.
+  intros M PM x y Hxy x' y' Hxy'; simpl.
   apply mon_op_respects; [ exact Hxy | exact Hxy' ].
 Qed.
 Next Obligation.
-  intros M x y z; simpl.
+  intros M PM x y z; simpl.
   symmetry; apply mon_op_assoc.
 Qed.
 Next Obligation.
-  intros M x; simpl.
+  intros M PM x; simpl.
   apply mon_op_unit_l.
 Qed.
 Next Obligation.
-  intros M [u [v [pl pr]]]; simpl.
+  intros M PM [u [v [pl pr]]]; simpl.
   exact pr.
 Qed.
 
 (* Monoid homomorphisms restrict to the unit groups: the image of a
    two-sided inverse is a two-sided inverse of the image. *)
-Program Definition UnitsOf_map {M N : MonObject} (h : MonHom M N) :
-  GrpHom (UnitsOf M) (UnitsOf N) := {|
+Program Definition UnitsOf_map {M N : MonObject}
+  {PM : PropEquiv (is_setoid (mon_setoid M))}
+  {PN : PropEquiv (is_setoid (mon_setoid N))} (h : MonHom M N) :
+  GrpHom (UnitsOf M PM) (UnitsOf N PN) := {|
   grp_map :=
     {| morphism := fun x =>
          (h (`1 x); (h (`1 (`2 x)); (_, _))) |}
 |}.
 Next Obligation.
-  intros M N h [u [v [pl pr]]]; simpl.
+  intros M N PM PN h [u [v [pl pr]]]; simpl.
   rewrite <- mon_map_op.
   rewrite pl.
   apply mon_map_unit.
 Qed.
 Next Obligation.
-  intros M N h [u [v [pl pr]]]; simpl.
+  intros M N PM PN h [u [v [pl pr]]]; simpl.
   rewrite <- mon_map_op.
   rewrite pr.
   apply mon_map_unit.
 Qed.
 Next Obligation.
-  intros M N h x y Hxy; simpl.
+  intros M N PM PN h x y Hxy; simpl.
   apply mon_map_respects; exact Hxy.
 Qed.
 Next Obligation.
-  intros M N h; simpl.
+  intros M N PM PN h; simpl.
   apply mon_map_unit.
 Qed.
 Next Obligation.
-  intros M N h x y; simpl.
+  intros M N PM PN h x y; simpl.
   apply mon_map_op.
 Qed.
 
@@ -197,11 +233,17 @@ Next Obligation.
   intros K K' h a b; apply rig_map_mul.
 Qed.
 
+(* The witness [UnitsOf] asks for at a ring's multiplicative monoid: the
+   monoid's carrier setoid IS the rig's, so it is [rig_prop]. *)
+Definition ring_mul_mon_prop (K : RingObject) :
+  PropEquiv (is_setoid (mon_setoid (Ring_mul_mon K))) :=
+  rig_prop (ring_rig K).
+
 (* (−)^* : CRng ⟶ Grp — the group of units, functorially.  A CRng
    morphism is a Subcategory hom: the underlying RigHom carrying a
    (trivial) membership witness. *)
 Program Definition Units_Functor : CRng ⟶ Grp := {|
-  fobj := fun K => UnitsOf (Ring_mul_mon (`1 K));
+  fobj := fun K => UnitsOf (Ring_mul_mon (`1 K)) (ring_mul_mon_prop (`1 K));
   fmap := fun K K' h => UnitsOf_map (mul_MonHom (`1 h))
 |}.
 Next Obligation.
@@ -223,6 +265,23 @@ Qed.
    object n of Matr. *)
 Definition mat_mon (K : RingObject) (n : nat) : MonObject :=
   hom_monoid (Matr (ring_rig K)) n.
+
+(* [Matr R]'s hom-setoid is entrywise `≈` in [R], so it is propositional
+   whenever [R] is -- which it always is, [rig_prop] being a field.  Stated
+   here rather than in Instance/Matr.v to keep the change local; it is the
+   witness [UnitsOf] asks for at [mat_mon]. *)
+Definition Matr_LocallyPropositional (R : RigObject) :
+  LocallyPropositional (Matr R) :=
+  LocallyPropositional_of_relation (Matr R)
+    (fun n m A B => forall i j, @pequiv _ _ (rig_prop R) (A i j) (B i j))
+    (fun n m A B H i j => pequiv_to _ _ (H i j))
+    (fun n m A B H i j => pequiv_from _ _ (H i j)).
+
+(* The witness [UnitsOf] asks for at the matrix monoid. *)
+Definition mat_mon_prop (K : RingObject) (n : nat) :
+  PropEquiv (is_setoid (mon_setoid (mat_mon K n))) :=
+  @locally_prop (Matr (ring_rig K)) (Matr_LocallyPropositional (ring_rig K))
+    n n.
 
 (* Ring maps commute with finite sums: Determinant.v's
    [rig_map_fin_sum] (consumed, not rebuilt). *)
@@ -265,7 +324,7 @@ Qed.
 
 (* GL_n : CRng ⟶ Grp — invertible n × n matrices, functorially. *)
 Program Definition GL_n (n : nat) : CRng ⟶ Grp := {|
-  fobj := fun K => UnitsOf (mat_mon (`1 K) n);
+  fobj := fun K => UnitsOf (mat_mon (`1 K) n) (mat_mon_prop (`1 K) n);
   fmap := fun K K' h => UnitsOf_map (mat_map_hom (`1 h) n)
 |}.
 Next Obligation.
@@ -287,7 +346,8 @@ Qed.
    determinant — the inverse matrix's determinant inverts it, by
    multiplicativity and det of the identity. *)
 Program Definition det_GrpHom (n : nat) (K : obj[CRng]) :
-  GrpHom (UnitsOf (mat_mon (`1 K) n)) (UnitsOf (Ring_mul_mon (`1 K))) := {|
+  GrpHom (UnitsOf (mat_mon (`1 K) n) (mat_mon_prop (`1 K) n))
+         (UnitsOf (Ring_mul_mon (`1 K)) (ring_mul_mon_prop (`1 K))) := {|
   grp_map := {| morphism := fun x =>
     (det (`1 K) (`1 x);
      (det (`1 K) (`1 (`2 x)); (_, _))) |}

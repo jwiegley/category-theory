@@ -388,18 +388,20 @@ Definition CompletionObject : GrpObject := QuotientGrp CompletionNS.
 Definition comp_class (a : carrier (mcar M)) : carrier CompletionObject :=
   comp_gen a.
 
-(* Two conversion helpers.  Both bodies are the corresponding [quot_rel]
-   fact verbatim: `≈` at [CompletionObject] IS [quot_rel CompletionNS], so
-   no proof step intervenes -- these exist only to spare every consumer an
-   unfolding of the quotient's setoid. *)
+(* Two conversion helpers.  An earlier revision said "both bodies are the
+   corresponding [quot_rel] fact verbatim: `≈` at [CompletionObject] IS
+   [quot_rel CompletionNS], so no proof step intervenes".  Since the PR
+   "algebraic carriers are sets" (2026-09-17) the quotient's `≈` is the
+   PROPOSITIONAL TRUNCATION of [quot_rel CompletionNS], so each body is that
+   same fact under one [inhabits] -- still no mathematical step. *)
 Lemma comp_quot_of_equiv (x y : carrier comp_free) :
   x ≈ y → (x : carrier CompletionObject) ≈ y.
-Proof. exact (quot_rel_of_equiv CompletionNS x y). Qed.
+Proof. exact (fun H => inhabits (quot_rel_of_equiv CompletionNS x y H)). Qed.
 
 Lemma comp_quot_of_mem (x y : carrier comp_free) :
   sub_mem CompletionNS (grp_mul comp_free x (grp_inv comp_free y)) →
   (x : carrier CompletionObject) ≈ y.
-Proof. exact (fun H => H). Qed.
+Proof. exact (fun H => inhabits H). Qed.
 
 (* Every relator lies in the normal closure. *)
 Lemma comp_relator_mem (p : carrier CompRelIdx) :

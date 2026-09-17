@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -251,7 +252,9 @@ Proof.
     grp_setoid := {| carrier := S3carrier ; is_setoid := s3_setoid |};
     grp_unit := s3_unit;
     grp_mul  := s3_mul;
-    grp_inv  := s3_inv
+    grp_inv  := s3_inv;
+    (* [s3_setoid]'s `≈` is [@eq S3carrier], already a [Prop]. *)
+    grp_prop := eq_PropEquiv S3carrier
   |}.
   - intros x y Hxy u v Huv; simpl in *; subst; reflexivity.
   - intros [i b] [j c] [k d]; destruct i, j, k, b, c, d; reflexivity.

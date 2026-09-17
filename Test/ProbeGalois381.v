@@ -134,9 +134,15 @@ Universe po pgu.
 Constraint Set < po.
 Constraint po <= pgu.
 
-Context (Gp : GrpObject@{po po pgu}).
+(* RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17).
+   [GrpObject]'s [PropEquiv] field permuted its three universe roles from
+   (carrier, proof, aux) to (aux, carrier, proof), so the SAME reading that
+   an earlier revision spelled [GrpObject@{po po pgu}] is now
+   [GrpObject@{pgu po po}]: [pgu] keeps its role, only its position moved.
+   The constraints on this section are unchanged. *)
+Context (Gp : GrpObject@{pgu po po}).
 Context (Ap : MSetoidAction@{po po pgu pgu pgu po po pgu}
-                (grp_mon@{po po pgu} Gp)).
+                (grp_mon@{pgu po po} Gp)).
 
 (* The control: the connection DOES inhabit the antitone reading. *)
 Check (group_action_galois Gp Ap
@@ -210,8 +216,10 @@ End AntitoneIsNotCovariant.
 (* Instance/Powerset.v:295 declares [Subsets (X : SetoidObject@{o o})], so
    forming the power set of a group's carrier IDENTIFIES that group's
    carrier and relation universes -- which is why the target's section
-   binds [G : GrpObject@{o o gu}] with the level reused rather than
-   [GrpObject@{o1 o2 gu}].  [Subsets] is the LAST of four donors that
+   binds [G : GrpObject@{gu o o}] with the level reused rather than
+   [GrpObject@{gu o1 o2}].  (An earlier revision of this sentence wrote the
+   instances as [@{o o gu}] and [@{o1 o2 gu}]; the roles permuted when
+   [grp_prop] landed, and the reading is the same.)  [Subsets] is the LAST of four donors that
    each force it alone: [Powerset_Prop_obj] (Instance/Sets/Powerset.v:981,
    the one the target meets first), [subset_le] and [subset_le_preorder]
    are rejected at these very levels too (measured out of tree; only
@@ -225,15 +233,15 @@ Universe qo qh qgu.
 Constraint qo < qh.
 Constraint qh <= qgu.
 
-Context (Gq : GrpObject@{qo qh qgu}).
+Context (Gq : GrpObject@{qgu qo qh}).
 Context (Aq : MSetoidAction@{qo qh qgu qgu qgu qo qh qgu}
-                (grp_mon@{qo qh qgu} Gq)).
+                (grp_mon@{qgu qo qh} Gq)).
 
 (* Controls, at those very levels. *)
 Check (grp_setoid Gq).
 Check (act_setoid Aq).
 Check (carrier (grp_setoid Gq)).
-Check (grp_mon@{qo qh qgu} Gq).
+Check (grp_mon@{qgu qo qh} Gq).
 
 Fail Check (Subsets (grp_setoid Gq)).
 
@@ -244,9 +252,13 @@ End SubsetsIdentifies.
 (* ------------------------------------------------------------------------ *)
 (** ** Negative 8 (FORMABILITY): Instance/Grp.v's [Z2] is pinned at [Set] *)
 
-(* [Z2@{u} : GrpObject@{u Set u}] -- its relation universe is the literal
-   [Set], not a parameter -- so its carrier cannot be the source of a
-   [Powerset_Prop_obj], whose own [Set < o] then cannot be met.  That is
+(* [Z2@{u} : GrpObject@{u Set Set}] -- its CARRIER and relation universes
+   are both the literal [Set], not parameters -- so its carrier cannot be the
+   source of a [Powerset_Prop_obj], whose own [Set < o] then cannot be met.
+   (An earlier revision quoted [GrpObject@{u Set u}]; re-measured after the
+   PR "algebraic carriers are sets" (2026-09-17), which permuted the record's
+   universe roles and pinned the carrier as well.  The obstruction is if
+   anything sharper and the conclusion is unchanged.)  That is
    why the target builds [GalZ2] over [eq_Setoid] instead.  The control
    shows the group itself, and its setoid, are perfectly nameable. *)
 

@@ -115,6 +115,9 @@ Lemma quot_cofork {G : GrpObject} (N : NormalSubgroup G) :
 Proof.
   intro p; simpl.
   unfold Basics.compose.
+  (* The quotient's `≈` is the truncation of [quot_rel] since the PR
+     "algebraic carriers are sets" (2026-09-17), so the witness is wrapped. *)
+  constructor.
   apply (snd (quot_rel_unit_iff N (`1 p))).
   exact (`2 p).
 Qed.
@@ -240,6 +243,8 @@ Lemma normal_closure_cofork {G H : GrpObject} (f : G ~{Grp}~> H) :
 Proof.
   intro a; simpl.
   unfold Basics.compose.
+  (* One [constructor] for the truncation, as in [quot_cofork] above. *)
+  constructor.
   apply (snd (quot_rel_unit_iff (NormalClosure f) (grp_map f a))).
   exact (nc_gen a).
 Qed.
@@ -311,9 +316,11 @@ Definition S3_A3_IsCokernel :
   @IsCokernel Grp Grp_Zero _ _ _ (sub_incl A3) (quot_proj A3) :=
   quot_IsCokernel A3.
 
+(* The hypothesis is the truncation since the PR "algebraic carriers are
+   sets" (2026-09-17); the goal is [False], so it is unwrapped at no cost. *)
 Theorem S3_A3_cokernel_nondegenerate :
   grp_map (quot_proj A3) S3_s ≈ grp_map (quot_proj A3) (grp_unit S3) → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* THE CLOSURE STEP IS NOT IDLE, and this is the witness that shows it.
    Instance/Grp/Quotient.v's [S3_refl_sub] is a subgroup of S3 that is

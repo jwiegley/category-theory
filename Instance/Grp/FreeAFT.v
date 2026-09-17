@@ -334,7 +334,20 @@ Qed.
     generated congruence on words, and that file states in terms that it
     offers no normal form and no decision procedure (:166-171), so every
     negative statement there is proved by mapping into a concrete groupoid
-    — which is exactly the route taken here. *)
+    — which is exactly the route taken here.
+
+    CONFIRMED AND SHARPENED by the PR "algebraic carriers are sets"
+    (2026-09-17).  That PR had to give the free group a [Prop]-valued
+    equality, and measured that the free groupoid's hom-equality — Construction/
+    Quotient.v's [CongClosure] — has no [Prop] mirror out of which the
+    [Type]-valued equation can be recovered: a truncation of it cannot be
+    eliminated into [Type], and a hand [Prop] mirror inductive has no
+    [_rect].  The only shape that would have worked is a normal form, i.e.
+    exactly the decision procedure this paragraph says does not exist.  So
+    the free group's `≈` is the propositional TRUNCATION of the groupoid's
+    (Instance/Grp/Free.v's [fg_equiv]), and the totality of everything below
+    over ALL of [Sets] is unaffected: no constant in this file gained a
+    hypothesis. *)
 
 Notation grp_adj_at X H :=
   (@adj Grp Sets FreeGrp Grp_Forget free_group_adjunction X H).

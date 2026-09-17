@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Morphisms.
@@ -100,11 +101,18 @@ Generalizable All Variables.
    .Makefile.coq.d).  No name introduced here occurs anywhere else in the
    tree (swept over all .glob files with
    '^[a-z]+ [0-9:]+ [^ ]* NAME$', instrument-checked on [sub_le]).
-   Universes, by [About]: [grp_quot_of_normal@{u u0}] binds
-   [GrpObject@{u0 u0 u0}] and [Grp] as [Category@{u u0 u0}] -- hom level
+   Universes, by [About], RE-MEASURED after the PR "algebraic carriers are
+   sets" (2026-09-17): [grp_quot_of_normal@{u u0 u1}] binds
+   [GrpObject@{u0 u0 u0}] and [Grp] as [Category@{u u0}] -- hom level
    identified with proof level, which is what [SubObj] demands and which
    [Grp] satisfies on the nose; the identification is INHERITED from
-   Theory/Subobject.v:15 and is not introduced here.  No [Set] pin.
+   Theory/Subobject.v:15 and is not introduced here.  An earlier revision
+   wrote [@{u u0}] for the constant and [Category@{u u0 u0}] for [Grp], and
+   said "No [Set] pin".  The constant now carries three universes (the
+   [NormalSubgroup] argument's own level became visible) and its block
+   gained [Set < u] -- a strict LOWER bound, entering with [Prop]'s sort
+   through [PropEquiv], and NOT an identification: nothing is pinned AT
+   [Set], which is what that sentence was about.
 
    NOT DELIVERED.  No correspondence theorem: that [quot_le] between two
    G/N is EQUIVALENT to inclusion of the normal subgroups is not stated,
@@ -153,10 +161,16 @@ Proof.
   unshelve eexists.
   - unshelve refine {| grp_map := {| morphism :=
       fun a : carrier (QuotientGrp N) => a : carrier (QuotientGrp N') |} |}.
-    + intros a b Hab; exact (H _ Hab).
-    + simpl; apply quot_rel_refl.
-    + intros a b; simpl; apply quot_rel_refl.
-  - intro a; simpl; apply quot_rel_refl.
+    (* The quotient's `≈` is the truncation of [quot_rel] since the PR
+       "algebraic carriers are sets" (2026-09-17): the inclusion is applied
+       under it, [Prop] to [Prop]. *)
+    + intros a b Hab.
+      change (inhabited (quot_rel N a b)) in Hab.
+      change (inhabited (quot_rel N' a b)).
+      destruct Hab as [Hab]; exact (inhabits (H _ Hab)).
+    + simpl; constructor; apply quot_rel_refl.
+    + intros a b; simpl; constructor; apply quot_rel_refl.
+  - intro a; simpl; constructor; apply quot_rel_refl.
 Defined.
 
 (** ** The converse, and the hypothesis it costs *)

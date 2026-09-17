@@ -1023,3 +1023,4 @@ Test/ProbePropEquiv.v
 Test/ProbeTermModelProp.v
 Test/ProbeAbPropSurjective.v
 Test/ProbeTermModelPropRng.v
+Test/ProbeGrpProp.v

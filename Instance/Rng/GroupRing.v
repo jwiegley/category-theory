@@ -113,7 +113,8 @@ Generalizable All Variables.
     non-commutative group is not commutative. *)
 
 Program Definition Rng_Units : Rng ⟶ Grp := {|
-  fobj := fun R : RingObject => UnitsOf (Ring_mul_mon R);
+  fobj := fun R : RingObject =>
+    UnitsOf (Ring_mul_mon R) (ring_mul_mon_prop R);
   fmap := fun R S f => UnitsOf_map (mul_MonHom f)
 |}.
 Next Obligation. intros R S f g Hfg x; simpl; exact (Hfg _). Qed.

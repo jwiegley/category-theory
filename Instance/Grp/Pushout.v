@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Morphisms.
@@ -126,7 +127,7 @@ Generalizable All Variables.
    the TRIVIAL group, and that span's legs even SPLIT --
    [Grp_zero_hom_Section] proves it, its retraction being [Grp_one].  But
    Instance/Grp.v declares [Grp_zero_hom] over [GrpObject@{Set Set Set}]
-   (and [Grp_trivial@{u}] over [GrpObject@{u Set u}], one binder where the
+   (and [Grp_trivial@{u}] over [GrpObject@{u u Set}], one binder where the
    record wants more), the donor defect Instance/Grp/Quotient/Colimit.v
    already records and which confines that whole file to [Set]-sized
    groups.  Building the free product on it would inherit the pin.  It is
@@ -139,23 +140,39 @@ Generalizable All Variables.
    UNIVERSES, MEASURED IN THE CONSTRAINT BLOCKS, WITH THE CAUSE PROBED.
    Two separate facts, and they point opposite ways.
 
-   (1) [AmalgamGrp@{u u0 .. u8}] displays THREE separate universe triples
+   RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17).
+   The [PropEquiv] field puts [Set+1] into [GrpObject]'s sort, which shows up
+   as a [Set < _] clause in several of the blocks below; the readbacks are
+   restated in place and the ones that became false are marked as such.
+
+   (1) [AmalgamGrp@{u u0 .. u10}] displays THREE separate universe triples
    in its binder -- one per group -- while its constraint block contains
-   [u = u0], ..., [u = u7]: all nine collapse.  Reading the binder alone
+   [u = u0], ..., [u = u7]: those nine collapse.  (An earlier revision said
+   [@{u u0 .. u8}] and "all nine"; the field added two more universes, so
+   there are twelve in the binder and the collapsing family is still the
+   nine the three group triples contribute.)  Reading the binder alone
    gets this wrong.  But the identification is NOT the amalgamation's
    doing, and that is probed rather than assumed: the bare definition
    [fun (A B : GrpObject) (f : @hom Grp A B) => B], which mentions no
    pushout at all, already elaborates at [GrpObject@{u0 u0 u0}] for BOTH
    objects.  Naming a single Grp hom is what identifies the levels; the
    amalgam adds nothing.  [Grp_HasPushouts@{u u0}] correspondingly carries
-   only [u < u0], and no [Set] appears in either constraint block.
+   [Set < u0] and [u < u0].
 
-   (2) NO [Set] APPEARS ANYWHERE IN THIS FILE'S PRINCIPAL CONSTANTS,
-   including the free-product layer: [Grp_free_product@{u u0}] is
-   [GrpObject@{u u u} -> GrpObject@{u u u} -> GrpObject@{u u u}] with only
-   [u < u0], and [Grp_Cocartesian@{u u0}] is [Cartesian@{u u0}] with the
-   two levels kept apart.  That is the payoff of the constant-leg span
-   described above, and the BOUNDARY is guarded in
+   (2) NO [Set] APPEARS ANYWHERE IN THIS FILE'S PRINCIPAL CONSTANTS -- this
+   claim is FALSE since the PR "algebraic carriers are sets" (2026-09-17),
+   and the correction matters more than the claim did.  Measured now:
+   [Grp_free_product@{u u0 u1 u2}] is
+   [GrpObject@{u0 u0 u0} -> GrpObject@{u0 u0 u0} -> GrpObject@{u u0 u1}]
+   with [Set < u2] and [u0 < u2]; [Grp_HasPushouts@{u u0}] carries
+   [Set < u0] and [u < u0]; [Grp_Cocartesian@{u u0}] carries [Set < u] and
+   [u0 < u].  Every one of these [Set] clauses is a STRICT LOWER BOUND
+   ([Set < _]) and not an identification ([_ = Set]), so nothing is pinned
+   AT [Set]: the constants still apply at groups of any carrier level above
+   [Set], which is what the constant-leg span was chosen to buy, and
+   [Unset Universe Minimization ToSet] (Lib.v:17) keeps carrier universes
+   off [Set] anyway.  What is no longer true is the absence of the token.
+   The BOUNDARY is guarded in
    Test/ProbePushoutGrpTop.v rather than asserted: two formability
    negatives reject the DONOR constants [Grp_zero_hom] and
    [Grp_zero_hom_Section] at a group declared strictly above [Set] (a
@@ -205,9 +222,18 @@ Arguments am_inv {B C} _.
 
 (** ** The generated congruence *)
 
+(* [am_eq] lands in [Prop].  Since the PR "algebraic carriers are sets"
+   (2026-09-17) a [GrpObject] carries [grp_prop], so the amalgam's carrier
+   setoid owes a [Prop]-valued mirror of its `≈`; the cheapest and most
+   faithful one is the congruence itself, declared in [Prop].  Two
+   constructors carry a [Type]-valued `≈` premise ([ae_l_resp], [ae_r_resp])
+   and both stay VERBATIM: a [Prop] inductive may store [Type]-valued data,
+   it simply may not be eliminated into [Type].  Nothing below is proved by
+   induction on [am_eq] except [am_eval_respects], whose one elimination is
+   routed through [pequiv] at the target group. *)
 Inductive am_eq {A B C : GrpObject}
                 (f : A ~{Grp}~> B) (g : A ~{Grp}~> C)
-  : AmTerm B C → AmTerm B C → Type :=
+  : AmTerm B C → AmTerm B C → Prop :=
   (* the two insertions respect the groups' own equivalences *)
   | ae_l_resp : ∀ b b' : carrier B,
       b ≈ b' → am_eq (am_l b) (am_l b')
@@ -280,7 +306,14 @@ Definition AmCarrier : SetoidObject := {|
 
 (* The amalgamated free product B *_A C.  Every group law is a
    CONSTRUCTOR of [am_eq], so the record below is a literal with no proof
-   obligation of its own -- the [Instance/Mod/Free.v] payoff. *)
+   obligation of its own -- the [Instance/Mod/Free.v] payoff.
+
+   CORRECTION.  That sentence was exactly true before the PR "algebraic
+   carriers are sets" (2026-09-17).  The record now has a ninth field,
+   [grp_prop], which is not a group law; it is still supplied by a literal
+   here, and costs no obligation, because [am_eq] IS the [Prop] relation and
+   the two implications are the identity.  So the record remains a literal
+   with no proof obligation of its own -- with one more field in it. *)
 Definition AmalgamGrp : GrpObject := {|
   grp_setoid := AmCarrier;
   grp_unit := am_one;
@@ -289,7 +322,10 @@ Definition AmalgamGrp : GrpObject := {|
   grp_mul_respects := fun u u' Hu v v' Hv => ae_mul_cong _ _ _ _ Hu Hv;
   grp_mul_assoc := ae_assoc;
   grp_mul_unit_l := ae_unit_l;
-  grp_mul_inv_l := ae_inv_l
+  grp_mul_inv_l := ae_inv_l;
+  grp_prop :=
+    @PropEquiv_of_relation _ AmSetoid (am_eq f g)
+      (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 (** ** The two injections *)
@@ -349,20 +385,39 @@ Context (Hcomm : q1 ∘[Grp] f ≈ q2 ∘[Grp] g).
 (* Well-definedness on the quotient, by induction on the derivation.  The
    glue case is the ONLY one that consumes [Hcomm]; every other case is a
    law of [Q] or of one of the two homomorphisms. *)
+(* [am_eq] is a [Prop] since the PR "algebraic carriers are sets"
+   (2026-09-17), so the induction may not land in the [Type]-valued goal
+   [am_eval u ≈ am_eval v] directly.  The whole proof is therefore conducted
+   inside [Q]'s own [Prop] equality: [pequiv_to] opens it, each of the twelve
+   branches closes with [pequiv_from] and then runs the ORIGINAL tactic
+   unchanged, and [ae_sym]/[ae_trans] use [pequiv]'s own transported
+   equivalence laws.  No mathematics moved. *)
 Lemma am_eval_respects (u v : AmTerm B C) (H : am_eq f g u v) :
   am_eval u ≈ am_eval v.
 Proof using All.
-  induction H; simpl.
-  - now apply proper_morphism.
-  - now apply proper_morphism.
-  - now apply grp_map_mul.
-  - now apply grp_map_mul.
-  - exact (Hcomm a).
-  - now apply grp_mul_assoc.
-  - now apply grp_mul_unit_l.
-  - now apply grp_mul_inv_l.
-  - now apply grp_mul_respects.
-  - now apply grp_inv_respects_law.
+  apply (@pequiv_to _ _ (grp_prop Q)).
+  induction H as
+    [ b b' Hbb' | c c' Hcc' | b b' | c c' | a
+    | u v w | u | u
+    | u u' v v' Huu' IHu Hvv' IHv
+    | u u' Huu' IHu
+    | u v Huv IHuv
+    | u v w Huv IHuv Hvw IHvw ].
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply proper_morphism.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply proper_morphism.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply grp_map_mul.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply grp_map_mul.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; exact (Hcomm a).
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply grp_mul_assoc.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply grp_mul_unit_l.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl; now apply grp_mul_inv_l.
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl.
+    apply grp_mul_respects;
+      [ exact (@pequiv_to _ _ (grp_prop Q) _ _ IHu)
+      | exact (@pequiv_to _ _ (grp_prop Q) _ _ IHv) ].
+  - apply (@pequiv_from _ _ (grp_prop Q)); simpl.
+    apply grp_inv_respects_law.
+    exact (@pequiv_to _ _ (grp_prop Q) _ _ IHu).
   - now symmetry.
   - now transitivity (am_eval v).
 Qed.

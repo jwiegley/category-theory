@@ -413,11 +413,24 @@ Context (Hsub : ∀ a : carrier G, sub_mem M a → sub_mem N a).
    UNCHANGED; only the saturation law is new, since G/M's `≈` is coarser
    than G's.  The other four laws are the very terms N carries, because
    G/M's unit, product and inverse ARE G's. *)
+(* RECORDED STRENGTH CHANGE.  An earlier revision read
+     [sub_mem := fun a : carrier (QuotientGrp M) => sub_mem N a].
+   Since the PR "algebraic carriers are sets" (2026-09-17) the quotient's `≈`
+   is the propositional truncation of [quot_rel], and the SATURATION law of a
+   [Subgroup] demands that a member's `≈`-partner be a member: from
+   [inhabited (quot_rel M a b)] and [sub_mem N a] one must produce membership
+   of [b].  That is an elimination of a [Prop] into a [Type] unless the
+   membership is itself a [Prop], so N/M's membership is the truncation of
+   [N]'s.  This is exactly the move Instance/Mod/Quotient/Isomorphism.v makes
+   for [TmodS] and [MeetSub], and for the same reason.  [N]'s own [sub_mem]
+   is untouched and stays [Type]-valued. *)
 Program Definition NmodM : NormalSubgroup (QuotientGrp M) := {|
-  ns_sub := {| sub_mem := fun a : carrier (QuotientGrp M) => sub_mem N a |}
+  ns_sub := {| sub_mem := fun a : carrier (QuotientGrp M) =>
+                            inhabited (sub_mem N a) |}
 |}.
 Next Obligation.
   intros a b Hab Ha; simpl in *.
+  destruct Hab as [Hab], Ha as [Ha]; constructor.
   (* b ≈ (a * b⁻¹)⁻¹ * a, and both factors lie in N *)
   apply (sub_at N (a := grp_mul G (grp_inv G (grp_mul G a (grp_inv G b))) a)).
   - rewrite (grp_inv_mul G a (grp_inv G b)).
@@ -427,29 +440,44 @@ Next Obligation.
     apply (grp_mul_unit_r G).
   - exact (sub_mul N _ _ (sub_inv N _ (Hsub _ Hab)) Ha).
 Qed.
-Next Obligation. simpl; exact (sub_unit N). Qed.
-Next Obligation. intros a b Ha Hb; simpl in *; exact (sub_mul N _ _ Ha Hb). Qed.
-Next Obligation. intros a Ha; simpl in *; exact (sub_inv N _ Ha). Qed.
-Next Obligation. intros t a Ha; simpl in *; exact (ns_conj N t _ Ha). Qed.
+Next Obligation. simpl; exact (inhabits (sub_unit N)). Qed.
+Next Obligation.
+  intros a b Ha Hb; simpl in *.
+  destruct Ha as [Ha], Hb as [Hb]; exact (inhabits (sub_mul N _ _ Ha Hb)).
+Qed.
+Next Obligation.
+  intros a Ha; simpl in *.
+  destruct Ha as [Ha]; exact (inhabits (sub_inv N _ Ha)).
+Qed.
+Next Obligation.
+  intros t a Ha; simpl in *.
+  destruct Ha as [Ha]; exact (inhabits (ns_conj N t _ Ha)).
+Qed.
 
 (* The comparison G/M ↠ G/N: the identity function again, well defined
    because M ⊆ N. *)
 Program Definition quot_step : QuotientGrp M ~{Grp}~> QuotientGrp N := {|
   grp_map := {| morphism := fun a : carrier (QuotientGrp M) => a |}
 |}.
-Next Obligation. intros a b Hab; exact (Hsub _ Hab). Qed.
-Next Obligation. simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros a b; simpl; apply quot_rel_refl. Qed.
+Next Obligation.
+  intros a b Hab.
+  change (inhabited (quot_rel M a b)) in Hab.
+  change (inhabited (quot_rel N a b)).
+  destruct Hab as [Hab]; exact (inhabits (Hsub _ Hab)).
+Qed.
+Next Obligation. simpl; constructor; apply quot_rel_refl. Qed.
+Next Obligation. intros a b; simpl; constructor; apply quot_rel_refl. Qed.
 
 (* The triangle relating the three projections. *)
 Lemma quot_step_triangle : quot_step ∘ quot_proj M ≈ quot_proj N.
-Proof. intro a; simpl; apply quot_rel_refl. Qed.
+Proof. intro a; simpl; constructor; apply quot_rel_refl. Qed.
 
 (* The comparison kills N/M. *)
 Lemma quot_step_kills (a : carrier (QuotientGrp M)) :
   sub_mem NmodM a → grp_map quot_step a ≈ grp_unit (QuotientGrp N).
 Proof.
   intro Ha; simpl in *.
+  destruct Ha as [Ha]; constructor.
   exact (snd (quot_rel_unit_iff N a) Ha).
 Qed.
 
@@ -463,13 +491,16 @@ Context (x : Kills NmodM K).
 
 (* THE ONE ELEMENTWISE STEP of this theorem: transferring the killing
    hypothesis across the projection.  A member of N is projected by p_M to
-   a member of N/M -- definitionally, the membership predicates being the
-   same and p_M the identity function -- so k ∘ p_M kills N. *)
+   a member of N/M -- p_M being the identity function -- so k ∘ p_M kills N.
+   An earlier revision said "the membership predicates being the same"; since
+   the PR "algebraic carriers are sets" (2026-09-17) N/M's membership is the
+   TRUNCATION of N's (see [NmodM]), so the step is that projection followed
+   by one [inhabits]. *)
 Lemma third_precompose_kills (a : carrier G) :
   sub_mem N a → grp_map (`1 x ∘ quot_proj M) a ≈ grp_unit K.
 Proof.
   intro Ha; simpl; unfold Basics.compose.
-  exact (`2 x a Ha).
+  exact (`2 x a (inhabits Ha)).
 Qed.
 
 Definition third_precompose : Kills N K :=
@@ -673,19 +704,35 @@ Definition psi : SubgroupGrp S ~{Grp}~> QuotientGrp NinSN :=
 
 (* ELEMENTWISE INPUT ONE: the kernel of ψ is S ∩ N -- as a biconditional
    on membership, not merely an inclusion. *)
+(* AN EARLIER REVISION stated the right-hand side as the bare
+   [sub_mem N (`1 p)].  Since the PR "algebraic carriers are sets"
+   (2026-09-17) the left-hand side is congruence to the unit in a quotient,
+   which is the [inhabited] truncation of membership, so the biconditional
+   holds up to that truncation and is stated so.  Both directions are
+   [Prop]-to-[Prop]; the untruncated direction is available as
+   [psi_kernel_of_meet] below, with its witness intact. *)
 Lemma psi_kernel_is_meet (p : carrier (SubgroupGrp S)) :
-  sub_mem (KernelNS psi) p ↔ sub_mem N (`1 p).
+  sub_mem (KernelNS psi) p ↔ inhabited (sub_mem N (`1 p)).
 Proof.
   split.
   - intro Hp; simpl in Hp.
+    unfold quot_equiv in Hp.
+    destruct Hp as [Hp]; constructor.
     apply (sub_at N (a := grp_mul G (`1 p) (grp_inv G (grp_unit G)))).
     + rewrite (grp_inv_unit G); apply (grp_mul_unit_r G).
     + exact Hp.
   - intro Hp; simpl.
+    destruct Hp as [Hp]; constructor.
+    unfold quot_rel; simpl.
     apply (sub_at N (a := `1 p)).
     + rewrite (grp_inv_unit G); symmetry; apply (grp_mul_unit_r G).
     + exact Hp.
 Qed.
+
+(* The direction that keeps its [Type]-valued hypothesis whole. *)
+Lemma psi_kernel_of_meet (p : carrier (SubgroupGrp S)) :
+  sub_mem N (`1 p) → sub_mem (KernelNS psi) p.
+Proof. intro Hp; exact (snd (psi_kernel_is_meet p) (inhabits Hp)). Qed.
 
 (* ELEMENTWISE INPUT TWO: ψ is surjective.  Every member of SN is s·n for
    data s ∈ S, n ∈ N, and s·n is congruent to s modulo N because
@@ -696,6 +743,7 @@ Proof.
   destruct (`2 q) as [s [n [[Hs Hn] Hq]]].
   exists (existT _ s Hs).
   simpl.
+  constructor.
   unfold quot_rel; simpl.
   (* s * (s n)⁻¹ lies in N *)
   apply (sub_at N (a := grp_mul G (grp_mul G s (grp_inv G n)) (grp_inv G s))).
@@ -720,17 +768,34 @@ Definition second_isomorphism_theorem :
    above says S/ker ψ, which is the same group only because
    [psi_kernel_is_meet] says the two memberships coincide, and
    [quot_congr] is what turns that coincidence into an isomorphism. *)
+(* AN EARLIER REVISION wrote the predicate as the bare [sub_mem N (`1 p)].
+   Since the PR "algebraic carriers are sets" (2026-09-17) it is the
+   [inhabited] truncation of that, and the reason is the identification
+   [second_isomorphism_theorem_literal] makes: this subgroup has to be
+   coextensive with [KernelNS psi], whose membership is congruence to the
+   unit in a quotient and hence already truncated.  The same move is made at
+   Instance/Mod/Quotient/Isomorphism.v's [MeetSub], for the same reason. *)
 Program Definition MeetNS : NormalSubgroup (SubgroupGrp S) := {|
   ns_sub := {| sub_mem := fun p : carrier (SubgroupGrp S) =>
-                            sub_mem N (`1 p) |}
+                            inhabited (sub_mem N (`1 p)) |}
 |}.
 Next Obligation.
-  intros a b Hab Ha; simpl in *; exact (sub_resp N _ _ Hab Ha).
+  intros a b Hab Ha; simpl in *.
+  destruct Ha as [Ha]; constructor; exact (sub_resp N _ _ Hab Ha).
 Qed.
-Next Obligation. simpl; exact (sub_unit N). Qed.
-Next Obligation. intros a b Ha Hb; simpl in *; exact (sub_mul N _ _ Ha Hb). Qed.
-Next Obligation. intros a Ha; simpl in *; exact (sub_inv N _ Ha). Qed.
-Next Obligation. intros t a Ha; simpl in *; exact (ns_conj N _ _ Ha). Qed.
+Next Obligation. simpl; exact (inhabits (sub_unit N)). Qed.
+Next Obligation.
+  intros a b Ha Hb; simpl in *.
+  destruct Ha as [Ha], Hb as [Hb]; constructor; exact (sub_mul N _ _ Ha Hb).
+Qed.
+Next Obligation.
+  intros a Ha; simpl in *.
+  destruct Ha as [Ha]; constructor; exact (sub_inv N _ Ha).
+Qed.
+Next Obligation.
+  intros t a Ha; simpl in *.
+  destruct Ha as [Ha]; constructor; exact (ns_conj N _ _ Ha).
+Qed.
 
 Definition second_isomorphism_theorem_literal :
   QuotientGrp MeetNS ≅[Grp] QuotientGrp NinSN :=
@@ -761,8 +826,12 @@ Arguments second_isomorphism_theorem_literal {G} S N.
    with [S3_mod_A3_not_collapsed] this makes the first isomorphism theorem
    at this map a statement about a two-element quotient of a six-element
    group, not about a degenerate one. *)
+(* Restated up to the truncation, in lockstep with [quot_proj_kernel]: since
+   the PR "algebraic carriers are sets" (2026-09-17) the kernel's membership
+   is congruence to the unit in a quotient, hence [inhabited].  The direction
+   that keeps its witness whole is [quot_proj_kills]. *)
 Lemma S3_proj_kernel_is_A3 (a : carrier S3) :
-  sub_mem (KernelNS (quot_proj A3)) a ↔ sub_mem A3 a.
+  sub_mem (KernelNS (quot_proj A3)) a ↔ inhabited (sub_mem A3 a).
 Proof. exact (quot_proj_kernel A3 a). Qed.
 
 (* The first isomorphism theorem instantiated: S3/ker(p) ≅ im(p). *)
@@ -772,10 +841,14 @@ Definition S3_first_iso :
 
 (* And it is nondegenerate: the image of the projection has two elements
    apart in its own setoid. *)
+(* The hypothesis is the quotient's truncated `≈` since the PR "algebraic
+   carriers are sets" (2026-09-17); the goal is [False], so it is unwrapped
+   at no cost.  Likewise for the three theorems below over [quot_rel] at a
+   truncated membership. *)
 Theorem S3_first_iso_nondegenerate :
   grp_map (image_cores (quot_proj A3)) S3_s
     ≈ grp_map (image_cores (quot_proj A3)) s3_unit → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* The third isomorphism theorem at M = trivial, N = A3: (S3/1)/(A3/1) ≅
    S3/A3.  The inclusion hypothesis is that everything ≈-equal to the unit
@@ -792,7 +865,7 @@ Definition S3_third_iso :
    of the isomorphism. *)
 Theorem S3_third_iso_nondegenerate :
   quot_rel (NmodM (TrivialNS S3) A3 trivial_in_A3) S3_s s3_unit → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* The second isomorphism theorem is instantiated at S = the two-element
    reflection subgroup and N = A3.  That pair is nondegenerate in the way
@@ -814,7 +887,7 @@ Theorem S3_second_iso_nondegenerate :
     (existT _ S3_s (eq_refl : fst S3_s = rot0))
     (grp_unit (SubgroupGrp S3_refl_sub))
   → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* The literal form, whose left-hand side is S/(S ∩ N) rather than
    S/ker ψ. *)
@@ -828,7 +901,7 @@ Theorem S3_second_iso_literal_nondegenerate :
     (existT _ S3_s (eq_refl : fst S3_s = rot0))
     (grp_unit (SubgroupGrp S3_refl_sub))
   → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* And nondegenerate on the RIGHT as well: the reflection, read as an
    element of SN via the decomposition s = s · e, stays apart from the

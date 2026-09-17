@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -308,14 +309,60 @@ Definition ns_congruence {G : GrpObject} (N : NormalSubgroup G)
     (fun x y f g h H1 H2 => quot_rel_trans N f g h H1 H2)
     (fun x y z f f' g g' H1 H2 => quot_rel_mul N f f' g g' H1 H2).
 
+(** The PROPOSITIONAL congruence: [ns_rel] under [inhabited].
+
+    An earlier revision built [deloop_quotient] from [ns_rel] itself.  Since
+    the PR "algebraic carriers are sets" (2026-09-17) [QuotientGrp]'s own
+    equality is the propositional truncation of [quot_rel] -- [sub_mem] stays
+    [Type]-valued, so the quotient OBJECT must truncate -- and the quotient
+    CATEGORY has to truncate in lockstep, or [deloop_quotient_iso] below is
+    not merely unproved but FALSE IN ONE DIRECTION: a functor
+    [grp_deloop (QuotientGrp N) ⟶ deloop_quotient N] would have to eliminate
+    a [Prop] into the [Type]-valued [quot_rel].  Truncating both sides keeps
+    the headline -- the quotient category of the delooping IS the delooping
+    of the quotient -- at its full [≅[StrictCat]] strength, and at
+    [eq_refl] on objects, arrows, identity and composition
+    (Test/ProbeGrpCongruence.v).
+
+    [ns_rel], [ns_congruence] and the whole normal-subgroup/congruence
+    dictionary below are UNCHANGED: only the category built from them
+    truncates, and [ns_prel_is_truncation] records the relationship at
+    [eq_refl]. *)
+Definition ns_prel {G : GrpObject} (N : NormalSubgroup G)
+  : HomRelT (grp_deloop G) := fun _ _ f g => quot_equiv N f g.
+
+Example ns_prel_is_truncation {G : GrpObject} (N : NormalSubgroup G)
+  (f g : carrier G) :
+  ns_prel N ttt ttt f g = inhabited (ns_rel N ttt ttt f g) := eq_refl.
+
+(* Built tactically rather than as a term: a bare [match] on [inhabited] is
+   elaborated with a [Type] motive and is refused, even where the branch's
+   result is a [Prop]. *)
+Definition ns_prel_congruence {G : GrpObject} (N : NormalSubgroup G)
+  : @HomCongruence (grp_deloop G) (ns_prel N).
+Proof.
+  unshelve refine (@Build_HomCongruence (grp_deloop G) (ns_prel N) _ _ _ _).
+  (* [HomRelT] ascribes sort [Type] to each relation, so the goal is
+     converted to its [inhabited] form before any elimination. *)
+  - intros x y f g H; exact (inhabits (quot_rel_of_equiv N f g H)).
+  - intros x y f g H; unfold ns_prel, quot_equiv in *;
+      destruct H as [h]; exact (inhabits (quot_rel_sym N f g h)).
+  - intros x y f g h H1 H2; unfold ns_prel, quot_equiv in *;
+      destruct H1 as [h1], H2 as [h2];
+      exact (inhabits (quot_rel_trans N f g h h1 h2)).
+  - intros x y z f f' g g' H1 H2; unfold ns_prel, quot_equiv in *;
+      destruct H1 as [h1], H2 as [h2];
+      exact (inhabits (quot_rel_mul N f f' g g' h1 h2)).
+Defined.
+
 (** The quotient category of the delooping.  The congruence witness is
-    passed explicitly, since [ns_congruence] is not an instance. *)
+    passed explicitly, since [ns_prel_congruence] is not an instance. *)
 Definition deloop_quotient {G : GrpObject} (N : NormalSubgroup G) : Category :=
-  @Quotient (grp_deloop G) (ns_rel N) (ns_congruence N).
+  @Quotient (grp_deloop G) (ns_prel N) (ns_prel_congruence N).
 
 Definition deloop_quotient_proj {G : GrpObject} (N : NormalSubgroup G)
   : grp_deloop G ⟶ deloop_quotient N :=
-  @QuotientProj (grp_deloop G) (ns_rel N) (ns_congruence N).
+  @QuotientProj (grp_deloop G) (ns_prel N) (ns_prel_congruence N).
 
 (** ** The orientation of the relation
 
@@ -700,16 +747,16 @@ Definition quot_to_deloop : deloop_quotient N ⟶ grp_deloop (QuotientGrp N) :=
     (fun x => x)
     (fun x y f => f)
     (fun x y f g H => H)
-    (fun x => quot_rel_refl N _)
-    (fun x y z f g => quot_rel_refl N _).
+    (fun x => inhabits (quot_rel_refl N _))
+    (fun x y z f g => inhabits (quot_rel_refl N _)).
 
 Definition deloop_to_quot : grp_deloop (QuotientGrp N) ⟶ deloop_quotient N :=
   Build_Functor (grp_deloop (QuotientGrp N)) (deloop_quotient N)
     (fun x => x)
     (fun x y f => f)
     (fun x y f g H => H)
-    (fun x => quot_rel_refl N _)
-    (fun x y z f g => quot_rel_refl N _).
+    (fun x => inhabits (quot_rel_refl N _))
+    (fun x y z f g => inhabits (quot_rel_refl N _)).
 
 (** Both functors are the identity on objects and on arrows, so both round
     trips have [eq_refl] object components. *)
@@ -717,7 +764,8 @@ Lemma deloop_quotient_round_to :
   @equiv _ (@Functor_StrictEq_Setoid (deloop_quotient N) (deloop_quotient N))
     (deloop_to_quot ◯ quot_to_deloop) (Id[deloop_quotient N]).
 Proof.
-  exists (fun _ => eq_refl); intros x y f; simpl; apply quot_rel_refl.
+  exists (fun _ => eq_refl); intros x y f; simpl;
+    constructor; apply quot_rel_refl.
 Qed.
 
 Lemma deloop_quotient_round_from :
@@ -725,7 +773,8 @@ Lemma deloop_quotient_round_from :
               (grp_deloop (QuotientGrp N)))
     (quot_to_deloop ◯ deloop_to_quot) (Id[grp_deloop (QuotientGrp N)]).
 Proof.
-  exists (fun _ => eq_refl); intros x y f; simpl; apply quot_rel_refl.
+  exists (fun _ => eq_refl); intros x y f; simpl;
+    constructor; apply quot_rel_refl.
 Qed.
 
 Definition deloop_quotient_iso
@@ -855,15 +904,31 @@ Context (N : NormalSubgroup G).
 Context (p : Kills N K).
 
 (** The hypothesis of the categorical theorem, discharged by #313's
-    descent lemma with no reshaping. *)
+    descent lemma with no reshaping.  It is stated over the UNTRUNCATED
+    [ns_rel], which is what #313's descent lemma proves. *)
 Definition deloop_kills
   : ∀ x y (f g : x ~{grp_deloop G}~> y), ns_rel N x y f g →
       fmap[deloop_hom (`1 p)] f ≈ fmap[deloop_hom (`1 p)] g :=
   fun x y f g H => kills_descends N p f g H.
 
+(** ...and the same over the truncated relation [deloop_quotient] is built
+    from since the PR "algebraic carriers are sets" (2026-09-17).  The
+    conclusion is an `≈` at [grp_deloop K], i.e. at [K]'s own carrier, so
+    the elimination goes through [K]'s [grp_prop] and nothing is assumed. *)
+Definition deloop_pkills
+  : ∀ x y (f g : x ~{grp_deloop G}~> y), ns_prel N x y f g →
+      fmap[deloop_hom (`1 p)] f ≈ fmap[deloop_hom (`1 p)] g.
+Proof.
+  intros x y f g H.
+  apply (@pequiv_to _ _ (grp_prop K)).
+  unfold ns_prel, quot_equiv in H; destruct H as [h].
+  apply (@pequiv_from _ _ (grp_prop K)).
+  exact (deloop_kills x y f g h).
+Defined.
+
 Definition cat_lift : deloop_quotient N ⟶ grp_deloop K :=
-  @QuotientLift (grp_deloop G) (ns_rel N) (ns_congruence N)
-    (grp_deloop K) (deloop_hom (`1 p)) deloop_kills.
+  @QuotientLift (grp_deloop G) (ns_prel N) (ns_prel_congruence N)
+    (grp_deloop K) (deloop_hom (`1 p)) deloop_pkills.
 
 (** The lift, read back as a homomorphism out of the factor group.  The
     functor is transported along [deloop_to_quot] -- the [StrictCat]
@@ -898,8 +963,9 @@ Proof.
   - intro a; simpl; reflexivity.
   - intros v Hv a.
     exact (symmetry
-             (@QuotientLift_unique (grp_deloop G) (ns_rel N) (ns_congruence N)
-                (grp_deloop K) (deloop_hom (`1 p)) deloop_kills
+             (@QuotientLift_unique (grp_deloop G) (ns_prel N)
+                (ns_prel_congruence N)
+                (grp_deloop K) (deloop_hom (`1 p)) deloop_pkills
                 (deloop_hom v ◯ quot_to_deloop N)
                 (fun _ => eq_refl)
                 (fun x y f => Hv f)

@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
@@ -18,6 +19,7 @@ Require Import Category.Structure.Group.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
@@ -28,15 +30,30 @@ Generalizable All Variables.
    nLab:      https://ncatlab.org/nlab/show/group
    Wikipedia: https://en.wikipedia.org/wiki/Category_of_groups
 
-   [Grp] is the category of groups over [Sets]: an object is a setoid
-   carrying an associative binary operation [grp_mul] with unit [grp_unit]
-   and an inversion [grp_inv]; a morphism is a setoid map preserving the
-   unit and the operation; two morphisms are equivalent when their
-   underlying maps agree pointwise.  The file is modelled directly on
-   Instance/CMon.v, whose [CMonObject] / [CMonHom] / [CMon] triple
-   (Instance/CMon.v:32, :58, :140) it mirrors CMon at the hom record and the category; the object records differ by design (commutativity there, inversion here), including
-   the universe discipline: nothing here is annotated, so [Grp] is
-   universe-polymorphic exactly as [CMon] is.
+   [Grp] is the category of groups over [Sets]: an object is a setoid whose
+   `≈` is PROPOSITIONAL ([grp_prop]), carrying an associative binary
+   operation [grp_mul] with unit [grp_unit] and an inversion [grp_inv]; a
+   morphism is a setoid map preserving the unit and the operation; two
+   morphisms are equivalent when their underlying maps agree pointwise.  The
+   file is modelled directly on Instance/CMon.v, whose [CMonObject] /
+   [CMonHom] / [CMon] triple it mirrors at the hom record and the category;
+   the object records differ by design (commutativity there, inversion here).
+
+   Since the PR "algebraic carriers are sets" (2026-09-17) the record carries
+   the field [grp_prop] of Lib/Setoid/Propositional.v's class [PropEquiv]: a
+   [Prop]-valued relation on the carrier that holds exactly when `≈` does.  A
+   group in this library is therefore a group on a SET in Bishop's sense, not
+   on an arbitrary proof-relevant setoid; Lib/Setoid/Propositional.v's header
+   says why -- a type of congruences on a carrier is carrier-sized exactly
+   when the congruences are [Prop]-valued, which is what the solution-set
+   condition of Mac Lane's general adjoint functor theorem needs at a
+   concrete algebraic category.
+
+   An earlier revision of this paragraph added "including the universe
+   discipline: nothing here is annotated, so [Grp] is universe-polymorphic
+   exactly as [CMon] is".  The SHAPE of that claim survives, but neither is
+   inferred any more: [Grp] and [CMon] are both pinned by hand, for the
+   reason recorded at the definition of [Grp] below.
 
    AXIOM ECONOMY.  The record below carries the SMALLEST law set that
    still presents a group, and every omission is discharged as a lemma
@@ -57,6 +74,10 @@ Generalizable All Variables.
        one-sided inverses ([grp_inv_unique_l]) then forces
        grp_inv a ≈ grp_inv b.  Only [grp_mul_respects] is a field.  A
        constructor of a [GrpObject] therefore owes four proofs, not seven.
+       (Since [grp_prop] landed there is a fifth obligation, but it is a
+       DATUM about the carrier rather than a group law, and at the
+       constructions below it is discharged by a transport of
+       Lib/Setoid/Propositional.v rather than proved by hand.)
 
    [GrpHom] does keep unit preservation as a field alongside
    multiplication preservation, matching [CMonHom] (Instance/CMon.v:58)
@@ -180,7 +201,14 @@ Generalizable All Variables.
    an inversion, where only the operation is required to respect `≈` and
    only the left-handed unit and inverse laws are required to hold.  The
    right-handed laws and the respectfulness of inversion are derived
-   below. *)
+   below.
+
+   [grp_prop] is the LAST field deliberately, for the reason Instance/CMon.v
+   gives for [cmon_prop]: every construction site in the tree writes the
+   record with named fields under [Program] or [unshelve notypeclasses
+   refine], both of which emit obligations in field order, so a field at the
+   end leaves the numbering of every existing obligation alone and adds one
+   at the end. *)
 Record GrpObject := {
   grp_setoid :> SetoidObject;
 
@@ -193,10 +221,15 @@ Record GrpObject := {
   grp_mul_assoc : ∀ a b c,
     grp_mul (grp_mul a b) c ≈ grp_mul a (grp_mul b c);
   grp_mul_unit_l : ∀ a, grp_mul grp_unit a ≈ a;
-  grp_mul_inv_l  : ∀ a, grp_mul (grp_inv a) a ≈ grp_unit
+  grp_mul_inv_l  : ∀ a, grp_mul (grp_inv a) a ≈ grp_unit;
+
+  (* The carrier is a SET: its `≈` is logically equivalent to a [Prop]-valued
+     relation.  See Lib/Setoid/Propositional.v. *)
+  grp_prop : PropEquiv (is_setoid grp_setoid)
 }.
 
 #[export] Existing Instance grp_mul_respects.
+#[export] Existing Instance grp_prop.
 
 Section GrpFacts.
 
@@ -415,6 +448,24 @@ Next Obligation.
     + apply Hgh.
 Qed.
 
+(* G1: the hom-setoid is propositional, pointwise into the CODOMAIN's own
+   [grp_prop].  The domain needs nothing -- the relation quantifies over its
+   carrier but never compares two of its elements.  This is the same shape as
+   [hom_PropEquiv] (Instance/Sets/Propositional.v:91) and as
+   [CMonHom_PropEquiv] (Instance/CMon.v), restated here because
+   [GrpHom_Setoid] is a setoid on [GrpHom G H] rather than on
+   [SetoidMorphism]s, and the two records are not convertible. *)
+#[export] Instance GrpHom_PropEquiv {G H : GrpObject} :
+  PropEquiv (@GrpHom_Setoid G H).
+Proof.
+  unshelve refine
+    {| pequiv := fun f g : GrpHom G H =>
+                   forall a : carrier (grp_setoid G),
+                     @pequiv _ _ (grp_prop H) (grp_map f a) (grp_map g a) |}.
+  - intros f g Hfg a; exact (pequiv_to _ _ (Hfg a)).
+  - intros f g Hfg a; exact (pequiv_from _ _ (Hfg a)).
+Defined.
+
 (* The identity homomorphism: the identity setoid map, which preserves the
    unit and the operation on the nose. *)
 Program Definition grp_hom_id {G : GrpObject} : GrpHom G G := {|
@@ -463,14 +514,29 @@ Qed.
         arrows: unit- and operation-preserving setoid maps
       identity: the identity setoid map
    composition: composition of setoid maps *)
-Program Definition Grp : Category := {|
-  obj     := GrpObject;
-  hom     := GrpHom;
-  homset  := @GrpHom_Setoid;
-  id      := @grp_hom_id;
-  compose := @grp_hom_compose;
+(* The universes are pinned by hand, exactly as Instance/CMon.v pins [CMon]
+   and for the same reason.  [GrpObject]'s sort is
+   [Type@{max(Set+1,s,o+1,p+1)}] once [grp_prop] is a field -- the [Set+1] is
+   the sort of [Prop] and enters through [PropEquiv] -- and left to itself the
+   elaborator will not identify the record's own sort variable [s] with the
+   category's object universe, so [Grp] acquires a third, redundant universe
+   and every `Grp@{u o}` annotation in the tree is refused for arity.  Naming
+   [Category@{u p p}] and every field's instance keeps the arity at two,
+   exactly as before the field landed.  An earlier revision of the header said
+   "nothing here is annotated, so [Grp] is universe-polymorphic exactly as
+   [CMon] is"; that is still true of the SHAPE, but both are now pinned rather
+   than inferred.  Measured baseline, before the field:
+   [Grp@{u u0} : Category@{u u0 u0}] with [u0 < u]; after, [Grp@{u p} :
+   Category@{u p p}] with the one new constraint [Set < u], which the baseline
+   already implied through [u0 < u] for any [u0] at or above [Set]. *)
+Program Definition Grp@{u p} : Category@{u p p} := {|
+  obj     := GrpObject@{p p p};
+  hom     := GrpHom@{p};
+  homset  := @GrpHom_Setoid@{p};
+  id      := @grp_hom_id@{p};
+  compose := @grp_hom_compose@{u p};
 
-  compose_respects := @grp_hom_compose_respects
+  compose_respects := @grp_hom_compose_respects@{u p}
 |}.
 Next Obligation.
   intros x y f a; simpl.
@@ -488,6 +554,18 @@ Next Obligation.
   intros x y z w f g h a; simpl.
   reflexivity.
 Qed.
+
+(* G2: [Grp] is therefore locally propositional -- its hom-setoid IS
+   [GrpHom_Setoid].  This is what lets the functor-of-points constructions of
+   Structure/Group/Representable.v, which since the PR "algebraic carriers are
+   sets" (2026-09-17) ask their ambient category for a [Prop] equality on
+   homs, be applied at [Grp] itself with no manual hypothesis. *)
+#[export] Instance Grp_LocallyPropositional : LocallyPropositional Grp.
+Proof.
+  constructor.
+  intros G H.
+  exact (@GrpHom_PropEquiv G H).
+Defined.
 
 (* The forgetful functor to [Sets], dropping the group structure. *)
 Program Definition Grp_Forget : Grp ⟶ Sets := {|
@@ -525,7 +603,8 @@ Proof.
     grp_setoid := {| carrier := poly_unit; is_setoid := unit_setoid |};
     grp_unit := ttt;
     grp_mul := fun _ _ => ttt;
-    grp_inv := fun _ => ttt
+    grp_inv := fun _ => ttt;
+    grp_prop := unit_PropEquiv
   |}.
   - intros x y Hxy u v Huv.
     reflexivity.
@@ -614,7 +693,8 @@ Proof.
     grp_unit := (grp_unit G, grp_unit H);
     grp_mul := fun p q =>
       (grp_mul G (fst p) (fst q), grp_mul H (snd p) (snd q));
-    grp_inv := fun p => (grp_inv G (fst p), grp_inv H (snd p))
+    grp_inv := fun p => (grp_inv G (fst p), grp_inv H (snd p));
+    grp_prop := prod_PropEquiv (grp_prop G) (grp_prop H)
   |}.
   - intros p p' Hp q q' Hq.
     destruct Hp as [Hp1 Hp2], Hq as [Hq1 Hq2].
@@ -754,6 +834,14 @@ Proof.
   - intros a.
     simpl.
     apply grp_mul_inv_l.
+  - (* The kernel's `≈` compares only the first projection, so the
+       membership witness -- itself a [Type] -- is never inspected and
+       [sigma_first_PropEquiv] applies.  It has to be applied in the TACTIC
+       spelling: the term form is refused, since Coq will not see through the
+       [projT1]/[`1] difference in the ascribed type. *)
+    unshelve refine (sigma_first_PropEquiv _ _ _ (grp_prop G)).
+    + intros p q Hpq; exact Hpq.
+    + intros p q Hpq; exact Hpq.
 Defined.
 
 (* The two probe maps out of the kernel: the inclusion ... *)
@@ -835,6 +923,7 @@ Definition Grp_op_obj (G : GrpObject) : GrpObject.
 Proof.
   unshelve notypeclasses refine {|
     grp_setoid := grp_setoid G;
+    grp_prop := grp_prop G;
     grp_unit := grp_unit G;
     grp_mul := fun a b => grp_mul G b a;
     grp_inv := grp_inv G
@@ -1028,11 +1117,22 @@ Proof.
     apply grp_mul_inv_r.
 Defined.
 
-(* And conversely, at full strength: a group object in [Sets] is a
-   [GrpObject].  The record is destructured rather than projected because
-   Structure/Group.v reserves the token [inverse] for its notation, so the
-   field cannot be named in a term. *)
+(* And conversely: a group object in [Sets] whose carrier setoid is
+   propositional is a [GrpObject].  The record is destructured rather than
+   projected because Structure/Group.v reserves the token [inverse] for its
+   notation, so the field cannot be named in a term.
+
+   An earlier revision of this comment said "at full strength", and the
+   construction then took only [X] and [GO].  Since the PR "algebraic carriers
+   are sets" (2026-09-17) it takes a third argument [PX : PropEquiv (is_setoid
+   X)].  That is a RECORDED STRENGTH CHANGE: a group object in [Sets] over a
+   proof-relevant setoid is no longer translated.  Nothing in tree is lost --
+   the only partner, [Grp_GroupObject], goes the other way and the round-trip
+   [Example]s below take [PX] as a parameter -- and the direction that matters
+   for the internal/concrete dictionary, [Grp_GroupObject], is unconditional
+   because a [GrpObject] carries [grp_prop] already. *)
 Definition GroupObject_GrpObject (X : Sets)
+  (PX : PropEquiv (is_setoid X))
   (GO : @GroupObject Sets Sets_CartesianMonoidal X) : GrpObject.
 Proof.
   destruct GO as [mon inv Hleft Hright].
@@ -1041,7 +1141,8 @@ Proof.
     grp_setoid := X;
     grp_unit := me ttt;
     grp_mul := fun a b => ma (a, b);
-    grp_inv := fun a => inv a
+    grp_inv := fun a => inv a;
+    grp_prop := PX
   |}.
   - intros a a' Ha b b' Hb.
     apply proper_morphism.
@@ -1057,17 +1158,17 @@ Defined.
 (* The two translations are mutually inverse on the operations, by
    computation: the round trip changes no data at all. *)
 Example Grp_GroupObject_roundtrip_unit (G : GrpObject) :
-  grp_unit (GroupObject_GrpObject (grp_setoid G) (Grp_GroupObject G))
+  grp_unit (GroupObject_GrpObject (grp_setoid G) (grp_prop G) (Grp_GroupObject G))
     ≈ grp_unit G.
 Proof. reflexivity. Qed.
 
 Example Grp_GroupObject_roundtrip_mul (G : GrpObject) (a b : carrier G) :
-  grp_mul (GroupObject_GrpObject (grp_setoid G) (Grp_GroupObject G)) a b
+  grp_mul (GroupObject_GrpObject (grp_setoid G) (grp_prop G) (Grp_GroupObject G)) a b
     ≈ grp_mul G a b.
 Proof. reflexivity. Qed.
 
 Example Grp_GroupObject_roundtrip_inv (G : GrpObject) (a : carrier G) :
-  grp_inv (GroupObject_GrpObject (grp_setoid G) (Grp_GroupObject G)) a
+  grp_inv (GroupObject_GrpObject (grp_setoid G) (grp_prop G) (Grp_GroupObject G)) a
     ≈ grp_inv G a.
 Proof. reflexivity. Qed.
 
@@ -1090,7 +1191,11 @@ Proof.
     grp_setoid := {| carrier := bool ; is_setoid := bool_setoid |};
     grp_unit := false;
     grp_mul  := xorb;
-    grp_inv  := fun b => b
+    grp_inv  := fun b => b;
+    (* [bool_setoid]'s `≈` is [@eq bool], already a [Prop]; instance
+       resolution sees through the hand [Program Definition] to
+       [eq_PropEquiv]. *)
+    grp_prop := eq_PropEquiv bool
   |}.
   - intros x y Hxy u v Huv; simpl in *; subst; reflexivity.
   - intros a b c; simpl; now destruct a, b, c.
@@ -1140,23 +1245,28 @@ Proof. simpl. discriminate. Qed.
 (*    Is it provable?  (It is NOT stated in Instance/Grp.v.)              *)
 (* ===================================================================== *)
 
-Example rt_back_unit (X : Sets) (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
+(* Each of the three takes the carrier's [PropEquiv] as a parameter, since
+   [GroupObject_GrpObject] does; see its comment for the strength change. *)
+Example rt_back_unit (X : Sets) (PX : PropEquiv (is_setoid X))
+  (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
   @mempty Sets Sets_prod_Monoidal X
-     (Grp_MonoidObject (GroupObject_GrpObject X GO))
+     (Grp_MonoidObject (GroupObject_GrpObject X PX GO))
   ≈ @mempty Sets Sets_prod_Monoidal X GO.
 Proof. intro u; destruct u; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
 
-Example rt_back_mul (X : Sets) (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
+Example rt_back_mul (X : Sets) (PX : PropEquiv (is_setoid X))
+  (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
   @mappend Sets Sets_prod_Monoidal X
-     (Grp_MonoidObject (GroupObject_GrpObject X GO))
+     (Grp_MonoidObject (GroupObject_GrpObject X PX GO))
   ≈ @mappend Sets Sets_prod_Monoidal X GO.
 Proof. intro p; destruct p; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
 
 Section RTInv.
 #[local] Existing Instance Sets_CartesianMonoidal.
 Context (X : Sets).
+Context (PX : PropEquiv (is_setoid X)).
 Context `{GO : @GroupObject Sets Sets_CartesianMonoidal X}.
-Example rt_back_inv : Grp_inverse_map (GroupObject_GrpObject X GO) ≈ inverse[X].
+Example rt_back_inv : Grp_inverse_map (GroupObject_GrpObject X PX GO) ≈ inverse[X].
 Proof. intro a; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
 End RTInv.
 

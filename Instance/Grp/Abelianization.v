@@ -83,11 +83,14 @@ Generalizable All Variables.
     [Subgroup] and [NormalSubgroup] there are exactly those five laws;
     [CommutatorNS] below packages [InCommutator] as one, using the
     five facts this file already proved and adding nothing; and
-    [abel_eq] is [quot_rel] at that normal subgroup, by convertibility
-    ([abel_eq_is_quot_rel]).  The six lemmas that follow keep their
-    statements unchanged and are now one-line citations of the generic
-    ones, so this file no longer carries a quotient construction of
-    its own.
+    [abel_eq] is [quot_rel] at that normal subgroup ([abel_eq_is_quot_rel]).
+    An earlier revision added "by convertibility": since the PR "algebraic
+    carriers are sets" (2026-09-17) the two are separated by one [inhabited],
+    so the identification is up to the propositional truncation and is stated
+    so at [eq_refl] there.  The six lemmas that follow keep their statements
+    unchanged and are one-line citations of the generic ones, each gaining a
+    [constructor] or a [destruct], so this file still carries no quotient
+    construction of its own.
 
     THE OTHER TWO CONSTRUCTIONS the paragraph named are NOT unified,
     and re-reading their record types shows why the count of "three
@@ -97,12 +100,17 @@ Generalizable All Variables.
     arbitrary homomorphism, and that file's argument exists precisely
     for the case where the image is NOT normal (its :171, :1488 and
     :1644).  It is therefore not an instance of a normal-subgroup
-    quotient and cannot be made one.  Instance/Ab.v:427's
+    quotient and cannot be made one.  Instance/Ab.v:479's
     [ab_coset_eq] IS a quotient group, but of an [AbObject], and Ab.v
     sits upstream of Instance/Grp.v with the only bridge
     ([Ab_to_GrpOb]) living in this file; routing it through
     Instance/Grp/Quotient.v would move that bridge upstream and give
-    Ab.v a dependency on Grp.  That is left undone deliberately.
+    Ab.v a dependency on Grp.  That is left undone deliberately.  (An
+    earlier revision of that sentence cited Instance/Ab.v:427, where the
+    definition stood before the PR "algebraic carriers are sets"
+    (2026-09-17); the same PR also made [ab_coset_eq] a [Prop] -- it is
+    Coq's [ex] now, not a [Type]-valued sigma -- which is the shape
+    [abel_eq] here has too.)
 
     NON-DEGENERACY, witnessed: [commutator_GrpTwo_proper] (in an
     abelian group the subgroup omits the nonidentity),
@@ -337,15 +345,27 @@ Definition mk_comm (G : GrpObject) (x : carrier G)
   (Hx : InCommutator G x) : commutator_carrier G :=
   existT (fun x : carrier G => InCommutator G x) x Hx.
 
+(* The carrier setoid is named rather than written inline in the record
+   below: since the PR "algebraic carriers are sets" (2026-09-17) the record
+   also carries [grp_prop], and a [Program] record literal cannot carry a
+   [PropEquiv] field naming a setoid written inline in the same literal. *)
+Program Definition commutator_setoid (G : GrpObject) : SetoidObject := {|
+  carrier := commutator_carrier G;
+  is_setoid := {| equiv := fun a b => `1 a ≈ `1 b |}
+|}.
+Next Obligation. intro G; equivalence; now transitivity (`1 y). Qed.
+
 Program Definition CommutatorGrp (G : GrpObject) : GrpObject := {|
-  grp_setoid := {| carrier := commutator_carrier G
-                 ; is_setoid := {| equiv := fun a b => `1 a ≈ `1 b |} |};
+  grp_setoid := commutator_setoid G;
   grp_unit := mk_comm G (grp_unit G) inc_unit;
   grp_mul := fun a b =>
     mk_comm G (grp_mul G (`1 a) (`1 b)) (inc_mul (`2 a) (`2 b));
-  grp_inv := fun a => mk_comm G (grp_inv G (`1 a)) (inc_inv (`2 a))
+  grp_inv := fun a => mk_comm G (grp_inv G (`1 a)) (inc_inv (`2 a));
+  (* The commutator subgroup's `≈` compares first projections in [G]. *)
+  grp_prop :=
+    sigma_first_PropEquiv (is_setoid (commutator_setoid G))
+      (fun _ _ h => h) (fun _ _ h => h) (grp_prop G)
 |}.
-Next Obligation. intro G; equivalence; now transitivity (`1 y). Qed.
 Next Obligation.
   intros G a a' Ha b b' Hb; simpl in *; now rewrite Ha, Hb.
 Qed.
@@ -379,7 +399,9 @@ Program Definition Ab_to_GrpOb (A : AbObject) : GrpObject := {|
   grp_setoid := cmon_setoid A;
   grp_unit := cmon_zero A;
   grp_mul := cmon_plus A;
-  grp_inv := ab_neg A
+  grp_inv := ab_neg A;
+  (* Inherited: the same carrier setoid, so the same witness. *)
+  grp_prop := cmon_prop A
 |}.
 Next Obligation. intros A a b c; apply cmon_plus_assoc. Qed.
 Next Obligation. intros A a; apply cmon_plus_zero_l. Qed.

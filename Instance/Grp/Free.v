@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -67,7 +68,12 @@ Generalizable All Variables.
     inverse law is [fginv_left] — exactly as [hom_monoid]
     (Construction/Deloop.v) reads a monoid off an endomorphism hom-set, and
     three [eq_refl] Examples below record that the underlying monoid IS
-    [hom_monoid] of the free groupoid on all three data fields.
+    [hom_monoid] of the free groupoid on all three data fields.  Since the PR
+    "algebraic carriers are sets" (2026-09-17) each of those three laws is
+    that category law under one [inhabits], because the group's `≈` is the
+    hom-equality's propositional truncation; see [fg_equiv] below for why, and
+    note that the three [eq_refl] Examples are about the OPERATIONS and are
+    unaffected.
 
     THE FREE GROUP ON A SETOID, NOT ON A TYPE.  [Grp_Forget] lands in
     [Sets], whose objects are setoids, so the left adjoint is a functor
@@ -80,7 +86,8 @@ Generalizable All Variables.
     Leibniz [=] on its edges; [PointQuiver] is built by hand with the
     generating setoid's own equivalence as the edge setoid, and
     respectfulness of the insertion is then not a new obligation but the
-    [fedgemap_respects] field of [FreeGroupoidUnit].
+    [fedgemap_respects] field of [FreeGroupoidUnit] (since the PR "algebraic
+    carriers are sets" it is that field under one [inhabits]).
 
     TWO RECORDS NAMED [GrpObject].  Construction/Deloop.v's is layered on
     [MonObject] and carries both unit laws and both inverse laws as fields;
@@ -193,10 +200,59 @@ Definition PointQuiver (X : SetoidObject) : Quiver := {|
 Definition FGWord (X : SetoidObject) : Type :=
   ttt ~{FreeGroupoid (PointQuiver X)}~> ttt.
 
+(** *** The word group's equality is a PROPOSITIONAL TRUNCATION
+
+    An earlier revision set [is_setoid (FreeGrpSetoid X)] to the free
+    groupoid's hom-setoid itself.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) a [GrpObject] carries [grp_prop], and the free groupoid's
+    hom-equality is [Construction/Quotient.v]'s [CongClosure], a
+    five-constructor [Type]-valued inductive for which NO [Prop] mirror with
+    an elimination back into [Type] exists (measured: a truncation of it is refused
+    with "Incorrect elimination of h in the inductive type inhabited", and a
+    hand [Prop] mirror inductive has no [_rect], so [pequiv_to] cannot be
+    written).  The resolution is the one this library adopts for every
+    quotient object: the free groupoid keeps its data-valued hom-equality AS A
+    CATEGORY, and its one-object hom-monoid VIEWED AS A GROUP IN SET carries
+    the truncation.
+
+    What this costs and does not cost.  It costs one [inhabits] on each group
+    law and one [destruct] wherever a word equation is consumed.  It does NOT
+    cost the domain of the universal property: [FreeGrpObject],
+    [free_group_universal], [free_group_universal_arrow], [FreeGrp],
+    [free_group_adjunction] and Instance/Grp/FreeAFT.v's totality statements
+    all still quantify over ALL of [Sets], with no [PropEquiv] hypothesis on
+    the generating setoid anywhere in this file.  Nor does it weaken the two
+    non-vacuity theorems below, whose conclusion is [False] and whose
+    hypothesis is therefore unwrapped for free. *)
+Definition fg_equiv (X : SetoidObject) (a b : FGWord X) : Prop :=
+  inhabited (@equiv _ (@homset (FreeGroupoid (PointQuiver X)) ttt ttt) a b).
+
+Lemma fg_equiv_equivalence (X : SetoidObject) : Equivalence (fg_equiv X).
+Proof.
+  constructor.
+  - intro a; constructor; reflexivity.
+  - intros a b [Hab]; constructor; now symmetry.
+  - intros a b c [Hab] [Hbc]; constructor; now transitivity b.
+Qed.
+
 Definition FreeGrpSetoid (X : SetoidObject) : SetoidObject := {|
   carrier   := FGWord X;
-  is_setoid := @homset (FreeGroupoid (PointQuiver X)) ttt ttt
+  is_setoid := {| equiv        := fg_equiv X
+                ; setoid_equiv := fg_equiv_equivalence X |}
 |}.
+
+Lemma fg_mul_respects (X : SetoidObject) :
+  Proper (fg_equiv X ==> fg_equiv X ==> fg_equiv X)
+    (fun a b : FGWord X => a ∘ b).
+Proof.
+  (* Every argument is introduced BEFORE either truncation is opened: the
+     intermediate goal of a [respectful] chain is ascribed sort [Type], so an
+     elimination there is refused even though the final goal is a [Prop]. *)
+  intros a a' Ha b b' Hb.
+  destruct Ha as [Ha], Hb as [Hb]; constructor.
+  exact (@compose_respects (FreeGroupoid (PointQuiver X)) ttt ttt ttt
+           a a' Ha b b' Hb).
+Qed.
 
 Definition FreeGrpObject (X : SetoidObject) : GrpObject := {|
   grp_setoid := FreeGrpSetoid X;
@@ -205,13 +261,18 @@ Definition FreeGrpObject (X : SetoidObject) : GrpObject := {|
   grp_mul  := fun a b => a ∘ b;
   grp_inv  := fun a => fginv a;
 
-  grp_mul_respects := @compose_respects (FreeGroupoid (PointQuiver X))
-                        ttt ttt ttt;
+  grp_mul_respects := fg_mul_respects X;
 
-  grp_mul_assoc := @comp_assoc_sym (FreeGroupoid (PointQuiver X))
-                     ttt ttt ttt ttt;
-  grp_mul_unit_l := @id_left (FreeGroupoid (PointQuiver X)) ttt ttt;
-  grp_mul_inv_l  := fun a => fginv_left a
+  grp_mul_assoc := fun a b c =>
+    inhabits (@comp_assoc_sym (FreeGroupoid (PointQuiver X))
+                ttt ttt ttt ttt a b c);
+  grp_mul_unit_l := fun a =>
+    inhabits (@id_left (FreeGroupoid (PointQuiver X)) ttt ttt a);
+  grp_mul_inv_l  := fun a => inhabits (fginv_left a);
+
+  grp_prop :=
+    @PropEquiv_of_relation _ (is_setoid (FreeGrpSetoid X)) (fg_equiv X)
+      (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 (** The multiplication IS composition and the unit IS the identity arrow,
@@ -250,12 +311,19 @@ Example free_group_monoid_unit (X : SetoidObject) :
     reproved: it is the [fedgemap_respects] field of
     [Construction/Free/Groupoid.v]'s [FreeGroupoidUnit], read at the single
     node. *)
+(* The codomain's `≈` is now the truncation, so the groupoid-level
+   respectfulness is wrapped rather than reproved. *)
 Definition fg_insert (X : SetoidObject)
-  : X ~{Sets}~> Grp_Forget (FreeGrpObject X) := {|
-  morphism        := @fedgemap _ _ (FreeGroupoidUnit (PointQuiver X)) ttt ttt;
-  proper_morphism := @fedgemap_respects _ _
-                       (FreeGroupoidUnit (PointQuiver X)) ttt ttt
-|}.
+  : X ~{Sets}~> Grp_Forget (FreeGrpObject X).
+Proof.
+  unshelve refine
+    {| morphism :=
+         @fedgemap _ _ (FreeGroupoidUnit (PointQuiver X)) ttt ttt |}.
+  intros a b Hab.
+  constructor.
+  exact (@fedgemap_respects _ _
+           (FreeGroupoidUnit (PointQuiver X)) ttt ttt a b Hab).
+Defined.
 
 Example fg_insert_is_generator (X : SetoidObject) (a : carrier X) :
   fg_insert X a = @fgpos (PointQuiver X) ttt ttt a := eq_refl.
@@ -318,10 +386,28 @@ Definition extend_functor : FreeGroupoid (PointQuiver X) ⟶ grp_deloop H :=
     preservation, and multiplication preservation IS [fmap_comp] — the free
     group's multiplication being composition and the delooping's being the
     group operation, both definitionally. *)
+(* The underlying setoid map.  Its respectfulness used to BE
+   [fmap_respects], because the free group's `≈` was the free groupoid's
+   hom-equality on the nose.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) the source equality is that hom-equality's TRUNCATION, so the
+   elimination is routed through the TARGET group's own [Prop] equality:
+   [pequiv_to] opens it, the truncation is destructed there, [pequiv_from]
+   closes it, and [fmap_respects] finishes unchanged.  Note what is NOT
+   needed: nothing is asked of [X].  The witness comes from [H], which
+   carries [grp_prop] as a field. *)
+Definition free_grp_extend_map
+  : SetoidMorphism (grp_setoid (FreeGrpObject X)) (grp_setoid H).
+Proof using X H h.
+  unshelve refine {| morphism := fun w => fmap[extend_functor] w |}.
+  intros u v Huv.
+  apply (@pequiv_to _ _ (grp_prop H)).
+  destruct Huv as [Huv].
+  apply (@pequiv_from _ _ (grp_prop H)).
+  exact (@fmap_respects _ _ extend_functor ttt ttt u v Huv).
+Defined.
+
 Definition free_grp_extend : FreeGrpObject X ~{Grp}~> H :=
-  @Build_GrpHom' (FreeGrpObject X) H
-    {| morphism        := fun w => fmap[extend_functor] w;
-       proper_morphism := @fmap_respects _ _ extend_functor ttt ttt |}
+  @Build_GrpHom' (FreeGrpObject X) H free_grp_extend_map
     (fun a b => @fmap_comp _ _ extend_functor ttt ttt ttt a b).
 
 (** It agrees with [h] on the generators. *)
@@ -363,7 +449,11 @@ Proof.
   unshelve eapply Build_Functor.
   - exact (fun _ => ttt).
   - intros [] [] w; exact (grp_map g w).
-  - intros [] [] u v Huv; exact (proper_morphism (grp_map g) u v Huv).
+  (* The free group's `≈` is the truncation of the groupoid's since the PR
+     "algebraic carriers are sets" (2026-09-17), so the groupoid-level
+     hypothesis is wrapped on the way in. *)
+  - intros [] [] u v Huv;
+      exact (proper_morphism (grp_map g) u v (inhabits Huv)).
   - intros []; exact (grp_map_unit g).
   - intros [] [] [] u v; exact (grp_map_mul g u v).
 Defined.
@@ -565,7 +655,11 @@ Theorem free_group_two_generators_nonabelian :
   ≈ grp_mul (FreeGrpObject TwoLetters)
       (fg_insert TwoLetters false) (fg_insert TwoLetters true) → False.
 Proof.
-  intro Hcomm.
+  (* The free group's `≈` is the truncation of the free groupoid's since the
+     PR "algebraic carriers are sets" (2026-09-17).  The conclusion here is
+     [False], a [Prop], so the hypothesis is unwrapped at no cost and the rest
+     of the argument is unchanged. *)
+  intros [Hcomm].
   apply S3_not_abelian.
   assert (Hs : @equiv _ (@homset (Deloop S3_Grp) ttt ttt)
                  (fmap[two_S3] (@compose FreeTwo ttt ttt ttt
@@ -586,7 +680,8 @@ Qed.
 Theorem free_group_two_generators_distinct :
   fg_insert TwoLetters true ≈ fg_insert TwoLetters false → False.
 Proof.
-  intro Hab.
+  (* Same unwrapping as above, and for the same reason: the goal is [False]. *)
+  intros [Hab].
   pose proof (@fmap_respects _ _ two_S3 ttt ttt _ _ Hab) as Hs.
   rewrite !(FreeGroupoidFunctor_gen (PointQuiver TwoLetters)
               deloop_S3_groupoid two_to_S3 (x:=ttt) (y:=ttt)) in Hs.

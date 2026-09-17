@@ -50,7 +50,15 @@
     than merely observed.
 
     (3) THE QUOTIENT CATEGORY IS NOT LEIBNIZ-EQUAL TO THE DELOOPING OF THE
-    QUOTIENT GROUP.  [deloop_quotient_iso] is stated at [≅[StrictCat]],
+    QUOTIENT GROUP.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) [deloop_quotient] is built from [ns_prel], the
+    propositional truncation of [ns_rel], because [QuotientGrp]'s own
+    equality is now the truncation of [quot_rel]; the two had to move in
+    lockstep or one leg of the isomorphism would have been an elimination
+    of a [Prop] into a [Type].  Every control and every negative in this
+    section was re-measured after that change and all still hold, with
+    their text unchanged.  [deloop_quotient_iso] is stated at
+    [≅[StrictCat]],
     the genuine isomorphism of categories.  Exactly FOUR of the ten
     fields a [Category] record literal supplies are convertible -- [obj],
     [hom], [id] and [compose] (the class's [uhom], [dom] and [cod] are

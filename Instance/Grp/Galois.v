@@ -1,6 +1,7 @@
 (** * The Galois connection of a group acting on a set *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -256,14 +257,17 @@ Generalizable All Variables.
         the SAME function by [eq_refl].
 
     (H) TWO WITNESSES, both over transparent groups whose operations
-        compute.  Instance/Grp.v:1087's [Z2] is UNUSABLE here and that is
-        measured, not guessed: it is declared [Z2@{u} : GrpObject@{u Set
-        u}], so [grp_setoid Z2 : SetoidObject@{u Set}] with the SECOND
-        universe the literal [Set], while [Subsets] demands a
-        [SetoidObject@{o o}] with [Set < o]; [Subsets (grp_setoid Z2)] is
-        rejected with "Cannot enforce Set = ...".  The witnesses are
-        therefore built on [eq_Setoid] (Lib/Setoid.v:65), which is
-        polymorphic in exactly the needed way.
+        compute.  Instance/Grp.v's [Z2] is UNUSABLE here and that is
+        measured, not guessed: it is declared
+        [Z2@{u} : GrpObject@{u Set Set}], so
+        [grp_setoid Z2 : SetoidObject@{Set Set}] with both universes the
+        literal [Set], while [Subsets] demands a [SetoidObject@{o o}] with
+        [Set < o]; [Subsets (grp_setoid Z2)] is rejected with "Cannot
+        enforce Set = ...".  (An earlier revision quoted
+        [GrpObject@{u Set u}] / [SetoidObject@{u Set}] and cited :1087;
+        re-measured after the PR "algebraic carriers are sets"
+        (2026-09-17).)  The witnesses are therefore built on [eq_Setoid]
+        (Lib/Setoid.v:65), which is polymorphic in exactly the needed way.
 
         (H1) [GalZ2] on [bool] under [xorb], acting on [bool] by [xorb].
              [galois_stab_true_trivial] computes the stabiliser of the
@@ -354,8 +358,8 @@ Generalizable All Variables.
 
     ** UNIVERSES
 
-    Section (C) onwards runs over [G : GrpObject@{o o gu}] and
-    [A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{o o gu} G)] under
+    Section (C) onwards runs over [G : GrpObject@{gu o o}] and
+    [A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{gu o o} G)] under
     [Constraint Set < o] and [Constraint o <= gu].  The identification of
     the group's carrier and relation universes -- and of the action
     setoid's -- is the DONORS' and not this file's, and it has FOUR donors
@@ -525,13 +529,20 @@ Section Action.
    action's live; [Subsets] demands [SetoidObject@{o o}], which is what
    forces the two to coincide, and [Set < o] is [Powerset_Prop_obj]'s.
    [su] is the hom universe of the two thin categories, free of [o].
-   [gu] is [GrpObject]'s own third level. *)
+   [gu] is [GrpObject]'s own AUXILIARY level (the record's own sort).
+
+   An earlier revision of this comment called [gu] "[GrpObject]'s own third
+   level" and wrote [GrpObject@{o o gu}].  Since the PR "algebraic carriers
+   are sets" (2026-09-17) added [grp_prop], the record's three universe roles
+   have permuted from (carrier, proof, aux) to (aux, carrier, proof), so the
+   SAME reading is now spelled [GrpObject@{gu o o}]: [gu] keeps its role, only
+   its position moved. *)
 Universe o su gu.
 Constraint Set < o.
 Constraint o <= gu.
 
-Context (G : GrpObject@{o o gu}).
-Context (A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{o o gu} G)).
+Context (G : GrpObject@{gu o o}).
+Context (A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{gu o o} G)).
 
 (* Mac Lane's [sigma . x = x], truncated: [equiv] is [Type]-valued here,
    and a member of a [Powerset_Prop_obj] must be a [Prop].  Every use below
@@ -909,10 +920,15 @@ Arguments ClosedU {G A} X.
 
 (* The two-point setoid, at ONE universe.  [eq_Setoid] (Lib/Setoid.v:65) is
    polymorphic in exactly the level [Subsets] needs, which
-   Instance/Grp.v:1087's [Z2] is not: that one is declared
-   [Z2@{u} : GrpObject@{u Set u}], pinning the relation universe to the
-   literal [Set], and [Subsets (grp_setoid Z2)] is then rejected.  The
-   rejection is pinned in Test/ProbeGalois381.v. *)
+   Instance/Grp.v's [Z2] is not: that one is declared
+   [Z2@{u} : GrpObject@{u Set Set}], pinning both the carrier and the
+   relation universe to the literal [Set], and [Subsets (grp_setoid Z2)] is
+   then rejected.  The rejection is pinned in Test/ProbeGalois381.v.
+   (An earlier revision quoted [GrpObject@{u Set u}] and cited :1087;
+   re-measured after the PR "algebraic carriers are sets" (2026-09-17), which
+   permuted [GrpObject]'s universe roles from (carrier, proof, aux) to
+   (aux, carrier, proof).  The obstruction is if anything sharper and the
+   conclusion is unchanged.) *)
 Definition galois_two@{wo} : SetoidObject@{wo wo} :=
   {| carrier := bool ; is_setoid := eq_Setoid@{wo} bool |}.
 
@@ -924,7 +940,8 @@ Proof.
   unshelve refine {| grp_setoid := galois_two@{wo}
                    ; grp_unit := false
                    ; grp_mul := xorb
-                   ; grp_inv := fun b : bool => b |}.
+                   ; grp_inv := fun b : bool => b
+                   ; grp_prop := eq_PropEquiv@{wo} bool |}.
   - exact (fun x y Hxy u v Huv => f_equal2 xorb Hxy Huv).
   - intros [|] [|] [|]; reflexivity.
   - intros [|]; reflexivity.
@@ -1066,7 +1083,8 @@ Proof.
   unshelve refine {| grp_setoid := galois_four@{wo}
                    ; grp_unit := (false, false)
                    ; grp_mul := galois_v4_mul
-                   ; grp_inv := fun g : bool * bool => g |}.
+                   ; grp_inv := fun g : bool * bool => g
+                   ; grp_prop := eq_PropEquiv@{wo} (bool * bool)%type |}.
   - exact (fun x y Hxy u v Huv => f_equal2 galois_v4_mul Hxy Huv).
   - intros [[|] [|]] [[|] [|]] [[|] [|]]; reflexivity.
   - intros [[|] [|]]; reflexivity.

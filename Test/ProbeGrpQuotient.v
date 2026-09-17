@@ -62,8 +62,8 @@
     [image_med_wd] would need revisiting.
 
     (4) ZERO MORPHISMS IN [Grp] ARE CONFINED TO [Set].
-    [Grp_trivial] (Instance/Grp.v:522) elaborates at [GrpObject@{u Set u}]
-    and hence [Grp_Zero] at [ZeroObject@{u Set} Grp@{u Set}], even though
+    [Grp_trivial] elaborates at [GrpObject@{u u Set}] and hence [Grp_Zero]
+    at [ZeroObject@{u Set} Grp@{u Set}], even though
     the donor [unit_setoid@{t u}] (Lib/Setoid.v:59) is polymorphic in
     exactly the pinned argument.  So every [IsCokernel] and every
     coequalizer-against-zero statement about [Grp] — the whole of
@@ -72,7 +72,12 @@
     is not shown unavoidable; it has the shape of the
     [Build_Quiver_Standard_Eq] erratum that issue #300 lifted.  Negative 4
     is the guard: if a later change to Instance/Grp.v lifts it, this probe
-    breaks and Colimit.v's disclosure should be deleted.
+    breaks and Colimit.v's disclosure should be deleted.  (An earlier
+    revision of this paragraph quoted [GrpObject@{u Set u}] and cited
+    Instance/Grp.v:522; re-measured after the PR "algebraic carriers are
+    sets" (2026-09-17), which permuted [GrpObject]'s universe roles from
+    (carrier, proof, aux) to (aux, carrier, proof).  The same reading, one
+    position over; the pin and every negative below are unchanged.)
 
     WHAT IS DELIBERATELY *NOT* PROBED.  The positive controls in
     section [Positive] include the two strict identifications that DO

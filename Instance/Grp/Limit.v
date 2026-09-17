@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -418,6 +419,19 @@ Qed.
 
 (** ** The lifted group *)
 
+(* G3.  The vertex's `≈` is detected by the legs ([glim_ext]), so a limit of
+   propositional setoids is propositional: two points are related when every
+   leg relates their images under the component group's own [grp_prop].  This
+   is [alim_prop]'s route at Instance/Ab/Limit.v, and it needs NO hypothesis
+   on [L] -- which matters, because [CreatesLimits] quantifies over every [L]
+   and leaves nowhere to put one. *)
+Definition glim_prop : PropEquiv (is_setoid vertex_obj[L]) :=
+  @PropEquiv_of_relation _ (is_setoid vertex_obj[L])
+    (fun x y => forall j : J,
+       @pequiv _ _ (grp_prop (K j)) (glim_leg j x) (glim_leg j y))
+    (fun x y H => glim_ext x y (fun j => pequiv_to _ _ (H j)))
+    (fun x y H j => pequiv_from _ _ (proper_morphism (glim_leg j) x y H)).
+
 Definition LimitGroup : GrpObject :=
   {| grp_setoid       := vertex_obj[L]
    ; grp_unit         := glim_unit
@@ -426,7 +440,8 @@ Definition LimitGroup : GrpObject :=
    ; grp_mul_respects := glim_mul_respects
    ; grp_mul_assoc    := glim_assoc
    ; grp_mul_unit_l   := glim_unit_l
-   ; grp_mul_inv_l    := glim_inv_l |}.
+   ; grp_mul_inv_l    := glim_inv_l
+   ; grp_prop         := glim_prop |}.
 
 (** ** The legs are homomorphisms *)
 

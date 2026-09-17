@@ -2820,6 +2820,21 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_natural.'; \
 	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_powerset.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.QuotientGrp.'; \
+	  : 'Gate lines for the constants the PR algebraic carriers are sets'; \
+	  : '(2026-09-17) adds to the Grp layer: the field, the two transports,'; \
+	  : 'and the two truncations.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.grp_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.GrpHom_PropEquiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Grp_LocallyPropositional.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_equiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.sub_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.StableSetoid_PropEquiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.SetoidPermutation_PropEquiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_equiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_equiv_equivalence.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_mul_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Pushout.am_eq.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_proj.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.KillsFunctor.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_universal_element.'; \
@@ -6742,6 +6757,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_hom_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_hom_obligation_2.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_inv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_prop.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_inv_coherence.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_inv_cone.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_inv_l.'; \

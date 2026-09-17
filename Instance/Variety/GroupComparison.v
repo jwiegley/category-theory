@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -119,7 +120,9 @@ Program Definition GroupVariety_obj_to_Grp (x : GroupVariety) : GrpObject := {|
                  ; is_setoid := eq_Setoid (UA.carrier (`1 x)) |};
   grp_unit := UA.one' (G:=`1 x);
   grp_mul  := fun a b => UA.mul' a b;
-  grp_inv  := fun a => UA.inv' a
+  grp_inv  := fun a => UA.inv' a;
+  (* The carrier setoid is [eq_Setoid], so `≈` is already a [Prop]. *)
+  grp_prop := eq_PropEquiv (UA.carrier (`1 x))
 |}.
 (* [grp_mul_respects] is discharged by Lib.v's default [Obligation Tactic]
    — under [eq_Setoid] it is [Proper (eq ==> eq ==> eq)] — so the three
