@@ -792,17 +792,20 @@ Proof. cbn [dsum]; ring. Qed.
 (* The compatibility witness passes through [res_of_dvd] since the PR
    "algebraic carriers are sets" (2026-09-17): a stage's `≈` is the
    truncation of divisibility, so the bare [existT] has to be wrapped.
-   Built with [exact] rather than as a term: written as a term, the
-   [existT] against the expected type [carrier Zpc] elaborates on Rocq 9.1
-   but is refused by Coq 8.19 and 8.20 ("has type ∃ … while it is expected
-   to have type carrier Zpc"), which do not unfold the expected type far
-   enough to see the sigma; [exact] unifies with delta and both accept it.
+   Built in tactic mode, the ninth entry in the 8.19 portability list of
+   this file's header: both the term-mode [existT _ (dsum a) (fun n => …)]
+   and an [exact] of that term are refused by Coq 8.19 and 8.20 ("has type
+   ∃ _ : nat → Z, ∀ x0, dsum a (S x0) ≈ dsum a x0 while it is expected to
+   have type carrier Zpc") -- the predicate is inferred as a CONSTANT from
+   the component's type instead of being read off the goal -- while Rocq
+   9.1 elaborates either.  [exists] then [intro n; exact] lets the goal
+   direct the predicate, exactly as [zp_zero] and [dadd_seq] do.
    [Defined] keeps it transparent, so the readback below is still
    [eq_refl]. *)
 Definition digits_to_zp (a : nat -> Z) : Zpc.
 Proof.
-  exact (existT _ (dsum a)
-    (fun n => res_of_dvd n (dsum a (S n)) (dsum a n) (a n) (dsum_compat a n))).
+  exists (dsum a).
+  intro n; exact (res_of_dvd n (dsum a (S n)) (dsum a n) (a n) (dsum_compat a n)).
 Defined.
 
 Example digits_to_zp_stage (a : nat -> Z) (n : nat) :
