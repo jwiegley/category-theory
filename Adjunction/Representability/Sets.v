@@ -84,7 +84,16 @@ Generalizable All Variables.
     [SubobjectCover_Id_Sets_absurd], at every [Sets@{o _}] with
     [Set < o] -- a functor that Riehl's hypotheses cover and that
     [Sets_Id_repr] below represents, so [saft_representable] never
-    applies there.)
+    applies there.)  (Since #453: superseded, and kept.
+    Adjunction/SAFT/Characterization/Corollaries.v's
+    [continuous_Set_functor_representable] is the same passage over the
+    hypotheses of Mac Lane's §V.8 Corollary -- [Complete],
+    [PreservesImageLimit], a [Cogenerator] and #451's [WellPowered], with
+    no covering datum -- and its [continuous_Set_functor_representable_iff]
+    is the criterion as a biconditional;
+    Adjunction/SAFT/Characterization/Examples.v applies it at [Id[Sets]]
+    and at [HomFrom A] under [Untruncate].  [saft_representable] and its
+    statement are unchanged.)
     CONVERSE: it CANNOT be run with the tree's copowers.  Every copower in
     tree (Structure/Limit/Power.v, which came from #321; #366 added
     Structure/Limit/Power/Adjunction.v) is indexed by a bare [Type] and so
@@ -508,6 +517,12 @@ Example representability_iff_fst {C : Category} (K : C ⟶ Sets)
     = representability_theorem K comp cont E := eq_refl.
 
 (** ** Riehl 4.7.14: SAFT's hypotheses give representability *)
+
+(* CORRECTION, #453: "SAFT's hypotheses" here are Adjunction/SAFT.v's,
+   whose covering datum [cover] is refutable (the header).  The passage
+   over the book's hypotheses is Adjunction/SAFT/Characterization/
+   Corollaries.v's [continuous_Set_functor_representable]; this
+   constant is kept as it was. *)
 
 Definition saft_representable {C : Category} (K : C ⟶ Sets)
   (comp : @Complete C) (cont : @PreservesImageLimit C Sets K)

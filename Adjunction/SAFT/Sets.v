@@ -116,7 +116,22 @@ Generalizable All Variables.
    [SAFT_solution_set] and Adjunction/Representability/Sets.v's
    [saft_representable] are unchanged, and a covering datum over a
    [d]-dependent product -- the classical one -- is left for a separate
-   issue. *)
+   issue.  (CORRECTION, #453: that datum is no longer left.  It is
+   Adjunction/SAFT/Characterization/Cover.v's [SubobjectCoverAt], over
+   the product of the cogenerating family indexed by the arrows out of
+   [d], and [saft_cover_at] proves it from completeness, preservation and
+   the cogenerating family, at every well-powering of that one product;
+   the well-powering is only the datum's indexing, and
+   Structure/WellPowered.v's [wp_trivial] supplies one at every object.
+   Adjunction/SAFT/Characterization/Examples.v's
+   [sets_id_cover_separation] inhabits it at every [d] at [Id[Sets]]
+   under [Untruncate], with [Sets_Complete],
+   [Sets_Cogenerator_untruncate] and [Sets_WellPowered_untruncate], and
+   refutes [SubobjectCover] through this file's
+   [SubobjectCover_Id_Sets_absurd] at the same three witnesses.  The
+   re-shaped theorems are new constants, Cover.v's [SAFT_cover_wp] and
+   Adjunction/SAFT/Characterization.v's [SAFT_wellpowered]; the three
+   constants named above stay unchanged.) *)
 
 Lemma SubobjectCover_Id_Sets_absurd@{r g w u c h cobj |
     Set < h, h < cobj, h < u +}

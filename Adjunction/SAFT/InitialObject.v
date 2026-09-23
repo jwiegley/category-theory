@@ -408,7 +408,25 @@ Generalizable All Variables.
    minimization puts [HC] at [Complete@{h h h o}] and [G] at
    [Cogenerator@{h … h}], [SAFT]'s regime [so = h], and the instance at
    [h < so] was not measured.  The lifted cogenerator of the comma
-   category is not built here.
+   category is not built here.  (CORRECTION, #453: the forecast is
+   replaced by what was consumed.  Adjunction/SAFT/Characterization.v
+   takes from here [special_initial_object_wellpowered_at] (its
+   Corollary, through [SAFT_comma_initial]), [special_initial_object_least]
+   (its Theorem 2, through [SAFT_thm2_initial]) and [complete_pullbacks],
+   and its satellite Adjunction/SAFT/Characterization/Cover.v takes
+   [cogen_canonical_sub] and [complete_pullbacks]; a grep of the names of
+   this file's constants over those files finds these four and, in prose
+   only, [HasClassIntersections].  The book's
+   form [special_initial_object], [HasClassIntersections] and its
+   conversions, and [wif_of_cogenerator] are not consumed, and the
+   readbacks that file states are its own ([SAFT_left_obj],
+   [SAFT_thm2_left_obj]).  [HasClassIntersections] cannot serve Theorem
+   2, whose comma step needs a limit that [U] carries to a limit rather
+   than a greatest lower bound (that file's header).  Both comma
+   instantiations are accepted at [h < so] as well as at [so = h], in a
+   scratch file carrying that file's import list, so the [so = h] above
+   was minimization; and the lifted cogenerator is that file's
+   [comma_cogenerator], its index free above C's and the homs.)
 
    ** Non-vacuity
 
@@ -430,6 +448,10 @@ Generalizable All Variables.
    ** Not delivered
 
    [SAFT] is not re-shaped and no comma cogenerator is built (#453).
+   (CORRECTION, #453: the comma cogenerator is built, in Adjunction/
+   SAFT/Characterization.v, which applies this theorem in the comma;
+   [SAFT] itself is still not re-shaped, and the new theorems stand
+   beside it.)
    [cogen_prod] and [cogen_power] are not annotated, so the two donor
    collapses above stand.  No [Cogenerator] of a category that is not
    thin is built in this file or its satellite (Instance/Sets/

@@ -131,11 +131,16 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **9448** on
-2026-09-23, after #452 (the special initial-object theorem, Mac Lane
-§V.8 Theorem 1) added ONE block of 70 names over four new modules,
-every one "Closed under the global context" (the list below). An
-earlier revision of this paragraph gave **9378**, the figure the same
+criterion: `grep -c 'Print Assumptions' Makefile` returns **9541** on
+2026-09-23, after #453 (the special adjoint functor theorem as a
+characterization, Mac Lane §V.8 Theorem 2 and its Corollary) added ONE
+block of 93 names over four new modules, every one "Closed under the
+global context" (the list below). An earlier revision of this
+paragraph gave **9448**, the figure the same day after #452 (the
+special initial-object theorem, Mac Lane §V.8 Theorem 1) added ONE
+block of 70 names over four new modules, every one "Closed under the
+global context" (the list below); 9448 + 93 = 9541. An earlier
+revision still gave **9378**, the figure the same
 day after #451 (well-powered and co-well-powered categories,
 Mac Lane §V.8) added ONE block of 138 names over ten modules, every one
 "Closed under the global context"; the ten modules' other 22 names, all
@@ -416,6 +421,60 @@ or a `Parameter`, and every proof in them closes with `Qed` or
   above: `Untruncate` and `IEM` are `Definition`s (Π-types), not
   `Axiom`s, and neither has an axiom-free in-tree inhabitant
   (docs/INHABITATION.md)
+
+The special adjoint functor theorem as a characterization (Mac Lane
+§V.8 Theorem 2, the Lemma in its proof and the Corollary; Awodey
+Remark 9.35; Riehl Corollary 4.7.13; #453) adds every constant of its
+four modules — 93, enumerated by `Print Module` (47 in
+`Adjunction/SAFT/Characterization.v`, 22 in
+`Adjunction/SAFT/Characterization/Cover.v`, 8 in
+`Adjunction/SAFT/Characterization/Corollaries.v`, 16 in
+`Adjunction/SAFT/Characterization/Examples.v`; none of the four uses
+`Program`, and `Print Module` lists no obligation) — each reported
+"Closed under the global context" by its fully qualified name (re-run
+on 2026-09-23 in one scratch file, 93 of 93, beside the instrument
+`Print Assumptions functional_extensionality`, which prints its
+axiom). None of the four files declares an `Axiom` or a `Parameter`;
+the 8 constants `Print Module` renders as `Parameter` are `Qed` proofs,
+five in `Characterization.v` and three in `Cover.v`. The block is the
+enumeration; among them:
+
+- `comma_monic_of_underlying`, `underlying_monic_of_comma_monic` and
+  `comma_monic_iff_underlying_monic` (`Characterization.v`) — Mac Lane's
+  monos lemma for the comma category, over `HasPullbacks C` and nothing
+  about the functor
+- `SAFT_wellpowered` and `SAFT_wellpowered_iff` — Mac Lane's Corollary,
+  a left adjoint from `Complete`, `PreservesImageLimit`, a
+  `Cogenerator` and `WellPowered` with no covering datum, and its
+  biconditional; `SAFT_left_obj` is its `eq_refl` readback
+- `HasSubobjectWidePullbacks`, `Complete_HasSubobjectWidePullbacks`,
+  `SAFT_thm2`, `right_adjoint_PreservesWidePullbacks` and `SAFT_iff` —
+  Mac Lane's Theorem 2 and the necessity of its second clause, stated
+  over an arbitrary category; which of these a concrete category
+  witnesses is recorded in the `SAFT_wellpowered` and `SAFT_thm2` rows
+  of docs/INHABITATION.md
+- `SubobjectCoverAt`, `saft_cover_at` and `SAFT_cover_wp` (`Cover.v`) —
+  the covering datum over a product depending on the object, proved,
+  and the theorem through `GAFT`
+- `continuous_Set_functor_representable` (with `_iff` and `_at`) and
+  `saft_cocomplete` (`Corollaries.v`) — the representability and
+  cocompleteness corollaries
+- `subsets_inverse_image_saft`, `subsets_inverse_image_thm2`,
+  `subsets_saft_cocomplete`, `indiscrete_saft` and
+  `indiscrete_saft_cocomplete` (`Examples.v`) — the theorems applied
+  with every premise supplied in tree and no hypothesis, at the
+  powerset lattice of a setoid and at an indiscrete category, both
+  thin; docs/INHABITATION.md records the circularity of their
+  continuity premises
+- `sets_id_saft`, `sets_id_saft_cover`, `sets_hom_saft`,
+  `sets_id_repr_saft`, `sets_hom_repr_saft`, `sets_saft_cocomplete`,
+  `sets_id_cover_separation` and the other constants of `Examples.v`
+  whose names begin `sets_` — the theorems at `Sets`. These take
+  `Untruncate` (`Instance/Sets/Classifier/OneLevel.v`) as a hypothesis
+  in their statements, so their "Closed" is the second kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
+  has no axiom-free in-tree inhabitant (docs/INHABITATION.md)
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
