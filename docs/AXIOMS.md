@@ -131,13 +131,17 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **9378** on
-2026-09-23, after #451 (well-powered and co-well-powered categories,
+criterion: `grep -c 'Print Assumptions' Makefile` returns **9448** on
+2026-09-23, after #452 (the special initial-object theorem, Mac Lane
+§V.8 Theorem 1) added ONE block of 70 names over four new modules,
+every one "Closed under the global context" (the list below). An
+earlier revision of this paragraph gave **9378**, the figure the same
+day after #451 (well-powered and co-well-powered categories,
 Mac Lane §V.8) added ONE block of 138 names over ten modules, every one
 "Closed under the global context"; the ten modules' other 22 names, all
 in `Adjunction/SAFT.v`, were gated before, so the gate carries all 160
-of their constants (the list below). An earlier revision of this
-paragraph gave **9240**, the figure the same day after #450 (colimits
+of their constants (the list below); 9378 + 70 = 9448. An earlier
+revision still gave **9240**, the figure the same day after #450 (colimits
 in algebraic categories by the adjoint functor theorem) added ONE block
 of 258 names over nine modules, every one "Closed under the global
 context"; 9240 + 138 = 9378. An earlier revision still gave **8982**,
@@ -364,6 +368,54 @@ Among them:
   that directory in the 9.1 stdlib: twenty-two require `Eqdep_dec`,
   `Construction/Coproduct/Indexed.v` requires `EqdepFacts`, and this one
   alone requires `Hurkens`
+
+The special initial-object theorem (Mac Lane §V.8 Theorem 1, Riehl
+Lemma 4.7.11, #452) adds every constant of its four modules — 70,
+enumerated by `Print Module` (29 in `Adjunction/SAFT/InitialObject.v`,
+12 in `Adjunction/SAFT/InitialObject/Examples.v`, 7 in
+`Instance/Sets/Cogenerator.v`, 22 in `Instance/Sets/SpecialInitial.v`;
+none of the four uses `Program`, and `Print Module` lists no
+obligation) — each reported "Closed under the global context" by its
+fully qualified name (re-run on 2026-09-23 in one scratch file, 70 of
+70, beside the instrument `Print Assumptions functional_extensionality`,
+which prints its axiom). None of the four files declares an `Axiom`
+or a `Parameter`, and every proof in them closes with `Qed` or
+`Defined`. Among them:
+
+- `special_initial_object`, `special_initial_object_least`,
+  `special_initial_object_book`, `special_initial_object_wellpowered`,
+  `special_initial_object_small` and `least_sub_arrows_agree`
+  (`Adjunction/SAFT/InitialObject.v`) — the theorem in its hypothesis
+  forms and its uniqueness half, stated over an arbitrary category;
+  which forms a concrete category witnesses is recorded in the
+  `special_initial_object` row of docs/INHABITATION.md
+- `special_vs_freyd` and `freyd_of_cogenerator` — the comparison with
+  Freyd's construction of `Theory/WeaklyInitial.v`, parametric and
+  applied at no concrete category
+- `Subsets_special_initial_empty`, `Subsets_special_initial_bot` and
+  `Indiscrete_types_special_initial`
+  (`Adjunction/SAFT/InitialObject/Examples.v`; `Subsets_special_initial`
+  itself takes the cogenerator as an argument) and
+  `setsop_special_initial` (`Instance/Sets/SpecialInitial.v`) — the
+  theorem applied with every premise supplied in tree and no
+  hypothesis, at the powerset lattice of a setoid, at an indiscrete
+  category and at `Sets^op`; docs/INHABITATION.md records what each
+  witnesses and the circularity caveat on the last
+- `Sets_Cogenerator_large` and `Sets_terminal_not_cogenerates`
+  (`Instance/Sets/Cogenerator.v`) — an unconditional, large cogenerator
+  of `Sets`, and the refutation of a family of copies of the terminal
+  object as one
+- `Sets_Cogenerator_untruncate`, `Sets_Cogenerator_IEM`,
+  `sets_special_initial_untruncate`, `sets_special_initial_wellpowered`,
+  `sets_special_initial_book`, `sets_special_initial_IEM` and
+  `sets_special_initial_IEM_at_Set` — the small cogenerators of `Sets`
+  and the theorem at `Sets`. These take `Untruncate` or `IEM`
+  (`Instance/Sets/Classifier/OneLevel.v`) as a hypothesis in their
+  statements, so their "Closed" is the second kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above: `Untruncate` and `IEM` are `Definition`s (Π-types), not
+  `Axiom`s, and neither has an axiom-free in-tree inhabitant
+  (docs/INHABITATION.md)
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

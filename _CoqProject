@@ -24,6 +24,8 @@ Adjunction/LeftInverse.v
 Adjunction/SAFT.v
 Adjunction/SAFT/Sets.v
 Adjunction/SAFT/WellPowered.v
+Adjunction/SAFT/InitialObject.v
+Adjunction/SAFT/InitialObject/Examples.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
@@ -479,6 +481,7 @@ Instance/Sets/Par.v
 Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
 Instance/Sets/Generator.v
+Instance/Sets/Cogenerator.v
 Instance/Sets/SubobjectLattice.v
 Instance/Powerset.v
 Instance/Powerset/Subobject.v
@@ -494,6 +497,7 @@ Instance/Sets/Pushout.v
 Instance/Sets/Quotient.v
 Instance/Sets/QuotObj.v
 Instance/Sets/WellPowered.v
+Instance/Sets/SpecialInitial.v
 Instance/Sets/Quotient/Partition.v
 Instance/Sets/Coequalizer.v
 Instance/Sets/Coequalizer/Interconnect.v
@@ -1044,3 +1048,4 @@ Test/ProbeRngAFTProp.v
 Test/ProbeAlgColimit450.v
 Test/ProbeVarietyColimit450.v
 Test/ProbeWellPowered451.v
+Test/ProbeSpecialInitial452.v

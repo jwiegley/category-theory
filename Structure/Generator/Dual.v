@@ -112,7 +112,18 @@ Generalizable All Variables.
 
    NOT DELIVERED.  No cogenerating example: this file exhibits no
    [Cogenerator] of any concrete category, and SAFT.v's consumers all
-   take one as data.  No transport lemmas on the dual side -- the
+   take one as data.  (CORRECTION, #452: the second clause no longer
+   holds.  Adjunction/SAFT/InitialObject/Examples.v, a consumer of
+   SAFT.v since #452, constructs [Cogenerator]s at the powerset lattice
+   [Subsets X] and at an indiscrete category; both are thin, so every
+   family cogenerates them.  Instance/Sets/Cogenerator.v, which also
+   requires SAFT.v, builds three at [Sets]: [Sets_Cogenerator_untruncate]
+   and [Sets_Cogenerator_IEM], small and conditional, and the
+   unconditional large [Sets_Cogenerator_large].  And
+   Instance/Sets/SpecialInitial.v's [setsop_cog] is [cog_of_gen
+   Sets_Generator], a cogenerator of [Sets^op]: a grep for [cog_of_gen]
+   over the .v files outside Test/ finds it applied to a concrete
+   generator there and nowhere else.)  No transport lemmas on the dual side -- the
    [separator_iso] / [gen_family_mono] / [gen_extend] trio of
    Structure/Generator.v is NOT mirrored for [Cogenerator], although
    each mirror is one line through the two bridges below.  No change to
