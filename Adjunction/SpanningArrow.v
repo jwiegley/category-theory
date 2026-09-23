@@ -226,7 +226,24 @@ Generalizable All Variables.
    (grep -rn 'subalgebra' --include='*.v' . finds four lines, all prose:
    Theory/Lawvere.v, Instance/Lie.v and Instance/Variety/Free.v), so
    neither [HasWidePullbacks] nor [PreservesWidePullbacks]
-   is discharged there and the Remark is not attempted here.  His Remark
+   is discharged there and the Remark is not attempted here.
+   CORRECTION (#450): two parts of that sentence do not stand.
+   [SVariety E] HAS pullbacks since #450: in a scratch file importing
+   Instance/Variety/Limit.v, [FinitelyComplete_HasPullbacks
+   (Complete_FinitelyComplete (SVariety_Complete E)) : HasPullbacks
+   (SVariety E)] is accepted and [Print Assumptions] reports it closed
+   under the global context.  And the subalgebra count was already off
+   in the commit that wrote it, which also added Instance/Variety/
+   Spanning.v's [SubAlg]: at #450's parent commit e139ecfb, [git grep -n
+   subalgebra] over the [.v] files finds 27 lines in six files, 18 of
+   them in Instance/Variety/Spanning.v.  What stands is "no wide
+   pullbacks": in the same scratch file, with Instance/Sets/
+   SubobjectLattice.v imported, [HasWidePullbacks (SVariety E)] finds no
+   instance while the control [HasWidePullbacks Sets] resolves, and no
+   constant in tree builds a [HasWidePullbacks] from completeness; so
+   [HasWidePullbacks] and [PreservesWidePullbacks] are still not
+   discharged at [SVariety], and the Remark is still not attempted
+   here.  His Remark
    also REDEFINES subobject for that application ("a morphism u : s -> a
    for which Gu is injective in Set"), which is a different notion from
    [SubObj] and is not introduced below.  (3) No inhabitation of either

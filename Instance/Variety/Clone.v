@@ -90,7 +90,12 @@ Generalizable All Variables.
    no inversion is ever performed, and reflexivity is then derived by
    plain induction on the tree; the whole thing is Closed under the
    global context.  (It must be [Type]-valued rather than [Prop]-valued,
-   since [Setoid]'s [equiv] is a crelation.)
+   since [Setoid]'s [equiv] is a crelation.)  CORRECTION (#450): that
+   parenthesis is wrong.  Instance/Variety/Free.v's [tree_equiv], a
+   congruence of exactly the kind described, is [Prop]-valued since #450
+   ([About tree_equiv] ends in [→ Prop]), and a [crelation] field accepts a
+   [Prop]-valued relation by cumulativity; Free.v's CORRECTION (#450)
+   under "The congruence on terms is axiom-free" gives the account.
 
    The honest reason it is absent is simply that this file does not need
    it: what the clone's unique-extension theorem needs is a setoid on the

@@ -33,11 +33,21 @@
     terms are not convertible, which is what makes n1 a statement about
     equality rather than about elaboration.
 
+    SORT (#450): n4, the term congruence [tree_equiv] is now [Prop]-valued
+    and a derivation of it is refused as the major premise of an
+    elimination into a [Type]-sorted goal, against a control running the
+    same script into [Prop].  [BoolCommMagma] below supplies the new
+    [soa_prop] field as [eq_PropEquiv bool], which is why this file now
+    requires Lib/Setoid/Propositional.v.
+
     The import list contains the target's in full, plus the target
     itself.  (#440's [Instance/Variety] is already one of the target's
-    nine, so naming it separately would double-count.) *)
+    ten, so naming it separately would double-count.  An earlier revision
+    said nine; #450 added Lib/Setoid/Propositional.v to the target's
+    list, and to this file's.) *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
@@ -152,7 +162,8 @@ Proof. exists (UA.Free MagmaOp bool); intro e; destruct e. Defined.
 
 Program Definition BoolCommMagma : SetoidOpAlgebra MagmaOp := {|
   soa_obj := {| carrier := bool ; is_setoid := eq_Setoid bool |};
-  soa_op  := fun (o : UA.operation MagmaOp) k => xorb (k UA.Fst) (k UA.Snd)
+  soa_op  := fun (o : UA.operation MagmaOp) k => xorb (k UA.Fst) (k UA.Snd);
+  soa_prop := eq_PropEquiv bool
 |}.
 Next Obligation.
   intros o k1 k2 H; simpl.
@@ -228,6 +239,31 @@ Fail Example p441_terms_convert :
   UA.node MagmaOp bool magma_mul sep_args
     = UA.node MagmaOp bool magma_mul (fun i => sep_args (comm_swap i)) := eq_refl.
 
+(** ** C2 (#450): the congruence is a [Prop] and eliminates only into [Prop]
+
+    Since #450 [tree_equiv] is [Prop]-valued (Instance/Variety/Free.v's
+    header records the correction).  n4 pins that a derivation cannot be
+    eliminated into a [Type]-sorted goal; the control below it runs the
+    SAME script into a [Prop]-sorted goal and is accepted, so the refusal
+    is about the sort of the goal and nothing else.  With the refutation
+    keyword stripped in a copy of this whole file the refusal reads
+    "Cannot find the elimination combinator tree_equiv_rec, the
+    elimination of the inductive definition tree_equiv on sort Set is
+    probably not allowed".
+    Refuting a [Lemma] with the statement alone would pass vacuously -- the
+    statement is well typed -- so the pin is a [Definition] whose body is
+    the elimination.  The goal is [bool] rather than [nat] on purpose:
+    numerals have no interpretation under this file's scopes, so an
+    [exact 0] body is refused for that reason and its refutation would
+    pass without testing the sort (measured). *)
+
+Fail Definition p450_tree_equiv_elim_Type (X : Sets) (t u : UA.Tree MagmaOp X)
+  (H : tree_equiv CommEq X t u) : bool := ltac:(induction H; exact true).
+
+(* control: the identical script into a [Prop] goal *)
+Definition p450_tree_equiv_elim_Prop (X : Sets) (t u : UA.Tree MagmaOp X)
+  (H : tree_equiv CommEq X t u) : True := ltac:(induction H; exact I).
+
 (** ** D: readbacks
 
     The unit is the generator embedding on the nose, and the extension
@@ -270,6 +306,7 @@ Check @SetoidOpAlgebra.
 Check @soa_obj.
 Check @soa_op.
 Check @soa_op_respects.
+Check @soa_prop.
 Check @soa_alg.
 Check @SAlgHom.
 Check @salg_map.

@@ -185,7 +185,9 @@ Generalizable All Variables.
     UNIVERSES, MEASURED AND ROUTED AROUND RATHER THAN INHERITED.
     [Set Printing Universes] reports [Ab_trivial@{} : AbObject@{Set Set
     Set}] — ZERO universe binders, pinned at [Set], the same donor
-    defect Instance/Grp/Quotient/Colimit.v records for [Grp_trivial].
+    defect Instance/Grp/Quotient/Colimit.v records for [Grp_trivial]
+    (which #450 has since lifted for [Grp_trivial]; [Ab_trivial] is
+    unchanged).
     Building the trivial rng on [Ab_trivial] would silently have
     confined [Rg_Zero] to [Set]-sized rngs.  It is built instead on
     Instance/CMon/Biproduct.v's [CMon_trivial@{o} : CMonObject@{o o

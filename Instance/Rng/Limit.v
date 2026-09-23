@@ -222,7 +222,12 @@ Generalizable All Variables.
    element-indexed family of mediators [L ⟶ L] and respectfulness in the
    outer argument recovered from joint monicity.  That is a different
    argument, not this one instantiated, so it is left for its own change.
-   (2) No colimits and no cocompleteness for [Rng].  (3) No
+   (2) No colimits and no cocompleteness for [Rng].  (CORRECTION, #450:
+   [Rng] is cocomplete since #450, by Instance/Rng/Colimit.v's
+   [Rng_Cocomplete_via_GAFT], the adjoint functor theorem applied at the
+   diagonal with this file's [Rng_Complete] as its completeness
+   hypothesis; the coproduct of rings is [Rng_Cocartesian_via_GAFT] there.
+   None of those colimits computes.)  (3) No
    signature-generic variant covering [CMon], [Ab], [Rng] and [RMod] at
    once, though the engine transfers unchanged.  (4) No comparison of the
    created limit with Instance/Rng/Zp.v's [Zp_limit], and no comparison of

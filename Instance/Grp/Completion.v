@@ -139,8 +139,10 @@ Generalizable All Variables.
     machinery, with the two related rather than identified;
     [free_grp_hom_trivial] and the two-line [grp_trivial_hom] it needs
     (built locally so that Instance/Grp.v's [Set]-pinned [Grp_Zero] is not
-    dragged in -- see the universe section); and the two non-vacuity
-    witnesses.
+    dragged in -- see the universe section; CORRECTION, #450: [Grp_Zero]
+    is no longer [Set]-pinned, #450 having written out its universes in
+    Instance/Grp.v, so the local constant is now a choice and not a
+    necessity); and the two non-vacuity witnesses.
 
     ** Riehl's own instance, delivered
 

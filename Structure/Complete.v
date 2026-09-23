@@ -263,6 +263,35 @@ Generalizable All Variables.
       index universe -- measured slot by slot against the conditional
       forms, costing nothing in practice and nothing at all at [Ab].
 
+      ADDENDUM (#450).  Both lists in this item are longer now.  The
+      categories whose object records carry the property include
+      Instance/Variety/Free.v's setoid variety [SVariety E], for every
+      operation signature and set of equations: its [SetoidOpAlgebra]
+      record carries [soa_prop] since #450.  The consumers include three
+      more files.  Instance/Grp/Colimit.v and Instance/Rng/Colimit.v apply
+      [GAFT] at the diagonal functor of every shape with homs at the
+      carrier universe and objects at or below it, with solution
+      sets ([Diagonal_Grp_solution_set], [Diagonal_Rng_solution_set])
+      indexed by [Prop]-valued cocone congruences on a term model, the
+      kernel of a cocone being a [Prop] because its target carries
+      [grp_prop] or [rig_prop]; they obtain [Grp_Cocomplete_via_GAFT] and
+      [Rng_Cocomplete_via_GAFT].  Instance/Variety/Colimit.v does the same
+      for [SVariety E] with two congruence-indexed solution sets,
+      [Diagonal_SVariety_solution_set] at the diagonal and
+      [SVariety_Forget_solution_set] at the forgetful functor, whose
+      kernels are [Prop]s because the target carries [soa_prop]; they give
+      [SVariety_Cocomplete_via_GAFT] and Mac Lane's free algebra
+      [Free_Variety_via_GAFT].  The side condition is the same [Set] <
+      carrier, and at [Grp], [Rng] and [SVariety E] it is measured to be
+      [GAFT]'s: the three diagonal solution sets elaborate at [Set]
+      carriers, and so does [GAFT] applied to every argument but the
+      solution set, while [Grp_colim_via_GAFT], [Rng_colim_via_GAFT] and
+      [SVariety_colim_via_GAFT] are refused there, [GAFT] putting the
+      index AT the carrier universe and the index sitting strictly above
+      [Set] (the UNIVERSES sections of Instance/Grp/Colimit.v and
+      Instance/Rng/Colimit.v, and Test/ProbeAlgColimit450.v's N4 and N5
+      and Test/ProbeVarietyColimit450.v's N4 with their controls).
+
       SCOPE, because the property is deliberately narrow: [PropEquiv] is a
       property of a SETOID, not a change to [Class Setoid], and internal
       algebra in an arbitrary category (the Theory/Algebra/ files) keeps the

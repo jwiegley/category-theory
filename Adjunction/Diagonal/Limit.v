@@ -130,7 +130,13 @@
        [Terminal_iff_Diagonal_0_right_adjoint].
      - The Kan comparison [lim_Ran_iso], plus the on-the-nose
        identification of Δ[J](c) with the restriction of the constant
-       functor along [Erase J]. *)
+       functor along [Erase J].
+     - [Diagonal_continuous : ContinuousFunctor (Diagonal J)], added for
+       Mac Lane §V.7's colimits of algebras (#450): the diagonal preserves
+       every limit, computed one component at a time.  It is the
+       preservation hypothesis of the adjoint functor theorem at Δ[J], and
+       the section at the end of the file says how the colimit
+       applications consume it. *)
 
 (* Strengths, measured strict-first
 
@@ -297,8 +303,11 @@
      - No uniqueness of the adjoint: [left_adjoint_iso] and
        [right_adjoint_iso] are not instantiated, so nothing here says
        [LimitFunctor] is THE right adjoint up to natural isomorphism.
-     - No preservation, reflection or creation results, and no
-       instantiation of RAPL/LAPC at this sandwich.
+     - No reflection or creation results, and no instantiation of
+       RAPL/LAPC at this sandwich.  An earlier revision of this bullet also
+       said "no preservation results"; since #450 the file proves that the
+       diagonal preserves limits ([Diagonal_continuous]).  Preservation of
+       COLIMITS by the diagonal, its dual, is not stated.
      - [LimitFunctor] and [ColimitFunctor] are plain [Definition]s, not
        registered [Instance]s: they take a [HasLimitsOfShape] parameter,
        which is not a class, so resolution could never produce it.
@@ -328,7 +337,14 @@
    all 177 queries reports 176 occurrences of the message, while nine
    chunked runs of at most 20 queries each report exactly one per query
    and cover every name once (20*8 + 17 = 177), as do two halves of 89 and
-   88; the chunked counts are the reliable ones. *)
+   88; the chunked counts are the reliable ones.
+
+   The 177 is the count before #450.  The section added for #450 brings
+   eight more ([diag_eval_cone], [diag_med], [diag_med_commutes],
+   [diag_med_unique], [Diagonal_continuous] and three [Program]
+   obligations), so [Print Module] now enumerates 185 names; each of the
+   eight was queried by its fully qualified name and reports "Closed under
+   the global context". *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -1174,3 +1190,97 @@ Proof.
       + exact H2. }
   discriminate Hb.
 Qed.
+
+(** ** The diagonal preserves limits *)
+
+(* Δ[J] : C ⟶ [J, C] sends a limit cone over G : I ⟶ C to a limit cone
+   over Δ[J] ◯ G, for every shape I and with no hypothesis on C.  The proof
+   is the observation that limits in the functor category are computed one
+   component at a time: evaluating a cone M over Δ[J] ◯ G at j ∈ J gives
+   an ordinary cone over G ([diag_eval_cone]); its mediator into the given
+   limit is the j-th component of the mediating transformation
+   ([diag_med]), whose naturality square is closed by uniqueness of the
+   mediator at the source component.
+
+   This is the preservation hypothesis the adjoint functor theorem asks of
+   the diagonal.  With it, Adjunction/GAFT.v's [GAFT] applied to Δ[J]
+   produces a left adjoint of the diagonal, and
+   [Diagonal_left_adjoint_HasColimits] above reads the J-shaped colimits
+   off that adjunction: the route by which Instance/Grp/Colimit.v,
+   Instance/Rng/Colimit.v and Instance/Variety/Colimit.v build colimits
+   of algebras (Mac Lane §V.7, Exercises 1, 2 and 4).
+
+   The explicit binders on [Diagonal_continuous] matter.  Written bare,
+   minimization collapses J to [Category@{u u u}], one level for its
+   objects, homs and C's homs; with the binders J's object universe stays
+   free below the shared hom level ([jo <= h]), which is what the colimit
+   applications need.  J's hom universe cannot be separated from C's:
+   [Fun] identifies them. *)
+
+Section DiagonalContinuous.
+
+Context {C J : Category}.
+Context {I : Category} (G : I ⟶ C) (N : Cone G) (HN : IsLimitCone N).
+Context (M : Cone (@Diagonal C J ◯ G)).
+
+Program Definition diag_eval_cone (j : J) : Cone G := {|
+  vertex_obj := fobj[vertex_obj[M]] j;
+  coneFrom := {| vertex_map := fun x => transform[cone_leg M x] j |}
+|}.
+Next Obligation.
+  pose proof (@cone_coherence _ _ _ _ (@coneFrom _ _ _ M) x y f j) as Hc.
+  simpl in Hc; rewrite <- Hc; reflexivity.
+Qed.
+
+Program Definition diag_med :
+  vertex_obj[M] ~{[J, C]}~> fobj[@Diagonal C J] (vertex_obj[N]) := {|
+  transform := fun j => unique_obj (HN (diag_eval_cone j))
+|}.
+Next Obligation.
+  rewrite id_left.
+  apply (uniqueness (HN (diag_eval_cone x))).
+  intro i; simpl.
+  rewrite comp_assoc.
+  rewrite (unique_property (HN (diag_eval_cone y)) i); simpl.
+  pose proof (naturality[cone_leg M i] x y f) as Hn; simpl in Hn.
+  rewrite <- Hn; apply id_left.
+Qed.
+Next Obligation.
+  rewrite id_left.
+  symmetry.
+  apply (uniqueness (HN (diag_eval_cone x))).
+  intro i; simpl.
+  rewrite comp_assoc.
+  rewrite (unique_property (HN (diag_eval_cone y)) i); simpl.
+  pose proof (naturality[cone_leg M i] x y f) as Hn; simpl in Hn.
+  rewrite <- Hn; apply id_left.
+Qed.
+
+Lemma diag_med_commutes (i : I) :
+  fmap[@Diagonal C J] (cone_leg N i) ∘ diag_med ≈ cone_leg M i.
+Proof.
+  intro j; simpl.
+  exact (unique_property (HN (diag_eval_cone j)) i).
+Qed.
+
+Lemma diag_med_unique
+  (v : vertex_obj[M] ~{[J, C]}~> fobj[@Diagonal C J] (vertex_obj[N])) :
+  (∀ i : I, fmap[@Diagonal C J] (cone_leg N i) ∘ v ≈ cone_leg M i) →
+  diag_med ≈ v.
+Proof.
+  intros Hv j; simpl.
+  apply (uniqueness (HN (diag_eval_cone j))).
+  intro i; exact (Hv i j).
+Qed.
+
+End DiagonalContinuous.
+
+Definition Diagonal_continuous@{jo h o +}
+  {C : Category@{o h h}} {J : Category@{jo h h}} :
+  ContinuousFunctor (@Diagonal C J).
+Proof.
+  intros I G N HN M.
+  unshelve refine {| unique_obj := diag_med G N HN M |}.
+  - exact (diag_med_commutes G N HN M).
+  - exact (diag_med_unique G N HN M).
+Defined.

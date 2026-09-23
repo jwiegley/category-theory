@@ -269,6 +269,10 @@ Generalizable All Variables.
         re-measured after the PR "algebraic carriers are sets"
         (2026-09-17).)  The witnesses are therefore built on [eq_Setoid]
         (Lib/Setoid.v), which is polymorphic in exactly the needed way.
+        (CORRECTION, #450: [Z2] is usable here since #450 wrote out its
+        universes in place -- [Z2@{p} : GrpObject@{p p p}] -- and the
+        probe's rejection of [Subsets (grp_setoid Z2)] is a control since;
+        [GalZ2] is kept.)
 
         (H1) [GalZ2] on [bool] under [xorb], acting on [bool] by [xorb].
              [galois_stab_true_trivial] computes the stabiliser of the
@@ -930,7 +934,10 @@ Arguments ClosedU {G A} X.
    re-measured after the PR "algebraic carriers are sets" (2026-09-17), which
    permuted [GrpObject]'s universe roles from (carrier, proof, aux) to
    (aux, carrier, proof).  The obstruction is if anything sharper and the
-   conclusion is unchanged.) *)
+   conclusion is unchanged.)  CORRECTION (#450): [Z2] is no longer pinned;
+   #450 annotated it in place as [Z2@{p} : GrpObject@{p p p}], and
+   Test/ProbeGalois381.v's rejection is a control since.  This two-point
+   setoid is kept as it is. *)
 Definition galois_two@{wo} : SetoidObject@{wo wo} :=
   {| carrier := bool ; is_setoid := eq_Setoid@{wo} bool |}.
 

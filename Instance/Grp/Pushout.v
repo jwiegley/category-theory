@@ -135,7 +135,16 @@ Generalizable All Variables.
    cocone condition is automatic because every homomorphism preserves the
    unit ([Grp_fp_cocone]), and each leg factors through the other by a
    third constant map ([grp_const_absorb]).  [Grp_zero_hom_Section] is
-   kept as the honest record of the route not taken.
+   kept as the honest record of the route not taken.  CORRECTION (#450):
+   the donor pin this paragraph describes is lifted -- #450 wrote out the
+   universes of Instance/Grp.v's zero-object constants in place, and
+   [About] now reads [Grp_zero_hom@{u p}] over [GrpObject@{p p p}] and
+   [Grp_zero_hom_Section@{u u0}] over [GrpObject@{u0 u0 u0}], with no
+   binder instantiated at [Set] and no [= Set] constraint in either: the
+   one [Set] in each constraint block is [Grp]'s own lower bound
+   [Set < u] on its object universe.  The zero-object route would
+   therefore no longer inherit a pin; the constant-leg construction is
+   kept as it stands.
 
    UNIVERSES, MEASURED IN THE CONSTRAINT BLOCKS, WITH THE CAUSE PROBED.
    Two separate facts, and they point opposite ways.
@@ -180,7 +189,9 @@ Generalizable All Variables.
    [AmalgamGrp], the chosen pushout, [Grp_free_product], [Grp_fp_inl] and
    [grp_const] at that very level, plus controls naming the two donor
    constants at [Set]-level groups so the negatives are about the universe
-   and not about a missing reference.
+   and not about a missing reference.  (CORRECTION, #450: the donor pin is
+   lifted, and the two negatives are controls there since; see that
+   probe's correction.)
 
    NON-VACUITY.  A negative fact about a generated congruence cannot come
    from induction on it, so every separation here maps OUT of the quotient
@@ -201,9 +212,19 @@ Generalizable All Variables.
    Instance/Top/FundamentalGroupoid.v; no functoriality of the pushout in
    the span; no comparison with Instance/Grp/Free.v's free group (the free
    product of two free groups is not shown free); and no infinite/indexed
-   free products.  The [Grp_Cocartesian] instance is registered
-   [#[export]], so importers acquire it; no LIBRARY file imports this
-   one -- only Test/ProbePushoutGrpTop.v does. *)
+   free products.  (Since #450, Instance/Grp/Colimit.v has every colimit
+   of groups within its shape discipline, indexed coproducts among them, from the adjoint
+   functor theorem -- as an existence result, not as words.)  The
+   [Grp_Cocartesian] instance is registered [#[export]], so importers
+   acquire it; no LIBRARY file imports this one -- only
+   Test/ProbePushoutGrpTop.v does.  CORRECTION (#450): that list was
+   short by one already at the parent commit e139ecfb, where [git grep]
+   for a [Require] of Category.Instance.Grp.Pushout finds
+   Test/ProbeGrpProp.v as well; and since #450 a library file,
+   Instance/Grp/Colimit.v, imports it, to prove that its
+   adjoint-functor-theorem coproduct agrees with this file's
+   ([Grp_coproduct_agrees]), and it passes every [Cocartesian] instance
+   explicitly so that the exported one is never picked up silently. *)
 
 (** ** Formal words *)
 
@@ -642,7 +663,10 @@ Defined.
    everything built on it would be confined to [Set]-sized groups.  The
    free product below therefore goes through the CONSTANT legs instead,
    which needs no zero object and carries no pin; the probe file pins the
-   donor's rejection above [Set] against this file's acceptance there. *)
+   donor's rejection above [Set] against this file's acceptance there.
+   CORRECTION (#450): the donor pin is lifted in Instance/Grp.v, this
+   lemma is universe-polymorphic since ([Grp_zero_hom_Section@{u u0}]),
+   and the probe's two negatives are controls. *)
 Definition Grp_zero_hom_Section (G : GrpObject) : Section (Grp_zero_hom G).
 Proof.
   unshelve refine {| section := Grp_one G |}.
