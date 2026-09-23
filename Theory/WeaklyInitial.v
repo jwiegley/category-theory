@@ -348,7 +348,9 @@ Qed.
     Adjunction/GAFT.v, happen to be right.  Every substantive absence
     claim is TRUE:
     [Build_WeaklyInitialFamily] has exactly one use tree-wide
-    (Adjunction/GAFT.v), nothing built a family from an [Initial], no
+    (Adjunction/GAFT.v; CORRECTION, #452: that was so when measured, and
+    Adjunction/SAFT/InitialObject.v's [wif_of_cogenerator] is now a
+    second), nothing built a family from an [Initial], no
     constant named [WeaklyInitial] existed (all 29 word hits over `*.v`,
     31 counting `_CoqProject`, were the module path).  Two sentences of
     the existing headers were FALSE and are

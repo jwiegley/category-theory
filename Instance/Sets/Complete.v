@@ -117,7 +117,21 @@ Generalizable All Variables.
    Instance/Sets/WellPowered.v's [Sets_WellPowered_untruncate] under its
    [Untruncate] hypothesis -- and [SubobjectCover] is REFUTED at the
    identity of [Sets] by Adjunction/SAFT/Sets.v's
-   [SubobjectCover_Id_Sets_absurd].)
+   [SubobjectCover_Id_Sets_absurd].)  (CORRECTION, #452: the
+   [Cogenerator] clause no longer holds either.  Instance/Sets/
+   Cogenerator.v builds two small cogenerators of [Sets], under
+   [Untruncate] or [IEM] ([Sets_Cogenerator_untruncate],
+   [Sets_Cogenerator_IEM]), and an unconditional large one
+   ([Sets_Cogenerator_large], which [cogen_prod] at [Sets_Complete]
+   refuses on universes); Instance/Sets/SpecialInitial.v's [setsop_cog]
+   is one of [Sets^op], unconditionally; and Adjunction/SAFT/
+   InitialObject/Examples.v builds them at the thin categories
+   [Subsets X] and [Indiscrete].  Under one [U : Untruncate] every
+   premise of [SAFT] at [Id[Sets]] but [SubobjectCover] is therefore
+   inhabited, as Adjunction/SAFT.v's header records.  Separately,
+   "applied only by [saft_representable]" has not held since #451:
+   Adjunction/SAFT/WellPowered.v's [SAFT_of_WellPowered] applies [SAFT]
+   too, as conditionally.)
 
    [Cocomplete Sets] is not provided BY THIS FILE.  It is NOT missing from
    the tree, correcting what this sentence used to say: Instance/Sets/

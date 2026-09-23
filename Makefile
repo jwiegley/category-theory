@@ -10180,6 +10180,82 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Powerset.WellPowered.subsets_sub_bot.'; \
 	  echo 'Print Assumptions Category.Instance.Powerset.WellPowered.Subsets_intersection_all_not_top.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.SAFT.InitialObject.'; \
+	  echo 'Require Import Category.Adjunction.SAFT.InitialObject.Examples.'; \
+	  echo 'Require Import Category.Instance.Sets.Cogenerator.'; \
+	  echo 'Require Import Category.Instance.Sets.SpecialInitial.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.equalizer_sub.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.least_sub_arrows_agree.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.cogen_prod_to_power.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.cogen_canonical_sub.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.complete_pullbacks.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.cogen_pullback_sub.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.cogen_pullback_to.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_zero.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_least.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.least_of_intersection_all.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.intersection_all_of_least.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_zero.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_IsInitialObj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.HasClassIntersections.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_book.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_book_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.wellpowered_class_intersections.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_wellpowered.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_wellpowered_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_wellpowered_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_wellpowered_at_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_initial_object_small.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_weakly_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_vs_freyd.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.wif_of_cogenerator.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.freyd_of_cogenerator.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.special_vs_freyd_of_cogenerator.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_Cogenerator_empty.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_Cogenerator_bot.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial_empty.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial_bot.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_vs_bot.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial_is_empty.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Subsets_special_initial_not_top.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Indiscrete_Cogenerator_empty.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Indiscrete_types_special_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.InitialObject.Examples.Indiscrete_types_special_initial_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.Sets_Cogenerator_untruncate.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.sets_cogenerator_untruncate_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.sets_bool_char.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.Sets_Cogenerator_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.sets_cogenerator_IEM_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.Sets_Cogenerator_large.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Cogenerator.Sets_terminal_not_cogenerates.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_comp.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_cog.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_point.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_L.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_L_least.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_special_initial.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_special_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_special_vs_known.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.setsop_terminal_IsInitialObj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_initial_untruncate.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_untruncate_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_initial_wellpowered.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_wellpowered_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_wellpowered_vs_known.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_wellpowered_empty.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.Sets_HasClassIntersections_untruncate.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_initial_book.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_book_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_book_vs_known.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_initial_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_IEM_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.SpecialInitial.sets_special_initial_IEM_at_Set.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

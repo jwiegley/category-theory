@@ -29,7 +29,10 @@ Generalizable All Variables.
     against Theory/WeaklyInitial.v's 29, and Adjunction/GAFT*.v [Require]
     Theory/WeaklyInitial.v, not this satellite, so there is no cycle.  The
     object-carrier universe lands at [Sets@{Set u}] with `Set < u` on every
-    head, exactly as Adjunction/GAFT/Sets.v's header discloses for GAFT;
+    head, exactly as Adjunction/GAFT/Sets.v's header discloses for GAFT
+    (CORRECTION, #452: that pin was lifted with the one GAFT/Sets.v's
+    RECORDED CORRECTION describes; measured, [About Sets_initial_recovered]
+    reads [@Initial Sets@{u0 u}] with [u0 < u] and no [Set]);
     the caps `JMeq`, `False_rect` and `projections` arrive with
     [Sets_Complete].  Six `.glob` heads, all `def`, all "Closed under the
     global context", zero `Axioms:` lines, no `Qed`, no `Defined`, none of

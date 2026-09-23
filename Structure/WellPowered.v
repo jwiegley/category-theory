@@ -259,8 +259,12 @@ Generalizable All Variables.
    [Untruncate], and the consequence at [Sets] under the same
    hypothesis), Instance/Grp/WellPowered.v ([Grp] well-powered one
    universe up), Instance/Powerset/WellPowered.v (the consequence at the
-   powerset lattice of a setoid, unconditionally), and Adjunction/SAFT/
-   WellPowered.v (the bridge to Adjunction/SAFT.v's [SubobjectIndex]).
+   powerset lattice of a setoid, unconditionally), Adjunction/SAFT/
+   WellPowered.v (the bridge to Adjunction/SAFT.v's [SubobjectIndex]),
+   and, since #452, Adjunction/SAFT/InitialObject.v (the special
+   initial-object theorem's well-powered corollary) with its witnesses
+   Adjunction/SAFT/InitialObject/Examples.v and Instance/Sets/
+   SpecialInitial.v.
 
    ** Non-vacuity of the consequence
 
