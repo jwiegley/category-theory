@@ -131,11 +131,17 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **9240** on
-2026-09-23, after #450 (colimits in algebraic categories by the adjoint
-functor theorem) added ONE block of 258 names over nine modules, every
-one "Closed under the global context". An earlier revision of this
-paragraph gave **8982**, the figure on 2026-09-17, against **8773**
+criterion: `grep -c 'Print Assumptions' Makefile` returns **9378** on
+2026-09-23, after #451 (well-powered and co-well-powered categories,
+Mac Lane §V.8) added ONE block of 138 names over ten modules, every one
+"Closed under the global context"; the ten modules' other 22 names, all
+in `Adjunction/SAFT.v`, were gated before, so the gate carries all 160
+of their constants (the list below). An earlier revision of this
+paragraph gave **9240**, the figure the same day after #450 (colimits
+in algebraic categories by the adjoint functor theorem) added ONE block
+of 258 names over nine modules, every one "Closed under the global
+context"; 9240 + 138 = 9378. An earlier revision still gave **8982**,
+the figure on 2026-09-17, against **8773**
 immediately before the PR "algebraic carriers are sets". That PR's
 phases moved it 8773 → 8808 (universe hygiene on the adjoint-functor
 path) → 8815 (the CMon, Ab, RMod and rig fields) → 8929 (the
@@ -306,6 +312,58 @@ development:
 - `proset_out_not_unique` (`Instance/Proset/Transform.v`) — the
   refutation of the dual: two distinct transformations *out of* a
   preorder
+
+The well-poweredness development (Mac Lane §V.8, #451) adds every
+constant of its ten modules — 161, enumerated by `Print Module` with the
+six `Program` obligations of `Instance/Grp/WellPowered.v`, the only ones
+`strings` finds in their `.vo` files — each reported "Closed under the
+global context" by its fully qualified name (re-run on 2026-09-23 in one
+scratch file, 161 of 161, beside the instrument
+`Print Assumptions functional_extensionality`, which prints its axiom).
+Among them:
+
+- `WellPowered`, `CoWellPowered`, `wellpowered_complete_has_intersections`
+  and `cowellpowered_cocomplete_has_cointersections`
+  (`Structure/WellPowered.v`) — well-poweredness at the pin and the §V.8
+  intersection theorem with its dual
+- `complete_wide_pullback` and `Complete_HasWidePullbacks`
+  (`Structure/Pullback/Wide/Complete.v`) — wide pullbacks from
+  completeness
+- `FinSet_WellPowered`, `Subsets_has_intersections`,
+  `Grp_WellPoweredAt_up`, `Sets_WellPoweredAt_up`,
+  `Sets_WellPowered_untruncate` and `Sets_wellpowered_intersection` (the
+  `Instance/` satellites).  The last two take `Untruncate` as a
+  hypothesis in their statements, so their "Closed" is the second kind
+  of the [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
+  has no axiom-free in-tree inhabitant (docs/INHABITATION.md)
+- `empty_SubobjectIndex` and `SubobjectIndex_not_exhaustive`
+  (`Adjunction/SAFT.v`), `WellPowered_SubobjectIndex` and
+  `SAFT_of_WellPowered` (`Adjunction/SAFT/WellPowered.v`), and
+  `SubobjectCover_Id_Sets_absurd` (`Adjunction/SAFT/Sets.v`) — SAFT's
+  subobject index is strictly weaker than well-poweredness, and its
+  covering datum is refuted at the identity of `Sets`
+- `AntichainTop_not_WellPowered` and `retract_paradox`
+  (`Structure/WellPowered/Counterexample.v`) — a category that is not
+  well-powered.  The file requires the stdlib module
+  `Coq.Logic.Hurkens`, and that is not an axiom import: Hurkens'
+  paradox is a THEOREM there, the stdlib file taking its premises as
+  `Section` variables and declaring no `Axiom`, `Parameter` or
+  `Conjecture` (a grep for those three keywords at the start of a line
+  finds none in the 9.1 stdlib's copy or in 8.19's).  `retract_paradox`
+  restates `TypeNeqSmallType.paradox` over a retract through the
+  universe-polymorphic `Generic.paradox`, and every constant of the file
+  reports closed.  Twenty-four files under `Theory/`, `Structure/`,
+  `Construction/`, `Adjunction/`, `Functor/`, `Natural/`, `Monad/`,
+  `Comonad/` and `Lib/` require a module of the stdlib's `Logic`
+  directory directly (a module reached only transitively, as through
+  `Program`, is not counted), counted over their own `Require` commands
+  in every spelling those files use — `Require Import Coq.Logic.X` (six
+  files), `From Coq Require Import X` (seventeen) and `From Coq Require
+  Import Logic.X` (one) — with `X` checked against the file names of
+  that directory in the 9.1 stdlib: twenty-two require `Eqdep_dec`,
+  `Construction/Coproduct/Indexed.v` requires `EqdepFacts`, and this one
+  alone requires `Hurkens`
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

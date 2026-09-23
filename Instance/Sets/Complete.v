@@ -100,11 +100,24 @@ Generalizable All Variables.
    Two things that inhabitant does NOT do.  [GAFT]'s frozen universe context
    pins the applying instance to [Sets@{Set _}] (disclosed in the header of
    Adjunction/GAFT/Sets.v), and the functor applied to is [Id], so the
-   adjoint produced is [Id] again.  The application demonstrates that the
-   premises are simultaneously satisfiable in-tree; it does not produce a new
-   adjunction.  [SAFT] is applied only by #437's [saft_representable], and
-   conditionally: it wants a [Cogenerator], a [SubobjectIndex] and a
-   [SubobjectCover] besides, and none of the three has an in-tree inhabitant.
+   adjoint produced is [Id] again.  (CORRECTION, #451: the first clause is
+   stale.  Adjunction/GAFT/Sets.v's header records that the [Set] pin was a
+   minimization artifact of Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor] and was lifted when that donor was annotated
+   (2026-09-17): [GAFT_at_Sets_Id] now reads back at the polymorphic
+   [Sets@{u0 u}].  The second clause stands.)  The application demonstrates
+   that the premises are simultaneously satisfiable in-tree; it does not
+   produce a new adjunction.  [SAFT] is applied only by #437's
+   [saft_representable], and conditionally: it wants a [Cogenerator], a
+   [SubobjectIndex] and a [SubobjectCover] besides, and none of the three
+   has an in-tree inhabitant.  (CORRECTION, #451: [SubobjectIndex] has
+   in-tree inhabitants at every object of every category -- Adjunction/
+   SAFT.v's [empty_SubobjectIndex], and Adjunction/SAFT/WellPowered.v's
+   [WellPowered_SubobjectIndex] over any well-powered witness, such as
+   Instance/Sets/WellPowered.v's [Sets_WellPowered_untruncate] under its
+   [Untruncate] hypothesis -- and [SubobjectCover] is REFUTED at the
+   identity of [Sets] by Adjunction/SAFT/Sets.v's
+   [SubobjectCover_Id_Sets_absurd].)
 
    [Cocomplete Sets] is not provided BY THIS FILE.  It is NOT missing from
    the tree, correcting what this sentence used to say: Instance/Sets/

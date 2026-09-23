@@ -120,7 +120,11 @@ Generalizable All Variables.
    University Press 1992) — and names [ElementaryTopos] as its target;
    Theory/Sheaf/Category.v carries the generalized-space side as sheaves
    inside presheaves; Adjunction/SAFT.v draws on the same subobject
-   vocabulary through well-poweredness.  Computationally Ω is a type of
+   vocabulary through well-poweredness.  (CORRECTION, #451: what SAFT.v
+   consumes is its [SubobjectIndex], a family of monos with no
+   exhaustiveness clause, not well-poweredness; that is Structure/
+   WellPowered.v's [WellPowered], which Adjunction/SAFT/WellPowered.v
+   feeds to [SAFT].)  Computationally Ω is a type of
    truth values and the classifying [char] is the decision procedure of a
    subobject, so the classification isomorphism reads a subobject as its
    own membership predicate.  Skeletal FinSet makes this literal

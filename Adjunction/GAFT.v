@@ -117,6 +117,12 @@ Generalizable All Variables.
    structural smallness of the domain: Adjunction/SAFT.v manufactures a
    [SolutionSet] from well-poweredness ([SubobjectIndex]) and a cogenerating
    family ([Cogenerator]), so [SAFT] never asks the caller to supply one.
+   (CORRECTION, #451: [SubobjectIndex] is not well-poweredness -- it lacks
+   the exhaustiveness clause of Structure/WellPowered.v's [WellPowered] and
+   the empty family inhabits it -- and [SAFT] does ask for one more datum,
+   [SubobjectCover], which factors every arrow through the given index and
+   is refutable at the identity of [Sets] (Adjunction/SAFT/Sets.v's
+   [SubobjectCover_Id_Sets_absurd]).)
    Continuity by itself does not suffice, and the boundary is sharp: nLab
    records a counterexample that Joyal attributes to Mac Lane, a product
    of representables over the simple groups that is continuous yet not

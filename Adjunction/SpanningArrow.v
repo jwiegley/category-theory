@@ -109,7 +109,9 @@ Generalizable All Variables.
    and of a comma initial object), its [solution_set_of_adjunction] and
    [solution_set_of_adjunction_via_comma] (from an adjunction that
    already exists), Adjunction/SAFT.v's [SAFT_solution_set] (the
-   cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v's
+   cogenerator-plus-well-poweredness route -- a label #451 corrects: what
+   it consumes is [SubobjectIndex], which lacks well-poweredness's
+   exhaustiveness clause, and a covering datum), Adjunction/GAFT/Sets.v's
    [Sets_Id_SolutionSet] (hand-built at the identity functor of Sets) and
    its adjunction-built twin, Adjunction/Representability/Sets.v's
    [sols_of_esols], and the ones in Instance/Grp/FreeAFT.v,
@@ -134,7 +136,9 @@ Generalizable All Variables.
    the structural routes are now THREE families -- SAFT's cogenerator
    route, this file's subobject-intersection route, and the congruence
    route -- and the two GAFT applications at [Rng] are no longer circular.
-   SAFT reaches it through a cogenerator and a well-powering; Mac Lane's
+   SAFT reaches it through a cogenerator and a well-powering (CORRECTION,
+   #451: through a cogenerator, the subobject index [SubobjectIndex], which
+   is not a well-powering, and the covering datum); Mac Lane's
    §V.7 route reaches it through intersections of subobjects; the
    congruence route reaches it through the sort of [Prop].  No two of the
    three share a hypothesis.
@@ -243,7 +247,30 @@ Generalizable All Variables.
    constant in tree builds a [HasWidePullbacks] from completeness; so
    [HasWidePullbacks] and [PreservesWidePullbacks] are still not
    discharged at [SVariety], and the Remark is still not attempted
-   here.  His Remark
+   here.  CORRECTION (#451): the clause "no constant in tree builds a
+   [HasWidePullbacks] from completeness" no longer stands.
+   Structure/Pullback/Wide/Complete.v's [Complete_HasWidePullbacks] does,
+   and in a scratch file importing it with Instance/Variety/Limit.v,
+   [Complete_HasWidePullbacks (SVariety_Complete E) : HasWidePullbacks
+   (SVariety E)] is accepted and [Print Assumptions] reports it closed
+   under the global context.  Class search still finds no
+   [HasWidePullbacks (SVariety E)], and not only because
+   [Complete_HasWidePullbacks] is a [Definition] rather than an
+   [Instance]: registering it alone as a local instance leaves the hole
+   refused, since [Complete] is a plain definition and [SVariety_Complete]
+   no instance, and only with both registered locally does search
+   resolve it (Test/ProbeWellPowered451.v's N22 and its control).  Nor
+   does that inhabitant discharge the hypothesis of
+   [spanning_solution_set] at [SVariety]: with [PreservesWidePullbacks
+   (SVariety_Forget E)] taken as a section hypothesis, the call is
+   refused with "universe inconsistency: Cannot enforce <carrier> = <the
+   class's second universe> because <carrier> < ..." (that text in the
+   section form only; with the hypothesis an ordinary binder, Rocq
+   reports the index slot's equation first, as the probe's N20 records),
+   because [Complete_HasWidePullbacks] sets that universe to the level of
+   [Complete]'s limits, here the carrier, while [FactoringFamily] needs
+   it strictly above.  So "still not discharged at [SVariety]" stands,
+   for this universe reason as well.  His Remark
    also REDEFINES subobject for that application ("a morphism u : s -> a
    for which Gu is injective in Set"), which is a different notion from
    [SubObj] and is not introduced below.  (3) No inhabitation of either
@@ -259,7 +286,21 @@ Generalizable All Variables.
    "universe inconsistency: Cannot enforce <the instance's index
    universe> = <the universe of SubObj a>" (measured by two audits, whose
    scratch-local universe labels differ, so the shape is quoted and not
-   the labels), so BOTH hypotheses are open in tree.
+   the labels), so BOTH hypotheses are open in tree.  CORRECTION (#451):
+   "the tree's only [HasWidePullbacks] instance" was already stale once
+   Instance/Mod/Spanning.v added [RMod_HasWidePullbacks], and #451 adds
+   the general [Complete_HasWidePullbacks] (Structure/Pullback/Wide/
+   Complete.v, a definition rather than an instance).  At [Sets] it gives
+   nothing new for this hypothesis: [Complete_HasWidePullbacks
+   Sets_Complete] reads back at the same universes as
+   [Sets_HasWidePullbacks], and feeding it to [spanning_solution_set] at
+   [Id[Sets]], with [PreservesWidePullbacks] as a section hypothesis, is
+   refused with the same shape of universe inconsistency ("Cannot enforce
+   <the class's second universe> = <the carrier> because <the carrier>
+   < ..."), measured in a scratch file; that text is printed with the
+   hypothesis an ordinary binder as well (Test/ProbeWellPowered451.v's
+   N21).  So the first hypothesis is still open at every concrete
+   category checked.
    (4) No converse.  Nothing shows that an arrow through which every
    factorization is spanning must be [spanning_factor] of itself, and
    nothing shows [spanning_sub] is unique up to ≈ as a SUBOBJECT beyond
