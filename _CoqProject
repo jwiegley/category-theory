@@ -22,6 +22,8 @@ Adjunction/GAFT/Necessity.v
 Adjunction/GAFT/Resize.v
 Adjunction/LeftInverse.v
 Adjunction/SAFT.v
+Adjunction/SAFT/Sets.v
+Adjunction/SAFT/WellPowered.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
@@ -318,6 +320,7 @@ Instance/FinSet/Decategorify.v
 Instance/FinSet/Subsets.v
 Instance/FinSet/Subobject.v
 Instance/FinSet/QuotObj.v
+Instance/FinSet/WellPowered.v
 Instance/Fun.v
 Instance/Fun/Eval.v
 Instance/Fun/Eval/Cat.v
@@ -355,6 +358,7 @@ Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
 Instance/Grp/Quotient/Isomorphism.v
 Instance/Grp/QuotObj.v
+Instance/Grp/WellPowered.v
 Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
@@ -479,6 +483,7 @@ Instance/Sets/SubobjectLattice.v
 Instance/Powerset.v
 Instance/Powerset/Subobject.v
 Instance/Powerset/Quantifier.v
+Instance/Powerset/WellPowered.v
 Instance/InnerProduct/Galois.v
 Instance/Sets/Pointed.v
 Instance/Sets/Pointed/Free.v
@@ -488,6 +493,7 @@ Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
 Instance/Sets/Quotient.v
 Instance/Sets/QuotObj.v
+Instance/Sets/WellPowered.v
 Instance/Sets/Quotient/Partition.v
 Instance/Sets/Coequalizer.v
 Instance/Sets/Coequalizer/Interconnect.v
@@ -724,6 +730,7 @@ Structure/Topos/Colimits.v
 Structure/Pullback/Limit.v
 Structure/Pullback/Reduction.v
 Structure/Pullback/Wide.v
+Structure/Pullback/Wide/Complete.v
 Structure/Pushout.v
 Structure/Pushout/Split.v
 Structure/Regular.v
@@ -732,6 +739,8 @@ Structure/Semiadditive.v
 Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
+Structure/WellPowered.v
+Structure/WellPowered/Counterexample.v
 Structure/UniversalProperty/Cartesian.v
 Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
@@ -1034,3 +1043,4 @@ Test/ProbeGrpProp.v
 Test/ProbeRngAFTProp.v
 Test/ProbeAlgColimit450.v
 Test/ProbeVarietyColimit450.v
+Test/ProbeWellPowered451.v

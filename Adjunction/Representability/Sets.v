@@ -78,6 +78,13 @@ Generalizable All Variables.
     transports onto [K], and [representable_of_left_adjoint] returns the
     left adjoint at the singleton as its representing object ([eq_refl]).
     Riehl 4.7.14 is the same passage after SAFT: [saft_representable].
+    (CORRECTION, #451: the same passage over Adjunction/SAFT.v's premises,
+    which are not Riehl's.  Its [cover] premise is refutable at
+    [K := Id[Sets]] -- Adjunction/SAFT/Sets.v's
+    [SubobjectCover_Id_Sets_absurd], at every [Sets@{o _}] with
+    [Set < o] -- a functor that Riehl's hypotheses cover and that
+    [Sets_Id_repr] below represents, so [saft_representable] never
+    applies there.)
     CONVERSE: it CANNOT be run with the tree's copowers.  Every copower in
     tree (Structure/Limit/Power.v, which came from #321; #366 added
     Structure/Limit/Power/Adjunction.v) is indexed by a bare [Type] and so
@@ -198,9 +205,16 @@ Generalizable All Variables.
     Adjunction/SAFT.v 1, and 22 of the 27 `Require`s at margin 0; none is
     droppable).  Adjunction/Representability.v's own closure is 39 excluding
     self, and requiring this file's imports there would take it to 98 — the
-    reason this is a satellite.  Zero name collisions for the 38 names
-    (`grep -rlw --include='*.v'`).  Test/ProbeRepresentability437.v mirrors
-    this file's `Require` list and carries 6 refutation commands = 1
+    reason this is a satellite.  (CORRECTION, #451: Adjunction/SAFT.v now
+    requires Theory/Subobject.v, which no other import here reaches, and
+    the same count over .Makefile.coq.d -- which reproduces 99, 98, 39 and
+    the five margins above when that edge is left out -- gives a closure
+    of 100 excluding self, Adjunction/SAFT.v 2 at the margin (the other
+    four margins unchanged), and 99 for Adjunction/Representability.v with
+    this file's imports; its own 39 is unchanged.)  Zero name collisions
+    for the 38 names (`grep -rlw --include='*.v'`).
+    Test/ProbeRepresentability437.v mirrors this file's `Require` list and
+    carries 6 refutation commands = 1
     instrument + N1-N2
     CONVERSION (the two solution-set records are not the same type;
     [HomAfter K 1] is not [K]) + N3, N5 TYPING (the apex-only

@@ -3,6 +3,7 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Theory.Morphisms.
+Require Import Category.Theory.Subobject.
 Require Import Category.Structure.Complete.
 Require Import Category.Structure.Limit.
 Require Import Category.Structure.Limit.Product.
@@ -56,9 +57,20 @@ Generalizable All Variables.
    member inside that set.  This library carries NO size / smallness machinery
    and NO image-factorization system on a general base, so neither "the
    subobjects form a set" nor "take the image of [h]" can be constructed
-   internally — there is nothing to quantify smallness against.  The honest
+   internally — there is nothing to quantify smallness against.  (CORRECTION,
+   #451: the sentence no longer holds of "the subobjects form a set".  "The
+   subobjects of every object form a small set" is now STATED, as Structure/
+   WellPowered.v's [WellPowered] -- a small index for the subobjects of each
+   object, pinned at or below the hom universe, with maps both ways and the
+   exhaustiveness clause [wp_to_from] -- and the satellite Adjunction/SAFT/
+   WellPowered.v's [WellPowered_SubobjectIndex] feeds it to this file's
+   [SAFT].  What well-poweredness still does not supply is the covering
+   datum; see "THE COVERING DATUM IS REFUTABLE" at the end of this
+   header.)  The honest
    reading — the one the plan sanctioned — is therefore to package this half as
-   DATA, in exactly the shape the classical argument delivers:
+   DATA, in exactly the shape the classical argument delivers (CORRECTION,
+   #451: it is not that shape; the corrections to both bullets below say
+   where it departs):
 
      - [SubobjectIndex x] supplies well-poweredness object-by-object, as a small
        [Type] [sub_index] of subobjects of [x], each NAMED by a monomorphism
@@ -70,12 +82,30 @@ Generalizable All Variables.
        consume [sub_monic] — smallness is supplied here as data, not derived, so
        nothing in the reduction inspects the monic witness — and [sub_monic] is
        emphatically NOT claimed to drive any factorization.
+       CORRECTION (#451): an earlier revision of this bullet read
+       [SubobjectIndex] as well-poweredness itself.  It is strictly weaker.
+       Nothing in the record says that its family reaches EVERY subobject of
+       [x], and the empty family inhabits it at every object
+       ([empty_SubobjectIndex]; [SubobjectIndex_not_exhaustive] shows that
+       no map from the subobjects of [x] into that index exists).
+       Well-poweredness with its exhaustiveness clause is Structure/
+       WellPowered.v's [WellPowered], and Adjunction/SAFT/WellPowered.v's
+       [SubobjectIndex_of_WellPoweredAt] forgets it to this record, keeping
+       the index universe.
 
      - the covering datum [cover] of [SAFT] states precisely the CONCLUSION of
        the classical image-factorization step: every [h : d ~> U c] factors,
        through a well-powered subobject [i] of [cogen_prod], as a [d]-arrow
        [s : d ~> U (sub_dom i)] followed by a [C]-arrow [t : sub_dom i ~> c].
        This is exactly one member of a solution set at [d].
+       CORRECTION (#451): "precisely the CONCLUSION of the classical step" is
+       false.  The classical step factors through a subobject of a product
+       that DEPENDS ON [d]; [cogen_prod] does not, and the datum as stated is
+       refutable where the classical hypotheses hold (the paragraph at the
+       end of this header).  "A well-powered subobject [i]" is likewise a
+       subobject NAMED by the index [WP], which need not be well-powered
+       (the previous bullet's correction).  "One member of a solution set
+       at [d]" stands.
 
    Packaging half (2) as data is a leaner-but-honest *hypothesis* form; it never
    weakens the CONCLUSION, which remains a genuine left adjoint
@@ -87,7 +117,45 @@ Generalizable All Variables.
    [cogenerator_canonical_monic] (half 1, fully internal and consuming
    [cog_separates]), and the reduction assembling the packaged classical data
    into a [SolutionSet] at every [d] and invoking [GAFT] (half 2, over the
-   packaged smallness datum). *)
+   packaged smallness datum).
+
+   THE COVERING DATUM IS REFUTABLE AT THE IDENTITY OF [Sets] (#451).
+   Adjunction/SAFT/Sets.v's [SubobjectCover_Id_Sets_absurd] proves, closed
+   under the global context, that [SubobjectCover (@Id Sets) comp G WP] is
+   EMPTY for every completeness witness [comp], every cogenerating family
+   [G] and every subobject index [WP], at every universe instance [SAFT]
+   asks for at [Sets@{h cobj}] with [Set < h] (that file's UNIVERSES
+   paragraph and its control [SubobjectCover_Id_Sets_absurd_at_SAFT]).
+   The mechanism is [SubobjectCover_Id_retract] below: at [U := Id], the
+   datum at [d := c] and [h := id] makes every object [c] a retract
+   [t ∘ s ≈ id] of the domain of one indexed mono into the SINGLE object
+   [cogen_prod comp G]; taking [c] to be the setoid of [Prop]-valued
+   predicates on that object's carrier, Cantor's diagonal refutes it (the
+   mono is injective by Instance/Sets.v's [injectivity_is_monic]).
+   Classically [Sets] is complete, well-powered and cogenerated by a
+   two-element set, and [Id] preserves limits, so the classical
+   hypotheses hold where the datum does not: the datum is not their
+   consequence.  The reason is that [cogen_prod] is the product of the
+   cogenerating family and does not depend on [d].  The classical proof
+   works in the comma category: nLab (adjoint functor theorem) takes "the
+   set of all objects of the form d→Rc_α" as the cogenerating set of d↓R
+   and builds the initial object as "the intersection = pullback of all
+   subobjects of ∏_s k_s", a product over arrows OUT OF [d].  The
+   comparison with the classical hypotheses is a meta-argument, not an
+   in-tree theorem.  In tree, at [Id[Sets]]: completeness and
+   preservation are inhabited (Instance/Sets/Complete.v's [Sets_Complete],
+   Adjunction/GAFT/Sets.v's [Sets_Id_PreservesImageLimit]);
+   well-poweredness only under [Untruncate] (Instance/Sets/WellPowered.v's
+   [Sets_WellPowered_untruncate]); and no [Cogenerator] is built at [Sets]
+   anywhere (a grep for the word [Cogenerator] over the .v files outside
+   Test/ finds twelve files, each carrying the generic record, a hypothesis
+   of that type, a bridge or prose, and none constructing one at [Sets]).
+   Consequently no well-poweredness result can discharge [cover]:
+   Adjunction/SAFT/WellPowered.v's [WellPowered_SubobjectIndex] supplies
+   [WP], [cover] remains, and at [Id[Sets]] it is refuted whatever [WP]
+   is.  [SAFT] itself is not re-shaped here; its statement, and those of
+   [SAFT_solution_set] and Adjunction/Representability/Sets.v's
+   [saft_representable], are unchanged. *)
 
 (** ** Cogenerating families *)
 
@@ -115,7 +183,13 @@ Arguments cog_separates {C} _ {x y} f g _.
    [sub_mono i : sub_dom i ~> x] witnessing that [sub_dom i] genuinely names a
    subobject of [x] (a subobject of [x] IS a mono into [x], per Theory/
    Morphisms.v).  Well-poweredness of [C] is then [forall x, SubobjectIndex x]:
-   the subobjects of every object are supplied as a small family of data. *)
+   the subobjects of every object are supplied as a small family of data.
+   CORRECTION (#451): that sentence is false.  [forall x, SubobjectIndex x]
+   has no exhaustiveness clause and is inhabited in EVERY category by the
+   empty family ([empty_SubobjectIndex] below), so it is strictly weaker than
+   well-poweredness, which is Structure/WellPowered.v's [WellPowered]; the
+   bridge [WellPowered_SubobjectIndex] (Adjunction/SAFT/WellPowered.v) goes
+   one way only. *)
 Record SubobjectIndex {C : Category} (x : C) := {
   sub_index : Type;
   sub_dom : sub_index -> C;
@@ -127,6 +201,39 @@ Arguments sub_index {C x} _.
 Arguments sub_dom {C x} _ _.
 Arguments sub_mono {C x} _ _.
 Arguments sub_monic {C x} _ _.
+
+(** ** [SubobjectIndex] does not give well-poweredness *)
+
+(* The bridge the other way (#451), from Structure/WellPowered.v's
+   [WellPowered] to this record, is the satellite Adjunction/SAFT/
+   WellPowered.v, so that this file requires only Theory/Subobject.v for
+   [SubObj] and not the well-poweredness development.  Theory/Subobject.v
+   declares projections [sub_dom] and [sub_mono] of its own; they are
+   written qualified below, since the unqualified names in this file are
+   this file's.
+
+   The converse is false: the empty family is a [SubobjectIndex] of every
+   object of every category.  At the level of categories,
+   Structure/WellPowered/Counterexample.v's [AntichainTop] carries that
+   empty [SubobjectIndex] at every object and is not well-powered
+   ([AntichainTop_not_WellPowered]). *)
+Definition empty_SubobjectIndex {C : Category} (x : C) : SubobjectIndex x :=
+  {| sub_index := False ;
+     sub_dom   := fun i => match i with end ;
+     sub_mono  := fun i => match i with end ;
+     sub_monic := fun i => match i with end |}.
+
+(* ... and it cannot be completed to a well-powered index: there is no map
+   from the subobjects of [x] into it, since [x] itself, along the identity,
+   is a subobject. *)
+Lemma SubobjectIndex_not_exhaustive {C : Category} (x : C) :
+  (SubObj x -> sub_index (empty_SubobjectIndex x)) -> False.
+Proof.
+  intros f.
+  exact (f {| Subobject.sub_dom := x ;
+              Subobject.sub_mono := id ;
+              Subobject.sub_is_monic := id_monic x |}).
+Qed.
 
 (** ** The product of the cogenerating family *)
 
@@ -236,7 +343,13 @@ Qed.
    step) at [d]: every [h : d ~> U c] factors through a well-powered subobject of
    the product of the cogenerating family — there is a subobject index [i], a
    [d]-arrow [s : d ~> U (sub_dom i)], and a [C]-arrow [t : sub_dom i ~> c] with
-   [fmap[U] t ∘ s ≈ h].  This is exactly a member of a solution set at [d]. *)
+   [fmap[U] t ∘ s ≈ h].  This is exactly a member of a solution set at [d].
+   CORRECTION (#451): "the packaged conclusion of the classical factorization
+   step" overstates it.  The product here is independent of [d], and the datum
+   is refutable at the identity of [Sets] (the header's last paragraph;
+   [SubobjectCover_Id_retract] below is the first step of that refutation).
+   "A well-powered subobject" is a subobject named by the index [WP], which
+   need not be well-powered ([SubobjectIndex]'s correction above). *)
 Definition SubobjectCover {C D : Category} (U : C ⟶ D)
   (comp : @Complete C) (G : Cogenerator C)
   (WP : forall x : C, SubobjectIndex x) : Type :=
@@ -246,9 +359,22 @@ Definition SubobjectCover {C D : Category} (U : C ⟶ D)
         { t : sub_dom (WP (cogen_prod comp G)) i ~> c &
           fmap[U] t ∘ s ≈ h } } }.
 
+(* What the datum says at [U := Id] (#451): EVERY object of [C] is a retract
+   of the domain of one indexed mono into the one object [cogen_prod comp G].
+   It is the datum itself at [d := c] and [h := id]. *)
+Definition SubobjectCover_Id_retract {C : Category} (comp : @Complete C)
+  (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x)
+  (cover : SubobjectCover (@Id C) comp G WP) (c : C) :
+  { i : sub_index (WP (cogen_prod comp G)) &
+    { s : c ~> sub_dom (WP (cogen_prod comp G)) i &
+      { t : sub_dom (WP (cogen_prod comp G)) i ~> c & t ∘ s ≈ id } } } :=
+  cover c c id.
+
 (* The solution set at [d]: its members are the pairs [(i, s)] of a well-powered
    subobject [i] of the cogenerator product together with a [d]-arrow
-   [s : d ~> U (sub_dom i)].  The covering property is delivered by [cover]. *)
+   [s : d ~> U (sub_dom i)].  The covering property is delivered by [cover].
+   (CORRECTION, #451: "well-powered subobject" here means a subobject named
+   by the index [WP], which need not be well-powered; see [SubobjectIndex].) *)
 (* THE INDEX UNIVERSE [i] IS FREE HERE.  The index built below is a sigma
    over [sub_index (WP (cogen_prod comp G))] and a [d]-arrow, and nothing
    in this definition relates its level to the ambient hom universe [h].
@@ -289,7 +415,10 @@ Defined.
 
 (* SAFT.  The packaged well-powered / cogenerator data assemble a solution set at
    every [d]; completeness and cone-level preservation are handed to [GAFT],
-   which returns the left adjoint [F ⊣ U]. *)
+   which returns the left adjoint [F ⊣ U].  (CORRECTION, #451: the packaged
+   data are the subobject index [WP], which is not well-poweredness, the
+   cogenerating family and the covering datum; "the WELL-POWEREDNESS datum"
+   in the next comment is [WP] in the same sense.) *)
 (* THE TWO IDENTIFICATIONS ARRIVE HERE, from [GAFT], and the binders say
    so: [@Complete@{h h h cobj} C] puts [Complete]'s shape-object universe
    at the ambient hom universe [h], and passing [SAFT_solution_set] to

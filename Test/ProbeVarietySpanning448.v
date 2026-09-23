@@ -94,6 +94,11 @@ End Probes.
    there being no wide pullbacks of [SVariety]; "Cannot infer this
    placeholder of type "HasWidePullbacks (SVariety CommEq)" (no type
    class instance found)".  A [Definition] with a hole, never a [Check],
-   which tolerates the open evar. *)
+   which tolerates the open evar.  (CORRECTION, #451: "there being no
+   wide pullbacks of [SVariety]" is no longer true.  Structure/Pullback/
+   Wide/Complete.v's [Complete_HasWidePullbacks] applied to Instance/
+   Variety/Limit.v's [SVariety_Complete] builds them.  The refusal below
+   still stands, because class search registers neither of the two;
+   Test/ProbeWellPowered451.v's N22 and its control pin exactly that.) *)
 Fail Definition p448v_no_wide_pullbacks :
   @HasWidePullbacks (SVariety CommEq) := _.

@@ -342,7 +342,13 @@ Generalizable All Variables.
      it is kept because this file is the sharpness companion to that
      file's [representability_theorem] and the link should be a term and
      not a comment.  Theory/Size.v and Structure/UniversalProperty/
-     Terminal.v cost 1 each; the other 23 [Require]s cost 0. *)
+     Terminal.v cost 1 each; the other 23 [Require]s cost 0.
+     (CORRECTION, #451: Adjunction/SAFT.v, which Adjunction/
+     Representability/Sets.v requires, now requires Theory/Subobject.v,
+     and nothing else here reaches that module.  Counted over
+     .Makefile.coq.d, which reproduces 102 and 46 when that edge is left
+     out, the closure is 103 and Adjunction/Representability/Sets.v costs
+     47 at the margin; the other margins are unchanged.) *)
 
 (** ** The constant functor at the singleton, and its continuity *)
 

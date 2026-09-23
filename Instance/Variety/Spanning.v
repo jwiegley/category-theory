@@ -192,6 +192,21 @@ Generalizable All Variables.
    none and none is proved; and no claim that distinct spanning arrows
    out of X are pairwise non-isomorphic.
 
+   CORRECTION (#451): "no [HasWidePullbacks (SVariety E)]" above no
+   longer stands.  Structure/Pullback/Wide/Complete.v's
+   [Complete_HasWidePullbacks (SVariety_Complete E)] inhabits it, closed
+   under the global context (measured in a scratch file importing both).
+   "Hence no route through the general Lemma" still stands, for a
+   universe reason: that inhabitant carries the level of
+   [SVariety_Complete]'s limits, the carrier, in the class's second
+   universe, and Adjunction/SpanningArrow.v's [spanning_solution_set]
+   needs it strictly above the carrier; the call at [SVariety_Forget E],
+   with [PreservesWidePullbacks] as a section hypothesis, is refused with
+   "universe inconsistency: Cannot enforce <carrier> = <the class's second
+   universe> because <carrier> < ..." (that text in the section form
+   only; with the hypothesis an ordinary binder, Rocq reports the index
+   slot's equation first, as Test/ProbeWellPowered451.v's N20 records).
+
    ** Transparency, measured
 
    Four [Defined] and twenty-three [Qed]

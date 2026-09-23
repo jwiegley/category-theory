@@ -183,7 +183,15 @@ Generalizable All Variables.
    [SubobjectIndex], and builds [SubobjectCover] over it.  Feeding
    the intersections constructed here into that hypothesis list is issue
    #448 and is not attempted in this file; nothing below mentions SAFT,
-   and no constant here is named by that development.
+   and no constant here is named by that development.  (CORRECTION,
+   #451: [SubobjectIndex] is not the well-poweredness SAFT consumes in
+   the classical theorem -- it has no exhaustiveness clause, and
+   Adjunction/SAFT.v's [empty_SubobjectIndex] inhabits it at every
+   object; well-poweredness is Structure/WellPowered.v's [WellPowered].
+   Nor does [SAFT]'s hypothesis list contain an intersection hypothesis
+   to feed: its premises are completeness, cone-level preservation, a
+   cogenerating family, the index and the covering datum
+   [SubobjectCover].)
 
    UNIVERSES, measured with [Set Printing Universes. About ...] rather than
    read off the source, which carries no annotation.  Every constant below
