@@ -596,15 +596,40 @@ Qed.
 (** ** The zero object: the trivial group *)
 
 (* The one-element group on [poly_unit]: unit, operation and inversion are
-   all the point, and every law holds by computation. *)
-Definition Grp_trivial : GrpObject.
+   all the point, and every law holds by computation.
+
+   THE UNIVERSES ARE WRITTEN OUT, and that is a correction.  Before #450 the
+   eight constants of this section carried no binders, and minimization put
+   [unit_setoid]'s relation universe at the literal [Set]: [About] under
+   [Set Printing Universes] read [Grp_trivial@{u} : GrpObject@{u u Set}],
+   [Grp_zero_hom@{u} : ∀ G : GrpObject@{Set Set Set}, …] and
+   [Grp_Zero@{u} : ZeroObject@{u Set} Grp@{u Set}], so the zero object of
+   [Grp] existed only at [Set] carriers.  The headers of
+   Instance/Grp/Quotient/Colimit.v, Instance/Grp/Pushout.v,
+   Instance/Grp/EckmannHilton.v, Instance/Grp/Completion.v,
+   Instance/Grp/Abelianize.v, Instance/Rg.v and Instance/Top/Pushout.v,
+   and the probes Test/ProbePushoutGrpTop.v and Test/ProbeGrpQuotient.v,
+   recorded that pin (each now carries a correction), and the
+   constructions of Instance/Grp/Colimit.v, whose carriers sit strictly
+   above [Set], could not use it.  With the binders below the readbacks
+   are [Grp_trivial@{p} : GrpObject@{p p p}] and
+   [Grp_Zero@{u p} : ZeroObject@{u p} Grp@{u p}], whose constraint blocks
+   are [Grp@{u p}]'s own ([Set < u], [p < u] and stdlib bounds on [p])
+   plus the bound [p <= Logic_lemmas.equality.u0] that [unit_setoid]
+   brings; the instance [iso_id@{u p p u}] reuses [Grp]'s object universe
+   for the one extra level [iso_id] asks for.  The source bodies are
+   unchanged apart from those annotations; the elaborated terms are not
+   quite: [Print] under [Set Printing All], before and after #450, shows
+   [Grp_trivial]'s reflexivity witnesses as [eq_Reflexive] before and as
+   [Equivalence_Reflexive (setoid_equiv unit_setoid)] after. *)
+Definition Grp_trivial@{p} : GrpObject@{p p p}.
 Proof.
   unshelve notypeclasses refine {|
-    grp_setoid := {| carrier := poly_unit; is_setoid := unit_setoid |};
+    grp_setoid := {| carrier := poly_unit@{p}; is_setoid := unit_setoid@{p p} |};
     grp_unit := ttt;
     grp_mul := fun _ _ => ttt;
     grp_inv := fun _ => ttt;
-    grp_prop := unit_PropEquiv
+    grp_prop := unit_PropEquiv@{p p}
   |}.
   - intros x y Hxy u v Huv.
     reflexivity.
@@ -619,7 +644,8 @@ Defined.
 
 (* The unique homomorphism into the trivial group: everything to the
    point. *)
-Definition Grp_one (G : GrpObject) : G ~{Grp}~> Grp_trivial.
+Definition Grp_one@{u p} (G : GrpObject@{p p p}) :
+  G ~{Grp@{u p}}~> Grp_trivial@{p}.
 Proof.
   unshelve notypeclasses refine
     (Build_GrpHom G Grp_trivial {| morphism := fun _ => ttt |} _ _).
@@ -631,19 +657,21 @@ Proof.
 Defined.
 
 (* Uniqueness into the trivial group: both images live in [poly_unit]. *)
-Lemma Grp_one_unique (G : GrpObject) (f g : G ~{Grp}~> Grp_trivial) : f ≈ g.
+Lemma Grp_one_unique@{u p} (G : GrpObject@{p p p})
+  (f g : G ~{Grp@{u p}}~> Grp_trivial@{p}) : f ≈ g.
 Proof.
   intro a.
   destruct (grp_map f a), (grp_map g a).
   reflexivity.
 Qed.
 
-Definition Grp_Terminal : @Terminal Grp :=
-  @Build_Terminal Grp Grp_trivial Grp_one Grp_one_unique.
+Definition Grp_Terminal@{u p} : @Terminal Grp@{u p} :=
+  @Build_Terminal Grp@{u p} Grp_trivial@{p} Grp_one@{u p} Grp_one_unique@{u p}.
 
 (* The unique homomorphism out of the trivial group: the point goes to the
    unit -- the only unit-preserving choice. *)
-Definition Grp_zero_hom (G : GrpObject) : Grp_trivial ~{Grp}~> G.
+Definition Grp_zero_hom@{u p} (G : GrpObject@{p p p}) :
+  Grp_trivial@{p} ~{Grp@{u p}}~> G.
 Proof.
   unshelve notypeclasses refine
     (Build_GrpHom Grp_trivial G {| morphism := fun _ => grp_unit G |} _ _).
@@ -659,8 +687,8 @@ Defined.
    homomorphism sends units to units ([grp_map_unit]).  Note the contrast
    with [Sets], where the initial object is the EMPTY setoid: there is no
    empty group, and this is what makes the trivial group a zero object. *)
-Lemma Grp_zero_hom_unique (G : GrpObject)
-  (f g : Grp_trivial ~{Grp}~> G) : f ≈ g.
+Lemma Grp_zero_hom_unique@{u p} (G : GrpObject@{p p p})
+  (f g : Grp_trivial@{p} ~{Grp@{u p}}~> G) : f ≈ g.
 Proof.
   intro a.
   destruct a.
@@ -670,14 +698,16 @@ Proof.
     exact (grp_map_unit g).
 Qed.
 
-Definition Grp_Initial : @Initial Grp :=
-  @Build_Terminal (Grp^op) Grp_trivial Grp_zero_hom Grp_zero_hom_unique.
+Definition Grp_Initial@{u p} : @Initial Grp@{u p} :=
+  @Build_Terminal (Grp@{u p}^op) Grp_trivial@{p} Grp_zero_hom@{u p}
+    Grp_zero_hom_unique@{u p}.
 
 (* The trivial group is a zero object.  The same record [Grp_trivial]
    carries both the terminal and the initial structure, so the coincidence
    isomorphism of Structure/ZeroObject.v is the identity. *)
-#[export] Instance Grp_Zero : ZeroObject Grp :=
-  @Build_ZeroObject Grp Grp_Terminal Grp_Initial iso_id.
+#[export] Instance Grp_Zero@{u p} : ZeroObject Grp@{u p} :=
+  @Build_ZeroObject Grp@{u p} Grp_Terminal@{u p} Grp_Initial@{u p}
+    iso_id@{u p p u}.
 
 (** ** Binary direct products *)
 
@@ -1183,12 +1213,29 @@ Proof. reflexivity. Qed.
    previous commit).  The second reconciliation round trip is recorded here
    as well. *)
 
-Program Definition bool_setoid : Setoid bool := {| equiv := @eq bool |}.
+(* THE UNIVERSES ARE WRITTEN OUT, and that is a correction.  Before #450
+   [bool_setoid] and [Z2] carried no binders, and minimization put the
+   relation universe at the literal [Set]: [About] read
+   [bool_setoid@{u} : Setoid@{u Set} bool] and [Z2@{u} : GrpObject@{u Set
+   Set}], so [Z2] inhabited [Grp] only at [Set] carriers, and
+   Instance/Grp/Galois.v, Instance/Grp/Epi.v and Test/ProbeGalois381.v
+   recorded that pin.  With the binders the readbacks are
+   [bool_setoid@{u} : Setoid@{u u} bool] and [Z2@{p} : GrpObject@{p p p}],
+   each with the single bound [_ <= Logic_lemmas.equality.u0].  The
+   equivalence field is named ([eq_equivalence@{u u}], the proof
+   [eq_Setoid] uses) because under this file's [idtac] obligation tactic
+   the annotated [Program Definition] otherwise leaves it as an open
+   obligation.  The carrier, relation and operations are unchanged; the
+   equivalence proof is Lib/Setoid.v's [eq_equivalence] now, where
+   [Print] under [Set Printing All] read the stdlib's
+   [CRelationClasses.eq_equivalence] before #450. *)
+Program Definition bool_setoid@{u} : Setoid@{u u} bool :=
+  {| equiv := @eq bool; setoid_equiv := eq_equivalence@{u u} |}.
 
-Definition Z2 : GrpObject.
+Definition Z2@{p} : GrpObject@{p p p}.
 Proof.
   unshelve notypeclasses refine {|
-    grp_setoid := {| carrier := bool ; is_setoid := bool_setoid |};
+    grp_setoid := {| carrier := bool ; is_setoid := bool_setoid@{p} |};
     grp_unit := false;
     grp_mul  := xorb;
     grp_inv  := fun b => b;

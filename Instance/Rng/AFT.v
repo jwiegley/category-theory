@@ -221,7 +221,15 @@ Generalizable All Variables.
       Adjunction/GAFT/Sets.v, which feeds GAFT [Sets_Id_SolutionSet].
       Sweeping [grep -rnw GAFT] over all [.v] files outside
       [Adjunction/GAFT*], those two are the only applications of the theorem
-      in tree; everything else is prose or a probe.
+      in tree; everything else is prose or a probe.  (CORRECTION, #450:
+      that sweep is dated.  This file itself applies [GAFT] in four
+      constants -- [free_rng_ab_via_GAFT] and [free_ring_via_GAFT], and
+      their circular readings [free_rng_ab_via_GAFT_from_adjunction] and
+      [free_ring_via_GAFT_from_adjunction] -- and since #450
+      Instance/Grp/Colimit.v and Instance/Rng/Colimit.v apply it at the
+      diagonal functor of every shape with homs at the carrier universe
+      and objects at or below it, and Instance/Variety/Colimit.v at the
+      diagonal and at the forgetful functor of the setoid variety.)
 
    None of the six is established here -- each was in tree before this file
    was started, which is the whole difficulty, exactly as at [Grp].  What

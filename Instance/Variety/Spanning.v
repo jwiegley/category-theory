@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
@@ -154,15 +155,39 @@ Generalizable All Variables.
    [Type] one universe above the carrier (u3 < u6 in
    [variety_solution_set]'s constraints), a strict bound owned by
    [SolutionSet]'s own [sol_index : Type] field, not introduced here.
+   CORRECTION (#450): that readback is the one before #450, when the
+   type read [SolutionSet@{u6 u6 u6 u3}].  Re-measured by [About] under
+   [Set Printing Universes] after #450 split the universes with
+   [soa_prop]: [variety_solution_set@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9}]
+   returns [SolutionSet@{u8 u9 u8 u3}], the index at [u8], which is also
+   the object universe of [SVariety E], and its block has [u3 <= u6] and
+   no [u3 < u6]; the strict step is now [u3 < u5] with [u5 <= u8], [u5]
+   being the universe that also carries the block's one local [Set]
+   bound, [Set < u5] (a second, [Set < Projections.u0], bounds a stdlib
+   global).  So the index still sits strictly above the carrier [u3],
+   through [u5] rather than [u6].
 
    Also not delivered: no leastness in the SUBOBJECT order --
    [sgen_least] states it on membership predicates ([sa_mem]) and
    nothing states [sub_le (sgen_subobj h) (sa_subobj B)] in the lattice
    the Remark is phrased in; no [HasWidePullbacks (SVariety E)] and hence no
    route through the general Lemma, as above; no left adjoint is
-   rebuilt from this solution set (Free.v's
-   [Free_Variety_adjunction] already has one directly, and Free.v's "Why
-   not GAFT" block says why that route is the one taken); no
+   rebuilt from THIS solution set.  An earlier revision gave the reason
+   as "Free.v's [Free_Variety_adjunction] already has one directly, and
+   Free.v's "Why not GAFT" block says why that route is the one taken".
+   Since #450 that block records the opposite: GAFT DOES rebuild the free
+   algebra (Instance/Variety/Colimit.v's [Free_Variety_via_GAFT]), from a
+   DIFFERENT family, indexed by [Prop]-valued congruences on the term
+   algebra.  This file's family cannot be the one fed to it, and that is
+   measured rather than assumed: with Instance/Variety/Limit.v's
+   [SVariety_Complete] and [SVariety_Forget_continuous] as the other two
+   arguments, [GAFT (SVariety_Forget E) _ _ (variety_solution_set E)] is
+   refused, "universe inconsistency: Cannot enforce VS.103 = VS.160
+   because VS.160 < VS.115 <= VS.103" (the universe names are the scratch
+   file's): the index is a Σ over the OBJECTS of [SVariety E] and so one
+   universe above the carrier (Structure/Complete.v's size note, item 3),
+   while the congruence-indexed [SVariety_Forget_solution_set] is
+   accepted by the same call earlier in the same scratch file; no
    uniqueness of the spanning factorization -- [SolutionSet] asks for
    none and none is proved; and no claim that distinct spanning arrows
    out of X are pairwise non-isomorphic.
@@ -335,10 +360,15 @@ Definition sa_obj (B : SubAlg) : SetoidObject :=
   {| carrier   := { t : carrier (soa_obj (`1 A)) & sa_mem B t }
    ; is_setoid := sa_setoid B |}.
 
+(* Since #450 a setoid algebra carries [soa_prop]; a subalgebra's `≈` is
+   the ambient one read on first projections, so its propositional mirror
+   is the ambient algebra's, transported by [sigma_first_PropEquiv]. *)
 Program Definition sa_soa (B : SubAlg) : SetoidOpAlgebra S := {|
   soa_obj := sa_obj B;
   soa_op  := fun o k => (soa_op (`1 A) o (fun i => `1 (k i));
-                         sa_closed B o (fun i => `1 (k i)) (fun i => `2 (k i)))
+                         sa_closed B o (fun i => `1 (k i)) (fun i => `2 (k i)));
+  soa_prop := sigma_first_PropEquiv (sa_setoid B) (fun _ _ h => h) (fun _ _ h => h)
+                (soa_prop (`1 A))
 |}.
 Next Obligation.
   intros B o k1 k2 H; simpl.

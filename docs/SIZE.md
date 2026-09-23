@@ -331,7 +331,12 @@ logically a proposition — what classical mathematics means by calling the carr
 a *set*. Since 2026-09-17 the object records of `CMon`, `Ab`, `RMod R`, `Grp`,
 `Rig`, `Ring`, `Rng` and `Rg` carry it, so the congruences on their term models
 are carrier-sized and index a solution set at exactly the universe the adjoint
-functor theorems demand. `Theory/Size.v`'s `SmallType` and
+functor theorems demand. Since #450 so does `Instance/Variety/Free.v`'s
+`SetoidOpAlgebra`, the object record of every setoid variety `SVariety E` (field
+`soa_prop`), and the colimits of `Grp`, `Rng` and `SVariety E` are obtained the
+same way, at the diagonal (`Instance/Grp/Colimit.v`, `Instance/Rng/Colimit.v`,
+`Instance/Variety/Colimit.v`; the ADDENDUM (#450) to item 4 of the size note).
+`Theory/Size.v`'s `SmallType` and
 `Adjunction/GAFT/Resize.v`'s `SmallUpToIso`/`SmallCovering` are the vocabulary in
 which Mac Lane's §V.7 cardinality clause can then be *stated*, and
 `Instance/Mod/TensorAFT.v` is the one place it is proved. Read the scope
@@ -362,4 +367,4 @@ and this document still records as absent.
 | Riehl 1.1.6 (small + packaging) | `Small` + `ArrowQuiver`/`ArrowQuiverOfCat` (both supplied; their *equivalence* is not established) |
 | Riehl 1.1.7 (locally small) | `locally_small_ambient`; the "not small" half not statable |
 | Riehl 1.3 (`Cat`/`CAT`) | single polymorphic construction — witnessed by `Check (Cat : obj[Cat])` |
-| the solution-set size condition | **not a predicate**: the size note in `Structure/Complete.v` states it, `PropEquiv` (`Lib/Setoid/Propositional.v`) discharges it for the concrete algebraic categories, and `SmallType`/`SmallUpToIso` (`Theory/Size.v`, `Adjunction/GAFT/Resize.v`) are the vocabulary for Mac Lane §V.7's cardinality clause |
+| the solution-set size condition | **not a predicate**: the size note in `Structure/Complete.v` states it, `PropEquiv` (`Lib/Setoid/Propositional.v`) discharges it for the concrete algebraic categories (and, since #450, for every setoid variety `SVariety E`, whose `SetoidOpAlgebra` carries `soa_prop`), and `SmallType`/`SmallUpToIso` (`Theory/Size.v`, `Adjunction/GAFT/Resize.v`) are the vocabulary for Mac Lane §V.7's cardinality clause |

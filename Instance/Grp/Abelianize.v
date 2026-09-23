@@ -189,8 +189,8 @@ Generalizable All Variables.
     [bool : Set].  It is NOT [AbTwo]'s doing — [AbTwo@{u u0 u1 u2 u3 u4
     u5}] has an empty [Set]-free block of its own, and neither is it
     Instance/Grp.v's [Grp_trivial]/[Grp_Zero] pin (disclosed in
-    Instance/Grp/Quotient/Colimit.v), neither of which is used anywhere
-    in this file.  Two further S₃ statements,
+    Instance/Grp/Quotient/Colimit.v, and lifted by #450), neither of which
+    is used anywhere in this file.  Two further S₃ statements,
     [abelianize_S3_identifies] and [abelianize_S3_proper], display
     [Set] inside a universe INSTANCE ([abel_eq@{u u Set}]) while
     acquiring no [Set] CONSTRAINT: an instance is not a constraint.

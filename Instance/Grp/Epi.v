@@ -1365,7 +1365,12 @@ End Epi.
                      PropEquiv@{u0 u0} (is_setoid X) → GrpObject@{u0 u0 u0}
 
    -- [Z2] is now pinned at [Set] in the CARRIER as well as the relation, so
-   the obstruction is if anything sharper, and the conclusion is unchanged.  The two-element group below repeats [Z2] on a
+   the obstruction is if anything sharper, and the conclusion is unchanged.
+   CORRECTION (#450): the obstruction is gone.  #450 wrote out [Z2]'s
+   universes in place, and [About] now reads [Z2@{p} : GrpObject@{p p p}]
+   over [bool_setoid@{u} : Setoid@{u u} bool], so [Z2] inhabits [Grp] at
+   every carrier level; everything above in this comment describes the
+   tree before #450, and the witnesses below are kept as they are.  The two-element group below repeats [Z2] on a
    carrier and an equivalence built from [poly_unit], which is
    universe-polymorphic, so no universe of [GrpTwo] is pinned and the general
    theorems apply to it directly.  The three-letter setoid of the second

@@ -131,12 +131,16 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **8982** on
-2026-09-17, against **8773** immediately before the PR "algebraic
-carriers are sets". Its phases moved it 8773 → 8808 (universe hygiene
-on the adjoint-functor path) → 8815 (the CMon, Ab, RMod and rig fields)
-→ 8929 (the unconditional tensor, balanced tensor and free rings) →
-8965 (the non-circular free group) and on to the figure above with the
+criterion: `grep -c 'Print Assumptions' Makefile` returns **9240** on
+2026-09-23, after #450 (colimits in algebraic categories by the adjoint
+functor theorem) added ONE block of 258 names over nine modules, every
+one "Closed under the global context". An earlier revision of this
+paragraph gave **8982**, the figure on 2026-09-17, against **8773**
+immediately before the PR "algebraic carriers are sets". That PR's
+phases moved it 8773 → 8808 (universe hygiene on the adjoint-functor
+path) → 8815 (the CMon, Ab, RMod and rig fields) → 8929 (the
+unconditional tensor, balanced tensor and free rings) → 8965 (the
+non-circular free group) and on to 8982 with the
 documentation-and-guards pass. Everything the PR added is gated
 and every gated constant reports "Closed under the global context" —
 the `PropEquiv` class and its transports, the three new object-record
@@ -197,7 +201,19 @@ each reported "Closed under the global context":
   existence now coincide at these three instances.  The same PR adds
   the unconditional tensor product of modules and balanced tensor
   (`Instance/Mod/TensorAFT.v`) through `representability_theorem`,
-  likewise closed and gated
+  likewise closed and gated.  Since #450 `GAFT` is also applied at the
+  DIAGONAL `Δ[J]` of `Grp`, `Rng` and every setoid variety `SVariety E`,
+  for every shape within `Cocomplete@{u u0 u u1}` — shape homs AT the
+  carrier universe, shape objects at or below it; `Two_Discrete`, whose
+  homs sit at `Set`, is refused — (`Grp_colim_via_GAFT`,
+  `Rng_colim_via_GAFT`, `SVariety_colim_via_GAFT`, and the cocompleteness
+  results `Grp_Cocomplete_via_GAFT`, `Rng_Cocomplete_via_GAFT`,
+  `SVariety_Cocomplete_via_GAFT` read off them), and at `SVariety_Forget`
+  (`Free_Variety_via_GAFT`), on congruence-indexed solution sets; the
+  preservation input is the new `Diagonal_continuous`
+  (`Adjunction/Diagonal/Limit.v`) at the diagonal and
+  `SVariety_Forget_continuous` (`Instance/Variety/Limit.v`) for the free
+  algebra; all 258 names of that PR's gate block are closed and gated
 - `beck_monadicity` and `monadic_creates`
   (`Monad/Monadicity/Beck.v`) — Beck's precise monadicity theorem
 - `RoundTrip_Equivalence` (`Construction/Grothendieck/RoundTrip.v`) —
@@ -239,7 +255,12 @@ is a claim about these named definitions, not about every definition in
 either file:
 
 - `Grp`, `Grp_Forget`, `Grp_Zero` (`Instance/Grp.v`) — the category of
-  groups, its underlying-set functor, and its zero object
+  groups, its underlying-set functor, and its zero object; since #450,
+  which wrote out the universes of the zero-object constants and of `Z2`
+  in place, the seven zero-object constants behind `Grp_Zero` that were
+  not gated before (`Grp_trivial`, `Grp_one`, `Grp_one_unique`,
+  `Grp_Terminal`, `Grp_zero_hom`, `Grp_zero_hom_unique`, `Grp_Initial`)
+  are gated too, with `bool_setoid` and `Z2`, all closed
 - `fixed_product_functor`, `fixed_product_transform`,
   `fixed_product_transform_faithful`, `alt_transform`,
   `alt_is_inj_left` (`Functor/Product/Fixed.v`) — the fixed-factor
@@ -367,7 +388,11 @@ the global context".  Known live uses:
   `tree_equiv`, `Free_Variety`, the universal property and the packaged
   `Free_Variety_adjunction` are all closed under the global context, 89
   constants gated in all (67 `.glob` heads plus 22 `Program`
-  obligations). The reason is that the equations enter that file ONLY
+  obligations) — 91 since #450, which added the field `soa_prop` to
+  `SetoidOpAlgebra` and gates its projection and
+  `Build_SetoidOpAlgebra`, both closed (measured by
+  `grep -o 'Print Assumptions Category\.Instance\.Variety\.Free\.[A-Za-z0-9_]*' Makefile | sort -u | wc -l`,
+  89 at the parent commit). The reason is that the equations enter that file ONLY
   through `EqSignature`'s `lhs_natural`/`rhs_natural`, and every
   construction there CONSUMES those fields rather than proving one — the
   `functional_extensionality_dep` above is the cost of BUILDING an
@@ -380,7 +405,13 @@ the global context".  Known live uses:
   `Print Assumptions Category.Instance.Variety.Free.Free_Variety_adjunction.`
   (closed) against
   `Print Assumptions Category.Instance.Variety.Free.FreeGroup_adjunction.`
-  (the axiom).
+  (the axiom).  The four are unchanged by #450, whose two new variety
+  files, `Instance/Variety/Limit.v` and `Instance/Variety/Colimit.v`,
+  add 105 constants (32 and 73, enumerated by `Print Module` with the two
+  record constructors), all closed and gated; instantiating any of them
+  at `UA.GroupEq` would inherit the axiom from the building of that
+  `EqSignature`, and none is named, the closed non-vacuity instances
+  being at `CommEq`.
 - **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
   and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).

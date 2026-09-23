@@ -216,16 +216,27 @@ Generalizable All Variables.
 
    NOT delivered: no colimits and no cocompleteness for [Grp] (Awodey
    §5.6's omega-colimit half is #561's, and the filtered-colimit machinery
-   it needs exists nowhere in tree); no signature-generic variant, as above;
-   no comparison of the created binary product with Instance/Grp.v's
-   [Grp_Cartesian], which would go through a discrete diagram and so through
-   Instance/Discrete.v's unannotated [DiscreteCat_Functor], pinning the
-   ambient hom and proof universes to the literal [Set]; no analogue for
-   [CMon], [Ab], [Rng] or [RMod], though the engine transfers unchanged; no
-   monadicity statement and no comparison functor, so nothing here says
-   [Grp] IS an Eilenberg-Moore category; and NOTHING is registered as an
-   [Instance] -- the file declares none, following its template, since a
-   chosen limit must not become globally resolvable. *)
+   it needs exists nowhere in tree) -- CORRECTION (#450): [Grp] is
+   cocomplete since #450, by Instance/Grp/Colimit.v's
+   [Grp_Cocomplete_via_GAFT], the adjoint functor theorem applied at the
+   diagonal with this file's [Grp_Complete] as its completeness
+   hypothesis; that is not the filtered-colimit route, which is still
+   absent, and none of those colimits computes; no signature-generic
+   variant, as above; no comparison of the created binary product with
+   Instance/Grp.v's [Grp_Cartesian], which would go through a discrete
+   diagram and so through Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor], pinning the ambient hom and proof universes to
+   the literal [Set] -- CORRECTION (#450): that reason had stopped holding
+   before #450.  The PR "algebraic carriers are sets" annotated
+   [DiscreteCat_Functor] in place, and [About] reads
+   [DiscreteCat_Functor@{o h p uo uh up u}] over [C : Category@{uo uh up}]
+   with no [Set] in its constraint block; the comparison itself is still
+   not made; no analogue for [CMon], [Ab], [Rng] or [RMod], though the
+   engine transfers unchanged; no monadicity statement and no comparison
+   functor, so nothing here says [Grp] IS an Eilenberg-Moore category;
+   and NOTHING is registered as an [Instance] -- the file declares none,
+   following its template, since a chosen limit must not become globally
+   resolvable. *)
 
 (** * Joint monicity of limit legs in [Sets], elementwise *)
 

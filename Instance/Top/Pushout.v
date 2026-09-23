@@ -120,7 +120,10 @@ Generalizable All Variables.
    occurrences across [grp_const], [Grp_free_product], [Grp_fp_inl/inr],
    [Grp_fp_merge], [Grp_fp_inl_Section] and [Grp_Cocartesian]).  The one
    [Set]-pinned constant over there is [Grp_zero_hom_Section], which is
-   the route NOT taken.  (An earlier draft of this header claimed the Grp
+   the route NOT taken.  (CORRECTION, #450: it is pinned no longer; #450
+   wrote out the universes of its donor [Grp_zero_hom] in Instance/Grp.v,
+   and [About] reads [Grp_zero_hom_Section@{u u0}] over
+   [GrpObject@{u0 u0 u0}].)  (An earlier draft of this header claimed the Grp
    free-product layer inherits a [Set] pin; that was false, contradicted
    Instance/Grp/Pushout.v's own measured statement, and was a leftover
    from the refuted first construction.)

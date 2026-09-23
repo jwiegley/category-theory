@@ -349,6 +349,8 @@ Instance/Grp/Completion.v
 Instance/Grp/Limit.v
 Instance/Grp/FreeAFT.v
 Instance/Grp/Pushout.v
+Instance/Grp/Colimit.v
+Instance/Grp/Colimit/Presentation.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
 Instance/Grp/Quotient/Isomorphism.v
@@ -433,6 +435,7 @@ Instance/Rng/MonoidRing.v
 Instance/Rng/Free.v
 Instance/Rng/Limit.v
 Instance/Rng/AFT.v
+Instance/Rng/Colimit.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
@@ -668,6 +671,8 @@ Instance/Cat/Components.v
 Instance/Variety.v
 Instance/Variety/Clone.v
 Instance/Variety/Free.v
+Instance/Variety/Limit.v
+Instance/Variety/Colimit.v
 Instance/Variety/Spanning.v
 Instance/Variety/GroupComparison.v
 Structure/Monoid.v
@@ -840,6 +845,7 @@ Theory/Morphisms/Duality.v
 Theory/Morphisms/Stability.v
 Theory/Morphisms/CokernelPair.v
 Theory/Subobject.v
+Theory/Subobject/Disjoint.v
 Theory/Subobject/Functor.v
 Theory/Subobject/Lattice.v
 Theory/Subobject/Quotient.v
@@ -1026,3 +1032,5 @@ Test/ProbeAbPropSurjective.v
 Test/ProbeTermModelPropRng.v
 Test/ProbeGrpProp.v
 Test/ProbeRngAFTProp.v
+Test/ProbeAlgColimit450.v
+Test/ProbeVarietyColimit450.v

@@ -68,7 +68,14 @@ Generalizable All Variables.
     sigma form, and nothing here needs that.  Likewise no
     [HasCoequalizers], since the coequalizer of a general parallel pair
     (f, g) is the quotient by the normal closure of the image of
-    f · g⁻¹, which is not built. *)
+    f · g⁻¹, which is not built.  CORRECTION (#450): [HasCoequalizers
+    Grp] is now inhabited, by [Grp_HasCoequalizers_via_GAFT] in
+    Instance/Grp/Colimit.v -- a [Definition], not a registered instance
+    -- assembled from the pushouts and the initial object that the
+    adjoint functor theorem gives at the diagonal functor (that file's
+    header says how), rather than built from a quotient; the explicit
+    normal-closure quotient of f · g⁻¹ is still not built, here or there,
+    and that file's coequalizer does not compute. *)
 
 (** ** The trivial homomorphism computes *)
 
@@ -119,7 +126,21 @@ Proof. simpl; reflexivity. Qed.
    pinned a proof universe to [Set] and naming the universe lifted it.
    A repair would belong in Instance/Grp.v and is deliberately not
    attempted here; Instance/Grp/Quotient.v and its Isomorphism sibling
-   mention no zero morphism and carry no such pin. *)
+   mention no zero morphism and carry no such pin.
+
+   CORRECTION (#450): the repair was made in Instance/Grp.v, by writing
+   out the universes of its zero-object constants, and everything above
+   in this comment describes the tree before it.  Re-measured by [About]
+   under [Set Printing Universes] after #450: [grp_zero_mor_is_unit@{u u0}]
+   and [normal_closure_IsCokernel@{u u0}] quantify over
+   [GrpObject@{u0 u0 u0}], and [quot_IsCoequalizer@{u u0 u1}] over
+   [GrpObject@{u1 u1 u1}], with no binder instantiated at [Set] and no
+   [= Set] constraint: the one [Set] in each of the three blocks is
+   [Grp]'s own lower bound on its object universe ([Set < u] for the
+   first two, [Set < u0] for [quot_IsCoequalizer]), which [About Grp]
+   prints as [Grp@{u p}] with [Set < u].  The results of this file
+   therefore hold at every carrier level; the per-lemma binders below
+   are kept as written. *)
 
 (* The cofork equation: the projection cannot tell the inclusion from the
    trivial map, because every member of N is projected to the unit. *)

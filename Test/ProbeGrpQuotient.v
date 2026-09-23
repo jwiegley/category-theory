@@ -23,7 +23,8 @@
     with the [Fail] stripped, to confirm the rejection is the intended one
     and not a syntax, scope or resolution error: three "Unable to unify"
     conversion errors, and one genuine universe inconsistency naming the
-    declared universe, "Cannot enforce Set = big".
+    declared universe, "Cannot enforce Set = big".  (Since #450 that
+    fourth negative is a control; boundary (4) below says why.)
 
     The import list below is the union of the three target files' own
     lists, in their order.  That matters: a short prefix would leave the
@@ -61,7 +62,8 @@
     made transparent this probe would break and the comment in
     [image_med_wd] would need revisiting.
 
-    (4) ZERO MORPHISMS IN [Grp] ARE CONFINED TO [Set].
+    (4) ZERO MORPHISMS IN [Grp] WERE CONFINED TO [Set] (until #450; see
+    the correction closing this paragraph).
     [Grp_trivial] elaborates at [GrpObject@{u u Set}] and hence [Grp_Zero]
     at [ZeroObject@{u Set} Grp@{u Set}], even though
     the donor [unit_setoid@{t u}] (Lib/Setoid.v) is polymorphic in
@@ -78,6 +80,14 @@
     sets" (2026-09-17), which permuted [GrpObject]'s universe roles from
     (carrier, proof, aux) to (aux, carrier, proof).  The same reading, one
     position over; the pin and every negative below are unchanged.)
+    CORRECTION (#450): the guard did its job.  #450 annotated
+    Instance/Grp.v's zero-object constants in place ([Grp_trivial@{p} :
+    GrpObject@{p p p}], [Grp_Zero@{u p} : ZeroObject@{u p} Grp@{u p}]),
+    the build then stopped at Negative 4 with Rocq's report that the
+    guarded command had been accepted, and it is kept, without the guard,
+    as a CONTROL in section [BigZero] below.
+    Zero morphisms in [Grp] are no longer confined to [Set], and
+    Instance/Grp/Quotient/Colimit.v's disclosure is corrected in place.
 
     WHAT IS DELIBERATELY *NOT* PROBED.  The positive controls in
     section [Positive] include the two strict identifications that DO
@@ -141,7 +151,7 @@ Proof. exact (`2 (GrpImage_unit h)). Qed.
 Fail Definition negative_image_unit_witness {G K : GrpObject}
   (h : G ~{Grp}~> K) : `1 (GrpImage_unit h) = grp_unit G := eq_refl.
 
-(** ** Negative 4: zero morphisms in [Grp] pin the hom universe to [Set] *)
+(** ** Boundary 4, lifted by #450: zero morphisms in [Grp] above [Set] *)
 
 Monomorphic Universe big.
 Monomorphic Constraint Set < big.
@@ -149,7 +159,8 @@ Monomorphic Constraint Set < big.
 (* POSITIVE CONTROL: the quotient machinery itself carries no such pin --
    [QuotientGrp] and its universal element are formable at a group whose
    universes are declared strictly above [Set].  This is the half that
-   says the pin belongs to [Grp_Zero] and not to this development. *)
+   said the pin belonged to [Grp_Zero] (until #450 lifted it) and not to
+   this development. *)
 Section BigCarrier.
 
 Context {G : GrpObject@{big big big}}.
@@ -174,12 +185,16 @@ Definition control_big_first_iso {K : GrpObject@{big big big}}
 
 End BigCarrier.
 
-(* NEGATIVE: the zero morphism is not, at the same universes. *)
+(* CONTROL, formerly the NEGATIVE of boundary (4): the zero morphism at the
+   same universes.  Until #450 this was the guarded negative
+   [negative_big_zero], and stripping the guard reported "Cannot enforce
+   Set = big"; since
+   #450 annotated [Grp_Zero] it is accepted. *)
 Section BigZero.
 
 Context {G K : GrpObject@{big big big}}.
 
-Fail Definition negative_big_zero : G ~{Grp}~> K := @zero_mor Grp Grp_Zero G K.
+Definition control_big_zero : G ~{Grp}~> K := @zero_mor Grp Grp_Zero G K.
 
 End BigZero.
 

@@ -165,7 +165,11 @@ Local Set Default Proof Using "All".
        PROVABLY NO group-object structure, so the theorem excludes
        something.
    (9) A probe section: SIX negatives of three kinds against five positive
-       controls and an instrument check. *)
+       controls and an instrument check.  (CORRECTION, #450: FOUR
+       negatives of TWO kinds since #450, against SEVEN positive
+       controls, the two universe negatives having become [Check]
+       controls beside the five [ctrl_] constants; see the probe
+       section.) *)
 
 (* WHAT EACH HALF COSTS
 
@@ -257,7 +261,21 @@ Local Set Default Proof Using "All".
    This is a DONOR defect.  It is not repaired here (Instance/Grp.v is not
    touched), and it is NOT claimed unavoidable -- [unit_setoid] is
    polymorphic and the pin looks like the universe-minimization family
-   recorded elsewhere in this tree -- only located. *)
+   recorded elsewhere in this tree -- only located.
+
+   CORRECTION (#450): the donor defect is repaired.  #450 wrote out the
+   universes of Instance/Grp.v's zero-object constants in place, and
+   [About] now reads [Grp_trivial@{p} : GrpObject@{p p p}] and
+   [Grp_Terminal@{u p} : Terminal@{u p}], whose only constraints on local
+   universes are [Set < u] and [p < u], the rest being stdlib bounds on [p].
+   The two universe negatives in section [ProbeUniversePin] below then
+   stopped being refused (the build stopped at the first with Rocq's
+   report that the guarded command had been accepted) and are kept as
+   controls.  Everything ABOVE this
+   correction describes the tree before #450.  This file's own statements
+   were NOT generalized: [GrpS] is still [Grp@{gu Set}], the fixed reading
+   every constant below is stated at, and restating them at [Grp@{u p}]
+   is not undertaken here. *)
 
 (* NOTATION AND SCOPE NOTES, MEASURED
 
@@ -298,8 +316,9 @@ Local Set Default Proof Using "All".
    - [GrpS@{} : Category@{gu Set Set}], constraint block [Set < gu].  So
      the object universe is free and the HOM and PROOF universes are BOTH
      [Set].  That identification is not this file's doing: [Grp]'s second
-     universe binder fills both slots, and [Grp@{gu Set}] is the only
-     instance a terminal object has (see THE Set PIN).
+     universe binder fills both slots, and [Grp@{gu Set}] was the only
+     instance a terminal object had before #450 (see THE Set PIN and its
+     correction; since #450 [GrpS] is a choice, no longer a necessity).
    - Every constant carries [Set < gu] except FIVE, each for a reason:
      [ctrl_probe_category] and [ctrl_probe_cartesian] live at
      [Grp@{pu ph}] and carry [Set < ph], [ph < pu] instead, which is
@@ -316,8 +335,9 @@ Local Set Default Proof Using "All".
      [grp_tensor_unit_is_trivial], the three [abelian_roundtrip_*], the four
      [Z2_gob_*] and [eh_probe_instrument]) -- an earlier draft of this
      paragraph said TWO, which an audit corrected.  So the [Set] pin is
-     the ONLY identification, and it is INHERITED from [Grp_Terminal]
-     rather than introduced here.
+     the ONLY identification, and it was INHERITED from [Grp_Terminal]
+     rather than introduced here (since #450 it is kept by [GrpS]'s
+     definition alone).
    - The predicate itself is free in its own universe:
      [AbelianGrp@{u} : obj -> Type@{u}], constraint block [Set < gu] only.
 
@@ -396,7 +416,9 @@ Local Set Default Proof Using "All".
      neither is the observation that the tower stops here.
    - No relation to Structure/Group/Representable.v's hom-group reading of
      a group object, and none to Instance/Fun/Group.v's Exercise 3.
-   - The Set pin is disclosed and located, not repaired.
+   - The Set pin is disclosed and located, not repaired here.  (Since
+     #450 the donor is repaired in Instance/Grp.v, but this file's
+     constants are still stated at [GrpS] = [Grp@{gu Set}].)
    - [AbelianGrp G ↔ GroupObject G] is a biconditional only; the two type
      isomorphism attempts are refuted rather than achieved (see STRENGTHS).
    - S3 is shown to carry NO group-object structure, but no CLASSIFICATION
@@ -405,10 +427,10 @@ Local Set Default Proof Using "All".
 
 (** ** The ambient category and its cartesian monoidal structure *)
 
-(* The Set-pinned Grp.  See THE Set PIN above: [Grp_Terminal] forces the
-   hom universe, and naming the instance here keeps every statement below
-   at one fixed reading rather than letting elaboration pick per-constant
-   instances. *)
+(* The Set-pinned Grp.  See THE Set PIN above: [Grp_Terminal] forced the
+   hom universe until #450, and naming the instance here keeps every
+   statement below at one fixed reading rather than letting elaboration
+   pick per-constant instances. *)
 Monomorphic Universe gu.
 
 Definition GrpS : Category := Grp@{gu Set}.
@@ -839,11 +861,19 @@ Qed.
 
 (** ** Probes *)
 
-(* Five negatives of THREE kinds, each paired with a positive control that
+(* SIX negatives of THREE kinds, each paired with a positive control that
    names every constant the negative names, plus an instrument check.
    Each [Fail] below was stripped once and its error read: the kinds are
    genuinely distinct, and the two universe negatives report their failure
-   AT [Grp_Terminal] in both cases.
+   AT [Grp_Terminal] in both cases.  (CORRECTION, #450: this line said
+   "Five negatives" before #450, one short already: at the parent commit
+   e139ecfb the file had six guarded negatives, two universe, one typing
+   and three conversion.  And the two universe negatives are controls
+   since #450 lifted the donor pin, so what remains is FOUR negatives of
+   TWO kinds: the typing negative and the three conversion negatives.
+   Counted: five guarded commands in this file, those four and the
+   instrument, and seven positive controls, the five [ctrl_] constants
+   and the two [Check]s that replaced the universe negatives.)
 
    A PARSE error cannot be captured by [Fail] -- the file aborts even
    inside it -- so the notation findings recorded in the header above are
@@ -857,26 +887,30 @@ Constraint Set < ph.
 (* Positive controls.  The first two say that at a hom universe strictly
    above [Set] the category Grp still elaborates and is still cartesian --
    so neither [Grp] nor [Grp_Cartesian] is the cause.  The third is the
-   sharp contrast for the negative that follows: the SAME constant
-   [Grp_Terminal] is accepted at [GrpS], where the hom universe IS [Set],
-   and rejected one line later where it is not. *)
+   sharp contrast for the negative that followed until #450: the SAME
+   constant [Grp_Terminal] is accepted at [GrpS], where the hom universe
+   IS [Set], and was rejected one line later where it is not.  Since #450
+   it is accepted there too. *)
 Definition ctrl_probe_category : Category := Grp@{pu ph}.
 
 Definition ctrl_probe_cartesian : @Cartesian Grp@{pu ph} := Grp_Cartesian.
 
 Definition ctrl_probe_terminal : @Terminal GrpS := Grp_Terminal.
 
-(* FORMABILITY (universe), 1 of 2.  "The term Grp_Terminal has type
-   Terminal@{_ Set} while it is expected to have type Terminal@{pu ph}
-   (universe inconsistency: Cannot enforce Set = ph)." *)
-Fail Definition probe_terminal_pinned : @Terminal Grp@{pu ph} :=
-  Grp_Terminal.
+(* FORMABILITY (universe), 1 of 2, a CONTROL since #450.  Until then this
+   was a guarded negative named [probe_terminal_pinned], refused with "The term
+   Grp_Terminal has type Terminal@{_ Set} while it is expected to have
+   type Terminal@{pu ph} (universe inconsistency: Cannot enforce Set =
+   ph)."  #450 annotated [Grp_Terminal] in place, the build reported the
+   guarded command accepted, and the command is kept as a [Check] so that
+   no constant is added to the file's count. *)
+Check (Grp_Terminal : @Terminal Grp@{pu ph}).
 
-(* FORMABILITY (universe), 2 of 2.  The same rejection propagates to the
-   cartesian monoidal structure, and the error is still reported at
-   [Grp_Terminal] -- which is what locates the pin. *)
-Fail Definition probe_cm_pinned : @CartesianMonoidal Grp@{pu ph} :=
-  @CC_CartesianMonoidal Grp@{pu ph} Grp_Cartesian Grp_Terminal.
+(* FORMABILITY (universe), 2 of 2, a CONTROL since #450.  The rejection
+   used to propagate to the cartesian monoidal structure, reported at
+   [Grp_Terminal]; since #450 the structure is formable at [Grp@{pu ph}]. *)
+Check (@CC_CartesianMonoidal Grp@{pu ph} Grp_Cartesian Grp_Terminal
+       : @CartesianMonoidal Grp@{pu ph}).
 
 End ProbeUniversePin.
 
@@ -888,7 +922,8 @@ Definition ctrl_probe_groupobject : Type := @GroupObject GrpS GrpCM Z2.
 Fail Definition probe_needs_cartesian : Type :=
   @GroupObject GrpS GrpMon Z2.
 
-(* CONVERSION, 1 of 2.  The two multiplications agree at [≈] and NOT on
+(* CONVERSION, 1 of 3 (labelled "1 of 2" before #450, although the third
+   was already below).  The two multiplications agree at [≈] and NOT on
    the nose: [gmul2 G GO] projects a variable [GO], so nothing reduces.
    "cannot unify gmul2 G GO a b and grp_mul G a b". *)
 Example ctrl_probe_mul_agrees (G : GrpS)
@@ -899,7 +934,8 @@ Fail Example probe_mul_strict (G : GrpS)
         (GO : @GroupObject GrpS GrpCM G) (a b : carrier G) :
   gmul2 G GO a b = grp_mul G a b := eq_refl.
 
-(* CONVERSION, 2 of 2.  The whole-record round trip through both halves is
+(* CONVERSION, 2 of 3 (labelled "2 of 2" before #450, likewise).  The
+   whole-record round trip through both halves is
    refuted for the same reason: "cannot unify
    abelian_GroupObject G (group_object_abelian G GO) and GO".  What DOES
    hold is [group_object_roundtrip_mul] and its two siblings, at [≈].
@@ -921,9 +957,9 @@ Fail Example probe_other_roundtrip (G : GrpS) (HA : AbelianGrp G) :
   group_object_abelian G (abelian_GroupObject G HA) = HA := eq_refl.
 
 (* Instrument check: the [Fail] mechanism is live in this file, so the
-   six negatives above are not passing vacuously.  Note that [1] parses
-   as [terminal_obj] in [category_scope], which is why the check is
-   written over [bool]. *)
+   six negatives above (four since #450) are not passing vacuously.
+   Note that [1] parses as [terminal_obj] in [category_scope], which is
+   why the check is written over [bool]. *)
 Example eh_probe_instrument : true = true := eq_refl.
 
 Fail Example probe_instrument_neg : true = false := eq_refl.

@@ -13,7 +13,8 @@
 
     ** THE NEGATIVES, BY KIND
 
-    Seven negatives plus one instrument check.  The kinds are told apart
+    Seven negatives plus one instrument check (six since #450; see the
+    FORMABILITY paragraph).  The kinds are told apart
     by the error TEXT, not by a label, and every one was stripped ONE AT A
     TIME, compiled alone, and its whole error read.
 
@@ -33,8 +34,10 @@
                    between two DECLARED universes ("Cannot enforce qh = qo
                    because qo < qh"), while 8 reports the literal [Set]
                    ("Cannot enforce Set = ... because Set < ..."), which
-                   is what makes Instance/Grp.v's [Z2] unusable
-                   here.
+                   is what made Instance/Grp.v's [Z2] unusable
+                   here.  (CORRECTION, #450: Negative 8 is a CONTROL
+                   since #450 wrote out [Z2]'s universes in place; see
+                   its section.  Seven negatives are six since.)
 
     Every constant a negative names also appears in a command OUTSIDE any
     [Fail], donors included -- a guard that names a constant only inside
@@ -250,7 +253,8 @@ Fail Check (Subsets (act_setoid Aq)).
 End SubsetsIdentifies.
 
 (* ------------------------------------------------------------------------ *)
-(** ** Negative 8 (FORMABILITY): Instance/Grp.v's [Z2] is pinned at [Set] *)
+(** ** Formerly Negative 8 (FORMABILITY): Instance/Grp.v's [Z2] was pinned
+    at [Set] *)
 
 (* [Z2@{u} : GrpObject@{u Set Set}] -- its CARRIER and relation universes
    are both the literal [Set], not parameters -- so its carrier cannot be the
@@ -260,13 +264,20 @@ End SubsetsIdentifies.
    universe roles and pinned the carrier as well.  The obstruction is if
    anything sharper and the conclusion is unchanged.)  That is
    why the target builds [GalZ2] over [eq_Setoid] instead.  The control
-   shows the group itself, and its setoid, are perfectly nameable. *)
+   shows the group itself, and its setoid, are perfectly nameable.
+
+   CORRECTION (#450).  Everything above in this comment describes the
+   tree before #450, which annotated [Z2] in place:
+   [Z2@{p} : GrpObject@{p p p}], over [bool_setoid@{u} : Setoid@{u u}
+   bool].  The negative below then stopped being refused (the build
+   reported the guarded command accepted) and is kept, without the
+   guard, as a control.  The target's [GalZ2] is left as it is. *)
 
 Check @Z2.
 Check (grp_setoid Z2).
 Check (Subsets (grp_setoid GalZ2)).
 
-Fail Check (Subsets (grp_setoid Z2)).
+Check (Subsets (grp_setoid Z2)).
 
 (* ------------------------------------------------------------------------ *)
 (** ** Positive: the two witnesses, and what they compute *)

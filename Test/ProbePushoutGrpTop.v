@@ -36,7 +36,9 @@ Generalizable All Variables.
 
    Conversion negatives ([Fail Definition ... := eq_refl]) and formability
    negatives ([Fail Check ...]) are kept in separate sections; they fail
-   for different reasons and must not be read as one kind.  Each negative
+   for different reasons and must not be read as one kind.  (Since #450 the
+   formability section holds controls only: its two negatives recorded a
+   donor pin that #450 lifted, and its correction says so.)  Each negative
    was stripped of its [Fail] once and the resulting message inspected;
    the kind is recorded beside it. *)
 
@@ -170,18 +172,23 @@ Fail Definition neg_top_topology :
 
 End TopEmptySpan.
 
-(** ** Formability negatives: a donor [Set] pin, and the route around it
+(** ** Formability: a donor [Set] pin, since lifted, and the route around it
 
-    [Instance/Grp.v]'s [Grp_zero_hom] is declared over
-    [GrpObject@{Set Set Set}] -- a DONOR pin, of the same family that
-    Instance/Grp/Quotient/Colimit.v already records for [Grp_trivial] and
-    [Grp_Zero], and which confines that whole file.  It is NOT repaired
-    here.  What this section establishes is that
-    Instance/Grp/Pushout.v ROUTES AROUND it: the classical presentation of
-    the free product as the pushout over the trivial group would inherit
-    the pin, and the presentation along the CONSTANT legs does not.  The
-    negatives are the donor's rejection above [Set]; the controls are this
-    file's acceptance at the same level. *)
+    CORRECTION (#450).  This section was written when [Instance/Grp.v]'s
+    [Grp_zero_hom] was declared over [GrpObject@{Set Set Set}] -- a DONOR
+    pin, of the same family that Instance/Grp/Quotient/Colimit.v recorded
+    for [Grp_trivial] and [Grp_Zero] -- and its NEGATIVES 5 and 6 were that
+    donor's rejection above [Set].  #450 annotated the donor's universes in
+    place ([Grp_trivial@{p} : GrpObject@{p p p}],
+    [Grp_zero_hom@{u p}], [Grp_Zero@{u p}]; the essay above [Grp_trivial]
+    in Instance/Grp.v has the readbacks), after which both guarded [Check]s
+    below stopped being refused: the build stopped at the first of them
+    with Rocq's report that the guarded command had been accepted.  They
+    are kept, without the guard, as
+    CONTROLS 9 and 10, so that the lifted pin is guarded in the other
+    direction.  What the section still establishes is that
+    Instance/Grp/Pushout.v's free product, along the CONSTANT legs, was
+    formable above [Set] before the lift as well as after it. *)
 
 Section SetPin.
 
@@ -199,27 +206,28 @@ Check (fun (A B C : GrpObject@{bg bg bg})
          pushout_apex (Grp_pushout f g)).
 
 (* CONTROL 7.  And so are the free product and its injection -- this is
-   the route-around, and it is what the two negatives below are a
-   contrast to.  [grp_const] is named too, being what makes it work. *)
+   the route-around, and it was the contrast to the two negatives that
+   stood below until #450 (CONTROLS 9 and 10 since).  [grp_const] is
+   named too, being what makes it work. *)
 Check (fun B C : GrpObject@{bg bg bg} => Grp_free_product B C).
 Check (fun B C : GrpObject@{bg bg bg} => Grp_fp_inl B C).
 Check (fun B C : GrpObject@{bg bg bg} => grp_const B C).
 
-(* CONTROL 8.  The donor constants DO exist and ARE usable at [Set]-level
-   groups; naming them here is what makes NEGATIVES 5 and 6 statements
-   about the universe rather than about a missing reference. *)
+(* CONTROL 8.  The donor constants exist and are usable at [Set]-level
+   groups. *)
 Check (Grp_zero_hom Z2).
 Check (Grp_zero_hom_Section Z2).
 
-(* NEGATIVE 5 (formability).  Instance/Grp.v's map out of the trivial
-   group is NOT formable above [Set].  Stripping the [Fail] reports a
-   genuine universe inconsistency naming the declared level:
-   "Cannot enforce Set = bg". *)
-Fail Check (fun G : GrpObject@{bg bg bg} => Grp_zero_hom G).
+(* CONTROL 9, formerly NEGATIVE 5 (formability).  Before #450,
+   Instance/Grp.v's map out of the trivial group was NOT formable above
+   [Set], and stripping the guard reported "Cannot enforce Set = bg".
+   Since #450 it is formable at every carrier level. *)
+Check (fun G : GrpObject@{bg bg bg} => Grp_zero_hom G).
 
-(* NEGATIVE 6 (formability).  Hence neither is the splitting of that map,
-   which is why Instance/Grp/Pushout.v records [Grp_zero_hom_Section] as
-   the route NOT taken rather than building the free product on it. *)
-Fail Check (fun G : GrpObject@{bg bg bg} => Grp_zero_hom_Section G).
+(* CONTROL 10, formerly NEGATIVE 6 (formability).  Hence so is the
+   splitting of that map.  Instance/Grp/Pushout.v still builds the free
+   product along the constant legs, not on [Grp_zero_hom_Section]; its
+   header records why that choice no longer rests on the pin. *)
+Check (fun G : GrpObject@{bg bg bg} => Grp_zero_hom_Section G).
 
 End SetPin.
