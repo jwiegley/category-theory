@@ -144,10 +144,15 @@ Generalizable All Variables.
     is an [AbSubgroup] interface in Instance/Ab.v itself, of which
     [Submodule] would then be the module-level extension; that is a
     defensible change and it is deliberately not made here.  Note also
-    that no bridge exists to make one a literal instance of the other:
-    an [AbObject] is not exhibited as a ℤ-module anywhere in the tree
-    (Instance/Mod/Tensor.v records the same absence).  The near miss
-    is Instance/Rng/Mod.v's
+    that no bridge exists to make one a literal instance of the other.
+    An earlier revision gave as the reason "an [AbObject] is not
+    exhibited as a ℤ-module anywhere in the tree (Instance/Mod/Tensor.v
+    records the same absence)"; since #454 Instance/Mod/Cogenerator.v's
+    [Ab_to_ZMod] exhibits every [AbObject] as a ℤ-module through its own
+    [zsmul] action, but it is a functor into [RMod Int_Ring], not a
+    subgroup interface, so it makes neither quotient a literal instance
+    of the other and the conclusion stands.  The near miss the earlier
+    revision named is Instance/Rng/Mod.v's
     [ZRestrict R : RMod R ⟶ RMod Int_Ring], and it is NOT it:
     restriction of scalars along ℤ → R needs an R-module to start with,
     not a bare abelian group.

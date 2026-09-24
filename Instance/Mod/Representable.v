@@ -97,7 +97,15 @@ Generalizable All Variables.
     [universal_element_unique] gives and no more); no contravariant or
     enriched version; and no statement about [RMod_Forget_Ab], to which
     Functor/Representable.v's class does not even apply — that functor
-    lands in [Ab], not in [Sets]. *)
+    lands in [Ab], not in [Sets].  (Since #454 the Ab-level reading
+    exists in general: Functor/Representable/Additive.v's [watt_ab_iso]
+    upgrades a representation of [Ab_Forget ◯ T], for an additive
+    Ab-valued T, to [HomAb A ≅ T] in the functor category into [Ab].
+    It is not instantiated at [RMod_Forget_Ab] in this file;
+    Instance/Mod/Watts.v's [watt_at_forget] instantiates it there, from
+    this file's [rmod_representable], giving
+    [HomAb (RMod_AbEnriched R) (Ring_RMod R) ≅ RMod_Forget_Ab R] with no
+    hypothesis.) *)
 
 Section RingRepresents.
 

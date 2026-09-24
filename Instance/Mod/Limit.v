@@ -360,10 +360,14 @@ Generalizable All Variables.
    declined, and still open for whichever issue wants the classes
    themselves.
 
-   No colimits and no cocompleteness for [RMod R] (Instance/Mod/
-   Coproduct.v has the binary biproduct [RMod_Biproducts] and is not
-   touched), and no claim that [RMod_Forget_Ab] creates or preserves any
-   colimit.  No
+   No colimits and no cocompleteness for [RMod R] in this file
+   (Instance/Mod/Coproduct.v has the binary biproduct [RMod_Biproducts]
+   and is not touched), and no claim that [RMod_Forget_Ab] creates or
+   preserves any colimit.  An earlier revision said "No colimits and no
+   cocompleteness for [RMod R]" without the qualifier; since #454
+   Instance/Mod/Colimit.v's [RMod_Cocomplete_via_GAFT] obtains every
+   colimit within its shape discipline from [GAFT] at the diagonal, over
+   this file's [RMod_Complete].  No
    comparison of the created product with Instance/Mod/Product.v's
    [ProdMod], which would go through a discrete diagram and so through
    Instance/Discrete.v's unannotated [DiscreteCat_Functor].  No

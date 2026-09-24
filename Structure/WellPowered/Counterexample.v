@@ -119,9 +119,13 @@ Generalizable All Variables.
 
    No non-well-powered category from the tree's concrete instances:
    [Sets] and [Grp] are well-powered one universe up (Instance/Sets/
-   WellPowered.v, Instance/Grp/WellPowered.v; the other algebraic
-   categories were not measured), and whether any of them is well-powered
-   at the pin without a hypothesis is left open here.  The
+   WellPowered.v, Instance/Grp/WellPowered.v; this parenthesis said "the
+   other algebraic categories were not measured", which is corrected here:
+   since #454 Instance/Mod/WellPowered.v shows [RMod R] well-powered and
+   co-well-powered one universe up, and both at the pin under
+   [Untruncate], the remaining algebraic categories being still
+   unmeasured), and whether any of them is well-powered at the pin
+   without a hypothesis is left open here.  The
    co-well-powered counterexample is only the dual one,
    [AntichainTop_op_not_CoWellPowered] at [AntichainTop^op], which is
    [AntichainTop_not_WellPowered] itself because [(AntichainTop^op)^op]

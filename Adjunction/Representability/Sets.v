@@ -253,10 +253,18 @@ Generalizable All Variables.
     not move); GAFT as a biconditional; the [Sets_global_points] of the
     issue's Verification block, which names nothing that exists;
     representability at any target but [Sets]; a witness at any category
-    but [Sets]; naturality of [homafter_one_iso] in [K], or functoriality
-    of any construction here; no edit to Functor/Representable.v,
-    Theory/Universal/Element.v, Construction/Elements.v,
-    Functor/Hom/Continuous.v, Adjunction/SAFT.v,
+    but [Sets] in this file (an earlier revision said "a witness at any
+    category but [Sets]" without the qualifier; since #449
+    Instance/Mod/TensorAFT.v's [tensor_via_AFT_of_esols] and
+    [bal_tensor_via_AFT_of_esols] apply the theorem at [RMod R] and at
+    [Ab], and since #454 Instance/Mod/Watts/Unconditional.v's
+    [RModop_continuous_representable] applies it at [(RMod R)^op] with
+    its completeness and solution-set premises discharged for every
+    continuous K, and at K := the hom functor by
+    [RModop_hom_representable_obj]); naturality of [homafter_one_iso] in
+    [K], or functoriality of any construction here; no edit to
+    Functor/Representable.v, Theory/Universal/Element.v,
+    Construction/Elements.v, Functor/Hom/Continuous.v, Adjunction/SAFT.v,
     Adjunction/Representability.v, and none to Adjunction/GAFT.v above its
     last line.  Instance/Sets/Complete.v and Adjunction/GAFT/Sets.v ARE
     edited, one sentence each and line-count-preserving: both said [SAFT]

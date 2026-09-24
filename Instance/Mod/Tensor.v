@@ -235,7 +235,10 @@ Generalizable All Variables.
     * NO COMPARISON WITH Instance/Ab/Tensor.v.  Over R = ℤ the two
       constructions have the same universal property, but no
       isomorphism between [AbTensor] and [TensorMod] is stated or proved
-      here; the ℤ-module structure of an [AbObject] is not in the tree.
+      here.  An earlier revision added "the ℤ-module structure of an
+      [AbObject] is not in the tree"; since #454 it is, as
+      Instance/Mod/Cogenerator.v's [Ab_to_ZMod] (through [zsmul]), and no
+      comparison of the two tensors is built on it.
 
     * NO RELATION TO Instance/FdVect/Tensor.v, which despite its name is
       the diagonal square endofunctor V ↦ StdVect F (n²) of Riehl

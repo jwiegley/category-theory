@@ -258,7 +258,11 @@ Local Set Default Proof Using "All".
     both additivity witnesses, and hence no category of such.  No
     naturality statement for [adj_hom_ab_iso] in x or y as a functor
     into Ab, so it is a family of group isomorphisms and not an
-    isomorphism of Ab-valued bifunctors.  No monoidal or enriched
+    isomorphism of Ab-valued bifunctors.  (Since #454 the one-variable
+    Ab-valued hom functors themselves exist, as
+    Functor/Representable/Additive.v's [HomAb] and [CoHomAb]; the
+    sentence before this one still holds, [adj_hom_ab_iso] not being
+    restated as a natural isomorphism between them.)  No monoidal or enriched
     reading, so nothing here says that an adjunction between
     Ab-categories is an Ab-ENRICHED adjunction in the sense of
     Construction/Enriched.v.  No concrete instantiation: no in-tree

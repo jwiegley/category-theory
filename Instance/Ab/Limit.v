@@ -270,10 +270,20 @@ Generalizable All Variables.
 
    No colimits and no cocompleteness for [Ab] (Instance/Ab/Coproduct.v and
    Instance/Ab/DirectedColimit.v cover pieces of that ground and are not
-   touched).  No GAFT application at [Ab]: the two hypotheses are made
-   available, nothing consumes them, and no [Ab] counterpart of
-   Instance/Grp/FreeAFT.v is built.  No comparison of the created binary
-   product with any cartesian or biproduct structure on [Ab], which would go
+   touched).  No application of Adjunction/GAFT.v's [GAFT] at [Ab_Forget]
+   is built, and no [Ab] counterpart of Instance/Grp/FreeAFT.v.  An
+   earlier revision said "No GAFT application at [Ab]: the two hypotheses
+   are made available, nothing consumes them"; since #449 and #454 both
+   are consumed in code elsewhere, measured by their occurrences outside
+   comments in the .v files outside Test/: [Ab_Complete] by Instance/Mod/
+   Limit.v (limits created along [RMod_Forget_Ab]) and by Instance/Mod/
+   TensorAFT.v, which applies Adjunction/Representability/Sets.v's
+   [representability_theorem], the adjoint functor theorem in
+   representability form, at [Ab]; [Ab_Forget_creates_continuous] by
+   Instance/Mod/Limit.v, Instance/Mod/TensorAFT.v, Instance/Rng/AFT.v,
+   Instance/Mod/Watts.v and Instance/Mod/Watts/Unconditional.v.  No
+   comparison of the created binary product with any cartesian or
+   biproduct structure on [Ab], which would go
    through a discrete diagram and so through Instance/Discrete.v's
    unannotated [DiscreteCat_Functor].  No [CMon] analogue, though the engine
    transfers unchanged -- drop [ab_neg] and its two laws.  No monadicity

@@ -219,7 +219,15 @@ Generalizable All Variables.
    truncation does not supply, and no other route was tried.  No
    comparison of the three cogenerators, and no claim that any is
    minimal.  No cogenerator of any other concrete category
-   ([Grp], [Ab] with Q/Z, [FinSet]).  Structure/Generator/Dual.v's
+   ([Grp], [Ab] with Q/Z, [FinSet]) in this file.  (Since #454 other
+   files build some: Instance/Mod/Cogenerator.v's unconditional but
+   large [RMod_Cogenerator_large], which [cogen_prod] refuses as this
+   file's [Sets_Cogenerator_large] is refused, and its conditional
+   [QZ_Cogenerator] at [Ab] and [QZ_injective_cogenerator] at [RMod R],
+   whose premise is Mac Lane's Exercise 2(b) fact about Q/Z and is shown
+   there to entail double-negation elimination; and Instance/Mod/
+   WellPowered.v's unconditional [RModop_Cogenerator] at (RMod R)^op.
+   None is at [Grp] or [FinSet].)  Structure/Generator/Dual.v's
    [cog_of_gen] already gives one at [Sets^op] from [Sets_Generator];
    Instance/Sets/SpecialInitial.v applies it. *)
 

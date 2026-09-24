@@ -76,7 +76,12 @@ Generalizable All Variables.
    [Sets], and nothing is attempted here.  [Grp] co-well-powered: Instance/
    Grp/QuotObj.v's header records that its surjectivity leg takes the
    double-negation stability of image membership as a hypothesis, and no
-   index of quotients is built.  No [Ab] or [RMod R] analogue. *)
+   index of quotients is built.  No [Ab] analogue.  An earlier revision
+   said "No [Ab] or [RMod R] analogue"; since #454 Instance/Mod/
+   WellPowered.v is the [RMod R] one: [RMod_WellPoweredAt_up] and
+   [RMod_CoWellPoweredAt_up] one universe up, and
+   [RMod_WellPowered_untruncate] and [RMod_CoWellPowered_untruncate] at
+   the pin under [Untruncate]. *)
 
 (* The image of a homomorphism as a [Subgroup]; its membership is
    Instance/Grp/Epi.v's [GrpImage], a [Type]-valued "has a preimage". *)

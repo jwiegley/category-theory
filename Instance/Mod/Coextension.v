@@ -271,10 +271,14 @@
        obstruction precisely: "the tree carries no functor relating
        [Ab] and [RMod Int_Ring]" would be FALSE — [RMod_Forget_Ab
        Int_Ring] is one, and this file uses it at that very ring in its
-       own ℤ witness.  What is absent is an [Ab ⟶ RMod Int_Ring]
-       carrying each abelian group ITS OWN ℤ-action, which is what
-       Instance/Ab/Free.v, Instance/Mod/Quotient.v and
-       Instance/Mod/Tensor.v each record.  Nothing is shared and that
+       own ℤ witness.  An earlier revision went on: "What is absent is
+       an [Ab ⟶ RMod Int_Ring] carrying each abelian group ITS OWN
+       ℤ-action, which is what Instance/Ab/Free.v, Instance/Mod/Quotient.v
+       and Instance/Mod/Tensor.v each record."  Since #454 that functor
+       exists, Instance/Mod/Cogenerator.v's [Ab_to_ZMod] (each group with
+       its own [zsmul] action), and those three files carry the same
+       correction; what is still absent is an equivalence
+       [Ab ≃ RMod Int_Ring].  Nothing is shared and that
        file is not [Require]d either.
 
    AXIOMS.  73/73 constants report "Closed under the global context"
@@ -305,15 +309,23 @@
        (they are Theory/Adjunction.v's derived corollaries and are not
        specialised), and no uniqueness statement for the right adjoint.
      - No enriched reading: both hom-sets in play are abelian groups and
-       Adjunction/Additive.v's [adj_hom_ab_iso] is one Require away, but
-       it needs [AbEnriched (RMod R)], which the tree does not have
-       (Instance/Mod.v supplies only [RMod_Preadditive]).  So the
-       bijection is NOT exhibited as an isomorphism in [Ab], and no
-       additivity of either adjoint is claimed.
+       Adjunction/Additive.v's [adj_hom_ab_iso] is one Require away, and
+       the bijection is NOT exhibited as an isomorphism in [Ab], nor is
+       any additivity of either adjoint claimed.  An earlier revision
+       gave as the reason that [adj_hom_ab_iso] "needs [AbEnriched (RMod
+       R)], which the tree does not have (Instance/Mod.v supplies only
+       [RMod_Preadditive])"; Instance/Mod/Bimodule.v's [RMod_AbEnriched]
+       supplies it, so the hypothesis is available and [adj_hom_ab_iso]
+       is simply not applied here.
      - No isomorphism Hom_ℤ(ℤ, A) ≅ A, hence nothing says
        [Coextension Int_Ring] is equivalent to the identity; the ℤ
        witness pins Hom(ℤ, ℤ) only through maps OUT of it, and
-       [CoextInt] is refuted equal to [Int_RMod] on the nose.
+       [CoextInt] is refuted equal to [Int_RMod] on the nose.  (Since
+       #454 Instance/Mod/Watts.v's [ab_hom_Z_iso] gives Ab(ℤ, X) ≅ X,
+       natural in X, with ℤ the free abelian group on one point
+       [FreeAb SetsOne]; that is not [Int_Ring]'s group, whose
+       comparison with the free one Instance/Ab/Generator.v records as
+       not built, so this bullet stands.)
      - No [RigObject] variant, no right-module or bimodule reading, and
        no [Instance] registered for typeclass resolution: [CoextObj],
        [Coextension] and [coex_adjunction] are plain [Definition]s.

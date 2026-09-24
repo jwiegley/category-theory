@@ -201,8 +201,21 @@ Generalizable All Variables.
    Structure/Complete/Freyd.v's [small_complete_is_thin]); and [Grp],
    well-powered in tree only one universe up
    (Instance/Grp/WellPowered.v's [Grp_WellPoweredAt_up]) and with no
-   [Cogenerator] built (a grep for "Cogenerator" under Instance/ finds
-   Instance/Sets files only).
+   [Cogenerator] built.  (An earlier revision said "(a grep for
+   "Cogenerator" under Instance/ finds Instance/Sets files only)"; since
+   #454 the same grep, [find Instance -name '*.v' | xargs grep -l
+   Cogenerator], finds sixteen files, four under Instance/Sets.  Of the
+   other twelve, eight only name the file Instance/Mod/Cogenerator.v in
+   prose, Instance/Mod/Watts/Unconditional.v names it and
+   [RModop_Cogenerator] in prose only, as a route it does not take, and
+   three use the record: Instance/Mod/Cogenerator.v,
+   Instance/Mod/WellPowered.v and Instance/Mod/Watts.v, none of them
+   about [Grp].  They build a cogenerator of (RMod R)^op
+   unconditionally, [RModop_Cogenerator], and two of RMod R: one on the
+   premise that ℚ/ℤ is an injective cogenerator of Ab,
+   [QZ_injective_cogenerator], and an unconditional but large one,
+   [RMod_Cogenerator_large], which [cogen_prod] refuses.  Watts.v applies
+   the Corollary with the first two, under [Untruncate].)
 
    UNIVERSES.  Every constant names the universes of its category ([o so]
    for [Sets@{o so}], [o u] for [Subsets@{o u} X], [j o] for the

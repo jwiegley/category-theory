@@ -178,13 +178,20 @@
    re-annotation was attempted.
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
-   Instance/Ab/Free.v says the tree "has only the forgetful
+   Instance/Ab/Free.v said the tree "has only the forgetful
    direction ([RMod_Forget_Ab], Instance/Mod.v)";
-   Instance/Mod/Quotient.v says "an [AbObject] is not exhibited
-   as a ℤ-module anywhere in the tree" and names
+   Instance/Mod/Quotient.v said "an [AbObject] is not exhibited
+   as a ℤ-module anywhere in the tree" and named
    Instance/Rng/Mod.v's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
-   the near miss that is NOT it; Instance/Mod/Tensor.v records the
-   same.  A type-level sweep confirms it: before this file NO constant in
+   the near miss that is NOT it; Instance/Mod/Tensor.v recorded the
+   same.  (Those are the three files' wordings when this file was
+   written.  Instance/Ab/Free.v was reworded in this file's own commit
+   to "no such passage exists ([RMod_Forget_Ab], Instance/Mod.v, is the
+   forgetful direction; ...)", naming [ZExt Int_Ring]; since #454 each of
+   the three carries a further correction, Instance/Mod/Cogenerator.v's
+   [Ab_to_ZMod] being the functor they recorded as absent.  An earlier
+   revision of this paragraph quoted them in the present tense.)  A
+   type-level sweep confirmed it: before this file NO constant in
    the tree had type [Ab ⟶ RMod _] (zero hits), and no [AbTensor] is
    applied to a [ring_ab] anywhere else.
 
@@ -205,10 +212,15 @@
    blanket "no functor between those exists" would be FALSE and is
    refuted by this file's own ℤ witness: [RMod_Forget_Ab Int_Ring] is a
    functor [RMod Int_Ring ⟶ Ab], and [ZExt Int_Ring] is one the other
-   way.  What is absent is the passage the reduction would need — an
-   [Ab ⟶ RMod Int_Ring] carrying each abelian group ITS OWN ℤ-action,
-   which is the absence quoted above and which [ZExt Int_Ring] is not,
-   its carrier being ℤ ⊗ A rather than A's.  Nothing is shared, and
+   way.  An earlier revision said "What is absent is the passage the
+   reduction would need — an [Ab ⟶ RMod Int_Ring] carrying each abelian
+   group ITS OWN ℤ-action, which is the absence quoted above".  Since
+   #454 that functor exists, Instance/Mod/Cogenerator.v's [Ab_to_ZMod]
+   (each group with its own [zsmul] action), and the three files quoted
+   above carry the same correction.  What remains absent is narrower: no
+   equivalence [Ab ≃ RMod Int_Ring] and no comparison of [Ab_to_ZMod]
+   with [ZExt Int_Ring], which is not that functor, its carrier being
+   ℤ ⊗ A rather than A's.  Nothing is shared, and
    that file is not
    [Require]d.  Distinct too from Instance/Mod/Free.v, whose [FreeMod] is
    left adjoint to [RMod_Forget : RMod R ⟶ Sets] — the free module on a
