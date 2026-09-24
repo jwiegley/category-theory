@@ -300,7 +300,18 @@ Generalizable All Variables.
    < ..."), measured in a scratch file; that text is printed with the
    hypothesis an ordinary binder as well (Test/ProbeWellPowered451.v's
    N21).  So the first hypothesis is still open at every concrete
-   category checked.
+   category checked.  CORRECTION (#453): the second is no longer open at
+   [Id[Sets]], and "BOTH hypotheses are open in tree" above was already
+   false of it at Instance/Mod/Spanning.v's [Bilin V V'] since #449,
+   whose [Bilin_PreservesWidePullbacks] is proved directly.
+   Adjunction/SAFT/Characterization.v's
+   [right_adjoint_PreservesWidePullbacks] shows that every right adjoint
+   preserves wide pullbacks, at every index universe and ignoring the
+   monicity clause, and in a scratch file carrying that file's import
+   list and Adjunction/Compose.v, [@spanning_solution_set _ _ (@Id Sets)
+   HWP (right_adjoint_PreservesWidePullbacks Adjunction_Id) x] is
+   accepted over an abstract [HWP : HasWidePullbacks Sets], closed under
+   the global context.  The first hypothesis stays open at [Sets].
    (4) No converse.  Nothing shows that an arrow through which every
    factorization is spanning must be [spanning_factor] of itself, and
    nothing shows [spanning_sub] is unique up to ≈ as a SUBOBJECT beyond
@@ -345,7 +356,11 @@ Definition spanning_arrow {x : X} {a : A} (f : x ~> G a) : Type :=
    of a wide pullback cone over a family of monos is again a wide
    pullback cone.  A first draft quantified over arbitrary families, a
    hypothesis strictly stronger than Mac Lane's; an audit flagged it and
-   the monicity clause [Hm] was added at integration. *)
+   the monicity clause [Hm] was added at integration.  Since #453 it has
+   a necessity lemma: Adjunction/SAFT/Characterization.v's
+   [right_adjoint_PreservesWidePullbacks] proves it for every right
+   adjoint, and [SAFT_iff] there uses it as the second clause of Mac
+   Lane's §V.8 Theorem 2. *)
 Definition PreservesWidePullbacks : Type :=
   ∀ (I : Type) (B : I → A) (z : A) (g : ∀ i, B i ~> z)
     (Hm : ∀ i, Monic (g i)) (P : A) (p : ∀ i, P ~> B i),

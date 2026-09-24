@@ -34,7 +34,13 @@ Generalizable All Variables.
    The covering datum [SubobjectCover] is still asked for, and
    Adjunction/SAFT/Sets.v refutes it at the identity of [Sets] whatever
    the index is, so no well-poweredness result discharges it; SAFT.v's
-   header records why.
+   header records why.  (Since #453, well-poweredness yields the adjoint
+   without the datum: Adjunction/SAFT/Characterization.v's
+   [SAFT_wellpowered] takes [WellPowered] itself,
+   with completeness, continuity and a cogenerating family and no
+   covering datum, and returns the left adjoint; [SAFT_of_WellPowered]
+   stays as the bridge for [SAFT]'s own statement, whose datum is still
+   refuted at [Id[Sets]].)
 
    WHY A SATELLITE.  Requiring Structure/WellPowered.v from Adjunction/
    SAFT.v would put that development, with its limits, cones and wide

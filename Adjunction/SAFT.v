@@ -50,7 +50,9 @@ Generalizable All Variables.
    is NOT inert — it is the operative hypothesis of that lemma, and deleting the
    field breaks the file.
 
-   (2) SMALL SOLUTION SET — packaged as DATA, of necessity.  The other half of
+   (2) SMALL SOLUTION SET — packaged as DATA, of necessity.  (CORRECTION,
+   #453: not of necessity; see THE BOOK'S HYPOTHESES, WITHOUT THE DATUM,
+   the header's closing paragraph.)  The other half of
    the classical proof is a SIZE argument: well-poweredness makes the family of
    subobjects of the cogenerator product a *set*, and the image factorization of
    a given [h : d ~> U c] through one of those subobjects places the resulting
@@ -65,8 +67,8 @@ Generalizable All Variables.
    exhaustiveness clause [wp_to_from] -- and the satellite Adjunction/SAFT/
    WellPowered.v's [WellPowered_SubobjectIndex] feeds it to this file's
    [SAFT].  What well-poweredness still does not supply is the covering
-   datum; see "THE COVERING DATUM IS REFUTABLE" at the end of this
-   header.)  The honest
+   datum; see the header's paragraph THE COVERING DATUM IS REFUTABLE AT
+   THE IDENTITY OF [Sets].)  The honest
    reading — the one the plan sanctioned — is therefore to package this half as
    DATA, in exactly the shape the classical argument delivers (CORRECTION,
    #451: it is not that shape; the corrections to both bullets below say
@@ -101,8 +103,9 @@ Generalizable All Variables.
        CORRECTION (#451): "precisely the CONCLUSION of the classical step" is
        false.  The classical step factors through a subobject of a product
        that DEPENDS ON [d]; [cogen_prod] does not, and the datum as stated is
-       refutable where the classical hypotheses hold (the paragraph at the
-       end of this header).  "A well-powered subobject [i]" is likewise a
+       refutable where the classical hypotheses hold (the header's
+       paragraph THE COVERING DATUM IS REFUTABLE AT THE IDENTITY OF
+       [Sets]).  "A well-powered subobject [i]" is likewise a
        subobject NAMED by the index [WP], which need not be well-powered
        (the previous bullet's correction).  "One member of a solution set
        at [d]" stands.
@@ -197,7 +200,38 @@ Generalizable All Variables.
    unconditionally, [Sets] under [Untruncate] or [IEM]).  Mac Lane's
    proof of the special adjoint functor theorem applies it in the comma
    category d↓U, whose cogenerating family is indexed by the arrows out
-   of d; that route is #453's, and [SAFT] is not re-shaped by #452. *)
+   of d; that route is #453's, and [SAFT] is not re-shaped by #452.
+
+   THE BOOK'S HYPOTHESES, WITHOUT THE DATUM (CORRECTION, #453).  The
+   covering datum is superseded, not derived.
+   Adjunction/SAFT/Characterization.v's [SAFT_wellpowered] builds the
+   left adjoint from the classical list alone -- [Complete C], the
+   cone-level continuity [PreservesImageLimit U], this file's
+   [Cogenerator] and Structure/WellPowered.v's [WellPowered] -- by Mac
+   Lane's comma route: #452's special initial-object theorem in each
+   comma [=(d) ↓ U], whose cogenerating family is indexed by the arrows
+   out of [d] ([comma_cogenerator]) and whose well-poweredness comes from
+   C's through the monos lemma ([comma_WellPoweredAt]).  There
+   [SAFT_wellpowered_iff] is Mac Lane's Corollary as a biconditional, and
+   [SAFT_iff] is his Theorem 2, over wide pullbacks of subobjects in
+   place of well-poweredness.  At one [Un : Untruncate],
+   Adjunction/SAFT/Characterization/Examples.v's [sets_id_saft Un] is
+   [SAFT_wellpowered] applied to [Sets_Complete],
+   [Sets_Id_PreservesImageLimit], [Sets_Cogenerator_untruncate Un] and
+   [Sets_WellPowered_untruncate Un], a left adjoint of [Id[Sets]], and
+   its [sets_id_old_cover_refuted Un] is Adjunction/SAFT/Sets.v's
+   [SubobjectCover_Id_Sets_absurd] applied to [Sets_Complete],
+   [Sets_Cogenerator_untruncate Un] and [WellPowered_SubobjectIndex
+   (Sets_WellPowered_untruncate Un)], refuting [cover]; both are closed
+   under the global context.  [SAFT] is therefore an independent GAFT
+   instance whose extra premise is refuted at [Id[Sets]], where under
+   [Untruncate] the classical hypotheses hold, not a corollary of the new
+   theorem, and it is kept unchanged, as are [SubobjectCover],
+   [SAFT_solution_set] and their satellites.  Half (2)'s "of necessity"
+   no longer stands: the comma route takes no solution set, and the
+   covering datum over the product of the arrows out of [d], the one the
+   classical argument uses, is a theorem in
+   Adjunction/SAFT/Characterization/Cover.v. *)
 
 (** ** Cogenerating families *)
 
@@ -388,7 +422,8 @@ Qed.
    [fmap[U] t ∘ s ≈ h].  This is exactly a member of a solution set at [d].
    CORRECTION (#451): "the packaged conclusion of the classical factorization
    step" overstates it.  The product here is independent of [d], and the datum
-   is refutable at the identity of [Sets] (the header's last paragraph;
+   is refutable at the identity of [Sets] (the header's paragraph THE
+   COVERING DATUM IS REFUTABLE;
    [SubobjectCover_Id_retract] below is the first step of that refutation).
    "A well-powered subobject" is a subobject named by the index [WP], which
    need not be well-powered ([SubobjectIndex]'s correction above). *)

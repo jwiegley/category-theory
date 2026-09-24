@@ -26,6 +26,10 @@ Adjunction/SAFT/Sets.v
 Adjunction/SAFT/WellPowered.v
 Adjunction/SAFT/InitialObject.v
 Adjunction/SAFT/InitialObject/Examples.v
+Adjunction/SAFT/Characterization.v
+Adjunction/SAFT/Characterization/Cover.v
+Adjunction/SAFT/Characterization/Corollaries.v
+Adjunction/SAFT/Characterization/Examples.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
@@ -1049,3 +1053,4 @@ Test/ProbeAlgColimit450.v
 Test/ProbeVarietyColimit450.v
 Test/ProbeWellPowered451.v
 Test/ProbeSpecialInitial452.v
+Test/ProbeSAFT453.v
