@@ -131,13 +131,20 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **10010** on
-2026-09-24, after #454 (Watt's theorem with Mac Lane §V.8 Exercises 2
-and 3) added ONE block of 469 names over seven new modules — 113
-`Program` obligations and 356 other names, counted over the block's
-`Print Assumptions` lines, the obligations by the substring
-`_obligation_` — every one "Closed under the global context" (the list
-below); 9541 + 469 = 10010. An earlier revision of this paragraph gave
+criterion: `grep -c 'Print Assumptions' Makefile` returns **10084** on
+2026-09-24, after #455 (the Stone–Čech development, Mac Lane §V.6 and
+§V.8 Construction 1 and Exercise 4) added ONE block of 74 names
+over two new modules, `Instance/Top/StoneCech.v` and
+`Instance/Top/StoneCech/Refutations.v`, with no `Program` obligation
+among them, every one "Closed under the global context" (the list
+below); 10010 + 74 = 10084. An earlier revision
+of this paragraph gave **10010**, the figure the same day after #454
+(Watt's theorem with Mac Lane §V.8 Exercises 2 and 3) added ONE block
+of 469 names over seven new modules — 113 `Program` obligations and
+356 other names, counted over the block's `Print Assumptions` lines,
+the obligations by the substring `_obligation_` — every one "Closed
+under the global context" (the list below); 9541 + 469 = 10010. An
+earlier revision still gave
 **9541**, the figure on 2026-09-23 after #453 (the special adjoint
 functor theorem as a characterization, Mac Lane §V.8 Theorem 2 and its
 Corollary) added ONE block of 93 names over four new modules, every one
@@ -543,6 +550,82 @@ the 469 gated names uses, every one being closed. Among the 469:
   without an axiom unless double-negation elimination (respectively the
   informative weak excluded middle) can, both principles being
   independent of the core (that file's header). They refute nothing
+
+The Stone–Čech development (Mac Lane §V.6 and §V.8 Construction 1 and
+Exercise 4; #455) adds ONE block of 74 names over its two
+modules, `Instance/Top/StoneCech.v` and
+`Instance/Top/StoneCech/Refutations.v`: every constant `Print Module`
+lists for the two, each reported "Closed under the global context" by
+its fully qualified name. Neither file uses `Program`, so there is no
+obligation, and neither declares an `Axiom` or a `Parameter`. Neither
+`Require`s the standard-library reals: StoneCech.v's seventeen
+`Require` lines and Refutations.v's twenty name no `Reals` module
+(measured by a grep of the `Require` lines), and the one occurrence of
+the word in StoneCech.v is inside its header comment, naming an axiom
+of `I_Top`. So the interval form of Exercise 4 and the SAFT route with
+the interval cogenerator, which would inherit
+`ClassicalDedekindReals.sig_forall_dec` and
+`functional_extensionality_dep` from `Instance/Top/Interval.v`'s
+`I_Top` (verify:
+`Print Assumptions Category.Instance.Top.Interval.I_Top`), are not
+built, nothing ungated was added in their place, and the nine
+reals-importing development files of the stdlib-axioms section below
+stay nine. Among the 74:
+
+- `StoneCech_finite` with its `eq_refl` readbacks, `Discrete_Hausdorff`,
+  `Discrete_Compact_of_FinEnum`, `FinEnum_of_Discrete_Compact`,
+  `Discrete_nat_not_compact`, `CompHaus_Forget_PreservesImageLimit`,
+  `taut_sols`, and Exercise 4's `unit_injective_of_separated`,
+  `separated_of_unit_injective`, `unit_injective_of_dec`,
+  `StoneCech_unit_injective_completely_regular` and
+  `KSeparated_of_unit_injective_local` (`Instance/Top/StoneCech.v`) —
+  unconditional, or over hypotheses that are data of the statement (a
+  finite enumeration, a universal arrow, a separating space);
+  docs/INHABITATION.md records which of them a concrete object
+  exercises
+- `GAFT_CompHaus_only_complete` (`Instance/Top/StoneCech.v`) and
+  `SAFT_CompHaus_Incl` (`Instance/Top/StoneCech/Refutations.v`) —
+  conditionals whose completeness hypothesis sits in their statements,
+  so their "Closed" is the second kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above; worse, that hypothesis is REFUTED under informative excluded
+  middle (the next item): at `GAFT_CompHaus_only_complete`'s whole
+  instance, and at `SAFT_CompHaus_Incl`'s only at the instances
+  `Instance/Top/StoneCech/Refutations.v`'s COVERAGE records (the `Top`
+  slot at the hom universe, the proof slot at the object universe, the
+  Hausdorff proof's separating opens at the points' universe).
+  `SAFT_CompHaus_Incl` is a conditional at more instances than that,
+  where its premise stays classically false by a meta-argument, not by a
+  theorem. So both are closed conditionals with a classically false
+  premise, kept as the measured reduction
+- `CompHaus_not_complete_IEM`, `CompHaus_not_complete_IEM_below`,
+  `CompHaus_not_complete_IEM_above`, `Top_not_complete_IEM`,
+  `StoneCech_adjunction_refuted_IEM`,
+  `StoneCech_adjunction_refuted_IEM_above`, `GAFT_CompHaus_IEM_vacuous`,
+  `GAFT_CompHaus_IEM_vacuous_above`, `SAFT_Incl_IEM_vacuous` and
+  `SAFT_Incl_IEM_vacuous_below` (`Instance/Top/StoneCech/Refutations.v`)
+  — METATHEOREMS, closed theorems ABOUT a classical principle and not
+  axioms. `IEM` (`Instance/Sets/Classifier/OneLevel.v`) is a
+  `Definition`, the Π-type `∀ P : Type, P + ¬P`, taken as a hypothesis
+  in each statement, never assumed and never an `Axiom`; each theorem
+  says that wherever `IEM` holds, in every classical model among them,
+  the completeness or the adjunction it names is false (for `CompHaus`,
+  at the instances that file's COVERAGE records). Their index forms
+  (`CompHaus_not_complete`, `Top_not_complete`,
+  `large_universal_arrow_refuted`, `SAFT_Incl_vacuous`) take an
+  `ArrowIndex` in place of `IEM`, and `CompHaus_ArrowIndex_of_Top`
+  builds one for `CompHaus` from one for `Top`
+- `big_inj_injective` — from completeness alone, with neither `IEM`
+  nor an index; that no set-theoretic model with a Grothendieck
+  universe of points has such an injection is a meta-argument, not a
+  theorem of the file
+- `CompHaus_cogenerator_stable_DNE` and
+  `CompHaus_point_separator_stable_DNE` — METATHEOREMS of the shape
+  "premise ⇒ ∀ P : Prop, ¬¬P → P", assuming neither principle; they
+  show that a cogenerating family of `CompHaus`, or a single space
+  separating the points of every compact Hausdorff space, with
+  ¬¬-stable equality of points cannot be built without an axiom unless
+  double-negation elimination can. They refute nothing
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

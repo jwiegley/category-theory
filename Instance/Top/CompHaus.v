@@ -121,6 +121,25 @@
           [Top_Terminal] to be closed under, and no [Top_Complete] exists. They
           are the statements the exercise's conclusion would follow from,
           stated at the inclusion, not at the forgetful functor.
+          CORRECTION (#455): at the shapes the adjoint functor theorems
+          use, [HT] is refuted, not merely unwitnessed: at every shape
+          universe at or above [Top]'s hom universe, [Complete Top] is
+          refuted under informative excluded middle
+          (Instance/Top/StoneCech/Refutations.v's [Top_not_complete_IEM]),
+          and so is [Complete CompHaus] at every shape universe at or above
+          its hom universe, at the instances that file's COVERAGE records
+          (the [Top] slot at the hom universe, the proof slot at the object
+          universe, the Hausdorff proof's opens at the points' universe):
+          [CompHaus_not_complete_IEM] at the shapes at or above its objects
+          as well, and [CompHaus_not_complete_IEM_below] at every shape at
+          or above the hom universe, the shapes below the objects included.
+          At shapes below the hom universe neither is refuted under
+          informative excluded middle; the index forms there
+          ([Top_not_complete], [CompHaus_not_complete]) apply given an
+          index.  #455's review measured what a draft of this correction
+          denied, that [Complete CompHaus] at a shape below its object
+          universe is refuted: [CompHaus_not_complete_IEM_below] refutes it,
+          through an arrow index of [Top].
 
     NOT DELIVERED, in the issue's own terms.  (a) Tychonoff at ANY index
     generality — not even the binary product has its universal property
@@ -135,7 +154,27 @@
     following Structure/Limit/Creation.v's discipline for creation
     witnesses).  The Stone–Čech adjoint and the ultrafilter monad, the
     reasons the roster lists this category (Instance/Roster.v),
-    remain as that note leaves them.
+    remain as that note leaves them.  CORRECTION (#455): the first is
+    settled negatively at the instances that
+    Instance/Top/StoneCech/Refutations.v's COVERAGE records (the [Top]
+    slot at the hom universe, the proof slot at the object universe, the
+    Hausdorff proof's opens at the points' universe).  Under informative
+    excluded middle, with the objects of [CompHaus] at its hom universe
+    (the instance that Instance/Top/StoneCech.v's
+    [GAFT_CompHaus_only_complete] produces) or above it, [CompHaus_Forget]
+    has no left adjoint there (Refutations.v's
+    [StoneCech_adjunction_refuted_IEM] and
+    [StoneCech_adjunction_refuted_IEM_above]); below the hom universe
+    the statement is not formable, and at the other instances it stays
+    classically false, a meta-argument.  #455's review measured what a
+    draft of this correction denied, that the statement is refuted at an
+    instance whose object universe lies above the hom universe: the
+    second constant refutes it there.  The Stone–Čech left adjoint to
+    the inclusion [CompHaus_Incl] is not refuted at all and holds
+    classically; #1329 carries it.
+    Instance/Top/StoneCech.v builds the universal arrows at finitely
+    enumerable sets and §V.8 Exercise 4 at the level of universal
+    arrows.
 
     UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK OVER ALL 48 CONSTANTS
     OF THIS FILE (and the 9 of Construction/Subcategory/Creation.v).

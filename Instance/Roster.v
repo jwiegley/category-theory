@@ -165,7 +165,22 @@ Generalizable All Variables.
         out — Top's homs sit strictly above its points, so the
         forgetful functor lands in a HIGHER [Sets] and the packaged
         [Adjunction] record is unformable — and the second needs
-        ultrafilters, which the tree has not got.
+        ultrafilters, which the tree has not got.  CORRECTION (#455): for
+        the Stone–Čech adjoint the packaged record IS formable, its left
+        adjoint's domain being that higher [Sets] itself, and it is
+        refuted under informative excluded middle, with the objects of
+        [CompHaus] at its hom universe by
+        Instance/Top/StoneCech/Refutations.v's
+        [StoneCech_adjunction_refuted_IEM] and with them above it by that
+        file's [StoneCech_adjunction_refuted_IEM_above], each at the
+        instances its COVERAGE records (the [Top] slot at the hom
+        universe, the proof slot at the object universe, the Hausdorff
+        proof's opens at the points' universe): the higher [Sets] contains
+        a set the size of all the arrows of [CompHaus], at which, under
+        that principle, no universal arrow exists.  #455's review measured
+        the second refutation, which a draft of this correction denied.
+        The universal arrows at finitely enumerable sets of points are
+        Instance/Top/StoneCech.v's [StoneCech_finite].
 
       - Ringed spaces.  There is no sheaf-of-rings machinery over
         [Top]: Theory/Sheaf.v's [Sheaf] predicate is per-leg and, as

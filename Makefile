@@ -10833,6 +10833,84 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mod.WellPowered.tim_fn.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.WellPowered.tim_to_pim.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Top.StoneCech.'; \
+	  echo 'Require Import Category.Instance.Top.StoneCech.Refutations.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Discrete_Hausdorff.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.FinEnum.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Discrete_Compact_of_FinEnum.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.FinEnum_of_Discrete_Compact.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_nat_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_in_le_fold_max.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.nat_not_FinEnum.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Discrete_nat_not_compact.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.bool_FinEnum.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Bool_CH.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Point_CH.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Discrete_CH.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_fin_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_unlift.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_fin_ext.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_fin_ump.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_finite.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_finite_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_finite_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_pt_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_pres_pt.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_pt_const_med.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_pres_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.CompHaus_Forget_PreservesImageLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.taut_sols.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.GAFT_CompHaus_only_complete.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.unit_injective_of_separated.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.separated_of_unit_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_chi.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.unit_injective_of_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.sc_bool_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_finite_bool_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.KSeparated.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_unit_injective_completely_regular.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.KSeparated_of_unit_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.KSeparated_of_unit_injective_local.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.CompHaus_Incl_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.CompHaus_Incl_universal_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.KSeparated_self.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.StoneCech_unit_injective_at_CompHaus.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.KSeparated_of_unit_injective_local_at_CompHaus.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_pt_bool.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_eval_pt.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_eval_pt_resp.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_not_complete.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.ObjDecEq_of_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_not_complete_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.Top_not_complete.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.Top_not_complete_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_ArrowIndex_of_Top.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_not_complete_IEM_below.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_not_complete_IEM_above.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.KSet.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_phi_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.large_universal_arrow_refuted.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.StoneCech_adjunction_refuted_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.StoneCech_adjunction_refuted_IEM_above.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.GAFT_CompHaus_IEM_vacuous.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.GAFT_CompHaus_IEM_vacuous_above.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_WellPowered.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.SAFT_CompHaus_Incl.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.SAFT_Incl_vacuous.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.SAFT_Incl_IEM_vacuous.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.SAFT_Incl_IEM_vacuous_below.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.big_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.big_inj_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_yp_equiv.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_yp_equiv_Equivalence.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_YP.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_yp_FinEnum.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.YP_CH.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.sc_yp_const.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_cogenerator_stable_DNE.'; \
+	  echo 'Print Assumptions Category.Instance.Top.StoneCech.Refutations.CompHaus_point_separator_stable_DNE.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

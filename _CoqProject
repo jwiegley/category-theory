@@ -534,6 +534,8 @@ Instance/Top/LoopSpace.v
 Instance/Top/Kolmogorov.v
 Instance/Top/Image.v
 Instance/Top/CompHaus.v
+Instance/Top/StoneCech.v
+Instance/Top/StoneCech/Refutations.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -1062,3 +1064,4 @@ Test/ProbeWellPowered451.v
 Test/ProbeSpecialInitial452.v
 Test/ProbeSAFT453.v
 Test/ProbeWatts454.v
+Test/ProbeStoneCech455.v
