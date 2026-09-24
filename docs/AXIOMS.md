@@ -131,12 +131,18 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **9541** on
-2026-09-23, after #453 (the special adjoint functor theorem as a
-characterization, Mac Lane §V.8 Theorem 2 and its Corollary) added ONE
-block of 93 names over four new modules, every one "Closed under the
-global context" (the list below). An earlier revision of this
-paragraph gave **9448**, the figure the same day after #452 (the
+criterion: `grep -c 'Print Assumptions' Makefile` returns **10010** on
+2026-09-24, after #454 (Watt's theorem with Mac Lane §V.8 Exercises 2
+and 3) added ONE block of 469 names over seven new modules — 113
+`Program` obligations and 356 other names, counted over the block's
+`Print Assumptions` lines, the obligations by the substring
+`_obligation_` — every one "Closed under the global context" (the list
+below); 9541 + 469 = 10010. An earlier revision of this paragraph gave
+**9541**, the figure on 2026-09-23 after #453 (the special adjoint
+functor theorem as a characterization, Mac Lane §V.8 Theorem 2 and its
+Corollary) added ONE block of 93 names over four new modules, every one
+"Closed under the global context" (the list below). An earlier
+revision still gave **9448**, the figure the same day after #452 (the
 special initial-object theorem, Mac Lane §V.8 Theorem 1) added ONE
 block of 70 names over four new modules, every one "Closed under the
 global context" (the list below); 9448 + 93 = 9541. An earlier
@@ -475,6 +481,68 @@ enumeration; among them:
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
   has no axiom-free in-tree inhabitant (docs/INHABITATION.md)
+
+Watt's theorem with Mac Lane §V.8 Exercises 2 and 3 (#454) adds ONE
+block of 469 names over its seven modules, counted over the block's
+`Print Assumptions` lines: 38 in `Functor/Representable/Additive.v`,
+159 in `Instance/Mod/HomTensor.v`, 100 in `Instance/Mod/Cogenerator.v`,
+36 in `Instance/Mod/WellPowered.v`, 39 in `Instance/Mod/Colimit.v`, 27
+in `Instance/Mod/Watts.v` and 70 in `Instance/Mod/Watts/Unconditional.v`,
+113 of them `Program` obligations (the lines containing `_obligation_`:
+3, 85, 16, 0, 0, 0 and 9). `make print-assumptions` passes, each
+reported "Closed under the global context". Compared name by name with
+a `Print Module` of the seven modules, the block carries every constant
+listed there, the four eliminators `MSObj_rect`, `MSObj_ind`,
+`MSObj_rec` and `MSObj_sind` of `Instance/Mod/Watts/Unconditional.v`'s
+inductive `MSObj` included; record constructors, shown
+by `Print Module` inside their records, are not gated. None of the seven
+files declares an `Axiom` or a `Parameter`. `rocqchk -o -R . Category
+Category.Instance.Mod.Watts`, whose closure contains the other six,
+reports "Modules were successfully checked"; its context summary lists
+three stdlib axioms the closure LOADS (`proof_irrelevance`,
+`functional_extensionality_dep`, `eq_rect_eq`), none of which any of
+the 469 gated names uses, every one being closed. Among the 469:
+
+- `watts_theorem_unconditional` and `RModop_continuous_representable`
+  (`Instance/Mod/Watts/Unconditional.v`) — Watt's theorem in the book's
+  contravariant form, and every continuous `K : (RMod R)^op ⟶ Sets`
+  representable, with NO hypothesis beyond the book's (and `Set < c`):
+  no `Untruncate`, no cogenerator, no choice; witnessed, as the
+  `watts_theorem_unconditional` row of docs/INHABITATION.md records
+- `watt_ab_iso`, `HomAb`, `CoHomAb`, `HomAb_continuous` and
+  `CoHomAb_continuous` (`Functor/Representable/Additive.v`), the
+  Exercise 2(a) adjunctions `tensor_homZ_adjunction`,
+  `homZ_tensor_adjunction` and `hom_tensor_adjunction`
+  (`Instance/Mod/HomTensor.v`), `RMod_Cocomplete_via_GAFT`
+  (`Instance/Mod/Colimit.v`), and `RMod_WellPoweredAt_up`,
+  `RMod_CoWellPowered_up`, `RMod_Generator` and `RModop_Cogenerator`
+  (`Instance/Mod/WellPowered.v`) — unconditional
+- `watts_theorem`, `watts_theorem_adjoint`, `watts_theorem_Fz`,
+  `watts_ex3`, `watts_ex3_QZ` and the other constants of
+  `Instance/Mod/Watts.v` that take `U`, with `RMod_WellPowered_untruncate`
+  and `RMod_CoWellPowered_untruncate` (`Instance/Mod/WellPowered.v`).
+  These take `Untruncate` (`Instance/Sets/Classifier/OneLevel.v`) as a
+  hypothesis in their statements, so their "Closed" is the second kind
+  of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
+  has no axiom-free in-tree inhabitant (docs/INHABITATION.md). The
+  text form's CONCLUSION needs no such hypothesis:
+  `watts_theorem_via_unconditional` derives `watts_theorem`'s statement
+  from `watts_theorem_unconditional` with `U` carried and not consumed
+- `QZ_injective_cogenerator` (with `_via_2a` and `_ML`) — Exercise 2(b),
+  with the book's fact about ℚ/ℤ taken as the hypotheses
+  `Injective Ab QZ` and `QZ_family_cogenerates` (for `_ML`, Mac Lane's
+  ≠ form `ML_cogenerates`), closed in the same second sense
+- `QZ_cogenerates_Ab_DNE`, `QZ_injective_WLEM`, `cogenerator_stable_DNE`
+  (with `_Z`), `coext_QZ_cogenerates_DNE` and `coext_QZ_injective_WLEM`
+  (`Instance/Mod/Cogenerator.v`) — METATHEOREMS, closed theorems ABOUT
+  classical principles and not axioms: each has the shape "premise ⇒
+  ∀ P, ¬¬P → P" or "premise ⇒ ∀ P, (¬P) + (¬¬P)", assumes neither
+  principle, and shows that Exercise 2(b)'s premises cannot be proved
+  without an axiom unless double-negation elimination (respectively the
+  informative weak excluded middle) can, both principles being
+  independent of the core (that file's header). They refute nothing
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

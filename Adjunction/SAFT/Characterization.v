@@ -479,10 +479,17 @@ Generalizable All Variables.
    covering-datum paragraph), and its landed witnesses -- that one, the
    hom-functors of [Sets], and the thin [Subsets Y] and [Indiscrete] --
    are the satellite Adjunction/SAFT/Characterization/Examples.v's.
-   Theorem 2 applies at the thin [Subsets Y] only, circularly (clause
-   (ii) of the paragraph IN TREE, THEOREM 2 IS APPLIED ONLY AT A THIN
-   CATEGORY, [subsets_inverse_image_thm2]).  The monos lemma and the
-   comma constructions are consumed by both theorems at each [d].
+   (An earlier revision ended there, as if the list were complete; since
+   #454 Instance/Mod/Watts.v also applies the Corollary,
+   Corollaries.v's [continuous_Set_functor_representable], at the
+   non-thin (RMod R)^op under one [Untruncate] -- at the functor
+   M ↦ Hom_Ab(U M, A), [watts_theorem_coext] -- and at RMod R under
+   [Untruncate] and a cogenerator taken as a hypothesis,
+   [watts_ex3_forget].)  Theorem 2 applies at the thin [Subsets Y] only,
+   circularly (clause (ii) of the paragraph IN TREE, THEOREM 2 IS APPLIED
+   ONLY AT A THIN CATEGORY, [subsets_inverse_image_thm2]).  The monos
+   lemma and the comma constructions are consumed by both theorems at
+   each [d].
 
    ** Not delivered
 

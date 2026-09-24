@@ -85,14 +85,21 @@ Generalizable All Variables.
     DERIVED from it at R := ℤ, and that is a measurement rather than a
     preference: the free abelian group on X is the free ℤ-module on X,
     but transporting the universal property across needs a passage
-    Ab → RMod ℤ giving every abelian group its ℤ-action, and no such
-    passage exists ([RMod_Forget_Ab], Instance/Mod.v, is the
-    forgetful direction; Instance/Mod/BaseChange.v's [ZExt Int_Ring]
-    does run Ab → RMod ℤ but sends A to ℤ ⊗ A, not to A carrying its
-    own ℤ-action, so it is not the passage wanted here)
-    -- Instance/Mod/Tensor.v's header records the
-    same absence.  The reduction is therefore unavailable in tree; it is
-    NOT claimed to be unavailable in principle.
+    Ab → RMod ℤ giving every abelian group its ℤ-action, together with
+    the proof that it inverts the forgetful direction ([RMod_Forget_Ab],
+    Instance/Mod.v).  An earlier revision named only the first half, the
+    passage, and said "no such passage exists" (the second half was left
+    implicit); since #454 the first half is false: Instance/Mod/Cogenerator.v's [Ab_to_ZMod]
+    is the passage, each group carrying its own [zsmul] action
+    ([Ab_to_ZMod_group] and [Ab_to_ZMod_smul] at [eq_refl]).  What is
+    still absent is the second half: no proof that every ℤ-module's
+    action agrees with [zsmul], hence no equivalence [Ab ≃ RMod Int_Ring].
+    Instance/Mod/BaseChange.v's [ZExt Int_Ring] also runs Ab → RMod ℤ but
+    sends A to ℤ ⊗ A, not to A carrying its own ℤ-action, so it is not
+    the passage wanted here -- Instance/Mod/Tensor.v's header recorded
+    the same absence and carries the same #454 correction.  The reduction
+    is therefore unavailable in tree; it is NOT claimed to be unavailable
+    in principle.
 
     STRENGTHS, MEASURED STRICT-FIRST.  The mediator is a [Fixpoint] on
     formal expressions, so a great deal is definitional:

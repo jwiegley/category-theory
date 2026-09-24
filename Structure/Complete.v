@@ -292,6 +292,19 @@ Generalizable All Variables.
       Instance/Rng/Colimit.v, and Test/ProbeAlgColimit450.v's N4 and N5
       and Test/ProbeVarietyColimit450.v's N4 with their controls).
 
+      ADDENDUM (#454).  The consumers include a fourth file.
+      Instance/Mod/Colimit.v applies [GAFT] at the diagonal functor into
+      [RMod R], for every ring, with the solution set
+      [Diagonal_RMod_solution_set] indexed by [Prop]-valued cocone
+      congruences on Instance/Mod/Free.v's term model, the kernel of a
+      cocone being a [Prop] because its target module carries
+      [cmon_prop]; it obtains [RMod_Cocomplete_via_GAFT].  The side
+      condition is again [Set] < carrier and again [GAFT]'s: in a copy of
+      that file, at a ring whose carrier universe is [Set],
+      [Diagonal_RMod_solution_set] elaborates and [RMod_colim_via_GAFT] is
+      refused, "Cannot enforce Set = … because Set < …" (that file's
+      UNIVERSES section, where the same refusal is quoted).
+
       SCOPE, because the property is deliberately narrow: [PropEquiv] is a
       property of a SETOID, not a change to [Class Setoid], and internal
       algebra in an arbitrary category (the Theory/Algebra/ files) keeps the

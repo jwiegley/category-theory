@@ -264,7 +264,9 @@ Generalizable All Variables.
    and, since #452, Adjunction/SAFT/InitialObject.v (the special
    initial-object theorem's well-powered corollary) with its witnesses
    Adjunction/SAFT/InitialObject/Examples.v and Instance/Sets/
-   SpecialInitial.v.
+   SpecialInitial.v; and, since #454, Instance/Mod/WellPowered.v ([RMod R]
+   well-powered and co-well-powered one universe up unconditionally, and
+   both at the pin under [Untruncate]).
 
    ** Non-vacuity of the consequence
 
@@ -274,10 +276,17 @@ Generalizable All Variables.
    in a form the theorem accepts, as written.  [Sets] and [Grp] are
    shown well-powered constructively only one universe up (Instance/Sets/
    WellPowered.v's [Sets_WellPoweredAt_up], Instance/Grp/WellPowered.v's
-   [Grp_WellPoweredAt_up]; the other algebraic categories were not
-   measured), and [Sets] is well-powered at the pin only under
-   [Untruncate] ([Sets_WellPowered_untruncate]); the presheaf categories
-   of [Presheaf_Complete] have a classifier only under a hypothesis:
+   [Grp_WellPoweredAt_up]; this parenthesis said "the other algebraic
+   categories were not measured", which is corrected here: since #454
+   Instance/Mod/WellPowered.v shows [RMod R] well-powered one universe up
+   unconditionally ([RMod_WellPoweredAt_up]) and at the pin under
+   [Untruncate] ([RMod_WellPowered_untruncate]), and co-well-powered the
+   same two ways ([RMod_CoWellPoweredAt_up],
+   [RMod_CoWellPowered_untruncate]), and the remaining algebraic
+   categories are still unmeasured), and [Sets] is well-powered
+   at the pin only under [Untruncate] ([Sets_WellPowered_untruncate]);
+   the presheaf categories of [Presheaf_Complete] have a classifier only
+   under a hypothesis:
    Instance/Fun/Classifier.v's [Fun_Classifier] takes [Untruncate] and
    its [Fun_Classifier_IEM] takes [IEM].  [SmallOrd_op_Complete]
    (Instance/Ordinal/Large.v) is thin and [trivial_small] applies to it

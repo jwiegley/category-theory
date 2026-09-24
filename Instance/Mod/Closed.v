@@ -300,8 +300,10 @@
      - No non-commutative variant.  Over a general R the correct statement
        is a bimodule one; nothing here approaches it, and the file does
        not exhibit a ring where the construction FAILS.
-     - No relation to Instance/Ab/Monoidal.v at R = ℤ (the ℤ-module
-       structure of an [AbObject] is not in tree), and no relation to
+     - No relation to Instance/Ab/Monoidal.v at R = ℤ (an earlier revision
+       added "the ℤ-module structure of an [AbObject] is not in tree"; since
+       #454 it is, as Instance/Mod/Cogenerator.v's [Ab_to_ZMod], and the
+       relation is still not built), and no relation to
        Instance/Mod/Free.v's free module or to
        Instance/FdVect/DoubleDual.v's dual functor beyond the prose
        identification above.

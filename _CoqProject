@@ -221,6 +221,7 @@ Functor/Product/Fixed.v
 Functor/Product/Internal.v
 Functor/Representable.v
 Functor/Representable/Functorial.v
+Functor/Representable/Additive.v
 Functor/Strong.v
 Functor/Strong/Product.v
 Functor/Structure/Cartesian.v
@@ -409,6 +410,12 @@ Instance/Mod/Quotient/Isomorphism.v
 Instance/Mod/Limit.v
 Instance/Mod/Spanning.v
 Instance/Mod/TensorAFT.v
+Instance/Mod/WellPowered.v
+Instance/Mod/Colimit.v
+Instance/Mod/HomTensor.v
+Instance/Mod/Cogenerator.v
+Instance/Mod/Watts.v
+Instance/Mod/Watts/Unconditional.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
@@ -1054,3 +1061,4 @@ Test/ProbeVarietyColimit450.v
 Test/ProbeWellPowered451.v
 Test/ProbeSpecialInitial452.v
 Test/ProbeSAFT453.v
+Test/ProbeWatts454.v

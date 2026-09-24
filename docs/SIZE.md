@@ -335,7 +335,8 @@ functor theorems demand. Since #450 so does `Instance/Variety/Free.v`'s
 `SetoidOpAlgebra`, the object record of every setoid variety `SVariety E` (field
 `soa_prop`), and the colimits of `Grp`, `Rng` and `SVariety E` are obtained the
 same way, at the diagonal (`Instance/Grp/Colimit.v`, `Instance/Rng/Colimit.v`,
-`Instance/Variety/Colimit.v`; the ADDENDUM (#450) to item 4 of the size note).
+`Instance/Variety/Colimit.v`; the ADDENDUM (#450) to item 4 of the size note),
+and since #454 so are `RMod R`'s (`Instance/Mod/Colimit.v`; the ADDENDUM (#454)).
 `Theory/Size.v`'s `SmallType` and
 `Adjunction/GAFT/Resize.v`'s `SmallUpToIso`/`SmallCovering` are the vocabulary in
 which Mac Lane's §V.7 cardinality clause can then be *stated*, and

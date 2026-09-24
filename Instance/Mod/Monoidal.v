@@ -309,9 +309,12 @@
        ring homomorphism, and no comparison with Instance/Rng/Mod.v's
        restriction of scalars is attempted.
      - NO COMPARISON WITH Instance/Ab/Monoidal.v.  Over R = ℤ the two
-       monoidal structures ought to agree, but the ℤ-module structure of an
-       [AbObject] is not in tree (Instance/Mod/Tensor.v records the same gap
-       for the underlying tensors), so no comparison functor is built.
+       monoidal structures ought to agree, and no comparison functor is
+       built.  An earlier revision gave the reason as "the ℤ-module
+       structure of an [AbObject] is not in tree (Instance/Mod/Tensor.v
+       records the same gap for the underlying tensors)"; since #454 that
+       structure is Instance/Mod/Cogenerator.v's [Ab_to_ZMod], so what is
+       missing is the comparison itself, not its ingredients.
      - NO UNIVERSE REPAIR.  The identification recorded above is measured and
        pinned, not lifted.  No constant in this file carries a universe
        annotation, and whether declarations in the style of
