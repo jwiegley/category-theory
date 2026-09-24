@@ -913,7 +913,14 @@ Definition IsCompact (X : TopSpace) : Type :=
    subcategory below is empty.  Compactness is witnessed by the singleton
    list containing the index that covers the point; the separation axiom is
    satisfied vacuously, there being no pair of distinct points to
-   separate — exactly the classical situation. *)
+   separate — exactly the classical situation.
+   CORRECTION (#455): as proved, [Point_Hausdorff] is monomorphised at a
+   [Set] carrier (About: [Point_Hausdorff@{u} : IsHausdorff@{u Set Set Set}
+   Point_Top@{Set}]), so it witnesses the separation half only at the
+   [Set]-carrier instances of [Top]; [Point_Compact] is universe-general.
+   Instance/Top/StoneCech.v's [Discrete_Hausdorff] separates every discrete
+   space at every universe, and its [Point_CH] is the one-point space as an
+   object of [CompHaus] at every carrier universe. *)
 Lemma Point_Compact : IsCompact Point_Top.
 Proof.
   intros I U HU.
