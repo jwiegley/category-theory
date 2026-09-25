@@ -131,8 +131,17 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **10753** on
-2026-09-25, after #458 (Mac Lane §V.9's Remarks 1 and 2 and Exercise 3:
+criterion: `grep -c 'Print Assumptions' Makefile` returns **10907** on
+2026-09-25, after #459 (Mac Lane §V.9's Constructions 5 and 6: the
+collapse X/A as a wide coequalizer in the Type-valued `Top`, and the
+category of pairs with the quotient left adjoint into pointed spaces)
+added ONE block of 154 names over two new modules,
+`Instance/Top/Quotient.v` and `Instance/Top/Quotient/Pairs.v`, the
+`Program` obligations, the inductive's constructors and schemes and the
+records' `Build_` constructors included, every one "Closed under the
+global context" (the list below); 10753 + 154 =
+10907. An earlier revision of this paragraph gave **10753**, the
+figure the same day after #458 (Mac Lane §V.9's Remarks 1 and 2 and Exercise 3:
 the completeness and cocompleteness of the Prop-valued spaces of
 `Instance/Top/Prop.v`, and their refutations above the points) added ONE
 block of 326 names over six new modules, `Instance/Top/Complete.v`,
@@ -771,6 +780,75 @@ stay nine. Among the 326:
   `Instance/Top.v`'s Type-valued `Top`, unconditional; the three walls
   that stop the rest are refusals pinned in `Test/ProbeTopComplete458.v`,
   not constants, and so are not in the gate
+
+The collapse and pairs development (Mac Lane §V.9 Constructions 5 and
+6, book pp. 134–135; #459) adds ONE block of 154 names over its
+two modules, `Instance/Top/Quotient.v` and
+`Instance/Top/Quotient/Pairs.v`: every constant `Print Module` lists
+for each, the `Program` obligations included, with the inductive
+`wcoeq_rel`, its constructors and generated schemes, and the records
+`PairTop` and `PairMap` with their `Build_` constructors and
+projections, each reported "Closed under the global context" by its
+fully qualified name. Neither declares an `Axiom` or a `Parameter` (a
+grep of the sources). A file requiring `Instance/Top/Quotient.v` loads
+54 `Category` modules, the file included, none of them a
+standard-library reals module (`Print Libraries`).
+`Instance/Top/Quotient/Pairs.v` requires `Instance/Top/Homotopy.v` for
+the pointed spaces `Top_pointed`, so a file requiring both loads 61
+`Category` modules and 25 standard-library reals modules, reached
+through `Instance/Top/Interval.v` and `Instance/Top/Homotopy.v` as
+`Instance/Top/Wedge.v` already reaches them. The reals enter no
+assumption set: `Print Assumptions` reports every one of the
+154 closed in a run where `Category.Instance.Top.Homotopy.Toph`,
+queried as the instrument, prints its two reals axioms
+(`sig_forall_dec` and `functional_extensionality_dep`), just as the
+`Top_pointed` spine is closed in the `Instance/Top/Homotopy.v` table
+of the stdlib-axioms section below. Neither module requires a reals
+module itself, so the nine reals-importing development files of that
+section stay nine (re-measured by `grep -l 'Coq.Reals'` over the `.v`
+files outside `Test/`, the set that section's `rg` command names).
+Among the 154:
+
+- `collapse_coequalizer`, `collapse_family_coequalizer`,
+  `collapse_colimit`, `collapse_empty_iso`, `collapse_iso_generic` and
+  `Top_HasWideCoequalizers_small`, the tree's first inhabitant of
+  `Structure/Coequalizer/Wide.v`'s `HasWideCoequalizers`
+  (`Instance/Top/Quotient.v`) — unconditional over `Instance/Top.v`'s
+  Type-valued `Top`, at the points' universe. No choice principle is
+  used: the collapse identifies points through the saturated image of
+  the family, and the wide quotient is an inductive relation eliminated
+  into the Type-valued equality of the target's points
+- `Top_pairs`, `PointPair`, `PairQuotient`, `pairs_quotient_iso` and
+  `pairs_quotient_adjunction`, with `pquot_pushout`, the coequalizer
+  of the point-inclusions read as a universal arrow, in colimit form,
+  `pquot_wide_coequalizer_colimit` (every pair, no point of the subset
+  assumed) and `collapse_colimit_point`,
+  `pquot_coequalizer`, `pquot_collapse_iso`, its pointed form
+  `pquot_collapse_iso_pointed` (over `collapse_pointed`) and
+  `pquot_empty_sum_iso` (`Instance/Top/Quotient/Pairs.v`) —
+  unconditional over `Top` and `Top_pointed`; the quotient
+  (X ⊔ {∗})/(A ∼ ∗) is formed on `option X`
+  with no decision whether the subset is empty, which is not decidable
+  here, and `pquot_coequalizer` takes its point of the subset as a
+  hypothesis in its statement
+- `no_pointed_coequalizer_at_empty`,
+  `no_pointed_elementary_coequalizers` and
+  `empty_colimit_not_elementary`, with `pquot_empty_not_coequalizer`,
+  `pquot_coequalizer_needs_point` and `Instance/Top/Quotient.v`'s
+  `empty_wide_coequalizer_pointless` — closed refutations of a STATEMENT
+  about the tree's elementary record `IsWideCoequalizer` (a point of an
+  elementary wide coequalizer of the empty family at the empty space,
+  and with it a pointed reading of that record, book p. 64's display
+  (6) extended to a set of maps; at an empty family, a case the book
+  does not treat, that reading parts from the universal-arrow reading
+  of pp. 64–65, the colimit, under which Constructions 5 and 6 agree
+  and which nothing here refutes) at the
+  concrete countermodel `Empty_Top`, assuming no principle, like #457's
+  `prop1_needs_faithfulness` and #458's
+  `ex3a_left_adjoint_literal_refuted` above
+- the walls that stop `HasWideCoequalizers` at `Top` above the points
+  and the Prop-valued reading of a subset are refusals pinned in
+  `Test/ProbeCollapse459.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

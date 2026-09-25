@@ -84,7 +84,19 @@ Generalizable All Variables.
    [Sets_HasCoequalizers]
    ([Instance/Sets/Coequalizer.v]), so a wide analogue over [Sets] is within
    reach, but building it would need a wide-relation quotient and is not
-   attempted here.  No relation to [Structure/Coequalizer/Split.v] or
+   attempted here.  CORRECTION (#459): "No [HasWideCoequalizers] instance
+   for any concrete category" holds of this file only.
+   Instance/Top/Quotient.v's [Top_HasWideCoequalizers_small] is one, for
+   the Type-valued [Top] at every index universe at or below the points',
+   built on exactly such a wide-relation quotient of setoids (its
+   [WSetsCoeq]); that file packages no instance for [Sets].
+   Instance/Top/Quotient/Pairs.v also witnesses the empty-index gap
+   above at [Top], for one family, the empty family of point-inclusions
+   * → X: its [pquot_wide_coequalizer_colimit_empty] identifies the apex
+   of a colimit of that family, up to isomorphism, with the coproduct
+   X ⊔ *, and its [empty_colimit_not_elementary] shows that at X = ∅ no
+   colimit's apex carries the elementary record.  No relation to
+   [Structure/Coequalizer/Split.v] or
    [Structure/Coequalizer/Reflexive.v], and hence nothing for the Beck
    monadicity machinery.  No wide analogue of [Structure/Regular.v]'s
    regular epimorphisms.  No comparison between the wide coequalizer at

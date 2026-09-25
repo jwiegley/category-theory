@@ -328,7 +328,10 @@ Generalizable All Variables.
    the Type-valued binary coproducts and pushouts of
    Instance/Top/Coproduct.v and Instance/Top/Pushout.v; Mac Lane's
    Exercise 2 (that [PIndisc] has no right adjoint) and his two worked
-   colimits of book p. 134 (the open cover and the collapse X/A); Riehl's
+   colimits of book p. 134 (the open cover and the collapse X/A;
+   CORRECTION (#459): for the collapse, this entry holds of this file
+   only — Instance/Top/Quotient.v builds it, over the Type-valued
+   [Top]); Riehl's
    remark that the disjoint union of bases is a basis; functoriality of
    the colimit in the diagram; a strict creation statement (the lift of a
    colimit unique up to equality of spaces): [PTop_colimit_open_iff_final]
