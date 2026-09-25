@@ -131,8 +131,18 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **10084** on
-2026-09-24, after #455 (the Stone–Čech development, Mac Lane §V.6 and
+criterion: `grep -c 'Print Assumptions' Makefile` returns **10427** on
+2026-09-24, after #457 (Mac Lane §V.9's sliced adjoint inverses:
+Proposition 1 and its dual, and the subspace and quotient topologies
+over the Prop-valued spaces of `Instance/Top/Prop.v`) added ONE block
+of 343 names over five new modules, `Structure/SlicedInverse.v`,
+`Structure/SlicedInverse/Strict.v`, `Instance/Top/Prop.v`,
+`Instance/Top/Subspace.v` and `Instance/Top/Subspace/TypeValued.v` —
+90 `Program` obligations among them, counted by the substring
+`_obligation_` — every one "Closed under the global context" (the list
+below); 10084 + 343 = 10427. An earlier revision
+of this paragraph gave **10084**, the figure the same day after #455
+(the Stone–Čech development, Mac Lane §V.6 and
 §V.8 Construction 1 and Exercise 4) added ONE block of 74 names
 over two new modules, `Instance/Top/StoneCech.v` and
 `Instance/Top/StoneCech/Refutations.v`, with no `Program` obligation
@@ -626,6 +636,60 @@ stay nine. Among the 74:
   separating the points of every compact Hausdorff space, with
   ¬¬-stable equality of points cannot be built without an axiom unless
   double-negation elimination can. They refute nothing
+
+The sliced-adjoint-inverse development (Mac Lane §V.9: Proposition 1
+and its dual, the subspace and quotient constructions; Seven Sketches
+Exercise 7.32; #457) adds ONE block of 343 names over its five
+modules, `Structure/SlicedInverse.v` (73), its satellite
+`Structure/SlicedInverse/Strict.v` (39), `Instance/Top/Prop.v` (51),
+`Instance/Top/Subspace.v` (111) and `Instance/Top/Subspace/TypeValued.v`
+(69): every constant `Print Module` lists for each, the 90 `Program`
+obligations included (19, 11, 8, 26 and 26, which the `.glob` heads do
+not list), with the three records' `Build_` constructors
+(`Build_RightAdjointRightInverse`, `Build_PTop`, `Build_PMor`), each
+reported "Closed under the global context" by its fully qualified name,
+with no `Axioms:` line (the stdlib `functional_extensionality`, queried
+in the same run as the instrument, prints its axiom). None of the five
+declares an `Axiom` or a `Parameter` (a grep of the sources), and none
+of the three records has an elimination scheme to gate (`Locate` of the
+`_rect`, `_ind` and `_rec` names finds none). No module of their
+closure is a standard-library reals module (`Print Libraries` of a
+file requiring all five), so the nine reals-importing development files
+of the stdlib-axioms section below stay nine; the open-subspace case,
+`Instance/Top/Presheaf.v`'s `OpenSub`, is cited by
+`Instance/Top/Subspace/TypeValued.v` and not imported, for that reason.
+Among the 343:
+
+- `equalizers_from_sliced_RARI`, `coequalizers_from_sliced_LARI`, the
+  forms over whole adjoints and the pointwise cores
+  (`Structure/SlicedInverse.v` and its satellite) — axiom-free
+  conditionals over an abstract faithful functor with sliced adjoints,
+  their premises in the statements, so their "Closed" is the second
+  kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above; both premises are witnessed in tree at `PForget` (the next
+  item), and docs/INHABITATION.md records how
+- `subspace_RARI`, `quotient_LARI`, `PTop_HasEqualizers` and
+  `PTop_HasCoequalizers` (`Instance/Top/Subspace.v`) — unconditional
+  over `Instance/Top/Prop.v`'s `PTopCat`, whose opens are `Prop`-valued.
+  That encoding costs no axiom: the subspace's union axiom is witnessed
+  by the union of ALL the witnessing opens, a `Prop`-valued family, so
+  no choice principle is used, and no constant of the two files
+  eliminates membership in an open into data. The four are exercised
+  at variable spaces and at the named discrete spaces `PPoint` and
+  `PBool` of `Instance/Top/Prop.v`, by `PBool_equalizer` and
+  `PBool_coequalizer`, the equalizer and the coequalizer of two pairs
+  of different maps, which are unconditional too
+- `prop1_needs_faithfulness` and `prop1_dual_needs_faithfulness` —
+  closed refutations of a STATEMENT (Proposition 1 and its dual with
+  faithfulness deleted) at the concrete countermodel `Erase Parallel`,
+  assuming no principle, unlike the metatheorems of the #455 paragraph
+  above
+- the 69 of `Instance/Top/Subspace/TypeValued.v` — the readings of the
+  two constructions that are formable over `Instance/Top.v`'s
+  Type-valued `Top`, unconditional; the walls that stop the rest are
+  refusals pinned in `Test/ProbeSubspace457.v`, not constants, and so
+  are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

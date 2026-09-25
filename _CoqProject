@@ -536,6 +536,9 @@ Instance/Top/Image.v
 Instance/Top/CompHaus.v
 Instance/Top/StoneCech.v
 Instance/Top/StoneCech/Refutations.v
+Instance/Top/Prop.v
+Instance/Top/Subspace.v
+Instance/Top/Subspace/TypeValued.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -753,6 +756,8 @@ Structure/Pushout/Split.v
 Structure/Regular.v
 Structure/Regular/Factorization.v
 Structure/Semiadditive.v
+Structure/SlicedInverse.v
+Structure/SlicedInverse/Strict.v
 Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
@@ -1065,3 +1070,4 @@ Test/ProbeSpecialInitial452.v
 Test/ProbeSAFT453.v
 Test/ProbeWatts454.v
 Test/ProbeStoneCech455.v
+Test/ProbeSubspace457.v

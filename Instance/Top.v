@@ -29,7 +29,24 @@ Generalizable All Variables.
    the subspace and quotient topologies are limits and colimits, the
    product topology is the categorical product, and the initial and final
    topologies are those (co)limit constructions read as universal
-   properties.
+   properties.  CORRECTION (#457): "none of it formalized here" holds of
+   this file only, and was already untrue of the library before #457
+   (the quotient topologies inside Instance/Top/Pushout.v's pushouts and
+   Instance/Top/Wedge.v's wedges, Instance/Top/Coproduct.v's coproducts,
+   Instance/Top/Presheaf.v's [OpenSub]); #457 adds the general
+   constructions.  The subspace and quotient
+   topologies along an arbitrary function, with the equalizers and
+   coequalizers Mac Lane's Proposition V.9.1 and its dual build from
+   them, are Instance/Top/Subspace.v's, over Instance/Top/Prop.v's
+   Prop-valued spaces rather than this file's [Top]; over [Top] itself
+   the quotient topology is Instance/Top/Subspace/TypeValued.v's
+   [TQuot], the general subspace topology exists there only unpackaged,
+   one universe above the points (the open case is
+   Instance/Top/Presheaf.v's [OpenSub]), and particular quotient
+   topologies build Instance/Top/Pushout.v's pushouts and
+   Instance/Top/Wedge.v's wedges.  No products of [Top] are built
+   (Instance/Top/Coproduct.v's header scopes that negative), nor the
+   initial and final topologies of FAMILIES of maps.
 
       objects: topological spaces  (a setoid of points + a family of opens)
        arrows: continuous maps     (preimages of opens are open)
