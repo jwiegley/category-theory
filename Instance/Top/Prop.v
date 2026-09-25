@@ -67,7 +67,17 @@ Generalizable All Variables.
    adjoint functor theorems need, products and completeness (item 3; its
    equalizers and coequalizers are Instance/Top/Subspace.v's
    [PTop_HasEqualizers] and [PTop_HasCoequalizers]), and the re-run of
-   #455's refutations against this encoding (item 4).  The
+   #455's refutations against this encoding (item 4).  CORRECTION
+   (#458): item 3 is delivered for [PTopCat] and item 4 for its
+   completeness and cocompleteness: Instance/Top/Complete.v builds its
+   products ([PTop_HasIndexedProducts]) and proves it complete
+   ([PTop_Complete]), Instance/Top/Cocomplete.v builds its coproducts
+   ([PTop_HasIndexedCoproducts]) and proves it cocomplete
+   ([PTop_Cocomplete]), both at every shape universe at or below the
+   points', and Instance/Top/Complete/Refutations.v and
+   Instance/Top/Cocomplete/Refutations.v refute both above the points
+   under informative excluded middle; [PCompHaus], the comparison
+   functors and the rest of item 4 stay for #1328.  The
    record completes Test/ProbeStoneCech455.v's control [p455_TopP], which
    has a union axiom only, in form (a) below: it adds the other four
    axioms and restates the union axiom as (b).  Instance/Top/StoneCech.v's
@@ -179,7 +189,23 @@ Generalizable All Variables.
    triple, the analogue of
    Instance/Top/Forgetful.v, over [PTopCat]; no separation or compactness
    notions; and no claim that (b) is strictly stronger than (a) at
-   [o := Set]. *)
+   [o := Set].  CORRECTION (#458): those limits, colimits and functors
+   are no longer absent from the tree, only from this file.  The products
+   and all small limits of [PTopCat] are Instance/Top/Complete.v's
+   ([PProd], [PTop_Complete]), its coproducts and all small colimits
+   Instance/Top/Cocomplete.v's ([PSigma], [PTop_Cocomplete]), both at
+   every shape universe at or below the points'.  The discrete and
+   indiscrete functors are [PDisc] (Instance/Top/Complete.v) and
+   [PIndisc] (Instance/Top/Cocomplete.v), with the adjoint triple
+   [PDisc ⊣ PForget ⊣ PIndisc] as two adjunctions, [PDisc_PForget] and
+   [PForget_PIndisc], as Instance/Top/Forgetful.v states its own.  Named
+   spaces that are not discrete exist there as well: the indiscrete space
+   on a setoid [PIndiscrete] and the indiscrete two-point [PTwoIndisc]
+   (Instance/Top/Cocomplete.v), their sum [PTwoIndiscSum], whose topology
+   is neither discrete nor indiscrete ([PTwoIndiscSum_not_discrete],
+   [PTwoIndiscSum_not_indiscrete]), and Instance/Top/Complete.v's
+   convergent sequence [PConv], whose limit point is not open
+   ([pconv_limit_point_not_open]). *)
 
 #[local] Obligation Tactic := idtac.
 

@@ -304,7 +304,17 @@ Generalizable All Variables.
 
    NOT DELIVERED.  Initial and final topologies for FAMILIES of maps and
    the product topology (catalog maclane:V.9:remark1, #458's), and so no
-   products, completeness or cocompleteness of [PTopCat]; any comparison
+   products, completeness or cocompleteness of [PTopCat].  CORRECTION
+   (#458): #458 delivers them, over this file's constructions:
+   Instance/Top/Complete.v's [PInit] (the initial topology of a family,
+   the product topology [PProd], completeness [PTop_Complete], and the
+   book's route [PTop_Complete_via_products] through this file's
+   [PTop_HasEqualizers]) and Instance/Top/Cocomplete.v's [PFinal] (the
+   final topology, the coproduct [PSigma], cocompleteness
+   [PTop_Cocomplete], and [PTop_Cocomplete_via_coproducts] through this
+   file's [PTop_HasCoequalizers]); [PInit_one_PSub] and
+   [pfinal_one_map_PQuot] there identify [PSub] and [PQuot] as the
+   one-map cases, opens for opens.  Also not delivered here: any comparison
    of [PSub] or [PQuot] with the Type-valued constructions (Instance/Top/
    Presheaf.v's open subspaces, Instance/Top/Pushout.v's quotient,
    Instance/Top/Subspace/TypeValued.v's [TQuot]); any comparison of the

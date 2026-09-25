@@ -305,6 +305,17 @@ Generalizable All Variables.
    [CompHaus_not_complete_IEM] is refused at GAFT's shape
    [Complete@{h h h c}], needing [c <= s].  Anything over the
    Prop-valued re-encoding (#1328), and Stone–Čech itself (#1329).
+   CORRECTION (#458): the re-run of this file's completeness refutations
+   over the Prop-valued [PTopCat] is Instance/Top/Complete/Refutations.v's
+   and their colimit duals are Instance/Top/Cocomplete/Refutations.v's,
+   with [Top_not_cocomplete_Freyd] there the dual of [Top_not_complete]
+   here; [PCompHaus] and Stone–Čech stay with #1328 and #1329.  And
+   Instance/Top/Complete/Refutations.v carries [Top_not_complete_IEM]
+   and [CompHaus_not_complete_IEM_below] below the hom universe, where
+   COVERAGE records that no [IEM] form here applies, to every shape
+   universe strictly above the points: [Top_not_complete_below_IEM] and
+   [CompHaus_not_complete_below_IEM], through an arrow index of [Top]
+   moved between hom universes ([Top_ArrowIndex_transport]).
 
    COUNTS.  33 constants here (18 [Definition], 4 [Lemma], 11 [Theorem]),
    all closed under the global context by their fully qualified names,

@@ -139,7 +139,20 @@
           index.  #455's review measured what a draft of this correction
           denied, that [Complete CompHaus] at a shape below its object
           universe is refuted: [CompHaus_not_complete_IEM_below] refutes it,
-          through an arrow index of [Top].
+          through an arrow index of [Top].  CORRECTION (#458): at shapes
+          below the hom universe both are refuted under informative
+          excluded middle as well, at every shape universe strictly above
+          the points: Instance/Top/Complete/Refutations.v's
+          [Top_not_complete_below_IEM] refutes [Complete Top] there, and
+          [CompHaus_not_complete_below_IEM] refutes [Complete CompHaus]
+          there, at the instances that Instance/Top/StoneCech/
+          Refutations.v's COVERAGE records for
+          [CompHaus_not_complete_IEM_below].  Both go through the first
+          file's [Top_ArrowIndex_transport], which moves an arrow index
+          of [Top] between hom universes; Test/ProbeTopComplete458.v pins
+          both at a shape strictly between the points and the homs, where
+          #455's [IEM] forms are refused.  At shapes at or below the
+          points neither [HT] nor [Complete CompHaus] is refuted.
 
     NOT DELIVERED, in the issue's own terms.  (a) Tychonoff at ANY index
     generality — not even the binary product has its universal property

@@ -46,7 +46,17 @@ Generalizable All Variables.
    topologies build Instance/Top/Pushout.v's pushouts and
    Instance/Top/Wedge.v's wedges.  No products of [Top] are built
    (Instance/Top/Coproduct.v's header scopes that negative), nor the
-   initial and final topologies of FAMILIES of maps.
+   initial and final topologies of FAMILIES of maps.  CORRECTION (#458):
+   the second holds of [Top] only, and there of GENERAL families: no
+   general initial or final topology of a family is built over [Top],
+   though Instance/Top/Cocomplete/TypeValued.v's [TSigma] is the final
+   topology of one kind of family, the injections of a disjoint union.
+   The initial and final topologies of families are Instance/Top/
+   Complete.v's [PInit] and Instance/Top/Cocomplete.v's [PFinal], over
+   Instance/Top/Prop.v's Prop-valued spaces, and the products, limits
+   and colimits of [PTopCat] are built from them; over [Top] itself
+   Instance/Top/Cocomplete/TypeValued.v builds the coproducts indexed at
+   or below the points and the coequalizers, and still no products.
 
       objects: topological spaces  (a setoid of points + a family of opens)
        arrows: continuous maps     (preimages of opens are open)
