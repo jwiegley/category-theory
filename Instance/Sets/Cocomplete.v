@@ -120,6 +120,11 @@ Generalizable All Variables.
    neither variance: on the limit side Instance/Sets/Complete.v
    already records its absence, and dually no constant here or elsewhere
    derives [Cocomplete] from [HasIndexedCoproducts] and [HasCoequalizers].
+   CORRECTION (#458): since #416 the theorem exists in both variances,
+   Structure/Limit/FromProducts.v's [Complete_from_products_equalizers]
+   and [Cocomplete_from_coproducts_coequalizers]; [Sets_Cocomplete] is
+   still not routed through it, and Instance/Top/Cocomplete.v's
+   [PTop_Cocomplete_via_coproducts] consumes the second at [PTopCat].
    In particular [Sets_HasCoequalizers] (Instance/Sets/Coequalizer.v)
    is NOT consumed.  What is consumed is the layer beneath it: the two
    objects [Sets_icoprod_obj] and [SetsQuotient].  Both halves of the

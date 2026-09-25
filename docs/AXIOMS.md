@@ -131,8 +131,18 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **10427** on
-2026-09-24, after #457 (Mac Lane §V.9's sliced adjoint inverses:
+criterion: `grep -c 'Print Assumptions' Makefile` returns **10753** on
+2026-09-25, after #458 (Mac Lane §V.9's Remarks 1 and 2 and Exercise 3:
+the completeness and cocompleteness of the Prop-valued spaces of
+`Instance/Top/Prop.v`, and their refutations above the points) added ONE
+block of 326 names over six new modules, `Instance/Top/Complete.v`,
+`Instance/Top/Complete/ConeComma.v`, `Instance/Top/Complete/Refutations.v`,
+`Instance/Top/Cocomplete.v`, `Instance/Top/Cocomplete/Refutations.v` and
+`Instance/Top/Cocomplete/TypeValued.v`, `Program` obligations included,
+every one "Closed under the global context" (the list below);
+10427 + 326 = 10753. An earlier revision of this
+paragraph gave **10427**, the figure on
+2026-09-24 after #457 (Mac Lane §V.9's sliced adjoint inverses:
 Proposition 1 and its dual, and the subspace and quotient topologies
 over the Prop-valued spaces of `Instance/Top/Prop.v`) added ONE block
 of 343 names over five new modules, `Structure/SlicedInverse.v`,
@@ -690,6 +700,77 @@ Among the 343:
   Type-valued `Top`, unconditional; the walls that stop the rest are
   refusals pinned in `Test/ProbeSubspace457.v`, not constants, and so
   are not in the gate
+
+The completeness and cocompleteness development (Mac Lane §V.9 Remarks 1
+and 2 and Exercise 3, Awodey §2.6, Riehl §3.1 Example 3.1.10 and §3.6
+Proposition 3.6.2 and Example 3.6.3; #458) adds ONE block of 326
+names over its six modules, `Instance/Top/Complete.v`,
+`Instance/Top/Complete/ConeComma.v`, `Instance/Top/Complete/Refutations.v`,
+`Instance/Top/Cocomplete.v`, `Instance/Top/Cocomplete/Refutations.v` and
+`Instance/Top/Cocomplete/TypeValued.v`: every constant `Print Module`
+lists for each, the `Program` obligations included, each reported
+"Closed under the global context" by its fully qualified name. None of
+the six declares a record or an inductive, so there is no `Build_`
+constructor and no elimination scheme to gate, and none declares an
+`Axiom` or a `Parameter` (a grep of the sources). Their standard-library
+`Require`s are `Coq.Arith.PeanoNat` (for the convergent sequence of the
+box non-example) and `Coq.Logic.Eqdep_dec` (`UIP_dec` and
+`inj_pair2_eq_dec`, proved from decidable equality), and a file
+requiring all six loads 182 `Category` modules, the six included, none
+of them a standard-library reals module (`Print Libraries`), so the nine
+reals-importing development files of the stdlib-axioms section below
+stay nine. Among the 326:
+
+- `PTop_Complete`, `PTop_Cocomplete`, the recipe lemmas
+  `pinit_cone_limiting` and `pfinal_cocone_colimiting`, the book's
+  routes `PTop_Complete_via_products` and
+  `PTop_Cocomplete_via_coproducts`, the products, coproducts and binary
+  products (`PTop_HasIndexedProducts`, `PTop_HasIndexedCoproducts`,
+  `PTop_Cartesian`) and the adjunctions `PDisc_PForget` and
+  `PForget_PIndisc` with `PForget_Continuous` and
+  `PForget_Cocontinuous` — unconditional over `Instance/Top/Prop.v`'s
+  `PTopCat`. No choice principle is used: the initial topology of a
+  family quantifies over topologies impredicatively in `Prop`, and the
+  final topology is a conjunction of openness conditions; the box
+  topology's `pbox_proj_cont` takes decidable equality of the index as
+  a hypothesis in its statement, discharged at `nat` by `Nat.eq_dec` in
+  `box_not_indexed_product`
+- `limit_from_cone_right_adjoint` and `terminal_of_right_adjoint`
+  (`Instance/Top/Complete/ConeComma.v`) — conditionals over an abstract
+  right adjoint, so their "Closed" is the second kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above; the premise is witnessed at `PForget` by `pcone_adjunction`,
+  and docs/INHABITATION.md records how
+- `ex3a_left_adjoint_literal_refuted`, `box_not_indexed_product`,
+  `cone_adjoints_differ_at_empty_shape`, `PTop_no_ArrowIndex_below` and
+  `PTop_no_ArrowIndex_at_points` — closed refutations of a STATEMENT at
+  a concrete countermodel (the printed Exercise 3(a) at the empty
+  diagram into `Roof`; the box topology as a product; an arrow index of
+  `PTopCat` at or below its points), assuming no principle
+- `PTop_not_complete_IEM`, `PTop_not_complete_ObjDecEq`,
+  `PTop_not_cocomplete_IEM`, `PTop_not_cocomplete_ObjDecEq`,
+  `PTop_iprod_refuted_IEM`, `Sets_not_cocomplete_IEM`,
+  `Top_not_complete_below_IEM`, `Top_not_complete_below_ObjDecEq`,
+  `Top_not_cocomplete_IEM`, `Top_not_cocomplete_ObjDecEq`,
+  `Top_iprod_refuted_below_IEM`, `CompHaus_not_complete_below_IEM` and
+  the `_canonical` and `_Cantor_` forms beside them — METATHEOREMS,
+  closed theorems ABOUT a classical principle and not axioms, as in the
+  #455 paragraph above: `IEM` (`Instance/Sets/Classifier/OneLevel.v`)
+  and `ObjDecEq` (`Construction/Quotient.v`) are hypotheses in each
+  statement, never assumed, and each theorem says that wherever the
+  hypothesis holds the completeness, cocompleteness or products it names
+  are false above the points (for `CompHaus`, at the instances
+  `Instance/Top/StoneCech/Refutations.v`'s COVERAGE records). Their
+  `_Freyd` forms take an `ArrowIndex`
+  in place of the hypothesis; `top_rebuild`, which rebuilds a continuous
+  map between hom universes, and the two transports
+  `PTop_ArrowIndex_transport` and `Top_ArrowIndex_transport`, which move
+  an arrow index between universe levels, are closed data
+- the constants of `Instance/Top/Cocomplete/TypeValued.v` — the
+  coproducts indexed at or below the points and the coequalizers of
+  `Instance/Top.v`'s Type-valued `Top`, unconditional; the three walls
+  that stop the rest are refusals pinned in `Test/ProbeTopComplete458.v`,
+  not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

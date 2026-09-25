@@ -539,6 +539,12 @@ Instance/Top/StoneCech/Refutations.v
 Instance/Top/Prop.v
 Instance/Top/Subspace.v
 Instance/Top/Subspace/TypeValued.v
+Instance/Top/Complete.v
+Instance/Top/Complete/ConeComma.v
+Instance/Top/Complete/Refutations.v
+Instance/Top/Cocomplete.v
+Instance/Top/Cocomplete/Refutations.v
+Instance/Top/Cocomplete/TypeValued.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -1071,3 +1077,4 @@ Test/ProbeSAFT453.v
 Test/ProbeWatts454.v
 Test/ProbeStoneCech455.v
 Test/ProbeSubspace457.v
+Test/ProbeTopComplete458.v

@@ -98,7 +98,15 @@ Generalizable All Variables.
    Nothing about Awodey's poset clauses of the same example
    (juxtaposition of posets, basepoint identification for rooted posets):
    the first is Instance/Proset/Limit.v's subject and the second is the
-   pointed case, Instance/Top/Wedge.v. *)
+   pointed case, Instance/Top/Wedge.v.  CORRECTION (#458): "No indexed
+   coproducts of spaces" holds of this file only.
+   Instance/Top/Cocomplete/TypeValued.v's
+   [Top_HasIndexedCoproducts_small] builds the indexed coproducts of [Top]
+   at every index universe at or below the points', and over the
+   Prop-valued [PTopCat] Instance/Top/Cocomplete.v builds its coproducts
+   ([PTop_HasIndexedCoproducts]) and Instance/Top/Complete.v its products
+   ([PTop_HasIndexedProducts]) and a [Cartesian PTopCat]
+   ([PTop_Cartesian]); [Top] itself still has no products built. *)
 
 (** ** The disjoint union of two spaces *)
 

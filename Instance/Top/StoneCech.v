@@ -149,7 +149,16 @@ Generalizable All Variables.
    [PTop] and [PTopCat] (its [PMor X Y] is accepted at [Type@{o}] under
    the closed binder [@{o}], Test/ProbeSubspace457.v's [p457_pmor_at_o]);
    [PCompHaus], the comparison with [Top] and completeness stay with
-   #1328, and nothing in this file is rebuilt on it.
+   #1328, and nothing in this file is rebuilt on it.  CORRECTION (#458):
+   the completeness of [PTopCat] itself no longer stays with #1328.
+   Instance/Top/Complete.v's [PTop_Complete] proves it at every shape
+   universe at or below the points', the points' own included, with no
+   hypothesis, and Instance/Top/Complete/Refutations.v refutes it above
+   them under informative excluded middle; so the first half of the
+   expectation above holds for [PTopCat]: no arrow index of it exists at
+   or below the points, constructively ([PTop_no_ArrowIndex_below]
+   there).  [PCompHaus], its completeness (the Tychonoff half) and the
+   comparison with [Top] stay with #1328.
 
    WHAT IS CONSUMED AND BUILT, in this file.
    (1) Discrete spaces.  [Discrete_Hausdorff]: every discrete space
