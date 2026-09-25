@@ -143,7 +143,13 @@ Generalizable All Variables.
    is that Freyd's argument then no longer reaches the universes the
    theorems use and that completeness becomes the classical question
    (Tychonoff) it is in the book.  That re-encoding is #1328, and
-   Stone–Čech over it is #1329; neither is attempted here.
+   Stone–Čech over it is #1329; neither is attempted here.  Since #457:
+   the re-encoding's first item, a Prop-valued space record and category
+   with homs at the points' universe, has landed as Instance/Top/Prop.v's
+   [PTop] and [PTopCat] (its [PMor X Y] is accepted at [Type@{o}] under
+   the closed binder [@{o}], Test/ProbeSubspace457.v's [p457_pmor_at_o]);
+   [PCompHaus], the comparison with [Top] and completeness stay with
+   #1328, and nothing in this file is rebuilt on it.
 
    WHAT IS CONSUMED AND BUILT, in this file.
    (1) Discrete spaces.  [Discrete_Hausdorff]: every discrete space

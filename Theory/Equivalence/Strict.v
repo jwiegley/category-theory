@@ -255,8 +255,12 @@ Require Import Category.Instance.Discrete.Reconstruct.
 
     ** NOT delivered
 
-    No dual (a right-adjoint-left-inverse, or the coreflective reading of
-    the image of [T]); no comparison of [LeftAdjointRightInverse] with
+    No dual (CORRECTION (#457): an earlier revision named the dual a
+    right-adjoint-left-inverse; under the opposite adjunction it is a
+    right-adjoint-right-inverse, which Structure/SlicedInverse.v's
+    [RightAdjointRightInverse] now provides, no op-duality between the
+    two records being proved; the coreflective reading of the image of
+    [T] is still not delivered); no comparison of [LeftAdjointRightInverse] with
     Adjunction/LeftInverse.v's [LeftAdjointLeftInverse] beyond naming the
     pair; no uniqueness statement for the left adjoint; no statement in
     [StrictCat] and no equality of functors [S ◯ T = Id[C]]; no

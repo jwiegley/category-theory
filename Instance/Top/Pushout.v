@@ -151,7 +151,14 @@ Generalizable All Variables.
    so Instance/Top/Wedge.v's [Top_pointed] is untouched; and no monic-legs
    refinement on this side -- Structure/Pushout/Split.v's generic
    statements apply to Top verbatim but no Top span is exhibited whose
-   legs split. *)
+   legs split.  CORRECTION (#457): the "no subspace or general quotient
+   topology as free-standing constructions" item holds of this file only.
+   Instance/Top/Presheaf.v's [OpenSub], the subspace on an OPEN subset,
+   predates #457; #457 adds both in general, Instance/Top/Subspace.v's
+   [PSub] and [PQuot]
+   over Instance/Top/Prop.v's Prop-valued spaces, and the general
+   quotient over [Top] as Instance/Top/Subspace/TypeValued.v's [TQuot];
+   this pushout is not rebuilt on them. *)
 
 (** ** The glued point set *)
 

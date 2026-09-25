@@ -106,13 +106,21 @@ Generalizable All Variables.
     and left adjoint Δ, Theory/Equivalence/Strict.v's
     [LeftAdjointRightInverse S] unfolds FIELD FOR FIELD to "Δ ⊣ Lim,
     [Lim (Δ c) = c], and the unit is the cast" -- which is what a
-    "right-adjoint-right-inverse of Δ" says read from the other side.
-    So [diagonal_is_lari_of_limit] is stated with that record and no
-    lookalike is introduced; [RightAdjointRightInverse] and its
-    siblings have zero occurrences tree-wide (measured at the base
-    commit: `rg -n -w 'RightAdjointRightInverse'` returns nothing, and
-    the only near hits for the family are #377's own
-    [LeftAdjointRightInverse]).  The unit-is-an-isomorphism half,
+    "right-adjoint-LEFT-inverse of Δ" says read from the other side:
+    [Lim ◯ Δ = Id] makes [Lim] a left inverse of [Δ].  So
+    [diagonal_is_lari_of_limit] is stated with that record and no
+    lookalike is introduced.  CORRECTION (#457): an earlier revision of
+    this paragraph said "right-adjoint-right-inverse of Δ" here, which is
+    the wrong side -- a right-adjoint-right-inverse [R] of [S] has
+    [S ◯ R = Id] with the COUNIT the identity, a different notion -- and
+    went on to say that [RightAdjointRightInverse] and its siblings have
+    zero occurrences tree-wide.  That count was measured at this file's
+    base commit (`rg -n -w 'RightAdjointRightInverse'` returned nothing,
+    and the only near hits for the family were #377's own
+    [LeftAdjointRightInverse]) and is no longer true:
+    Structure/SlicedInverse.v now declares [RightAdjointRightInverse],
+    the counit notion, which this file does not use.  The
+    unit-is-an-isomorphism half,
     [diagonal_unit_limit_iso], is UNCONDITIONAL exactly as its colimit
     mirror is.
 
