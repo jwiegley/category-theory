@@ -84,7 +84,9 @@ carry FIVE block equations: [u0 = u11] identifies the ambient hom universe
     ([StrictlyCreatesLimit]); the colimit dual; any witness of
     [ClosedUnderLimits] at a concrete subcategory (Instance/Top/CompHaus.v
     applies the lemma as a CONDITIONAL, [Top] having no limits beyond the
-    terminal object to be closed under); and any relation to
+    terminal object to be closed under; CORRECTION (#461): the tree's first
+    witnesses are Instance/Top/Hausdorff.v's [PSep_closed] and
+    [PT3_closed], over the Prop-valued spaces [PTopCat]); and any relation to
     reflectivity (a reflective subcategory is closed under limits, but that
     implication is not proved here). *)
 

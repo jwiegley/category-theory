@@ -160,7 +160,10 @@
     (D)); (d) [CompHaus_Complete] unconditionally (the conditional
     [CompHaus_Complete_of] is what stands); a [Cartesian Top]; compactness
     of a SUBSET ([IsCompact] is whole-space); the closed-map form of (B);
-    any necessity result for [dec]; any witness of [ClosedUnderLimits], or
+    any necessity result for [dec]; any witness of [ClosedUnderLimits]
+    (CORRECTION (#461): none over [Top] still; the tree's first witnesses
+    are over [PTopCat], Instance/Top/Hausdorff.v's [PSep_closed] and
+    [PT3_closed]), or
     an inhabited witness of [dec] for all opens; and nothing registered as
     an [Instance]
     ([CompHaus_Forget_Faithful] and [CompHaus_Incl_Faithful] are lemmas,

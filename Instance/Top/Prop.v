@@ -205,7 +205,12 @@ Generalizable All Variables.
    is neither discrete nor indiscrete ([PTwoIndiscSum_not_discrete],
    [PTwoIndiscSum_not_indiscrete]), and Instance/Top/Complete.v's
    convergent sequence [PConv], whose limit point is not open
-   ([pconv_limit_point_not_open]). *)
+   ([pconv_limit_point_not_open]).  CORRECTION (#461): separation
+   notions over [PTopCat] now exist as well, in Instance/Top/Separation.v
+   ([PT0], [PT1], the positive Hausdorff form [PHaus] and their
+   reflections) and Instance/Top/Hausdorff.v (regular spaces, and the
+   Hausdorff reflection by the general adjoint functor theorem);
+   compactness is still absent. *)
 
 #[local] Obligation Tactic := idtac.
 

@@ -71,7 +71,13 @@ Generalizable All Variables.
     an in-tree reflection ([Ab], [Top], [Ord]) is shown cocomplete, so
     [reflective_Cocomplete] at a concrete reflection stays a conditional —
     the status docs/INHABITATION.md records, the same as
-    [reflective_Complete]'s.
+    [reflective_Complete]'s.  CORRECTION (#461): one ambient now is.
+    Instance/Top/Hausdorff.v's [Haus_Cocomplete] is
+    [reflective_Cocomplete] at the Hausdorff reflection [Haus_reflective]
+    of the Prop-valued spaces [PTopCat] (Instance/Top/Prop.v), cocomplete
+    by Instance/Top/Cocomplete.v's [PTop_Cocomplete], and
+    docs/INHABITATION.md's row has moved to the witnessed table.  No
+    witness of [reflective_Complete] at a concrete reflection is added.
 
     STALE PREMISES (the issue's "Current state", six).  [Cocomplete]
     (Structure/Complete.v) is said to have "no concrete instance and
@@ -170,7 +176,15 @@ Generalizable All Variables.
     nothing is registered as an [Instance]; no edit to
     Construction/Reflective.v, Adjunction/Continuity.v,
     Theory/Equivalence/Colimit.v, Structure/Limit/Initial.v or
-    Structure/Complete.v. *)
+    Structure/Complete.v.  CORRECTION (#461): the tree now has an ambient
+    colimit that leaves its reflective subcategory.
+    Instance/Top/Hausdorff.v's [GlueQ] is the coequalizer in [PTopCat] of
+    a pair of maps between Hausdorff spaces ([glue_f_h], [glue_g_h]), and
+    it is not Hausdorff ([GlueQ_not_PHaus]), so ex xi's counterexample is
+    in reach; it is not stated as a [CreatesColimit] refutation anywhere.  A
+    [Cocomplete] inhabitant for an ambient carrying a reflection exists
+    too, outside this file: [PTop_Cocomplete] (Instance/Top/Cocomplete.v,
+    #458), the ambient of #461's reflections. *)
 
 Section ReflectiveColimits.
 

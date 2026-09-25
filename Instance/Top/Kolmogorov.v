@@ -323,7 +323,11 @@
       specialization ORDER as a preorder, and in particular no bridge
       to the sibling clause (a): the specialization preorder of a space
       would be the natural object of [Ord] connecting the two halves of
-      Mac Lane's exercise and it is NOT built here.
+      Mac Lane's exercise and it is NOT built here.  CORRECTION (#461):
+      over the Prop-valued spaces [PTopCat] the chain now exists, in
+      Instance/Top/Separation.v ([PT0], [PT1] and the positive Hausdorff
+      form [PHaus], with their reflections) and Instance/Top/Hausdorff.v
+      (regular spaces [PReg] and [PT3]); over [Top] this item stands.
     - No Kolmogorov quotient of a pointed space, and no relation to
       Instance/Top/Homotopy.v's [Toph] or [Top_pointed].
     - No functoriality statement for [KolmogorovQuotient] beyond the
