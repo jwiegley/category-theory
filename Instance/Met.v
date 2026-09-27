@@ -152,6 +152,9 @@ Open Scope R_scope.
    uniformly continuous — but they are different categories with different
    hom-sets, and NO comparison between them is built here.  This file
    formalizes the §III.1 one, which is the one the issue names.
+   CORRECTION (#370): "here" is this file.  The uniformly continuous
+   category, [MetU], and the comparison [Met_to_MetU] (identity on
+   objects, faithful, not full) are Instance/Met/Uniform.v's.
 
    WHAT IS DELIVERED HERE: the record [MetricSpace] (four axioms), the
    derived non-negativity and injectivity lemmas, the category [Met], a
@@ -166,7 +169,9 @@ Open Scope R_scope.
    [Top] (the metric topology is not built); short maps, uniformly
    continuous maps, or any category of metric spaces other than the
    isometric one.  The completion itself is Instance/Met/Completion.v and
-   extended metric spaces are Instance/Met/Extended.v. *)
+   extended metric spaces are Instance/Met/Extended.v.  CORRECTION (#370):
+   the uniformly continuous maps are Instance/Met/Uniform.v's [MetU];
+   short maps are still not built. *)
 
 (** ** A missing standard-library step *)
 

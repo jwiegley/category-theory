@@ -210,7 +210,12 @@ Generalizable All Variables.
    of [CreatesLimit] along an equivalence of functors (both searched, zero
    hits).  Building that bridge is a separate piece of work; the direct
    route above needs none of it, so it is the route taken and Riehl's is
-   cited rather than followed.
+   cited rather than followed.  CORRECTION (#370): the join exists now for
+   the given S, without [Sub C MLocal_Subcategory]:
+   Construction/Reflective/Monadic.v's [Reflective_EM_Equivalence] proves
+   Monad/Comparison.v's comparison functor of the reflection itself,
+   [Sub C S ⟶ EilenbergMoore], an equivalence.  No [CreatesLimit] is
+   transported along it, and this file's route is unchanged.
 
    ** The colimit half
 

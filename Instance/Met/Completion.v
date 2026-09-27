@@ -153,7 +153,12 @@ Open Scope R_scope.
    Test/ProbeMet.v elaborates both terms.  They are left out of the library
    surface only because the issue asks for the universal arrow and its
    uniqueness corollary and stops there; promoting them is a two-line change
-   whenever it is wanted.
+   whenever it is wanted.  CORRECTION (#370): they are promoted.
+   Instance/Met/Uniform.v's [CMet_Reflective_in_Met], with its adjunction
+   [completion_adj], makes the complete spaces a reflective subcategory of
+   Instance/Met.v's isometric [Met] by that route, and the same file builds
+   Mac Lane's own §IV.3 category of uniformly continuous maps, [MetU],
+   with the reflection [CMet_Reflective_in_MetU].
 
    Also not delivered: any comparison with the Lawvere enriched reading of
    metric spaces (see Instance/Met.v's header); and any claim that

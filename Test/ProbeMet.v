@@ -167,7 +167,11 @@ Check @univ_property_unique_up_to_unique_iso.
    library surface by choice rather than by difficulty.  That is a claim
    about what elaborates, so it is checked here rather than asserted there.
    Nothing below is exported: these are local names in a test file, and the
-   library gains no new constant from them. *)
+   library gains no new constant from them.  CORRECTION (#370): the library
+   now has them, as Instance/Met/Uniform.v's [CMet_Reflective_in_Met] and
+   [completion_adj], built by the same two constructions; the two terms
+   below stay as the check that nothing beyond the universal arrow is
+   needed. *)
 
 Definition probe_CompletionFunctor : Met ⟶ CMet :=
   LeftAdjointFunctorFromUniversalArrows CMet_Incl

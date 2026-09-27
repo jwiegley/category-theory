@@ -276,12 +276,29 @@
       groups as a coreflective subcategory, with TA as coreflector.
       [Coreflective] is Construction/Reflective.v and the torsion
       subgroup built here is its object part, but that is a different
-      catalog item and nothing here states or proves it.
+      catalog item and nothing here states or proves it.  CORRECTION
+      (#370): Instance/Ab/Torsion.v states and proves it covariantly,
+      [torsion_coreflection : Incl Ab Torsion_Sub ⊣
+      torsion_coreflector], packaged as [Torsion_Coreflective], with
+      this file's [TorsionAb] as the coreflection and [torsion_incl] as
+      the couniversal arrow.
     - Functoriality of [TorsionSub] or of [TorsionAb] in A; no
-      naturality of the torsion inclusion.
+      naturality of the torsion inclusion.  CORRECTION (#370):
+      Instance/Ab/Torsion.v's [torsion_coreflector] is a functor
+      [Ab ⟶ TorsionCat] whose object at A has [TorsionAb A] as its
+      group at [eq_refl] ([torsion_coreflector_obj]), and the counit of
+      [torsion_coreflection], natural as every counit is, is [≈] to
+      [torsion_incl] at every A ([torsion_counit_is_incl]).
+      [TorsionSub] is still not made functorial, and no naturality
+      lemma is stated for [torsion_incl] by name.
     - The idempotent monad of the reflection.
       Construction/Reflective/Idempotent.v gives it by instantiation
       from [TorsionFree_Reflective]; that instantiation is not made.
+      CORRECTION (#370): it is made in Instance/Ab/Torsion.v
+      ([TorsionFree_Monad], [TorsionFree_IdempotentMonad],
+      [TorsionFree_EM_MLocal]), with Riehl's Proposition 5.3.3 (ii)
+      there through Construction/Reflective/Monadic.v
+      ([TorsionFree_EM_Equivalence], [TorsionFree_Incl_Monadic]).
     - The [Grp] analogue, divisible groups, p-primary or p-torsion
       refinements, and any decision procedure for torsion.
     - No claim that [AbModTorsion] is the categorical cokernel of

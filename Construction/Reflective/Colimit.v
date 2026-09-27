@@ -78,6 +78,14 @@ Generalizable All Variables.
     by Instance/Top/Cocomplete.v's [PTop_Cocomplete], and
     docs/INHABITATION.md's row has moved to the witnessed table.  No
     witness of [reflective_Complete] at a concrete reflection is added.
+    CORRECTION (#370): three more ambients are shown cocomplete in tree.
+    [Grp], [Rng] and [RMod R] carry #370's [Ab_Reflective_in_Grp],
+    [CRng_Reflective_in_Rng] and [TMod_Reflective_in_RMod], and
+    Instance/Grp/Colimit.v's [Grp_Cocomplete_via_GAFT], Instance/Rng/
+    Colimit.v's [Rng_Cocomplete_via_GAFT] and Instance/Mod/Colimit.v's
+    [RMod_Cocomplete_via_GAFT] are their cocompleteness.
+    [reflective_Cocomplete] applied to each pair elaborates (measured
+    by a [Definition] in a scratch file) but is not made a constant.
 
     STALE PREMISES (the issue's "Current state", six).  [Cocomplete]
     (Structure/Complete.v) is said to have "no concrete instance and

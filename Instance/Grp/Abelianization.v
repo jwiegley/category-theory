@@ -68,7 +68,10 @@ Generalizable All Variables.
     unit, by a second induction over the same generation — which is
     exactly why such homomorphisms descend along p_G; the adjunction
     Abelianization ⊣ Ab_to_Grp packages that descent and is not built
-    here.
+    here.  CORRECTION (#370): the tie into Construction/Reflective.v now
+    exists, in Instance/Grp/Abelianize/Reflective.v
+    ([Ab_Reflective_in_Grp]); the adjunction itself is
+    Instance/Grp/Abelianize.v's.
 
     SCOPE OF THE QUOTIENT — THE EXTRACTION HAS NOW BEEN CARRIED OUT.
     This paragraph previously disclosed that the quotient here was

@@ -161,7 +161,15 @@ Generalizable All Variables.
     Construction/Reflective.v is stated over Construction/Subcategory.v's
     [Sub] inclusions and [Ab_to_Grp] is not one of those, its objects
     being [AbObject] records rather than [GrpObject]s satisfying a
-    predicate.
+    predicate.  CORRECTION (#370): a [Reflective] record is now built,
+    over a different subcategory.  Instance/Grp/Abelianize/Reflective.v
+    cuts the abelian groups out of [Grp] by a commutativity predicate
+    ([AbGrp_Sub]), proves [Ab_Reflective_in_Grp : Reflective AbGrp_Sub],
+    and relates it to this file's adjunction by the equivalence
+    [Ab_AbGrp_Equivalence] of [Ab] with [AbGrp_Sub] and by factorizations
+    of both its functors, [Ab_to_Grp] and [Abelianization_Functor],
+    through [AbGrp_Sub].  The structural reason above still holds of
+    [Ab_to_Grp] itself.
 
     NON-VACUITY, PROVED BY MAPPING OUT.  No induction on the
     quotienting generation [InCommutator] can yield a negative, so every
@@ -224,13 +232,23 @@ Generalizable All Variables.
     WHAT IS NOT DELIVERED.
       - No [Reflective] instance, for the structural reason above, and
         no identification of [Ab] with a full subcategory of [Grp] in
-        Construction/Subcategory.v's sense.
+        Construction/Subcategory.v's sense.  CORRECTION (#370): both are
+        in Instance/Grp/Abelianize/Reflective.v, the second up to the
+        equivalence [Ab_AbGrp_Equivalence] of [Ab] with [AbGrp_Sub].
       - No idempotency: [Abelianization_Functor ◯ Ab_to_Grp ≅ Id[Ab]]
         follows componentwise from [abelianize_counit_iso], but the
         natural isomorphism in [[Ab, Ab]] is not assembled, and no
-        [IdempotentMonad] statement is made.
+        [IdempotentMonad] statement is made.  CORRECTION (#370): one is
+        made for the subcategory presentation, Instance/Grp/Abelianize/
+        Reflective.v's [AbGrp_IdempotentMonad]; the natural isomorphism
+        in [[Ab, Ab]] is still not assembled.
       - No comparison with Construction/Reflective/Idempotent.v, and no
-        Eilenberg–Moore reading.
+        Eilenberg–Moore reading.  CORRECTION (#370): both are made at
+        [AbGrp_Sub] in Instance/Grp/Abelianize/Reflective.v:
+        [AbGrp_IdempotentMonad] is Idempotent.v's
+        [Reflective_IdempotentMonad] at [Ab_Reflective_in_Grp], and
+        [AbGrp_Incl_Monadic] is Construction/Reflective/Monadic.v's
+        Eilenberg–Moore equivalence there.
       - No uniqueness-up-to-unique-isomorphism corollary: it would be
         [universal_arrow_unique] instantiated here, and it is not
         instantiated.
@@ -585,7 +603,8 @@ Example abelianize_counit_computes_via_transform (A : Ab)
     Instance/Ab.v's theorem [ab_map_neg] rather than a further
     obligation.  Together with the adjunction and the invertible counit
     this is the shape of a reflective subcategory; see the header for
-    why no [Reflective] instance is claimed. *)
+    why no [Reflective] instance is claimed.  CORRECTION (#370): over the
+    subcategory [AbGrp_Sub] one is; see the header's note. *)
 
 Program Definition Ab_to_Grp_Faithful : Faithful Ab_to_Grp := {|
   fmap_inj := fun A B f g H => H
