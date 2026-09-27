@@ -547,6 +547,9 @@ Instance/Top/Cocomplete/Refutations.v
 Instance/Top/Cocomplete/TypeValued.v
 Instance/Top/Quotient.v
 Instance/Top/Quotient/Pairs.v
+Instance/Top/Separation.v
+Instance/Top/Hausdorff.v
+Instance/Top/Hausdorff/TypeValued.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -1081,3 +1084,4 @@ Test/ProbeStoneCech455.v
 Test/ProbeSubspace457.v
 Test/ProbeTopComplete458.v
 Test/ProbeCollapse459.v
+Test/ProbeHausdorff461.v

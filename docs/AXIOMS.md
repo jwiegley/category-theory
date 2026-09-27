@@ -131,8 +131,18 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **10907** on
-2026-09-25, after #459 (Mac Lane §V.9's Constructions 5 and 6: the
+criterion: `grep -c 'Print Assumptions' Makefile` returns **11175** on
+2026-09-25, after #461 (Mac Lane §V.9's Proposition 2 and Exercises 4
+and 5: the separation axioms and Hausdorff spaces over the Prop-valued
+spaces of `Instance/Top/Prop.v`, with the Hausdorff reflection by the
+general adjoint functor theorem) added ONE block of 268 names over
+three new modules, `Instance/Top/Separation.v`,
+`Instance/Top/Hausdorff.v` and `Instance/Top/Hausdorff/TypeValued.v`,
+the records' `Build_` constructors and the inductive's constructors
+and schemes included, every one "Closed under the global context" (the
+list below); 10907 + 268 = 11175. An earlier
+revision of this paragraph gave **10907**, the figure the same day
+after #459 (Mac Lane §V.9's Constructions 5 and 6: the
 collapse X/A as a wide coequalizer in the Type-valued `Top`, and the
 category of pairs with the quotient left adjoint into pointed spaces)
 added ONE block of 154 names over two new modules,
@@ -849,6 +859,65 @@ Among the 154:
 - the walls that stop `HasWideCoequalizers` at `Top` above the points
   and the Prop-valued reading of a subset are refusals pinned in
   `Test/ProbeCollapse459.v`, not constants, and so are not in the gate
+
+The Hausdorff-space development (Mac Lane §V.9 Proposition 2 and
+Exercises 4 and 5, book pp. 135–136, with Riehl's Exercise 4.7.ii;
+#461) adds ONE block of 268 names over its three modules,
+`Instance/Top/Separation.v`, `Instance/Top/Hausdorff.v` and
+`Instance/Top/Hausdorff/TypeValued.v`: every constant `Print Module`
+lists for each, with the records' `Build_` constructors (`SepLaws`,
+`TopPresentation`, `TSepLaws`) and the inductive `comb_pt` with its
+constructors and generated schemes, each reported "Closed under the
+global context" by its fully qualified name. None declares an `Axiom`
+or a `Parameter` (a grep of the sources), none has a `Program`
+obligation, and every `Require` of the three names a `Category`
+module, so none requires a standard-library module of its own. A file
+requiring all three loads 191 `Category` modules, the three
+included, none of them a standard-library reals module
+(`Print Libraries`), so the nine reals-importing development files of
+the stdlib-axioms section below stay nine. Among the 268:
+
+- `Haus_Complete`, `Haus_reflective`, `Haus_reflectors_iso`,
+  `Haus_Cocomplete`, `Haus_Forget_left_adjoint`,
+  `separation_axiom_reflections`, `PT2_Reflective` and the other
+  reflections, direct and by `GAFT` — unconditional over
+  `Instance/Top/Prop.v`'s `PTopCat`. No choice principle is used: the
+  largest separated quotient identifies two points by the intersection
+  of all separating relations, a proposition by impredicativity, and
+  the solution sets are indexed by presentations of quotients, a
+  relation and a family of predicates on the points
+- `Haus_inclusion_no_right_adjoint`, `Haus_forget_no_right_adjoint`,
+  `GlueQ_not_PHaus`, `GlueQ_not_PIsHausdorff` and the named
+  non-examples of each separation axiom (`PTwoIndisc_not_PT0`,
+  `PSierpinski_not_PT1`, `PCofinite_not_PHaus`, `PComb_not_PReg`) —
+  closed refutations of a STATEMENT at a concrete countermodel (the
+  coequalizer `GlueQ` in `PTopCat` of two Hausdorff spaces; the named
+  spaces), assuming no principle, like #459's refutations above
+- `PIsHausdorff_PHaus` and `PHaus_PIsHausdorff` — conditionals over a
+  classical principle stated as a hypothesis (stability of the points'
+  equality under double negation; excluded middle for propositions),
+  never assumed; docs/INHABITATION.md records that neither is applied
+- `PHaus_coproduct` — a conditional over uniqueness of identity proofs
+  at the loops of the coproduct's index, `∀ k (e : k = k), e = eq_refl`,
+  a hypothesis in its statement and never assumed; `PHaus_coproduct_dec`
+  discharges it at every index with decidable equality by Hedberg's
+  theorem (`sep_dec_uip`, proved from the prelude), so that corollary
+  asks only a decision procedure for the index's equality, which `bool`
+  has
+- `TopHaus_not_complete_below_IEM` and `GAFT_TopHaus_vacuous`
+  (`Instance/Top/Hausdorff/TypeValued.v`) — METATHEOREMS, closed
+  theorems ABOUT `IEM` (`Instance/Sets/Classifier/OneLevel.v`), a
+  hypothesis in each statement, as in the #455 and #458 paragraphs
+  above, the second at every universe instance of `GAFT_TopHaus` (up
+  to three added stdlib caps on its hom universe);
+  `GAFT_TopHaus`, `GAFT` stated at the inclusion of
+  `HausdorffSpaces` into the Type-valued `Top`, is a conditional over
+  abstract hypotheses, so its "Closed" is the second kind of the
+  [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+  above
+- the walls that stop the route by `GAFT` at points in `Set`, and the
+  readbacks refused at `eq_refl`, are refusals pinned in
+  `Test/ProbeHausdorff461.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
