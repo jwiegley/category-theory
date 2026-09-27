@@ -131,8 +131,15 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **11175** on
-2026-09-25, after #461 (Mac Lane §V.9's Proposition 2 and Exercises 4
+criterion: `grep -c 'Print Assumptions' Makefile` returns **11411** on
+2026-09-27, after #370 (Mac Lane §IV.3's examples of reflective and
+coreflective subcategories, with Riehl's Example 4.6.13 (ii) and (iv)
+and Exercise 5.3.ii) added 236 names over eight of its nine new
+modules, every one "Closed under the global context" (the list below),
+the ninth, `Instance/Met/Uniform.v`, being reals-bound and priced in the
+metric-space section instead; 11175 + 236 = 11411.
+An earlier revision of this paragraph gave **11175**, the figure on
+2026-09-25 after #461 (Mac Lane §V.9's Proposition 2 and Exercises 4
 and 5: the separation axioms and Hausdorff spaces over the Prop-valued
 spaces of `Instance/Top/Prop.v`, with the Hausdorff reflection by the
 general adjoint functor theorem) added ONE block of 268 names over
@@ -919,6 +926,56 @@ the stdlib-axioms section below stay nine. Among the 268:
   readbacks refused at `eq_refl`, are refusals pinned in
   `Test/ProbeHausdorff461.v`, not constants, and so are not in the gate
 
+The reflective-subcategory development (Mac Lane §IV.3's examples, book
+p. 92, with Seven Sketches' Example 3.74, Riehl's Example 4.6.13 (ii)
+and (iv) and her Exercise 5.3.ii; #370) adds 236 names over eight
+of its nine new modules, `Construction/Reflective/Coreflective.v`,
+`Construction/Reflective/Monadic.v`,
+`Construction/Reflective/Universal.v`,
+`Instance/Grp/Abelianize/Reflective.v`, `Instance/Ab/Torsion.v`,
+`Instance/Rng/Commutativize.v`, `Instance/Rng/Commutativize/UT2.v` and
+`Instance/Mod/RingEpi.v`: every constant `Print Module` lists for each,
+with the `Program` obligations and the inductive `InCommIdeal` with its
+six constructors and generated eliminators (none of the eight declares a
+record), each reported "Closed under the global context" by its fully
+qualified name.
+The ninth module, `Instance/Met/Uniform.v`, is not in the gate: all
+55 of its constants carry the standard library's reals axioms,
+priced by group in the metric-space section below, the 28/3/24 split
+measured per constant. None of the nine
+declares an `Axiom` or a `Parameter` (a grep of the sources). Among the
+236:
+
+- `Ab_Reflective_in_Grp` (the issue's pinned name),
+  `Torsion_Coreflective`, `CRng_Reflective_in_Rng`,
+  `QMod_Reflective_in_ZMod` and `Restrict_Full_iff_Epic` —
+  unconditional. No choice principle is used: a torsion element carries
+  its exponent as data (#371's `torsion_mem`), and the commutator ideal
+  `InCommIdeal` is an inductive generation eliminated only into the
+  target ring's own equality
+- `TMod_Reflective_in_RMod`, `TMod_adj` and `TMod_equiv_UnitFixed` —
+  conditionals over `Epic φ` and `CentralImage φ`, hypotheses in the
+  statement and never assumed (the second is `Instance/Mod/Extension.v`'s
+  hypothesis on its extension of scalars), both discharged at ℤ → ℚ by
+  `ZtoQ_epic` and `Q_central`; `localization_epic` is a conditional over
+  `IsLocalization`, met at ℤ → ℚ by `ZtoQ_IsLocalization` for target
+  rings at carrier level `Set`
+- `Coreflective_of_adjunction`, `Reflective_EM_Equivalence`,
+  `Reflective_Monadic`, `Reflective_of_UniversalArrows` and
+  `Coreflective_of_CouniversalArrows` — general constructions quantified
+  over an abstract category and record, "Closed" in the second sense
+  of the Caveats section above; docs/INHABITATION.md records their
+  concrete inhabitants
+- `S3_not_IsAbelian`, `abgrp_unit_S3_not_iso`,
+  `S3_reflection_nontrivial`, `torsion_counit_MixedAb_not_iso`,
+  `crng_unit_UT2_not_iso`, `Commutativize_UT2_nonzero` and
+  `ZMod_not_UnitFixed` — closed non-vacuity theorems at named objects,
+  assuming no principle
+- the strictness walls (the unit as a record against the named map, the
+  op-typed and covariant subcategories not convertible, `Ab_to_Grp` not
+  a `Sub` inclusion) are refusals pinned in
+  `Test/ProbeReflective370.v`, not constants, and so are not in the gate
+
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
 assumption set of these specific headline definitions only — it is not
@@ -1049,13 +1106,18 @@ the global context".  Known live uses:
   complete full subcategory `CMet`), `Instance/Met/Extended.v`
   (extended metric spaces valued in `[0, ∞]`), and
   `Instance/Met/Completion.v` (the completion by Cauchy sequences and
-  its universal arrow).
-  These are the only nine DEVELOPMENT files in the tree that import the
+  its universal arrow); and a fourth with #370,
+  `Instance/Met/Uniform.v` (the uniformly continuous category `MetU`
+  and the completion's two reflections).
+  These are the only ten DEVELOPMENT files in the tree that import the
   reals (verify: `rg -l 'Coq.Reals' --glob '*.v' --glob '!Test/**' .`;
-  the unrestricted form returns ten, the tenth being
-  `Test/ProbeMet.v`, which imports them to state its probes), and none declares an
-  axiom of its own; what they inherit is the axiom set of the standard
-  library's own construction of `R`.  The cost splits in two, and both
+  the unrestricted form returns twelve, the other two being
+  `Test/ProbeMet.v` and `Test/ProbeReflective370.v`, which import them
+  to state their probes), and none declares an axiom of its own;
+  CORRECTION (#370): this sentence said nine, and the unrestricted form
+  ten, until `Instance/Met/Uniform.v` and its probe arrived.  What they
+  inherit is the axiom set of the standard library's own construction
+  of `R`.  The cost splits in two, and both
   halves are measured rather than estimated:
 
   - `π(X)` itself, its groupoid structure and the base-point
@@ -1224,7 +1286,8 @@ the global context".  Known live uses:
   `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
   and because they do, that file *is* wired into the
   `print-assumptions` make target, alongside its `Structure/Groupoid`
-  siblings.  The nine files that import the reals are not: that target
+  siblings.  The ten files that import the reals are not (nine until
+  #370, CORRECTION (#370) as above): that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
@@ -1273,8 +1336,28 @@ property (`R_complete`) adds `sig_not_dec`.  (Measured directly:
   encodings, `completion_unique` and `cdist` — all carry the full
   three-axiom set, which is expected: the completion's distance *is*
   `R_complete` applied to a Cauchy sequence of reals.
+- **`Instance/Met/Uniform.v`** (#370, audited the same way) — 55
+  constants, every one `Print Module` lists with the record constructor
+  `Build_UMap` and the `Program` obligations, none closed: 28 carry
+  `sig_forall_dec` alone (the vocabulary `UCont` and `UMap`, the
+  category `MetU` and its obligations, the complete spaces
+  `CompleteSpacesU`/`CMetU`, `iso_umap`, `Met_to_MetU` with its
+  obligations, `Met_to_MetU_obj` and `Met_to_MetU_Faithful`, and
+  `umap_MConverges`); 3 add `functional_extensionality_dep`
+  (`const_umap`, `Met_to_MetU_not_Full` and `ureal_below_all_zero`,
+  through `lra`, a one-line `lra` proof of `0 < 1` carrying that pair,
+  and through `Harmonic`); and 24 carry all three, everything from
+  `uext_seq` on, the completion's distance being `R_complete`'s limit:
+  `uext` and its lemmas, `CMet_Reflective_in_MetU`,
+  `CMet_Reflective_in_Met`, their adjunctions and readbacks, and the
+  non-vacuity lemma `completionU_unit_Harmonic_not_iso`.  Measured by
+  `Print Assumptions` on each fully qualified name; no fourth axiom
+  appears.  Even `UCont` pays `sig_forall_dec`: measured alone, the
+  order `Rlt` and the literal `0%R` each carry it while `R` is closed,
+  the second of the four tiers this section opens with.
 
-None of the three is wired into the `print-assumptions` gate, and that
+None of the four is wired into the `print-assumptions` gate (CORRECTION
+(#370): "the three" until `Instance/Met/Uniform.v` arrived), and that
 is deliberate rather than an oversight: that target fails on **any**
 reported axiom other than the three documented ZX `Phase` parameters
 (see the `unexpected=` filter in the `Makefile`), so a reals-based

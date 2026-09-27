@@ -106,6 +106,9 @@ Construction/Reflective/Idempotent.v
 Construction/Reflective/FixedPoints.v
 Construction/Reflective/Limit.v
 Construction/Reflective/Colimit.v
+Construction/Reflective/Coreflective.v
+Construction/Reflective/Monadic.v
+Construction/Reflective/Universal.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
@@ -254,6 +257,7 @@ Instance/Ab/Graded.v
 Instance/Ab/Subtract.v
 Instance/Ab/DirectedColimit.v
 Instance/Ab/TorsionFree.v
+Instance/Ab/Torsion.v
 Instance/Ab/FreeNotContinuous.v
 Instance/Ab/Limit.v
 Instance/Adj.v
@@ -348,6 +352,7 @@ Instance/Grp.v
 Instance/Grpd.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Abelianize.v
+Instance/Grp/Abelianize/Reflective.v
 Instance/Grp/Center.v
 Instance/Grp/Congruence.v
 Instance/Grp/EckmannHilton.v
@@ -393,6 +398,7 @@ Instance/Matr/FunExercises.v
 Instance/Met.v
 Instance/Met/Extended.v
 Instance/Met/Completion.v
+Instance/Met/Uniform.v
 Instance/Mod.v
 Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
@@ -402,6 +408,7 @@ Instance/Mod/Tensor.v
 Instance/Mod/Monoidal.v
 Instance/Mod/Closed.v
 Instance/Mod/Extension.v
+Instance/Mod/RingEpi.v
 Instance/Mod/BaseChange.v
 Instance/Mod/Coextension.v
 Instance/Mod/Bimodule.v
@@ -456,6 +463,8 @@ Instance/Rng/Colimit.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
+Instance/Rng/Commutativize.v
+Instance/Rng/Commutativize/UT2.v
 Instance/Rng/Zp.v
 Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
@@ -1085,3 +1094,4 @@ Test/ProbeSubspace457.v
 Test/ProbeTopComplete458.v
 Test/ProbeCollapse459.v
 Test/ProbeHausdorff461.v
+Test/ProbeReflective370.v

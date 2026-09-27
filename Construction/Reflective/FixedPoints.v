@@ -211,7 +211,12 @@ Generalizable All Variables.
    naturality statement for any identification; no Eilenberg-Moore or
    co-Eilenberg-Moore reading; nothing registered as an [Instance]; and
    no witness at a named concrete adjunction, which the probe supplies
-   instead. *)
+   instead.  CORRECTION (#370): the library now has one.
+   Instance/Mod/RingEpi.v's [TMod_Reflective_in_RMod] is
+   [unit_fixed_reflective_of_idempotent] at Instance/Mod/Extension.v's
+   [extend_restrict_adjunction φ Hc], for a ring epimorphism φ whose
+   image is central ([Hc]), and [QMod_Reflective_in_ZMod] is that record
+   at ℤ → ℚ. *)
 
 (** ** Three inverse-calculus lemmas, restated locally *)
 
