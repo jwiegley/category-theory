@@ -144,6 +144,10 @@ Generalizable All Variables.
    grep of the tree's .v files for [Build_PTop] and for [pt_carrier :=]
    finds that, besides [PDiscrete], only Instance/Top/Subspace.v's [PSub]
    and [PQuot] define a space with them, both built from variables.
+   CORRECTION (#410): the same grep re-run on the tree of #410 also finds
+   Instance/Top/Complete.v, Instance/Top/Cocomplete.v,
+   Instance/Top/Separation.v and Instance/Top/Hausdorff.v, which landed
+   after it, and Instance/Top/Circle.v's [PRLine], the real line.
    Instance/Top/Subspace.v takes an equalizer and a coequalizer of two
    different maps between them.
 

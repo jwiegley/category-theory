@@ -121,6 +121,9 @@
           [Top_Terminal] to be closed under, and no [Top_Complete] exists. They
           are the statements the exercise's conclusion would follow from,
           stated at the inclusion, not at the forgetful functor.
+          CORRECTION (#410): [Top] now has a limit beyond [Top_Terminal],
+          Instance/Top/Solenoid.v's [solenoid_limit] over a tower of
+          circles; [closed] and [HT] stay unwitnessed.
           CORRECTION (#455): at the shapes the adjoint functor theorems
           use, [HT] is refuted, not merely unwitnessed: at every shape
           universe at or above [Top]'s hom universe, [Complete Top] is

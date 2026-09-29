@@ -89,7 +89,12 @@ Set Default Proof Using "All".
    is where the library's own policy puts stdlib axioms used by a concrete
    instance layer.  NO axiom is declared here, and none of the core theory
    acquires one: this file and its companion are the only two in the tree that
-   import the reals at all.
+   import the reals at all.  CORRECTION (#410): not so, here or in the note
+   on [Rcases] and [Rlin] below.  docs/AXIOMS.md, under "Stdlib axioms",
+   names the development files that import the classical reals, and
+   Instance/Top/Circle.v, Instance/Top/Solenoid.v and
+   Instance/Top/Solenoid/Presentations.v import the standard library's
+   constructive Cauchy reals (Reals/Cauchy), which carry no axiom.
 
    What the choice buys is that the interval is the real one, so the
    fundamental groupoid built on it is the classical construction and not a

@@ -559,6 +559,9 @@ Instance/Top/Quotient/Pairs.v
 Instance/Top/Separation.v
 Instance/Top/Hausdorff.v
 Instance/Top/Hausdorff/TypeValued.v
+Instance/Top/Circle.v
+Instance/Top/Solenoid.v
+Instance/Top/Solenoid/Presentations.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -1095,3 +1098,4 @@ Test/ProbeTopComplete458.v
 Test/ProbeCollapse459.v
 Test/ProbeHausdorff461.v
 Test/ProbeReflective370.v
+Test/ProbeSolenoid410.v

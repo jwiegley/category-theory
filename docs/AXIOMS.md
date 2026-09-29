@@ -131,8 +131,16 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **11411** on
-2026-09-27, after #370 (Mac Lane §IV.3's examples of reflective and
+criterion: `grep -c 'Print Assumptions' Makefile` returns **11747**
+on 2026-09-29, after #410 (Mac Lane §V.1's p-adic solenoid, the limit
+of the tower of circles under the p-fold wrapping map, with the second
+half of Riehl's Example 3.6.3) added ONE block of 336 names over
+three new modules, `Instance/Top/Circle.v`, `Instance/Top/Solenoid.v`
+and `Instance/Top/Solenoid/Presentations.v`, the `Program` obligations
+included, every one "Closed under the global context" (the list
+below); 11411 + 336 = 11747. An earlier revision
+of this paragraph gave **11411**, the figure on 2026-09-27 after #370
+(Mac Lane §IV.3's examples of reflective and
 coreflective subcategories, with Riehl's Example 4.6.13 (ii) and (iv)
 and Exercise 5.3.ii) added 236 names over eight of its nine new
 modules, every one "Closed under the global context" (the list below),
@@ -976,6 +984,59 @@ declares an `Axiom` or a `Parameter` (a grep of the sources). Among the
   a `Sub` inclusion) are refusals pinned in
   `Test/ProbeReflective370.v`, not constants, and so are not in the gate
 
+The p-adic solenoid development (Mac Lane §V.1 Construction 3, book
+p. 111, with the second half of Riehl's Example 3.6.3; #410) adds ONE
+block of 336 names over its three modules,
+`Instance/Top/Circle.v`, `Instance/Top/Solenoid.v` and
+`Instance/Top/Solenoid/Presentations.v`: every constant `Print Module`
+lists for each, the `Program` obligations included, each reported
+"Closed under the global context" by its fully qualified name. None
+declares an `Axiom` or a `Parameter` (a grep of the sources). They are
+the first development files whose `Require` lines name a
+standard-library reals module to enter the gate: each requires three
+modules of the standard library's CONSTRUCTIVE Cauchy reals,
+ConstructiveCauchyReals, ConstructiveCauchyRealsMult and
+ConstructiveCauchyAbs under Reals/Cauchy, and no module of its
+classical `R`. The
+constructive reals carry no axiom: `Print Assumptions` reports each of
+the 248 constants `Print Module` lists for those three modules (110, 79
+and 59), and the record constructor `mkCReal`, "Closed under the global
+context", in a run where the classical `Rdefinitions.Rlt`, queried as
+the instrument, prints `sig_forall_dec`, and `Raxioms.completeness`
+prints `sig_forall_dec`, `sig_not_dec` and `functional_extensionality_dep`.
+A file requiring all three
+loads 156 `Category` modules, the three included, and six
+standard-library reals modules, all under Reals/Cauchy, none of the
+classical `R` (`Print Libraries`); so the ten development files of the
+stdlib-axioms section below that import the classical `R` stay ten,
+and three import the constructive reals only (that section's
+CORRECTION (#410)). Among the 336:
+
+- `solenoid_limit` (the issue's pinned name: the limit in the
+  Type-valued `Top`), `PTop_solenoid_limit` (the same limit over
+  `PTopCat`), `solenoid_universal`, `solenoid_coarsest`,
+  `solenoid_forget_preserves` and their `PTop_` counterparts, with the
+  circle `Circle`, `PCircle` and its p-fold maps `wrap` and `pwrap` —
+  unconditional at every positive `p`. No choice principle is used:
+  the circle's equality keeps its integer as data, and its `Prop`
+  mirror recomputes the integer by rounding a rational approximation
+  of the real (`cround`, `circ_eq_of_peq`)
+- `towers_agree`, `GroupSolenoid`, `solenoid_points_iso`, the
+  covering in `PTopCat` (`pwrap_evenly_covered`, `pwrap_sheet_iso`) and
+  in the Type-valued `Top` (`wrap_evenly_covered`, `wrap_sheet_iso`,
+  over the ball subspaces `CSub` with their universal property
+  `csub_universal`) — Riehl's box, unconditional; `Zp_fibre_iso`, the
+  fibre over the base point isomorphic to the p-adic integers in `Ab`,
+  is a conditional over `1 < p`, a hypothesis in its statement
+  (Instance/Rng/Zp.v's own) and never assumed
+- `solenoid_two_points`, `unit_string_not_zero` (under `1 < p`) and
+  `circle_half_not_zero` — closed non-vacuity theorems at named points,
+  assuming no principle
+- the walls that stop the generic initial topology and the generic
+  subspace over the Type-valued `Top`, and the readbacks refused at
+  `eq_refl`, are refusals pinned in `Test/ProbeSolenoid410.v`, not
+  constants, and so are not in the gate
+
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
 assumption set of these specific headline definitions only — it is not
@@ -1115,9 +1176,24 @@ the global context".  Known live uses:
   `Test/ProbeMet.v` and `Test/ProbeReflective370.v`, which import them
   to state their probes), and none declares an axiom of its own;
   CORRECTION (#370): this sentence said nine, and the unrestricted form
-  ten, until `Instance/Met/Uniform.v` and its probe arrived.  What they
-  inherit is the axiom set of the standard library's own construction
-  of `R`.  The cost splits in two, and both
+  ten, until `Instance/Met/Uniform.v` and its probe arrived.
+  CORRECTION (#410): that `rg` now returns thirteen, and the
+  unrestricted form sixteen, `Test/ProbeSolenoid410.v` being the third
+  probe.  #410's `Instance/Top/Circle.v`, `Instance/Top/Solenoid.v` and
+  `Instance/Top/Solenoid/Presentations.v`
+  import the reals too, but only the standard library's CONSTRUCTIVE
+  Cauchy reals (Reals/Cauchy), never its classical `R`, and inherit
+  nothing: every one of their constants is closed and gated, and every
+  constant of the three constructive modules they import is closed
+  (the #410 paragraph of [How to audit](#how-to-audit) above).  The ten
+  above are exactly the development files importing the classical `R`
+  (verify:
+  `rg -l 'Coq.Reals.Rdefinitions' --glob '*.v' --glob '!Test/**' .`
+  returns those ten, and the same command with `Coq.Reals.Cauchy` the
+  three), and "the reals" in the rest of this section means the
+  classical `R`.  What the ten inherit is the axiom set of the
+  standard library's own construction of `R`.  The cost splits in two,
+  and both
   halves are measured rather than estimated:
 
   - `π(X)` itself, its groupoid structure and the base-point
@@ -1287,7 +1363,9 @@ the global context".  Known live uses:
   and because they do, that file *is* wired into the
   `print-assumptions` make target, alongside its `Structure/Groupoid`
   siblings.  The ten files that import the reals are not (nine until
-  #370, CORRECTION (#370) as above): that target
+  #370, CORRECTION (#370) as above; CORRECTION (#410): the ten that
+  import the classical `R`, the three #410 files that import only the
+  constructive Cauchy reals being in the gate): that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
@@ -1361,8 +1439,10 @@ None of the four is wired into the `print-assumptions` gate (CORRECTION
 is deliberate rather than an oversight: that target fails on **any**
 reported axiom other than the three documented ZX `Phase` parameters
 (see the `unexpected=` filter in the `Makefile`), so a reals-based
-development cannot be audited by it.  None of the six pre-existing
-reals files is in the gate either, for the same reason.  The
+development cannot be audited by it (CORRECTION (#410): a development
+over the classical `R`; #410's three files over the constructive
+Cauchy reals carry no axiom and are audited by it).  None of the six
+pre-existing reals files is in the gate either, for the same reason.  The
 measurement above is what stands in its place.
 
 Two entries that earlier editions of this table listed are *not* live

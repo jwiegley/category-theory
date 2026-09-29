@@ -134,7 +134,12 @@ Set Default Proof Using "All".
    carried the first two; [const_arrow_eval] does not, and the direction of
    that error was to over-report the cost.)  No axiom is declared in either
    file, and the core theory is untouched: these two files are the only ones
-   in the tree that import the reals.
+   in the tree that import the reals.  CORRECTION (#410): not so;
+   docs/AXIOMS.md, under "Stdlib axioms", names the development files that
+   import the classical reals, and Instance/Top/Circle.v,
+   Instance/Top/Solenoid.v and Instance/Top/Solenoid/Presentations.v
+   import the standard library's constructive Cauchy reals
+   (Reals/Cauchy), which carry no axiom.
 
    WHERE THE WORK IS.  Concatenation is not associative and the constant paths
    are not units — not on the nose, and not even up to the hom-setoid of Top.
