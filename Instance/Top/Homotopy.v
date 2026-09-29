@@ -154,7 +154,11 @@ Set Default Proof Using "All".
    the disc, non-monic in [Toph] because the disc is contractible -- is
    DEFERRED: it needs the circle and the disc as spaces and a genuine
    piece of algebraic topology to see that the two maps it separates are
-   not homotopic.  Neither space is in this tree.  What is delivered
+   not homotopic.  Neither space is in this tree.  CORRECTION (#410):
+   the circle now is, Instance/Top/Circle.v's [Circle], R/Z over the
+   standard library's constructive Cauchy reals [CReal] rather than
+   over the classical [R] this file's paths and homotopies use; the
+   disc still is not, and the example stays deferred.  What is delivered
    instead is the contractibility of the interval, which is the same
    phenomenon at a shape where the tree can prove it: `I_Top` and
    `Point_Top` are isomorphic in [Toph] ([interval_iso_point_in_Toph]) and

@@ -51,6 +51,11 @@ Generalizable All Variables.
       agree.  ℚ/ℤ is chosen because the stdlib rationals are
       axiom-free while the reals import classical axioms
       (docs/AXIOMS.md) — the issue's disclosed restriction.
+      CORRECTION (#410): the standard library's classical reals [R]
+      do; its constructive Cauchy reals [CReal] do not, and over them
+      Instance/Top/Solenoid/Presentations.v builds ℝ/ℤ as an abelian
+      group, [CircleGroup], closed under the global context.  Nothing
+      here is rebuilt on it: ℚ/ℤ stays this file's dualizing group.
 
    2. THE QUOTIENT IS A SETOID, AND IT IS DECIDABLE.  A point of ℚ/ℤ
       is a rational; two are identified when they differ by an
