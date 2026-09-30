@@ -284,7 +284,13 @@ Generalizable All Variables.
    analogue (−) ⊗ R is built; no comparison is made with
    Instance/Mod/Tensor.v's R-tensor or Instance/Mod/Extension.v's
    [ExtendScalars]; and at R := ℤ nothing identifies T A = ℤ ⊗ A with
-   A. *)
+   A.
+
+   CORRECTION (#468).  The tree now has general morphisms of monads,
+   Monad/Morphism.v's [MonadHom] and [Monads C], and the functor θ* they
+   induce on algebras, Monad/Morphism/Algebra.v's [mh_EM].  This file does
+   not use them: it still keeps one monad, and no morphism of monads into or
+   out of [TensorMonad R] is stated. *)
 
 (** ** The monad R ⊗ (−) on Ab *)
 

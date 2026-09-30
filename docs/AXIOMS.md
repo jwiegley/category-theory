@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12619** on 2026-09-30, after #467 (Mac Lane §VI.2 Exercise 2, "Show
+**12716** on 2026-09-30, after #468 (Mac Lane §VI.2 Exercise 3:
+morphisms of monads on one category, the category of monads, proved
+equivalent to Mac Lane's own Mon_{X^X}, and the functor θ* between
+Eilenberg–Moore categories that a morphism induces, with G^T ∘ θ* =
+G^{T'} at `eq_refl` on objects and on arrows and at `Cat`'s ≈, and the
+transformation F^T ⇝ θ* ∘ F^{T'}; with bridges to the laws of a monad
+transformer and to the functors on algebras that #464 and #466 built
+by hand) added ONE block of 97 names over six new modules,
+`Monad/Morphism.v`, `Monad/Morphism/Algebra.v`,
+`Monad/Morphism/Monoid.v`, `Monad/Morphism/Transformer.v`,
+`Instance/Fun/Action/Monad/BG/Morphism.v` and
+`Instance/SupLat/Free/Morphism.v`, every one "Closed under the global
+context" (the list below); 12619 + 97 = 12716.
+An earlier revision of this paragraph gave
+**12619**, the figure on 2026-09-30 after #467 (Mac Lane §VI.2 Exercise 2, "Show
 that G^T : X^T → X creates limits": the Eilenberg–Moore forgetful
 functor creates limits, a development that had shipped with #406 and
 that #467 ties to the exercise, with the uniqueness clause of Mac Lane's
@@ -1437,6 +1451,60 @@ the stdlib-axioms section below is unchanged. Among the 65:
   cone against the given cone as a record (refused on the coherence
   field alone), and an instrument — are pinned in
   `Test/ProbeEMCreates467.v`, not constants, and so are not in the gate
+
+The morphisms-of-monads development (Mac Lane §VI.2 Exercise 3, "(a)
+For monads ⟨T, η, μ⟩ and ⟨T', η', μ'⟩ on X, define a morphism θ of
+monads as a suitable natural transformation θ : T ⇝ T', and construct
+the category of all monads in X. (b) From θ construct a functor θ* :
+X^{T'} → X^T such that G^T ∘ θ* = G^{T'} and a natural transformation
+F^T ⇝ θ* ∘ F^{T'}", book p. 142, read with §VI.1, pp. 138-139, and
+§VII.3, p. 171; #468) adds ONE block of 97 names over its six
+new modules, `Monad/Morphism.v`, `Monad/Morphism/Algebra.v`,
+`Monad/Morphism/Monoid.v`, `Monad/Morphism/Transformer.v`,
+`Instance/Fun/Action/Monad/BG/Morphism.v` and
+`Instance/SupLat/Free/Morphism.v`: every constant `Print Module` lists
+for each, with the constructor `Build_MonadHom` of the class
+`MonadHom`, each reported "Closed under the global context" by its
+fully qualified name. None declares an `Axiom` or a `Parameter`, and
+none declares a `Program` definition, an `Inductive` or an `abstract`
+step (a grep of the sources), so there are no obligations or subproofs
+to enumerate; `MonadHom` is a class with primitive projections
+(`mh_transform`, `mh_ret`, `mh_join`), which are in the block, and no
+schemes (`Print Module` lists none). None requires a standard-library
+reals module, directly or through another `Category` module (`Print
+Libraries` after a `Require` of the six alone lists 135
+`Category` modules, the six among them, and no module under `Reals`,
+where a `Require` of Instance/Top/Circle.v as the instrument lists six
+`Reals` lines), so the stdlib-axioms section below is unchanged. Among
+the 97:
+
+- `MonadHom`, `Monads`, `mh_EM` and `mh_EM_forget` (the record, the
+  category, θ* and G^T ∘ θ* ≈ G^{T'} in `Cat`, what the issue asks
+  `Print Assumptions` of), with `mh_EM_forget_strict`, `mh_EM_free`,
+  `mh_EM_free_transpose`, `Monads_Forget` and `Monads_EM` — parametric
+  in the category and the two monads, with no further hypothesis
+- `Monads_Mon` and `Monads_Mon_Equivalence` — unconditional over the
+  category: `Monads C` is equivalent to Mac Lane's Mon_{C^C}, the
+  internal monoids of `[C, C]` under composition
+- `lift_natural`, `transformer_hom` and `hom_transformer` — parametric
+  in a `MonadTransformer`, with no further hypothesis
+- `BG_theta`, `BG_theta_inv`, `BG_theta_iso`, `BG_theta_EM` and
+  `Act_BG_EM` — unconditional over a `MonObject`, a hypothesis of
+  structure; `SL_theta`, `SL_theta_inv`, `SL_theta_iso`, `SL_EM_theta`
+  and `SL_factor` — closed constants with no argument beyond their
+  universes
+- the refusals — by typing (the issue body's direction, F^{T'} ⇒ θ* ∘
+  F^T) and by conversion at `eq_refl` (G^T ∘ θ* = G^{T'} as Leibniz
+  equality of functors and each of its three proof fields, the (id)*
+  and (φ ∘ θ)* objects, the transpose of η' against θ, the forgetful
+  functor to `[C, C]` and the functor `Monads_Mon` to `Mon [C, C]` on
+  an identity at a component, the first's composition law between
+  whole transformations, the whole round trips of the monoid and
+  transformer bridges, and the #464 and #466 structure maps as setoid
+  morphisms and algebras as whole objects, four of them by the opacity
+  of the standard library's CMorphisms lemmas beneath Instance/Sets.v's
+  properness proofs) — are pinned in `Test/ProbeMonadMorphism468.v`,
+  not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
