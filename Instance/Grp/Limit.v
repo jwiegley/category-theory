@@ -120,7 +120,18 @@ Generalizable All Variables.
    THIS IS NOT AN INSTANCE OF [EM_Complete], AND THAT IS MEASURED RATHER
    THAN ASSUMED: no file in the tree exhibits [Grp] as an Eilenberg-Moore
    category (the token [EilenbergMoore] co-occurs with [Grp] in no [.v]
-   file), so the monadicity route is unavailable here and the argument is
+   file) (CORRECTION (#464): as a token test this does not hold, and it
+   did not already before #464, through #370's and #463's files below.
+   [grep -lw EilenbergMoore] followed by [grep -lw Grp] over the [.v]
+   files outside doc/ lists, besides this header, Instance/Proset/Monad.v
+   and Construction/Reflective/Monadic.v, where [Grp] occurs only in a path
+   in prose, and #464's Instance/Fun/Action/Monad.v,
+   Instance/Fun/Action/Monad/BG.v and Test/ProbeGroupAction464.v, where it
+   occurs only as a component of a module path, in [Require] lines,
+   qualified names or prose, and whose Eilenberg-Moore categories are those
+   of the action monads of a monoid or a group.  None exhibits [Grp] itself
+   as an Eilenberg-Moore category, so the claim stands), so the monadicity
+   route is unavailable here and the argument is
    rerun one level down.  What the two developments share is the
    ARCHITECTURE -- build the structure as the MEDIATOR of a cone whose legs
    are the diagram's own operations, then get every law from joint monicity
