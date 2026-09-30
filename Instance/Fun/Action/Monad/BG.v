@@ -154,6 +154,18 @@ Generalizable All Variables.
    at ≈ only.  So the literal comparison functor, carried along θ*, is the
    equivalence of that file, at Set^BG itself.
 
+   CORRECTION (#468).  A general record now exists: Monad/Morphism.v's
+   [MonadHom] with the category [Monads C], and Monad/Morphism/Algebra.v's
+   θ* ([mh_EM]).  Instance/Fun/Action/Monad/BG/Morphism.v states the θ of
+   this paragraph as a morphism of monads, [BG_theta] from [ActMonad M] to
+   [BGMonad M] with identity components, gives its inverse and
+   [BG_theta_iso] in [Monads Sets], relates [BG_Act_EM] to the general θ*
+   ([BG_theta_EM], at Cat's ≈; carriers, structure maps as functions and
+   arrows at [eq_refl]) and assembles [Act_BG_alg] into a functor as θ* of
+   the inverse ([Act_BG_EM]).  This file is not rewired: [BG_Act_EM] stays
+   the functor built by hand, and its readback [BG_Act_EM_alg] is refused
+   for the general θ*, whose structure map is h ∘ id.
+
    WHICH "MONADIC".  Riehl's Definition 5.3.1 (p. 196) calls an
    adjunction monadic when the comparison functor "defines an equivalence
    of categories": Monad/Comparison.v's [Monadic].  Her Theorem 5.5.1

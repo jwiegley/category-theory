@@ -313,6 +313,12 @@
     readings would need, and C8 and C8a the universe wall.  (e) The readings of
     the books, from their page images.
 
+    CORRECTION (#468).  Of the absences in (d), general morphisms of monads
+    now exist: Monad/Morphism.v's [MonadHom] and [Monads C], and
+    Monad/Morphism/Algebra.v's θ*, pinned by Test/ProbeMonadMorphism468.v.
+    Nothing relates [TensorMonad] to them; the three targets are unchanged,
+    and the other absences stand.
+
     The guard block at the end names the ninety-four constants of the
     three targets, so that a rename breaks this file: fifty of
     Instance/Mod/TensorMonad.v, thirty of Instance/Mod/Colimit/Creation.v

@@ -56,6 +56,14 @@ Generalizable All Variables.
    ("Categories for the Working Mathematician", 1971) — is proved as a
    genuine equivalence by [Monoid_Monad] in Monad/Monoid.v.
 
+   CORRECTION (#468).  The "genuine equivalence" above is a logical
+   equivalence (↔) of the two structures on one endofunctor, with no
+   morphisms on either side.  The statement about categories is
+   Monad/Morphism/Monoid.v's [Monads_Mon_Equivalence]: Monad/Morphism.v's
+   category [Monads C] of monads on C and their morphisms is equivalent to
+   Mac Lane's Mon_{C^C}, Theory/Algebra/Monoid/Hom.v's [Mon] at the
+   composition tensor of Structure/Monoidal/Compose.v.
+
    Two further readings organize the mathematics.  As an algebraic
    theory in packaged form, a monad carries its variety of algebras
    with it: Linton ("Some aspects of equational categories", La Jolla

@@ -224,7 +224,14 @@ Generalizable All Variables.
    functor on algebras, built by hand for its instance.  The converse half
    of Riehl's theorem is Beck.v's [monadic_creates], stated at
    [EM_Forget] and not instantiated here.  No Kleisli category of
-   G × (−) is identified. *)
+   G × (−) is identified.
+
+   CORRECTION (#468).  The tree now has general morphisms of monads,
+   Monad/Morphism.v's [MonadHom] and [Monads C], and the functor they induce
+   on algebras, Monad/Morphism/Algebra.v's θ* ([mh_EM]);
+   Instance/Fun/Action/Monad/BG/Morphism.v relates BG.v's [BG_Act_EM] to it.
+   This file is unchanged: it keeps one monad, and no Eilenberg–Moore
+   category is transported here. *)
 
 (** ** The product M × X *)
 

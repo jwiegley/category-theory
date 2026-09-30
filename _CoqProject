@@ -349,6 +349,7 @@ Instance/Fun/Group.v
 Instance/Fun/Action.v
 Instance/Fun/Action/Monad.v
 Instance/Fun/Action/Monad/BG.v
+Instance/Fun/Action/Monad/BG/Morphism.v
 Instance/Fun/Pullback.v
 Instance/Fun/Classifier.v
 Instance/Fun/Topos.v
@@ -515,6 +516,7 @@ Instance/Sets/Powerset/Monad.v
 Instance/Sets/Powerset/Monad/Riehl.v
 Instance/SupLat.v
 Instance/SupLat/Free.v
+Instance/SupLat/Free/Morphism.v
 Instance/SupLat/Examples.v
 Instance/Sets/Generator.v
 Instance/Sets/Cogenerator.v
@@ -633,6 +635,10 @@ Monad/Monadicity/BeckObjects.v
 Monad/Monadicity/Crude.v
 Monad/Monadicity/Examples.v
 Monad/Monoid.v
+Monad/Morphism.v
+Monad/Morphism/Algebra.v
+Monad/Morphism/Monoid.v
+Monad/Morphism/Transformer.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
 Monad/Thunkable.v
@@ -1125,3 +1131,4 @@ Test/ProbeGroupAction464.v
 Test/ProbeTensorMonad465.v
 Test/ProbeSupLat466.v
 Test/ProbeEMCreates467.v
+Test/ProbeMonadMorphism468.v

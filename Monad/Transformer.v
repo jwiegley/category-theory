@@ -33,7 +33,16 @@ Generalizable All Variables.
    Together they say lift commutes with the monadic structure, so that the
    semantics of an M-computation is preserved when it is lifted into the larger
    monad T M. Transformers are not in general commutative: T₁ (T₂ M) and
-   T₂ (T₁ M) usually differ. *)
+   T₂ (T₁ M) usually differ.
+
+   CORRECTION (#468).  The class below carries [lift] as a family of arrows
+   with no naturality field, and until #468 the tree had no record of monad
+   morphisms against which to read "monad morphism" above.
+   Monad/Morphism/Transformer.v proves the reading from the two laws:
+   [lift_natural] derives the naturality, [transformer_hom] turns a
+   transformer into a [MonadHom] M (T M) of Monad/Morphism.v, and
+   [hom_transformer] turns one back.  The pointed endofunctor on the
+   category of monads that nLab describes is not built. *)
 
 Section Transformer.
 

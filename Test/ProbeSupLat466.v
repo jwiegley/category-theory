@@ -361,6 +361,13 @@
     counts the headers give, measured by script over the [Require] lines.
     (f) The readings of the books, from their page images.
 
+    CORRECTION (#468).  Of the absences in (d), morphisms of monads now
+    exist: Monad/Morphism.v's [MonadHom] and [Monads C], and
+    Monad/Morphism/Algebra.v's θ*.  Instance/SupLat/Free/Morphism.v builds
+    from them the functor Instance/SupLat/Free.v lists as not delivered, and
+    Test/ProbeMonadMorphism468.v pins it.  The five targets are unchanged,
+    and the other absences stand.
+
     The guard block at the end names the one hundred and fifty-two
     constants of the five targets, so that a rename breaks this file:
     eighteen of Instance/Sets/Powerset/Monad.v, seventy-three of

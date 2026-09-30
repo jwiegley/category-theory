@@ -170,7 +170,18 @@ Generalizable All Variables.
    relations) is not identified (Instance/Sets/Powerset/Monad.v says what
    Instance/Concrete.v's [Rel_Powerset] is, and is not), and the right
    adjoint of a sup-preserving map and the tensor product of suplattices
-   are not built. *)
+   are not built.
+
+   CORRECTION (#468).  The tree now has morphisms of monads:
+   Monad/Morphism.v's [MonadHom] and the category [Monads C] of monads on C,
+   and Monad/Morphism/Algebra.v's θ* ([mh_EM]).  The functor named above is
+   built from them, with this file unchanged, by
+   Instance/SupLat/Free/Morphism.v: [SL_EM_theta], the θ* of the morphism of
+   monads [SL_theta] from [Powerset_Monad] to [SL_induced], which agrees
+   with [SL_induced_repack] on carriers and on structure maps as functions
+   at [eq_refl]; [SL_theta_iso] makes the two monads isomorphic in [Monads
+   Sets].  [SL_induced_repack] and [EM_induced_to_SupLat] are not rewired
+   onto θ*. *)
 
 (* ------------------------------------------------------------------------ *)
 (** ** The free complete semilattice P X *)

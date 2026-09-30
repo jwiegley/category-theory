@@ -111,7 +111,13 @@ Generalizable All Variables.
    transported to C; and it is not stated through Comonad/Duality.v's
    [Adjunction_Comonad], which is built through the opaque
    [Adjunction_Monad], so that its extract does not reduce
-   (Construction/Reflective/FixedPoints.v records the same obstacle). *)
+   (Construction/Reflective/FixedPoints.v records the same obstacle).
+
+   CORRECTION (#468).  The record exists now: Monad/Morphism.v's [MonadHom]
+   and its category [Monads C], in which an isomorphism of monads is an
+   [Isomorphism] of [Monads C].  The three facts are still not packaged as
+   one: no isomorphism in [Monads C] between the monad induced by
+   [idem_reflective_adj] and M is stated. *)
 
 (* The unit of the induced monad is ret.  It reduces to [id ∘ ret x]. *)
 Lemma idem_unit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}

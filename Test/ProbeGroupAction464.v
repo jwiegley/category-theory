@@ -325,6 +325,13 @@
     round trips that an isomorphism on the nose would need.  (e) The
     readings of the books, from their page images.
 
+    CORRECTION (#468).  Of the absences in (d), general morphisms of monads
+    now exist: Monad/Morphism.v's [MonadHom] and [Monads C], and
+    Monad/Morphism/Algebra.v's θ*.  Instance/Fun/Action/Monad/BG/Morphism.v
+    relates this file's second target to them, and
+    Test/ProbeMonadMorphism468.v pins that file.  The two targets are
+    unchanged, and the other absences stand.
+
     The guard block at the end names the one hundred and four constants
     of the two targets, so that a rename breaks this file: fifty-eight of
     Instance/Fun/Action/Monad.v and forty-six of Instance/Fun/Action/
