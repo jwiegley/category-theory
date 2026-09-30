@@ -56,7 +56,16 @@ Generalizable All Variables.
    [Prop] mirror is available in general; that is an absence of a construction,
    not a proof that none exists.  Which is exactly why the algebraic object
    records of the later phases CARRY a [PropEquiv] field rather than deriving
-   one. *)
+   one.
+   CORRECTION (#469): the absence is now characterized.  A [PropEquiv] on
+   every object of [Sets] at once is interderivable with the principle
+   ∀ A : Type, inhabited A → A at the carriers' level (Instance/Pos/
+   Monadicity.v's [all_PropEquiv_trunc] and [trunc_all_PropEquiv], through
+   its [SetsTruncElim], [trunc_choice] and [choice_trunc]).  That principle
+   follows from informative excluded middle, and it is believed to have
+   no axiom-free proof, by a normal-form argument that file's header
+   sketches (argued, not established); no in-tree
+   statement proves the unprovability, which is metatheory. *)
 
 (** ** The property, at the level of a [Sets] object *)
 

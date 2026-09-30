@@ -37,7 +37,11 @@
     three targets among them, and eight modules of the standard
     library's reals, seven under Reals/Cauchy and the eighth
     Reals/Abstract/ConstructiveReals.  A shorter import list is what
-    makes a probe pass for no reason.
+    makes a probe pass for no reason.  CORRECTION (#469): #469 appends a
+    fifty-first line, the fortieth naming a [Category] module (Instance/
+    Sets/Propositional/Full.v, after every other command), and the list
+    now loads one hundred and thirty-one [Category] modules, by the same
+    [Print Libraries] count.
 
     DISCIPLINE.  The instrument was checked both ways: the refutation of an
     absent name is refused for that reason ("The reference p462_absent_name
@@ -45,7 +49,9 @@
     definitions and examples of this file that is not a refutation, wrapped
     in the refutation keyword in a copy of this WHOLE file, stops the build
     at that command with the report that the guarded command had been
-    accepted (forty-nine of forty-nine, by a script over the copies).  Every
+    accepted (forty-nine of forty-nine, by a script over the copies;
+    CORRECTION (#469): fifty-one of fifty-one with #469's two controls
+    at the end, each wrapped alone in a copy of the whole file).  Every
     negative other than that instrument is a [Definition] or an [Example],
     never a [Check], so that an open evar cannot satisfy it.  Each negative
     was stripped of its refutation keyword in a copy of this WHOLE file, one
@@ -908,3 +914,17 @@ Check Category.Instance.Top.Components.Paths.ppostcomp_obligation_1.
 Check Category.Instance.Top.Components.Paths.pprecomp.
 Check Category.Instance.Top.Components.Paths.pprecomp_obligation_1.
 Check Category.Instance.Top.Components.Paths.rball_scale.
+
+(* Added by #469.  Instance/Sets/Propositional/Full.v builds the same
+   category as [PSets] and the same subcategory record as [PSetsSub];
+   these two controls pin that at [eq_refl].  The [Require] is loaded
+   after every other command, so it changes the environment of these two
+   controls alone, and it costs this probe one module (Full.v, whose
+   closure is otherwise inside Components.v's). *)
+Require Import Category.Instance.Sets.Propositional.Full.
+
+Example p462_c469_propsets_sub@{o so | o < so +} :
+  PropSets_sub@{o so} = PSetsSub@{o so} := eq_refl.
+
+Example p462_c469_propsets@{o so | o < so +} :
+  PropSets@{o so} = PSets@{o so} := eq_refl.

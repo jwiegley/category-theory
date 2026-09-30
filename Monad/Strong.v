@@ -145,7 +145,12 @@ Context `{@Monoidal C}.
 (* There is no identity monad on an abstract category in the library yet, so we
    provide one here: Id[C] with ret = id and join = id.  All five monad laws are
    instances of the identity/composition equations, discharged automatically by
-   the ambient obligation tactic (cat_simpl). *)
+   the ambient obligation tactic (cat_simpl).
+   Since #469 a second identity monad, with every field given and a
+   universe list that is the same on every supported version, is
+   Monad/Identity.v's [IdMonad]; this local instance is kept and is not
+   rewired onto it, which is outside #469's scope (Monad/Identity.v's NOT
+   DELIVERED). *)
 #[local] Program Instance Id_Monad : @Monad C Id[C] := {
   ret  := fun _ => id;
   join := fun _ => id
