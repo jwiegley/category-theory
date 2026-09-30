@@ -10,7 +10,14 @@ Require Import Category.Instance.Sets.Classifier.
    statements at the end of the file — [Powerset_Prop_Monad_statement] and
    [Powerset_Prop_FAlg] — can be entered into the environment.  Neither
    module depends on anything under Instance/, and nothing in the tree
-   imports this file, so no cycle is introduced. *)
+   imports this file, so no cycle is introduced.  CORRECTION (#466): the
+   clause "nothing in the tree imports this file" does not hold.  Before
+   #466, forty-three files of _CoqProject required this module, and with
+   #466's six files (its five and Test/ProbeSupLat466.v) forty-nine do (a
+   script over their [Require] lines, comments stripped).  No cycle arises
+   all the same: the transitive closure of the [Require] lines of
+   Theory/Monad.v and Construction/FAlg.v, thirteen files, contains no file
+   under Instance/, measured by the same script. *)
 Require Import Category.Theory.Monad.
 Require Import Category.Construction.FAlg.
 
@@ -1149,7 +1156,12 @@ Defined.
    These are TYPES, not constructions.  No monad structure and no initial
    algebra is built anywhere in this file; #466 and #750 remain open.  What
    has changed is that they can now be stated over a carrier that lives in
-   this module. *)
+   this module.  CORRECTION (#466): #466 is delivered, outside this file.
+   Instance/Sets/Powerset/Monad.v builds the monad on [Powerset_Prop] with
+   #227's singleton transformation as its unit, and its readback
+   [Powerset_Monad_statement] inhabits [Powerset_Prop_Monad_statement];
+   Instance/SupLat.v identifies the monad's algebras with the complete
+   semilattices.  #750, the initial-algebra question, remains open. *)
 
 Definition Powerset_Prop_Monad_statement : Type := @Monad Sets Powerset_Prop.
 

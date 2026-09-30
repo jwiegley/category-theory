@@ -132,8 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12402** on 2026-09-30, after #465 (Mac Lane §VI.2's example
-"Modules": the monad R ⊗ (−) on `Ab` is the monad of the
+**12554** on 2026-09-30, after #466 (Mac Lane §VI.2 Exercise 1,
+"Complete semi-lattices (E. Manes; thesis)": the covariant power set
+is a monad on `Sets`, its algebras are the complete semilattices, and
+the category of complete semilattices and sup-preserving maps is
+isomorphic in `Cat` to its Eilenberg–Moore category, with Awodey's
+Example 10.5 and Exercise 10.6.5, Riehl's (2nd ed.) Example 5.1.5(i)
+by her own route as well, the free/forgetful adjunction and the
+monadicity of the forgetful functor) added ONE block of 152
+names over five new modules, `Instance/Sets/Powerset/Monad.v`,
+`Instance/Sets/Powerset/Monad/Riehl.v`, `Instance/SupLat.v`,
+`Instance/SupLat/Free.v` and `Instance/SupLat/Examples.v`, every one
+"Closed under the global context" (the list below); 12402 +
+152 = 12554. An earlier revision of this paragraph gave
+**12402**, the figure on 2026-09-30 after #465 (Mac Lane §VI.2's
+example "Modules": the monad R ⊗ (−) on `Ab` is the monad of the
 free/forgetful adjunction of the left R-modules and its algebras are
 the modules, with Riehl's (2nd ed.) Examples 5.2.6(ii) and 5.5.7(i), the
 forgetful functor monadic directly and by Beck's precise theorem, and
@@ -1308,6 +1321,66 @@ unchanged. Among the 94:
   ring whose three universes are kept apart) — are pinned in
   `Test/ProbeTensorMonad465.v`, not constants, and so are not in the
   gate
+
+The complete-semilattice development (Mac Lane §VI.2 Exercise 1,
+"Complete semi-lattices (E. Manes; thesis)", book p. 142, with
+Awodey's Example 10.5 and Exercise 10.6.5 and Riehl's (2nd ed.)
+Example 5.1.5(i); #466) adds ONE block of 152 names over its
+five modules, `Instance/Sets/Powerset/Monad.v`,
+`Instance/Sets/Powerset/Monad/Riehl.v`, `Instance/SupLat.v`,
+`Instance/SupLat/Free.v` and `Instance/SupLat/Examples.v`: every
+constant `Print Module` lists for each, with the constructors
+`Build_SupLatObject` and `Build_SupLatHom` of the two records
+`SupLatObject` and `SupLatHom`, each reported "Closed under the global
+context" by its fully qualified name. None declares an `Axiom` or a
+`Parameter`, and none declares a `Program` definition, so there are no
+obligations to enumerate; there is no `Inductive` command, and the two
+records have primitive projections, which are in the block, and no
+schemes (`Print Module` lists none). None requires a standard-library
+reals module, directly or through another `Category` module (`Print
+Libraries` after a `Require` of the five alone lists 100 `Category`
+modules, the five among them, and no module under `Reals`, where a
+`Require` of Instance/Top/Circle.v as the instrument lists six `Reals`
+lines), so the stdlib-axioms section below is unchanged. Among the
+152:
+
+- `Powerset_Monad` and `SupLat_EM_iso` (the power-set monad and the
+  SupLat ≅ EM comparison the issue asks `Print Assumptions` of, the
+  comparison's legs being `SupLat_to_EM` and `EM_to_SupLat` at
+  `eq_refl`), with `TAlgebra_SupLat`, `SupLat_TAlgebra`,
+  `talg_le_iff`, `sl_sup_pair_le`, `sl_talg_le_iff` and
+  `SupLat_EM_equivalence` — unconditional; `talg_PropEquiv` and
+  `sl_PropEquiv` prove the carriers' equality propositional, a theorem
+  here and never a hypothesis
+- `SL_adj`, `SL_Forget_Monadic`, `SL_comparison_equivalence` and the
+  induced monad `SL_induced` with its readbacks — unconditional;
+  `SL_Forget_Monadic` is built by an explicit quasi-inverse, not by
+  `beck_monadicity`, whose applications stay three
+- `join_natural_via_image` and `join_natural_via_LAPC` (Riehl's route
+  through #382's direct image as a left adjoint) — unconditional, with
+  the universe caps docs/INDEX.md's #466 bullet records
+- `suplat_two_points_WLEM`, `bool_SupLat_WLEM` and
+  `Prop_SupLat_decidable_WLEM` — unconditional theorems whose
+  CONCLUSION is informative weak excluded middle; `bool_SupLat` takes
+  informative weak excluded middle, `∀ Q : Prop, (~ Q) + (~ ~ Q)`, as
+  a HYPOTHESIS in its statement, never assumed, which is why it is
+  closed too, and the two necessity theorems show that the hypothesis
+  cannot be dropped (docs/INHABITATION.md)
+- the refusals — by conversion at `eq_refl` (the round trips through
+  the algebras on whole objects, on the order field and on the proof
+  fields, the composites as identity functors, the redundant-law
+  variant of the record, a bare-function sup, the three monad laws and
+  the naturality of η and of μ, the induced monad's unit, join and
+  functor, the comparison's composites and round trips, part (b) at
+  the free algebra, part (c) at P X against the free algebra as a
+  whole algebra and as a whole object, the P 1 round trip on a whole
+  subset, and an instrument; one of them, the whole induced unit, by
+  the opacity of Corelib's lemmas of generalized rewriting beneath
+  Instance/Sets.v's properness proofs), on typing (the morphism round
+  trip, and `Powerset_Monad` as a monad on the induced composite) and
+  on universes (`@Monad Sets Powerset` over the proof-relevant
+  carrier, and a `Type`-valued order, a sort refusal) — are pinned in
+  `Test/ProbeSupLat466.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
