@@ -13450,6 +13450,75 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Monad.Riehl.Powerset_join_natural_statement.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Monad.Riehl.join_natural_routes_agree.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Monad.Eilenberg.Moore.Limit.'; \
+	  echo 'Require Import Category.Monad.Eilenberg.Moore.Limit.Examples.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.cone_pre.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_act_leg.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_act_coherence.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_act_cone.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_act.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_act_triangle.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_alg_t_id.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_action_left.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_action_right.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_alg_t_action.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_alg.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_apex.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_leg.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_leg_coherence.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_cone.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_over_obj.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_over_legs.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_cone.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_med.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_med_commutes.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_med_hom_left.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_med_hom_right.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.car_med_is_hom.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_med.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_created.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_alg_unique.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_cone.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_med.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_med_commutes.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.ract_leg.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.ract_coherence.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.ract_cone.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_hom_left.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_hom_right.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rcar_med_is_hom.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.rem_med.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_reflects.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_strict_lift.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_forget_StrictlyCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_forget_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_lift_alg_unique.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.em_forget_StrictlyCreatesLimits.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.IdC.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.Kempty.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.Lbelow.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.created_terminal_algebra.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.created_carrier.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.created_terminal.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.Bool2.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.IdS.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.IdSM.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.EMS.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.alg_of.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.A_id.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.A_true.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.A_id_ne_A_true.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.K1.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.N1.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.N1_limiting.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.leg_id_from.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.lift1_at.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.em_lift_alg_unique_Sets.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.em_lift_not_unique_leibniz.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.lift1_limiting.'; \
+	  echo 'Print Assumptions Category.Monad.Eilenberg.Moore.Limit.Examples.em_limiting_lift_not_unique_leibniz.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

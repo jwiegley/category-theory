@@ -20,6 +20,17 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/Eilenberg-Moore+category#limits
    Mac Lane: Categories for the Working Mathematician, 2nd ed. (GTM 5),
              §VI.2 Theorem 1 and the §V.1 creation vocabulary (p. 112)
+   Mac Lane: ibid., §VI.2 Exercise 2 (book p. 142, PDF p. 151;
+             catalog item maclane:VI.2:ex2), "Show that G^T : X^T → X
+             creates limits"
+
+   CORRECTION (#467): the citation above names Theorem 1 as its only
+   §VI.2 source.  That theorem (book p. 140, "Every monad is defined by
+   its T-algebras") builds X^T, G^T and the adjunction F^T ⊣ G^T; the
+   statement this file proves is Exercise 2 of the same section, cited
+   on the line added after it.  Mac Lane's §V.1 Definition (p. 112) is
+   unnumbered and numbers its clauses (i) and (ii); the clause-by-clause
+   map is the paragraph MAC LANE'S DEFINITION, CLAUSE BY CLAUSE below.
 
    For any monad T on D, the forgetful functor [EM_Forget T] STRICTLY
    creates every limit: given a limiting cone over [EM_Forget T ◯ K]
@@ -37,6 +48,80 @@ Generalizable All Variables.
    records Mac Lane's [F σ = τ] at full strength, which is strictly
    stronger than the [≈] the class asks for; every law, every proof and the
    [StrictLift] leg clause consumed by [em_strict_lift] use [≈].
+
+   MAC LANE'S DEFINITION, CLAUSE BY CLAUSE (#467).  The Definition on
+   p. 112 (PDF p. 121), read from the page image: "A functor V: A → X
+   creates limits for a functor F: J → A if (i) To every limiting cone
+   τ: x →· VF in X there is exactly one pair ⟨a, σ⟩ consisting of an
+   object a ∈ A with Va = x and a cone σ: a →· F with Vσ = τ, and if,
+   moreover, (ii) This cone σ: a →· F is a limiting cone in A."  Here V
+   is [EM_Forget T], F is [K] and τ is the given limiting cone [N] (or
+   the cone of [L]).  Test/ProbeEMCreates467.v restates each [eq_refl]
+   strength below as a control, pins R1 as a refusal, and restates the
+   two refutations against their constants.
+
+   - (i), existence of a with Va = x: at [eq_refl].  [em_over_obj], the
+     [slift_eq] of [em_strict_lift] (which IS [eq_refl]), and the iso of
+     the iso-invariant class, [creates_lift_over] of
+     [em_forget_CreatesLimit], whose forward map is [id] on the nose.
+   - (i), existence of σ with Vσ = τ: at [eq_refl] leg by leg, against
+     the GIVEN cone.  [em_over_legs]; the same through the class
+     projection [screates] and as the leg family [fun j => …].  The image
+     cone as a RECORD is not [eq_refl] to the given cone: apex and legs
+     convert, and the coherence field does not (probe R1).  [FCone]'s
+     coherence is an application of [fcone_coherence], a [Qed] lemma
+     whose body is a rewrite chain over D's abstract hom-setoids; N's is
+     a stuck projection of the variable N.  The cause is structural,
+     argued so: made transparent, the chain would still not convert to
+     that projection.  It is not measured by a full flip.
+   - (i), "exactly one pair": at [≈] only.  [em_alg_unique] at the
+     pinned carrier [vertex_obj[L]], and [em_lift_alg_unique] below at
+     the carrier of an arbitrary [StrictLift]: that lift is isomorphic in
+     [EilenbergMoore T] to the created apex, by an isomorphism whose
+     underlying map is ≈ the transport [slift_iso].  The class form is
+     Structure/Limit/Creation.v's [screates_lift_unique] at
+     [em_forget_StrictlyCreatesLimit T K]: a cone upstairs whose image is
+     cone-isomorphic to N is cone-isomorphic to the created lift.
+     [em_lift_alg_unique] specialises it to a [StrictLift] and names the
+     underlying map of the isomorphism, ≈ the transport; its type is an
+     isomorphism of algebras, without the cone compatibility a
+     [ConeIso] carries.  σ's legs are then determined at [≈] by
+     [slift_legs], since arrows of [EilenbergMoore T] are compared by
+     their underlying maps.  Examples.v instantiates it at [Sets]
+     ([em_lift_alg_unique_Sets]), at an indiscrete carrier where its
+     [≈]-conclusion holds of every map: the instance witnesses the
+     premise, a strict lift other than the created one.
+     The on-the-nose form, with [=] on the apex for pairs whose legs
+     agree with τ by [=], is REFUTED without axioms in
+     Monad/Eilenberg/Moore/Limit/Examples.v: [em_lift_not_unique_leibniz],
+     at [Sets] with the identity monad and the indiscrete two-point
+     setoid, whose two structure maps [id] and [const true] both lift one
+     limiting cone with legs equal on the nose, and
+     [em_limiting_lift_not_unique_leibniz], the same among lifts that are
+     both limiting.  This is a feature of the setoid
+     encoding, not of Mac Lane's statement: for him, over any X, a
+     T-algebra is a pair ⟨x, h⟩ with h an arrow of X (p. 140), arrows
+     are compared by equality, and the universal property determines h,
+     while here the structure map is a setoid morphism that the
+     universal property determines only up to the carrier's [≈].  "The
+     only one" in the summary above is this [≈]-form.
+   - (ii), σ limiting: [em_created], and the field [screates_limiting]
+     of [em_forget_StrictlyCreatesLimit].
+   - Not in Mac Lane's Definition: reflection, [em_reflects] (the field
+     [screates_reflect]), which Structure/Limit/Creation.v's classes
+     carry in place of the uniqueness clause.
+   - "G^T creates limits" for every shape J:
+     [em_forget_StrictlyCreatesLimits] and [em_forget_CreatesAllLimits].
+
+   #467's "Current state" (no theorem that [EM_Forget] creates or even
+   preserves limits) was accurate when the issue was filed (2026-07-23)
+   and has been stale since PR #1083 (#406, commit bdce5ebe), on which
+   #467 was filed as depending, merged on 2026-08-13 (the issue's
+   createdAt and the pull request's mergedAt, by gh issue view and
+   gh pr view): this file and its Examples.v landed with that pull
+   request.  #467 adds the citation, the map above,
+   [em_lift_alg_unique] and its instance at [Sets], the refutation and
+   the probe.
 
    This makes Structure/Limit/Creation.v's classes inhabited by a functor
    the library already builds, and it turns the prose claim at
@@ -420,6 +505,76 @@ Definition em_forget_CreatesLimit : CreatesLimit K (EM_Forget T) :=
   StrictlyCreatesLimit_CreatesLimit em_forget_StrictlyCreatesLimit.
 
 End EMStrictlyCreates.
+
+(** ** Uniqueness of a strict lift, at an unpinned carrier *)
+
+(* The [≈]-form of the uniqueness clause of Mac Lane's (i) for an
+   arbitrary [StrictLift]: whatever its algebra, the lift is isomorphic in
+   [EilenbergMoore T] to the created apex by an isomorphism lying over
+   the transport [slift_iso].  [em_alg_unique] is the step that pins the
+   structure map; this statement lets the carrier vary with [slift_eq].
+   Its [=]-form is refuted in Monad/Eilenberg/Moore/Limit/Examples.v.
+
+   Universes, read off [About]: [o] and [h] are D's objects and arrows,
+   [jo] J's objects, [eo] and [e] the objects and the level of
+   [EilenbergMoore], and [l], [l0] those of [IsLimitCone]; the bounds are
+   [h < e] and the chain [jo, h <= l0 <= l], [o <= l], [o, h <= eo], with
+   the sigma projections' two caps.  A draft that rewrote under [fmap]
+   also carried three [prod_rect] caps and a phantom level, and one that
+   used [subst] an [EqdepFacts] cap; the proof below destructs the cone
+   [N], so that the transport is a match on a variable, and composes
+   [compose_respects] and [fmap_respects] by hand. *)
+
+Definition em_lift_alg_unique@{o h jo eo e l l0} {D : Category@{o h h}}
+  (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
+  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N)
+  (s : StrictLift@{e eo jo h o} K (EM_Forget T) N) :
+  { i : vertex_obj[slift_cone s] ≅[EilenbergMoore T]
+          em_apex T K (@Build_Limit J D (EM_Forget T ◯ K) N HN)
+  & t_alg_hom[to i] ≈ to (slift_iso s) }.
+Proof.
+  destruct s as [σ p Hl].
+  destruct σ as [[x alg] σc].
+  destruct N as [n Nc].
+  simpl in p, Hl |- *.
+  destruct p.
+  simpl in Hl.
+  pose (L := @Build_Limit J D (EM_Forget T ◯ K)
+               (@Build_Cone J D (EM_Forget T ◯ K) x Nc) HN).
+  assert (Ha : t_alg[alg] ≈ t_alg[em_alg T K L]).
+  { apply (em_alg_unique T K L alg).
+    intro j.
+    assert (Hj : t_alg_hom[@vertex_map _ _ _ _ σc j]
+                   ≈ limit_leg (limit_is_alimit L) j) by exact (Hl j).
+    unfold em_act_leg.
+    transitivity (t_alg_hom[@vertex_map _ _ _ _ σc j] ∘ t_alg[alg]).
+    { exact (compose_respects _ _ (symmetry Hj) _ _ (reflexivity _)). }
+    transitivity
+      (t_alg[`2 (K j)] ∘ fmap[T] t_alg_hom[@vertex_map _ _ _ _ σc j]).
+    { exact (@t_alg_hom_commutes _ _ _ _ _ _ _ (@vertex_map _ _ _ _ σc j)). }
+    exact (compose_respects _ _ (reflexivity _) _ _
+             (fmap_respects _ _ _ _ Hj)). }
+  unshelve eexists.
+  - unshelve refine (@Build_Isomorphism (EilenbergMoore T)
+      (existT _ x alg) (em_apex T K L)
+      (@Build_TAlgebraHom D T H _ _ alg (em_alg T K L) id _)
+      (@Build_TAlgebraHom D T H _ _ (em_alg T K L) alg id _) _ _).
+    + simpl.
+      transitivity (t_alg[alg]); [apply id_left|].
+      transitivity (em_act T K L ∘ id).
+      * transitivity (em_act T K L); [exact Ha|symmetry; apply id_right].
+      * exact (compose_respects _ _ (reflexivity _) _ _ (symmetry fmap_id)).
+    + simpl.
+      transitivity (t_alg[em_alg T K L]); [apply id_left|].
+      transitivity (t_alg[alg] ∘ id).
+      * transitivity (t_alg[alg]);
+          [symmetry; exact Ha|symmetry; apply id_right].
+      * exact (compose_respects _ _ (reflexivity _) _ _ (symmetry fmap_id)).
+    + simpl. apply id_left.
+    + simpl. apply id_left.
+  - simpl. reflexivity.
+Defined.
 
 Definition em_forget_StrictlyCreatesLimits {D : Category} (T : D ⟶ D)
   `{H : @Monad D T} : StrictlyCreatesLimits (EM_Forget T) :=

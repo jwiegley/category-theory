@@ -132,7 +132,17 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12554** on 2026-09-30, after #466 (Mac Lane §VI.2 Exercise 1,
+**12619** on 2026-09-30, after #467 (Mac Lane §VI.2 Exercise 2, "Show
+that G^T : X^T → X creates limits": the Eilenberg–Moore forgetful
+functor creates limits, a development that had shipped with #406 and
+that #467 ties to the exercise, with the uniqueness clause of Mac Lane's
+Definition proved at `≈` and its on-the-nose form refuted) added ONE
+block of 65 names over two modules that already existed,
+`Monad/Eilenberg/Moore/Limit.v` and
+`Monad/Eilenberg/Moore/Limit/Examples.v`, every one "Closed under the
+global context" (the list below); 12554 + 65 = 12619. An earlier
+revision of this paragraph gave
+**12554**, the figure on 2026-09-30 after #466 (Mac Lane §VI.2 Exercise 1,
 "Complete semi-lattices (E. Manes; thesis)": the covariant power set
 is a monad on `Sets`, its algebras are the complete semilattices, and
 the category of complete semilattices and sup-preserving maps is
@@ -1381,6 +1391,52 @@ lines), so the stdlib-axioms section below is unchanged. Among the
   on universes (`@Monad Sets Powerset` over the proof-relevant
   carrier, and a `Type`-valued order, a sort refusal) — are pinned in
   `Test/ProbeSupLat466.v`, not constants, and so are not in the gate
+
+The Eilenberg–Moore creation development (Mac Lane §VI.2 Exercise 2,
+"Show that G^T : X^T → X creates limits", book p. 142, read with the
+unnumbered Definition of §V.1, p. 112; #467) adds ONE block of 65
+names over two modules that already existed,
+`Monad/Eilenberg/Moore/Limit.v` and
+`Monad/Eilenberg/Moore/Limit/Examples.v` (#406's, commit bdce5ebe):
+every constant `Print Module` lists for each (44 and 23), by its fully
+qualified name, except `em_forget_CreatesAllLimits` and `EM_Complete`,
+which the first block has gated by their short names since #406 (the
+list above). Before #467, those two were the only constants of the two
+modules gated by name, 2 of 49 (a grep of the Makefile for each short
+name under any qualifier); #467 adds `em_lift_alg_unique` to the first
+module and seventeen constants to the second. Neither declares an `Axiom`
+or a `Parameter`, a `Program` definition, an `abstract` step, an
+`Inductive` or a `Record` (a `strings` scan of the two `.vo` files
+lists no obligation and no subproof). Neither requires a
+standard-library reals module, directly or through another `Category`
+module (`Print Libraries` after a `Require` of the two alone lists 59
+`Category` modules and no module under `Reals`, where a `Require` of
+Instance/Top/Circle.v as the instrument lists six `Reals` lines), so
+the stdlib-axioms section below is unchanged. Among the 65:
+
+- `em_created`, `em_alg_unique`, `em_reflects`, `em_strict_lift`,
+  `em_forget_StrictlyCreatesLimit`, `em_forget_CreatesLimit` and
+  `em_forget_StrictlyCreatesLimits` — parametric in the monad and the
+  diagram, with no further hypothesis; the Coq identity-monad
+  instantiation (`created_terminal_algebra`, `created_carrier`,
+  `created_terminal`) is gated for the first time
+- `em_lift_alg_unique` — the `≈`-form of the uniqueness clause at the
+  carrier of an arbitrary strict lift: an isomorphism in
+  `EilenbergMoore T` to the created apex lying over `slift_iso`; its
+  instance at the counterexample below, `em_lift_alg_unique_Sets`, is
+  in the block
+- `em_lift_not_unique_leibniz` and `em_limiting_lift_not_unique_leibniz`
+  — unconditional refutations, at `Sets` with the identity monad and
+  the indiscrete two-point setoid, of the uniqueness clause with `=` on
+  the apex and on the legs, the second among limiting lifts; their
+  premise `N1_limiting`, the inequality `A_id_ne_A_true` (no Eqdep, no
+  UIP) and the identity monad `IdSM` they use (built with every field
+  given, not the library's `Id_Monad`, for the portability reason
+  docs/INDEX.md's #467 bullet records) are in the block
+- the refusals — by conversion at `eq_refl`, the image of a created
+  cone against the given cone as a record (refused on the coherence
+  field alone), and an instrument — are pinned in
+  `Test/ProbeEMCreates467.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

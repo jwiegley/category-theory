@@ -24,6 +24,16 @@ Generalizable All Variables.
               Definition 3.4.7 (p. 105)
    Awodey:    Category Theory, 2nd ed., §5.6 Definition 5.31 (p. 119)
 
+   CORRECTION (#467): Mac Lane's Definition on p. 112 is unnumbered (the
+   page reads "Definition.", between Theorems 2 and 3 of §V.1, read from
+   the page image), and it numbers its two clauses (i) and (ii); "§V.1
+   Definition 3" in this header and at [CreatesLimit], and "clause (b)"
+   at [creates_limiting], name that Definition and its clause (ii).  The
+   on-the-nose uniqueness that UNIQUENESS OF THE LIFT below declines as a
+   field is refuted for [EM_Forget] at the identity monad on [Sets], over
+   the one-object shape, without axioms, by
+   Monad/Eilenberg/Moore/Limit/Examples.v's [em_lift_not_unique_leibniz].
+
    Preservation says that a functor carries limit cones to limit cones;
    reflection says that it recognizes them; creation says that it
    CONSTRUCTS them.  Mac Lane's §V.1 Definition 3 reads: [F : A ⟶ X]
@@ -158,7 +168,8 @@ Class CreatesLimit {J C D : Category} (K : J ⟶ C) (F : C ⟶ D) := {
   creates_reflect (M : Cone K) : IsLimitCone (FCone F M) → IsLimitCone M
 }.
 
-(* Mac Lane's clause (b): the lift is itself a limiting cone. *)
+(* Mac Lane's clause (b): the lift is itself a limiting cone.
+   CORRECTION (#467): the book numbers this clause (ii). *)
 
 Definition creates_limiting {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
   (CR : CreatesLimit K F) (N : Cone (F ◯ K)) (HN : IsLimitCone N) :
