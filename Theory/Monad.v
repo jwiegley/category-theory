@@ -70,6 +70,19 @@ Generalizable All Variables.
    to the idempotent monads of reflective subcategories in
    Construction/Reflective/Idempotent.v.
 
+   CORRECTION (#463).  The closure-operator reading above was asserted
+   here without proof; Instance/Poset.v cited this file for it.  It is
+   proved at Instance/Proset/Monad.v ([closure_of_monad],
+   [closure_monad], [talgebra_iff_closed]), and it is sharper than the
+   sentence says: [join] gives only T(Tx) ≤ Tx, and idempotency up to ≅
+   also uses [ret] at Tx.  Structure/Thin/Monad.v's [thin_join_IsIso]
+   makes that so in any thin category, and [thin_IdempotentMonad] makes
+   every monad on a thin category an [IdempotentMonad] of
+   Construction/Reflective/Idempotent.v, where idempotency is a
+   hypothesis.  The equation T(Tx) = Tx needs antisymmetry, taken as a
+   hypothesis in [closure_idem_eq].  The dual, a comonad on a preorder as
+   an interior operator, is Instance/Proset/Monad/Interior.v.
+
    Computationally, a value of type M x is a computation that may
    perform effects while producing an x.  Moggi (LICS 1989; op. cit.
    1991) interpreted the effects of programming languages — state,

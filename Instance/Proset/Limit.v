@@ -657,6 +657,22 @@ End Complete_Invariance.
    [Morphism_equality] rather than the constant-[True] one. The general
    theorems above therefore do not apply to them directly.
 
+   CORRECTION (#463): for [Props] the reason is narrower than "its own
+   [Program Definition]" suggests. At Instance/Props/Modal.v's
+   [impl_PreOrder] (the relation [Basics.impl] as a stdlib [PreOrder])
+   the [obj], [hom], [id] and [compose] fields of [Props] and
+   [Proset impl_PreOrder] agree by [eq_refl] and [homset] does not; the
+   equation of the two records is refused by conversion, and that
+   refusal is the opacity of the two [Program Definition]s' obligations:
+   with both restated verbatim under [Set Transparent Obligations] the
+   whole records are equal by [eq_refl]. Test/ProbeClosure463.v pins
+   this as its refusal N25 with the control [P463Flip.p463_props_T]. For
+   a variable [P : PreOrder Basics.impl] the refusal is structural,
+   already at [id], and it stays with the obligations transparent (N26
+   and N27 there, the objects and homs agreeing by the control
+   [P463Flip.p463_props_var_T]). So [Props] is not [Proset P] for any
+   [P] as the tree stands, which is all the paragraph above needs.
+
    What does apply, to EVERY category, is the identification read at the
    hom-inhabitation preorder [hom_le]: the chosen product of a cartesian
    structure is a greatest lower bound of its factors for the relation

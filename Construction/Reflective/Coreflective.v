@@ -123,7 +123,12 @@
       - Nothing on the idempotent comonad of a coreflection beyond
         Construction/Reflective/FixedPoints.v's op-form
         [Coreflective_IdempotentMonad_op], and no co-Eilenberg–Moore
-        reading.
+        reading.  CORRECTION (#463): at a preorder, and objectwise
+        only, Instance/Proset/Monad/Interior.v's [wlocal_iff_open]
+        with [wcoalgebra_iff_open] reads the coreflected objects of a
+        comonad W as its coalgebras (W-local exactly when a
+        W-coalgebra); no equivalence with a category of coalgebras is
+        stated, so the item stands for every other category.
       - No uniqueness of the coreflector up to isomorphism. *)
 
 Require Import Category.Lib.

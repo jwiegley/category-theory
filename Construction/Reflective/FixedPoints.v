@@ -216,7 +216,16 @@ Generalizable All Variables.
    [unit_fixed_reflective_of_idempotent] at Instance/Mod/Extension.v's
    [extend_restrict_adjunction φ Hc], for a ring epimorphism φ whose
    image is central ([Hc]), and [QMod_Reflective_in_ZMod] is that record
-   at ℤ → ℚ. *)
+   at ℤ → ℚ.  CORRECTION (#463): the co-Eilenberg-Moore half of that
+   item is answered at a preorder, objectwise and nowhere else.  For any
+   comonad W on Instance/Proset.v's [Proset P],
+   Instance/Proset/Monad/Interior.v's [wlocal_iff_open] identifies
+   membership of this file's [WLocal_Subcategory] (extract invertible)
+   with the open elements x ≤ W x, and its [wcoalgebra_iff_open]
+   identifies the W-coalgebras with the same elements, so an object is
+   W-local exactly when it carries a W-coalgebra.  These are two
+   biconditionals over preorders; no equivalence with a category of
+   coalgebras is stated, and for every other category the item stands. *)
 
 (** ** Three inverse-calculus lemmas, restated locally *)
 
