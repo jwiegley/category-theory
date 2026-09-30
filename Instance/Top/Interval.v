@@ -95,6 +95,7 @@ Set Default Proof Using "All".
    Instance/Top/Circle.v, Instance/Top/Solenoid.v and
    Instance/Top/Solenoid/Presentations.v import the standard library's
    constructive Cauchy reals (Reals/Cauchy), which carry no axiom.
+   CORRECTION (#462): so does Instance/Top/Components/Paths.v.
 
    What the choice buys is that the interval is the real one, so the
    fundamental groupoid built on it is the classical construction and not a

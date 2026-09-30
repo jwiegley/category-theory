@@ -15,6 +15,7 @@ Adjunction/Pare.v
 Adjunction/Conjugate.v
 Adjunction/Continuity.v
 Adjunction/Continuity/Finite.v
+Adjunction/Continuity/Equalizer.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
@@ -562,6 +563,8 @@ Instance/Top/Hausdorff/TypeValued.v
 Instance/Top/Circle.v
 Instance/Top/Solenoid.v
 Instance/Top/Solenoid/Presentations.v
+Instance/Top/Components.v
+Instance/Top/Components/Paths.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -1099,3 +1102,4 @@ Test/ProbeCollapse459.v
 Test/ProbeHausdorff461.v
 Test/ProbeReflective370.v
 Test/ProbeSolenoid410.v
+Test/ProbeComponents462.v

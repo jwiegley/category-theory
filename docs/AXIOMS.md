@@ -131,8 +131,19 @@ make print-assumptions
 ```
 
 The gate grows with the library, and the figure is a measurement with a
-criterion: `grep -c 'Print Assumptions' Makefile` returns **11747**
-on 2026-09-29, after #410 (Mac Lane §V.1's p-adic solenoid, the limit
+criterion: `grep -c 'Print Assumptions' Makefile` returns
+**12003** on 2026-09-29, after #462 (Mac Lane §V.9 Exercise 1,
+the connected components of locally connected spaces left adjoint to
+the discrete space and without a left adjoint of their own, with
+Riehl's Example 3.3.2, the path components as the colimit functor
+after P) added ONE block of 256 names over three new modules,
+`Adjunction/Continuity/Equalizer.v`, `Instance/Top/Components.v` and
+`Instance/Top/Components/Paths.v`, the `Program` obligations and the
+inductive `zig_pt` with its constructors and schemes included, every
+one "Closed under the global context" (the list below);
+11747 + 256 = 12003. An earlier revision of this
+paragraph gave **11747**, the figure the same day after #410 (Mac
+Lane §V.1's p-adic solenoid, the limit
 of the tower of circles under the p-fold wrapping map, with the second
 half of Riehl's Example 3.6.3) added ONE block of 336 names over
 three new modules, `Instance/Top/Circle.v`, `Instance/Top/Solenoid.v`
@@ -1010,7 +1021,8 @@ standard-library reals modules, all under Reals/Cauchy, none of the
 classical `R` (`Print Libraries`); so the ten development files of the
 stdlib-axioms section below that import the classical `R` stay ten,
 and three import the constructive reals only (that section's
-CORRECTION (#410)). Among the 336:
+CORRECTION (#410); CORRECTION (#462): four, with
+`Instance/Top/Components/Paths.v`, the #462 paragraph below). Among the 336:
 
 - `solenoid_limit` (the issue's pinned name: the limit in the
   Type-valued `Top`), `PTop_solenoid_limit` (the same limit over
@@ -1036,6 +1048,67 @@ CORRECTION (#410)). Among the 336:
   subspace over the Type-valued `Top`, and the readbacks refused at
   `eq_refl`, are refusals pinned in `Test/ProbeSolenoid410.v`, not
   constants, and so are not in the gate
+
+The connected-components development (Mac Lane §V.9 Exercise 1, book
+p. 135, with Riehl's Example 3.3.2; #462) adds ONE block of
+256 names over its three modules,
+`Adjunction/Continuity/Equalizer.v`, `Instance/Top/Components.v` and
+`Instance/Top/Components/Paths.v`: every constant `Print Module` lists
+for each, the `Program` obligations and the inductive `zig_pt` with its
+constructors and generated schemes included, each reported "Closed
+under the global context" by its fully qualified name. None declares
+an `Axiom` or a `Parameter` (a grep of the sources).
+`Instance/Top/Components/Paths.v` is the fourth development file whose
+`Require` lines name the standard library's CONSTRUCTIVE Cauchy reals
+and no module of its classical `R`: ConstructiveCauchyReals,
+ConstructiveCauchyRealsMult and ConstructiveCauchyAbs, which the #410
+paragraph above measured, and ConstructiveRcomplete, whose
+`Rcauchy_complete` is the limit of the bisection that proves the
+interval [0,1] connected for maps into the two-point space. The
+interval adds no axiom: `Print Assumptions` reports each of the 40
+constants `Print Module` lists for ConstructiveRcomplete, each of the
+139 of the abstract interface Reals/Abstract/ConstructiveReals it
+requires, and that interface's record constructor
+`Build_ConstructiveReals`, "Closed under the global context", in a run
+where the classical `Rdefinitions.Rlt`, queried as the instrument,
+prints `sig_forall_dec`; and the interval `PInterval`,
+`interval_bool_endpoints` and `interval_bool_constant` are in the block.
+A file requiring all three loads 130 `Category` modules, the three
+included, and eight standard-library reals modules, seven under
+Reals/Cauchy and the eighth Reals/Abstract/ConstructiveReals, none of
+the classical `R` (`Print Libraries`); so the ten development files of the
+stdlib-axioms section below that import the classical `R` stay ten,
+and four import the constructive reals only (that section's
+CORRECTION (#462)). Among the 256:
+
+- `components_functor`, `components_left_adjoint_discrete` and
+  `components_no_left_adjoint` (the issue's three names), with
+  `discrete_left_adjoint_no_left_adjoint`,
+  `discrete_no_left_adjoint_on_PTop`, `PDisc_no_left_adjoint` and the
+  generic `right_adjoint_PreservesEqualizers` and
+  `not_PreservesEqualizers_no_left_adjoint` — unconditional over
+  `Instance/Top/Prop.v`'s `PTopCat`; the refutations assume no
+  principle and quantify over every candidate adjoint
+- `components_on_all_Sets_unsquashes`,
+  `components_on_all_Sets_Untruncate`, `unsquash_choice` and
+  `unsquash_Untruncate` — closed theorems whose CONCLUSIONS are choice
+  principles (`inhabited (∀ Q, inhabited Q → Q)`,
+  `inhabited Untruncate@{o}`, functional choice) drawn from a
+  hypothesis in their statements (an adjunction, or the principle
+  itself); none assumes one, and together they are the measurement
+  that Mac Lane's Set cannot be read as the whole of `Sets` without one
+- `components_left_adjoint_discrete_Sets`, with `comp_respect_U` and
+  `Untruncate_unsquash` — conditionals over `Untruncate@{o}`
+  (Instance/Sets/Classifier/OneLevel.v's), a hypothesis in their
+  statements and never assumed, like `Sets_Classifier`
+- `PPi0`, `PPi0_fmap`, the readback isomorphisms `PPi0_coeq_iso` and
+  `PPi0_points_iso`, `interval_bool_constant`, `PPi0_PInterval_iso`,
+  `Pi0_PBool_two` and `PPi0_PBool_iso` — Riehl's box, unconditional
+- the walls over the Type-valued `Top` (a functor into `Sets@{o so}`,
+  the Type-valued component relations), the elimination that forces
+  the propositional setoids, and the readbacks refused at `eq_refl`,
+  are refusals pinned in `Test/ProbeComponents462.v`, not constants,
+  and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
@@ -1185,12 +1258,20 @@ the global context".  Known live uses:
   Cauchy reals (Reals/Cauchy), never its classical `R`, and inherit
   nothing: every one of their constants is closed and gated, and every
   constant of the three constructive modules they import is closed
-  (the #410 paragraph of [How to audit](#how-to-audit) above).  The ten
+  (the #410 paragraph of [How to audit](#how-to-audit) above).
+  CORRECTION (#462): that `rg` now returns fourteen, and the
+  unrestricted form eighteen, `Test/ProbeComponents462.v` being the
+  fourth probe.
+  #462's `Instance/Top/Components/Paths.v` is the fourth file over the
+  constructive Cauchy reals only, adding ConstructiveRcomplete, whose
+  constants are closed as well (the #462 paragraph of
+  [How to audit](#how-to-audit) above).  The ten
   above are exactly the development files importing the classical `R`
   (verify:
   `rg -l 'Coq.Reals.Rdefinitions' --glob '*.v' --glob '!Test/**' .`
   returns those ten, and the same command with `Coq.Reals.Cauchy` the
-  three), and "the reals" in the rest of this section means the
+  three; CORRECTION (#462): four), and "the reals" in the rest of
+  this section means the
   classical `R`.  What the ten inherit is the axiom set of the
   standard library's own construction of `R`.  The cost splits in two,
   and both
@@ -1365,7 +1446,8 @@ the global context".  Known live uses:
   siblings.  The ten files that import the reals are not (nine until
   #370, CORRECTION (#370) as above; CORRECTION (#410): the ten that
   import the classical `R`, the three #410 files that import only the
-  constructive Cauchy reals being in the gate): that target
+  constructive Cauchy reals being in the gate; CORRECTION (#462): and
+  #462's `Instance/Top/Components/Paths.v`, the fourth): that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
@@ -1441,7 +1523,8 @@ reported axiom other than the three documented ZX `Phase` parameters
 (see the `unexpected=` filter in the `Makefile`), so a reals-based
 development cannot be audited by it (CORRECTION (#410): a development
 over the classical `R`; #410's three files over the constructive
-Cauchy reals carry no axiom and are audited by it).  None of the six
+Cauchy reals carry no axiom and are audited by it; CORRECTION (#462):
+so does #462's `Instance/Top/Components/Paths.v`, the fourth).  None of the six
 pre-existing reals files is in the gate either, for the same reason.  The
 measurement above is what stands in its place.
 
