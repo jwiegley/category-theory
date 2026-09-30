@@ -441,6 +441,7 @@ Instance/Ord/Poset.v
 Instance/Parallel.v
 Instance/Parallel/Wide.v
 Instance/Pos.v
+Instance/Pos/Monadicity.v
 Instance/Poset.v
 Instance/Proset/Galois.v
 Instance/Proset/Galois/FixedPoints.v
@@ -498,6 +499,7 @@ Instance/Sets/NoAdjoint.v
 Instance/Sets/Products.v
 Instance/Sets/Complete.v
 Instance/Sets/Propositional.v
+Instance/Sets/Propositional/Full.v
 Instance/Sets/Cone.v
 Instance/Sets/InverseLimit.v
 Instance/Sets/Cocomplete.v
@@ -583,6 +585,8 @@ Instance/Top/Solenoid/Presentations.v
 Instance/Top/Components.v
 Instance/Top/Components/Paths.v
 Instance/Top/Interior.v
+Instance/Top/Monadicity.v
+Instance/Top/Monadicity/TypeValued.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -625,6 +629,7 @@ Monad/Eilenberg/Moore/Adjunction.v
 Monad/Eilenberg/Moore/Limit.v
 Monad/Eilenberg/Moore/Limit/Examples.v
 Monad/Graded.v
+Monad/Identity.v
 Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
@@ -1132,3 +1137,4 @@ Test/ProbeTensorMonad465.v
 Test/ProbeSupLat466.v
 Test/ProbeEMCreates467.v
 Test/ProbeMonadMorphism468.v
+Test/ProbeMonadicity469.v

@@ -132,7 +132,19 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12716** on 2026-09-30, after #468 (Mac Lane §VI.2 Exercise 3:
+**12888** on 2026-09-30, after #469 (Mac Lane §VI.3's example of
+an adjunction whose comparison functor is not an equivalence: the
+discrete-space adjunction over `PTopCat` induces the identity monad,
+and its right adjoint is not monadic for any adjunction; with Awodey
+§10.3's poset example over the propositional setoids and over `Sets`,
+where the identity monad becomes the truncation monad) added ONE block
+of 172 names over five new modules, `Monad/Identity.v`,
+`Instance/Top/Monadicity.v`, `Instance/Top/Monadicity/TypeValued.v`,
+`Instance/Sets/Propositional/Full.v` and `Instance/Pos/Monadicity.v`,
+every one "Closed under the global context" (the list below);
+12716 + 172 = 12888.
+An earlier revision of this paragraph gave
+**12716**, the figure on 2026-09-30 after #468 (Mac Lane §VI.2 Exercise 3:
 morphisms of monads on one category, the category of monads, proved
 equivalent to Mac Lane's own Mon_{X^X}, and the functor θ* between
 Eilenberg–Moore categories that a morphism induces, with G^T ∘ θ* =
@@ -1505,6 +1517,71 @@ the 97:
   of the standard library's CMorphisms lemmas beneath Instance/Sets.v's
   properness proofs) — are pinned in `Test/ProbeMonadMorphism468.v`,
   not constants, and so are not in the gate
+
+The discrete-space and discrete-poset development (Mac Lane §VI.3's
+example of a comparison functor that is "not an isomorphism, and not
+even an equivalence", book p. 144, with Awodey §10.3's example of a
+right adjoint that is not monadic, printed p. 278; #469) adds ONE block
+of 172 names over its five new modules, `Monad/Identity.v`,
+`Instance/Top/Monadicity.v`, `Instance/Top/Monadicity/TypeValued.v`,
+`Instance/Sets/Propositional/Full.v` and `Instance/Pos/Monadicity.v`:
+every constant `Print Module` lists for each, the twelve `Program`
+obligations of `PropSets_trunc_iso`, `posdiscP_iso` and `posdisc_iso`
+among them, each reported "Closed under the global context" by its
+fully qualified name. None declares an `Axiom` or
+a `Parameter` (a grep of the sources). None requires a standard-library
+reals module, directly or through another `Category` module (`Print
+Libraries` after a `Require` of the five lists 130 `Category` modules,
+the five among them, and no module under `Reals`, where a `Require` of
+Instance/Top/Circle.v as the instrument lists six `Reals` lines), so the
+stdlib-axioms section below is unchanged. Among the 172:
+
+- `IdMonad` and `IdMonad_EM_equivalence` — the identity monad at every
+  category and the equivalence of its Eilenberg–Moore category with the
+  base, with no hypothesis
+- `PDiscMonad`, `disc_id_iso`, `PDiscK`, `PDiscK_forget`,
+  `EM_PDisc_equivalence`, `PDiscK_not_Equivalence`,
+  `PDiscKI_not_Equivalence`, `PDiscK_not_Cat_iso` and
+  `PForget_not_Monadic` — closed constants over `PTopCat` with no
+  argument beyond their universes: the induced identity monad and the
+  non-equivalence of the comparison, what the issue asks `Print
+  Assumptions` of; and `Top_Forget_not_Monadic` over the Type-valued
+  `Top`
+- `PropSets`, `PropSets_Reflective`, `PropSets_lift`, `MPosP_Id_iso`,
+  `MPos_trunc_iso`, `Pos_Forget_not_Monadic`, `PosPForget_not_Monadic`
+  and `PropSets_Incl_Monadic` — unconditional
+- `MPos_Id_iff`, the characterization, unconditional (an isomorphism
+  with the identity monad ↔ the principle below); `MPos_to_Id` and
+  `MPos_Id_iso` — conditional on
+  `SetsTruncElim`, every setoid of `Sets` eliminating its own
+  truncation, equivalently ∀ A, inhabited A → A (`trunc_choice`,
+  `choice_trunc`), which any morphism of monads into the identity monad
+  yields (`MPos_to_Id_trunc`, `any_adj_to_Id_trunc`) and which a
+  `PropEquiv` on every object of `Sets` amounts to
+  (`all_PropEquiv_trunc`, `trunc_all_PropEquiv`); and `MPos_IEM_Id_iso`,
+  with `choice_of_IEM`, `untr_of_choice` and `choice_of_untr`, over
+  Instance/Sets/Classifier/OneLevel.v's `IEM@{c}` and `Untruncate@{c}`
+  written out (that file is not required): these principles are
+  HYPOTHESES in the statements and never axioms, so `Print Assumptions`
+  reports the constants closed; none has an axiom-free in-tree
+  inhabitant (docs/INHABITATION.md's `MPos_Id_iso` row), and the
+  derivation of the choice principle from the standard library's axiom
+  `constructive_indefinite_description` was run in a scratch file and is
+  not shipped
+- the refusals — by conversion at `eq_refl` (the induced monads against
+  the identity monads as functors and as objects of the categories of
+  monads, the comparison functor against the forgetful functor as a
+  Leibniz equation of functors and each of its three proof fields, the
+  truncated setoid against the setoid, the recomputed `PropEquiv`
+  witness against the given one, a variable object against its rebuilt
+  pair; one of them by the opacity of the standard library's
+  generalized-rewriting lemmas beneath Instance/Sets.v's properness
+  proofs (argued, not measured), and one, `TPos = PropSets_Incl ◯ PropSets_trunc`, by the
+  opacity of the tree's own `Qed` obligations of `Compose`, `Incl` or
+  `Pos_Forget`), by typing (the unit of the truncation monad against
+  `id`) and by the sort discipline (the naive elimination of `inhabited`
+  into ≈) — are pinned in `Test/ProbeMonadicity469.v`, not constants,
+  and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
