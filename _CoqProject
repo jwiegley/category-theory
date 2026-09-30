@@ -511,6 +511,11 @@ Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
+Instance/Sets/Powerset/Monad.v
+Instance/Sets/Powerset/Monad/Riehl.v
+Instance/SupLat.v
+Instance/SupLat/Free.v
+Instance/SupLat/Examples.v
 Instance/Sets/Generator.v
 Instance/Sets/Cogenerator.v
 Instance/Sets/SubobjectLattice.v
@@ -1118,3 +1123,4 @@ Test/ProbeComponents462.v
 Test/ProbeClosure463.v
 Test/ProbeGroupAction464.v
 Test/ProbeTensorMonad465.v
+Test/ProbeSupLat466.v
