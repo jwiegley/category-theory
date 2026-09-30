@@ -132,7 +132,17 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12204** on 2026-09-29, after #463 (Mac Lane §VI.1's display
+**12308** on 2026-09-29, after #464 (Mac Lane §VI.2's example
+"Group actions": the monad G × (−) on `Sets` is the monad of the
+free/forgetful adjunction of the G-sets and its algebras are the G-sets,
+with Riehl's Exercise 5.5.iv, the forgetful functor monadic by Beck's
+precise theorem, at the G-sets and at her literal functor category)
+added ONE block of 104 names over two new modules,
+`Instance/Fun/Action/Monad.v` and `Instance/Fun/Action/Monad/BG.v`,
+every one "Closed under the global context" (the list below);
+12204 + 104 = 12308. An earlier revision of this
+paragraph gave **12204**, the figure on 2026-09-29 after #463
+(Mac Lane §VI.1's display
 (3) and §VI.2's example "Closure": a monad on a preorder is a closure
 operator and its algebras are the closed elements, with Awodey's
 adjunction on the closed elements, the interior-operator duals, Seven
@@ -1180,6 +1190,52 @@ measure 151. Among the 201:
   lists), on universes (the bare thin route) and on typing (the
   endofunctor transfer) — are pinned in `Test/ProbeClosure463.v`, not
   constants, and so are not in the gate
+
+The group-action development (Mac Lane §VI.2's example "Group
+actions", book p. 141, with Riehl's Exercise 5.5.iv and, for the tie,
+Mac Lane's §VI.2 Exercise 3(b); #464) adds ONE block of 104
+names over its two modules, `Instance/Fun/Action/Monad.v` and
+`Instance/Fun/Action/Monad/BG.v`: every constant `Print Module` lists
+for each, each reported "Closed under the global context" by its fully
+qualified name. None declares an `Axiom` or a `Parameter`, and none
+declares a `Program` definition, a record or an inductive, so there are
+no obligations, constructors or schemes to enumerate (a grep of the
+sources). None requires a standard-library reals module, directly or
+through another `Category` module (a traversal of the `Require` lines
+from the two files, 112 `Category` files in all, the two among
+them; `Print Libraries` after a `Require` of the two alone lists the
+same 112 `Category` modules and no module under `Reals`), so
+the stdlib-axioms section below is unchanged. Among the 104:
+
+- `ActMonad` and `EM_MSet_iso` (the monad and the G-Set ≅ EM
+  comparison the issue asks `Print Assumptions` of, the comparison's
+  `to` leg being `EM_Comparison` at `eq_refl`), with
+  `MSet_Forget_Monadic_direct`, `MSet_Forget_creates`,
+  `MSet_beck_equivalence`, `MSet_Forget_Monadic`, `beck_vs_direct`,
+  `Fun_EM_iso`, `U_BG_creates`, `BG_beck_equivalence`, `U_BG_Monadic`,
+  `BG_EM_iso`, `BG_Act_EM` and `tie` — unconditional over a
+  `MonObject`, a hypothesis of structure, not a logical principle;
+  `MSet_beck_equivalence` and `BG_beck_equivalence` are the first two
+  applications of `beck_monadicity`, gated above since before #464
+- `GAct_Monad`, `GSet_Forget_Monadic`, `GSet_BG_Monadic` and their
+  `_Grp` twins — unconditional over a group; the `_GroupObject` twins
+  take `PropEquiv` of the carrier, a property of the setoid in their
+  statements and never assumed
+- the two `Qed` lemmas `split_absorb` and `created_absorb` are in the
+  block like every other constant
+- the refusals — by conversion at `eq_refl` (the round trips through
+  the algebras on whole objects and on law fields, the composites as
+  identity functors, the structure map as a function, Beck's
+  quasi-inverse as the direct one, the two `Monadic` witnesses as one
+  term, the hand-built functor, the unit (u, x) of the literal
+  adjunction's monad, its functor as `ActF`, the two multiplications as
+  one setoid morphism, evaluation as a composite, the tie on a whole
+  object and on the properness proof of its structure map, and an
+  instrument; one of them the opacity of Corelib's
+  `subrelation_id_proper`) and on universes (the
+  functor category at hom level so) — are pinned in
+  `Test/ProbeGroupAction464.v`, not constants, and so are not in the
+  gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

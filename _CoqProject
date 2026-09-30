@@ -347,6 +347,8 @@ Instance/Fun/Morphisms.v
 Instance/Fun/Discrete.v
 Instance/Fun/Group.v
 Instance/Fun/Action.v
+Instance/Fun/Action/Monad.v
+Instance/Fun/Action/Monad/BG.v
 Instance/Fun/Pullback.v
 Instance/Fun/Classifier.v
 Instance/Fun/Topos.v
@@ -1111,3 +1113,4 @@ Test/ProbeReflective370.v
 Test/ProbeSolenoid410.v
 Test/ProbeComponents462.v
 Test/ProbeClosure463.v
+Test/ProbeGroupAction464.v
