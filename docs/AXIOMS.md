@@ -132,7 +132,19 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12308** on 2026-09-29, after #464 (Mac Lane §VI.2's example
+**12402** on 2026-09-30, after #465 (Mac Lane §VI.2's example
+"Modules": the monad R ⊗ (−) on `Ab` is the monad of the
+free/forgetful adjunction of the left R-modules and its algebras are
+the modules, with Riehl's (2nd ed.) Examples 5.2.6(ii) and 5.5.7(i), the
+forgetful functor monadic directly and by Beck's precise theorem, and
+her Corollary 5.6.10, the forgetful functor creating every colimit
+that exists in `Ab`, proved directly, with the premises of her own
+route) added ONE block of 94 names over three new modules,
+`Instance/Mod/TensorMonad.v`, `Instance/Mod/TensorMonad/Cocontinuous.v`
+and `Instance/Mod/Colimit/Creation.v`, every one "Closed under the
+global context" (the list below); 12308 + 94 = 12402. An earlier
+revision of this paragraph gave **12308**,
+the figure on 2026-09-29 after #464 (Mac Lane §VI.2's example
 "Group actions": the monad G × (−) on `Sets` is the monad of the
 free/forgetful adjunction of the G-sets and its algebras are the G-sets,
 with Riehl's Exercise 5.5.iv, the forgetful functor monadic by Beck's
@@ -1235,6 +1247,66 @@ the stdlib-axioms section below is unchanged. Among the 104:
   `subrelation_id_proper`) and on universes (the
   functor category at hom level so) — are pinned in
   `Test/ProbeGroupAction464.v`, not constants, and so are not in the
+  gate
+
+The R ⊗ (−) development (Mac Lane §VI.2's example "Modules", book
+p. 142, with Riehl's (2nd ed.) Examples 5.2.6(ii) and 5.5.7(i) and her
+Corollary 5.6.10; #465) adds ONE block of 94 names over its
+three modules, `Instance/Mod/TensorMonad.v`,
+`Instance/Mod/TensorMonad/Cocontinuous.v` and
+`Instance/Mod/Colimit/Creation.v`: every constant `Print Module` lists
+for each, each reported "Closed under the global context" by its fully
+qualified name. None declares an `Axiom` or a `Parameter`, and none
+declares a `Program` definition, a record or an inductive, so there are
+no obligations, constructors or schemes to enumerate (a grep of the
+sources). None requires a standard-library reals module, directly or
+through another `Category` module (`Print Libraries` after a `Require`
+of the three alone lists 95 `Category` modules, the three among them,
+and no module under `Reals`), so the stdlib-axioms section below is
+unchanged. Among the 94:
+
+- `TensorMonad` and `EM_RMod_iso` (the monad and the R-Mod ≅ EM
+  comparison the issue asks `Print Assumptions` of, the comparison's
+  `to` leg being `EM_Comparison` at `eq_refl`), with
+  `RMod_comparison_equivalence`, `RMod_Forget_Ab_Monadic`,
+  `RMod_Forget_Ab_creates_split`, `RMod_beck_equivalence`,
+  `RMod_Forget_Ab_Monadic_beck`, `RMod_Forget_Ab_reflects` and
+  `rmod_beck_vs_direct` — unconditional over a `RingObject`, a
+  hypothesis of structure, not a logical principle;
+  `RMod_beck_equivalence` is the third application of
+  `beck_monadicity`, gated above since before #464
+- `RMod_Forget_Ab_StrictlyCreatesColimit`,
+  `RMod_Forget_Ab_CreatesColimit` and `RMod_Forget_Ab_creates_colimits`
+  (Riehl's Corollary 5.6.10, and the tree's first inhabitants of the
+  three colimit-creation classes of `Structure/Limit/Creation.v`),
+  with `mcol_reflect` and the terminal-shape witness
+  `rmod_terminal_colimit` — unconditional over a `RingObject` and a
+  shape; like `CreatesLimit` above, the classes are types, and these
+  are the inhabitants to read beside them
+- `TensorF_left_adjoint`, `TensorF2_left_adjoint`,
+  `TensorF_cocontinuous`, `TensorF2_cocontinuous` and their apex-level
+  forms `TensorF_preserves_colimits` and `TensorF2_preserves_colimits`
+  — over a `RingObject@{c c c}`, a universe restriction inherited from
+  `Instance/Mod/Coextension.v` (docs/INDEX.md), not a logical
+  principle; the theorem they would feed, Riehl's Theorem 5.6.5(ii)
+  (#1008's clause (ii)), is not in the tree, so no gated constant
+  states her route to the corollary
+- the `Qed` lemmas, among them `rmod_split_absorb`,
+  `rmod_created_absorb`, `mcol_ext` and `mcol_smul_unique`, are in the
+  block like every other constant
+- the refusals — by conversion at `eq_refl` (the round trips through
+  the algebras on whole objects and on law fields, the composites as
+  identity functors, the tensor mediator at a variable formal sum and
+  the two `Bilinear` records beneath it with their law fields, one of
+  those fields by the opacity of a `Qed` proof, Beck's action and
+  quasi-inverse, the two `Monadic` witnesses as one term, the created
+  action on an inserted element, the reflected module as the given one,
+  two colimit witnesses' modules as one, the terminal-shape witness's
+  action, the tensor–hom transposes without the ring's unit, U^T ◯ K as
+  `RMod_Forget_Ab` on the functor records and on each law field, and
+  two instruments) and on universes (the tensor–hom adjunction at a
+  ring whose three universes are kept apart) — are pinned in
+  `Test/ProbeTensorMonad465.v`, not constants, and so are not in the
   gate
 
 Expected output: "Closed under the global context" for each, except

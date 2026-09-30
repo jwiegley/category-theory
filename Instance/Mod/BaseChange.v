@@ -175,7 +175,21 @@
    message.  So the identification is Instance/Mod.v's, is met the moment
    any module is read as an OBJECT of [RMod R], and is inherited here
    rather than introduced.  It is not claimed unavoidable; no
-   re-annotation was attempted.
+   re-annotation was attempted.  CORRECTION (#465): the two constants no
+   longer carry that equation.  [About] on [ZExt] and [zext_adjunction]
+   prints, over [RingObject@{u u0 u1}], the bounds u0 <= u and u1 <= u and
+   no equation; with u1 < u declared in a Section (the proof universe
+   strictly below the auxiliary one), [ZExtObj Ru Au : obj[RMod Ru]],
+   [ZExt Ru] and [zext_adjunction Ru] all elaborate, while
+   [Ring_RMod Ru : obj[RMod Ru]] is still refused, now with "Cannot enforce
+   u1 = u0 because u1 < u0".  The FIRST and THIRD universes above are the
+   carrier and the auxiliary one, in the order before the auxiliary
+   universe became [RingObject]'s first argument; that pair, the carrier
+   strictly below the auxiliary universe, is the one this file's Section
+   [ZExtProbeUniverses] separates (ra < rc at [RingObject@{rc ra rb}]),
+   and its paragraph CONTROLS 5, 7 AND 8, WHICH USED TO BE NEGATIVES,
+   records where the equation went: the PR "algebraic carriers are sets"
+   (2026-09-17) moved Instance/Ab/Tensor.v's [ts_eq] to [Prop].
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
    Instance/Ab/Free.v said the tree "has only the forgetful
@@ -252,7 +266,12 @@
        (they are Theory/Adjunction.v's derived corollaries and are not
        specialised), and no uniqueness statement for the left adjoint.
      - No monad on [Ab] from the adjunction, no Eilenberg–Moore or
-       Kleisli reading.
+       Kleisli reading.  CORRECTION (#465): Instance/Mod/TensorMonad.v
+       builds that monad, [TensorMonad R], as Monad/Comparison.v's
+       [Adjunction_Induced_Monad] at [zext_adjunction R], and identifies
+       its Eilenberg–Moore category with [RMod R] by the canonical
+       comparison functor ([RMod_comparison_equivalence]); the Kleisli
+       reading is still not delivered.
      - No normal form for the tensor, hence no basis, no rank and no
        decision procedure; every negative goes through a map OUT.
      - No right adjoint to [RMod_Forget_Ab] (coextension of scalars);

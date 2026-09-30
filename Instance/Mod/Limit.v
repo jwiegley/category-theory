@@ -372,7 +372,10 @@ Generalizable All Variables.
    [ProdMod], which would go through a discrete diagram and so through
    Instance/Discrete.v's unannotated [DiscreteCat_Functor].  No
    monadicity statement and no comparison functor, so nothing here says
-   [RMod R] IS an Eilenberg-Moore category over [Ab].  No whole-record
+   [RMod R] IS an Eilenberg-Moore category over [Ab] (CORRECTION (#465):
+   so in this file, but no longer in the tree: Instance/Mod/TensorMonad.v's
+   [EM_RMod_iso] identifies [RMod R] with the Eilenberg-Moore category of
+   R ⊗ (−) on [Ab] by the canonical comparison functor).  No whole-record
    uniqueness statement "[M = LimitMod] for any module [M] on that
    group": [mlim_smul_unique] settles the action, which is all Mac Lane's
    Theorem 2 needs here since the group is not lifted, but the record

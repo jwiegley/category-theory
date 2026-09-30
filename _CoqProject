@@ -414,6 +414,8 @@ Instance/Mod/Closed.v
 Instance/Mod/Extension.v
 Instance/Mod/RingEpi.v
 Instance/Mod/BaseChange.v
+Instance/Mod/TensorMonad.v
+Instance/Mod/TensorMonad/Cocontinuous.v
 Instance/Mod/Coextension.v
 Instance/Mod/Bimodule.v
 Instance/Mod/Quotient.v
@@ -423,6 +425,7 @@ Instance/Mod/Spanning.v
 Instance/Mod/TensorAFT.v
 Instance/Mod/WellPowered.v
 Instance/Mod/Colimit.v
+Instance/Mod/Colimit/Creation.v
 Instance/Mod/HomTensor.v
 Instance/Mod/Cogenerator.v
 Instance/Mod/Watts.v
@@ -1114,3 +1117,4 @@ Test/ProbeSolenoid410.v
 Test/ProbeComponents462.v
 Test/ProbeClosure463.v
 Test/ProbeGroupAction464.v
+Test/ProbeTensorMonad465.v
