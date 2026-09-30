@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12003** on 2026-09-29, after #462 (Mac Lane §V.9 Exercise 1,
+**12204** on 2026-09-29, after #463 (Mac Lane §VI.1's display
+(3) and §VI.2's example "Closure": a monad on a preorder is a closure
+operator and its algebras are the closed elements, with Awodey's
+adjunction on the closed elements, the interior-operator duals, Seven
+Sketches' modal operator on propositions, and Riehl's interior and
+closure on the subsets of a space over `PTopCat`) added ONE block of
+201 names over seven new modules, `Structure/Thin/Monad.v`,
+`Construction/Reflective/Idempotent/Induced.v`,
+`Instance/Proset/Monad.v`, `Instance/Proset/Monad/Awodey.v`,
+`Instance/Proset/Monad/Interior.v`, `Instance/Props/Modal.v` and
+`Instance/Top/Interior.v`, the record `ClosureOperator` with its
+constructor and projections included, every one "Closed under the
+global context" (the list below); 12003 + 201 =
+12204. An earlier revision of this paragraph gave **12003**,
+the figure on 2026-09-29 after #462 (Mac Lane §V.9 Exercise 1,
 the connected components of locally connected spaces left adjoint to
 the discrete space and without a left adjoint of their own, with
 Riehl's Example 3.3.2, the path components as the colimit functor
@@ -1109,6 +1123,63 @@ CORRECTION (#462)). Among the 256:
   the propositional setoids, and the readbacks refused at `eq_refl`,
   are refusals pinned in `Test/ProbeComponents462.v`, not constants,
   and so are not in the gate
+
+The monads-on-a-preorder development (Mac Lane §VI.1 display (3) and
+§VI.2's example "Closure", book pp. 139 and 141, with Awodey §10.2,
+Seven Sketches §1.4.4 and Riehl's Examples 5.1.7 and 5.2.6 (iv);
+#463) adds ONE block of 201 names over its seven modules,
+`Structure/Thin/Monad.v`, `Construction/Reflective/Idempotent/Induced.v`,
+`Instance/Proset/Monad.v`, `Instance/Proset/Monad/Awodey.v`,
+`Instance/Proset/Monad/Interior.v`, `Instance/Props/Modal.v` and
+`Instance/Top/Interior.v`: every constant `Print Module` lists for
+each, the record `ClosureOperator` with its constructor
+`Build_ClosureOperator` and its projections included, each reported
+"Closed under the global context" by its fully qualified name. None
+declares an `Axiom` or a `Parameter`, and none declares a `Program`
+definition, so there are no obligations to enumerate (a grep of the
+sources). None requires a standard-library reals module, directly or
+through another `Category` module (a traversal of the `Require` lines
+from the seven files, 151 `Category` files in all, the seven among
+them; `Print Libraries` after a `Require` of the seven alone lists the
+same 151 `Category` modules), so the stdlib-axioms section below is
+unchanged. An earlier revision of this sentence gave 150; both methods
+measure 151. Among the 201:
+
+- `ClosureOperator`, the correspondence `monad_closure_iff` and the
+  algebra lemma `talgebra_iff_closed` (the three names the issue asks
+  `Print Assumptions` of), with `thin_IdempotentMonad`,
+  `idem_Monad_agrees`, `closed_adj`, `comonad_interior_iff`,
+  `wcoalgebra_iff_open`, `modal_monad`, `curry_modal_iso` and
+  `pint_coalgebra_iff_open` — unconditional; the thin-category layer
+  takes `Thin C` and the order-level constants a stdlib `PreOrder`,
+  both hypotheses of structure, not logical principles
+- `closure_idem_eq`, `closed_eq`, `closed_tik_eq`, `int_idem_eq` and
+  `open_eq` — conditionals over `Antisymmetric A eq eq_equiv R`, a
+  property of the order in their statements (inhabited at (ℕ, ≤) by
+  `Test/Poset.v`'s `poset_nat_antisym`; docs/INHABITATION.md)
+- `pcl_closed_of_talgebra`, `closed_of_coopen_lem` and
+  `pclosure_ncl_lem` — conditionals over `lem : ∀ P, P ∨ ¬P`, excluded
+  middle as a HYPOTHESIS in their statements and never assumed, which
+  is why `Print Assumptions` reports them closed; `pcl_true_false_dne`
+  and `pcl_converse_nndne` are closed theorems whose conclusions are
+  classical principles ((∀ q, ¬¬q → q) and ¬¬(∀ q, ¬¬q → q)
+  respectively; an earlier revision gave the second for both) drawn
+  from a hypothesis in their statements, the measurement that some
+  classical principle is needed on Riehl's footnote-5 reading of the
+  closure; the unconditional reading, `ncl_talgebra_iff_coopen`,
+  assumes none
+- `modal_idem_ext` and `curry_modal_fobj_ext` — conditionals over
+  propositional extensionality, a hypothesis in their statements and
+  never assumed; `modal_idem` and `curry_modal_iso` are their
+  unconditional forms
+- the refusals — at `eq_refl` (the monad → closure → monad functor
+  equation, the induced unit and multiplication of the idempotent
+  reflection, the isomorphism-field record, `(Proset P)^op = Proset
+  (flip_PreOrder P)`, the curry and modal object maps,
+  `Props = Proset impl_PreOrder` and the rest the docs/INDEX.md bullet
+  lists), on universes (the bare thin route) and on typing (the
+  endofunctor transfer) — are pinned in `Test/ProbeClosure463.v`, not
+  constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

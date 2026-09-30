@@ -62,6 +62,24 @@ Generalizable All Variables.
    specialize to classical order theory, and intuitions trained on
    orders lift to categories with proof relevance switched on.
 
+   CORRECTION (#463).  The dictionary entry "a monad is a closure
+   operator, the unit giving extensivity and the multiplication
+   idempotency (Theory/Monad.v)" was asserted, and the file it cited
+   only asserted it too.  It is now proved over [Proset], and so over
+   [Poset], which is [Proset] with antisymmetry discarded:
+   Instance/Proset/Monad.v's [closure_of_monad] and [closure_monad] are
+   the two directions ([monad_closure_iff]), and [talgebra_iff_closed]
+   identifies the algebras with the closed elements.  Measured against
+   the entry, the multiplication gives only T(Tx) ≤ Tx (Mac Lane's
+   display (3), p. 139).  Idempotency up to ≅ also uses the unit at Tx
+   ([cl_idem]; in any thin category, Structure/Thin/Monad.v's
+   [thin_join_IsIso]).  The equation T(Tx) = Tx needs antisymmetry,
+   supplied as an explicit [Antisymmetric] hypothesis
+   ([closure_idem_eq]), since the category [Poset P] does not carry it.
+   The dual entry, a comonad is an interior operator whose coalgebras
+   are the open elements, is Instance/Proset/Monad/Interior.v's
+   [interior_of_comonad] and [wcoalgebra_iff_open].
+
    The dictionary predates category theory.  The name Galois connection
    honours the inclusion-reversing correspondence between intermediate
    fields and subgroups in the fundamental theorem of Galois theory; the

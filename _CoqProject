@@ -104,6 +104,7 @@ Construction/Localization/Universal.v
 Construction/Karoubi/Universal.v
 Construction/Reflective.v
 Construction/Reflective/Idempotent.v
+Construction/Reflective/Idempotent/Induced.v
 Construction/Reflective/FixedPoints.v
 Construction/Reflective/Limit.v
 Construction/Reflective/Colimit.v
@@ -438,6 +439,7 @@ Instance/Poset.v
 Instance/Proset/Galois.v
 Instance/Proset/Galois/FixedPoints.v
 Instance/Props.v
+Instance/Props/Modal.v
 Instance/Proset.v
 Instance/Proset/Monotone.v
 Instance/Proset/Closure.v
@@ -445,6 +447,9 @@ Instance/Proset/Skeletal.v
 Instance/Proset/Limit.v
 Instance/Proset/Transform.v
 Instance/Proset/Order.v
+Instance/Proset/Monad.v
+Instance/Proset/Monad/Awodey.v
+Instance/Proset/Monad/Interior.v
 Instance/Theory/Lindenbaum.v
 Instance/Rel.v
 Instance/Rel/Dagger.v
@@ -565,6 +570,7 @@ Instance/Top/Solenoid.v
 Instance/Top/Solenoid/Presentations.v
 Instance/Top/Components.v
 Instance/Top/Components/Paths.v
+Instance/Top/Interior.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -668,6 +674,7 @@ Structure/Cone/Natural/Transformation.v
 Structure/Constant.v
 Structure/Discrete.v
 Structure/Thin.v
+Structure/Thin/Monad.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
@@ -1103,3 +1110,4 @@ Test/ProbeHausdorff461.v
 Test/ProbeReflective370.v
 Test/ProbeSolenoid410.v
 Test/ProbeComponents462.v
+Test/ProbeClosure463.v
