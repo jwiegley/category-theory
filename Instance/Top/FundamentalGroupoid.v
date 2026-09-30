@@ -139,7 +139,8 @@ Set Default Proof Using "All".
    import the classical reals, and Instance/Top/Circle.v,
    Instance/Top/Solenoid.v and Instance/Top/Solenoid/Presentations.v
    import the standard library's constructive Cauchy reals
-   (Reals/Cauchy), which carry no axiom.
+   (Reals/Cauchy), which carry no axiom.  CORRECTION (#462): so does
+   Instance/Top/Components/Paths.v.
 
    WHERE THE WORK IS.  Concatenation is not associative and the constant paths
    are not units — not on the nose, and not even up to the hom-setoid of Top.
@@ -222,7 +223,11 @@ Set Default Proof Using "All".
    every continuous map from the interval to the two-point discrete space is
    constant — the one genuinely topological fact about [0,1] proved anywhere
    in this development, and the reason π reads the topology rather than the
-   underlying set.
+   underlying set.  CORRECTION (#462): not the only proof of it in the tree.
+   Instance/Top/Components/Paths.v proves the same two-point fact for its own
+   interval [PInterval], over the constructive Cauchy reals in [PTopCat]
+   ([interval_bool_endpoints], [interval_bool_constant]), by bisection and
+   closed under the global context; nothing here is rebuilt on it.
 
    That argument is proved once in the general form
    [interval_to_discrete_constant_dec]: for EVERY discrete space whose

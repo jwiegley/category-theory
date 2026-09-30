@@ -148,6 +148,9 @@ Generalizable All Variables.
    Instance/Top/Complete.v, Instance/Top/Cocomplete.v,
    Instance/Top/Separation.v and Instance/Top/Hausdorff.v, which landed
    after it, and Instance/Top/Circle.v's [PRLine], the real line.
+   CORRECTION (#462): on the tree of #462 it also finds
+   Instance/Top/Components.v, whose three-point space [PZig] is built
+   with them.
    Instance/Top/Subspace.v takes an equalizer and a coequalizer of two
    different maps between them.
 
