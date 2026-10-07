@@ -202,6 +202,11 @@ Generalizable All Variables.
    - No unbounded lattice.  [InternalLattice] is bounded because it is
      built from two [Monoid] objects, and the tree has no semigroup-object
      notion to build the unit-free variant on; none is introduced here.
+     CORRECTION (#470): the tree has one now, Theory/Algebra/
+     Semigroup.v's [Semigroup], internal semigroups in a monoidal
+     category, the sibling of Theory/Algebra/Monoid.v's [Monoid] rather
+     than of Structure/Monoid.v's [MonoidObject]; the unit-free variant
+     is still not built.
    - No distributive lattices, no complements, no Heyting or Boolean
      algebras, and no cartesian-closed structure on a lattice: that is
      #389's Mac Lane Section IV.6 item, and nothing here anticipates it.
