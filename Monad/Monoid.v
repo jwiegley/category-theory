@@ -30,55 +30,120 @@ Generalizable All Variables.
    [Monoid_Monad] proves the correspondence as a genuine logical equivalence
    ([↔]), constructing a monad from any such monoid object and vice versa. *)
 
-Section MonoidMonad.
-
-Context {C : Category}.
-Context {M : C ⟶ C}.
-
 Definition Endofunctors `(C : Category) := ([C, C]).
 
-Theorem Monoid_Monad :
-  @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M.
+(* The two directions are written without setoid rewriting and with every
+   universe named (issue #1348), so that [Monoid_Monad] has the same four
+   universes on Coq 8.19.2, Coq 8.20.1 and Rocq 9.1.1 ([About] on each).
+   Its earlier proof, by [autorewrite] and [rewrite], left a universe list
+   whose length depended on the version: four levels on Rocq 9.1.1 and
+   twenty-six on Coq 8.19.2, measured by [About] in #468 and recorded with
+   control C40 of Test/ProbeMonadMorphism468.v, so that no statement with
+   fixed universe binders could use it on all three versions.  Its binder
+   lists the four in the order [About] printed on Rocq 9.1.1 before the
+   rewrite, and [About] there prints the same constraints as before, up to
+   the names of the universes.  The two directions bind them as the
+   bridges of Monad/Morphism/Monoid.v do, whose rewrite-free proofs
+   (#468) they are; those bridges are now read off this equivalence.
+   Outside the former [Section], [Endofunctors] has the four universes of
+   its body where it had six: the two dropped were the section's, and
+   occurred in no constraint and nowhere in its type ([About], before and
+   after, on Rocq 9.1.1). *)
+Definition monoidobject_monad@{o h f s | h < s, o <= f, h <= f +}
+  {C : Category@{o h h}} {M : C ⟶ C}
+  (m : @MonoidObject (@Fun@{o h o h f f s} C C)
+         (@Compose_Monoidal@{s f o h} C) M) :
+  @Monad C M.
 Proof.
-  split; intros m.
-  - refine {| join := transform[mappend[m]]
-            ; ret  := transform[mempty[m]] |}; intros.
+  unshelve refine (@Build_Monad C M
+     (fun x => transform[@mempty _ _ _ m] x)
+     (fun x => transform[@mappend _ _ _ m] x) _ _ _ _ _).
+  - intros x y g. symmetry. exact (naturality[@mempty _ _ _ m] _ _ g).
+  - intros x.
+    pose proof (@mappend_assoc _ _ _ m x) as E; simpl in E.
+    symmetry.
+    etransitivity; [ | etransitivity; [ exact E | ] ].
     + symmetry.
-      apply (@naturality _ _ _ _ (@mempty _ _ _ m)).
-    + pose proof (@mappend_assoc _ _ _ m x) as X; simpl in X.
-      autorewrite with categories in X.
-      symmetry; assumption.
-    + pose proof (@mempty_right _ _ _ m x) as X; simpl in X.
-      autorewrite with categories in X.
-      assumption.
-    + pose proof (@mempty_left _ _ _ m x) as X; simpl in X.
-      autorewrite with categories in X.
-      assumption.
-    + symmetry.
-      apply (@naturality _ _ _ _ (@mappend _ _ _ m)).
-  - unshelve (refine {| mempty  := _
-                      ; mappend := _ |}).
-    + transform; intros.
-      * exact ret.
-      * simpl.
-        symmetry.
-        apply fmap_ret.
-      * simpl.
-        apply fmap_ret.
-    + transform; intros.
-      * exact join.
-      * simpl.
-        symmetry.
-        apply join_fmap_fmap.
-      * simpl.
-        apply join_fmap_fmap.
-    + simpl; intros; cat.
-      apply join_ret.
-    + simpl; intros; cat.
-      apply join_fmap_ret.
-    + simpl; intros; cat.
-      symmetry.
-      apply join_fmap_join.
+      apply compose_respects; [ reflexivity | ].
+      etransitivity; [ | apply id_right ].
+      apply compose_respects; [ reflexivity | ].
+      etransitivity; [ apply fmap_respects, fmap_respects, fmap_id | ].
+      etransitivity; [ apply fmap_respects, fmap_id | ].
+      apply fmap_id.
+    + etransitivity;
+        [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
+      etransitivity; [ apply id_right | ].
+      apply compose_respects; [ reflexivity | ].
+      etransitivity;
+        [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
+      apply id_left.
+  - intros x.
+    pose proof (@mempty_right _ _ _ m x) as E; simpl in E.
+    etransitivity; [ | etransitivity; [ exact E | apply fmap_id ] ].
+    apply compose_respects; [ reflexivity | ].
+    symmetry.
+    etransitivity;
+      [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
+    apply id_left.
+  - intros x.
+    pose proof (@mempty_left _ _ _ m x) as E; simpl in E.
+    etransitivity; [ | etransitivity; [ exact E | apply fmap_id ] ].
+    apply compose_respects; [ reflexivity | ].
+    symmetry.
+    etransitivity;
+      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
+    apply id_right.
+  - intros x y g. symmetry. exact (naturality[@mappend _ _ _ m] _ _ g).
 Defined.
 
-End MonoidMonad.
+Definition monad_monoidobject@{o h f s | h < s, o <= f, h <= f +}
+  {C : Category@{o h h}} {M : C ⟶ C} (T : @Monad C M) :
+  @MonoidObject (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) M.
+Proof.
+  unshelve refine (@Build_MonoidObject (@Fun@{o h o h f f s} C C)
+     (@Compose_Monoidal@{s f o h} C) M _ _ _ _ _).
+  - exact (Build_Transform'@{o h h o h h} (F := Id) (G := M)
+             (fun x => @ret C M T x)
+             (fun x y g => symmetry (fmap_ret g))).
+  - exact (Build_Transform'@{o h h o h h} (F := M ◯ M) (G := M)
+             (fun x => @join C M T x)
+             (fun x y g => symmetry (join_fmap_fmap g))).
+  - intros x; simpl.
+    etransitivity; [ | symmetry; apply fmap_id ].
+    etransitivity; [ | apply join_ret ].
+    apply compose_respects; [ reflexivity | ].
+    etransitivity;
+      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
+    apply id_right.
+  - intros x; simpl.
+    etransitivity; [ | symmetry; apply fmap_id ].
+    etransitivity; [ | apply join_fmap_ret ].
+    apply compose_respects; [ reflexivity | ].
+    etransitivity;
+      [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
+    apply id_left.
+  - intros x; simpl.
+    etransitivity.
+    { apply compose_respects; [ reflexivity | ].
+      etransitivity; [ | apply id_right ].
+      apply compose_respects; [ reflexivity | ].
+      etransitivity; [ apply fmap_respects, fmap_respects, fmap_id | ].
+      etransitivity; [ apply fmap_respects, fmap_id | ].
+      apply fmap_id. }
+    symmetry.
+    etransitivity;
+      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
+    etransitivity; [ apply id_right | ].
+    etransitivity.
+    { apply compose_respects; [ reflexivity | ].
+      etransitivity;
+        [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
+      apply id_left. }
+    apply join_fmap_join.
+Defined.
+
+Definition Monoid_Monad@{o h s f | h < s, o <= f, h <= f +}
+  {C : Category@{o h h}} {M : C ⟶ C} :
+  @MonoidObject (Endofunctors C) (@Compose_Monoidal@{s f o h} C) M
+    ↔ @Monad C M :=
+  (@monoidobject_monad@{o h f s} C M, @monad_monoidobject@{o h f s} C M).

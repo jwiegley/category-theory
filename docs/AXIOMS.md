@@ -132,7 +132,15 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12888** on 2026-09-30, after #469 (Mac Lane §VI.3's example of
+**12892** on 2026-10-07, after #1348 (`Monad/Morphism/Monoid.v`'s
+object bridges taking the shared route through `Monad/Monoid.v`'s
+`Monoid_Monad`, rewritten so that its four universes can be named on
+every version) added four names to #468's block, `Monad/Monoid.v`'s
+`Endofunctors`, `monoidobject_monad`, `monad_monoidobject` and
+`Monoid_Monad`, every one "Closed under the global context";
+12888 + 4 = 12892.
+An earlier revision of this paragraph gave
+**12888**, the figure on 2026-09-30, after #469 (Mac Lane §VI.3's example of
 an adjunction whose comparison functor is not an equivalence: the
 discrete-space adjunction over `PTopCat` induces the identity monad,
 and its right adjoint is not monadic for any adjunction; with Awodey
@@ -1500,7 +1508,14 @@ reals module, directly or through another `Category` module (`Print
 Libraries` after a `Require` of the six alone lists 135
 `Category` modules, the six among them, and no module under `Reals`,
 where a `Require` of Instance/Top/Circle.v as the instrument lists six
-`Reals` lines), so the stdlib-axioms section below is unchanged. Among
+`Reals` lines), so the stdlib-axioms section below is unchanged.
+(#1348: the block gained four names of `Monad/Monoid.v`, `Endofunctors`,
+`monoidobject_monad`, `monad_monoidobject` and `Monoid_Monad`, each
+"Closed under the global context", since `monad_monoid` and
+`monoid_monad` are now read off `Monoid_Monad`. CORRECTION (#1348): the
+six now list 137 `Category` modules, `Monad/Monoid.v` and
+`Theory/Algebra/Monoid/Product.v` added, and still no module under
+`Reals`.) Among
 the 97:
 
 - `MonadHom`, `Monads`, `mh_EM` and `mh_EM_forget` (the record, the

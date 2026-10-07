@@ -51,7 +51,12 @@
     Theory/Algebra/Monoid/Product.v, are loaded at the end of this file,
     after every other command, the guard block included, for control C40
     alone, which measures a route the targets do not take; with them the
-    count is one hundred and thirty-seven.  A shorter import list is what
+    count is one hundred and thirty-seven.
+    CORRECTION (#1348): the targets take that route now, Monad/Morphism/Monoid.v
+    requiring both modules, so the 34 import lines alone load the one hundred
+    and thirty-seven, and the two lines at the end load no further module; they
+    still bring the two modules' names into scope for C40.
+    A shorter import list is what
     makes a probe pass for no reason.
 
     NAMES.  The probe binds a second and a third monad as T2, M2 and T3,
@@ -357,6 +362,11 @@
     on Rocq 9.1.1 and twenty-six on Coq 8.19.2 ([About] on each), and 8.19
     and 8.20 refuse an instance of four ("Universe instance length is 4 but
     should be 26"), so no fixed instance serves the three versions.
+    CORRECTION (#1348): the route is taken.  [monad_monoid] and
+    [monoid_monad] are now that composite, so C40 holds by unfolding
+    [monad_monoid], and #1348 rewrote [Monoid_Monad] so that it has four
+    universes on Coq 8.19.2, Coq 8.20.1 and Rocq 9.1.1 alike ([About] on
+    each); Monad/Morphism/Monoid.v names them with a fixed binder.
 
     ** Monad/Morphism/Transformer.v
 
@@ -1257,6 +1267,9 @@ Check @Category.Instance.SupLat.Free.Morphism.SL_factor.
 
 (* ------------------------------------------------------------------------ *)
 (** ** The route through Monad/Monoid.v, measured and not taken *)
+
+(* CORRECTION (#1348): taken since #1348; C40 now restates [monad_monoid]'s
+   own body. *)
 
 (* Loaded here, after every other command, so that the two modules below
    change the environment of this control alone. *)

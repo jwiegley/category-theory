@@ -13569,6 +13569,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Monad.Morphism.Algebra.Monads_EM.'; \
 	  echo 'Print Assumptions Category.Monad.Morphism.Algebra.Monads_EM_obj.'; \
 	  echo 'Print Assumptions Category.Monad.Morphism.Algebra.Monads_EM_map.'; \
+	  echo 'Print Assumptions Category.Monad.Monoid.Endofunctors.'; \
+	  echo 'Print Assumptions Category.Monad.Monoid.monoidobject_monad.'; \
+	  echo 'Print Assumptions Category.Monad.Monoid.monad_monoidobject.'; \
+	  echo 'Print Assumptions Category.Monad.Monoid.Monoid_Monad.'; \
 	  echo 'Print Assumptions Category.Monad.Morphism.Monoid.monad_monoid.'; \
 	  echo 'Print Assumptions Category.Monad.Morphism.Monoid.monad_monoid_mu.'; \
 	  echo 'Print Assumptions Category.Monad.Morphism.Monoid.monad_monoid_eta.'; \
