@@ -104,7 +104,9 @@ Generalizable All Variables.
        interderivable, level for level, with Instance/Sets/Classifier/
        OneLevel.v's [Untruncate@{c}] written out ([untr_of_choice],
        [choice_of_untr]; both written-out hypotheses are those constants at
-       [eq_refl], control C53). It is not provable without an axiom, by a
+       [eq_refl], control C53). CORRECTION (#1349): those two are
+       Instance/Sets/Propositional/Full.v's now, moved there unchanged.
+       It is not provable without an axiom, by a
        normal-form argument, sketched here and not proved in-tree.  A closed
        proof, every constant unfolded, opaque ones included, would normalize
        to λ A h. t with t : A in the context A : Type@{c}, h : inhabited A. As
@@ -141,7 +143,9 @@ Generalizable All Variables.
        and ≈ as functors (the functor equation is refused, structurally past
        the standard library: R18): the first factor is monadic (for the
        truncation monad), the second induces the identity monad and is not
-       monadic ([PosPForget_not_Monadic]).
+       monadic ([PosPForget_not_Monadic]).  Since #1349 that file also
+       holds [SquashSetoid], which [trunc_choice] reads, and
+       [untr_of_choice] and [choice_of_untr], moved there.
      - Monad/Identity.v ([IdMonad], [IdMonad_EM_equivalence]), #468's
        Monad/Morphism.v ([MonadHom], [Monads]), Monad/Comparison.v
        ([Adjunction_Induced_Monad], [Monadic]); the non-monadicity uses
@@ -183,6 +187,10 @@ Generalizable All Variables.
        strict slot at so);
        [untr_of_choice], [choice_of_untr], [choice_of_IEM] and
        [MPos_IEM_Id_iso] (the principle under the tree's other names).
+       CORRECTION (#1349): [choice_setoid] is now
+       Instance/Sets/Propositional/Full.v's [SquashSetoid], by
+       definition, and [untr_of_choice] and [choice_of_untr] moved to that
+       file.
      - Not monadic: [bool_le_antisym], [BoolDiscPos], [BoolChainPos],
        [bool_disc_to_chain], [no_bool_chain_to_disc], [Pos_Forget_not_Full],
        [Pos_Forget_not_ReflectsIsos], [Pos_Forget_not_Monadic] and
@@ -277,7 +285,10 @@ Generalizable All Variables.
    all but four stop something: [MPosP_Id_iso], [MPos_trunc_iso],
    [MPos_Id_iso] and [MPos_Id_iff] are [Defined] by the data convention
    only, and no control added to the probe since reads through any of
-   the four.
+   the four.  CORRECTION (#1349): twenty-nine, by token, [choice_setoid]
+   being a definition by [:=] now, of [SquashSetoid], which is [Defined]
+   in Instance/Sets/Propositional/Full.v and load-bearing there for
+   [trunc_choice] (that file's STRENGTHS).
 
    UNIVERSES, read off [About]; stdlib caps (compose, ID, Projections,
    projections, prod_rect, Logic_lemmas.equality, and eq_ind, whose first
@@ -311,7 +322,15 @@ Generalizable All Variables.
    is r.  No block has an equation.  On Coq 8.19.2 and 8.20.1 the named levels
    and their blocks are the same, and the [+] also covers eq.u0, sigT.u0,
    sigT.u1, inhabited.u0 and, in [choice_of_IEM], sum.u0 (measured by [About]
-   there).
+   there).  CORRECTION (#1349): [untr_of_choice] and [choice_of_untr] are
+   Instance/Sets/Propositional/Full.v's now, with the same blocks (by
+   [About] before and after); [choice_setoid], now [SquashSetoid] by definition,
+   [trunc_choice] and [MPos_Id_iff] keep theirs on Rocq 9.1.1, the
+   refutation in [trunc_choice] chosen for that (its comment).  On Coq
+   8.19.2 and 8.20.1 those three gain c <= sum.u1, the level
+   [SquashSetoid]'s [squash_rel] carries there, which their [+] covers
+   (by [About] in overlays of master with this change and of this tree,
+   which agree).
 
    NOT DELIVERED.  The Eilenberg-Moore category of [MPos] is not shown
    equivalent to [PropSets]: it would follow from [MPos_trunc_iso],
@@ -879,19 +898,28 @@ Proof.
     intros x z; simpl; [ reflexivity | exact (inhabits (reflexivity _)) ].
 Defined.
 
-Definition choice_setoid@{c | } (A : Type@{c}) : SetoidObject@{c c}.
-Proof.
-  unshelve refine {| carrier := bool;
-    is_setoid := {| equiv := fun x y => if Bool.eqb x y then True else A |} |}.
-  constructor.
-  - intros []; exact I.
-  - intros [] []; simpl; intro h; exact h.
-  - intros [] [] []; simpl; intros h k; first [ exact I | exact h | exact k ].
-Defined.
+(* [choice_setoid] is Instance/Sets/Propositional/Full.v's [SquashSetoid]
+   since #1349, which unified the two: [bool] with x ≈ y the sum
+   (x = y) + A.  The [+] allows the cap c <= sum.u1 that [SquashSetoid]
+   carries on Coq 8.19.2 and 8.20.1 (the header's UNIVERSES). *)
+Definition choice_setoid@{c | +} (A : Type@{c}) : SetoidObject@{c c} :=
+  SquashSetoid@{c} A.
 
+(* The setoid read here, [choice_setoid A], has [true ≈ false] the sum of
+   A with [true = false], refuted by the standard library's
+   [true <> false] in an empty match.  [discriminate] would add
+   c <= False_rect.u0 to this block and to [MPos_Id_iff]'s (read by
+   [About]); the empty match leaves the block as it was on Rocq 9.1.1
+   (the header's UNIVERSES for Coq 8.19.2 and 8.20.1). *)
 Lemma trunc_choice@{c so | c < so +} (Htrunc : SetsTruncElim@{c so})
   (A : Type@{c}) : inhabited A → A.
-Proof. intros H. exact (Htrunc (choice_setoid@{c} A) true false H). Qed.
+Proof.
+  intros H.
+  destruct (Htrunc (choice_setoid@{c} A) true false
+              (match H with inhabits a => inhabits (inr a) end)) as [e|a].
+  - exact (match Bool.diff_true_false e with end).
+  - exact a.
+Qed.
 
 Lemma choice_trunc@{c so | c < so +}
   (G : ∀ A : Type@{c}, inhabited A → A) : SetsTruncElim@{c so}.
@@ -965,16 +993,13 @@ Qed.
    [choice_of_untr], its [unsquash_Untruncate] is the untruncated form of
    [untr_of_choice], and its [SquashSetoid] is the idea of
    [choice_setoid] below; this file does not require that topology file.
+   CORRECTION (#1349): unified on the maintainer's decision.
+   [untr_of_choice] and [choice_of_untr] moved, names, binders and terms
+   unchanged, to Instance/Sets/Propositional/Full.v, which this file
+   requires, and Components.v derives its two constants from them;
+   [SquashSetoid] moved there too, and [choice_setoid] is now
+   [SquashSetoid] by definition.
 *)
-Definition untr_of_choice@{c | +} (G : ∀ A : Type@{c}, inhabited A → A) :
-  ∀ P : Type@{c}, (∀ Q : Prop, (P → Q) → Q) → P :=
-  fun P h => G P (h (inhabited P) (fun p => inhabits p)).
-
-Definition choice_of_untr@{c | +}
-  (U : ∀ P : Type@{c}, (∀ Q : Prop, (P → Q) → Q) → P) :
-  ∀ A : Type@{c}, inhabited A → A :=
-  fun A h => U A (fun Q k => match h with inhabits a => k a end).
-
 Definition choice_of_IEM@{c | +} (E : ∀ P : Type@{c}, P + (P → False)) :
   ∀ A : Type@{c}, inhabited A → A :=
   fun A h => match E A with

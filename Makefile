@@ -12713,10 +12713,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.Components.PZig_PLocConn.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.squash_id.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.squash_id_cont.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.squash_rel.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.squash_sym.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.squash_trans.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.SquashSetoid.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.squash_rel.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.squash_sym.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.squash_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.SquashSetoid.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.swap_e.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.swap_L.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.swap_map.'; \
@@ -13792,8 +13792,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.all_PropEquiv_trunc.'; \
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.trunc_all_PropEquiv.'; \
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.any_adj_to_Id_trunc.'; \
-	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.untr_of_choice.'; \
-	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.choice_of_untr.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.untr_of_choice.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Propositional.Full.choice_of_untr.'; \
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.choice_of_IEM.'; \
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.MPos_IEM_Id_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Pos.Monadicity.bool_le_antisym.'; \

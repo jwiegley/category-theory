@@ -27,6 +27,9 @@
     Instance/Sets/Propositional/Full.v R7, R12 and R19 to R21;
     Instance/Pos/Monadicity.v R1 (as Instance/Top/Monadicity.v's
     header reads it), R4 to R12, R16 to R21, C44, C49, C52 and C53.
+    CORRECTION (#1349): Instance/Sets/Propositional/Full.v's header now
+    cites C53 too, for the two constants that moved there (the guard
+    paragraph below).
     Each of the forty-five [Example]s of the five targets, all proved by
     [eq_refl], has a control that restates it at the same generality and
     independently of the constant that states it (RESTATEMENTS, below).
@@ -98,6 +101,14 @@
     WHOLE file, stops inside its command with the error it printed before
     #1347 (compared by script, universe serial names aside).  Both
     measurements on Rocq 9.1.1 only; the older versions were not re-run.
+    Re-run after #1349, which moves constants between the targets, in
+    whole-file copies on Rocq 9.1.1: each of the twenty-six stripped
+    copies stops inside its command with the text the tree before #1349
+    gives, from its "Error:", and each of the fifty-six controls,
+    wrapped, stops the build at its own command.  In overlays of master
+    687ac356 with #1349's changes, on Coq 8.19.2 and 8.20.1, the five
+    targets and this file compile, with the warnings of master and none
+    from these files.
 
     KINDS.  Twenty-seven refutations, counted as the lines that open with
     the refutation keyword: TYPING, a statement that is itself ill-typed
@@ -414,11 +425,14 @@
     files.  (c) The closure of the targets under [Print Assumptions]: a
     measurement of the build rather than of a command; the Makefile's
     print-assumptions gate names all one hundred and seventy-two names
-    below.  (d) The absences the headers record (no initiality of
-    [IdMonad] in [Monads C], no isomorphism in Instance/StrictCat.v, no
-    left adjoint of the Type-valued [Top_Forget], no Eilenberg-Moore
-    equivalence for [MPos], no comparison-functor readbacks for the two
-    Pos adjunctions): an absence has no command.  (e) The
+    below (CORRECTION (#1349): all one hundred and seventy-six, one
+    hundred and seventy-two in #469's block and the squash setoid's four,
+    by their Full.v paths, in #462's).  (d) The absences the headers
+    record (no initiality of [IdMonad] in [Monads C], no isomorphism in
+    Instance/StrictCat.v, no left adjoint of the Type-valued
+    [Top_Forget], no Eilenberg-Moore equivalence for [MPos], no
+    comparison-functor readbacks for the two Pos adjunctions): an
+    absence has no command.  (e) The
     dependency-closure counts and [Require] costs the headers give,
     measured by script.  (f) The readings of the books, from the page
     images.  (g) Metatheory: that ∀ A, inhabited A → A has no axiom-free
@@ -438,7 +452,14 @@
     of [PropSets_trunc_iso], [posdiscP_iso] and [posdisc_iso]; no target
     declares a record, so there is no constructor to add.  Each is written
     fully qualified and with [@], so that no short name in scope can stand
-    in for it. *)
+    in for it.  CORRECTION (#1349): one hundred and seventy-six names
+    now, thirty-five of Instance/Sets/Propositional/Full.v and eighty-three
+    of Instance/Pos/Monadicity.v, still exactly the [Print Module]
+    entries.  [untr_of_choice] and [choice_of_untr] moved from
+    Instance/Pos/Monadicity.v to Full.v, and the squash setoid's four,
+    [squash_rel], [squash_sym], [squash_trans] and [SquashSetoid], from
+    Instance/Top/Components.v to Full.v; [choice_setoid] is Full.v's
+    [SquashSetoid] by definition now. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -1106,6 +1127,12 @@ Check @Category.Instance.Sets.Propositional.Full.PropSets_trunc_Incl.
 Check @Category.Instance.Sets.Propositional.Full.PropSets_trunc_unit.
 Check @Category.Instance.Sets.Propositional.Full.PropSets_trunc_counit.
 Check @Category.Instance.Sets.Propositional.Full.PropSets_Reflective.
+Check @Category.Instance.Sets.Propositional.Full.untr_of_choice.
+Check @Category.Instance.Sets.Propositional.Full.choice_of_untr.
+Check @Category.Instance.Sets.Propositional.Full.squash_rel.
+Check @Category.Instance.Sets.Propositional.Full.squash_sym.
+Check @Category.Instance.Sets.Propositional.Full.squash_trans.
+Check @Category.Instance.Sets.Propositional.Full.SquashSetoid.
 Check @Category.Instance.Pos.Monadicity.pos_PropEquiv.
 Check @Category.Instance.Pos.Monadicity.PosPForget.
 Check @Category.Instance.Pos.Monadicity.Pos_Forget_factor_obj.
@@ -1177,8 +1204,6 @@ Check @Category.Instance.Pos.Monadicity.MPos_Id_iff.
 Check @Category.Instance.Pos.Monadicity.all_PropEquiv_trunc.
 Check @Category.Instance.Pos.Monadicity.trunc_all_PropEquiv.
 Check @Category.Instance.Pos.Monadicity.any_adj_to_Id_trunc.
-Check @Category.Instance.Pos.Monadicity.untr_of_choice.
-Check @Category.Instance.Pos.Monadicity.choice_of_untr.
 Check @Category.Instance.Pos.Monadicity.choice_of_IEM.
 Check @Category.Instance.Pos.Monadicity.MPos_IEM_Id_iso.
 Check @Category.Instance.Pos.Monadicity.bool_le_antisym.

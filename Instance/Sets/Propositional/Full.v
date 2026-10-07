@@ -53,6 +53,23 @@ Generalizable All Variables.
    reflective subcategory (Construction/Reflective.v's
    [reflective_counit_iso]).
 
+   THE CHOICE PRINCIPLE AND THE SQUASH SETOID (#1349).  Instance/Pos/
+   Monadicity.v and Instance/Top/Components.v each stated these; both
+   require this file, which now states them once.  The principle
+   ∀ A : Type@{c}, inhabited A → A is interderivable, level for level,
+   with Instance/Sets/Classifier/OneLevel.v's hypothesis [Untruncate@{c}],
+   that every [Powerset_squash] at level c inverts: [untr_of_choice] and
+   [choice_of_untr] are the two directions, with [Untruncate@{c}]
+   written out as ∀ P : Type@{c}, (∀ Q : Prop, (P → Q) → Q) → P, which
+   is OneLevel.v's at [eq_refl] (control C53 of
+   Test/ProbeMonadicity469.v), so no [Require] of OneLevel.v is needed.
+   The squash setoid [SquashSetoid Q] is [bool] with x ≈ y the sum
+   (x = y) + Q ([squash_rel], with [squash_sym] and [squash_trans]), so
+   that its [true ≈ false] is Q beside a refutable [true = false]:
+   Instance/Pos/Monadicity.v's [trunc_choice] reads the principle off
+   it, and Instance/Top/Components.v's
+   [components_on_all_Sets_unsquashes] transposes into it.
+
    IN-TREE CONNECTIONS.
      - Construction/Subcategory.v supplies the record, the category
        [Sub], the inclusion [Incl] and its faithfulness; the sibling
@@ -85,7 +102,12 @@ Generalizable All Variables.
        Test/ProbeComponents462.v).  This file keeps its own copy as the
        reusable home under Instance/Sets/, with a [Require] closure of 39
        modules against Components.v's 118 (by [Print Libraries]);
-       unifying the two is left to the maintainer.
+       unifying the two is left to the maintainer.  CORRECTION (#1349):
+       the maintainer decided "Unify them" (on PR #1346).  Components.v
+       now requires this file and defines [PSetsSub] and [PSets] as
+       [PropSets_sub] and [PropSets], so that control holds by
+       unfolding; its closure is 119 modules with this one, and this
+       file's stays 39 (by [Print Libraries]).
 
    WHAT IS HERE.
      - [PropSets_sub], [PropSets] and [PropSets_Incl]: the subcategory
@@ -111,6 +133,10 @@ Generalizable All Variables.
        reflection [PropSets_trunc_Incl : PropSets_trunc ⊣ PropSets_Incl];
        its unit and counit are the identity functions ([PropSets_trunc_unit],
        [PropSets_trunc_counit]); [PropSets_Reflective] is the bundle.
+     - Moved here by #1349: [untr_of_choice] and [choice_of_untr], from
+       Instance/Pos/Monadicity.v, and the squash setoid [squash_rel],
+       [squash_sym], [squash_trans] and [SquashSetoid], from
+       Instance/Top/Components.v (THE CHOICE PRINCIPLE above).
 
    STRENGTHS.  By [eq_refl]: [PropSets_Incl_fobj], [PropSets_Incl_fmap],
    [PropSets_lift_obj], [PropSets_lift_map], [PropSets_trunc_unit] and
@@ -136,6 +162,13 @@ Generalizable All Variables.
    measured, is now a plain term.  The chosen preimage of
    [PropSets_Incl_Full] computes for the use of later files: no constant
    of the tree, and no command of the probe, reads through it.
+   CORRECTION (#1349): nine proofs end [Defined] now, by token,
+   [SquashSetoid] having moved here, and it is load-bearing.  In a
+   scratch file, a copy of it closed [Qed] makes Instance/Top/
+   Components.v's [squash_id] script refused at its [refine] ("cannot
+   unify "bool" and "carrier (SquashSetoidQ Q)""), and Instance/Pos/
+   Monadicity.v's [trunc_choice] script at [true], whose type is not
+   that copy's carrier; a copy closed [Defined] is accepted by both.
 
    UNIVERSES, read off [About]; [o] the carriers and homs, [so] the
    objects, as in [Sets@{o so}], and the bounds o <= Projections.*,
@@ -157,7 +190,14 @@ Generalizable All Variables.
    b, the levels of [Functor_Setoid] (o < b its own strict bound).
    [PropSets_trunc_Incl] adds a, the free level of the [Adjunction]
    record that [Build_Adjunction'] leaves.  No block has an equation, and
-   [Set] occurs only as [Set < so], which o < so implies.
+   [Set] occurs only as [Set < so], which o < so implies.  Since #1349
+   the six constants moved here keep the blocks they had, by [About] in
+   the trees before and after: [squash_rel], [squash_sym], [squash_trans]
+   and [SquashSetoid] bind o, and [untr_of_choice] and [choice_of_untr]
+   bind c, each with an empty block on Rocq 9.1.1; on Coq 8.19.2 and
+   8.20.1 the first four carry o <= sum.u1 and the last two
+   c <= inhabited.u0, as they did in their former files (by [About] in
+   overlays of the trees before and after).
 
    NOT DELIVERED.  The forgetful functors of the algebraic categories are
    not factored through [PropSets].  No equivalence between [PropSets] and
@@ -372,3 +412,48 @@ Definition PropSets_Reflective@{o so a | o < so +} :
   {| reflective_full := PropSets_Full@{o so};
      reflector := PropSets_trunc@{o so};
      reflective_adj := PropSets_trunc_Incl@{o so a} |}.
+
+(** ** The choice principle, written out (moved here by #1349) *)
+
+(* The principle ∀ A, inhabited A → A under Instance/Sets/Classifier/
+   OneLevel.v's name for it, written unfolded so that this file needs no
+   further [Require]: the hypothesis of [choice_of_untr] is OneLevel.v's
+   [Untruncate@{c}], by [eq_refl] (control C53 of
+   Test/ProbeMonadicity469.v).  Moved here from Instance/Pos/Monadicity.v
+   by #1349; Instance/Top/Components.v derives its [unsquash_Untruncate]
+   and [Untruncate_unsquash] from these two. *)
+Definition untr_of_choice@{c | +} (G : ∀ A : Type@{c}, inhabited A → A) :
+  ∀ P : Type@{c}, (∀ Q : Prop, (P → Q) → Q) → P :=
+  fun P h => G P (h (inhabited P) (fun p => inhabits p)).
+
+Definition choice_of_untr@{c | +}
+  (U : ∀ P : Type@{c}, (∀ Q : Prop, (P → Q) → Q) → P) :
+  ∀ A : Type@{c}, inhabited A → A :=
+  fun A h => U A (fun Q k => match h with inhabits a => k a end).
+
+(** ** The squash setoid (moved here by #1349) *)
+
+(* The setoid on [bool] whose [true ≈ false] is a given type [Q].  Moved
+   here from Instance/Top/Components.v by #1349. *)
+Definition squash_rel@{o} (Q : Type@{o}) (x y : bool) : Type@{o} :=
+  ((x = y) + Q)%type.
+
+Lemma squash_sym@{o} (Q : Type@{o}) (x y : bool) :
+  squash_rel Q x y -> squash_rel Q y x.
+Proof. intros [e|q]; [left; symmetry; exact e|right; exact q]. Qed.
+
+Lemma squash_trans@{o} (Q : Type@{o}) (x y z : bool) :
+  squash_rel Q x y -> squash_rel Q y z -> squash_rel Q x z.
+Proof.
+  intros [e1|q] [e2|q']; [left; exact (eq_trans e1 e2)|right; exact q'
+                            |right; exact q|right; exact q].
+Qed.
+
+Definition SquashSetoid@{o} (Q : Type@{o}) : SetoidObject@{o o}.
+Proof.
+  refine {| carrier := bool; is_setoid := {| equiv := squash_rel Q |} |}.
+  constructor.
+  - intro x; left; reflexivity.
+  - exact (squash_sym Q).
+  - exact (squash_trans Q).
+Defined.

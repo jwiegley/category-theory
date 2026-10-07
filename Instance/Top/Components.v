@@ -11,6 +11,7 @@ Require Import Category.Construction.Subcategory.
 Require Import Category.Instance.Sets.
 Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Instance.Sets.Propositional.
+Require Import Category.Instance.Sets.Propositional.Full.
 Require Import Category.Instance.Top.Prop.
 Require Import Category.Instance.Top.Complete.
 Require Import Category.Instance.Top.Cocomplete.
@@ -162,6 +163,10 @@ Generalizable All Variables.
    Structure/Complete.v's header).  This is the one deviation from the
    book's statement beyond the [PTopCat] encoding (ENCODING above), and
    it is lifted at [Sets] under [Untruncate].
+   CORRECTION (#1349): above, [SquashSetoid] is Instance/Sets/Propositional/
+   Full.v's now, and [unsquash_Untruncate] and [Untruncate_unsquash]
+   are derived from that file's [untr_of_choice] and [choice_of_untr],
+   which #469 had stated in Instance/Pos/Monadicity.v.
 
    WHAT IS HERE.
      - Connectedness, Prop-valued.  [LocConstOn X W φ]: a Prop-valued [φ]
@@ -193,6 +198,11 @@ Generalizable All Variables.
        ([PSetsSub]).  [Lconn]: the [Sub] of [PTopCat] on [PLocConn]
        ([Lconn_Sub], Instance/Top/Separation.v's [PFullSub]).  Both are
        pinned by hand, as Instance/Top/Hausdorff.v pins [Haus].
+       CORRECTION (#1349): #469 built the same category again, as
+       Instance/Sets/Propositional/Full.v's [PropSets_sub] and
+       [PropSets]; on the maintainer's decision to unify them,
+       [PSetsSub] and [PSets] are now defined as those two, under
+       #462's names, so the hand pin of [PSets] is that file's.
      - [components_functor : Lconn ⟶ PSets], Mac Lane's C, the issue's
        pinned name: [CompTop] after the inclusion.
      - D.  [LDisc : Sets ⟶ Lconn] is Instance/Top/Complete.v's [PDisc]
@@ -295,7 +305,14 @@ Generalizable All Variables.
        [zig_e_set] ([PTop_zig_equalizer]), and [swap_set]
        ([Lconn_swap_equalizer]).  [empty_set_map] is [Defined] by the
        data convention only: closed [Qed], nothing in the file is
-       refused.  56 [Qed], counted by token.
+       refused.  56 [Qed], counted by token.  CORRECTION (#1349): ten
+       [Defined] and 52 [Qed] now, by token.  [SquashSetoid] moved to
+       Instance/Sets/Propositional/Full.v, where it is still [Defined]
+       and still load-bearing for [squash_id] (that file's STRENGTHS),
+       and [squash_sym] and [squash_trans] moved with it; and
+       [unsquash_Untruncate] and [Untruncate_unsquash] are definitions
+       by term.  The ten that remain, the nine others named above and
+       [empty_set_map], are as measured above.
      - Every constant of the file is closed under the global context
        ([Print Assumptions] on each, obligations, the inductive, its
        constructors and its schemes included).
@@ -304,7 +321,10 @@ Generalizable All Variables.
    125 constants of this file's [Print Module] listing (the fourteen
    [Program] obligations of [CompTop], [LDisc], [comp_adj_iso] and
    [comp_adj_iso_U], and the inductive [zig_pt] with its four schemes,
-   among them; no record is declared).
+   among them; no record is declared).  CORRECTION (#1349): 121 now,
+   the squash setoid's four having moved to Instance/Sets/Propositional/
+   Full.v.  [About] in the trees before and after #1349 reads the same
+   block for each of the 121 and for the four moved.
      - No universe is pinned at [Set] and no block carries [Set < o]: the
        points may be in [Set].  At [o := Set],
        [components_left_adjoint_discrete],
@@ -374,9 +394,11 @@ Generalizable All Variables.
        [comp_PropEquiv], [comp_respect], [comp_cont], [pdisc_locconn],
        the squash setoid ([squash_rel], [squash_sym], [squash_trans],
        [SquashSetoid]), [unsquash_Untruncate], [Untruncate_unsquash] and
-       [comp_respect_U].  The rest of the [@{o}] constants, but
-       [empty_set_map] above, carry stdlib caps only
-       ([o <= Logic_lemmas.equality.u0], [eq_Setoid]'s and
+       [comp_respect_U].  CORRECTION (#1349): the squash setoid's four
+       are Full.v's now, with these empty blocks, and the two
+       [Untruncate] constants, now derived, keep theirs empty.  The rest
+       of the [@{o}] constants, but [empty_set_map] above, carry stdlib
+       caps only ([o <= Logic_lemmas.equality.u0], [eq_Setoid]'s and
        [bool_setoid_object]'s; the [eq_ind], [eq_ind_r] or [eq_rect_r]
        caps of some proofs; [unsquash_choice]'s
        [o <= Subset_projections.u0]).  [zig_pt], its constructors,
@@ -388,10 +410,14 @@ Generalizable All Variables.
    117 [Category.*] modules besides it; sixteen of them come with
    Instance/Sets/Powerset.v and Instance/Sets/Classifier/OneLevel.v,
    required for [Powerset_squash] and [Untruncate] (the same count
-   without those two Requires is 101).  Theory/Concrete.v is required but
-   not imported: it declares its own [bool_setoid_object], which would
-   shadow Instance/Sets.v's, the one [PBool] and [PTwoIndisc] are built
-   on.  Coq.Arith.PeanoNat serves the arguments at [PConv].
+   without those two Requires is 101).  CORRECTION (#1349): 118 besides
+   it now, the one more Instance/Sets/Propositional/Full.v, required for
+   [PSets] and the squash setoid; sixteen still come with those two
+   files (102 without them, measured the same way).  Theory/Concrete.v
+   is required but not imported: it declares its own
+   [bool_setoid_object], which would shadow Instance/Sets.v's, the one
+   [PBool] and [PTwoIndisc] are built on.  Coq.Arith.PeanoNat serves the
+   arguments at [PConv].
 
    NOT DELIVERED.
      - The converses of the connectedness bridges: [PConnectedSep] or
@@ -626,16 +652,14 @@ Defined.
 (** ** The categories: propositional sets and locally connected spaces *)
 
 (* Mac Lane's Set, read as the full subcategory of [Sets] on the setoids
-   whose equality is a proposition. *)
+   whose equality is a proposition.  Since #1349 it is
+   Instance/Sets/Propositional/Full.v's [PropSets], under #462's names;
+   [About] reads the same blocks for both names as before. *)
 Definition PSetsSub@{o so | o < so +} : Subcategory@{so o so o} Sets@{o so} :=
-  @Build_Subcategory@{so o so o} Sets@{o so}
-    (fun S : SetoidObject@{o o} => PropEquivObj@{so o o} S)
-    (fun _ _ _ _ _ => True)
-    (fun _ _ _ _ _ _ _ _ _ _ => I)
-    (fun _ _ => I).
+  PropSets_sub@{o so}.
 
 Definition PSets@{o so | o < so +} : Category@{so o o} :=
-  Sub@{so o so o so o so} Sets@{o so} PSetsSub@{o so}.
+  PropSets@{o so}.
 
 (* Mac Lane's Lconn: the full subcategory of [PTopCat] on the locally
    connected spaces. *)
@@ -826,29 +850,10 @@ Example components_unit_points@{o so | o < so +} (X : Lconn@{o so})
 
 (** ** Why Set is read as the propositional sets *)
 
-(* The setoid on [bool] whose [true ≈ false] is a given type [Q]. *)
-Definition squash_rel@{o} (Q : Type@{o}) (x y : bool) : Type@{o} :=
-  ((x = y) + Q)%type.
-
-Lemma squash_sym@{o} (Q : Type@{o}) (x y : bool) :
-  squash_rel Q x y -> squash_rel Q y x.
-Proof. intros [e|q]; [left; symmetry; exact e|right; exact q]. Qed.
-
-Lemma squash_trans@{o} (Q : Type@{o}) (x y z : bool) :
-  squash_rel Q x y -> squash_rel Q y z -> squash_rel Q x z.
-Proof.
-  intros [e1|q] [e2|q']; [left; exact (eq_trans e1 e2)|right; exact q'
-                            |right; exact q|right; exact q].
-Qed.
-
-Definition SquashSetoid@{o} (Q : Type@{o}) : SetoidObject@{o o}.
-Proof.
-  refine {| carrier := bool; is_setoid := {| equiv := squash_rel Q |} |}.
-  constructor.
-  - intro x; left; reflexivity.
-  - exact (squash_sym Q).
-  - exact (squash_trans Q).
-Defined.
+(* The setoid on [bool] whose [true ≈ false] is a given type [Q] is
+   Instance/Sets/Propositional/Full.v's [SquashSetoid], over its
+   [squash_rel], [squash_sym] and [squash_trans]: #1349 moved the four
+   there from this file, names, binders and proofs unchanged. *)
 
 Definition squash_id@{o} (Q : Type@{o}) :
   SetoidMorphism@{o o o} PTwoIndisc@{o} (SquashSetoid Q).
@@ -934,17 +939,17 @@ Qed.
 (** ** Mac Lane's Set as all of [Sets], under [Untruncate] *)
 
 (* The unsquashing principle is Instance/Sets/Classifier/OneLevel.v's
-   [Untruncate], truncated: each gives the other. *)
-Lemma unsquash_Untruncate@{o} :
-  inhabited (∀ Q : Type@{o}, inhabited Q → Q) → inhabited Untruncate@{o}.
-Proof.
-  intros [u]. constructor. intros P s.
-  apply u. exact (s (inhabited P) (fun p => inhabits p)).
-Qed.
+   [Untruncate], truncated: each gives the other.  Since #1349 both are
+   transparent definitions, derived from Instance/Sets/Propositional/
+   Full.v's [untr_of_choice] (under [inhabited]) and [choice_of_untr],
+   which write [Untruncate@{o}] out; the two forms convert. *)
+Definition unsquash_Untruncate@{o} :
+  inhabited (∀ Q : Type@{o}, inhabited Q → Q) → inhabited Untruncate@{o} :=
+  fun H => match H with inhabits u => inhabits (untr_of_choice@{o} u) end.
 
-Lemma Untruncate_unsquash@{o} (U : Untruncate@{o}) (Q : Type@{o}) :
-  inhabited Q → Q.
-Proof. intro iq. apply U. intros R k. destruct iq as [q]. exact (k q). Qed.
+Definition Untruncate_unsquash@{o} (U : Untruncate@{o}) (Q : Type@{o}) :
+  inhabited Q → Q :=
+  choice_of_untr@{o} U Q.
 
 (* So a left adjoint of the discrete functor into all of [Sets] makes
    [Untruncate] merely true. *)
