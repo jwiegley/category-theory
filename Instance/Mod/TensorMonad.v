@@ -205,7 +205,11 @@ Generalizable All Variables.
    [Monadic] witnesses, [TensorF], [EM_to_RMod] and Instance/Ab/Tensor.v's
    [tensor_map] lists 13 constants, all of them Corelib's lemmas of
    generalized rewriting, where this tree lists 157; no constant of
-   Structure/Cartesian/Closed.v is among them in either.  In a further
+   Structure/Cartesian/Closed.v is among them in either.
+   CORRECTION (#1347): this tree lists 154 since #1347, whose properness fields
+   as terms take Corelib's [subrelation_id_proper], [proper_proper_proxy] and
+   [CMorphisms.compose_proper_obligation_1] out of the census.
+   In a further
    copy in which Instance/Sets.v's [setoid_morphism_id] has the properness
    proof fun _ _ H => H, which takes Corelib's opaque
    [subrelation_id_proper] out of the terms, the first builder's draft of

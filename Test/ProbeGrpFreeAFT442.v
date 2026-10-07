@@ -31,6 +31,14 @@
     the arrow is the UNIT, which agrees with [fg_insert] only pointwise (a
     different record), so even the circular solution set is not the
     insertion of generators on the nose.
+    CORRECTION (#1347): N4 now holds at [eq_refl], since Instance/Sets.v
+    gives its identity's and composite's properness fields as terms; it
+    is a control, and even the circular solution set's arrow IS
+    [fg_insert] on the nose.  "A different record" was argued, not
+    measured: the unit is [fmap[U] id ∘ arrow], and the measurement shows
+    the residue was the standard library's, the opaque lemmas instance
+    resolution had put in the two properness fields, the identity's and that
+    composite's.
 
     N5 is the universe claim, measured: at this application the solution
     set's index is squeezed onto [Set], and Mac Lane's own index
@@ -88,7 +96,14 @@
     time in a copy of the WHOLE file and its exact refusal text recorded.
     The import list is the target's in full — including
     Lib/Setoid/Propositional.v, which section I names — plus
-    Instance/Grp/Quotient.v for [Subgroup], which section D names. *)
+    Instance/Grp/Quotient.v for [Subgroup], which section D names.
+    CORRECTION (#1347): N4 is a control now, so CONVERSION is N1, N2, N8,
+    N9, N11 and N12, and the file carries FOURTEEN refutation lines by
+    the same count.  N4, wrapped in the refutation keyword in a copy of
+    the WHOLE file, stops the build at that command; each of the
+    fourteen, stripped in such a copy, stops inside its command with the
+    error it printed before #1347 (compared by script, universe serial
+    names aside). *)
 
 Require Import Category.Lib.
 Require Import Category.Lib.Setoid.Propositional.
@@ -170,8 +185,12 @@ Example p442_sol_arr_pointwise (X : Sets) (i : poly_unit) (a : carrier X) :
 
 (* N4 CONVERSION: but they are not the same MORPHISM.  The unit is
    [fmap[U] id ∘ arrow] and carries its own respectfulness proof; the
-   solution set is built from the unit, not from [fg_insert]. *)
-Fail Example p442_sol_arr_is_insert (X : Sets) (i : poly_unit) :
+   solution set is built from the unit, not from [fg_insert].
+   CORRECTION (#1347): they are the same morphism at [eq_refl] now that
+   Instance/Sets.v gives its identity's and composite's properness fields
+   as terms, and this is a control; the cause above was argued, not
+   measured. *)
+Example p442_sol_arr_is_insert (X : Sets) (i : poly_unit) :
   sol_arr (Grp_Forget_solution_set_from_adjunction X) i = fg_insert X
   := eq_refl.
 
@@ -490,7 +509,8 @@ Check @TwoLetters.
 
     THE NEW REFUTATIONS ARE N11 (CONVERSION), N12 (CONVERSION) and N13
     (UNIVERSE), taking this file to fifteen.  Each was stripped in a copy of
-    the WHOLE file and its exact refusal recorded beside it. *)
+    the WHOLE file and its exact refusal recorded beside it.
+    CORRECTION (#1347): fourteen, since N4 became a control. *)
 
 Check @IsGrpCongruence.
 Check @FGCongIdx.

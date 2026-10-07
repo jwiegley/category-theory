@@ -140,6 +140,13 @@ Open Scope R_scope.
    does, since the arrow's value carries the completion's Cauchy
    modulus and the counit is the limit chosen by the target's
    completeness witness.
+   CORRECTION (#1347): the unit as a whole record against [etaU X] now
+   holds at [eq_refl] (that probe's N13, now a control), since
+   Instance/Sets.v gives its identity's and composite's properness fields
+   as terms; the cause given above, the unit being the transpose, was
+   argued, and in [MetU] the residue was the standard library's.
+   Against [eta X] in [Met] it is still refused (N14), and so are the
+   counit and the reflector's arrow action at an embedded point.
 
    THE AXIOM FOOTPRINT, per constant, by [Print Assumptions] on all 55
    constants: the 54 [Print Module] lists, [Program] obligations

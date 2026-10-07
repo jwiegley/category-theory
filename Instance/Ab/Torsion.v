@@ -73,6 +73,10 @@
         [eq_refl]); against [torsion_incl A] its setoid-morphism
         component is refused at [eq_refl], and so is the whole record,
         with "cannot unify";
+        CORRECTION (#1347): the setoid-morphism component now holds at
+        [eq_refl] (the probe's N10, now a control), since Instance/Sets.v
+        gives its identity's and composite's properness fields as terms;
+        the whole record is still refused (N9);
       - the coreflector's arrow part is not [torsion_lift] on the nose:
         stating [fmap[torsion_coreflector] f] equal to the corestriction
         of [f ∘ torsion_incl A] is refused, the arrow part being the

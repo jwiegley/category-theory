@@ -208,6 +208,17 @@
       composite reduces, as a [ContinuousMorphism] record it does not.
       The same shape is recorded for #371's [torsion_unit_is_proj_hom]
       and for Instance/Mod/Free.v's [free_module_unit_is_insert].
+      CORRECTION (#1347): as a record it now does: the unit IS
+      [kolmogorov_proj X] at [eq_refl] (Test/ProbeKolmogorov372.v's
+      CONVERSION 1, now a control), since Instance/Sets.v gives its
+      identity's and composite's properness fields as terms.  The cause
+      above was argued; the residue was the standard library's, the
+      opaque lemmas instance resolution had put in the two properness fields,
+      the identity's and the composite's.  Of the two cases named, #371's
+      whole [CMonHom] record is still refused (Test/ProbeTorsionFree371.v),
+      while Instance/Mod/Free.v's unit, a morphism of [Sets], now IS
+      [fv_insert X] at [eq_refl] (control C9 of Test/ProbeSetsTerms1347.v,
+      which master 687ac356 refuses).
     - [KolmogorovQuotient Bool_Discrete] is isomorphic to
       [Bool_Discrete] but not equal to it: [bool_reflect_iso] is a pure
       instantiation of [reflective_counit_iso] with no tactic, while

@@ -165,6 +165,11 @@ Generalizable All Variables.
    the inverse ([Act_BG_EM]).  This file is not rewired: [BG_Act_EM] stays
    the functor built by hand, and its readback [BG_Act_EM_alg] is refused
    for the general θ*, whose structure map is h ∘ id.
+   CORRECTION (#1347): since Instance/Sets.v gives its identity's and
+   composite's properness fields as terms, h ∘ id converts with h in
+   [Sets], and that readback restated for θ* holds at [eq_refl]
+   (Test/ProbeMonadMorphism468.v's R12, now a control).  This file is
+   still not rewired.
 
    WHICH "MONADIC".  Riehl's Definition 5.3.1 (p. 196) calls an
    adjunction monadic when the comparison functor "defines an equivalence

@@ -1138,3 +1138,4 @@ Test/ProbeSupLat466.v
 Test/ProbeEMCreates467.v
 Test/ProbeMonadMorphism468.v
 Test/ProbeMonadicity469.v
+Test/ProbeSetsTerms1347.v

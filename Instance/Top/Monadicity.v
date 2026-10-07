@@ -209,6 +209,11 @@ Generalizable All Variables.
    structure map of an image of [PDiscKI] as a setoid morphism (R15), so
    [PDiscKI_alg] is pointwise and no more, while [PDiscK_alg] holds of
    the setoid morphism itself.
+   CORRECTION (#1347): R15 now holds at [eq_refl], since Instance/Sets.v
+   gives its identity's and composite's properness fields as terms; it is
+   a control of the probe, and that structure map IS [setoid_morphism_id]
+   as a setoid morphism, though [PDiscKI_alg] still states the pointwise
+   form.  The other refusals above stand.
 
    CAUSES.  The eleven refusals R1 to R3 (with R1a to R1c and R2a to R2c), R14
    and R15 stand, and their controls are accepted, in a copy of this file's
@@ -242,6 +247,10 @@ Generalizable All Variables.
    Test/ProbeMonadMorphism468.v's R12, which holds at [eq_refl] once
    Instance/Sets.v's properness fields are given as terms, a step argued here
    from the terms and not measured.
+   CORRECTION (#1347): the step is now taken and measured: R15 holds at
+   [eq_refl], so its classification, STDLIB OPACITY, was right.  The copy
+   above predates #1347; R15 stood there because Instance/Sets.v's two
+   fields were still those of instance resolution.
 
    Eleven proofs end [Defined] (counted by token).  Eight are
    load-bearing, measured by closing each alone [Qed] in a copy of this

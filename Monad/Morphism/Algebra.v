@@ -125,6 +125,11 @@ Generalizable All Variables.
    structure map h as a setoid morphism; for identity components θ*
    has h ∘ id there ([mh_EM_alg]), a composite in Sets, so that readback
    is not a statement about θ*.
+   CORRECTION (#1347): since Instance/Sets.v gives its identity's and
+   composite's properness fields as terms, h ∘ id converts with h in
+   Sets, and that readback restated for θ* of Instance/Fun/Action/Monad/
+   BG/Morphism.v's [BG_theta M] holds at [eq_refl]
+   (Test/ProbeMonadMorphism468.v's R12, now a control).
 
    STRENGTHS.  By [eq_refl]: the carrier of θ* X ([mh_EM_carrier]), its
    structure map as h' ∘ θ_a ([mh_EM_alg]), the underlying arrow of

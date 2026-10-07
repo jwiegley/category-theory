@@ -83,6 +83,11 @@ Generalizable All Variables.
    (reuse #227's functor and unit) therefore rules out defining
    [Powerset_Monad] as the induced monad, and Instance/Sets/Powerset/
    Monad.v builds it with [Build_Monad].
+   CORRECTION (#1347): the whole unit, F1, now holds at [eq_refl], since
+   Instance/Sets.v gives its identity's and composite's properness fields
+   as terms; it is a control of the probe, and the unit as a setoid map
+   agrees with [Powerset_Monad]'s at [eq_refl], not only up to ≈ as
+   [SL_induced_ret_equiv] states.  F2 to F4 are still refused.
 
    WHICH REFUSALS ARE OPACITY, MEASURED.  F2 and F2b compare ⋃ (P id SS)
    with ⋃ SS at a variable SS, and P id SS is a squashed existential, not
@@ -109,6 +114,9 @@ Generalizable All Variables.
    with the compose field alone rewritten, F1 is still refused.  So F1 is
    opacity outside the tree, of the kind of #464's N3 (STDLIB OPACITY in
    the probe), and the other four are not opacity.
+   CORRECTION (#1347): that copy's change is now the tree's, and F1 holds
+   at [eq_refl]; the attribution was right, and F2 to F4 are still
+   refused.
 
    MONADICITY.  [SL_induced_repack] reads an algebra of the induced monad
    as an algebra of [Powerset_Monad], its structure map and unit law
@@ -139,6 +147,8 @@ Generalizable All Variables.
    in the same copies as F2 to F4).  At ≈ here, and at [eq_refl] once
    Instance/Sets.v's two properness fields are written as terms: the unit
    as a setoid map (F1).
+   CORRECTION (#1347): they are written so now, and the unit as a setoid
+   map holds at [eq_refl] (F1, a control of the probe).
 
    UNIVERSES, read off [About].  [FreeSL] binds [@{o}] with [Set < o]; every
    other constant binds [@{o so}].  [SL_Free], [SL_Forget], [SL_extend],

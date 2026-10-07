@@ -213,7 +213,14 @@ Qed.
    predicate, and the inverse image along a composite is the iterated
    inverse image, again on the nose.  Only the setoid packaging keeps
    these from being [eq_refl]; the two [split; intro Ht; exact Ht] proofs
-   below record exactly that. *)
+   below record exactly that.
+   CORRECTION (#1347): since Instance/Sets.v gives its identity's and
+   composite's properness fields as terms, both laws hold at [eq_refl] as
+   equations of setoid morphisms: the identity law is a control of
+   Test/ProbePowersetUniversal.v, its boundary (5), and so is the
+   composition law ([powerset_fmap_comp_strict]), which a copy of the
+   probe as it stood at master 687ac356, compiled against that tree,
+   refuses.  The two proofs below are unchanged. *)
 Lemma Powerset_Prop_comap_id@{o} {X : SetoidObject@{o o}} :
   Powerset_Prop_comap@{o} (@setoid_morphism_id@{o o o} X)
     ≈ @setoid_morphism_id@{o o o} (Powerset_Prop_obj@{o} X).

@@ -103,6 +103,11 @@ Generalizable All Variables.
    two algebras are each refused alone, [SL_induced_repack] keeping
    β's unit law and proving its action law again, θ* rebuilding both
    through [mh_ret] and [mh_join].
+   CORRECTION (#1347): the copy in which only those two fields are
+   written as terms is now the tree: the first two refusals, R15 and R16,
+   hold at [eq_refl] and are controls of the probe, and their attribution
+   to the standard library's opacity was right; the whole-object refusal,
+   R17, still stands.
 
    UNIVERSES, read off [About].  Every constant binds [@{o so}] with
    Set < o and o < so, except [SL_theta_iso], which adds the object and
