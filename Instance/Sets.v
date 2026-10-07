@@ -162,17 +162,31 @@ Next Obligation.
     + apply X0.
 Qed.
 
+(* The identity and the composite give their properness fields as terms
+   (issue #1347).  Left to instance resolution, the identity's field was
+   [subrelation_id_proper (subrelation_refl equiv)] and the composite's a
+   chain of [Reflexive_partial_app_morphism], [compose_proper] and
+   [proper_proper_proxy], each of them with an opaque part in the standard
+   library (by [Print Opaque Dependencies]), so that in [Sets] the
+   composite of h with the identity did not convert with h.  As terms, both
+   unit laws and associativity hold of these two constants at [eq_refl]
+   (Test/ProbeSetsTerms1347.v).  The universe blocks are unchanged by
+   [About]: their caps come from [Datatypes.id] (ID.u0) and
+   [Basics.compose] (compose.u0 to compose.u2), not from the fields. *)
 Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} :
   SetoidMorphism@{o h p} x x := {|
-  morphism := Datatypes.id
+  morphism := Datatypes.id;
+  proper_morphism := fun _ _ H => H
 |}.
 
 #[export] Hint Unfold setoid_morphism_id : core.
 
-Program Definition setoid_morphism_compose@{o h p} {x y z : SetoidObject@{o p}}
+Definition setoid_morphism_compose@{o h p} {x y z : SetoidObject@{o p}}
         (g : SetoidMorphism@{o h p} y z)
         (f : SetoidMorphism@{o h p} x y) : SetoidMorphism@{o h p} x z := {|
-  morphism := Basics.compose g f
+  morphism := Basics.compose g f;
+  proper_morphism := fun a b H =>
+    proper_morphism g _ _ (proper_morphism f a b H)
 |}.
 
 #[export] Hint Unfold setoid_morphism_compose : core.

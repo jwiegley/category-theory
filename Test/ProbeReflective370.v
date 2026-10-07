@@ -20,6 +20,9 @@
     files (LABELS, below); N22 is this file's own.  Every one is
     recorded in a target header.  The positive controls restate the
     files' claims independently.
+    CORRECTION (#1347): N8, N10, N12 and N13 now hold at [eq_refl], since
+    Instance/Sets.v gives its identity's and composite's properness fields
+    as terms; they are controls, and keep their labels.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
     Target by target, in the order the nine files are named above, the
@@ -65,6 +68,15 @@
     the serial names of universes; under 8.19.2 twenty-two are, and N23
     prints the same type mismatch with no parenthetical (compared by a
     script).
+    CORRECTION (#1347): N8, N10, N12 and N13 are controls now.  Each,
+    wrapped in the refutation keyword in a copy of this WHOLE file, stops
+    the build at that command, so the definitions and examples that are
+    not refutations are forty-two (eighteen definitions, twenty-four
+    examples).  The negatives are nineteen, and each, stripped in a copy
+    of this WHOLE file, stops inside its command with the error it
+    printed before #1347 (compared by script, universe serial names
+    aside).  Both measurements on Rocq 9.1.1 only; the older versions
+    were not re-run.
 
     KINDS.  Twenty-four refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), TYPING (N1,
@@ -74,6 +86,10 @@
     [eq_refl] refused with a "cannot unify" parenthetical; the UNIVERSE
     refusal is a type mismatch whose parenthetical is a universe
     inconsistency.
+    CORRECTION (#1347): N8, N10, N12 and N13 now hold at [eq_refl] and
+    are controls, so the refutations are twenty and CONVERSION counts
+    fourteen (N3, N4, N6, N7, N9, N11, N14-N21): one, four, fourteen and
+    one.
 
     LABELS.  builder-alg's scratch negatives n6a, n6b, n7, n8, n1, s1,
     n4, s2, n5, s3, n2, n3, n14 and n13 are N1, N2, N3, N5, N7, N8, N9,
@@ -87,6 +103,8 @@
     the control [p370_loc_at_set].  The labels are not constants: each
     refutation carries its own in a comment on the line above it, the
     instrument's reading "The instrument".
+    CORRECTION (#1347): N8, N10, N12 and N13 are controls now and keep
+    their labels in the comments on the lines above them.
 
     ** Instance/Grp/Abelianize/Reflective.v: why a new subcategory
 
@@ -147,10 +165,24 @@
       (cannot unify "crng_unit R" and "rquot_proj (CommIdeal R)")
       (cannot unify "rig_map (crng_unit R)" and "rig_map (rquot_proj
       (CommIdeal R))")
+    CORRECTION (#1347): N8, N10 and N12, the setoid-morphism components,
+    now hold at [eq_refl], since Instance/Sets.v gives its identity's and
+    composite's properness fields as terms; they are controls, and N7, N9
+    and N11, the whole records, are still refused.  N8, N10 and N12 were
+    CONVERSION by their errors; the three target headers gave their cause
+    as a composite whose setoid-morphism component differs, by argument,
+    and the measurement shows the residue was the standard library's: the
+    opaque lemmas instance resolution had put in the two properness fields, the
+    identity's and that composite's.
     N13, N14 (CONVERSION).  Uniform.v's STRENGTHS, in [MetU] and in
     [Met]:
       (cannot unify "unit" and "etaU X")
       (cannot unify "unit" and "eta X")
+    CORRECTION (#1347): N13 likewise now holds at [eq_refl] and is a
+    control, the unit in [MetU] being [etaU X] as a whole record; N14, in
+    [Met], is still refused.  Uniform.v's cause, the unit being the
+    transpose [fmap[Incl] id ∘ etaU X], was argued; in [MetU] the residue
+    was the standard library's, as above.
     N15 (CONVERSION).  RingEpi.v's STRENGTHS, against Instance/Mod/
     Extension.v's unit:
       (cannot unify "unit" and "extend_adj_unit phi Hc M")
@@ -239,6 +271,9 @@
     command, the seven constants of this file that mention [MetU],
     [Met] or [Harmonic] carry the reals axioms too; the other thirty-one
     are closed under the global context.
+    CORRECTION (#1347): by the same command, in a copy of this WHOLE file,
+    eight of the forty-two constants it now defines carry the reals
+    axioms, N13's the eighth, and the other thirty-four are closed.
 
     NOT PINNED HERE.  (a) [About] readbacks as such, the headers' [Set]
     censuses and their attributions to first carriers: pinned only where
@@ -462,7 +497,7 @@ Fail Example p370_abgrp_unit_proj@{u p +} (G : Grp@{u p}) :
   abgrp_unit G = abel_proj G := eq_refl.
 
 (* N8 *)
-Fail Example p370_abgrp_unit_map@{u p +} (G : Grp@{u p}) :
+Example p370_abgrp_unit_map@{u p +} (G : Grp@{u p}) :
   grp_map (abgrp_unit G) = grp_map (abel_proj G) := eq_refl.
 
 (* CONTROL: the torsion counit, likewise, against the inclusion of TA. *)
@@ -481,7 +516,7 @@ Fail Example p370_torsion_counit_incl@{u p +} (A : Ab@{u p}) :
   torsion_counit A = torsion_incl A := eq_refl.
 
 (* N10 *)
-Fail Example p370_torsion_counit_map@{u p +} (A : Ab@{u p}) :
+Example p370_torsion_counit_map@{u p +} (A : Ab@{u p}) :
   cmon_map (torsion_counit A) = cmon_map (torsion_incl A) := eq_refl.
 
 (* CONTROL: the commutator-ideal unit, likewise, against the quotient
@@ -500,7 +535,7 @@ Fail Example p370_crng_unit_proj@{u p +} (R : Rng@{u p}) :
   crng_unit R = rquot_proj (CommIdeal R) := eq_refl.
 
 (* N12 *)
-Fail Example p370_crng_unit_map@{u p +} (R : Rng@{u p}) :
+Example p370_crng_unit_map@{u p +} (R : Rng@{u p}) :
   rig_map (crng_unit R) = rig_map (rquot_proj (CommIdeal R)) := eq_refl.
 
 (* CONTROL: the completion unit in MetU and in Met, pointwise the
@@ -514,7 +549,7 @@ Example p370_completion_unit_point@{u o +} (X : Met@{u o}) (a : X) :
     = eta_seq X a := eq_refl.
 
 (* N13 *)
-Fail Example p370_completionU_unit_eta@{u o +} (X : MetU@{u o}) :
+Example p370_completionU_unit_eta@{u o +} (X : MetU@{u o}) :
   @Category.Theory.Adjunction.unit _ _ _ _ completionU_adj X = etaU X
   := eq_refl.
 

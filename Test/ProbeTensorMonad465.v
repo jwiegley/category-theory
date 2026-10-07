@@ -97,6 +97,10 @@
     targets and their donors lists thirteen constants, all of them
     Corelib's lemmas of generalized rewriting, where the unchanged tree
     lists two hundred and thirty-one.
+    CORRECTION (#1347): two hundred and twenty-eight since #1347, whose
+    properness fields as terms take Corelib's [subrelation_id_proper],
+    [proper_proper_proxy] and [CMorphisms.compose_proper_obligation_1] out of
+    the census.
 
     LABELS.  The first builder's draft refutations (its N0-N15) keep their
     labels.  N0Z and N12a-N12d, the controls [p465_ctl_join_Z],

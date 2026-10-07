@@ -222,6 +222,9 @@ Generalizable All Variables.
    [EM_Comparison], [EM_Forget] and [RMod_Forget_Ab], lists 13 constants, all
    of them Corelib's lemmas of generalized rewriting, where this tree lists
    190; no constant of Structure/Cartesian/Closed.v is among them in either.
+   CORRECTION (#1347): this tree lists 187 since #1347, whose properness fields
+   as terms take Corelib's [subrelation_id_proper], [proper_proper_proxy] and
+   [CMorphisms.compose_proper_obligation_1] out of the census.
    C1 and C3 compare the mediator [unique_obj (HN P)], a projection out of a
    VARIABLE colimit witness, with a leg or with another witness's; C2
    compares it with the action field of a variable module M; C4 compares K(!)

@@ -94,6 +94,10 @@
         setoid-morphism component is already refused at [eq_refl]
         against [abel_proj G]'s, and so is the whole record, with
         "cannot unify";
+        CORRECTION (#1347): the setoid-morphism component now holds at
+        [eq_refl] (the probe's N8, now a control), since Instance/Sets.v
+        gives its identity's and composite's properness fields as terms;
+        the whole record is still refused (N7);
       - the reflector's arrow part is only [≈] Abelianize.v's
         ([abgrp_reflector_factors_fmap]).  It is [unique_obj] of
         Theory/Universal/Arrow.v's [Qed]-closed [ump_universal_arrows],

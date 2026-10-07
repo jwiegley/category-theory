@@ -69,6 +69,10 @@
     (accepted at [eq_refl]), while against [rquot_proj (CommIdeal R)]
     both its setoid-morphism component and the whole record are refused
     at [eq_refl] with "cannot unify".
+    CORRECTION (#1347): the setoid-morphism component now holds at
+    [eq_refl] (the probe's N12, now a control), since Instance/Sets.v
+    gives its identity's and composite's properness fields as terms; the
+    whole record is still refused (N11).
 
     NON-VACUITY lives in the satellite Instance/Rng/Commutativize/UT2.v,
     at the non-commutative ring of upper-triangular integer matrices.

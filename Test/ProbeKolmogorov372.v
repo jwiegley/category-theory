@@ -23,13 +23,23 @@
         is one universe too big to be a space's `≈`; the second is the
         donor identification [Subcategory] carries.
 
+    CORRECTION (#1347): CONVERSION 1 below now holds at [eq_refl], since
+    Instance/Sets.v gives its identity's and composite's properness fields
+    as terms; it is a control, so the refutations are SIX, FIVE negatives
+    and the instrument, CONVERSION counting 2.
+
     Each negative was stripped ONE AT A TIME (the others left as
     [Fail]), compiled alone, and its WHOLE error read; a [Fail] that
     succeeds prints NOTHING under this coqc, which is why stripping is
     the only way to see what fired.  Every constant a negative names is
     also named OUTSIDE a [Fail] below, so that renaming any of them
     breaks this file at a control rather than turning a guard silently
-    green. *)
+    green.
+    CORRECTION (#1347): the five negatives that remain, stripped one at a
+    time in copies of the WHOLE file, stop inside their commands with the
+    errors they printed before #1347 (compared by script); CONVERSION 1,
+    wrapped in the refutation keyword in such a copy, stops the build at
+    that command. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -120,9 +130,15 @@ End ProbeKolmogorovDonor.
     [fmap[Incl] id ∘ kolmogorov_proj X].  Applied to a POINT that
     composite reduces to the point itself, which is the target's
     [t0_unit_is_proj]; as a whole [ContinuousMorphism] record it does
-    not, and the `≈` form is the target's [t0_unit_is_proj_hom]. *)
+    not, and the `≈` form is the target's [t0_unit_is_proj_hom].
+    CORRECTION (#1347): as a whole record it does now: the command below
+    holds at [eq_refl], since Instance/Sets.v gives its identity's and
+    composite's properness fields as terms, and is a control.  That it
+    does not was argued; the measurement shows the residue was the
+    standard library's, the opaque lemmas instance resolution had put in the two
+    properness fields, the identity's and the composite's. *)
 
-Fail Example k372_probe_unit_is_proj_strict (X : TopSpace) :
+Example k372_probe_unit_is_proj_strict (X : TopSpace) :
   t0_unit X = kolmogorov_proj X := eq_refl.
 
 Example k372_probe_unit_is_proj_pointwise (X : TopSpace) (x : X) :

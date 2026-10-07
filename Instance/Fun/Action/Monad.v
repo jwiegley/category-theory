@@ -151,6 +151,10 @@ Generalizable All Variables.
    reads h (fst p, snd p)), the whole algebra, Beck's quasi-inverse as
    [EM_to_MSet], its action as h (g, z), the two [Monadic] witnesses as one
    term, and the hand-built functor as [ActF M].
+   CORRECTION (#1347): the [act_respects] field of the round trip, the
+   probe's N3, now holds at [eq_refl], since Instance/Sets.v gives its
+   identity's and composite's properness fields as terms; it is a control
+   there.
 
    WHY THE ROUND TRIP IS REFUSED.  The [act_unit] and [act_op] fields of
    the round trip are composite proofs built from the adjunction, and
@@ -173,6 +177,10 @@ Generalizable All Variables.
    twelve refusals stand and their positive controls hold; eleven are
    thereby not opacity of the tree, and the twelfth, N3, is the Corelib
    opacity above, which no such change reaches.
+   CORRECTION (#1347): the copy's change is now the tree's, the
+   composite's field written as a term too, and N3 holds at [eq_refl];
+   the other eleven are still refused.  N3's attribution to Corelib's
+   opaque [subrelation_id_proper] was right.
 
    GROUPS.  [GAct_Monad] and [GSet_Forget_Monadic] take Construction/
    Deloop.v's [GrpObject], which is a [MonObject] by coercion.

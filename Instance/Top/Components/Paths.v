@@ -220,8 +220,15 @@ Generalizable All Variables.
    law up to [≈], [p462_pi0_id]): the underlying functions of [pcompose
    (pid X) x] and [x] agree by conversion ([p462_id_fun]), but the two
    setoid maps do not ("cannot unify "pmap (pcompose (pid X) x)" and "pmap
-   x"", N11), their respectfulness proofs being built differently.  Up to
-   [≈] as well: the laws of the four isomorphisms, whose witnesses are
+   x"", N11), their respectfulness proofs being built differently.
+   CORRECTION (#1347): both now hold at [eq_refl], N10 and N11 being
+   controls of that probe, since Instance/Sets.v gives its identity's and
+   composite's properness fields as terms.  The proofs were built
+   differently, but what kept the two setoid maps apart was the standard
+   library's: the opaque lemmas instance resolution had put in the properness
+   fields of the identity and of the composite in [pcompose (pid X) x]'s map
+   part.
+   Up to [≈] as well: the laws of the four isomorphisms, whose witnesses are
    [colim_rel] and [coeq_rel] data, and [ival_segment_0], [ival_segment_1]
    ([CRealEq], not conversion). [interval_bool_endpoints] and
    [interval_bool_constant] are Leibniz equalities of booleans, [PBool]'s

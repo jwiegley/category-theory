@@ -35,6 +35,7 @@
     so "available at one level" is not read off a single instantiation.
 
     THE FIVE BOUNDARIES.
+    CORRECTION (#1347): four now, (5) having become a control.
 
     (1) THE YONEDA ROUTE IS UNAVAILABLE AT [Sets].
     Theory/Universal/Element.v records that [Yoneda_Lemma], and hence
@@ -72,7 +73,16 @@
     inverse image along the identity is the subset again as a PREDICATE,
     on the nose, but not as a record: the rebuilt [proper_morphism] field
     differs.  The control is the [≈] form the functor is actually built
-    from. *)
+    from.
+    CORRECTION (#1347): the identity law now holds at [eq_refl], since
+    Instance/Sets.v gives its identity's and composite's properness fields
+    as terms, and the command below is a control; so does the composition
+    law, which [powerset_fmap_comp_strict] below pins (in a copy of this
+    file as it stood at master 687ac356, compiled against that tree, that
+    command is refused with "cannot unify").  The
+    cause above, the rebuilt field differing, was argued; the measurement
+    shows the residue was the standard library's, the opaque lemmas
+    instance resolution had put in those two fields. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -205,10 +215,17 @@ Check (powerset_truth_subset_holds
 (** ** (5) The functor laws are not definitional *)
 
 (* NEGATIVE.  Stripped: "cannot unify fmap[Powerset_Prop_op] id{Sets^op} and
-   id{Sets}". *)
-Fail Example powerset_fmap_id_strict (X : SetoidObject) :
+   id{Sets}".  CORRECTION (#1347): a POSITIVE CONTROL now; the command
+   holds at [eq_refl]. *)
+Example powerset_fmap_id_strict (X : SetoidObject) :
   fmap[Powerset_Prop_op] (id{Sets^op} : X ~{Sets^op}~> X) = id{Sets}
   := eq_refl.
+
+(* POSITIVE CONTROL (#1347): the composition law at [eq_refl] as well. *)
+Example powerset_fmap_comp_strict (X Y Z : SetoidObject)
+  (f : X ~{Sets^op}~> Y) (g : Y ~{Sets^op}~> Z) :
+  fmap[Powerset_Prop_op] (g ∘ f)
+    = fmap[Powerset_Prop_op] g ∘ fmap[Powerset_Prop_op] f := eq_refl.
 
 (* POSITIVE CONTROL: the [≈] form. *)
 Check (fun X : SetoidObject => @Powerset_Prop_comap_id X).

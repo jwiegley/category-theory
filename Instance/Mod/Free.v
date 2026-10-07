@@ -553,7 +553,12 @@ Example free_module_arrow_is_insert (X : Sets) :
     [unit] is DERIVED in Theory/Adjunction.v (it is the transpose of the
     identity), not a field, so what it computes to has to be checked.  It
     is [fmap[U] id ∘ arrow], and [fmap[RMod_Forget R] id] is the identity
-    setoid map, so the unit is [fv_insert] itself. *)
+    setoid map, so the unit is [fv_insert] itself.
+    CORRECTION (#1347): read as an equation of setoid morphisms, "the unit
+    is [fv_insert] itself" held only pointwise, as the two examples below
+    state it, until Instance/Sets.v gave its identity's and composite's
+    properness fields as terms; it now holds whole at [eq_refl] (control
+    C9 of Test/ProbeSetsTerms1347.v), and is refused at master 687ac356. *)
 
 Definition free_module_unit (X : Sets)
   : X ~{Sets}~> RMod_Forget R (FreeMod X) :=

@@ -71,6 +71,14 @@ Example probe_unit_is_proj_pointwise (A : AbObject) (a : carrier A) :
   cmon_map (torsion_unit A) a
     = cmon_map (ab_quot_proj (torsion_incl A)) a := eq_refl.
 
+(* #1347: the unit's setoid-morphism component, at [eq_refl] since
+   Instance/Sets.v gives its identity's and composite's properness fields
+   as terms; against master 687ac356 it is refused with "cannot unify".
+   The whole record is still refused (above). *)
+Example probe_unit_is_proj_component (A : AbObject) :
+  cmon_map (torsion_unit A)
+    = cmon_map (ab_quot_proj (torsion_incl A)) := eq_refl.
+
 (** ** CONVERSION 2 — the scalar action at a VARIABLE scalar
 
     [AbQuotient] reuses [A]'s own zero and addition, so those two fields

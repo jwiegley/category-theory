@@ -103,6 +103,11 @@ Generalizable All Variables.
    the variable algebra's own laws along [mon_op_unit_l]; the two differ
    at neutral terms of the variable carrier setoid (argued from the terms,
    not measured further).
+   CORRECTION (#1347): the copy with the two fields written as terms is
+   now the tree: the first two refusals, R12 and R14, hold at [eq_refl]
+   and are controls of the probe, and their attribution to the standard
+   library's opacity was right; the whole-object refusal, R13, still
+   stands.
 
    UNIVERSES, read off [About].  Every constant binds [@{o so}] with o < so,
    M : MonObject@{o o o}, except [BG_theta_iso], which adds the object and
@@ -126,7 +131,9 @@ Generalizable All Variables.
    [BG_Act_EM_alg] would be refused, as above.  The isomorphism in Cat
    between the two Eilenberg–Moore categories that Monad/Morphism/
    Algebra.v's [Monads_EM] makes of [BG_theta_iso] is not stated; BG.v
-   already relates both to Set^BG through its comparison functors. *)
+   already relates both to Set^BG through its comparison functors.
+   CORRECTION (#1347): [BG_Act_EM_alg] restated for θ* is no longer
+   refused (R12, above); BG.v is still not rewired. *)
 
 (** ** θ : ActMonad M ⟶ BGMonad M, identity components *)
 

@@ -1079,6 +1079,11 @@ declares an `Axiom` or a `Parameter` (a grep of the sources). Among the
   op-typed and covariant subcategories not convertible, `Ab_to_Grp` not
   a `Sub` inclusion) are refusals pinned in
   `Test/ProbeReflective370.v`, not constants, and so are not in the gate
+  (CORRECTION (#1347): of those walls, the setoid-morphism components
+  of three units and the `MetU` unit as a whole record, the probe's N8,
+  N10, N12 and N13, now hold at `eq_refl` and are controls, since
+  Instance/Sets.v gives its identity's and composite's properness fields
+  as terms; the other walls stand)
 
 The p-adic solenoid development (Mac Lane §V.1 Construction 3, book
 p. 111, with the second half of Riehl's Example 3.6.3; #410) adds ONE
@@ -1193,7 +1198,10 @@ CORRECTION (#462)). Among the 256:
   the Type-valued component relations), the elimination that forces
   the propositional setoids, and the readbacks refused at `eq_refl`,
   are refusals pinned in `Test/ProbeComponents462.v`, not constants,
-  and so are not in the gate
+  and so are not in the gate (CORRECTION (#1347): two of those
+  readbacks, the probe's N10 and N11, now hold at `eq_refl` and are
+  controls, since Instance/Sets.v gives its identity's and composite's
+  properness fields as terms)
 
 The monads-on-a-preorder development (Mac Lane §VI.1 display (3) and
 §VI.2's example "Closure", book pp. 139 and 141, with Awodey §10.2,
@@ -1296,7 +1304,9 @@ the stdlib-axioms section below is unchanged. Among the 104:
   `subrelation_id_proper`) and on universes (the
   functor category at hom level so) — are pinned in
   `Test/ProbeGroupAction464.v`, not constants, and so are not in the
-  gate
+  gate (CORRECTION (#1347): that one, the probe's N3, now holds at
+  `eq_refl` and is a control, since Instance/Sets.v gives its
+  identity's and composite's properness fields as terms)
 
 The R ⊗ (−) development (Mac Lane §VI.2's example "Modules", book
 p. 142, with Riehl's (2nd ed.) Examples 5.2.6(ii) and 5.5.7(i) and her
@@ -1417,6 +1427,9 @@ lines), so the stdlib-axioms section below is unchanged. Among the
   on universes (`@Monad Sets Powerset` over the proof-relevant
   carrier, and a `Type`-valued order, a sort refusal) — are pinned in
   `Test/ProbeSupLat466.v`, not constants, and so are not in the gate
+  (CORRECTION (#1347): the whole induced unit, the probe's F1, now
+  holds at `eq_refl` and is a control, since Instance/Sets.v gives its
+  identity's and composite's properness fields as terms)
 
 The Eilenberg–Moore creation development (Mac Lane §VI.2 Exercise 2,
 "Show that G^T : X^T → X creates limits", book p. 142, read with the
@@ -1516,7 +1529,10 @@ the 97:
   morphisms and algebras as whole objects, four of them by the opacity
   of the standard library's CMorphisms lemmas beneath Instance/Sets.v's
   properness proofs) — are pinned in `Test/ProbeMonadMorphism468.v`,
-  not constants, and so are not in the gate
+  not constants, and so are not in the gate (CORRECTION (#1347): those
+  four, the probe's R12, R14, R15 and R16, now hold at `eq_refl` and are
+  controls, since Instance/Sets.v gives its identity's and composite's
+  properness fields as terms)
 
 The discrete-space and discrete-poset development (Mac Lane §VI.3's
 example of a comparison functor that is "not an isomorphism, and not
@@ -1576,7 +1592,9 @@ stdlib-axioms section below is unchanged. Among the 172:
   witness against the given one, a variable object against its rebuilt
   pair; one of them by the opacity of the standard library's
   generalized-rewriting lemmas beneath Instance/Sets.v's properness
-  proofs (argued, not measured), and one, `TPos = PropSets_Incl ◯ PropSets_trunc`, by the
+  proofs (argued, not measured; CORRECTION (#1347): measured since, the
+  probe's R15 now holding at `eq_refl` and being a control, the fields
+  given as terms), and one, `TPos = PropSets_Incl ◯ PropSets_trunc`, by the
   opacity of the tree's own `Qed` obligations of `Compose`, `Incl` or
   `Pos_Forget`), by typing (the unit of the truncation monad against
   `id`) and by the sort discipline (the naive elimination of `inhabited`

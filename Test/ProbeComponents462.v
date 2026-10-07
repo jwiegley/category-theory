@@ -16,6 +16,9 @@
     every one is recorded in a target header, which cites it by its
     label here.  The positive controls restate the files' claims
     independently.
+    CORRECTION (#1347): N10 and N11 now hold at [eq_refl], since
+    Instance/Sets.v gives its identity's and composite's properness fields
+    as terms; they are controls, and keep their labels.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
     First the ten standard-library lines of Instance/Top/Components/
@@ -83,6 +86,14 @@
     take the closed universe list [@{o}] in place of [@{o|}], and the three
     controls one universe up an extensible constraint list in place of the
     closed [@{o h | o < h}].
+    CORRECTION (#1347): N10 and N11 are controls now.  Each, wrapped in
+    the refutation keyword in a copy of this WHOLE file, stops the build
+    at that command with the report that it was accepted, so the
+    definitions and examples that are not refutations are fifty-three.
+    The negatives are ten, and each of the ten, stripped in a copy of
+    this WHOLE file, stops inside its command with the error it printed
+    before #1347 (compared by script, universe serial names aside).  Both
+    measurements on Rocq 9.1.1 only; the older versions were not re-run.
 
     KINDS.  Thirteen refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1, N2,
@@ -92,6 +103,14 @@
     universe inconsistency (N8); an ELIMINATION refusal is "Incorrect
     elimination" of a proof of a proposition into a type; a CONVERSION
     refusal is [eq_refl] refused with a "cannot unify" parenthetical.
+    CORRECTION (#1347): N10 and N11 now hold at [eq_refl] and are
+    controls, so the refutations are eleven and CONVERSION is N9 alone:
+    one, seven, two and one.  N10 and N11 were CONVERSION by their errors;
+    Instance/Top/Components/Paths.v gave their cause, by argument, as the
+    two setoid maps' respectfulness proofs being built differently, and
+    the measurement shows the residue was the standard library's: the
+    opaque lemmas instance resolution had put in Instance/Sets.v's two
+    properness fields.
 
     LABELS.  The review's TopFun is N1 and its TopProp the control
     [tcomp_rel_prop]; builder-comp's W1, W2 and W3 are N3, N4 and N5,
@@ -105,6 +124,8 @@
     labels are not constants: each refutation carries its own in a
     comment on the line above it, the instrument's reading "The
     instrument".
+    CORRECTION (#1347): N10 and N11 are controls now and keep these
+    labels, each in a comment on the line above it.
 
     ** Instance/Top/Components.v, ENCODING: the Type-valued [Top]
 
@@ -208,6 +229,12 @@
       (cannot unify "fmap[PPi0] (pid X) (ParY; x)" and "(ParY; x)")
     N11 (CONVERSION).  The two setoid maps under it:
       (cannot unify "pmap (pcompose (pid X) x)" and "pmap x")
+    CORRECTION (#1347): N10 and N11 now hold at [eq_refl], since
+    Instance/Sets.v gives its identity's and composite's properness fields
+    as terms; they are controls.  The map part of [pcompose (pid X) x] is
+    [setoid_morphism_compose] of [setoid_morphism_id] and [pmap x], and
+    what kept it from converting with [pmap x] was the two properness fields,
+    the identity's and that composite's.
     N12 (UNIVERSE).  The header's P AND π₀, P derived from the Yoneda
     embedding:
       The term "Curried_CoHom PTopCat" has type "@Functor@{so o o <1>
@@ -227,6 +254,9 @@
     are readbacks and guard nothing; the Makefile's print-assumptions
     gate is where closure is kept.  By the same command all forty-nine
     constants of this file are closed under the global context.
+    CORRECTION (#1347): by the same command, in a copy of this WHOLE
+    file, all fifty-three constants it now defines are closed, #469's two
+    controls and N10 and N11 among them.
 
     NOT PINNED HERE.  (a) [About] readbacks as such: the headers' [Set]
     censuses, their attributions to first carriers, and the [Set < o]
@@ -607,13 +637,13 @@ Example p462_id_fun@{o} (X : PTop@{o}) (x : PMor@{o} PPoint@{o} X) :
   (fun u => pmap (pcompose (pid X) x) u) = (fun u => pmap x u) := eq_refl.
 
 (* N10 *)
-Fail Example p462_pi0_id_point@{o so p f | o < so, p <= o, o < f +}
+Example p462_pi0_id_point@{o so p f | o < so, p <= o, o < f +}
   (X : PTop@{o}) (x : PMor@{o} PPoint@{o} X) :
   fmap[PPi0@{o so p f}] (pid X) (existT _ ParY x) = existT _ ParY x
   := eq_refl.
 
 (* N11 *)
-Fail Example p462_id_setoid_map@{o} (X : PTop@{o})
+Example p462_id_setoid_map@{o} (X : PTop@{o})
   (x : PMor@{o} PPoint@{o} X) : pmap (pcompose (pid X) x) = pmap x
   := eq_refl.
 
