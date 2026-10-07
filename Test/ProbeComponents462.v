@@ -44,7 +44,10 @@
     fifty-first line, the fortieth naming a [Category] module (Instance/
     Sets/Propositional/Full.v, after every other command), and the list
     now loads one hundred and thirty-one [Category] modules, by the same
-    [Print Libraries] count.
+    [Print Libraries] count.  CORRECTION (#1349): Components.v now
+    requires Full.v, so the fifty lines before it load the one hundred and
+    thirty-one already, Full.v among them, and the fifty-first adds no
+    module, by the same count.
 
     DISCIPLINE.  The instrument was checked both ways: the refutation of an
     absent name is refused for that reason ("The reference p462_absent_name
@@ -94,6 +97,14 @@
     this WHOLE file, stops inside its command with the error it printed
     before #1347 (compared by script, universe serial names aside).  Both
     measurements on Rocq 9.1.1 only; the older versions were not re-run.
+    Re-run after #1349, which changes what the [Require] of Components.v
+    loads, in whole-file copies on Rocq 9.1.1: each of the eleven
+    stripped copies stops inside its command with the text the tree
+    before #1349 gives, from its "Error:", and each of the fifty-three
+    controls, wrapped, stops the build at its own command.  In overlays
+    of master 687ac356 with #1349's changes, on Coq 8.19.2 and 8.20.1,
+    the three targets and this file compile, with the warnings of master
+    and none from these files.
 
     KINDS.  Thirteen refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1, N2,
@@ -283,7 +294,17 @@
     inductive, [zig_pt], which [Print Module] lists under its type; no
     record is declared, so there is no [Build_] constructor to add.
     Each is written fully qualified, so that no short name in scope can
-    stand in for it. *)
+    stand in for it.  CORRECTION (#1349): the squash setoid's four
+    constants, [squash_rel], [squash_sym], [squash_trans] and
+    [SquashSetoid], moved from Instance/Top/Components.v to
+    Instance/Sets/Propositional/Full.v, which Components.v now requires,
+    and the guard names them there, in a group after Components.v's: one
+    hundred and twenty-four of Components.v (its [Print Module] entries,
+    the three constructors included) and four of Full.v, still two
+    hundred and fifty-six lines.  [unsquash_Untruncate] and
+    [Untruncate_unsquash] stay in Components.v, now derived from Full.v's
+    [untr_of_choice] and [choice_of_untr], and [PSetsSub] and [PSets] are
+    Full.v's [PropSets_sub] and [PropSets] by definition. *)
 
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.QArith.QArith.
@@ -687,7 +708,9 @@ Print Assumptions PPi0.
 Check Category.Adjunction.Continuity.Equalizer.not_PreservesEqualizers_no_left_adjoint.
 Check Category.Adjunction.Continuity.Equalizer.right_adjoint_PreservesEqualizers.
 
-(* Instance/Top/Components.v: 125 names and the constructors of [zig_pt]. *)
+(* Instance/Top/Components.v: 125 names and the constructors of [zig_pt].
+   CORRECTION (#1349): 121 names now; the squash setoid's four follow the
+   group, by their new names. *)
 Check Category.Instance.Top.Components.adj_from_points.
 Check Category.Instance.Top.Components.adj_Sets_from_points.
 Check Category.Instance.Top.Components.adj_Sets_to_points.
@@ -782,10 +805,6 @@ Check Category.Instance.Top.Components.PZig_one_component.
 Check Category.Instance.Top.Components.PZig_PLocConn.
 Check Category.Instance.Top.Components.squash_id.
 Check Category.Instance.Top.Components.squash_id_cont.
-Check Category.Instance.Top.Components.squash_rel.
-Check Category.Instance.Top.Components.squash_sym.
-Check Category.Instance.Top.Components.squash_trans.
-Check Category.Instance.Top.Components.SquashSetoid.
 Check Category.Instance.Top.Components.swap_e.
 Check Category.Instance.Top.Components.swap_L.
 Check Category.Instance.Top.Components.swap_map.
@@ -816,6 +835,13 @@ Check Category.Instance.Top.Components.zig_pt_rec.
 Check Category.Instance.Top.Components.zig_pt_rect.
 Check Category.Instance.Top.Components.zig_pt_sind.
 Check Category.Instance.Top.Components.zig_setoid.
+
+(* Instance/Sets/Propositional/Full.v: the squash setoid's 4 names, moved
+   there from Instance/Top/Components.v by #1349. *)
+Check Category.Instance.Sets.Propositional.Full.squash_rel.
+Check Category.Instance.Sets.Propositional.Full.squash_sym.
+Check Category.Instance.Sets.Propositional.Full.squash_trans.
+Check Category.Instance.Sets.Propositional.Full.SquashSetoid.
 
 (* Instance/Top/Components/Paths.v: 126 names. *)
 Check Category.Instance.Top.Components.Paths.ibis_clamp.
@@ -950,7 +976,12 @@ Check Category.Instance.Top.Components.Paths.rball_scale.
    these two controls pin that at [eq_refl].  The [Require] is loaded
    after every other command, so it changes the environment of these two
    controls alone, and it costs this probe one module (Full.v, whose
-   closure is otherwise inside Components.v's). *)
+   closure is otherwise inside Components.v's).  CORRECTION (#1349):
+   Components.v now requires Full.v and defines [PSetsSub] and [PSets]
+   as [PropSets_sub] and [PropSets], so these two hold by unfolding that
+   definition; they are kept as controls of it.  The [Require] now adds
+   no module, Full.v being inside Components.v's closure; it brings
+   Full.v's short names into scope for these two controls alone. *)
 Require Import Category.Instance.Sets.Propositional.Full.
 
 Example p462_c469_propsets_sub@{o so | o < so +} :

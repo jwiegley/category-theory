@@ -138,7 +138,11 @@ object bridges taking the shared route through `Monad/Monoid.v`'s
 every version) added four names to #468's block, `Monad/Monoid.v`'s
 `Endofunctors`, `monoidobject_monad`, `monad_monoidobject` and
 `Monoid_Monad`, every one "Closed under the global context";
-12888 + 4 = 12892.
+12888 + 4 = 12892. #1349, which unified #462's `PSets` with #469's
+`PropSets` and moved the restated choice constants and the squash
+setoid into `Instance/Sets/Propositional/Full.v`, rewrote six lines of
+the #462 and #469 blocks to the moved constants' new paths and left the
+figure as it was.
 An earlier revision of this paragraph gave
 **12888**, the figure on 2026-09-30, after #469 (Mac Lane §VI.3's example of
 an adjunction whose comparison functor is not an equivalence: the
@@ -1155,7 +1159,11 @@ p. 135, with Riehl's Example 3.3.2; #462) adds ONE block of
 for each, the `Program` obligations and the inductive `zig_pt` with its
 constructors and generated schemes included, each reported "Closed
 under the global context" by its fully qualified name. None declares
-an `Axiom` or a `Parameter` (a grep of the sources).
+an `Axiom` or a `Parameter` (a grep of the sources). CORRECTION
+(#1349): four of the 256, the squash setoid's `squash_rel`,
+`squash_sym`, `squash_trans` and `SquashSetoid`, are
+`Instance/Sets/Propositional/Full.v`'s now, and the block names them by
+those paths.
 `Instance/Top/Components/Paths.v` is the fourth development file whose
 `Require` lines name the standard library's CONSTRUCTIVE Cauchy reals
 and no module of its classical `R`: ConstructiveCauchyReals,
@@ -1172,7 +1180,8 @@ where the classical `Rdefinitions.Rlt`, queried as the instrument,
 prints `sig_forall_dec`; and the interval `PInterval`,
 `interval_bool_endpoints` and `interval_bool_constant` are in the block.
 A file requiring all three loads 130 `Category` modules, the three
-included, and eight standard-library reals modules, seven under
+included (CORRECTION (#1349): 131, Full.v now among them), and eight
+standard-library reals modules, seven under
 Reals/Cauchy and the eighth Reals/Abstract/ConstructiveReals, none of
 the classical `R` (`Print Libraries`); so the ten development files of the
 stdlib-axioms section below that import the classical `R` stay ten,
@@ -1195,10 +1204,15 @@ CORRECTION (#462)). Among the 256:
   hypothesis in their statements (an adjunction, or the principle
   itself); none assumes one, and together they are the measurement
   that Mac Lane's Set cannot be read as the whole of `Sets` without one
+  (CORRECTION (#1349): `unsquash_Untruncate` is now a transparent
+  definition derived from `Instance/Sets/Propositional/Full.v`'s
+  `untr_of_choice`, and still closed)
 - `components_left_adjoint_discrete_Sets`, with `comp_respect_U` and
   `Untruncate_unsquash` — conditionals over `Untruncate@{o}`
   (Instance/Sets/Classifier/OneLevel.v's), a hypothesis in their
   statements and never assumed, like `Sets_Classifier`
+  (CORRECTION (#1349): `Untruncate_unsquash` is now a transparent
+  definition derived from Full.v's `choice_of_untr`, and still closed)
 - `PPi0`, `PPi0_fmap`, the readback isomorphisms `PPi0_coeq_iso` and
   `PPi0_points_iso`, `interval_bool_constant`, `PPi0_PInterval_iso`,
   `Pi0_PBool_two` and `PPi0_PBool_iso` — Riehl's box, unconditional
@@ -1565,7 +1579,13 @@ reals module, directly or through another `Category` module (`Print
 Libraries` after a `Require` of the five lists 130 `Category` modules,
 the five among them, and no module under `Reals`, where a `Require` of
 Instance/Top/Circle.v as the instrument lists six `Reals` lines), so the
-stdlib-axioms section below is unchanged. Among the 172:
+stdlib-axioms section below is unchanged. CORRECTION (#1349): the block
+keeps its 172 lines, `untr_of_choice` and `choice_of_untr` named by
+their `Instance/Sets/Propositional/Full.v` paths and `choice_setoid` now
+`SquashSetoid` by definition; Full.v also holds the squash setoid's
+four now, named by #462's block, so the five modules list 176 names, and
+the 130 is unchanged.
+Among the 172:
 
 - `IdMonad` and `IdMonad_EM_equivalence` — the identity monad at every
   category and the equivalence of its Eilenberg–Moore category with the
@@ -1592,7 +1612,8 @@ stdlib-axioms section below is unchanged. Among the 172:
   (`all_PropEquiv_trunc`, `trunc_all_PropEquiv`); and `MPos_IEM_Id_iso`,
   with `choice_of_IEM`, `untr_of_choice` and `choice_of_untr`, over
   Instance/Sets/Classifier/OneLevel.v's `IEM@{c}` and `Untruncate@{c}`
-  written out (that file is not required): these principles are
+  written out (that file is not required; CORRECTION (#1349): the
+  latter two are Full.v's now): these principles are
   HYPOTHESES in the statements and never axioms, so `Print Assumptions`
   reports the constants closed; none has an axiom-free in-tree
   inhabitant (docs/INHABITATION.md's `MPos_Id_iso` row), and the
