@@ -12,6 +12,8 @@ Require Import Category.Theory.Algebra.Monoid.Hom.
 Require Import Category.Theory.Equivalence.
 Require Import Category.Theory.Equivalence.FullFaithful.
 Require Import Category.Instance.Fun.
+Require Category.Theory.Algebra.Monoid.Product.
+Require Category.Monad.Monoid.
 Require Import Category.Monad.Morphism.
 
 Generalizable All Variables.
@@ -69,7 +71,12 @@ Generalizable All Variables.
    itself included, and 46 with Monad/Monoid.v and Theory/Algebra/Monoid/
    Product.v added, among them those two, Structure/Monoid.v,
    Instance/Sets/Cartesian.v and nine Structure/Monoidal files (measured
-   by a script over coqdep's output).
+   by a script over coqdep's output).  CORRECTION (#1348): the route is
+   taken, by the maintainer's decision on PR #1345 that the shared route
+   is preferred to its cost.  [monad_monoid] and [monoid_monad] are now
+   that composite, this file's [Require] closure has 46 files (by
+   [rocq dep -sort]), and Monad/Monoid.v's [Monoid_Monad] was rewritten
+   for it, as its comment records.
 
    OBJECTS.  [monad_monoid M] is the monoid of a monad: μ is [join] and
    η is [ret], each made a [Transform] from its naturality law
@@ -86,6 +93,10 @@ Generalizable All Variables.
    and the components of μ and η of monad_monoid (monoid_monad N) are
    N's ([monad_monoid_mu_round], [monad_monoid_eta_round]).  The whole
    round trips are refused (below): the law fields are rebuilt.
+   CORRECTION (#1348): the two proofs are now Monad/Monoid.v's
+   [monad_monoidobject] and [monoidobject_monad], which the bridges here
+   compose with Theory/Algebra/Monoid/Product.v's conversions; the four
+   data round trips hold at [eq_refl] as before.
 
    ARROWS.  The horizontal composite θ □ θ of [Compose_Monoidal] at x IS
    θ_{T'x} ∘ T(θ_x), the right factor of Monad/Morphism.v's [mh_join]
@@ -139,9 +150,15 @@ Generalizable All Variables.
    and [Transparent Obligations] set (Instance/Sets.v,
    Structure/Cartesian/Closed.v, Instance/Grp.v and Instance/Grp/Free.v
    keeping their [Qed]s, as in #464's measurement), with the same texts:
-   they are not opacity.  The first compares [id] with a stuck projection of
-   a variable functor, and the other two compare rebuilt law proofs with the
-   projections of a variable [Monad] or [Monoid].
+   they are not opacity.  #1348 measured this again on the closure of
+   the shared route: with 1371 [Qed]s in 104 files turned into [Defined]
+   and [Transparent Obligations] set, the same four files keeping theirs
+   and Structure/Limit/Preservation.v's bullets rewritten as #464's tree
+   has them, each of the three, alone in a copy of the probe, is refused
+   inside its command with the same text.  The first compares [id] with a
+   stuck projection of a variable functor, and the other two compare
+   rebuilt law proofs with the projections of a variable [Monad] or
+   [Monoid].
 
    UNIVERSES, read off [About].  Every bridge constant binds [@{o h f s}]
    with h < s, o <= f and h <= f, and takes [C, C] at
@@ -173,55 +190,16 @@ Generalizable All Variables.
    2-cells, and the monoidal structure of [Monads C], are not built.
    The route through Monad/Monoid.v's [Monoid_Monad] (above) is measured
    against this file's bridges on components only; it is not made a
-   functor. *)
+   functor.  CORRECTION (#1348): the route is this file's object bridges
+   now, so [Monads_Mon] is built on it. *)
 
 (** ** Objects: a monad is a monoid in ⟨[C, C], ◯, Id⟩ *)
 
 Definition monad_monoid@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) :
-  @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T.
-Proof.
-  unshelve refine (@Build_Monoid (@Fun@{o h o h f f s} C C)
-     (@Compose_Monoidal@{s f o h} C) T _ _ _ _ _).
-  - exact (Build_Transform'@{o h h o h h} (F := T ◯ T) (G := T)
-             (fun x => @join C T M x)
-             (fun x y g => symmetry (join_fmap_fmap g))).
-  - exact (Build_Transform'@{o h h o h h} (F := Id) (G := T)
-             (fun x => @ret C T M x)
-             (fun x y g => symmetry (fmap_ret g))).
-  - intros x; simpl.
-    etransitivity.
-    { apply compose_respects; [ reflexivity | ].
-      etransitivity; [ | apply id_right ].
-      apply compose_respects; [ reflexivity | ].
-      etransitivity; [ apply fmap_respects, fmap_respects, fmap_id | ].
-      etransitivity; [ apply fmap_respects, fmap_id | ].
-      apply fmap_id. }
-    symmetry.
-    etransitivity;
-      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
-    etransitivity; [ apply id_right | ].
-    etransitivity.
-    { apply compose_respects; [ reflexivity | ].
-      etransitivity;
-        [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
-      apply id_left. }
-    apply join_fmap_join.
-  - intros x; simpl.
-    etransitivity; [ | symmetry; apply fmap_id ].
-    etransitivity; [ | apply join_ret ].
-    apply compose_respects; [ reflexivity | ].
-    etransitivity;
-      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
-    apply id_right.
-  - intros x; simpl.
-    etransitivity; [ | symmetry; apply fmap_id ].
-    etransitivity; [ | apply join_fmap_ret ].
-    apply compose_respects; [ reflexivity | ].
-    etransitivity;
-      [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
-    apply id_left.
-Defined.
+  @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T :=
+  Category.Theory.Algebra.Monoid.Product.Monoid_of_MonoidObject
+    (snd (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T) M).
 
 Example monad_monoid_mu@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) (x : C) :
@@ -236,48 +214,9 @@ Example monad_monoid_eta@{o h f s | h < s, o <= f, h <= f +}
 Definition monoid_monad@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
   (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T) :
-  @Monad C T.
-Proof.
-  unshelve refine (@Build_Monad C T
-     (fun x => transform[@eta _ _ _ N] x)
-     (fun x => transform[@mu _ _ _ N] x) _ _ _ _ _).
-  - intros x y g. symmetry. exact (naturality[@eta _ _ _ N] _ _ g).
-  - intros x.
-    pose proof (@mu_assoc _ _ _ N x) as E; simpl in E.
-    symmetry.
-    etransitivity; [ | etransitivity; [ exact E | ] ].
-    + symmetry.
-      apply compose_respects; [ reflexivity | ].
-      etransitivity; [ | apply id_right ].
-      apply compose_respects; [ reflexivity | ].
-      etransitivity; [ apply fmap_respects, fmap_respects, fmap_id | ].
-      etransitivity; [ apply fmap_respects, fmap_id | ].
-      apply fmap_id.
-    + etransitivity;
-        [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
-      etransitivity; [ apply id_right | ].
-      apply compose_respects; [ reflexivity | ].
-      etransitivity;
-        [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
-      apply id_left.
-  - intros x.
-    pose proof (@mu_unit_right _ _ _ N x) as E; simpl in E.
-    etransitivity; [ | etransitivity; [ exact E | apply fmap_id ] ].
-    apply compose_respects; [ reflexivity | ].
-    symmetry.
-    etransitivity;
-      [ apply compose_respects; [ apply fmap_id | reflexivity ] | ].
-    apply id_left.
-  - intros x.
-    pose proof (@mu_unit_left _ _ _ N x) as E; simpl in E.
-    etransitivity; [ | etransitivity; [ exact E | apply fmap_id ] ].
-    apply compose_respects; [ reflexivity | ].
-    symmetry.
-    etransitivity;
-      [ apply compose_respects; [ reflexivity | apply fmap_id ] | ].
-    apply id_right.
-  - intros x y g. symmetry. exact (naturality[@mu _ _ _ N] _ _ g).
-Defined.
+  @Monad C T :=
+  fst (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T)
+    (Category.Theory.Algebra.Monoid.Product.MonoidObject_of_Monoid N).
 
 (* Round trips on the data, on the nose. *)
 
