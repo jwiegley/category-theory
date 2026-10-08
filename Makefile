@@ -15299,6 +15299,69 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.functor_preserves_contractible_t.'; \
 	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.contractible_coequalizer_absolute.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Limit.Reflection.'; \
+	  echo 'Require Import Category.Theory.Equivalence.Limit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsLimitConesOfShape.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsLimitConesOver.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsLimitConesOfClass.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsLimitConesOver_OfClass.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsLimitConesOfClass_Over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsAllLimits.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsAllLimits_Over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCoconesOfShape.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCoconesOver.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCoconesOfClass.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCoconesOver_OfClass.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCoconesOfClass_Over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsAllColimits.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsAllColimits_Over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsIsos_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.creates_reflects_colimits.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.creates_reflects_all_limits.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.creates_reflects_all_colimits.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.MacLaneCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.mlc_lift.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.mlc_limiting.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.mlc_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.maclane_creates_reflects.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.maclane_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.iso_unique_lift_reflects.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.id_maclane_creates.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.MacLaneCreatesColimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.conservative_reflects_limit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_limit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_limits_of_shape.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_limits_over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_limits_of_class.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.conservative_reflects_colimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_colimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_colimits_of_shape.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_colimits_over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_reflects_colimits_of_class.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_creates_limit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_creates_limits_over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_creates_limits_of_class.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_creates_colimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.preserves_conservative_creates_colimits_of_class.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsCoequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.PreservesCoequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.CreatesCoequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsCoequalizers_ReflectsColimitCocones.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCocones_ReflectsCoequalizers_of_pairs.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.ReflectsColimitCocones_ReflectsCoequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.PreservesCoequalizers_PreservesColimitCocones.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.PreservesColimitCocones_PreservesCoequalizers_of_pairs.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.PreservesColimitCocones_PreservesCoequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.creates_reflects_coequalizers_of_pairs.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.maclane_creates_reflects_coequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.creates_reflects_coequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Reflection.conservative_reflects_coequalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_cocone_coequalizer_colimit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Limit.ff_ReflectsLimitCone.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Limit.ff_reflects_colimit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Limit.ff_ReflectsColimitCocone.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

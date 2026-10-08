@@ -53,7 +53,11 @@ Generalizable All Variables.
      #118 note in Theory/Functor.v).  The same technique gives
      [ff_reflects_isos] and [equivalence_reflects_isos], witnesses for
      the conservative-functor class [ReflectsIsos] of
-     Structure/Limit/Preservation.v.
+     Structure/Limit/Preservation.v.  Since #481 the colimit half for a
+     functor that is only full and faithful is [ff_reflects_colimit],
+     and both halves are stated at cone level as well
+     ([ff_ReflectsLimitCone], [ff_ReflectsColimitCocone]): Riehl's Lemma
+     3.4.5.
 
    - Creation ([equivalence_creates_limits]) takes any limit of F ◯ G to
      a limit of G itself: the quasi-inverse is a right adjoint
@@ -368,6 +372,46 @@ Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) :=
 End ReflectLimit.
 
 End FullyFaithful.
+
+(* Riehl's Lemma 3.4.5 (#481): a full and faithful functor reflects the
+   limits and the colimits present in its codomain.  In the cone-level
+   vocabulary of Structure/Limit/Preservation.v the limit half is
+   [ff_reflect_ump] with its leg side condition discharged by
+   [reflexivity], the legs of [FCone] being the image legs: the term that
+   Theory/Equivalence/Creation.v's [equivalence_ReflectsLimitCone],
+   Construction/Subcategory/Creation.v's [sub_ReflectsLimitCone] and
+   Construction/Reflective/Limit.v's [reflective_ReflectsLimitCone] each
+   wrote out at its own functor, and which each now calls (a CORRECTION
+   (#481) at each).  The colimit halves ride the opposite
+   functor, full and faithful by Functor/Opposite.v's [Full_op] and
+   [Faithful_op] (#266): [ff_reflects_colimit] in the apex-pinned form of
+   [ff_reflects_limit], with the injections of the image colimit as the
+   side condition, and [ff_ReflectsColimitCocone] at cone level, the image
+   cocone over (F ◯ K)^op read over F^op ◯ K^op by Preservation.v's
+   [islimitcone_op_comp]. *)
+
+Definition ff_ReflectsLimitCone {C D : Category} {F : C ⟶ D}
+  `{HF : @Full C D F} `{HfF : @Faithful C D F} {J : Category} (K : J ⟶ C) :
+  ReflectsLimitCone K F :=
+  fun N H =>
+    @ff_reflect_ump C D F HF HfF J K N (limitcone_isalimit H)
+      (fun x => reflexivity _).
+
+Definition ff_reflects_colimit {C D : Category} {F : C ⟶ D}
+  `{HF : @Full C D F} `{HfF : @Faithful C D F} {J : Category} {G : J ⟶ C}
+  (N : Cocone G)
+  (HL : IsAColimit (F ◯ G) (F (vertex_obj[N])))
+  (Hinjs : ∀ x : J, colimit_inj HL x ≈ fmap[F] (cocone_inj N x)) :
+  IsAColimit G (vertex_obj[N]) :=
+  @ff_reflects_limit (C^op) (D^op) (F^op) (Full_op HF) (Faithful_op HfF)
+    (J^op) (G^op) N (isalimit_op_comp HL) (fun x => Hinjs x).
+
+Definition ff_ReflectsColimitCocone {C D : Category} {F : C ⟶ D}
+  `{HF : @Full C D F} `{HfF : @Faithful C D F} {J : Category} (K : J ⟶ C) :
+  ReflectsColimitCocone K F :=
+  fun N H =>
+    @ff_ReflectsLimitCone (C^op) (D^op) (F^op) (Full_op HF) (Faithful_op HfF)
+      (J^op) (K^op) N (islimitcone_op_comp H).
 
 (** ** Equivalences and limits *)
 

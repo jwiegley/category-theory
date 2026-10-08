@@ -132,7 +132,22 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14334** on 2026-10-08, after #480 (Mac Lane §VI.6, Exercise 2: the
+**14393** on 2026-10-08, after #481 (Mac Lane §VI.7, the Definition of
+reflecting colimits and Exercises 1 and 3: reflection quantified over a
+shape, a class of shapes, a class of diagrams and every diagram,
+creation giving reflection, Mac Lane's own creation read literally, a
+conservative functor reflecting the limits and colimits it preserves,
+and the reflection of coequalizers, per parallel pair, by a functor that
+creates them and by a conservative one that preserves them; Riehl's
+Exercise 3.4.iii for a class of diagrams and the colimit half of his
+Lemma 3.4.5) added ONE block of 59 names, every head of one new module,
+`Structure/Limit/Reflection.v` (55), and the four it adds to
+`Structure/Coequalizer.v` (1) and `Theory/Equivalence/Limit.v` (3),
+every one "Closed under the global context" (the list below);
+14334 + (49 + 10) = 14393, the ten being the forms over a class of
+diagrams and their maps to and from the forms over a class of shapes.
+An earlier revision of this paragraph gave
+**14334**, the figure on 2026-10-08, after #480 (Mac Lane §VI.6, Exercise 2: the
 contractible pairs, the pair of every split fork contractible, every
 coequalizer of a contractible pair split on its own arrow, and so every
 coequalizer of a pair that has a split one, with the characterization
@@ -2277,6 +2292,73 @@ stdlib-axioms section below is unchanged.  Among the 24:
   coequalizer nor be reflexive (at Awodey's idempotent s ∘ s = s) are
   constants of that probe, outside the gate, each "Closed under the
   global context" (checked by hand)
+
+The reflection development (Mac Lane §VI.7, book pp. 154–155: the
+Definition of reflecting colimits and Exercises 1 and 3; Riehl §3.4,
+Definition 3.4.1 (ii), Lemma 3.4.5 and Exercise 3.4.iii; #481) adds ONE
+block of 59 names: every head of the `.glob` file of its new module,
+`Structure/Limit/Reflection.v` (55: 51 `def` entries, one `rec` and its
+three `proj` entries), which has no `Program` obligations, with
+`parallel_cocone_coequalizer_colimit`, added to
+`Structure/Coequalizer.v`, and `ff_ReflectsLimitCone`,
+`ff_reflects_colimit` and `ff_ReflectsColimitCocone`, added to
+`Theory/Equivalence/Limit.v`, each reported "Closed under the global
+context" by its fully qualified name.  None declares an `Axiom` or a
+`Parameter` (a grep of the sources).  None requires a standard-library
+reals module, directly or through another `Category` module (`Print
+Libraries` after a `Require` of the two modules lists 45 `Category`
+modules and no module under `Reals`, where a `Require` of
+Instance/Top/Circle.v as the instrument lists six `Reals` lines), so the
+stdlib-axioms section below is unchanged.  Among the 59:
+
+- `ReflectsLimitConesOfShape`, `ReflectsLimitConesOver`,
+  `ReflectsLimitConesOfClass`, `ReflectsAllLimits` and their colimit
+  twins — reflection over a shape, a class of shapes, a class of
+  diagrams and every diagram (what the issue asks `Print Assumptions`
+  of, with the two exercises) — with `ReflectsLimitConesOver_OfClass`,
+  `ReflectsLimitConesOfClass_Over` and their colimit twins, the maps
+  between the forms over a class of shapes and over a class of diagrams
+- `ReflectsCoequalizers` and `PreservesCoequalizers` — Mac Lane's "in
+  particular" over the elementary `IsCoequalizer` and its preservation
+  twin — and `CreatesCoequalizers`, a cocone-level predicate, creation at
+  every parallel-pair diagram; with the four bridges between the
+  elementary predicates and the cocone level through
+  `parallel_cocone_coequalizer_colimit`, the two from the cocone level
+  also per parallel pair
+  (`ReflectsColimitCocones_ReflectsCoequalizers_of_pairs`,
+  `PreservesColimitCocones_PreservesCoequalizers_of_pairs`)
+- `creates_reflects_coequalizers_of_pairs`,
+  `maclane_creates_reflects_coequalizers`, `creates_reflects_coequalizers`
+  and `conservative_reflects_coequalizers` — Exercise 1 per parallel pair
+  under the tree's creation and under Mac Lane's own, Exercise 1 at
+  every parallel-pair diagram, and Exercise 3
+- `MacLaneCreatesLimit` with its three projections,
+  `maclane_creates_reflects`, `maclane_CreatesLimit`,
+  `iso_unique_lift_reflects`, `id_maclane_creates` and
+  `MacLaneCreatesColimit` — Mac Lane's creation (§V.1) read
+  literally, reflection by his argument, its map into the tree's
+  creation, the iso-invariant reading and the identity's creation
+- `creates_reflects_colimits`, `conservative_reflects_limit`,
+  `conservative_reflects_colimit`, their forms per diagram, shape, class
+  of shapes and class of diagrams, and `ReflectsIsos_op` — creation and
+  conservativity giving reflection
+- `preserves_conservative_creates_limit`,
+  `preserves_conservative_creates_limits_over`,
+  `preserves_conservative_creates_limits_of_class`,
+  `preserves_conservative_creates_colimit` and
+  `preserves_conservative_creates_colimits_of_class` — Riehl's
+  Exercise 3.4.iii, for a class of diagrams on both sides
+- `ff_reflects_colimit`, `ff_ReflectsLimitCone` and
+  `ff_ReflectsColimitCocone` — Riehl's Lemma 3.4.5, its colimit half and
+  both halves at cone level
+- the refusals — by conversion (the colimit predicate against the limit
+  predicate of the opposites) and by universe (`ReflectsIsos` over a
+  target whose hom-sets are larger, with its twin, a copy of the class
+  with its binders written out, accepted there), with the name-absence
+  instrument — and the witness that Exercise 3's conservativity is needed
+  (the functor from `Sets` to the point, which preserves coequalizers and
+  does not reflect them, by one fork) are pinned in
+  `Test/ProbeReflection481.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

@@ -91,7 +91,10 @@ Generalizable All Variables.
    lines, including [cone_leg_coh] — only because that file sits above
    this layer: importing it here would compile, but it would invert the
    layering.  The name [ReflectsLimit]
-   is deliberately left unused; #481 may want it.
+   is deliberately left unused; #481 may want it.  (#481 left it unused:
+   [ReflectsLimitCone] is that predicate, and Structure/Limit/
+   Reflection.v quantifies it over shapes, classes of shapes and all
+   diagrams.)
 
    THE STRICTNESS QUESTION, AND WHAT THE SETOID SETTING FORCES.  Mac
    Lane's definition asks for a pair [(a, σ)] with [F a = x] and
