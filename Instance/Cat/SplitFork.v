@@ -242,7 +242,9 @@ Generalizable All Variables.
    transformation Id[C] ⟹ s ◯ e with components [one] and its two
    naturality squares by [one_unique], which compiles, every name
    closed, in a scratch copy without Instance/Fun/Terminal.v, at
-   fifty-five modules.
+   fifty-five modules.  CORRECTION (#480): eighty-six, thirty, twelve
+   and fifty-six by the same counts, since Structure/Coequalizer/
+   Absolute.v requires Structure/Coequalizer/Contractible.v.
 
    NOT DELIVERED.  Mac Lane's example in Grp and Exercise 1 are issue
    #479's.  Whether e is a coequalizer for some C that has objects but

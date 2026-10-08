@@ -158,7 +158,13 @@ Generalizable All Variables.
    with no hypothesis, is a follow-up issue (#1369).  Crude.v costs
    this file eleven modules of closure ([Print Libraries]: 95 without
    it, 106 with it), all already in the closure of Instance/Mon/
-   Presentation.v, which requires Crude.v itself.
+   Presentation.v, which requires Crude.v itself.  CORRECTION (#480): by
+   one criterion, [Print Libraries] after this file's fifteen [Require]
+   lines against the same without Crude.v, the cost is ten modules, 105
+   against 95 before #480 and 106 against 96 since, Structure/
+   Coequalizer/Absolute.v now loading Structure/Coequalizer/
+   Contractible.v; the figures above count this file in one and not in
+   the other.
 
    THE RING TWIN.  Instance/Rng/Coequalizer.v repeats this file's
    Sets-level part for ideals: the transversal and its splittings, the
@@ -270,7 +276,10 @@ Generalizable All Variables.
    Exercise 2 (contractible pairs).  A choice of coequalizers in Grp from
    this construction: only the pairs (∂₀, ∂₁) are coequalized here, as
    Instance/Grp/Quotient/Colimit.v coequalizes the pairs (f, 0).  The
-   shared Sets-level layer of the ring twin (above). *)
+   shared Sets-level layer of the ring twin (above).  CORRECTION (#480):
+   the section's Exercise 2, named above, is delivered since by
+   Structure/Coequalizer/Contractible.v, whose probe shows this file's
+   pair at Z/4 over {0, 2} reflexive and not contractible. *)
 
 (** ** Two cancellations, right-associated *)
 

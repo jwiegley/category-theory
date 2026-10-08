@@ -10,6 +10,7 @@ Require Import Category.Structure.Limit.Preservation.
 Require Import Category.Structure.Limit.Absolute.
 Require Import Category.Structure.Coequalizer.
 Require Import Category.Structure.Coequalizer.Split.
+Require Import Category.Structure.Coequalizer.Contractible.
 Require Import Category.Instance.Parallel.
 Require Import Category.Construction.Lift.
 
@@ -86,6 +87,14 @@ Generalizable All Variables.
        and [split_coequalizer_PreservesColimitCocone]: every functor
        preserves, in the cone sense, EVERY coequalizer of a pair that
        has a split coequalizer, not just the given one.
+     - Contractible pairs (#480): [contractible_coequalizer_absolute],
+       every coequalizer of a contractible pair is absolute, by
+       [split_coequalizer_absolute] applied to Structure/Coequalizer/
+       Contractible.v's [contractible_coequalizer_split], which splits
+       it; on Rocq 9.1.1 its [About] block is that of
+       [split_coequalizer_absolute].  It is stated here, this file
+       requiring Contractible.v, so that Contractible.v does not load
+       this file's closure.
 
    STRENGTHS.  The image cocone's injections are [fmap[T] (e ∘ f)] over
    [ParX] and [fmap[T] e] over [ParY] at [eq_refl]
@@ -127,6 +136,9 @@ Generalizable All Variables.
    "xh <= yh", with no equation, and their statements name the instances
    they consume and produce for the same reason: four explicit universe
    instances of a new constant in this file, in three constants.
+   (CORRECTION (#480): five, in four constants, since #480's
+   [contractible_coequalizer_absolute] names its instance for the same
+   reason.)
    [AbsoluteCoequalizer_IsCoequalizer] consumes the instance
    [@{co ch co ch u}], X at C's own levels: "take T := Id".  The probe
    refuses it from a target hom level above C's at C's own object level
@@ -319,3 +331,16 @@ Definition split_coequalizer_PreservesColimitCocone@{co ch do +}
                  (split_coequalizer_is_coequalizer f g S) N)
        : IsColimitCocone (cofork_cocone f g (scoeq_e S) (scoeq_law1 S)))
     (split_cofork_AbsoluteColimitCocone S) D F.
+
+(** ** Contractible pairs (#480) *)
+
+(* Every coequalizer of a contractible pair is absolute: Structure/
+   Coequalizer/Contractible.v's [contractible_coequalizer_split] splits
+   it.  The instance is named, as for [split_coequalizer_absolute]. *)
+
+Definition contractible_coequalizer_absolute@{co ch xo xh +}
+  {C : Category@{co ch ch}} {x y : C} {f g : x ~> y}
+  (P : ContractiblePair f g) {q : C} {e : y ~> q}
+  (E : IsCoequalizer f g q e) :
+  AbsoluteCoequalizer@{co ch xo xh _} f g q e :=
+  split_coequalizer_absolute (contractible_coequalizer_split P E).

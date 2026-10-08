@@ -15271,6 +15271,34 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mon.Presentation.Mon_canonical_split_s.'; \
 	  echo 'Print Assumptions Category.Instance.Mon.Presentation.Mon_canonical_split_t.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Coequalizer.Contractible.'; \
+	  echo 'Require Import Category.Structure.Coequalizer.Absolute.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.ContractiblePair.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contr_t.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contr_section.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contr_cofork.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.split_coequalizer_contractible.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.split_coequalizer_contractible_t.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split_e.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split_s.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split_t.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.contractible_coequalizer_split_s_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.every_coequalizer_split.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.every_coequalizer_split_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.every_coequalizer_split_e.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.every_coequalizer_split_t.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.split_coequalizer_iff_contractible.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.idempotent_contractible.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.coequalizer_splits_idempotent.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.coequalizer_splits_idempotent_idem.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.coequalizer_splits_idempotent_r.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.functor_preserves_contractible.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Contractible.functor_preserves_contractible_t.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.contractible_coequalizer_absolute.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

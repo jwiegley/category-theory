@@ -704,6 +704,7 @@ Structure/Cocartesian.v
 Structure/Coend.v
 Structure/Coequalizer.v
 Structure/Coequalizer/Absolute.v
+Structure/Coequalizer/Contractible.v
 Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
 Structure/Coequalizer/Wide.v
@@ -1169,3 +1170,4 @@ Test/ProbeKleisliComparison475.v
 Test/ProbeAbsolute477.v
 Test/ProbeSplitFork478.v
 Test/ProbeQuotient479.v
+Test/ProbeContractible480.v

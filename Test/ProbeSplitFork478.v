@@ -16,6 +16,9 @@
     loads eighty-six [Category] modules, exactly the set a [Require] of
     the target alone loads (compared by script).  A shorter import list
     is what makes a probe pass for no reason.
+    CORRECTION (#480): eighty-seven, the two sets still equal, since
+    Structure/Coequalizer/Absolute.v requires Structure/Coequalizer/
+    Contractible.v.
 
     DISCIPLINE.  Every negative other than the instrument is an
     [Example] or a [Definition], never a [Check], so that an open evar

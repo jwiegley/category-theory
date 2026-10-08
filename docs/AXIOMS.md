@@ -132,7 +132,19 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14310** on 2026-10-08, after #479 (Mac Lane §VI.6, the quotient group
+**14334** on 2026-10-08, after #480 (Mac Lane §VI.6, Exercise 2: the
+contractible pairs, the pair of every split fork contractible, every
+coequalizer of a contractible pair split on its own arrow, and so every
+coequalizer of a pair that has a split one, with the characterization
+of the pairs that have a split coequalizer; the pair (1, i) of an
+idempotent i, whose every coequalizer splits i; the coequalizer of a
+contractible pair absolute, and contractible pairs preserved by every
+functor) added ONE block of 24 names, every constant of one new module,
+`Structure/Coequalizer/Contractible.v` (23), and the one #480 adds to
+`Structure/Coequalizer/Absolute.v`, every one "Closed under the global
+context" (the list below); 14310 + 24 = 14334.
+An earlier revision of this paragraph gave
+**14310**, the figure on 2026-10-08, after #479 (Mac Lane §VI.6, the quotient group
 G/N as the coequalizer in `Grp` of the pair G ×₀ N ⇉ G and the
 quotient ring R/A likewise in `Rng`, the splitting after the forgetful
 functor exactly when a transversal exists and, asked of every N, a
@@ -2052,6 +2064,11 @@ unchanged.  #477 also writes out the universe binders of
 `Structure/Coequalizer/Split.v`'s `functor_preserves_split` and
 `split_coequalizer_preserved`, whose proofs are unchanged; both are
 "Closed under the global context" by hand and are not in the gate.
+CORRECTION (#480): `Print Module` of `Structure/Coequalizer/Absolute.v`
+now lists 15, the fifteenth #480's `contractible_coequalizer_absolute`,
+gated in #480's block, and a `Require` of the two Absolute files loads
+48 `Category` modules, still with no `Reals` line, Absolute.v now
+requiring `Structure/Coequalizer/Contractible.v`.
 Among the 65:
 
 - `AbsoluteCoequalizer`, `AbsoluteCoequalizer_IsCoequalizer` and
@@ -2112,7 +2129,10 @@ source).  None requires a standard-library reals module, directly or
 through another `Category` module (`Print Libraries` after a `Require`
 of the file lists 86 `Category` modules and no module under `Reals`,
 where a `Require` of Instance/Top/Circle.v as the instrument lists six
-`Reals` lines), so the stdlib-axioms section below is unchanged.  Among
+`Reals` lines), so the stdlib-axioms section below is unchanged.
+CORRECTION (#480): 87 `Category` modules, still with no `Reals` line,
+since `Structure/Coequalizer/Absolute.v` requires
+`Structure/Coequalizer/Contractible.v`.  Among
 the 45:
 
 - `arrow_fork_law1` and `arrow_fork_law1_strict` — for every C, the
@@ -2171,7 +2191,10 @@ of the three modules lists 128 `Category` modules and no module under
 `Reals`, where a `Require` of Instance/Top/Circle.v as the instrument
 lists six `Reals` lines); `Instance/Rng/Coequalizer.v` requires
 `Coq.ZArith.ZArith` and `Coq.micromega.Lia`, as Instance/Rng/Quotient.v
-does, so the stdlib-axioms section below is unchanged.  Among the 199:
+does, so the stdlib-axioms section below is unchanged.  CORRECTION
+(#480): 129 `Category` modules, still with no `Reals` line, since
+`Structure/Coequalizer/Absolute.v` requires
+`Structure/Coequalizer/Contractible.v`.  Among the 199:
 
 - `quot_proj_IsCoequalizer`, `rquot_proj_IsCoequalizer` and
   `Mon_canonical_presentation` — the three coequalizers, unconditional
@@ -2208,6 +2231,52 @@ does, so the stdlib-axioms section below is unchanged.  Among the 199:
   carrier, in `Grp` and in `Rng`, and the S₃/A₃ splitting above
   `Set`), with the name-absence instrument — are pinned in
   `Test/ProbeQuotient479.v`, not constants, and so are not in the gate
+
+The contractible-pair development (Mac Lane §VI.6, book p. 150:
+Exercise 2; #480) adds ONE block of 24 names: every `def`, `prf`, `rec`
+and `proj` entry of the `.glob` file of its new module,
+`Structure/Coequalizer/Contractible.v` (23), which has no `Program`
+obligations, and the one constant it adds to
+`Structure/Coequalizer/Absolute.v`, each reported "Closed under the
+global context" by its fully qualified name.  None declares an `Axiom`
+or a `Parameter` (a grep of the sources).  None requires a
+standard-library reals module, directly or through another `Category`
+module (`Print Libraries` after a `Require` of Contractible.v lists 25
+`Category` modules, and after a `Require` of Absolute.v 48, Contractible.v
+among them, and no module under `Reals`, where a `Require` of
+Instance/Top/Circle.v as the instrument lists six `Reals` lines), so the
+stdlib-axioms section below is unchanged.  Among the 24:
+
+- `ContractiblePair`, `contr_t`, `contr_section` and `contr_cofork` —
+  Beck's contractible pair, with Mac Lane's ∂₀t = 1 and ∂₁t∂₀ = ∂₁t∂₁
+  (what the issue asks `Print Assumptions` of, with (a) and (b))
+- `split_coequalizer_contractible` — part (a), the pair of every split
+  fork contracted by the fork's t
+- `contractible_coequalizer_split` — part (b), a split coequalizer on
+  the object and arrow of every coequalizer of a contractible pair, and
+  `contractible_coequalizer_split_s_unique`, the uniqueness of its s
+- `every_coequalizer_split` — the book's "any (and hence every)
+  coequalizer is split" — and `split_coequalizer_iff_contractible`, the
+  characterization: a pair has a split coequalizer exactly when it is
+  contractible and has a coequalizer
+- `idempotent_contractible` and `coequalizer_splits_idempotent` — the
+  pair (1, i) of an idempotent i contracted by 1, and every coequalizer
+  of it splitting i
+- `contractible_coequalizer_absolute` (in
+  `Structure/Coequalizer/Absolute.v`) and
+  `functor_preserves_contractible` — the coequalizer of a contractible
+  pair absolute, through #477's `split_coequalizer_absolute`, and
+  contractible pairs preserved by every functor
+- the refusals — by conversion at `eq_refl` (the split fork's s after
+  the round trip through Mac Lane's Lemma, and the proof of the second
+  equation after the round trip through a coequalizer), with the
+  name-absence instrument — are pinned in `Test/ProbeContractible480.v`,
+  not constants, and so are not in the gate; the witnesses that a
+  reflexive pair with a coequalizer need not be contractible (at Z/4
+  over {0, 2}) and that a contractible pair need neither have a
+  coequalizer nor be reflexive (at Awodey's idempotent s ∘ s = s) are
+  constants of that probe, outside the gate, each "Closed under the
+  global context" (checked by hand)
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
