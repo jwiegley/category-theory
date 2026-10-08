@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**13090** on 2026-10-07, after #470 (Mac Lane §VI.4, "Words and Free
+**13340** on 2026-10-07, after #471 (Mac Lane §VI.4, Exercise 1, with
+Awodey's Example 10.7 and Exercise 10.6.6 and Riehl's Examples
+5.1.4(ii), 5.1.5(ii), 5.2.6(iii) and 5.2.11(ii): the monoid monad W₀ as
+the monad of the free monoid adjunction at Sets in a hom-set form
+added to `Instance/Mon/Free.v`, its algebras as monoids and as Mac
+Lane's strings ν₀, ν₁, …, Mon isomorphic in `Cat` to Set^{W₀} with
+identity components and monadic over Set, the Kleisli category of W₀,
+and the free commutative monoid on a setoid with its multiset monad,
+CMon isomorphic in `Cat` to its algebras) added ONE block of 250 names,
+the six constants #471 adds to `Instance/Mon/Free.v` and every constant
+of three new modules, `Instance/Mon/Word.v`,
+`Instance/Mon/Word/System.v` and `Instance/CMon/Free.v`, every one
+"Closed under the global context" (the list below); 13090 + 250 = 13340.
+An earlier revision of this paragraph gave
+**13090**, the figure on 2026-10-07, after #470 (Mac Lane §VI.4, "Words and Free
 Semigroups": the free semigroup on words, its insertion of generators as
 a universal arrow and the adjunction Set ⇀ Smgrp, the word monad W, its
 laws verified directly as well, without reference to the adjunction, the
@@ -1699,6 +1713,56 @@ is unchanged.  Among the 198:
   opaque `Functor_Setoid_obligation_1`) and the name-absence instrument
   — are pinned in `Test/ProbeWord470.v`, not constants, and so are not
   in the gate
+
+The monoid monad development (Mac Lane §VI.4, Exercise 1, book p. 146:
+the monad W₀ of the forgetful functor Mon → Set and its algebras as
+strings ν₀, ν₁, … with ν₀ the unit and νₙ the n-fold product; with
+Awodey's Example 10.7 and Exercise 10.6.6 and Riehl's Examples
+5.1.4(ii), 5.1.5(ii), 5.2.6(iii) and 5.2.11(ii); #471) adds ONE block of
+250 names: the six constants it adds to `Instance/Mon/Free.v`
+(`free_mon_extend_pointwise`, `free_mon_hom_iso`,
+`free_mon_sets_adjunction_hom` and three readbacks) and every constant
+`Print Module` lists for its three new modules, `Instance/Mon/Word.v`
+(103), `Instance/Mon/Word/System.v` (63) and `Instance/CMon/Free.v`
+(78), the records `NAry0` and `W0System` and the inductive `perm_eq`
+with their constructors, fields and schemes among them, each reported
+"Closed under the global context" by its fully qualified name.  None
+declares an `Axiom` or a `Parameter` (a grep of the sources).  None
+requires a standard-library reals module, directly or through another
+`Category` module (`Print Libraries` after a `Require` of the four
+files lists 64 `Category` modules and no module under `Reals`, where a
+`Require` of Instance/Top/Circle.v as the instrument lists six `Reals`
+lines), so the stdlib-axioms section below is unchanged.  Among the
+250:
+
+- `free_mon_sets_adjunction_hom`, `W0`, `Mon_K`, `Mon_EM_iso`,
+  `Mon_EM_equivalence`, `Mon_Forget_Monadic`, `W0Kl`, `W0Sys_EM_iso`,
+  `Mon_W0Sys_iso`, `FreeCMon_adj`, `BagMonad`, `CMon_EM_iso` and
+  `CMon_Forget_Monadic` — closed constants with no argument beyond their
+  universes: the free monoid adjunction in hom-set form, the monoid
+  monad W₀ and its comparison functor (what the issue asks `Print
+  Assumptions` of), Mon ≅ Set^{W₀} in `Cat`, the monadicity of monoids
+  over Set, the Kleisli category, the systems ⟨S, ν₀, ν₁, …⟩ as a
+  category isomorphic in `Cat` to Set^{W₀} and to Mon, and the free
+  commutative monoid's adjunction, monad, isomorphism and monadicity
+- `alg_monoid`, `alg_fold`, `alg_monoid_unique`, `NAry0_alg`,
+  `alg_NAry0`, `alg_hom_NAry0_hom`, `NAry0_hom_alg_hom` and
+  `W0Kl_hom_iso` — unconditional over a setoid: an algebra as a monoid
+  (Awodey's Exercise 10.6.6), Mac Lane's correspondence of algebras with
+  strings of operations both ways and on morphisms, and the Kleisli
+  hom-setoids as the maps A → ∐_{n≥0} Bⁿ
+- the refusals — by conversion at `eq_refl` (the two free monoid
+  adjunctions as records and their counits, word → tuple → word at a
+  variable word, W₀ f at a variable and at a one-letter word, ν₁ of K M
+  against the identity, the round trips of monoids, algebras, families,
+  systems and commutative monoids as whole objects and their
+  operations, the composites against the identity functors, the
+  Kleisli composite, νₙ at a variable arity, and one component of the
+  isomorphism that Theory/Equivalence.v's `Equivalence_to_Cat_Iso`
+  would build, through Theory/Functor.v's opaque
+  `Functor_Setoid_obligation_1`) and the name-absence instrument — are
+  pinned in `Test/ProbeWord471.v`, not constants, and so are not in the
+  gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

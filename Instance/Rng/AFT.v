@@ -305,6 +305,11 @@ Generalizable All Variables.
    is the first inhabitant in tree of a type of that shape, by the
    measurement two paragraphs up.  [Instance/CMon.v]'s own gap is NOT
    closed here; no free commutative monoid is built.
+   CORRECTION (#471): that gap is closed by Instance/CMon/Free.v, whose
+   [FreeCMon_adj] is an adjunction of FreeCMon with CMon_Forget, so
+   "still … with no [FreeCMon]" held until #471.  Its declaration names
+   the right adjoint through a local notation, and the literal grep above
+   matches only two comment lines of that file.
 
    ** THE COMPARISON CLAUSES ARE AT [≈] AND CANNOT BE ANYTHING ELSE
 

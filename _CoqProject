@@ -270,6 +270,7 @@ Instance/CMon.v
 Instance/CMon/Biproduct.v
 Instance/CMon/Grothendieck.v
 Instance/CMon/Coproduct.v
+Instance/CMon/Free.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
@@ -481,6 +482,8 @@ Instance/Rng/Commutativize/UT2.v
 Instance/Rng/Zp.v
 Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
+Instance/Mon/Word.v
+Instance/Mon/Word/System.v
 Instance/Smgrp.v
 Instance/Smgrp/Word.v
 Instance/Roster.v
@@ -1143,3 +1146,4 @@ Test/ProbeMonadMorphism468.v
 Test/ProbeMonadicity469.v
 Test/ProbeSetsTerms1347.v
 Test/ProbeWord470.v
+Test/ProbeWord471.v
