@@ -130,6 +130,24 @@ Generalizable All Variables.
         universal factorization rather than by a formula, so that it
         relabels generators is a theorem ([free_ab_fmap_generators]).
 
+      CORRECTION (#472): the counit's diagnosis names one opaque
+      constant, and two block it: [ump_universal_arrows] and this file's
+      own [free_ab_universal], the proof of the factorization that
+      [free_ab_universal_arrow] hands to [universal_arrow_from_UMP] and
+      from which both the counit and [FreeAb]'s [fmap] are read.
+      Measured by #472 in a rebuilt copy of the seventy-four modules its
+      probe loads: with [ump_universal_arrows] alone turned [Defined], or
+      with [free_ab_universal] alone, this file still builds, both
+      negatives below that cite the opacity ([counit_does_not_compute],
+      [fmap_generator_does_not_compute]) still refused; with both turned
+      [Defined], both negatives hold, as [Example]s at [eq_refl], and so
+      do Test/ProbeFreeModule472.v's refutations of ℤ[−]'s μ and [fmap]
+      read off this adjunction (that probe's header; #472's scout had
+      measured the counit's half).  Neither constant is turned [Defined]
+      here (issue #1353 tracks [ump_universal_arrows]); #472 adds instead
+      the same adjunction in hom-set form, [free_ab_adjunction_hom] (THE
+      HOM-SET FORM, below), whose counit IS the fold by conversion.
+
     Both [≈]-only readings are GUARDED, not merely measured: the
     "Measured negatives" section at the end of the file carries a [Fail]
     for each, plus a third recording that [FreeAbObject] applied to a
@@ -153,6 +171,35 @@ Generalizable All Variables.
     [reflexivity]), and that they ARE the adjunction class's own fields
     [to_adj_nat_l] and [to_adj_nat_r] is then recorded by [eq_refl] on
     the STATEMENTS -- a conversion check, not a second derivation.
+
+    THE HOM-SET FORM (#472).  Two packagings of the one adjunction FreeAb ⊣
+    Ab_Forget are kept.  [free_ab_adjunction], from the universal arrows, is the
+    one Instance/Rng/Free.v and the rest of the tree consume, and it is
+    unchanged.  [free_ab_adjunction_hom] is Theory/Adjunction.v's
+    [Build_Adjunction'] applied to the natural bijection [free_ab_hom_iso], with
+    the same left adjoint [FreeAb], the same right adjoint and the same
+    insertion: its unit and its forward transpose ARE those of
+    [free_ab_adjunction] at [eq_refl] ([free_ab_hom_unit], [free_ab_hom_to]),
+    its two naturality fields are the two theorems above, cited, and its inverse
+    transpose is the additive extension [free_ab_extend], so its counit is the
+    fold of the identity at [eq_refl] ([free_ab_hom_counit]), where the other
+    counit is that fold only at `≈` ([free_ab_counit_evaluates]).  It exists for
+    Riehl's monad ℤ[−] of §5.3 (Instance/Ab/FreeMonad.v), whose multiplication
+    and comparison functor then compute.  It is not a second free group and not
+    a second free functor.  The two adjunctions are refused equal at [eq_refl],
+    and so are their counits at a variable formal sum
+    (Test/ProbeFreeModule472.v, R22 and R23).  Its universes: @{c so}
+    (Sets@{c so}) and the five further levels of [FreeAb] (the group category's
+    object level and four internal ones), extensibly; the adjunction's own last
+    level, which no constraint mentions when it is left free, is pinned to so as
+    Instance/Mod/Free.v pins its own, and the two readbacks comparing with
+    [free_ab_adjunction] pin that adjunction's free level by a cast.  [Set]
+    appears only as the bound Set < g on the group category's object level g,
+    and there is no equation.  [free_ab_hom_iso] and [free_ab_adjunction_hom]
+    end [Defined], both load-bearing (each closed alone [Qed] in a renamed copy
+    of #472's files, [free_ab_adjunction_hom] and [free_ab_hom_counit]
+    respectively stop); [fa_eval_pointwise] ends [Qed].  On Coq 8.19.2 and
+    8.20.1 the six bind the same levels (compared by [About]).
 
     NON-DEGENERACY, AND WHAT EACH SEPARATION COSTS.  No induction over
     [fa_eq] can yield a negative -- every constructor concludes an
@@ -245,6 +292,30 @@ Generalizable All Variables.
     that PR made [fa_eq] a [Prop], so Rocq generates only [fa_eq_ind] and
     [fa_eq_sind] for it.  Nothing was removed from the source, and the
     13 constructors are unchanged in both trees.
+
+    CORRECTION (#472): #472 adds six constants, [fa_eval_pointwise],
+    [free_ab_hom_iso], [free_ab_adjunction_hom] and the three [eq_refl]
+    readbacks [free_ab_hom_counit], [free_ab_hom_unit] and
+    [free_ab_hom_to], each "Closed under the global context" and named in
+    #472's print-assumptions block; the counts above are of the file
+    before them, and they were one short when written (6154fc3d, the PR
+    "algebraic carriers are sets").  [Print Module] on #472's tree lists 79
+    entries, 73 of them before the six, and the source has 63 declaration
+    heads before them, as it had then: 61 definitions and proofs, not 60,
+    and the 2 inductive types.  So the 72 above is 73 and the 85 constants
+    are 86 with the 13 constructors (92 with the six); both [fa_eq] and
+    [FATerm] are "Closed under the global context".  [Print Module]
+    prints the [Inductive] keyword of [fa_eq] on a line of its own, and a
+    pattern wanting the keyword and the name on one line finds 78
+    entries, not 79.  Of [Set], [About] on #472's tree, on each of the 86
+    names [Print Module] lists for the file before those six (constructors
+    and schemes included), finds it in 49 constraint blocks, every time
+    as a strict lower bound Set < u on the object level of the group
+    category, the bound Instance/Ab.v's [Ab] carries since its hand pin
+    in the PR "algebraic carriers are sets" (#1320, merged 2026-09-17),
+    and never in an equation; so the "EXACTLY FOUR" of UNIVERSES above does not
+    reproduce on this tree as a count of blocks naming [Set].  The six
+    added names carry that bound and no other [Set].
 
     WHAT IS NOT DELIVERED.
 
@@ -637,7 +708,11 @@ Example free_ab_unit_is_generator (X : Sets) (x : carrier X) :
     [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows]
     (Theory/Universal/Arrow.v) is [Qed]-opaque, so no [eq_refl] is
     available on this side and none is claimed.  What is available -- and
-    is the content -- is that it agrees with evaluation up to [≈]. *)
+    is the content -- is that it agrees with evaluation up to [≈].
+    CORRECTION (#472): one of two causes; this file's own
+    [free_ab_universal] is the other (the header's STRENGTHS), and the
+    counit of the hom-set form [free_ab_adjunction_hom] below is this
+    fold at [eq_refl] ([free_ab_hom_counit]). *)
 
 Definition free_ab_counit (A : Ab)
   : FreeAb (Ab_Forget A) ~{Ab}~> A :=
@@ -751,6 +826,94 @@ Proof. exact (@fmap_counit_unit _ _ _ _ free_ab_adjunction A). Qed.
 
 Arguments fa_transpose {X A} g.
 Arguments free_ab_fmap_generators {X Y} u x.
+
+(** ** The same adjunction in hom-set form (#472)
+
+    A second packaging of [FreeAb ⊣ Ab_Forget], with the SAME left adjoint
+    [FreeAb] and the same insertion: Theory/Adjunction.v's hom-set
+    constructor [Build_Adjunction'] applied to the natural bijection
+    [free_ab_hom_iso], whose forward transpose is [fa_transpose], the
+    forward transpose of [free_ab_adjunction] ([free_ab_transpose_is_adj]),
+    and whose inverse transpose is the additive extension
+    [free_ab_extend].  Its two naturality fields are
+    [free_ab_naturality_in_set] and [free_ab_naturality_in_group], cited.
+    Its counit is then the fold of the identity by conversion
+    ([free_ab_hom_counit]), where the counit of [free_ab_adjunction] is
+    that fold only up to `≈` ([free_ab_counit_evaluates]).
+    Instance/Ab/FreeMonad.v builds Riehl's monad ℤ[−] on it.  No second
+    free group and no second free functor: the action on arrows is still
+    [FreeAb]'s, at `≈` the relabelling ([free_ab_fmap_generators]). *)
+
+(* The fold respects pointwise-`≈` maps on generators: a citation of
+   [free_ab_extend_unique]. *)
+Lemma fa_eval_pointwise@{c so +} {X : Sets@{c so}} {A : Ab}
+      (h h' : X ~{Sets@{c so}}~> Ab_Forget A) (H : h ≈ h') (t : FATerm X) :
+  fa_eval h t ≈ fa_eval h' t.
+Proof.
+  exact (free_ab_extend_unique A h' (free_ab_extend h) (fun x => H x) t).
+Qed.
+
+(* The natural bijection Ab(F X, A) ≅ Sets(X, U A): forward the
+   restriction to the generators, backward the additive extension. *)
+Definition free_ab_hom_iso@{c so +} (X : Sets@{c so}) (A : Ab) :
+  @Isomorphism Sets@{c so}
+    {| carrier := @hom Ab (FreeAb X) A ; is_setoid := @homset Ab (FreeAb X) A |}
+    {| carrier := @hom Sets@{c so} X (Ab_Forget A)
+     ; is_setoid := @homset Sets@{c so} X (Ab_Forget A) |}.
+Proof.
+  unshelve refine
+    (@Build_Isomorphism Sets
+       {| carrier := @hom Ab (FreeAb X) A
+        ; is_setoid := @homset Ab (FreeAb X) A |}
+       {| carrier := @hom Sets X (Ab_Forget A)
+        ; is_setoid := @homset Sets X (Ab_Forget A) |}
+       (@Build_SetoidMorphism
+          (@hom Ab (FreeAb X) A) (@homset Ab (FreeAb X) A)
+          (@hom Sets X (Ab_Forget A)) (@homset Sets X (Ab_Forget A))
+          (fun g => fa_transpose g) _)
+       (@Build_SetoidMorphism
+          (@hom Sets X (Ab_Forget A)) (@homset Sets X (Ab_Forget A))
+          (@hom Ab (FreeAb X) A) (@homset Ab (FreeAb X) A)
+          (fun h => free_ab_extend h) _) _ _).
+  - intros g g' H x. exact (H (fa_gen x)).
+  - intros h h' H t. exact (fa_eval_pointwise h h' H t).
+  - intros h x. reflexivity.
+  - intros g t. exact (fa_extend_transpose g t).
+Defined.
+
+(* The adjunction's last level, which no constraint mentions when it is
+   left free, is pinned to the one of [Sets], as Instance/Mod/Free.v pins
+   its own hom-set form. *)
+Definition free_ab_adjunction_hom@{c so +} :
+  @Adjunction@{_ c c so c c c c so c so} Ab Sets@{c so} FreeAb Ab_Forget.
+Proof.
+  unshelve refine
+    (@Build_Adjunction' Ab Sets FreeAb Ab_Forget free_ab_hom_iso _ _).
+  - intros X Y A g u. exact (free_ab_naturality_in_set g u).
+  - intros X A A' k g. exact (free_ab_naturality_in_group k g).
+Defined.
+
+(* Its counit is the fold of the identity, by conversion. *)
+Example free_ab_hom_counit@{c so +} (A : Ab) (t : FATerm (Ab_Forget A)) :
+  cmon_map (@counit _ _ _ _ free_ab_adjunction_hom A) t
+    = fa_eval (@id Sets@{c so} (Ab_Forget A)) t := eq_refl.
+
+(* Its unit and its forward transpose ARE those of [free_ab_adjunction].
+   The cast pins the free level of that adjunction too, as the hom-set
+   form's own is pinned above. *)
+Example free_ab_hom_unit@{c so +} (X : Sets@{c so}) :
+  @Category.Theory.Adjunction.unit _ _ _ _ free_ab_adjunction_hom X
+    = @Category.Theory.Adjunction.unit _ _ _ _
+        (free_ab_adjunction : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+        X
+  := eq_refl.
+
+Example free_ab_hom_to@{c so +} (X : Sets@{c so}) (A : Ab)
+  (g : FreeAb X ~{Ab}~> A) :
+  to (@adj _ _ _ _ free_ab_adjunction_hom X A) g
+    = to (@adj _ _ _ _ (free_ab_adjunction
+                          : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+            X A) g := eq_refl.
 
 
 (** ** Non-degeneracy
@@ -1004,7 +1167,13 @@ Qed.
    [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows]
    (Theory/Universal/Arrow.v) is [Qed]-opaque, so nothing reduces
    through it; only the [≈] statement [free_ab_counit_generator] holds.
-   Control: the UNIT at the same generator DOES compute. *)
+   Control: the UNIT at the same generator DOES compute.
+   CORRECTION (#472): one of two causes; with [ump_universal_arrows]
+   alone turned [Defined] this negative is still refused, and with this
+   file's [free_ab_universal] turned [Defined] as well its statement
+   holds at [eq_refl] (the header's STRENGTHS); the counit of the hom-set
+   form [free_ab_adjunction_hom] is the fold at [eq_refl]
+   ([free_ab_hom_counit]). *)
 Fail Example counit_does_not_compute (A : Ab) (b : carrier (Ab_Forget A)) :
   cmon_map (free_ab_counit A) (fa_gen b) = b := eq_refl.
 
@@ -1016,7 +1185,9 @@ Example ab_control_unit_computes (X : Sets) (x : carrier X) :
    [LeftAdjointFunctorFromUniversalArrows] is defined by universal
    factorization, not by a formula.  Only the [≈] statement
    [free_ab_fmap_generators] holds.  Control: the object action DOES
-   compute. *)
+   compute.  CORRECTION (#472): the same two causes; with both turned
+   [Defined] this statement holds at [eq_refl] too (the header's
+   STRENGTHS). *)
 Fail Example fmap_generator_does_not_compute
   (X Y : Sets) (u : X ~{Sets}~> Y) (x : carrier X) :
   cmon_map (fmap[FreeAb] u) (fa_gen x) = fa_gen (u x) := eq_refl.

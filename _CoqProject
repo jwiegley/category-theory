@@ -249,6 +249,7 @@ Instance/Ab.v
 Instance/Ab/Coproduct.v
 Instance/Ab/Generator.v
 Instance/Ab/Free.v
+Instance/Ab/FreeMonad.v
 Instance/Ab/Tensor.v
 Instance/Ab/Character.v
 Instance/Ab/Character/Finite.v
@@ -408,6 +409,8 @@ Instance/Met/Uniform.v
 Instance/Mod.v
 Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
+Instance/Mod/FreeMonad.v
+Instance/Mod/FreeMonad/FinSupp.v
 Instance/Mod/Product.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
@@ -1147,3 +1150,4 @@ Test/ProbeMonadicity469.v
 Test/ProbeSetsTerms1347.v
 Test/ProbeWord470.v
 Test/ProbeWord471.v
+Test/ProbeFreeModule472.v
