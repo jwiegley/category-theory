@@ -83,6 +83,16 @@ Generalizable All Variables.
    an equivalence is what it means for the inducing adjunction's left
    adjoint to be comonadic.
 
+   CORRECTION (#475).  On the monad side, the comparison functor out of
+   the Kleisli category did not exist when this was written; it is now
+   Monad/Kleisli/Comparison.v's [Kleisli_Comparison] (Mac Lane's L,
+   Theorem VI.5.2), unique by [Kleisli_Comparison_unique] when the object
+   equations of its two triangles cohere (the right one's the image under
+   the right adjoint of the left one's), beside Monad/Comparison.v's
+   [EM_Comparison] into the algebras.  Neither comparison is stated on
+   the comonad side.  The initiality and terminality asserted above are
+   Mac Lane's Theorem VI.5.3, which issue #476 tracks.
+
    The transfer package below is what makes this duality a theorem
    scheme rather than a pair of parallel constructions.  Since
    [Comonad C W] IS [@Monad (C^op) (W^op)] and the op involution is

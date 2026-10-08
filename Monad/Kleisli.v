@@ -27,7 +27,19 @@ Generalizable All Variables.
 
    The free/forgetful adjunction F_T ⊣ U_T on this category has M as its monad,
    and C_T is the full subcategory of free algebras inside the Eilenberg–Moore
-   category (see Monad/Eilenberg/Moore.v). *)
+   category (see Monad/Eilenberg/Moore.v).
+
+   CORRECTION (#475).  When this was written no functor C_T ⟶ C^T existed in
+   the tree.  The embedding is Monad/Kleisli/Comparison.v's [Kleisli_EM]
+   (Riehl, Lemma 5.2.14): full and faithful, sending c to the free algebra
+   (T c, μ_c) at [eq_refl], so that C_T is equivalent to the full subcategory
+   of free algebras ([Kleisli_EM_Image_Equivalence]).  The "is" above says
+   too much: C_T is equivalent to that subcategory and is not shown to be
+   one, and Mac Lane says of his construction of the Kleisli category that
+   it "really gives this category directly and not as a subcategory (cf.
+   Exercise 3)" (§VI.5, p. 147).  [Kleisli_EM_equivalence_iff] adds that
+   [Kleisli_EM] is an equivalence onto all of C^T exactly when every algebra
+   is free. *)
 
 Section Kleisli.
 

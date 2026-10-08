@@ -32,7 +32,13 @@ Generalizable All Variables.
    as [EM_Adjunction], recovering T via [EM_Monad_agrees]). This is the
    terminal such resolution of T; the Kleisli category (see Monad/Kleisli.v,
    whose own resolution lives in Monad/Kleisli/Adjunction.v) is the initial
-   one, sitting inside C^T as the full subcategory of free algebras. *)
+   one, sitting inside C^T as the full subcategory of free algebras.
+
+   CORRECTION (#475).  "Sitting inside C^T" was asserted with no functor
+   C_T ⟶ C^T in the tree; it is Monad/Kleisli/Comparison.v's [Kleisli_EM],
+   full and faithful onto the free algebras.  The terminality and the
+   initiality asserted here are Mac Lane's Theorem VI.5.3, which issue #476
+   tracks. *)
 
 (* The monad instance is bound by name so that [TAlgebra]'s instance argument
    can be given explicitly in [obj]: were it left to Program, the elaborator
