@@ -47,7 +47,21 @@ Generalizable All Variables.
 
     This is the terminal resolution of T; the initial one is the Kleisli
     adjunction of Monad/Kleisli/Adjunction.v, whose comparison into C^T
-    lands in the free algebras. *)
+    lands in the free algebras.
+
+    CORRECTION (#475).  No such comparison existed when this was written.
+    The comparison of the Kleisli adjunction into algebras is now
+    Monad/Comparison.v's [EM_Comparison] at [Kleisli_Adjunction]
+    (constructible since PR #201, merged 2026-07-19), Riehl's own
+    construction of her K (Lemma 5.2.14); but its codomain is the
+    algebras of the monad the Kleisli adjunction induces, not C^T, and
+    its structure map at c is μ ∘ T id, not μ.  Into C^T itself it is
+    Monad/Kleisli/Comparison.v's [Kleisli_EM], which forgets to the same
+    functor ([EM_Comparison_Kleisli_obj], [EM_Comparison_Kleisli_map])
+    and whose arrow action is this file's [EM_extend] (the inverse
+    transpose under [EM_Adjunction]) at [eq_refl], full and faithful onto
+    the free algebras.  The terminality and the initiality are Mac Lane's
+    Theorem VI.5.3, which issue #476 tracks. *)
 
 Section EilenbergMooreAdjunction.
 

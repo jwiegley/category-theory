@@ -646,6 +646,8 @@ Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
+Monad/Kleisli/Comparison.v
+Monad/Kleisli/Comparison/Examples.v
 Monad/Lifting.v
 Monad/Monadicity/Beck.v
 Monad/Monadicity/BeckObjects.v
@@ -1156,3 +1158,4 @@ Test/ProbeWord470.v
 Test/ProbeWord471.v
 Test/ProbeFreeModule472.v
 Test/ProbeFreeRing474.v
+Test/ProbeKleisliComparison475.v

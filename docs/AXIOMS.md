@@ -132,7 +132,19 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**13872** on 2026-10-08, after #474 (Mac Lane §VI.4, Exercise 4, with
+**14001** on 2026-10-08, after #475 (Mac Lane §VI.5, the restriction of
+an adjunction to a full subcategory containing the free objects, which
+defines the same monad, Theorem 2's comparison functor L : X_T → A from
+the Kleisli category with its uniqueness and its image FX, Exercises 1
+to 3, the equivalence X_T → FX and an adjunction for which it is not an
+isomorphism; with Riehl's Lemma 5.2.14, K : C_T → C^T full and faithful
+onto the free algebras, and the biconditional after it, its premise
+witnessed at the one-point monad) added ONE block of 129 names, every
+constant of two new modules, `Monad/Kleisli/Comparison.v` and
+`Monad/Kleisli/Comparison/Examples.v`, every one "Closed under the
+global context" (the list below); 13872 + 129 = 14001.
+An earlier revision of this paragraph gave
+**13872**, the figure on 2026-10-08, after #474 (Mac Lane §VI.4, Exercise 4, with
 Riehl's Example 5.5.7(ii): the tensor-algebra monad T on Ab as the
 monad of the free ring adjunction Ab ⇀ Rng in a hom-set form added to
 `Instance/Rng/Free.v`, its direct description as the direct sum of the
@@ -1912,6 +1924,70 @@ the stdlib-axioms section below is unchanged.  Among the 296:
   three opaque constants of Theory/Functor.v) and the name-absence
   instrument — are pinned in `Test/ProbeFreeRing474.v`,
   not constants, and so are not in the gate
+
+The Kleisli comparison development (Mac Lane §VI.5, book pp. 147–148:
+the construction opening the section, Theorem 2 and Exercises 1 to 3;
+with Riehl's Lemma 5.2.14 and the biconditional after it; #475) adds ONE
+block of 129 names: every constant `Print Module` lists for its two new
+modules, `Monad/Kleisli/Comparison.v` (110, the 26 `Program`
+obligations among them) and `Monad/Kleisli/Comparison/Examples.v` (19),
+each reported "Closed under the global context" by its fully qualified
+name.  None declares an `Axiom` or a `Parameter` (a grep of the
+sources).  None requires a standard-library reals module, directly or
+through another `Category` module (`Print Libraries` after a `Require`
+of the two files lists 56 `Category` modules and no module under
+`Reals`, where a `Require` of Instance/Top/Circle.v as the instrument
+lists six `Reals` lines), so the stdlib-axioms section below is
+unchanged.  Among the 129:
+
+- `Restricted_Adjunction`, `Restricted_Monad_agrees` and
+  `Restricted_Monad_iso` — over any adjunction and full subcategory
+  containing every F x: the restricted adjunction and the same monad,
+  isomorphic in `Monads X` with identity components
+- `Kleisli_Comparison`, `Kleisli_Comparison_Forget`,
+  `Kleisli_Comparison_Free`, their `_strict` forms,
+  `Kleisli_Comparison_Map`, `Kleisli_Comparison_unique`,
+  `Kleisli_Comparison_unique_strict`,
+  `Kleisli_Comparison_unique_of_strict` and
+  `Kleisli_Comparison_unique_via_map` — over any adjunction: L, its two
+  triangles, the map of adjunctions and its uniqueness, the triangles
+  also taken as strict functor equalities (what the issue asks
+  `Print Assumptions` of)
+- `Kleisli_Comparison_Image`, `Kleisli_Comparison_Image_surjective`,
+  `Kleisli_Comparison_Image_Equivalence`,
+  `Kleisli_Comparison_Restrict_Equivalence` and
+  `Kleisli_Comparison_Image_StrictIso` — the image characterization and
+  the equivalence X_T ≃ FX (also asked for), with the chooser of free
+  preimages a hypothesis of the general form
+- `Kleisli_EM`, `Kleisli_EM_Full`, `Kleisli_EM_Faithful`,
+  `Kleisli_EM_Image_Equivalence` and `Kleisli_EM_equivalence_iff` —
+  over any monad: Riehl's K, full and faithful onto the free algebras,
+  and an equivalence exactly when every algebra is free
+- `EM_Comparison_Kleisli_obj`, `EM_Comparison_Kleisli_map`,
+  `EM_Comparison_Kleisli_alg` and `EM_Comparison_Kleisli_alg_join` —
+  Riehl's own construction of K, `EM_Comparison` at the Kleisli
+  adjunction: it forgets to `Kleisli_EM`'s functor, and its structure
+  map is μ ∘ T id, μ at ≈
+- `kleisli_point_equivalence`, `kleisli_point_L_not_injective`,
+  `kleisli_point_not_iso`, `kleisli_point_FX_equivalence` and
+  `kleisli_point_FX_not_iso` — at the one-point monad on Sets: X_T ≃ 1
+  by L, Exercise 2's equivalence X_T → FX at Mac Lane's FX, and no
+  isomorphism X_T ≅ 1, nor X_T ≅ FX, in `StrictCat`
+- `kleisli_point_every_algebra_free` and `kleisli_point_K_equivalence` —
+  at the same monad: every algebra free, so K an equivalence, the
+  premise of `Kleisli_EM_equivalence_iff` witnessed
+- the refusals — by conversion at `eq_refl` (G_B F_B against G F as
+  functor records and the two monads as objects of `Monads X`, L f
+  against ε ∘ F f, the arrow halves of G L = G_T and L F_T = F, and the
+  two Kleisli categories at the Eilenberg–Moore resolution, with their
+  identities and composites, and the structure map of `EM_Comparison`
+  at the Kleisli adjunction against μ) and by typing (the two monad
+  records, K against L at that resolution, `EM_Comparison` at the
+  Kleisli adjunction against the codomain C^T, and L at the Kleisli
+  resolution against the source C_T), with the name-absence
+  instrument —
+  are pinned in `Test/ProbeKleisliComparison475.v`, not constants, and
+  so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
