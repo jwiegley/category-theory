@@ -132,7 +132,23 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**13340** on 2026-10-07, after #471 (Mac Lane §VI.4, Exercise 1, with
+**13576** on 2026-10-07, after #472 (Mac Lane §VI.4, Exercise 2, with
+Riehl's Example 5.1.4(iii) and her §5.3 opening construction: the free
+R-module monad T_R on Set as the monad of the free module adjunction in
+a hom-set form added to `Instance/Mod/Free.v`, read as formal linear
+combinations, by coefficients under a decider for ≈, and as the
+finitely supported functions X → R, its laws verified directly as well,
+R-Mod isomorphic in `Cat` to Set^{T_R} with identity components and
+monadic over Set; and the case R = ℤ, the monad ℤ[−] of the free abelian
+group adjunction in a hom-set form added to `Instance/Ab/Free.v`, Ab
+isomorphic in `Cat` to Set^{ℤ[−]} and monadic over Set) added ONE block
+of 236 names, the six constants #472 adds to `Instance/Mod/Free.v`, the
+six it adds to `Instance/Ab/Free.v` and every constant of three new
+modules, `Instance/Mod/FreeMonad.v`, `Instance/Mod/FreeMonad/FinSupp.v`
+and `Instance/Ab/FreeMonad.v`, every one "Closed under the global
+context" (the list below); 13340 + 236 = 13576.
+An earlier revision of this paragraph gave
+**13340**, the figure on 2026-10-07, after #471 (Mac Lane §VI.4, Exercise 1, with
 Awodey's Example 10.7 and Exercise 10.6.6 and Riehl's Examples
 5.1.4(ii), 5.1.5(ii), 5.2.6(iii) and 5.2.11(ii): the monoid monad W₀ as
 the monad of the free monoid adjunction at Sets in a hom-set form
@@ -1763,6 +1779,63 @@ lines), so the stdlib-axioms section below is unchanged.  Among the
   `Functor_Setoid_obligation_1`) and the name-absence instrument — are
   pinned in `Test/ProbeWord471.v`, not constants, and so are not in the
   gate
+
+The free R-module monad development (Mac Lane §VI.4, Exercise 2, book
+p. 146: the monad T_R of the forgetful functor R-Mod → Set, described by
+finitely supported functions, its laws verified directly, and its
+algebras the R-modules through the operations of linear combination;
+with Riehl's Example 5.1.4(iii) and her §5.3 opening construction, the
+case R = ℤ; #472) adds ONE block of 236 names: the six constants it adds
+to `Instance/Mod/Free.v` (`fv_eval_pointwise`, `free_module_hom_iso`,
+`free_module_adjunction_hom` and three readbacks), the six it adds to
+`Instance/Ab/Free.v` (`fa_eval_pointwise`, `free_ab_hom_iso`,
+`free_ab_adjunction_hom` and three readbacks), and every constant `Print
+Module` lists for its three new modules, `Instance/Mod/FreeMonad.v`
+(111), `Instance/Mod/FreeMonad/FinSupp.v` (47, the record `FinSupp` with
+its constructor and fields among them) and `Instance/Ab/FreeMonad.v`
+(66), each reported "Closed under the global context" by its fully
+qualified name; none of the three has a `Program` obligation.  None
+declares an `Axiom` or a `Parameter` (a grep of the sources).  None
+requires a standard-library reals module, directly or through another
+`Category` module (`Print Libraries` after a `Require` of the five
+files lists 74 `Category` modules and no module under `Reals`, where a
+`Require` of Instance/Top/Circle.v as the instrument lists six `Reals`
+lines), so the stdlib-axioms section below is unchanged.  Among the
+236:
+
+- `free_module_adjunction_hom` and `free_ab_adjunction_hom` — the two
+  free-forgetful adjunctions in hom-set form, the same left adjoints as
+  the universal-arrow ones, whose counits are the folds of the identity
+  by conversion
+- `FreeModMonad`, `RMod_K`, `RMod_EM_iso`, `RMod_EM_equivalence`,
+  `RMod_Forget_Monadic`, `FreeModMonad_direct`, `TR_FinSupp_iso`,
+  `FreeAbMonad`, `Ab_K`, `Ab_EM_iso`, `Ab_EM_equivalence` and
+  `Ab_Forget_Monadic` — T_R and its comparison functor (what the issue
+  asks `Print Assumptions` of), R-Mod ≅ Set^{T_R} in `Cat`, the
+  monadicity of R-modules over Set, the monad laws verified directly,
+  T_R X ≅ the finitely supported functions (under a decider for X's ≈),
+  and for the box ℤ[−], Ab ≅ Set^{ℤ[−]} in `Cat` and the monadicity of
+  abelian groups over Set
+- `fv_lc_unique`, `fv_coef_injective`, `fv_collect`, `tr_alg_rmod`,
+  `tr_alg_fold`, `zm_alg_ab` and `zm_alg_fold` — the coefficient
+  uniqueness `Instance/Mod/Free.v` disclaimed (`fv_lc_unique`: two
+  combinations denoting the same element have the same collected
+  coefficients, the respectfulness of the coefficient map), proved under
+  a decider for ≈, and its converse, injectivity (`fv_coef_injective`,
+  built from `fv_collect`), which `TR_FinSupp_iso` packages with it; an
+  algebra as an R-module and its structure map as linear combination;
+  and the same for ℤ[−] and abelian groups
+- the refusals — by conversion at `eq_refl` (the two pairs of
+  adjunctions as records and their counits, the universal-arrow route's
+  multiplication and comparison functor, T_R u and ℤ[u], Mac Lane's
+  formula for [(T_R t)f]_y, the finitely supported round trip, the
+  direct functor's action against T_R's, the round trips of modules,
+  groups and algebras as whole objects, their `PropEquiv` field and
+  structure maps, the composites against the identity functors, and one
+  component of the isomorphism that Theory/Equivalence.v's
+  `Equivalence_to_Cat_Iso` would build) and the name-absence instrument
+  — are pinned in `Test/ProbeFreeModule472.v`, not constants, and so are
+  not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

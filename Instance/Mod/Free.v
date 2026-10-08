@@ -105,7 +105,13 @@ Generalizable All Variables.
     is the "finitely supported" half of the classical statement.  The
     other half — that the list is unique up to rearrangement and
     combination of like terms — is exactly what needs a decider on X, and
-    it is NOT proved here.  Three non-degeneracy results measure how far
+    it is NOT proved here.  CORRECTION (#472): under that decider it is
+    proved, in Instance/Mod/FreeMonad/FinSupp.v, as [fv_lc_unique] (two
+    lists denoting the same element have the same collected
+    coefficients), whose converse is [fv_coef_injective] (built from
+    [fv_collect], which collects like terms), the two packaged as
+    [TR_FinSupp_iso] (WHAT IS NOT DELIVERED, below).
+    Three non-degeneracy results measure how far
     that leaves the construction from collapsing, and they cost different
     things: [free_module_scalars_faithful] (distinct scalars give
     distinct multiples of a basis vector) needs NO hypothesis at all;
@@ -147,6 +153,29 @@ Generalizable All Variables.
         formula, so that it relabels generators is a theorem
         ([free_module_fmap_generators]), not a computation.
 
+      CORRECTION (#472): the counit's diagnosis names one opaque
+      constant, and two block it: [ump_universal_arrows] and this file's
+      own [free_module_universal], the proof of the factorization that
+      [free_module_universal_arrow] hands to [universal_arrow_from_UMP]
+      and from which both the counit and the free functor's [fmap] are
+      read.  Measured by #472's scout in a rebuilt copy of the seventy
+      modules its prototype loads, on nine conversions the monad T_R
+      would read off this adjunction (U ε F at a basis vector, at a
+      variable combination and at zero; [fmap] at the same three; the
+      comparison functor's structure map at a variable combination, at a
+      sum of two basis vectors and at a basis vector): with
+      [ump_universal_arrows] alone turned [Defined], all nine are still
+      refused; with [free_module_universal] alone, all nine; with both,
+      all nine hold at [eq_refl], [fmap] at a variable combination
+      included.  #472 measured the same on Test/ProbeFreeModule472.v's
+      refutations (its header).  Neither constant is turned [Defined]
+      here: [ump_universal_arrows] is shared by many developments, several
+      of which pin its opacity in probes, and issue #1353 tracks it.  #472
+      adds instead the same adjunction in hom-set form,
+      [free_module_adjunction_hom] (THE HOM-SET FORM, below), whose counit
+      IS the fold by conversion; the free functor's [fmap] is unchanged,
+      and stays [≈]-only on both forms.
+
     THE TWO NATURALITY CLAUSES.  §IV.1 asks for naturality of the
     bijection in each variable separately, and both are stated and proved
     here in the free module's own vocabulary rather than by citing the
@@ -161,6 +190,42 @@ Generalizable All Variables.
     a conversion check that the independently proved theorems are the
     fields, not a second derivation of them.
 
+    THE HOM-SET FORM (#472).  Two packagings of the one adjunction FreeMod R ⊣
+    RMod_Forget R are kept.  [free_module_adjunction], from the universal
+    arrows, is the one the rest of the tree consumes (Instance/Vect/Free.v,
+    Instance/Mod/Representable.v, Instance/Rng/Polynomial.v and
+    Instance/Rng/AFT.v name it), and it is unchanged.
+    [free_module_adjunction_hom] is Theory/Adjunction.v's [Build_Adjunction']
+    applied to the natural bijection [free_module_hom_iso], with the same left
+    adjoint [FreeMod R], the same right adjoint and the same insertion: its
+    unit and its forward transpose ARE those of [free_module_adjunction] at
+    [eq_refl] ([free_module_hom_unit], [free_module_hom_to]), its two
+    naturality fields are the two theorems above, cited, and its inverse
+    transpose is the linear extension [fv_extend], so its counit is the fold
+    of the identity at [eq_refl] ([free_module_hom_counit]), where the other
+    counit is that fold only at `≈` ([free_module_counit_evaluates]).  It
+    exists for the free R-module monad T_R of Mac Lane's §VI.4 Exercise 2
+    (Instance/Mod/FreeMonad.v), whose multiplication U ε F and comparison
+    functor then compute.  It is not a second free module and not a second
+    free functor.  The two adjunctions are refused equal at [eq_refl], and so
+    are their counits at a variable combination (Test/ProbeFreeModule472.v, R1
+    and R2).  Its universes: the hom-set form binds @{a c p so} (R :
+    RingObject@{a c p}, Sets@{c so}) and the five levels [FreeMod] carries
+    beyond them, extensibly, a closed binder being refused for those internal
+    levels; the adjunction's own last level, which no constraint mentions when
+    left free, is pinned to so ([Adjunction@{_ c c so c c c c so c so}], the
+    pin of Instance/Mon/Free.v's hom-set form), and the two readbacks
+    comparing with [free_module_adjunction] pin that adjunction's free level
+    the same way, by a cast.  No [Set] but the bound Set < m on the module
+    category's object level m (Instance/Mod.v's [RMod]), and no equation.
+    [free_module_hom_iso] and [free_module_adjunction_hom] end [Defined], both
+    load-bearing (each closed alone [Qed] in a renamed copy of #472's files,
+    [free_module_adjunction_hom] and [free_module_hom_counit] respectively
+    stop); [fv_eval_pointwise] ends [Qed].  The six are "Closed under the
+    global context" and named in #472's print-assumptions block.  On Coq
+    8.19.2 and 8.20.1 the five that bind [FreeMod]'s levels bind exactly one
+    level more and [fv_eval_pointwise] the same, compared by [About].
+
     WHAT IS NOT DELIVERED.
 
       - No uniqueness of coefficients.  [fv_normal_form] IS proved —
@@ -172,6 +237,21 @@ Generalizable All Variables.
         procedure for equality in the free module, no dimension, and no
         proof that the basis insertion is injective for a GENERAL
         generating setoid (see above for why).
+        CORRECTION (#472): coefficient uniqueness is proved under a
+        decider for X's [≈], by Instance/Mod/FreeMonad/FinSupp.v's
+        [fv_lc_unique]: two lists denoting the same element have, at
+        every point, the same collected coefficient, the sum of the
+        coefficients of their pairs at points [≈] to it ([fv_coef_lc]).
+        It is the respectfulness of the coefficient map, the coefficient
+        of y being the linear extension of this file's own indicator
+        [fv_probe_at] into R (Instance/Mod/FreeMonad.v's [fv_coef]).  Its
+        converse, injectivity, is [fv_coef_injective] (a combination is
+        [fv_eq] to any other with the same coefficients), built from
+        [fv_collect], which collects like terms; and [TR_FinSupp_iso]
+        packages both, the free module's setoid isomorphic in [Sets] to
+        the finitely supported functions X → R.  For a GENERAL generating
+        setoid it is still not proved, and the decision procedure, the
+        dimension and the comparison below are still absent.
       - No statement that [FreeMod] is faithful, and no characterization
         of its image; no proof that a free module is projective; no
         invariant basis number.
@@ -576,7 +656,11 @@ Example free_module_unit_is_generator (X : Sets) (x : carrier X) :
     [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows] is
     [Qed]-opaque, so no [eq_refl] is available on this side and none is
     claimed.  What is available — and is the content — is that it agrees
-    with evaluation up to [≈]. *)
+    with evaluation up to [≈].  CORRECTION (#472): one of two causes;
+    this file's own [free_module_universal] is the other (the header's
+    STRENGTHS), and the counit of the hom-set form
+    [free_module_adjunction_hom] below is this fold at [eq_refl]
+    ([free_module_hom_counit]). *)
 
 Definition free_module_counit (W : RMod R)
   : FreeMod (RMod_Forget R W) ~{RMod R}~> W :=
@@ -721,6 +805,102 @@ Arguments free_module_universal_arrow {R} X.
 Arguments fv_transpose {R X W} g.
 Arguments free_module_fmap_generators {R X Y} u x.
 
+(** ** The same adjunction in hom-set form (#472)
+
+    A second packaging of [FreeMod R ⊣ RMod_Forget R], with the SAME left
+    adjoint [FreeMod R] and the same insertion: Theory/Adjunction.v's
+    hom-set constructor [Build_Adjunction'] applied to the natural
+    bijection [free_module_hom_iso], whose forward transpose is
+    [fv_transpose], the forward transpose of [free_module_adjunction]
+    ([free_module_transpose_is_adj]), and whose inverse transpose is the
+    linear extension [fv_extend].  Its two naturality fields are
+    [free_module_naturality_in_set] and
+    [free_module_naturality_in_module], cited.  Its counit is then the
+    fold of the identity by conversion ([free_module_hom_counit]), where
+    the counit of [free_module_adjunction] is that fold only up to `≈`
+    ([free_module_counit_evaluates]).  Instance/Mod/FreeMonad.v builds
+    the free R-module monad T_R of Mac Lane's §VI.4 Exercise 2 on it.  No
+    second free module and no second free functor: the action on arrows
+    is still [FreeMod]'s, at `≈` the relabelling
+    ([free_module_fmap_generators]). *)
+
+(* The fold respects pointwise-`≈` maps on generators: a citation of
+   [fv_extend_unique]. *)
+Lemma fv_eval_pointwise@{a c p so +} (R : RingObject@{a c p})
+      {X : Sets@{c so}} {W : RMod R}
+      (h h' : X ~{Sets@{c so}}~> RMod_Forget R W) (H : h ≈ h')
+      (t : @FVTerm R X) :
+  fv_eval h t ≈ fv_eval h' t.
+Proof. exact (fv_extend_unique W h' (fv_extend h) (fun x => H x) t). Qed.
+
+(* The natural bijection RMod(F X, W) ≅ Sets(X, U W): forward the
+   restriction to the basis, backward the linear extension. *)
+Definition free_module_hom_iso@{a c p so +} (R : RingObject@{a c p})
+  (X : Sets@{c so}) (W : RMod R) :
+  @Isomorphism Sets@{c so}
+    {| carrier := @hom (RMod R) (FreeMod R X) W
+     ; is_setoid := @homset (RMod R) (FreeMod R X) W |}
+    {| carrier := @hom Sets@{c so} X (RMod_Forget R W)
+     ; is_setoid := @homset Sets@{c so} X (RMod_Forget R W) |}.
+Proof.
+  unshelve refine
+    (@Build_Isomorphism Sets
+       {| carrier := @hom (RMod R) (FreeMod R X) W
+        ; is_setoid := @homset (RMod R) (FreeMod R X) W |}
+       {| carrier := @hom Sets X (RMod_Forget R W)
+        ; is_setoid := @homset Sets X (RMod_Forget R W) |}
+       (@Build_SetoidMorphism
+          (@hom (RMod R) (FreeMod R X) W) (@homset (RMod R) (FreeMod R X) W)
+          (@hom Sets X (RMod_Forget R W)) (@homset Sets X (RMod_Forget R W))
+          (fun g => fv_transpose g) _)
+       (@Build_SetoidMorphism
+          (@hom Sets X (RMod_Forget R W)) (@homset Sets X (RMod_Forget R W))
+          (@hom (RMod R) (FreeMod R X) W) (@homset (RMod R) (FreeMod R X) W)
+          (fun h => fv_extend h) _) _ _).
+  - intros g g' H x. exact (H (fv_gen x)).
+  - intros h h' H t. exact (fv_eval_pointwise R h h' H t).
+  - intros h x. reflexivity.
+  - intros g t. exact (fv_extend_transpose R g t).
+Defined.
+
+(* The adjunction's last level, which no constraint mentions when it is
+   left free, is pinned to the one of [Sets], as Instance/Smgrp.v and
+   Instance/Mon/Free.v pin theirs. *)
+Definition free_module_adjunction_hom@{a c p so +} (R : RingObject@{a c p}) :
+  @Adjunction@{_ c c so c c c c so c so} (RMod R) Sets@{c so}
+    (FreeMod R) (RMod_Forget R).
+Proof.
+  unshelve refine
+    (@Build_Adjunction' (RMod R) Sets (FreeMod R) (RMod_Forget R)
+       (free_module_hom_iso R) _ _).
+  - intros X Y W g u. exact (free_module_naturality_in_set R g u).
+  - intros X W W' k g. exact (free_module_naturality_in_module R k g).
+Defined.
+
+(* Its counit is the fold of the identity, by conversion. *)
+Example free_module_hom_counit@{a c p so +} (R : RingObject@{a c p})
+  (W : RMod R) (t : @FVTerm R (RMod_Forget R W)) :
+  cmon_map (rm_hom (@counit _ _ _ _ (free_module_adjunction_hom R) W)) t
+    = fv_eval (@id Sets@{c so} (RMod_Forget R W)) t := eq_refl.
+
+(* Its unit and its forward transpose ARE those of
+   [free_module_adjunction].  The cast pins the free level of that
+   adjunction too, as the hom-set form's own is pinned above. *)
+Example free_module_hom_unit@{a c p so +} (R : RingObject@{a c p})
+  (X : Sets@{c so}) :
+  @Category.Theory.Adjunction.unit _ _ _ _ (free_module_adjunction_hom R) X
+    = @Category.Theory.Adjunction.unit _ _ _ _
+        (free_module_adjunction R
+           : @Adjunction@{_ c c so c c c c so c so} _ _ _ _) X
+  := eq_refl.
+
+Example free_module_hom_to@{a c p so +} (R : RingObject@{a c p})
+  (X : Sets@{c so}) (W : RMod R) (g : FreeMod R X ~{RMod R}~> W) :
+  to (@adj _ _ _ _ (free_module_adjunction_hom R) X W) g
+    = to (@adj _ _ _ _ (free_module_adjunction R
+                          : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+            X W) g := eq_refl.
+
 (** ** Every element is a finite linear combination of basis vectors
 
     The classical description of the free module — "finitely supported
@@ -729,7 +909,9 @@ Arguments free_module_fmap_generators {R X Y} u x.
     [fv_eq] to a sum r₁·e_{x₁} + … + rₙ·e_{xₙ} indexed by a list of
     scalar/generator pairs.  The other half, that the list is unique up
     to rearrangement and combination of like terms, is exactly what a
-    decider buys and is NOT proved.
+    decider buys and is NOT proved.  CORRECTION (#472): it is proved
+    under the decider in Instance/Mod/FreeMonad/FinSupp.v, as
+    [fv_lc_unique] (its converse is [fv_coef_injective]).
 
     The three list operations are defined here rather than imported so
     that this file takes no dependency on [Coq.Lists.List]; [list],
