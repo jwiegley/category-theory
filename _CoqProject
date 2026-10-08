@@ -481,6 +481,8 @@ Instance/Rng/Commutativize/UT2.v
 Instance/Rng/Zp.v
 Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
+Instance/Smgrp.v
+Instance/Smgrp/Word.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -831,6 +833,7 @@ Theory/Algebra.v
 Theory/Algebra/Monoid.v
 Theory/Algebra/Monoid/Hom.v
 Theory/Algebra/Monoid/Product.v
+Theory/Algebra/Semigroup.v
 Theory/Algebra/Group/Hom.v
 Theory/Algebra/Rig.v
 Theory/Algebra/Rig/Connections.v
@@ -1139,3 +1142,4 @@ Test/ProbeEMCreates467.v
 Test/ProbeMonadMorphism468.v
 Test/ProbeMonadicity469.v
 Test/ProbeSetsTerms1347.v
+Test/ProbeWord470.v

@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**12892** on 2026-10-07, after #1348 (`Monad/Morphism/Monoid.v`'s
+**13090** on 2026-10-07, after #470 (Mac Lane §VI.4, "Words and Free
+Semigroups": the free semigroup on words, its insertion of generators as
+a universal arrow and the adjunction Set ⇀ Smgrp, the word monad W, its
+laws verified directly as well, without reference to the adjunction, the
+W-algebras as the systems ⟨S, ν1, ν2, …⟩ in a category isomorphic in
+`Cat` to the Eilenberg–Moore category, the Corollary, and the comparison
+functor an isomorphism in `Cat` with identity components — by
+`Instance/Cat.v` an equivalence of categories, which the identity
+components bring toward Mac Lane's isomorphism — so that semigroups are
+monadic over Set) added ONE block of 198 names over three new modules,
+`Theory/Algebra/Semigroup.v`, `Instance/Smgrp.v` and
+`Instance/Smgrp/Word.v`, every one "Closed under the global context"
+(the list below); 12892 + 198 = 13090.
+An earlier revision of this paragraph gave
+**12892**, the figure on 2026-10-07, after #1348 (`Monad/Morphism/Monoid.v`'s
 object bridges taking the shared route through `Monad/Monoid.v`'s
 `Monoid_Monad`, rewritten so that its four universes can be named on
 every version) added four names to #468's block, `Monad/Monoid.v`'s
@@ -1636,6 +1650,55 @@ Among the 172:
   `id`) and by the sort discipline (the naive elimination of `inhabited`
   into ≈) — are pinned in `Test/ProbeMonadicity469.v`, not constants,
   and so are not in the gate
+
+The words and free semigroups development (Mac Lane §VI.4, "Words and
+Free Semigroups", book pp. 144-146: the free semigroup WX = ∐ Xⁿ of
+words and the adjunction Set ⇀ Smgrp, Proposition 1's word monad W,
+Proposition 2's W-algebras as the systems ⟨S, ν1, ν2, …⟩, the Corollary,
+and the comparison functor K : Smgrp → Set^W, "an isomorphism"; #470)
+adds ONE block of 198 names over its three new modules,
+`Theory/Algebra/Semigroup.v`, `Instance/Smgrp.v` and
+`Instance/Smgrp/Word.v`: every constant `Print Module` lists for each,
+the twelve `Program` obligations of `Smgrp`, `Smgrp_Forget` and
+`Mon_Smgrp` among them, and the four records `Semigroup`,
+`SemigroupHom`, `NAry` and `WSystem` with their constructors and fields,
+each reported "Closed under the global context" by its fully qualified
+name.  None declares an `Axiom` or a `Parameter` (a grep of the
+sources).  None requires a standard-library reals module, directly or
+through another `Category` module (`Print Libraries` after a `Require`
+of the three lists 39 `Category` modules, the three among them, and no
+module under `Reals`, where a `Require` of Instance/Top/Circle.v as the
+instrument lists six `Reals` lines), so the stdlib-axioms section below
+is unchanged.  Among the 198:
+
+- `Smgrp`, `Smgrp_Forget` and `Mon_Smgrp` — parametric in a monoidal
+  category, with no further hypothesis
+- `Sg_adj`, `WordMonad`, `WordMonad_direct`, `Sg_K`,
+  `Smgrp_EM_equivalence`, `Smgrp_EM_iso`, `Sg_Forget_Monadic` and
+  `WSys_EM_iso` — closed constants with no argument beyond their
+  universes: the adjunction, the word monad and the comparison functor
+  (what the issue asks `Print Assumptions` of), the isomorphism of
+  Smgrp with Set^W in `Cat` (by `Instance/Cat.v` an equivalence of
+  categories, here with identity components), the monadicity of
+  semigroups over Set, and Proposition 2 as an isomorphism in `Cat`
+- `sg_insert_UA` — unconditional over a setoid: the insertion of
+  generators as `Theory/Universal/Arrow.v`'s `UniversalArrow` from X to
+  the forgetful functor, Mac Lane's "universal from X to G"
+- `NAry_alg`, `alg_NAry`, `alg_hom_NAry_hom`, `NAry_hom_alg_hom` and
+  `NAry_corollary` — unconditional over a setoid: Proposition 2's
+  correspondence of algebras with families of operations, both ways and
+  on morphisms, and the Corollary (the algebra characterization the
+  issue asks `Print Assumptions` of)
+- the refusals — by conversion at `eq_refl` (juxtaposition at variable
+  words, the counit bracketed to the right, the direct monad against W
+  as monads, the round trips of algebras, systems and semigroups as
+  whole objects with their rebuilt proofs, the uncurried multiplication
+  at a pair, the composites against the identity functors, and one
+  component of the isomorphism that Theory/Equivalence.v's
+  `Equivalence_to_Cat_Iso` would build, through Theory/Functor.v's
+  opaque `Functor_Setoid_obligation_1`) and the name-absence instrument
+  — are pinned in `Test/ProbeWord470.v`, not constants, and so are not
+  in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
