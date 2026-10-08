@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Theory.Universal.Arrow.
@@ -132,6 +133,27 @@ Generalizable All Variables.
        [eq_refl] ([free_mon_unit_is_insert]), so opacity of that one
        constant is the cause and not adjunction plumbing in general.
 
+       CORRECTION (#471): that diagnosis names one of two causes.  Two
+       [Qed] constants block the counit: [ump_universal_arrows] and this
+       file's own [free_mon_universal], the proof of the factorization
+       that [free_mon_universal_arrow] hands to
+       [universal_arrow_from_UMP] and from which the counit is read.
+       Measured by #471's scout in a 40-file copy containing this file's
+       32-module closure, rebuilt after each change: with
+       [ump_universal_arrows] alone turned [Defined], NEGATIVE 1 below is
+       still refused; with [free_mon_universal] turned [Defined] as well,
+       NEGATIVE 1's statement holds, and of the eight conversions the
+       monoid monad W₀ (Instance/Mon/Word.v) needs, six read off this
+       counit (μ as concatenation, the counit as the fold, the comparison
+       functor's values) and two off the free functor's action, all but
+       one hold at [eq_refl], the exception being the action at a
+       variable word, NEGATIVE 2's stuck [Fixpoint].  Neither
+       constant is turned [Defined] here: [ump_universal_arrows] is shared
+       by many developments, several of which pin its opacity in probes,
+       and issue #1353 tracks it.  #471 adds instead the same adjunction
+       in hom-set form, [free_mon_sets_adjunction_hom] below, whose
+       counit IS the fold by conversion.
+
      - [free_mon_extend_insert] is a Leibniz equality but not a
        conversion at a VARIABLE word: [free_mon_extend] is a [Fixpoint]
        and is stuck on a variable.  The control is the same statement at
@@ -185,6 +207,33 @@ Generalizable All Variables.
    reported so that the composite's author does not have to rediscover
    it.
 
+   THE HOM-SET FORM (#471).  Two packagings of the one adjunction
+   FreeMonSets ⊣ UMonS are kept.  [free_mon_sets_adjunction], from the
+   universal arrows, is the one the free ring of Instance/Rng/Free.v and
+   the rest of the tree consume, and it is unchanged.
+   [free_mon_sets_adjunction_hom] is Theory/Adjunction.v's
+   [Build_Adjunction'] applied to the natural bijection
+   [free_mon_hom_iso], with the same left adjoint [FreeMonSets], the same
+   right adjoint and the same insertion: its unit and its forward
+   transpose ARE those of [free_mon_sets_adjunction] at [eq_refl]
+   ([free_mon_hom_unit], [free_mon_hom_to]), and its inverse transpose is
+   the fold [free_mon_hom], so its counit is the fold of the identity at
+   [eq_refl] ([free_mon_hom_counit]), where the other counit is that fold
+   only at `≈` ([free_mon_counit_evaluates]).  It exists for the monad
+   W₀ of Mac Lane's §VI.4 Exercise 1 (Instance/Mon/Word.v), whose
+   multiplication U ε F and comparison functor then compute.  It is not
+   a second free monoid and not a second free functor: the action on
+   arrows is still [FreeMonSets]'s, the letterwise map only at `≈`
+   ([free_mon_fmap_is_wmap]).  The two adjunctions are refused equal at
+   [eq_refl], and so are their counits at a variable word
+   (Test/ProbeWord471.v).  Its universes: [free_mon_hom_iso] and
+   [free_mon_sets_adjunction_hom] bind @{o so} and the three further
+   levels of [FreeMonSets] (four on Coq 8.19/8.20), with no [Set], the
+   adjunction pinned to [Adjunction@{so o o so o o o o so o so}] as
+   Instance/Smgrp.v pins its own.  Issue #1353 records the exit: once
+   [ump_universal_arrows] and [free_mon_universal] are transparent, one
+   record is kept and W₀ is rebased on it.
+
    WHAT IS DELIBERATELY NOT DELIVERED.  No normal form for words beyond
    the list representation itself, hence no decision procedure for
    [word_eq] beyond what a decidable letter setoid would give, and no
@@ -222,6 +271,15 @@ Generalizable All Variables.
    also occurs in a positive command elsewhere in the file, so a rename
    breaks the file loudly rather than turning a negative vacuously
    green.  No separate probe file is shipped.
+
+   CORRECTION (#471): #471 adds six constants, [free_mon_extend_pointwise],
+   [free_mon_hom_iso], [free_mon_sets_adjunction_hom] and the three
+   [eq_refl] readbacks [free_mon_hom_counit], [free_mon_hom_unit] and
+   [free_mon_hom_to], each "Closed under the global context" and named in
+   #471's print-assumptions block; the 57 above are unchanged.  The
+   refusals about the hom-set form are pinned in Test/ProbeWord471.v,
+   which restates the three readbacks and names the six constants in its
+   guard.
 
    DISPLAY HAZARD.  [Print Module] and plain [Check] suppress the
    implicit first argument of the [Sets.morphism] coercion, so
@@ -547,7 +605,11 @@ Example free_mon_unit_is_insert (X : Sets) (a : carrier X) :
    The control is [free_mon_unit_is_insert] immediately above: the unit
    of the SAME adjunction, which routes through the transparent
    [universal_arrow_from_UMP], does close by [eq_refl].  So the cause is
-   the opacity of that one donor, not adjunction plumbing at large. *)
+   the opacity of that one donor, not adjunction plumbing at large.
+   CORRECTION (#471): one of two; this file's own [free_mon_universal] is
+   the other (the header's STRENGTHS), and the counit of the hom-set
+   form [free_mon_sets_adjunction_hom] below is this fold at [eq_refl]
+   ([free_mon_hom_counit]). *)
 Fail Example free_mon_counit_is_not_strict
   (L : MonS) (l : list (carrier (mon_ob L))) :
   mon_fun (@counit _ _ _ _ free_mon_sets_adjunction L) l
@@ -638,6 +700,91 @@ Proof.
     intro a; exact (free_mon_fmap_generators f a).
   - rewrite free_mon_extend_insert; reflexivity.
 Qed.
+
+(** ** The same adjunction in hom-set form (#471)
+
+    A second packaging of [FreeMonSets ⊣ UMonS], with the SAME left
+    adjoint [FreeMonSets] and the same insertion: Theory/Adjunction.v's
+    hom-set constructor [Build_Adjunction'] applied to the natural
+    bijection [free_mon_hom_iso], whose forward transpose is the one of
+    [free_mon_sets_adjunction] (g ↦ U g ∘ insert) and whose inverse
+    transpose is the fold [free_mon_hom].  Its counit is then the fold of
+    the identity by conversion ([free_mon_hom_counit]), where the counit
+    of [free_mon_sets_adjunction] is that fold only up to `≈`
+    ([free_mon_counit_evaluates]).  Instance/Mon/Word.v builds the monad
+    W₀ on it.  No second free monoid and no second free functor: the
+    action on arrows is still [FreeMonSets]'s, at `≈` the letterwise map
+    ([free_mon_fmap_is_wmap]). *)
+
+(* The fold respects pointwise-`≈` letter maps. *)
+Lemma free_mon_extend_pointwise {X : SetoidObject} {L : MonS}
+      (h h' : carrier X → carrier (mon_ob L))
+      (H : ∀ a, h a ≈ h' a) (l : list (carrier X)) :
+  free_mon_extend h l ≈ free_mon_extend h' l.
+Proof.
+  induction l as [|a l IH]; simpl; [ reflexivity | ].
+  exact (mon_mul_resp L _ _ (H a) _ _ IH).
+Qed.
+
+(* The natural bijection Mon(F X, L) ≅ Sets(X, U L): forward g ↦ U g ∘
+   insert, backward the fold. *)
+Definition free_mon_hom_iso@{o so +} (X : Sets@{o so}) (L : MonS) :
+  @Isomorphism Sets@{o so}
+    {| carrier := @hom MonS (FreeMonSets X) L
+     ; is_setoid := @homset MonS (FreeMonSets X) L |}
+    {| carrier := @hom Sets@{o so} X (UMonS L)
+     ; is_setoid := @homset Sets@{o so} X (UMonS L) |}.
+Proof.
+  unshelve refine
+    (@Build_Isomorphism Sets
+       {| carrier := @hom MonS (FreeMonSets X) L
+        ; is_setoid := @homset MonS (FreeMonSets X) L |}
+       {| carrier := @hom Sets X (UMonS L)
+        ; is_setoid := @homset Sets X (UMonS L) |}
+       (@Build_SetoidMorphism
+          (@hom MonS (FreeMonSets X) L) (@homset MonS (FreeMonSets X) L)
+          (@hom Sets X (UMonS L)) (@homset Sets X (UMonS L))
+          (fun g => fmap[UMonS] g ∘ free_mon_insert X) _)
+       (@Build_SetoidMorphism
+          (@hom Sets X (UMonS L)) (@homset Sets X (UMonS L))
+          (@hom MonS (FreeMonSets X) L) (@homset MonS (FreeMonSets X) L)
+          (fun h => free_mon_hom (h : carrier X → carrier (mon_ob L))
+                      (proper_morphism h)) _) _ _).
+  - intros g g' H a. exact (H (Datatypes.cons a Datatypes.nil)).
+  - intros h h' H l. exact (free_mon_extend_pointwise h h' H l).
+  - intros h a. exact (free_mon_extend_generator (L := L) h a).
+  - intros g l. simpl. symmetry.
+    apply (free_mon_extend_unique _ g). intro a. reflexivity.
+Defined.
+
+Definition free_mon_sets_adjunction_hom@{o so +} :
+  @Adjunction@{so o o so o o o o so o so} MonS Sets@{o so}
+    FreeMonSets UMonS.
+Proof.
+  unshelve refine
+    (@Build_Adjunction' MonS Sets FreeMonSets UMonS free_mon_hom_iso _ _).
+  - intros X Y L f g a. simpl.
+    apply (proper_morphism (`1 f)).
+    exact (free_mon_fmap_generators g a).
+  - intros X L L' f g a. reflexivity.
+Defined.
+
+(* Its counit is the fold of the identity, by conversion. *)
+Example free_mon_hom_counit (L : MonS) (l : list (carrier (mon_ob L))) :
+  mon_fun (@counit _ _ _ _ free_mon_sets_adjunction_hom L) l
+    = free_mon_extend (fun x => x) l := eq_refl.
+
+(* Its unit and its forward transpose ARE those of
+   [free_mon_sets_adjunction]. *)
+Example free_mon_hom_unit (X : Sets) :
+  @Category.Theory.Adjunction.unit _ _ _ _ free_mon_sets_adjunction_hom X
+    = @Category.Theory.Adjunction.unit _ _ _ _ free_mon_sets_adjunction X
+  := eq_refl.
+
+Example free_mon_hom_to (X : Sets) (L : MonS)
+        (g : FreeMonSets X ~{MonS}~> L) :
+  to (@adj _ _ _ _ free_mon_sets_adjunction_hom X L) g
+    = to (@adj _ _ _ _ free_mon_sets_adjunction X L) g := eq_refl.
 
 (** * Non-vacuity
 
@@ -739,7 +886,9 @@ Qed.
     The two levels are [Sets]'s own carrier and object universes, in
     that order for [FreeMonSetsObject].  The other two are stated by
     ascribing [Sets@{uo uso}] rather than by an explicit instance, for
-    the portability reason recorded at the section itself. *)
+    the portability reason recorded at the section itself.  CORRECTION
+    (#471): a fourth is guarded the same way, the hom-set form
+    [free_mon_sets_adjunction_hom]. *)
 
 Section FreeAboveSet.
 
@@ -761,6 +910,7 @@ Section FreeAboveSet.
      against [Rng_Forget_Mon], which cannot take a [Rng] above [Set]). *)
   Check (FreeMonSets : Sets@{uo uso} ⟶ _).
   Check (free_mon_sets_adjunction : @Adjunction _ Sets@{uo uso} _ _).
+  Check (free_mon_sets_adjunction_hom : @Adjunction _ Sets@{uo uso} _ _).
 
 End FreeAboveSet.
 

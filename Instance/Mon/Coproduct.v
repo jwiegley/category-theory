@@ -239,7 +239,11 @@ Generalizable All Variables.
     a free-monoid left adjoint at Mon(Sets), and the only free-monoid
     adjunction in tree is Instance/Coq/Monoid/Free.v's, which is over
     [Coq], so no such adjoint exists at this category to preserve
-    colimits.  Construction/Funny.v asserts IN PROSE, and
+    colimits.  CORRECTION (#471): that held when written and until PR
+    #1219 (merged 2026-08-29), whose Instance/Mon/Free.v builds the
+    free-monoid left adjoint at Mon(Sets), [free_mon_sets_adjunction];
+    the isomorphism itself is still not built here.
+    Construction/Funny.v asserts IN PROSE, and
     without proof, that on one-object categories the funny tensor
     [M □ N] is the coproduct in Mon; that corollary was NOT attempted
     here, because closing it needs the funny tensor's [FunHom] words
