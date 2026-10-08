@@ -767,6 +767,7 @@ Structure/Limit/Initial.v
 Structure/Limit/Components.v
 Structure/Limit/Constant.v
 Structure/Limit/Absolute.v
+Structure/Limit/Reflection.v
 Instance/Cat/Objects.v
 Instance/Indiscrete.v
 Instance/Cat/Components.v
@@ -1171,3 +1172,4 @@ Test/ProbeAbsolute477.v
 Test/ProbeSplitFork478.v
 Test/ProbeQuotient479.v
 Test/ProbeContractible480.v
+Test/ProbeReflection481.v

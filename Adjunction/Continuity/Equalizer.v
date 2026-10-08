@@ -107,7 +107,17 @@ Generalizable All Variables.
    predicate to state it against (a grep of the .v files for
    "PreservesCoequalizers" finds only this sentence).  No bridge between
    [PreservesEqualizers] and Structure/Limit/Preservation.v's cone-level
-   vocabulary. *)
+   vocabulary.  CORRECTION (#481): Structure/Limit/Reflection.v now
+   defines the elementary [PreservesCoequalizers], the dual of
+   [PreservesEqualizers], with its bridge to the cone-level vocabulary
+   at every diagram of parallel-pair shape.  Against it the left-adjoint
+   theorem is one line, for [A : F ⊣ U]:
+   [PreservesColimitCocones_PreservesCoequalizers (fun K =>
+   left_adjoint_PreservesColimitCocone A K)], Adjunction/Continuity.v's
+   cone-level theorem read through the bridge.  It is compiled as the
+   control C21 of Test/ProbeReflection481.v and is not stated here,
+   since this file requires neither of those two modules (PLACEMENT
+   above).  The equalizer side has no bridge. *)
 
 Definition right_adjoint_PreservesEqualizers@{co do h +}
   {C : Category@{co h h}} {D : Category@{do h h}}

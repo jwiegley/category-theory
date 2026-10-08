@@ -51,7 +51,10 @@ Generalizable All Variables.
    [K : Parallel ⟶ C], at the pair it names ([parallel_coequalizer_colimit]
    and [parallel_colimit_coequalizer], in the last section), and
    [HasCoequalizers_HasColimitsOfShape] turns a choice of elementary
-   coequalizers into a colimit of every such diagram. *)
+   coequalizers into a colimit of every such diagram.  Since #481,
+   [parallel_cocone_coequalizer_colimit] reads a GIVEN cocone over such
+   a diagram as colimiting when its injection over [ParY] is an
+   elementary coequalizer of the pair. *)
 
 (* The elementary universal property: e coforks the pair f, g at q, and
    every coforking map h out of y descends uniquely across e. *)
@@ -300,6 +303,12 @@ End CoequalizerColimit.
      - [parallel_colimit_coequalizer]: ANY colimiting cocone over K is an
        elementary coequalizer of the pair at its apex, coequalized by its
        injection over [ParY];
+     - [parallel_cocone_coequalizer_colimit], its converse for a GIVEN
+       cocone (#481): a cocone over K whose injection over [ParY] is an
+       elementary coequalizer of the pair is colimiting, being the
+       cocone of the first conversion up to a cone isomorphism whose apex
+       map is the identity (its injection over [ParX] agreeing by
+       coherence);
      - [HasCoequalizers_HasColimitsOfShape]: chosen elementary
        coequalizers give every such K a colimit.
 
@@ -446,6 +455,34 @@ Proof.
         rewrite comp_assoc, Hv.
         reflexivity.
       * exact Hv.
+Defined.
+
+(* The converse of the last for a GIVEN cocone N over K (#481): when N's
+   injection over ParY is an elementary coequalizer of the pair, N is
+   colimiting.  It is the cocone [parallel_cofork_cocone] of that
+   injection up to a cone isomorphism whose apex map is the identity:
+   over [ParY] the two injections are one arrow, and over [ParX] N's is
+   [cocone_inj N ParY ∘ par1] by coherence.  At [K := T ◯ APair f g] and
+   the image cocone of a cofork this is the statement of
+   Structure/Coequalizer/Absolute.v's [image_coequalizer_colimit], which
+   keeps its own proof. *)
+
+Definition parallel_cocone_coequalizer_colimit (N : Cocone K)
+  (E : IsCoequalizer par1 par2 vertex_obj[N] (cocone_inj N ParY)) :
+  IsColimitCocone N.
+Proof.
+  refine (limitcone_transport _ (parallel_coequalizer_colimit E)).
+  exists (@iso_id (C^op) vertex_obj[N]).
+  intro p; destruct p.
+  - (* over ParX, by coherence *)
+    change (id ∘ cocone_inj N ParX ≈ cocone_inj N ParY ∘ par1).
+    rewrite id_left.
+    symmetry.
+    exact (cocone_inj_coherence N
+             ((true; ParOne) : ParX ~{Parallel}~> ParY)).
+  - (* over ParY, one arrow *)
+    change (id ∘ cocone_inj N ParY ≈ cocone_inj N ParY).
+    apply id_left.
 Defined.
 
 End ParallelDiagram.

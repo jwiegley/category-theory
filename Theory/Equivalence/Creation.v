@@ -67,13 +67,22 @@ Definition equivalence_PreservesLimitCone {J : Category} (K : J ⟶ C) :
 
 (* Reflection, from full faithfulness.  The leg side condition of
    [ff_reflect_ump] (Theory/Equivalence/Limit.v) is [reflexivity] here
-   exactly because [FCone]'s legs are the image legs. *)
+   exactly because [FCone]'s legs are the image legs.
+
+   CORRECTION (#481): the body wrote that term out, [@ff_reflect_ump C D
+   F (Equivalence_Full E) (Equivalence_Faithful E) J K M (limitcone_isalimit
+   H) (fun x => reflexivity _)], which is Theory/Equivalence/Limit.v's
+   [ff_ReflectsLimitCone] at this functor's fullness and faithfulness:
+   the two read back as one at [eq_refl] (measured).  The body now calls
+   that constant, eta-expanded, and the [About] blocks of this file's five
+   constants are unchanged (compared by script against the earlier
+   body). *)
 
 Definition equivalence_ReflectsLimitCone {J : Category} (K : J ⟶ C) :
   ReflectsLimitCone K F :=
   fun M H =>
-    @ff_reflect_ump C D F (Equivalence_Full E) (Equivalence_Faithful E)
-      J K M (limitcone_isalimit H) (fun x => reflexivity _).
+    @ff_ReflectsLimitCone C D F (Equivalence_Full E) (Equivalence_Faithful E)
+      J K M H.
 
 (* The naming defect of [equivalence_creates_limits], resolved by proof:
    that constant supplies the lift, and the two remaining clauses are the

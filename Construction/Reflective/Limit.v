@@ -486,12 +486,21 @@ End Compare.
    the one at Theory/Equivalence/Creation.v.  (That file's own comment
    cites [ff_reflect_ump] at a line of Theory/Equivalence/Limit.v that no
    longer holds it; a defect in an untouched file, recorded here
-   and not edited.) *)
+   and not edited.)
+
+   CORRECTION (#481): the body wrote out [@ff_reflect_ump (Sub C S) C I
+   reflective_Incl_Full (Incl_Faithful C S) J K M (limitcone_isalimit H)
+   (fun x => reflexivity _)], which is Theory/Equivalence/Limit.v's
+   [ff_ReflectsLimitCone] at the inclusion's fullness and faithfulness:
+   the two read back as one at [eq_refl] (measured).  The body now calls
+   that constant, eta-expanded, and the [About] blocks of this file's 24
+   constants are unchanged (compared by script against the earlier
+   body). *)
 
 Definition reflective_ReflectsLimitCone : ReflectsLimitCone K I :=
   fun M H =>
-    @ff_reflect_ump (Sub C S) C I reflective_Incl_Full (Incl_Faithful C S)
-      J K M (limitcone_isalimit H) (fun x => reflexivity _).
+    @ff_ReflectsLimitCone (Sub C S) C I reflective_Incl_Full
+      (Incl_Faithful C S) J K M H.
 
 (** ** Riehl 4.6.14(i) / 5.6.6, at one diagram *)
 
