@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14393** on 2026-10-08, after #481 (Mac Lane §VI.7, the Definition of
+**14510** on 2026-10-08, after #482 (Mac Lane §VI.7, the definition of a
+comparison of two resolutions of one monad and the Lemma: a comparison
+is a map of adjunctions with Mε' ≈ εM that commutes with adjoint
+transposition, and when G creates the coequalizers of G-split pairs
+every resolution has a comparison into F ⊣ G, unique up to a unique
+compatible isomorphism; the Eilenberg–Moore resolution terminal in that
+sense, and Awodey's uniqueness of its comparison functor, true over the
+identity identification of the two monads and refuted without it, in
+the issue's reading and in his printed one) added ONE block of 117
+names, every constant of two new modules,
+`Monad/Comparison/Resolution.v` (75) and
+`Instance/Fun/Action/Monad/Comparison.v` (42), every one "Closed under
+the global context" (the list below); 14393 + 75 + 42 = 14510.
+An earlier revision of this paragraph gave
+**14393**, the figure on 2026-10-08, after #481 (Mac Lane §VI.7, the Definition of
 reflecting colimits and Exercises 1 and 3: reflection quantified over a
 shape, a class of shapes, a class of diagrams and every diagram,
 creation giving reflection, Mac Lane's own creation read literally, a
@@ -2359,6 +2373,60 @@ stdlib-axioms section below is unchanged.  Among the 59:
   (the functor from `Sets` to the point, which preserves coequalizers and
   does not reflect them, by one fork) are pinned in
   `Test/ProbeReflection481.v`, not constants, and so are not in the gate
+
+The comparison development (Mac Lane §VI.7, book pp. 153–154: the
+definition of a comparison and the Lemma; Awodey §10.3's uniqueness of
+the comparison functor; the morphisms of Riehl §5.2's `Adj_T`; #482)
+adds ONE block of 117 names: the seventy-four `.glob` heads of
+`Monad/Comparison/Resolution.v` (the record `Comparison`, its four
+projections, 36 `def` and 33 `prf` entries) and the record's
+constructor `Build_Comparison`, 75 in all, and the forty-two `.glob`
+heads of `Instance/Fun/Action/Monad/Comparison.v` (26 `def` and 16
+`prf` entries), the counterexamples to Awodey's clause without the
+coherence, each reported "Closed under the global context" by its
+fully qualified name.  Neither module uses `Program`, and neither `.vo` names
+an obligation or subproof constant (a `strings` scan, which finds 33
+such strings in Instance/Sets.vo as the instrument).  None declares an
+`Axiom` or a `Parameter` (a grep of the sources).  None requires a
+standard-library reals module, directly or through another `Category`
+module (`Print Libraries` after a `Require` of the first module lists
+47 `Category` modules, of the second 118, and no module under `Reals`,
+where adding a `Require` of Instance/Top/Circle.v as the instrument
+lists six `Reals` lines), so the stdlib-axioms section below is
+unchanged.  Monad/Comparison.v's `EM_Comparison_Forget` and
+`EM_Comparison_Free`, now ending `Defined`, are not gated themselves
+(they were not before), and the `About` blocks of every name the gate
+held before #482 are unchanged (compared by script, before and after).
+Among the 117:
+
+- `Comparison` and its fields — Mac Lane's definition, over an
+  isomorphism θ of the two induced monads in `Monads X`, with the
+  triangles at ≈ and the coherence `cmp_monad`
+- `Comparison_map`, `Comparison_counit` and `Comparison_transpose` — a
+  comparison is a map of adjunctions (Adjunction/Map.v's ≈ reading),
+  Mε' = εM, and Riehl's adjoint-transposition square
+- `Comparison_exists`, `Comparison_unique_to`, `Comparison_unique`,
+  `Comparison_unique_cell`, `Comparison_unique_pair_left` and
+  `Comparison_unique_pair_cell` — the Lemma, existence and uniqueness up
+  to a unique compatible isomorphism, given `CreatesUSplitCoequalizers G`
+- `EM_Monad_iso`, `EM_terminal`, `EM_terminal_unique`,
+  `EM_Comparison_unique`, `EM_Comparison_unique_cell` and
+  `EM_Comparison_via_Lemma_agrees` — the Eilenberg–Moore resolution: its
+  monad is T, it is terminal in that weak sense, and `EM_Comparison` is,
+  up to a unique compatible isomorphism, the only comparison into it
+  over the identity identification of the two monads (Awodey's clause,
+  in that coherent form)
+- `bare_awodey_refuted`, `printed_awodey_not_unique`,
+  `K_no_coherent_comparison` and `K_Comparison` — the clause without the
+  coherence refuted in the issue's reading (≈ in both places) and in
+  Awodey's printed one (U^T ∘ Φ ≅ U and Φ ∘ F = F^T), at the monad
+  LZ × (−) on `Sets` for the three-element monoid LZ; the coherence is
+  what rules the first witness out, and that witness is a comparison
+  over another identification
+- the refusals at `eq_refl` (the strict left triangle of
+  `EM_Comparison`, the Lemma's comparison against `EM_Comparison`, the
+  coherence at `EM_Comparison`) are pinned in
+  `Test/ProbeResolution482.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

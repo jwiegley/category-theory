@@ -131,7 +131,12 @@ Generalizable All Variables.
    [EM_Comparison_Free] build them so (its header; [iso_id], and
    [EM_Comparison_Free_iso]'s identity arrows), and all four end [Qed]:
    that the components are identities is read from that file's source, and
-   no readback pins it here.
+   no readback pins it here.  CORRECTION (#482): [EM_Comparison_Forget]
+   and [EM_Comparison_Free] end [Defined] since #482, and
+   Monad/Comparison/Resolution.v reads their components back at
+   [eq_refl] ([EM_Comparison_Forget_components],
+   [EM_Comparison_Free_components]); [RMod_K_Forget] and [RMod_K_Free]
+   still end [Qed], and no readback here pins them.
    [EM_to_RModS] (S: algebras of a monad on Sets; Instance/Mod/TensorMonad.v's
    [EM_to_RMod] is the R ⊗ − monad's on Ab) sends (A, h) to [tr_alg_rmod]: 0 =
    h⟨⟩, a + b = h(⟨a⟩ + ⟨b⟩), −a = h(−⟨a⟩), r·a = h(r·⟨a⟩) ([EM_to_RModS_*]);

@@ -40,6 +40,13 @@ Generalizable All Variables.
     algebras for the monad it induces.  Beck's monadicity theorem
     characterizes the adjunctions with this property.
 
+    Mac Lane's comparisons of two resolutions of one monad (§VI.7), the
+    Lemma constructing them, and the uniqueness of K, up to a unique
+    compatible isomorphism, among the comparisons over the identity
+    identification of the two monads (Awodey's clause, in that coherent
+    form) are Monad/Comparison/Resolution.v (#482); without the
+    coherence the clause is false (Instance/Fun/Action/Monad/Comparison.v).
+
     The induced monad is packaged here as [Adjunction_Induced_Monad], with
     the same underlying data as [Adjunction_Monad]: ret = η, and
     join = U ε F.  The latter is a Qed-sealed theorem, so those readings
@@ -193,7 +200,8 @@ Definition EM_Comparison :
     (fun c c' c'' f g => @fmap_comp C D U c c' c'' f g).
 
 (** Forgetting after comparing is U, on the nose: the iso family is the
-    identity, mirroring [EM_Monad_agrees]. *)
+    identity, mirroring [EM_Monad_agrees].  It ends [Defined] (#482):
+    Monad/Comparison/Resolution.v reads the identity components back. *)
 
 Theorem EM_Comparison_Forget :
   @EM_Forget D (U ◯ F) Adjunction_Induced_Monad ◯ EM_Comparison ≈ U.
@@ -201,7 +209,7 @@ Proof.
   exists (fun c => iso_id).
   intros x y f; cbn.
   cat.
-Qed.
+Defined.
 
 (** Comparing after F is the free-algebra functor F^T.  At each d : D both
     sides yield the carrier U (F d) with structure map U ε_{F d} — the free
@@ -257,13 +265,15 @@ Definition EM_Comparison_Free_iso (d : D) :
     (EM_Comparison_Free_id_id d)
     (EM_Comparison_Free_id_id d).
 
+(* It ends [Defined] (#482), like [EM_Comparison_Forget]. *)
+
 Theorem EM_Comparison_Free :
   EM_Comparison ◯ F ≈ @EM_Free D (U ◯ F) Adjunction_Induced_Monad.
 Proof.
   exists EM_Comparison_Free_iso.
   intros x y f; cbn.
   cat.
-Qed.
+Defined.
 
 End EilenbergMooreComparison.
 

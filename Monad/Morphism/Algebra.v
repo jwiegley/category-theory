@@ -176,7 +176,9 @@ Generalizable All Variables.
    functor induced by θ, comonad morphisms and their coalgebras, and
    θ* as a morphism of adjunctions are not built.  Mac Lane's §VI.2
    Theorem 1 (the Eilenberg–Moore adjunction F^T ⊣ G^T induces the
-   given monad) is not packaged as an isomorphism in [Monads C].
+   given monad) is not packaged as an isomorphism in [Monads C]
+   (CORRECTION (#482): it is Monad/Comparison/Resolution.v's
+   [EM_Monad_iso], with identity components).
    BG.v and SupLat/Free.v are not rewired onto θ*. *)
 
 (** ** θ* on objects: (a, h') ↦ (a, h' ∘ θ_a) *)

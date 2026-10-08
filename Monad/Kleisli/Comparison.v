@@ -382,7 +382,12 @@ Generalizable All Variables.
 
    NOT DELIVERED.  Mac Lane's Theorem 3, the Kleisli resolution initial
    and the Eilenberg–Moore one terminal among the resolutions of T (issue
-   #476).  For it, [Kleisli_Comparison_Map] is a map of adjunctions into
+   #476).  ADDENDUM (#482): the terminal half holds in a weak sense, in
+   Monad/Comparison/Resolution.v's [EM_terminal] and
+   [EM_terminal_unique] (every resolution with its monad identified with
+   T has a comparison into the Eilenberg–Moore one, unique up to
+   isomorphism); the category of resolutions is still #476's.  For it,
+   [Kleisli_Comparison_Map] is a map of adjunctions into
    each adjunction out of the Kleisli resolution of the monad that
    adjunction induces; at T's own Kleisli resolution that source is not
    C_T, and L is refused the type C_T ⟶ C_T by typing (R13; its type is
