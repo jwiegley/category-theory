@@ -132,7 +132,21 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14111** on 2026-10-08, after #478 (Mac Lane §VI.6, the example of a
+**14310** on 2026-10-08, after #479 (Mac Lane §VI.6, the quotient group
+G/N as the coequalizer in `Grp` of the pair G ×₀ N ⇉ G and the
+quotient ring R/A likewise in `Rng`, the splitting after the forgetful
+functor exactly when a transversal exists and, asked of every N, a
+constructive taboo, U's preservation exactly when the coset relation
+untruncates and, into `PropSets`, with no hypothesis, and the splitting
+in `Grp` and `Rng` exactly at a homomorphic section, with witnesses;
+with Awodey's Proposition 3.22 and §3.5 Exercise 3, every monoid the
+coequalizer of T²M ⇉ TM → M, split after U by the units and preserved)
+added ONE block of 199 names, every constant of three new modules,
+`Instance/Grp/Coequalizer.v`, `Instance/Rng/Coequalizer.v` and
+`Instance/Mon/Presentation.v`, every one "Closed under the global
+context" (the list below); 14111 + 199 = 14310.
+An earlier revision of this paragraph gave
+**14111**, the figure on 2026-10-08, after #478 (Mac Lane §VI.6, the example of a
 fork in Cat: the domain and codomain functors C² ⇉ C and the unique
 functor C → 1 form a fork for every C, split when C has a terminal
 object, in `StrictCat` and in `Cat`, with e an absolute coequalizer,
@@ -2139,6 +2153,61 @@ the 45:
   whose hom level exceeds its object level), with the name-absence
   instrument — are pinned in `Test/ProbeSplitFork478.v`, not constants,
   and so are not in the gate
+
+The quotients-as-coequalizers development (Mac Lane §VI.6, book p. 150:
+the group example and Exercise 1; with Awodey §3.4 Proposition 3.22 and
+§3.5 Exercise 3; #479) adds ONE block of 199 names, every `def`, `prf`,
+`rec`, `proj`, `ind` and `scheme` entry of the `.glob` files of its
+three new modules, `Instance/Grp/Coequalizer.v` (93, the inductive
+`z4` with its four schemes and the record `Transversal` with its two
+projections among them), `Instance/Rng/Coequalizer.v` (84, the record
+`RTransversal` with its two projections among them) and
+`Instance/Mon/Presentation.v` (22), none with a `Program` obligation,
+each reported "Closed under the global context" by its fully qualified
+name.  None declares an `Axiom` or a `Parameter` (a grep of the
+sources).  None requires a standard-library reals module, directly or
+through another `Category` module (`Print Libraries` after a `Require`
+of the three modules lists 128 `Category` modules and no module under
+`Reals`, where a `Require` of Instance/Top/Circle.v as the instrument
+lists six `Reals` lines); `Instance/Rng/Coequalizer.v` requires
+`Coq.ZArith.ZArith` and `Coq.micromega.Lia`, as Instance/Rng/Quotient.v
+does, so the stdlib-axioms section below is unchanged.  Among the 199:
+
+- `quot_proj_IsCoequalizer`, `rquot_proj_IsCoequalizer` and
+  `Mon_canonical_presentation` — the three coequalizers, unconditional
+- `Grp_U_split_iff_transversal` and `Rng_U_split_iff_transversal` —
+  the splitting after the forgetful functor, exactly at a transversal
+- `Grp_U_IsCoequalizer_iff_untruncates` and
+  `Rng_U_IsCoequalizer_iff_untruncates` — the forgetful functor's
+  preservation of p, exactly when the coset relation untruncates
+- `Grp_split_iff_hom_transversal` and `Rng_split_iff_hom_rtransversal`
+  — the splitting in `Grp` and `Rng` themselves, exactly at a
+  homomorphic section
+- `Z4_two_not_split_in_Grp` and `EvenIdeal_not_split_in_Rng` — forks
+  that do not split in `Grp` and in `Rng`, proved without an axiom
+- `PropSets_quot_IsCoequalizer` and `PropSets_rquot_IsCoequalizer` —
+  the unconditional alternative: the forgetful functor corestricted to
+  `PropSets` carries p to a coequalizer, with no hypothesis
+- `quot_rel_IsCoequalizer` and `rquot_mem_IsCoequalizer` — the
+  coequalizer in `Sets` of the U-image pair, the untruncated quotient,
+  with no hypothesis
+- `U_split_taboo`, `untruncation_transversal_taboo`,
+  `U_preserves_untruncates`, `Rng_U_split_taboo` and
+  `runtruncation_transversal_taboo` — the constructive taboos, proved
+  as implications: the splitting for every N, or untruncation implying
+  a transversal, decides every proposition, and U's preservation of p at
+  every N_S is the untruncation principle
+- `Grp_Forget_crude_untruncates` — the forgetful functor's preservation
+  of reflexive coequalizers, hypothesis 2 of crude monadicity, entails
+  the untruncation principle
+- `Mon_canonical_split` and `Mon_canonical_U_IsCoequalizer` — Awodey's
+  Exercise 3, the U-image split by the units and a coequalizer
+- the refusals — by conversion at `eq_refl` (law 4 of each splitting
+  after U, and the free functor's action on a variable word of words)
+  and by universe inconsistency (∂₀ at a membership level above the
+  carrier, in `Grp` and in `Rng`, and the S₃/A₃ splitting above
+  `Set`), with the name-absence instrument — are pinned in
+  `Test/ProbeQuotient479.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
