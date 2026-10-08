@@ -69,7 +69,12 @@ Generalizable All Variables.
    arrows), and all four end [Qed], so that the components are identities
    is read from that file's source and no readback pins it here
    (Instance/Mod/FreeMonad.v's twins are [RMod_K_Forget] and
-   [RMod_K_Free]).
+   [RMod_K_Free]).  CORRECTION (#482): [EM_Comparison_Forget] and
+   [EM_Comparison_Free] end [Defined] since #482, and
+   Monad/Comparison/Resolution.v reads their components back at
+   [eq_refl] ([EM_Comparison_Forget_components],
+   [EM_Comparison_Free_components]); [Ab_K_Forget] and [Ab_K_Free] still
+   end [Qed], and no readback here pins them.
    [EM_to_AbS] sends (A, ev) to [zm_alg_ab]: 0 = ev⟨⟩, a + b =
    ev(⟨a⟩ + ⟨b⟩), −a = ev(−⟨a⟩); the triangle is [zm_alg_unit], every
    group law one instance of [zm_alg_eval_respects], and ev IS the sum in
@@ -147,7 +152,10 @@ Generalizable All Variables.
    same levels (compared by [About]).
 
    NOT DELIVERED.  The uniqueness of the comparison functor (Riehl's
-   "unique functor", Proposition 5.2.13); the strict isomorphism (#484); a
+   "unique functor", Proposition 5.2.13; ADDENDUM (#482): in general,
+   for comparisons coherent with the identification of the two monads,
+   it is Monad/Comparison/Resolution.v's [EM_Comparison_unique], not
+   instantiated here); the strict isomorphism (#484); a
    computing ℤ[f]; the comparison of ℤ[−] with T_R at [Int_Ring], and
    Ab ≃ RMod Int_Ring, which issue #1356 tracks (filed from #472's review,
    linked to #1150, whose ℤ comparison for tensor products waits on the

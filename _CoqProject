@@ -355,6 +355,7 @@ Instance/Fun/Action.v
 Instance/Fun/Action/Monad.v
 Instance/Fun/Action/Monad/BG.v
 Instance/Fun/Action/Monad/BG/Morphism.v
+Instance/Fun/Action/Monad/Comparison.v
 Instance/Fun/Pullback.v
 Instance/Fun/Classifier.v
 Instance/Fun/Topos.v
@@ -639,6 +640,7 @@ Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
 Monad/Comparison.v
+Monad/Comparison/Resolution.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
@@ -1173,3 +1175,4 @@ Test/ProbeSplitFork478.v
 Test/ProbeQuotient479.v
 Test/ProbeContractible480.v
 Test/ProbeReflection481.v
+Test/ProbeResolution482.v
