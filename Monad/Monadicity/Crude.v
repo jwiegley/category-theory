@@ -48,6 +48,16 @@ Generalizable All Variables.
     composed diagram [U ◯ APair f g] with [APair (fmap[U] f) (fmap[U] g)]
     that the library does not carry; the elementary form is what the
     proof consumes directly, so no bridge is needed here.
+    CORRECTION (#477): accurate when written; the relation no longer
+    needs that identification.  Structure/Coequalizer.v's
+    [parallel_colimit_coequalizer], at [K := U ◯ APair f g], reads any
+    colimiting cocone over the composed diagram as an elementary
+    coequalizer of [fmap[U] f] and [fmap[U] g] by conversion, and
+    [parallel_coequalizer_colimit] goes back (Test/ProbeAbsolute477.v,
+    C30).  They are what such a relation would now use, against the
+    cone-level [PreservesColimitCocone] at each reflexive pair rather
+    than the apex-only [PreservesColimit]; the relation itself is not
+    stated anywhere, and the identification is still not carried.
 
     The construction of the quasi-inverse G = [Crude_Inverse] : D^T ⟶ C
     is the classical Beck argument:

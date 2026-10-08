@@ -41,7 +41,12 @@ Generalizable All Variables.
    variable pair [f g : x ~> y]: Test/ProbeComponents462.v's N9, beside
    the object parts at [eq_refl] as controls.  Monad/Eilenberg/Moore/
    Limit.v and Monad/Monadicity/Crude.v record the same absence of a
-   bridge.  So the proof transposes directly, about twenty lines.
+   bridge.  So the proof transposes directly, about twenty lines.  Since
+   #477 the coequalizer side needs no such reading: Structure/
+   Coequalizer.v's [parallel_colimit_coequalizer] and
+   [parallel_coequalizer_colimit] convert at any diagram of
+   parallel-pair shape.  Their equalizer twin, which the route above
+   would need, is not built, so for equalizers this paragraph stands.
 
    WHAT IS HERE.
      - [right_adjoint_PreservesEqualizers A]: for [A : F ⊣ U], [U] sends

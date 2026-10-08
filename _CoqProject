@@ -99,6 +99,7 @@ Construction/Fractions/Weak.v
 Construction/Fractions/Adjunction.v
 Construction/Indexed.v
 Construction/Karoubi.v
+Construction/Lift.v
 Construction/Localization.v
 Construction/Localization/Universal.v
 Construction/Karoubi/Universal.v
@@ -698,6 +699,7 @@ Structure/Closed.v
 Structure/Cocartesian.v
 Structure/Coend.v
 Structure/Coequalizer.v
+Structure/Coequalizer/Absolute.v
 Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
 Structure/Coequalizer/Wide.v
@@ -759,6 +761,7 @@ Structure/Limit/Unique/Compat.v
 Structure/Limit/Initial.v
 Structure/Limit/Components.v
 Structure/Limit/Constant.v
+Structure/Limit/Absolute.v
 Instance/Cat/Objects.v
 Instance/Indiscrete.v
 Instance/Cat/Components.v
@@ -1159,3 +1162,4 @@ Test/ProbeWord471.v
 Test/ProbeFreeModule472.v
 Test/ProbeFreeRing474.v
 Test/ProbeKleisliComparison475.v
+Test/ProbeAbsolute477.v

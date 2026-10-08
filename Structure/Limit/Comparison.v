@@ -115,7 +115,12 @@ Generalizable All Variables.
          distinct record types (probe N5 reads the clause "cannot unify");
          the op route exists after Preservation.v's [cone_op_comp]
          repackaging (probe control) but would speak of a repackaged cone,
-         not of [FCocone].
+         not of [FCocone].  CORRECTION (#477): the colimit side now also
+         has (3)'s [PreservesLimitCone_of_cone], as
+         [PreservesColimitCocone_of_cocone] after the CoComparison
+         section, over Preservation.v's [FCocone_iso]; the counts and
+         censuses of this header are of the 57, and COUNTS AND CONVENTIONS
+         records the 58th.
      (5) RIEHL'S WHISKERING IDENTITY at functor level:
          [const_image_iso : F ◯ Δ[J](c) ≈ Δ[J](F c)] in [Functor_Setoid],
          every component [iso_id] ([const_image_iso_component] at
@@ -212,6 +217,17 @@ Generalizable All Variables.
      - 57 constants — 45 [def] and 12 [prf] in the [.glob] — all "Closed
        under the global context", zero [Axioms:] lines, all gated fully
        qualified in the Makefile's print-assumptions target.
+       CORRECTION (#477): 58 since #477 added
+       [PreservesColimitCocone_of_cocone], a term with no proof script,
+       so 46 [def] and 12 [prf]; it is closed under the global context
+       and gated fully qualified in #477's block of that target.  Its
+       binders are written out, one hom level for the shape and the
+       ambient as Structure/Limit/Absolute.v writes them, and its [About]
+       block carries no [Set] and no equation, one strict bound
+       ([Compose]'s, through [FCocone]) and the stdlib caps of
+       [Projections], as [PreservesLimitCone_of_cone]'s does.  The
+       [Defined] and [Qed] counts below are unchanged, and so is the
+       closure: #477 adds no [Require] here.
      - Six [Defined]-terminated proofs.  Two are load-bearing by flipping
        each alone to [Qed]: [const_image_iso] (its component readback at
        [eq_refl] stops) and [discrete_cone] ([discrete_cone_leg] stops).
@@ -478,6 +494,21 @@ Definition preserves_colimit_iff_comparison_iso {M : Cocone (F ◯ K)}
    PreservesColimitCocone_of_comparison HM).
 
 End CoComparison.
+
+(* The cocone twin of [PreservesLimitCone_of_cone]: preserving ONE
+   colimiting cocone of [K] is preserving them all, through
+   [colimitcocone_iso] above and Preservation.v's [FCocone_iso].  Added by
+   #477, the tree having had no cocone twin, for
+   Structure/Limit/Absolute.v's [AbsoluteColimitCocone_preserves], with
+   that file's binders. *)
+
+Definition PreservesColimitCocone_of_cocone@{jo co ch do +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}}
+  {D : Category@{do ch ch}} {K : J ⟶ C} (F : C ⟶ D)
+  (N0 : Cocone K) (HN0 : IsColimitCocone N0)
+  (H0 : IsColimitCocone (FCocone F N0)) : PreservesColimitCocone K F :=
+  fun N HN =>
+    limitcone_transport (FCocone_iso F (colimitcocone_iso HN0 HN)) H0.
 
 (** ** Riehl's whiskering identity F ∘ Δc = Δ(Fc), at functor level *)
 

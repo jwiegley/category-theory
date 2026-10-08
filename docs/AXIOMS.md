@@ -132,7 +132,22 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14001** on 2026-10-08, after #475 (Mac Lane §VI.5, the restriction of
+**14066** on 2026-10-08, after #477 (Mac Lane §VI.6, the absolute
+coequalizer as a predicate, an absolute coequalizer automatically a
+coequalizer, and split coequalizers absolute; with Riehl's Exercise
+3.4.vi(iii), absolute limits and colimits at cone level with their
+closure theory, the absolute coequalizer as the cofork-shaped absolute
+colimit, a universe lift of categories, and the coequalizer conversions
+at any diagram of parallel-pair shape) added ONE block of 65 names,
+every constant #477 adds: those of three new modules,
+`Construction/Lift.v`, `Structure/Limit/Absolute.v` and
+`Structure/Coequalizer/Absolute.v`, and twelve added to
+`Structure/Coequalizer.v`, `Structure/Limit/Preservation.v`,
+`Structure/Limit/Comparison.v` and `Structure/Limit/Constant.v`, every
+one "Closed under the global context" (the list below);
+14001 + 65 = 14066.
+An earlier revision of this paragraph gave
+**14001**, the figure on 2026-10-08, after #475 (Mac Lane §VI.5, the restriction of
 an adjunction to a full subcategory containing the free objects, which
 defines the same monad, Theorem 2's comparison functor L : X_T → A from
 the Kleisli category with its uniqueness and its image FX, Exercises 1
@@ -1988,6 +2003,78 @@ unchanged.  Among the 129:
   instrument —
   are pinned in `Test/ProbeKleisliComparison475.v`, not constants, and
   so are not in the gate
+
+The absolute (co)limit development (Mac Lane §VI.6, book p. 149: the
+absolute coequalizer and the Lemma on split forks; with Riehl's
+Exercise 3.4.vi(iii); #477) adds ONE block of 65 names, every constant
+#477 adds: the entries `Print Module` lists for its three new modules,
+`Construction/Lift.v` (7), `Structure/Limit/Absolute.v` (32) and
+`Structure/Coequalizer/Absolute.v` (14), none with a `Program`
+obligation, and by name the twelve it adds to four existing modules,
+`Structure/Coequalizer.v` (6), `Structure/Limit/Preservation.v` (3),
+`Structure/Limit/Comparison.v` (1) and `Structure/Limit/Constant.v`
+(2), each reported "Closed under the global context" by its fully
+qualified name.  None declares an `Axiom` or a `Parameter` (a grep of
+the sources).  None requires a standard-library reals module, directly
+or through another `Category` module (`Print Libraries` after a
+`Require` of the two Absolute files lists 47 `Category` modules,
+Construction/Lift.v among them, and no module under `Reals`, where a
+`Require` of Instance/Top/Circle.v as the instrument lists six `Reals`
+lines; Structure/Limit/Constant.v now requires
+Structure/Limit/Absolute.v and stays reals-free, 109 `Category`
+modules and no `Reals` line), so the stdlib-axioms section below is
+unchanged.  #477 also writes out the universe binders of
+`Structure/Coequalizer/Split.v`'s `functor_preserves_split` and
+`split_coequalizer_preserved`, whose proofs are unchanged; both are
+"Closed under the global context" by hand and are not in the gate.
+Among the 65:
+
+- `AbsoluteCoequalizer`, `AbsoluteCoequalizer_IsCoequalizer` and
+  `split_coequalizer_absolute` — Mac Lane's predicate, "automatically a
+  coequalizer", and every split fork absolute (what the issue asks
+  `Print Assumptions` of)
+- `AbsoluteLimitCone` and `AbsoluteColimitCocone` — the general
+  predicates at cone level (the appended box), with
+  `AbsoluteLimitCone_IsLimitCone`, `AbsoluteLimitCone_preserves`,
+  `AbsoluteLimitCone_of_preserves`, `AbsoluteLimitCone_transport`,
+  `AbsoluteLimitCone_limitcone`, `AbsoluteLimitCone_image`, their
+  colimit twins, the duality maps `AbsoluteColimitCocone_op` and
+  `AbsoluteColimitCocone_of_op`, and the apex bridges
+  `AbsoluteLimitCone_apex` and `AbsoluteColimitCocone_apex`, which live
+  in `Structure/Limit/Constant.v`
+- `LiftCat`, `Lift_in` and `Lift_after` — a category read at higher
+  universe levels — with `AbsoluteCoequalizer_IsCoequalizer_up`,
+  `AbsoluteCoequalizer_down`, `AbsoluteLimitCone_IsLimitCone_up`,
+  `AbsoluteLimitCone_down` and their colimit twins: every instance of
+  the predicates implies every lower one, and every instance at or
+  above C's own levels yields the coequalizer or limit
+- `cone_id_comp`, `FCocone_iso` and `cocone_assoc_inv` in
+  `Structure/Limit/Preservation.v`, and `PreservesColimitCocone_of_cocone`
+  in `Structure/Limit/Comparison.v` — the cocone twins and repackagings
+  the closure theory uses, beside their limit twins
+- `parallel_coequalizer_colimit`, `parallel_colimit_coequalizer` and
+  `HasCoequalizers_HasColimitsOfShape` in `Structure/Coequalizer.v` —
+  the coequalizer conversions at any diagram of parallel-pair shape, and
+  a colimit of every such diagram from chosen coequalizers
+- `image_coequalizer_colimit`, `image_colimit_coequalizer`,
+  `AbsoluteCoequalizer_AbsoluteColimitCocone`,
+  `AbsoluteColimitCocone_AbsoluteCoequalizer`,
+  `split_cofork_AbsoluteColimitCocone` and
+  `split_coequalizer_PreservesColimitCocone` — the agreement of the two
+  predicates and split forks at cone level
+- `two_terminal_not_absolute` and `two_initial_not_absolute` — a limit
+  and a colimit of the walking arrow that are not absolute, proved
+  without an axiom
+- the refusals — by conversion at `eq_refl` (`Id ◯ K` against `K`, the
+  colimit predicate against the opposite limit predicate, and the image
+  cocone's injection over `ParX` against the split composite) and by
+  universe inconsistency (`F ◯ K` with C's hom-sets strictly below D's,
+  the T := Id readings from a target level other than C's,
+  `IsLimitCone` and `Opposite_Functor` across a strictly larger hom
+  level, `Lift_in X ◯ T` and the way back at a lift of the hom level,
+  and the Yoneda embedding of a category whose objects lie above its
+  hom-sets), with the name-absence instrument — are pinned in
+  `Test/ProbeAbsolute477.v`, not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
