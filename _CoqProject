@@ -379,6 +379,7 @@ Instance/Grp/Colimit/Presentation.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
 Instance/Grp/Quotient/Isomorphism.v
+Instance/Grp/Coequalizer.v
 Instance/Grp/QuotObj.v
 Instance/Grp/WellPowered.v
 Instance/Grp/TwoFunctors.v
@@ -483,6 +484,7 @@ Instance/Rng/Colimit.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
+Instance/Rng/Coequalizer.v
 Instance/Rng/Commutativize.v
 Instance/Rng/Commutativize/UT2.v
 Instance/Rng/Zp.v
@@ -493,6 +495,7 @@ Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
 Instance/Mon/Word.v
 Instance/Mon/Word/System.v
+Instance/Mon/Presentation.v
 Instance/Smgrp.v
 Instance/Smgrp/Word.v
 Instance/Roster.v
@@ -1165,3 +1168,4 @@ Test/ProbeFreeRing474.v
 Test/ProbeKleisliComparison475.v
 Test/ProbeAbsolute477.v
 Test/ProbeSplitFork478.v
+Test/ProbeQuotient479.v
