@@ -45,7 +45,13 @@ Generalizable All Variables.
    ([coequalizer_unique]) and the classical fact that coequalizing maps
    are epimorphisms ([coequalizer_epic]; Wikipedia: "every coequalizer is
    an epimorphism") complete the API.  [HasCoequalizers] packages a choice
-   of elementary coequalizer for every parallel pair. *)
+   of elementary coequalizer for every parallel pair.
+
+   Since #477 both conversions also hold for an arbitrary diagram
+   [K : Parallel ⟶ C], at the pair it names ([parallel_coequalizer_colimit]
+   and [parallel_colimit_coequalizer], in the last section), and
+   [HasCoequalizers_HasColimitsOfShape] turns a choice of elementary
+   coequalizers into a colimit of every such diagram. *)
 
 (* The elementary universal property: e coforks the pair f, g at q, and
    every coforking map h out of y descends uniquely across e. *)
@@ -278,3 +284,183 @@ Definition is_coequalizer_colimit {q : C} {e : y ~> q}
    ; ump_limits := fun N => is_coequalizer_cocone_ump E N |}.
 
 End CoequalizerColimit.
+
+(** ** Coequalizers of any diagram of parallel-pair shape *)
+
+(* The section above converts at the diagram [APair f g] that a pair
+   determines.  A functor [K : Parallel ⟶ C] need not be such a record on
+   the nose -- [U ◯ APair f g] is not [APair (fmap[U] f) (fmap[U] g)] at
+   [eq_refl] (Test/ProbeComponents462.v, N9) -- but it names a pair, the
+   images under K of the two arrows of [Parallel], and both conversions
+   hold for every such K, by case analysis on the two objects (#477):
+
+     - [parallel_coequalizer_colimit]: an elementary coequalizer of the
+       pair is a colimiting cocone over K, the cocone
+       [parallel_cofork_cocone] of its coforking map;
+     - [parallel_colimit_coequalizer]: ANY colimiting cocone over K is an
+       elementary coequalizer of the pair at its apex, coequalized by its
+       injection over [ParY];
+     - [HasCoequalizers_HasColimitsOfShape]: chosen elementary
+       coequalizers give every such K a colimit.
+
+   At [K := APair f g] the pair is f, g by conversion, and the first two
+   have the types of [is_coequalizer_cocone_ump] (as an
+   [IsColimitCocone]) and of [coequalizer_is_coequalizer]; at
+   [K := U ◯ APair f g] the pair is [fmap[U] f], [fmap[U] g], so a
+   colimiting cocone over the image diagram is an elementary coequalizer
+   of the image pair with no identification of the two diagrams (all
+   three accepted in Test/ProbeAbsolute477.v).  The two conversions above
+   keep their own proofs.  [parallel_cofork_cocone] has the legs of
+   [cofork_cocone] at [APair f g] by conversion, and its coherence proof
+   is its own. *)
+
+Section ParallelDiagram.
+
+(* The shape's hom level is C's, written in the binder as [APair] writes
+   it: [Cocone K] identifies the two (Structure/Cone.v), and left to
+   Rocq the identification lands in the constraint block as an equation
+   instead. *)
+
+Universes co ch po.
+Context {C : Category@{co ch ch}}.
+Context (K : Parallel@{po ch} ⟶ C).
+
+(* The pair K names: the images of the two arrows ParX ~> ParY. *)
+
+Local Notation par1 := (fmap[K] ((true; ParOne) : ParX ~{Parallel}~> ParY)).
+Local Notation par2 := (fmap[K] ((false; ParTwo) : ParX ~{Parallel}~> ParY)).
+
+Definition parallel_cofork_legs {z : C} (h : K ParY ~> z) (p : ParObj) :
+  K p ~> z :=
+  match p return (K p ~> z) with
+  | ParX => h ∘ par1
+  | ParY => h
+  end.
+
+Lemma parallel_cofork_legs_coherence {z : C} (h : K ParY ~> z)
+  (Hh : h ∘ par1 ≈ h ∘ par2) :
+  ∀ (a b : ParObj) (k : b ~{Parallel}~> a),
+    parallel_cofork_legs h a ∘ fmap[K] k ≈ parallel_cofork_legs h b.
+Proof.
+  intros a b k.
+  destruct a, b.
+  - (* an endomorphism of ParX: the identity *)
+    destruct k as [[|] hk].
+    + transitivity (parallel_cofork_legs h ParX ∘ id).
+      * apply compose_respects; [reflexivity|].
+        rewrite <- fmap_id.
+        apply fmap_respects.
+        reflexivity.
+      * apply id_right.
+    + destruct (ParHom_Id_false_absurd _ hk).
+  - (* an arrow ParY ~> ParX: refuted *)
+    destruct k as [bb hk].
+    destruct (ParHom_Y_X_absurd _ hk).
+  - (* the two arrows ParX ~> ParY *)
+    destruct k as [[|] hk]; simpl.
+    + apply compose_respects; [reflexivity|].
+      apply fmap_respects.
+      reflexivity.
+    + symmetry.
+      rewrite Hh.
+      apply compose_respects; [reflexivity|].
+      apply fmap_respects.
+      reflexivity.
+  - (* an endomorphism of ParY: the identity *)
+    destruct k as [[|] hk].
+    + transitivity (parallel_cofork_legs h ParY ∘ id).
+      * apply compose_respects; [reflexivity|].
+        rewrite <- fmap_id.
+        apply fmap_respects.
+        reflexivity.
+      * apply id_right.
+    + destruct (ParHom_Id_false_absurd _ hk).
+Qed.
+
+(* The cocone over K induced by a coforking map of the pair. *)
+
+Definition parallel_cofork_cocone {z : C} (h : K ParY ~> z)
+  (Hh : h ∘ par1 ≈ h ∘ par2) : Cocone K :=
+  @Build_Cone (Parallel^op) (C^op) (K^op) z
+    (@Build_ACone (Parallel^op) (C^op) z (K^op)
+       (parallel_cofork_legs h) (parallel_cofork_legs_coherence h Hh)).
+
+(* An elementary coequalizer of the pair is a colimiting cocone over K. *)
+
+Definition parallel_coequalizer_colimit {q : C} {e : K ParY ~> q}
+  (E : IsCoequalizer par1 par2 q e) :
+  IsColimitCocone (parallel_cofork_cocone e (cofork E)).
+Proof.
+  intro M.
+  assert (HX1 : cocone_inj M ParY ∘ par1 ≈ cocone_inj M ParX).
+  { exact (cocone_inj_coherence M
+             ((true; ParOne) : ParX ~{Parallel}~> ParY)). }
+  assert (HX2 : cocone_inj M ParY ∘ par2 ≈ cocone_inj M ParX).
+  { exact (cocone_inj_coherence M
+             ((false; ParTwo) : ParX ~{Parallel}~> ParY)). }
+  assert (Hfg : cocone_inj M ParY ∘ par1 ≈ cocone_inj M ParY ∘ par2).
+  { rewrite HX1, HX2.
+    reflexivity. }
+  unshelve eapply Build_Unique.
+  - exact (unique_obj (coeq_desc E (cocone_inj M ParY) Hfg)).
+  - intro p; destruct p.
+    + (* the injection over ParX is e ∘ par1 *)
+      change (unique_obj (coeq_desc E (cocone_inj M ParY) Hfg) ∘ (e ∘ par1)
+                ≈ cocone_inj M ParX).
+      rewrite comp_assoc.
+      rewrite (unique_property (coeq_desc E (cocone_inj M ParY) Hfg)).
+      exact HX1.
+    + exact (unique_property (coeq_desc E (cocone_inj M ParY) Hfg)).
+  - intros v Hv.
+    apply (uniqueness (coeq_desc E (cocone_inj M ParY) Hfg)).
+    exact (Hv ParY).
+Defined.
+
+(* ANY colimiting cocone over K is an elementary coequalizer of the pair
+   at its apex, coequalized by its injection over ParY. *)
+
+Definition parallel_colimit_coequalizer (N : Cocone K)
+  (HN : IsColimitCocone N) :
+  IsCoequalizer par1 par2 vertex_obj[N] (cocone_inj N ParY).
+Proof.
+  unshelve econstructor.
+  - (* both composites are the injection over ParX *)
+    transitivity (cocone_inj N ParX).
+    + exact (cocone_inj_coherence N
+               ((true; ParOne) : ParX ~{Parallel}~> ParY)).
+    + symmetry.
+      exact (cocone_inj_coherence N
+               ((false; ParTwo) : ParX ~{Parallel}~> ParY)).
+  - intros z h Hh.
+    pose (U := colimitcocone_ump HN (parallel_cofork_cocone h Hh)).
+    unshelve eapply Build_Unique.
+    + exact (unique_obj U).
+    + exact (unique_property U ParY).
+    + intros v Hv.
+      apply (uniqueness U).
+      intro p; destruct p.
+      * (* the ParX leg follows from the ParY leg by coherence *)
+        change (v ∘ cocone_inj N ParX ≈ h ∘ par1).
+        rewrite <- (cocone_inj_coherence N
+                      ((true; ParOne) : ParX ~{Parallel}~> ParY)).
+        rewrite comp_assoc, Hv.
+        reflexivity.
+      * exact Hv.
+Defined.
+
+End ParallelDiagram.
+
+(* The converse Adjunction/Diagonal/Finite.v records as absent for its
+   coequalizer row: chosen elementary coequalizers give every diagram of
+   parallel-pair shape a colimit.  Its type is that file's
+   [HasColimitsOfShape Parallel C] by δ (Adjunction/Diagonal/Limit.v),
+   spelled out here so that this file need not require that module
+   (accepted at the named type in Test/ProbeAbsolute477.v). *)
+
+Definition HasCoequalizers_HasColimitsOfShape {C : Category}
+  (HC : HasCoequalizers C) : ∀ F : Parallel ⟶ C, Colimit F :=
+  fun F =>
+    let P := coeq (fmap[F] ((true; ParOne) : ParX ~{Parallel}~> ParY))
+                  (fmap[F] ((false; ParTwo) : ParX ~{Parallel}~> ParY)) in
+    {| limit_cone := parallel_cofork_cocone F (`1 (`2 P)) (cofork (`2 (`2 P)));
+       ump_limits := parallel_coequalizer_colimit F (`2 (`2 P)) |}.

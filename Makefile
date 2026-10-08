@@ -14945,6 +14945,80 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Monad.Kleisli.Comparison.Examples.kleisli_point_every_algebra_free.'; \
 	  echo 'Print Assumptions Category.Monad.Kleisli.Comparison.Examples.kleisli_point_K_equivalence.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Lift.'; \
+	  echo 'Require Import Category.Structure.Coequalizer.'; \
+	  echo 'Require Import Category.Structure.Limit.Preservation.'; \
+	  echo 'Require Import Category.Structure.Limit.Comparison.'; \
+	  echo 'Require Import Category.Structure.Limit.Absolute.'; \
+	  echo 'Require Import Category.Structure.Coequalizer.Absolute.'; \
+	  echo 'Require Import Category.Structure.Limit.Constant.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.LiftCat.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_in.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_in_fobj.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_in_fmap.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_after.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_after_fobj.'; \
+	  echo 'Print Assumptions Category.Construction.Lift.Lift_after_fmap.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_cofork_legs.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_cofork_legs_coherence.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_cofork_cocone.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_coequalizer_colimit.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.parallel_colimit_coequalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.HasCoequalizers_HasColimitsOfShape.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Preservation.cone_id_comp.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Preservation.FCocone_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Preservation.cocone_assoc_inv.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.PreservesColimitCocone_of_cocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.FCone_Id_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.FCone_Id_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_of_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_of_op_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_op_of_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_IsColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_IsLimitCone_up.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_IsColimitCocone_up.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_down.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_down.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_preserves.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_of_preserves.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_preserves.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_of_preserves.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_transport.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_transport.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_limitcone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_colimitcocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteLimitCone_image.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.AbsoluteColimitCocone_image.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.empty_shape_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.empty_shape_cocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_into_TwoY.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_out_of_TwoX.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_terminal_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_initial_IsColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_terminal_not_absolute.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Absolute.two_initial_not_absolute.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteCoequalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteCoequalizer_IsCoequalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.split_coequalizer_absolute.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteCoequalizer_IsCoequalizer_up.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteCoequalizer_down.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.image_cofork_inj_ParX.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.image_cofork_inj_ParY.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.image_coequalizer_colimit.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.image_colimit_coequalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.image_colimit_coequalizer_desc.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteCoequalizer_AbsoluteColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.AbsoluteColimitCocone_AbsoluteCoequalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.split_cofork_AbsoluteColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Coequalizer.Absolute.split_coequalizer_PreservesColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Constant.AbsoluteLimitCone_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Constant.AbsoluteColimitCocone_apex.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

@@ -26,6 +26,7 @@ Require Import Category.Instance.One.
 Require Import Category.Instance.Two.
 Require Import Category.Instance.Two.Discrete.
 Require Import Category.Instance.Coq.
+Require Import Category.Structure.Limit.Absolute.
 
 (* NOTATION GUARD, and it is REQUIRED here rather than defensive.  Three
    scopes declare [_ ^op] -- category, functor and adjunction -- and
@@ -332,7 +333,11 @@ Generalizable All Variables.
       no [Record], [Class] or [Inductive], so there is no unlisted
       [Build_*] constructor, and the three [Fail]ed names declare nothing.
       Read the GRADE: that is a ONE-TIME measurement of all 89, not a
-      standing gate.
+      standing gate.  CORRECTION (#477): 91 by the same count since #477
+      added [AbsoluteLimitCone_apex] and [AbsoluteColimitCocone_apex] to
+      part (d), both closed under the global context and gated fully
+      qualified in #477's block of the print-assumptions target; for
+      them this file requires Structure/Limit/Absolute.v.
 
   10. TWO ENGINEERING FINDINGS, both recorded where they bite.  First,
       the notation guard at the head of this file is REQUIRED rather than
@@ -368,7 +373,24 @@ Generalizable All Variables.
    [ContinuousFunctor] or [CreatesLimit], no cone-level absoluteness is
    defined, split coequalizers are not related to it although
    Structure/Coequalizer/Split.v has an absoluteness notion of its own,
-   and no absolute limit OTHER than the constant one is exhibited.  No
+   and no absolute limit OTHER than the constant one is exhibited.
+   CORRECTION (#477): accurate when written (#356, PR #1229); since #477
+   Structure/Limit/Absolute.v defines absoluteness at cone level and
+   relates it to [PreservesLimitCone] ([AbsoluteLimitCone_preserves] and
+   its converse), part (d) below maps it into [AbsoluteLimit] and
+   [AbsoluteColimit] ([AbsoluteLimitCone_apex],
+   [AbsoluteColimitCocone_apex]), and Structure/Coequalizer/Absolute.v
+   carries split coequalizers into it
+   ([split_cofork_AbsoluteColimitCocone]), an absolute colimit other
+   than the constant one, which reaches this file's [AbsoluteColimit]
+   through [AbsoluteColimitCocone_apex] (Test/ProbeAbsolute477.v, C21).
+   The clause asks for an absolute LIMIT: that side is reached through
+   Structure/Limit/Absolute.v's [AbsoluteColimitCocone_op], a split
+   fork of C^op giving an absolute limit cone in C itself, C^op^op being
+   C by conversion (the probe's C48; not declared as a constant).  This
+   file's constant witnesses are not restated at cone level, and nothing
+   relates [AbsoluteLimit] itself to [PreservesLimit],
+   [ContinuousFunctor] or [CreatesLimit].  No
    functoriality or naturality of [const_unit] in c, so part (b) is a
    FAMILY of isomorphisms and is not packaged as a natural isomorphism
    [Id ≅ LimitFunctor ◯ Δ].  No uniqueness statement for the limiting
@@ -565,13 +587,38 @@ End ConstantColimit.
 (* "Absolute limit" had ZERO occurrences tree-wide, so the notion is
    introduced here: a limit is absolute when EVERY functor out of the
    ambient category preserves it.  Stated at the apex-pinned level, which
-   is what part (a) delivers; no cone-level variant is defined. *)
+   is what part (a) delivers; no cone-level variant is defined.
+
+   CORRECTION (#477): accurate when written; the cone-level variant is
+   now Structure/Limit/Absolute.v's [AbsoluteLimitCone] and
+   [AbsoluteColimitCocone], and [AbsoluteLimitCone_apex] and
+   [AbsoluteColimitCocone_apex], below the two predicates, map it into
+   them, typed by their names (Test/ProbeAbsolute477.v, C8 and C9).  The
+   converse is not proved and no separation is attempted. *)
 
 Definition AbsoluteLimit {J C : Category} (G : J ⟶ C) (c : C) : Type :=
   ∀ (D : Category) (F : C ⟶ D), IsALimit (F ◯ G) (F c).
 
 Definition AbsoluteColimit {J C : Category} (G : J ⟶ C) (c : C) : Type :=
   ∀ (D : Category) (F : C ⟶ D), IsAColimit (F ◯ G) (F c).
+
+(* The cone-level predicates of Structure/Limit/Absolute.v (#477), read at
+   the apex: an absolute limit cone makes its apex an [AbsoluteLimit] of
+   the same diagram, and dually.  The legs are forgotten, so no converse
+   is claimed.  Placed here, in the file that owns the apex-only notion,
+   so that they are typed by its names; this file requires
+   Structure/Limit/Absolute.v for them. *)
+
+Definition AbsoluteLimitCone_apex@{jo co ch +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
+  {N : Cone K} (A : AbsoluteLimitCone N) : AbsoluteLimit K vertex_obj[N] :=
+  fun D F => limitcone_isalimit (A D F).
+
+Definition AbsoluteColimitCocone_apex@{jo co ch +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
+  {N : Cocone K} (A : AbsoluteColimitCocone N) :
+  AbsoluteColimit K vertex_obj[N] :=
+  fun D F => colimitcocone_isacolimit (A D F).
 
 Section Absolute.
 

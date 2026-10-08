@@ -11,7 +11,9 @@
     the thing it guarded is gone.  Every negative below therefore names a
     constant of the TARGET, and this file mirrors the target's FULL
     import list -- a probe built on a short prefix is the classic way to
-    make a negative pass for a reason it never measured.
+    make a negative pass for a reason it never measured.  (#477 added
+    Structure/Limit/Absolute.v to the target's list, and the same line
+    here; each stripped refusal's error text is unchanged by it.)
 
     KINDS, separated by the error TEXT rather than by label:
       CONVERSION   ends `(cannot unify "X" and "Y")`
@@ -58,6 +60,7 @@ Require Import Category.Instance.One.
 Require Import Category.Instance.Two.
 Require Import Category.Instance.Two.Discrete.
 Require Import Category.Instance.Coq.
+Require Import Category.Structure.Limit.Absolute.
 Require Import Category.Structure.Limit.Constant.
 
 (** ** Instrument check — must ERROR ("The command has not failed!"). *)

@@ -134,7 +134,12 @@ Generalizable All Variables.
    coequalizer of their U-image, which is strictly more data than a
    colimiting cocone, so the honest bridge is a class-indexed restriction
    statement rather than an instance, and [U ◯ APair f g] is not
-   convertible with [APair (fmap[U] f) (fmap[U] g)].  The statement that
+   convertible with [APair (fmap[U] f) (fmap[U] g)] (since #477 that no
+   longer blocks reading a colimit over [U ◯ APair f g] elementarily:
+   Structure/Coequalizer.v's [parallel_colimit_coequalizer] and
+   [parallel_coequalizer_colimit] hold for every diagram of parallel-pair
+   shape, the composed one included; the costed statement below is
+   still not shipped).  The statement that
    was costed and declined is [CreatesUSplitCoequalizers U → ∀ {x y}
    (f g : x ~> y), SplitCoequalizer (fmap[U] f) (fmap[U] g) →
    CreatesColimit (APair f g) U], routed through

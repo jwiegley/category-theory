@@ -33,7 +33,13 @@ Generalizable All Variables.
    nLab: absolute colimit), and split coequalizers are the archetypal
    example.  They are the engine of Beck's monadicity theorem, where the
    canonical presentation of an algebra by free algebras is a split
-   coequalizer after applying the forgetful functor. *)
+   coequalizer after applying the forgetful functor.
+
+   The predicate is Structure/Coequalizer/Absolute.v's
+   [AbsoluteCoequalizer] (#477), Mac Lane's §VI.6 definition, where
+   [split_coequalizer_absolute] reads the corollary below as
+   absoluteness; the cone-level reading of absolute colimits in general
+   is Structure/Limit/Absolute.v's [AbsoluteColimitCocone]. *)
 
 (* The equational data: a cofork e over the pair, a section s splitting e,
    and a section t of f mediating between s ∘ e and the pair. *)
@@ -100,8 +106,19 @@ Defined.
 (* Push each datum through fmap; each law follows from the corresponding
    law in the source by functoriality.  The proof ends with [Defined] so
    that the transported data ([F (scoeq_obj S)], [fmap (scoeq_e S)], ...)
-   remain visible to conversion in the corollary below. *)
-Theorem functor_preserves_split {C D : Category} (F : C ⟶ D)
+   remain visible to conversion in the corollary below.
+
+   The universe binders of this theorem and of the corollary below are
+   written out (#477) so that the target's hom level may sit ABOVE the
+   source's, as [Functor] itself permits.  Left unannotated, minimization
+   identified the two hom levels, and a target with strictly larger
+   hom-sets was refused ("Cannot enforce xh = ch because ch < xh"); the
+   same proof compiles with the bound strict, so the identification was
+   an artifact of the binders, not of the argument.  It mattered once
+   absoluteness quantified over every target category:
+   Structure/Coequalizer/Absolute.v. *)
+Theorem functor_preserves_split@{co ch do dh +}
+  {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D)
   {x y : C} (f g : x ~> y) :
   SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g).
 Proof.
@@ -129,7 +146,8 @@ Defined.
 
 (* The headline: the coequalizer of a split pair is preserved, in the
    elementary [IsCoequalizer] sense, by an arbitrary functor. *)
-Corollary split_coequalizer_preserved {C D : Category} (F : C ⟶ D)
+Corollary split_coequalizer_preserved@{co ch do dh +}
+  {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D)
   {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) :
   IsCoequalizer (fmap[F] f) (fmap[F] g)
     (F (scoeq_obj S)) (fmap[F] (scoeq_e S)).

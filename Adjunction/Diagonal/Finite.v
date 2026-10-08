@@ -395,7 +395,16 @@
        a general [F : Parallel ⟶ C] is not one of those records on the
        nose; transporting a limit along an isomorphism of diagrams is not
        attempted and no such transport is used.  So each [Has*] result
-       here runs one way only.
+       here runs one way only.  CORRECTION (#477): accurate when written;
+       for the coequalizer row a converse now exists outside this file.
+       Structure/Coequalizer.v's [HasCoequalizers_HasColimitsOfShape]
+       builds a colimit of every [F : Parallel ⟶ C] from
+       [HasCoequalizers C], its type being [HasColimitsOfShape Parallel C]
+       by δ (Test/ProbeAbsolute477.v, C31), and it identifies F with no
+       [APair] record: it takes the elementary coequalizer of the pair F
+       names, the images of the two arrows, and reads the colimiting
+       cocone off it.  The equalizer, pullback and pushout rows still
+       have no converse.
      - No uniqueness for any of the four functors.  [left_adjoint_iso] and
        [right_adjoint_iso] are not instantiated, so nothing says
        [EqualizerFunctor] is THE right adjoint of [Δ[Parallel]] up to

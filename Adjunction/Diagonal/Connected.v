@@ -363,7 +363,13 @@ Generalizable All Variables.
     Instance/Two/Monoidal.v 2, and ZERO for every other line.  The 20 is
     the price of section (G)'s regression example and of the #367
     cross-check, and is paid deliberately rather than by reproving that
-    biconditional here.
+    biconditional here.  CORRECTION (#477): 143 since #477, by the same
+    count over the tree's coqdep graph, and Structure/Limit/Constant.v
+    12 at the margin, the other figures unchanged: Constant.v now
+    requires Structure/Limit/Absolute.v for its two apex bridges, which
+    brings six modules this file did not load (that file,
+    Construction/Lift.v, Structure/Limit/Comparison.v, Structure/Span.v
+    and Functor/Structure/Cartesian.v and Terminal.v).
 
     ** 9. WHAT IS NOT DELIVERED
 

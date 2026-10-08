@@ -72,7 +72,11 @@ Generalizable All Variables.
    [CauchyComplete], a synonym of [IdempotentsSplit], in
    Construction/Karoubi/Universal.v.  Two categories have equivalent
    presheaf categories precisely when their Cauchy completions agree,
-   the content of Morita equivalence.
+   the content of Morita equivalence.  The tree's cone-level predicate
+   for an absolute colimit is Structure/Limit/Absolute.v's
+   [AbsoluteColimitCocone] (#477), beside Structure/Limit/Constant.v's
+   apex-only [AbsoluteColimit]; exhibiting the splitting of an
+   idempotent as one is issue #957, and is not done here.
 
    The two names trace a route through several subjects rather than one
    origin.  Max Karoubi split the idempotents of vector bundles in

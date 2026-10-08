@@ -465,6 +465,19 @@ Definition islimitcone_assoc_inv {N : Cone (G ◯ (F ◯ K))}
 
 End ConeAssoc.
 
+(* A cone over [K] read as a cone over [Id ◯ K]: the same apex and legs,
+   [Id ◯ K] not being [K] on the nose.  Added by #477 for
+   Structure/Limit/Absolute.v's "an absolute limit is a limit", with that
+   file's binders: one hom level for the shape and the ambient. *)
+
+Definition cone_id_comp@{jo co ch +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
+  (M : Cone K) : Cone (Id ◯ K) :=
+  @Build_Cone J C (Id ◯ K) (@vertex_obj _ _ _ M)
+    (@Build_ACone J C (@vertex_obj _ _ _ M) (Id ◯ K)
+       (fun x => @vertex_map _ _ _ _ (@coneFrom _ _ _ M) x)
+       (fun x y f => @cone_coherence _ _ _ _ (@coneFrom _ _ _ M) x y f)).
+
 (* Mac Lane §V.4 Exercise 1, per diagram: the image under G of an
    already-limiting image cone is limiting, so preservation composes. *)
 Definition PreservesLimitCone_compose {J C D E : Category}
@@ -760,6 +773,24 @@ Definition cocone_comparison (N : Cocone K) {M : Cocone (F ◯ K)}
 
 End ImageCocone.
 
+(* The cocone twin of [FCone_iso]: the image of a cocone isomorphism is
+   one.  Added by #477, the tree having had no cocone twin, with
+   Structure/Limit/Absolute.v's binders. *)
+
+Definition FCocone_iso@{jo co ch do +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}}
+  {D : Category@{do ch ch}} (F : C ⟶ D) {K : J ⟶ C} {N M : Cocone K}
+  (i : ConeIso N M) : ConeIso (FCocone F N) (FCocone F M).
+Proof.
+  exists (fobj_iso (F^op) _ _ `1 i).
+  intro x.
+  change (fmap[F] (to `1 i) ∘ fmap[F] (cocone_inj M x)
+            ≈ fmap[F] (cocone_inj N x)).
+  rewrite <- fmap_comp.
+  apply fmap_respects.
+  exact (`2 i x).
+Defined.
+
 Definition PreservesColimitCocone {J C D : Category}
   (K : J ⟶ C) (F : C ⟶ D) : Type :=
   ∀ N : Cocone K, IsColimitCocone N → IsColimitCocone (FCocone F N).
@@ -801,6 +832,20 @@ Proof.
 Defined.
 
 End CoCompose.
+
+(* The cocone twin of [cone_assoc_inv], and the inverse repackaging of
+   [cocone_assoc].  Added by #477, with Structure/Limit/Absolute.v's
+   binders. *)
+
+Definition cocone_assoc_inv@{jo co ch do eo +}
+  {J : Category@{jo ch ch}} {C : Category@{co ch ch}}
+  {D : Category@{do ch ch}} {E : Category@{eo ch ch}}
+  {K : J ⟶ C} {F : C ⟶ D} {G : D ⟶ E}
+  (N : Cocone (G ◯ (F ◯ K))) : Cocone ((G ◯ F) ◯ K) :=
+  @Build_Cone (J^op) (E^op) (((G ◯ F) ◯ K)^op) (@vertex_obj _ _ _ N)
+    (@Build_ACone (J^op) (E^op) (@vertex_obj _ _ _ N) (((G ◯ F) ◯ K)^op)
+       (fun x => @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x)
+       (fun x y f => @cone_coherence _ _ _ _ (@coneFrom _ _ _ N) x y f)).
 
 Definition CocontinuousFunctor {C D : Category} (F : C ⟶ D) : Type :=
   ∀ (J : Category) (K : J ⟶ C), PreservesColimitCocone K F.
