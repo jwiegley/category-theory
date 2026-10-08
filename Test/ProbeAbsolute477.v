@@ -37,6 +37,13 @@
     targets alone loads, the two modules among them (compared by
     script), and no module under [Reals].  A shorter import list is what
     makes a probe pass for no reason.
+    CORRECTION (#480): Structure/Coequalizer/Absolute.v now also
+    requires Structure/Coequalizer/Contractible.v, so it adds two lines
+    and the list has thirty-nine, which load one hundred and fourteen
+    [Category] modules, again exactly the set a [Require] of the five
+    targets alone loads; the strip and wrap checks below were run again
+    under the longer list, twelve of twelve and forty-eight of
+    forty-eight, each refusal printing the parenthetical quoted below.
 
     DISCIPLINE.  Every negative other than the instrument is an
     [Example] or a [Definition], never a [Check], so that an open evar
@@ -193,7 +200,11 @@
     Structure/Limit/Constant.v; for the three new modules exactly the
     entries [Print Module] gives (none has a [Program] obligation).  Each
     is written fully qualified and with [@], so that no short name in
-    scope can stand in for it. *)
+    scope can stand in for it.
+    CORRECTION (#480): [Print Module] of Structure/Coequalizer/
+    Absolute.v now gives fifteen entries, the fifteenth #480's
+    [contractible_coequalizer_absolute], which Test/
+    ProbeContractible480.v's guard names. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -215,6 +226,7 @@ Require Import Category.Structure.Equalizer.
 Require Import Category.Instance.Parallel.
 Require Import Category.Structure.Coequalizer.
 Require Import Category.Structure.Coequalizer.Split.
+Require Import Category.Structure.Coequalizer.Contractible.
 Require Import Category.Structure.Coequalizer.Absolute.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Adjunction.

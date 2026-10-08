@@ -39,7 +39,12 @@ Generalizable All Variables.
    [AbsoluteCoequalizer] (#477), Mac Lane's §VI.6 definition, where
    [split_coequalizer_absolute] reads the corollary below as
    absoluteness; the cone-level reading of absolute colimits in general
-   is Structure/Limit/Absolute.v's [AbsoluteColimitCocone]. *)
+   is Structure/Limit/Absolute.v's [AbsoluteColimitCocone].
+
+   The condition on the pair alone that t witnesses, Beck's contractible
+   pair, is Structure/Coequalizer/Contractible.v's [ContractiblePair]
+   (#480): a pair has a split coequalizer exactly when it is contractible
+   and has a coequalizer. *)
 
 (* The equational data: a cofork e over the pair, a section s splitting e,
    and a section t of f mediating between s ∘ e and the pair. *)

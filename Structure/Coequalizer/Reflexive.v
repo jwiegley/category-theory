@@ -34,7 +34,11 @@ Generalizable All Variables.
    category, reflexive pairs are preserved by arbitrary functors
    ([functor_preserves_reflexive]), just as split coequalizers are in
    [Structure/Coequalizer/Split.v] — although the *coequalizer* of a
-   reflexive pair, unlike that of a split one, need not be preserved. *)
+   reflexive pair, unlike that of a split one, need not be preserved.
+
+   Beck's contractible pairs, Structure/Coequalizer/Contractible.v
+   (#480), are another equational condition on a parallel pair; the two
+   are incomparable (Test/ProbeContractible480.v, in both directions). *)
 
 (* The equational data: one map that both f and g retract. *)
 Record ReflexivePair {C : Category} {x y : C} (f g : x ~> y) := {
