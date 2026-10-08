@@ -73,6 +73,9 @@ Generalizable All Variables.
     [FreeRngAbObject], [FreeRngAb : Ab ⟶ Rng] and
     [free_rng_ab_adjunction : FreeRngAb ⊣ Rng_Forget_Ab] -- plus the two
     composites and their comparison.
+    CORRECTION (#474): #474 adds a second packaging of the same
+    adjunction, [free_rng_ab_adjunction_hom] (THE HOM-SET FORM (#474),
+    below), and no further construction.
 
     WHY GENERATORS AND RELATIONS, NOT ⊕ₙ A^⊗ⁿ.  The classical carrier of
     the tensor algebra is the direct sum of the tensor powers, and that
@@ -85,6 +88,15 @@ Generalizable All Variables.
     Instance/Vect/TensorAlgebra.v, Instance/Rng/Polynomial.v and
     Instance/Ab/Tensor.v.  The design is copied and the debt is
     acknowledged; no code is shared with any of them.
+    CORRECTION (#474): the direct sum of the tensor powers of ONE
+    abelian group is built by Instance/Ab/TensorPower.v
+    ([TW_is_tensor_coproduct], an [IsIndexedCoproduct] of that family
+    in Ab, the tensor powers being Structure/Monoidal/Hypergraph/
+    Spider.v's [tpower] at [Ab_Monoidal]), with no general
+    [HasIndexedCoproducts Ab], which is still not built; and
+    Instance/Rng/FreeMonad/Words.v proves the abelian group of
+    [FreeRngAbObject A] isomorphic to it ([T_TW_iso]), the forward map
+    being [free_rng_ab_extend] of the insertion of one-letter words.
 
     THE PRESENTATION CARRIES NO REDUNDANCY, AND THAT IS MEASURED.
     [fr_eq] has SEVENTEEN constructors: four congruence clauses (one per
@@ -139,11 +151,37 @@ Generalizable All Variables.
         UNIT comes out of the SAME [AdjunctionFromUniversalArrows] and
         DOES reduce ([free_rng_ab_unit_is_insert], [eq_refl]).  Both are
         pinned -- the negative as [rng_counit_computes].
+        CORRECTION (#474): that diagnosis names one of two causes.  Two
+        [Qed] constants block the counit: [ump_universal_arrows] and
+        this file's own [free_rng_ab_universal], the proof of the
+        factorization that [free_rng_ab_universal_arrow] hands to
+        [universal_arrow_from_UMP] and from which the counit is read.
+        Measured three times, each in a copy of a closure rebuilt
+        after the change: by #474's scout, in a 92-file closure, on its
+        nine route-A refutations; by its build, in the probe's 111-file
+        closure, on the thirty-one refutations Test/ProbeFreeRing474.v
+        then had; and after its review, in the 112-file closure, on the
+        thirty-two it has now.  With either constant alone turned
+        [Defined], [rng_counit_computes] and
+        [rng_fmap_generator_computes] are still refused, and so are the
+        scout's nine and every refutation of the probe; with both turned
+        [Defined], those two negatives hold, and so do the scout's nine
+        and twelve of the probe's (R2, R3, R5 to R13 and R26), the ones
+        that read this counit or the free functor's action on arrows.
+        Neither constant is turned [Defined] here:
+        [ump_universal_arrows] is shared by many developments, several
+        of which pin its opacity in probes, and issue #1353 tracks it.
+        #474 adds instead the same adjunction in hom-set form,
+        [free_rng_ab_adjunction_hom] below, whose counit IS the
+        evaluation by conversion ([free_rng_ab_hom_counit]).
       - [≈] only: the action of [FreeRngAb] on an arrow.
         [LeftAdjointFunctorFromUniversalArrows] defines [fmap] by
         universal factorization rather than by a formula, so
         [free_rng_ab_fmap_generators] is a theorem; the strict form is
         pinned as [rng_fmap_generator_computes].
+        CORRECTION (#474): [≈] on this tree; the strict form holds once
+        both [Qed] layers of the previous item are turned [Defined],
+        where [rng_fmap_generator_computes] is no longer refused.
 
     THE TWO RIGHT ADJOINTS, AND WHY NO TRANSPORT LEMMA WAS NEEDED.  Write
     [RngUnderlyingAb := Ab_Forget ◯ Rng_Forget_Ab] and
@@ -254,6 +292,43 @@ Generalizable All Variables.
     were added for exactly that reason -- so a rename breaks this file
     instead of turning a negative vacuously green.
 
+    THE HOM-SET FORM (#474).  Two packagings of the one adjunction
+    [FreeRngAb ⊣ Rng_Forget_Ab] are kept.  [free_rng_ab_adjunction],
+    from the universal arrows, is the one the composites below,
+    Instance/Rng/AFT.v and Test/ProbeFreeRing400.v consume, and it is
+    unchanged.  [free_rng_ab_adjunction_hom] is Theory/Adjunction.v's
+    [Build_Adjunction'] applied to the natural bijection
+    [free_rng_ab_hom_iso], with the same left adjoint [FreeRngAb], the
+    same right adjoint and the same insertion: its unit and its forward
+    transpose ARE those of [free_rng_ab_adjunction] at [eq_refl]
+    ([free_rng_ab_hom_unit], [free_rng_ab_hom_to]), and its inverse
+    transpose is the extension [free_rng_ab_extend], so its counit is
+    the evaluation of the identity at [eq_refl]
+    ([free_rng_ab_hom_counit]), where the other counit is that
+    evaluation at `≈` here ([free_rng_ab_counit_evaluates]; at
+    [eq_refl] once both [Qed] layers of STRENGTHS are transparent,
+    #1353).  It exists for the tensor-algebra monad T of Mac Lane's
+    §VI.4 Exercise 4 (Instance/Rng/FreeMonad.v), whose multiplication
+    U ε F and comparison functor then compute, and it is not only a way
+    around that opacity: it is the literal reading of the exercise's
+    "adjunction ⟨F, G, φ⟩", Mac Lane's adjunctions being given by
+    their natural bijection φ (§IV.1), and [free_rng_ab_hom_iso] is that
+    φ.  It is not a second free ring and not a second free functor: the
+    action on arrows is still [FreeRngAb]'s, the relabelling of
+    generators at `≈` here ([free_rng_ab_fmap_generators]; at [eq_refl]
+    once both layers are transparent, #1353).  The two adjunctions are
+    refused equal at [eq_refl], and so are their inverse transposes and
+    their counits at a variable expression (Test/ProbeFreeRing474.v, R1
+    to R3).  Its universes: [free_rng_ab_hom_iso] and
+    [free_rng_ab_adjunction_hom] bind @{u p}, [Ab]'s and [Rng]'s own,
+    and the four further levels of [FreeRngAb], with no [Set] but the
+    strict lower bound [Set < u]; the adjunction is pinned to
+    [Adjunction@{u p p u p p p p u p u}], so that the phantom level of
+    [Build_Adjunction'] is not left free (an unpinned version binds it,
+    unconstrained, measured by [About]).  Issue #1353 records the exit:
+    once [ump_universal_arrows] and [free_rng_ab_universal] are
+    transparent, one record is kept and T is rebased on it.
+
     116/116 constants closed under the global context, the count taken
     over the source declarations and the constructors UNION what
     [Print Module] lists (which adds the eliminators and the six [Program]
@@ -269,6 +344,15 @@ Generalizable All Variables.
     under the global context" reading was NOT re-run for all 116 at this
     revision; what was re-measured is the eliminator count.
 
+    CORRECTION (#474): #474 adds six constants, [fr_eval_pointwise],
+    [free_rng_ab_hom_iso], [free_rng_ab_adjunction_hom] and the three
+    [eq_refl] readbacks [free_rng_ab_hom_counit], [free_rng_ab_hom_unit]
+    and [free_rng_ab_hom_to], each "Closed under the global context"
+    and named in #474's print-assumptions block; the 116 above are
+    unchanged.  The refusals about the hom-set form are pinned in
+    Test/ProbeFreeRing474.v, which restates the three readbacks (C1 to
+    C3) and names the six constants in its guard.
+
     NOT DELIVERED, scoped:
       - no normal form for [fr_eq], hence no coefficient uniqueness, no
         decision procedure and no basis; nothing is claimed about when two
@@ -278,6 +362,12 @@ Generalizable All Variables.
         [TensorAlg] (that one is the tensor algebra of a MODULE over a
         base ring, built on a different generating structure; no map
         either way is built and none is claimed);
+        CORRECTION (#474): the identification is now
+        Instance/Rng/FreeMonad/Words.v's [T_TW_iso], an isomorphism in
+        Ab (its forward map is a ring map, [tw_to_rng]) with ⊕ₙ A^⊗ⁿ as
+        Instance/Ab/TensorPower.v's coproduct of the tensor powers; there
+        is still no grading on [FreeRngAbObject A] itself, and the
+        comparison with [TensorAlg] needs Ab ≅ RMod ℤ (issue #1356);
       - no commutative variant, so no free commutative ring and no
         relation to Instance/Rng/Polynomial.v's ℤ[x] -- in particular it
         is NOT claimed that [FreeRngAbObject ab_int] is ℤ[x];
@@ -765,6 +855,101 @@ Proof.
                  (free_rng_ab_universal_arrow B) ∘ u)) a).
 Qed.
 
+(** ** The same adjunction in hom-set form (#474)
+
+    A second packaging of [FreeRngAb ⊣ Rng_Forget_Ab], with the SAME left
+    adjoint [FreeRngAb] and the same insertion: Theory/Adjunction.v's
+    hom-set constructor [Build_Adjunction'] applied to the natural
+    bijection [free_rng_ab_hom_iso], whose forward transpose is the one of
+    [free_rng_ab_adjunction] (g ↦ U g ∘ insert) and whose inverse
+    transpose is the extension [free_rng_ab_extend].  Its counit is then
+    the evaluation of the identity by conversion ([free_rng_ab_hom_counit]),
+    where the counit of [free_rng_ab_adjunction] is that evaluation up to
+    `≈` here ([free_rng_ab_counit_evaluates]; at [eq_refl] once both
+    [Qed] layers of the header's STRENGTHS are transparent, #1353).  The
+    bijection is Mac Lane's φ of the exercise's "adjunction ⟨F, G, φ⟩"
+    (§IV.1), so this is also the literal reading of the book.
+    Instance/Rng/FreeMonad.v builds the tensor-algebra monad T of Mac
+    Lane's §VI.4 Exercise 4 on it.  No second free ring and no second free
+    functor: the action on arrows is still [FreeRngAb]'s, the relabelling
+    of generators at `≈` here ([free_rng_ab_fmap_generators]; at
+    [eq_refl] once both layers are transparent, #1353). *)
+
+(* The evaluation respects pointwise-`≈` homomorphisms. *)
+Lemma fr_eval_pointwise@{u p +} {A : Ab@{u p}} {R : Rng@{u p}}
+  (h h' : A ~{Ab@{u p}}~> Rng_Forget_Ab R) (H : h ≈ h') (t : FRTerm A) :
+  fr_eval h t ≈ fr_eval h' t.
+Proof.
+  induction t as [ a | | | t1 IH1 t2 IH2 | t IH | t1 IH1 t2 IH2 ]; simpl.
+  - exact (H a).
+  - reflexivity.
+  - reflexivity.
+  - exact (rig_add_respects R _ _ IH1 _ _ IH2).
+  - exact (ring_neg_respects R _ _ IH).
+  - exact (rig_mul_respects R _ _ IH1 _ _ IH2).
+Qed.
+
+(* The natural bijection Rng(F A, R) ≅ Ab(A, U R): forward g ↦ U g ∘
+   insert, backward the extension. *)
+Definition free_rng_ab_hom_iso@{u p +} (A : Ab@{u p}) (R : Rng@{u p}) :
+  @Isomorphism Sets@{p u}
+    {| carrier := @hom Rng@{u p} (FreeRngAb A) R
+     ; is_setoid := @homset Rng@{u p} (FreeRngAb A) R |}
+    {| carrier := @hom Ab@{u p} A (Rng_Forget_Ab R)
+     ; is_setoid := @homset Ab@{u p} A (Rng_Forget_Ab R) |}.
+Proof.
+  unshelve refine
+    (@Build_Isomorphism Sets
+       {| carrier := @hom Rng (FreeRngAb A) R
+        ; is_setoid := @homset Rng (FreeRngAb A) R |}
+       {| carrier := @hom Ab A (Rng_Forget_Ab R)
+        ; is_setoid := @homset Ab A (Rng_Forget_Ab R) |}
+       (@Build_SetoidMorphism
+          (@hom Rng (FreeRngAb A) R) (@homset Rng (FreeRngAb A) R)
+          (@hom Ab A (Rng_Forget_Ab R)) (@homset Ab A (Rng_Forget_Ab R))
+          (fun g => fmap[Rng_Forget_Ab] g ∘[Ab] free_rng_ab_insert A) _)
+       (@Build_SetoidMorphism
+          (@hom Ab A (Rng_Forget_Ab R)) (@homset Ab A (Rng_Forget_Ab R))
+          (@hom Rng (FreeRngAb A) R) (@homset Rng (FreeRngAb A) R)
+          (fun h => free_rng_ab_extend h) _) _ _).
+  - intros g g' H a. exact (H (fr_gen a)).
+  - intros h h' H t. exact (fr_eval_pointwise h h' H t).
+  - intros h a. reflexivity.
+  - intros g t. simpl. symmetry.
+    apply (free_rng_ab_extend_unique R _ g). intro a. reflexivity.
+Defined.
+
+Definition free_rng_ab_adjunction_hom@{u p +} :
+  @Adjunction@{u p p u p p p p u p u} Rng@{u p} Ab@{u p}
+    FreeRngAb Rng_Forget_Ab.
+Proof.
+  unshelve refine
+    (@Build_Adjunction' Rng Ab FreeRngAb Rng_Forget_Ab
+       free_rng_ab_hom_iso _ _).
+  - intros A B R f g a. simpl.
+    apply (proper_morphism (rig_map f)).
+    exact (free_rng_ab_fmap_generators g a).
+  - intros A R R' f g a. reflexivity.
+Defined.
+
+(* Its counit is the evaluation of the identity, by conversion. *)
+Example free_rng_ab_hom_counit@{u p +} (R : Rng@{u p})
+  (t : FRTerm (Rng_Forget_Ab R)) :
+  rig_map (@counit _ _ _ _ free_rng_ab_adjunction_hom R) t
+    = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R)) t := eq_refl.
+
+(* Its unit and its forward transpose ARE those of
+   [free_rng_ab_adjunction]. *)
+Example free_rng_ab_hom_unit@{u p +} (A : Ab@{u p}) :
+  @Category.Theory.Adjunction.unit _ _ _ _ free_rng_ab_adjunction_hom A
+    = @Category.Theory.Adjunction.unit _ _ _ _ free_rng_ab_adjunction A
+  := eq_refl.
+
+Example free_rng_ab_hom_to@{u p +} (A : Ab@{u p}) (R : Rng@{u p})
+  (g : FreeRngAb A ~{Rng@{u p}}~> R) :
+  to (@adj _ _ _ _ free_rng_ab_adjunction_hom A R) g
+    = to (@adj _ _ _ _ free_rng_ab_adjunction A R) g := eq_refl.
+
 (** * Two left adjoints of one right adjoint
 
     A general comparison, built transparently so that its components are
@@ -1199,7 +1384,11 @@ Fail Example rng_routes_convertible :
    nothing reduces through it -- [free_rng_ab_counit_generator] states the
    [≈] that does hold.  The discriminating control is the unit: it runs
    through the SAME [AdjunctionFromUniversalArrows] and DOES reduce, so
-   the cause is that one constant's opacity and not the route as such. *)
+   the cause is that one constant's opacity and not the route as such.
+   CORRECTION (#474): one of two; this file's own [free_rng_ab_universal]
+   is the other (the header's STRENGTHS), and the counit of the hom-set
+   form [free_rng_ab_adjunction_hom] is the evaluation at [eq_refl]
+   ([free_rng_ab_hom_counit]). *)
 Fail Example rng_counit_computes (R : Rng) (a : carrier (rig_setoid R)) :
   rig_map (free_rng_ab_counit R) (@fr_gen (Rng_Forget_Ab R) a) = a
   := eq_refl.

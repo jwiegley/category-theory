@@ -132,7 +132,24 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**13576** on 2026-10-07, after #472 (Mac Lane §VI.4, Exercise 2, with
+**13872** on 2026-10-08, after #474 (Mac Lane §VI.4, Exercise 4, with
+Riehl's Example 5.5.7(ii): the tensor-algebra monad T on Ab as the
+monad of the free ring adjunction Ab ⇀ Rng in a hom-set form added to
+`Instance/Rng/Free.v`, its direct description as the direct sum of the
+n-fold tensor powers, words modulo multilinearity proved the coproduct
+in Ab of the tensor powers of `Instance/Ab/Tensor.v`'s tensor product,
+with the monad on them built directly and isomorphic to T as a monad,
+rings as its algebras with Rng isomorphic in `Cat` to Ab^T with
+identity components and monadic over Ab, and the algebras as Mac
+Lane's systems ⟨A, ν₀, ν₁, …⟩ of multilinear operations in a category
+isomorphic in `Cat` to Ab^T and to Rng) added ONE block of 296 names,
+the six constants #474 adds to `Instance/Rng/Free.v` and every constant
+of four new modules, `Instance/Ab/TensorPower.v`,
+`Instance/Rng/FreeMonad.v`, `Instance/Rng/FreeMonad/Words.v` and
+`Instance/Rng/FreeMonad/System.v`, every one "Closed under the global
+context" (the list below); 13576 + 296 = 13872.
+An earlier revision of this paragraph gave
+**13576**, the figure on 2026-10-07, after #472 (Mac Lane §VI.4, Exercise 2, with
 Riehl's Example 5.1.4(iii) and her §5.3 opening construction: the free
 R-module monad T_R on Set as the monad of the free module adjunction in
 a hom-set form added to `Instance/Mod/Free.v`, read as formal linear
@@ -1836,6 +1853,65 @@ lines), so the stdlib-axioms section below is unchanged.  Among the
   `Equivalence_to_Cat_Iso` would build) and the name-absence instrument
   — are pinned in `Test/ProbeFreeModule472.v`, not constants, and so are
   not in the gate
+
+The tensor-algebra monad development (Mac Lane §VI.4, Exercise 4, book
+p. 146: the monad T in Ab defined by the adjunction Ab ⇀ Rng, (a) its
+direct description with Xⁿ replaced by the n-fold tensor power and ∐ by
+the direct sum, (b) the corresponding description of T-algebras and
+the comparison functor from rings an isomorphism; with Riehl's Example
+5.5.7(ii); #474) adds ONE block of 296 names: the six constants it adds
+to `Instance/Rng/Free.v` (`fr_eval_pointwise`, `free_rng_ab_hom_iso`,
+`free_rng_ab_adjunction_hom` and three readbacks) and every constant
+`Print Module` lists for its four new modules,
+`Instance/Ab/TensorPower.v` (60), `Instance/Rng/FreeMonad.v` (74),
+`Instance/Rng/FreeMonad/Words.v` (85) and
+`Instance/Rng/FreeMonad/System.v` (71), the inductives `TWTerm` and
+`tw_eq` and the records `TSystem` and `TSysObj` with their
+constructors, fields and schemes among them, each reported "Closed
+under the global context" by its fully qualified name.  None declares
+an `Axiom` or a `Parameter` (a grep of the sources).  None requires a
+standard-library reals module, directly or through another `Category`
+module (`Print Libraries` after a `Require` of the five files lists 112
+`Category` modules and no module under `Reals`, where a `Require` of
+Instance/Top/Circle.v as the instrument lists six `Reals` lines), so
+the stdlib-axioms section below is unchanged.  Among the 296:
+
+- `free_rng_ab_adjunction_hom`, `TM`, `Rng_K`, `Rng_EM_iso`,
+  `Rng_EM_equivalence`, `Rng_Forget_Ab_Monadic`, `TWF`,
+  `T_TW_natural`, `TWMonad`, `T_TW_monad_hom`, `TW_T_monad_hom`,
+  `T_TW_monad_iso`, `TSys`, `TSys_EM_iso` and `Rng_TSys_iso` — closed
+  constants with no argument beyond their universes: the free ring
+  adjunction in hom-set form, the tensor-algebra monad T and its
+  comparison functor (what the issue asks `Print Assumptions` of),
+  Rng ≅ Ab^T in `Cat`, the monadicity of rings over Ab (Riehl's
+  5.5.7(ii)), the functor ⨁ₙ (−)^{⊗n} and its natural isomorphism with
+  T, the monad ⨁ₙ (−)^{⊗n} built directly, the two morphisms of monads
+  between it and T and their isomorphism in Monad/Morphism.v's
+  `Monads Ab`, and the systems ⟨A, ν₀, ν₁, …⟩ as a category isomorphic
+  in `Cat` to Ab^T and to Rng
+- `TW_is_tensor_coproduct`, `T_TW_iso`, `T_TW_join`, `T_TW_map`,
+  `ralg_ring`, `ralg_fold`, `alg_system`, `sys_ring` and `tsys_nu_hom`
+  — unconditional over an abelian group or an algebra: the words as the
+  coproduct in Ab of the tensor powers, T A ≅ ⨁ₙ A^{⊗n} with μ as
+  juxtaposition and T f as f^{⊗n} read through it, an algebra as a
+  ring, and the correspondence of algebras with systems, νₙ as a
+  homomorphism out of the n-th tensor power
+- the refusals — by conversion at `eq_refl` (the two free ring
+  adjunctions as records, their inverse transposes and counits, η as a
+  record, T f at a generator and at a variable, the monad and the
+  comparison functor of the universal-arrow adjunction at a generator,
+  a variable, a product and 1, the round trips of rings, algebras and
+  systems as whole objects and their operations, the composites
+  against the identity functors, the isomorphism T A ≅ ⨁ₙ A^{⊗n} at
+  variables and at a rebracketed product, the copairing and the
+  injections at a variable, one component of the isomorphism that
+  Theory/Equivalence.v's `Equivalence_to_Cat_Iso` would build, through
+  Theory/Functor.v's opaque `Functor_Setoid_obligation_1`, and a
+  component of `Rng_TSys_iso` at a point, through
+  Theory/Isomorphism.v's transparent `iso_compose_obligation_2` and
+  three opaque constants of Theory/Functor.v) and the name-absence
+  instrument — are pinned in `Test/ProbeFreeRing474.v`,
+  not constants, and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
