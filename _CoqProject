@@ -263,6 +263,7 @@ Instance/Ab/TorsionFree.v
 Instance/Ab/Torsion.v
 Instance/Ab/FreeNotContinuous.v
 Instance/Ab/Limit.v
+Instance/Ab/TensorPower.v
 Instance/Adj.v
 Instance/Adj/Forgetful.v
 Instance/Adj/Bicategory.v
@@ -483,6 +484,9 @@ Instance/Rng/Quotient/OneSided.v
 Instance/Rng/Commutativize.v
 Instance/Rng/Commutativize/UT2.v
 Instance/Rng/Zp.v
+Instance/Rng/FreeMonad.v
+Instance/Rng/FreeMonad/Words.v
+Instance/Rng/FreeMonad/System.v
 Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
 Instance/Mon/Word.v
@@ -1151,3 +1155,4 @@ Test/ProbeSetsTerms1347.v
 Test/ProbeWord470.v
 Test/ProbeWord471.v
 Test/ProbeFreeModule472.v
+Test/ProbeFreeRing474.v
