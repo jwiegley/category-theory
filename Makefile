@@ -15019,6 +15019,54 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Constant.AbsoluteLimitCone_apex.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Constant.AbsoluteColimitCocone_apex.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Cat.SplitFork.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_e_one.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_e_one_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law1_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law1_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law1_map.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_s_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_t.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_t_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_t_map.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law2_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_strict_component.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_strict_component.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law2_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law2_map.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_map.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_map.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_e.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_s.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_t.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law2_direct.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_direct.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_direct.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law3_direct_component.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_law4_direct_component.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_direct.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_direct_e.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_direct_s.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_split_direct_t.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_coequalizer_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_coequalizer.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_preserved_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_preserved.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_absolute_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_absolute.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_preserved_absolute_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_preserved_absolute.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_not_coequalizer.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.SplitFork.arrow_fork_not_coequalizer_0.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

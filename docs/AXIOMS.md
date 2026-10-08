@@ -132,7 +132,18 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14066** on 2026-10-08, after #477 (Mac Lane §VI.6, the absolute
+**14111** on 2026-10-08, after #478 (Mac Lane §VI.6, the example of a
+fork in Cat: the domain and codomain functors C² ⇉ C and the unique
+functor C → 1 form a fork for every C, split when C has a terminal
+object, in `StrictCat` and in `Cat`, with e an absolute coequalizer,
+carried to a coequalizer by every functor into a category whose hom and
+proof levels coincide at or above the source's hom level; and, not the
+book's, a category without objects for which e is not a coequalizer)
+added ONE block of 45 names, every
+constant of one new module, `Instance/Cat/SplitFork.v`, every one
+"Closed under the global context" (the list below); 14066 + 45 = 14111.
+An earlier revision of this paragraph gave
+**14066**, the figure on 2026-10-08, after #477 (Mac Lane §VI.6, the absolute
 coequalizer as a predicate, an absolute coequalizer automatically a
 coequalizer, and split coequalizers absolute; with Riehl's Exercise
 3.4.vi(iii), absolute limits and colimits at cone level with their
@@ -2075,6 +2086,59 @@ Among the 65:
   and the Yoneda embedding of a category whose objects lie above its
   hom-sets), with the name-absence instrument — are pinned in
   `Test/ProbeAbsolute477.v`, not constants, and so are not in the gate
+
+The split fork in Cat (Mac Lane §VI.6, book p. 150: the example of a
+fork in Cat, C² ⇉ C → 1, split by a terminal object of C, with the
+Corollary of the same page that e is an absolute coequalizer; #478) adds
+ONE block of 45 names: every constant `Print Module` lists for its new
+module, `Instance/Cat/SplitFork.v`, which has no `Program` obligations,
+each reported "Closed under the global context" by its fully qualified
+name.  None declares an `Axiom` or a `Parameter` (a grep of the
+source).  None requires a standard-library reals module, directly or
+through another `Category` module (`Print Libraries` after a `Require`
+of the file lists 86 `Category` modules and no module under `Reals`,
+where a `Require` of Instance/Top/Circle.v as the instrument lists six
+`Reals` lines), so the stdlib-axioms section below is unchanged.  Among
+the 45:
+
+- `arrow_fork_law1` and `arrow_fork_law1_strict` — for every C, the
+  fork law e ∂₀ = e ∂₁ in `Cat` and in `StrictCat`, ∂₀ and ∂₁ being
+  Construction/Comma/Diagram.v's `Arrow_dom` and `Arrow_cod` and e
+  Instance/One.v's `Erase C`
+- `arrow_fork_t`, `arrow_fork_law2_strict`, `arrow_fork_law3_strict`,
+  `arrow_fork_law4_strict` and `arrow_fork_split_strict` — given a
+  terminal object of C: Mac Lane's t and the split fork in `StrictCat`,
+  as Structure/Coequalizer/Split.v's `SplitCoequalizer`
+- `arrow_fork_split` — the split fork in `Cat` (what the issue asks
+  `Print Assumptions` of), pushed along `StrictCat_to_Cat` by Split.v's
+  `functor_preserves_split`
+- `arrow_fork_law2_direct`, `arrow_fork_law3_direct`,
+  `arrow_fork_law4_direct` and `arrow_fork_split_direct` — a second split
+  fork in `Cat`, its laws 2 to 4 proved there with identity isomorphisms
+  for components and its law 1 `arrow_fork_law1`
+- `arrow_fork_coequalizer`, `arrow_fork_coequalizer_strict`,
+  `arrow_fork_preserved` and `arrow_fork_preserved_strict` — e a
+  coequalizer of ∂₀ and ∂₁ in both categories, carried to a coequalizer
+  by every functor out of either into a category whose hom and proof
+  levels coincide, at or above the source's hom level
+- `arrow_fork_absolute` and `arrow_fork_absolute_strict` — Mac Lane's
+  Corollary at this fork: e an absolute coequalizer in both categories,
+  as Structure/Coequalizer/Absolute.v's `AbsoluteCoequalizer`
+- `arrow_fork_not_coequalizer` and `arrow_fork_not_coequalizer_0` — not
+  the book's: for a category without objects, the empty category among
+  them, e is not a coequalizer in `Cat`
+- the other 25 names are `eq_refl` readbacks, of the data, of the laws
+  on objects and arrows, of the components of laws 3 and 4 (the object
+  components of the `StrictCat` ones, the isomorphisms of the direct
+  `Cat` ones), of e, s and t in both split forks in `Cat`, and of the two
+  preservation corollaries as the absolute statements applied
+- the refusals — by conversion at `eq_refl` (law 2 at a variable object
+  or arrow of 1, each of the four laws as a Leibniz equality of the two
+  composite functor records, and law 3's component in `arrow_fork_split`
+  as the identity) and by a universe inconsistency (law 1 at a category
+  whose hom level exceeds its object level), with the name-absence
+  instrument — are pinned in `Test/ProbeSplitFork478.v`, not constants,
+  and so are not in the gate
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

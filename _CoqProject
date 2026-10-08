@@ -289,6 +289,7 @@ Instance/Cat/Pullback.v
 Instance/Cat/Creation.v
 Instance/Cat/Coproduct.v
 Instance/Cat/Limit.v
+Instance/Cat/SplitFork.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -1163,3 +1164,4 @@ Test/ProbeFreeModule472.v
 Test/ProbeFreeRing474.v
 Test/ProbeKleisliComparison475.v
 Test/ProbeAbsolute477.v
+Test/ProbeSplitFork478.v
