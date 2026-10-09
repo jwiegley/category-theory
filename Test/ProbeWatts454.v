@@ -1020,7 +1020,7 @@ Definition p454_zero_module@{a +} (R : RingObject@{a Set a}) :=
 Definition p454_initial_unique_gaft (R : RingObject) :=
   initial_unique (RMod_Initial_via_GAFT R) (RMod_Initial_via_GAFT R).
 
-Fail Definition p454_n15_initial_vs_zero (R : RingObject) :=
+Definition p454_n15_initial_vs_zero (R : RingObject) :=
   initial_unique (RMod_Initial_via_GAFT R) (RMod_Initial R).
 
 (** ** N16-N23, N29-N34 (CONVERSION, UNIVERSE): Instance/Mod/Watts.v *)

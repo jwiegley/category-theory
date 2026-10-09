@@ -310,7 +310,7 @@ Example torsion_record_adj@{u p +} :
 
 (* ℤ/2 is torsion, so it is an object of the subcategory, and the unit of
    the coreflection there is invertible. *)
-Definition ZMod2_IsTorsion@{a +} : IsTorsion (ZMod2 : AbObject@{a Set Set}) :=
+Definition ZMod2_IsTorsion@{a +} : IsTorsion (ZMod2 : AbObject@{a a a}) :=
   ZMod2_all_torsion.
 
 Definition ZMod2_Torsion@{u +} : Sub Ab@{u Set} Torsion_Sub :=
