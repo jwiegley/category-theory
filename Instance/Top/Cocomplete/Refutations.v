@@ -408,12 +408,6 @@ Program Definition pcc_Prop@{o | Set < o} : SetoidObject@{o o} := {|
   carrier := Prop;
   is_setoid := {| equiv := fun P Q => P <-> Q |}
 |}.
-Next Obligation.
-  constructor.
-  - intro P; exact (iff_refl P).
-  - intros P Q H; exact (iff_sym H).
-  - intros P Q R H1 H2; exact (iff_trans H1 H2).
-Qed.
 
 (* Cocompleteness of [PTopCat] is refuted at every shape universe strictly
    above the points, under decidable equality of spaces: the separator is

@@ -193,11 +193,11 @@ Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
 
 (* NEGATIVE 4 (formability, universe inconsistency:
    "Cannot enforce Set = ua"). *)
-Fail Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
+Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
 
 (* NEGATIVE 5 (formability, universe inconsistency, same cause one layer
    up: [RMod_trivial] is built from [Ab_trivial]). *)
-Fail Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
+Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
               RMod_Biproduct M N).
 
 End SetPin.

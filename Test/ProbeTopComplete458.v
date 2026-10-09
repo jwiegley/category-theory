@@ -1816,7 +1816,6 @@ Check Top_not_cocomplete_IEM.
 Check Top_not_cocomplete_ObjDecEq.
 Check cocomp_cantor_diagonal.
 Check pcc_Prop.
-Check Refutations.pcc_Prop_obligation_1.
 Check pcc_contradiction.
 Check pcc_enc.
 Check pcc_enc_inj.
