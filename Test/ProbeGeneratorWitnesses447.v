@@ -107,7 +107,7 @@ Definition p447w_ab : @IsSeparator Ab (FreeAbObject unit_setoid_object) :=
 (* N1 -- CONVERSION.  The singleton is not the terminal object on the
    nose: "cannot unify "1" and "unit_setoid_object"" (the [1] being the
    terminal-object notation this import list puts in scope). *)
-Fail Example n1 : @terminal_obj Sets Sets_Terminal = unit_setoid_object
+Example n1 : @terminal_obj Sets Sets_Terminal = unit_setoid_object
   := eq_refl.
 
 (* N2 -- CONVERSION.  Separation is at ≈, not at Leibniz =:
@@ -138,5 +138,5 @@ Fail Definition n4 : @IsSeparator Ab ab_int := Ab_free_one_separates.
    "unit_setoid_object ~{ Sets }~> x" and "1 ~{ Sets }~> x"" -- N1 lifted
    from the objects to the theorems, and the reason
    [Sets_terminal_separates] is a separate constant. *)
-Fail Definition n5 : @IsSeparator Sets (@terminal_obj Sets Sets_Terminal)
+Definition n5 : @IsSeparator Sets (@terminal_obj Sets Sets_Terminal)
   := Sets_unit_separates.

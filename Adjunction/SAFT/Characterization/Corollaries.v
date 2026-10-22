@@ -237,7 +237,7 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa ra 
   Representable@{ra rt su o h} K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont
-       (saft_solution_set_at@{o su h h dp cp w s t pl pa h _ _ _}
+       (saft_solution_set_at@{o su h h dp cp w s t pl pa h _ _}
           K comp cont G SetsOne W)).
 
 (** ** Riehl 4.7.13: the SAFT hypotheses give cocompleteness *)
@@ -271,10 +271,10 @@ Definition SAFT_cover_wp_iso@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP)
+  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
   left_adjoint_iso U _ _
-    (projT2 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP))
+    (projT2 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP))
     (projT2 (SAFT_wellpowered U comp cont G WP)).
 
 (** ** The two routes index the same family *)

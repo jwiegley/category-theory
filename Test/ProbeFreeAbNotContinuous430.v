@@ -110,9 +110,9 @@ Check (Ab_Forget@{uo uo uh}).
 
 (* N6-N8 UNIVERSE: everything assembled from the trivial group is pinned
    at [Set] *)
-Fail Check (Ab_trivial : AbObject@{uh uh uh}).
-Fail Check (Ab_Terminal : @Terminal Ab@{uo uh}).
-Fail Check (Ab_Cartesian : @Cartesian Ab@{uo uh}).
+Check (Ab_trivial : AbObject@{uh uh uh}).
+Check (Ab_Terminal : @Terminal Ab@{uo uh}).
+Check (Ab_Cartesian : @Cartesian Ab@{uo uh}).
 
 (** ** D: readbacks *)
 

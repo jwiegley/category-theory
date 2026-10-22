@@ -666,7 +666,7 @@ Definition p455_point_compact_o@{o +| Set < o +} :
   IsCompact Point_Top@{o} :=
   Point_Compact.
 
-Fail Definition p455_n7_point_hausdorff_o@{h o +| o < h +} :
+Definition p455_n7_point_hausdorff_o@{h o +| o < h +} :
   IsHausdorff@{h o o o} Point_Top@{o} :=
   Point_Hausdorff.
 
@@ -706,7 +706,7 @@ Definition p455_bool_ch_bare_at_set : CompHaus :=
      (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
       Discrete_Hausdorff _)).
 
-Fail Definition p455_n8_bool_ch_bare@{o +} : CompHaus :=
+Definition p455_n8_bool_ch_bare@{o +} : CompHaus :=
   (Bool_Discrete@{o};
      (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
       Discrete_Hausdorff _)).

@@ -210,7 +210,7 @@ Definition p479_c6_Z4 :
     (semidirect_d1 Z4_two) → False := Z4_two_not_split_in_Grp.
 
 (* R3 *)
-Fail Definition p479_r3_S3 :
+Definition p479_r3_S3 :
   @SplitCoequalizer Grp@{u p} _ _ (semidirect_d0 A3) (semidirect_d1 A3)
   := S3_A3_Grp_split.
 

@@ -458,7 +458,7 @@ Definition AbGrp_Incl_Monadic@{u p +} : Monadic (Incl Grp@{u p} AbGrp_Sub) :=
 (** ** Non-vacuity at S₃ *)
 
 (* S₃ is not an object of the subcategory. *)
-Lemma S3_not_IsAbelian@{a +} : IsAbelian (S3 : GrpObject@{a Set Set}) → False.
+Lemma S3_not_IsAbelian@{a +} : IsAbelian (S3 : GrpObject@{a a a}) → False.
 Proof.
   intro HS3.
   pose proof (HS3 S3_r S3_s) as E.

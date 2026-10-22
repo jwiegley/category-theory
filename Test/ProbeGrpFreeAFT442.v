@@ -715,5 +715,5 @@ End SetCarrierPin.
 
 Check (`1 free_group_via_GAFT_from_adjunction TwoLetters).
 
-Fail Definition p442_uncond_at_two_letters : obj[Grp] :=
+Definition p442_uncond_at_two_letters : obj[Grp] :=
   `1 free_group_via_GAFT TwoLetters.
