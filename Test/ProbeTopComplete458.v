@@ -607,20 +607,23 @@
     nor refuted, so nothing is refused but the readings N26, N30, N33
     and N34, which only show the refutations do not reach there.
 
-    The guard block at the end names the three hundred and twenty-six
+    The guard block at the end names the three hundred and twenty-five
     constants of the six targets, so that a rename breaks this file: one
     hundred and twelve of Instance/Top/Complete.v, sixty-four of
     Instance/Top/Complete/ConeComma.v, seventeen of Instance/Top/
     Complete/Refutations.v, seventy-eight of Instance/Top/Cocomplete.v,
-    thirty-two of Instance/Top/Cocomplete/Refutations.v and twenty-three
+    thirty-one of Instance/Top/Cocomplete/Refutations.v and twenty-three
     of Instance/Top/Cocomplete/TypeValued.v, exactly the list
-    [Print Module] gives for each, the forty-two [Program] obligations
+    [Print Module] gives for each, the forty-one [Program] obligations
     included; the targets declare no record or inductive, so there is
-    no [Build_] constructor to name.  The obligations are not reachable
+    no [Build_] constructor to name.  An earlier revision said three
+    hundred and twenty-six, thirty-two and forty-two, naming [pcc_Prop]'s
+    obligation, which #1377 removed by giving [pcc_Prop]'s
+    [setoid_equiv] explicitly.  The obligations are not reachable
     by their short names under this import list; each is named by the
     shortest qualified name [Locate] gives for it.  Under the full import
     list, [Locate] lists exactly one object for each of the three hundred
-    and twenty-six. *)
+    and twenty-five. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -1816,7 +1819,6 @@ Check Top_not_cocomplete_IEM.
 Check Top_not_cocomplete_ObjDecEq.
 Check cocomp_cantor_diagonal.
 Check pcc_Prop.
-Check Refutations.pcc_Prop_obligation_1.
 Check pcc_contradiction.
 Check pcc_enc.
 Check pcc_enc_inj.

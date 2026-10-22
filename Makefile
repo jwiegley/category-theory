@@ -11556,7 +11556,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.pcc_enc.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.pcc_enc_inj.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.pcc_contradiction.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.pcc_Prop_obligation_1.'; \
+	  : 'pcc_Prop_obligation_1 was gated here until #1377 wrote out the'; \
+	  : 'setoid_equiv field of pcc_Prop, which on Rocq 9.1.1 had been that'; \
+	  : 'Program obligation.  pcc_Prop is now a plain Definition, so the name'; \
+	  : 'exists on no toolchain; pcc_Prop itself is gated on the next line.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.pcc_Prop.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.PTop_not_cocomplete_Cantor_ObjDecEq.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Cocomplete.Refutations.PTop_not_cocomplete_Cantor_IEM.'; \

@@ -280,8 +280,9 @@ Require Import Category.Structure.Initial.
 
 (* The empty setoid: [False] as carrier; equivalence is vacuous. *)
 #[export]
-Program Instance False_Setoid@{u} : Setoid@{u u} False.
-Next Obligation. proper. Qed.
+Program Instance False_Setoid@{u} : Setoid@{u u} False := {
+  equiv := fun x y => !
+}.
 
 (* Initial object: the empty setoid. The unique map out of it is the empty
    function (by [False] elimination). *)
