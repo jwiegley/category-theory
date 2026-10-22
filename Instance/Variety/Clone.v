@@ -75,7 +75,7 @@ Generalizable All Variables.
    the setoid statement is strictly more general and strictly weaker in
    assumptions — which is why it, and not the Leibniz shadow, carries the
    headline name.  Only the axiom-free constants are gated;
-   docs/AXIOMS.md records the two that are not.
+   doc/AXIOMS.md records the two that are not.
 
    ** Not delivered
 

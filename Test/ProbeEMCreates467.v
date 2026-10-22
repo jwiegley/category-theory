@@ -46,7 +46,7 @@
     "cannot unify" parenthetical.  R1's CAUSE is STRUCTURAL, argued and
     not measured by a flip (below).
 
-    LABELS.  The labels are the ones docs/INDEX.md's bullet for
+    LABELS.  The labels are the ones doc/INDEX.md's bullet for
     Monad/Eilenberg/Moore/Limit.v cites; they are not constants.  C1 is
     [p467_c1_apex], C2 [p467_c2_legs], C2b [p467_c2_legs_class], C3
     [p467_c3_leg_family], C4 [p467_c4_slift_eq], C5 [p467_c5_structure],

@@ -45,7 +45,7 @@ Generalizable All Variables.
    object-empty; the same cospan does have a [Cat] pullback, and nothing in
    the tree refutes [FibreProduct (Coslice_Proj d) U] as a [Cat] pullback of
    ITS cospan.  (An earlier revision of this header, of the commit message
-   and of the docs/INDEX.md bullet said the coslice apex was "refuted for
+   and of the doc/INDEX.md bullet said the coslice apex was "refuted for
    this object"; measured, the refutation is at the [Indiscrete bool]
    cospan and says nothing about the coslice one.)  What the fibre product
    is is a pullback in [StrictCat], and even there only under [ObjUIP C]
@@ -700,7 +700,7 @@ End CommaAsFibreProduct.
    #438's [comma_StrictlyCreatesLimit], which takes the per-diagram
    [PreservesLimitCone (Gdiag K) U] and concludes [StrictlyCreatesLimit].
    An earlier revision of this comment, of the commit message and of the
-   docs/INDEX.md bullet made that comparison against
+   doc/INDEX.md bullet made that comparison against
    [comma_CreatesAllLimits], which has neither that premise nor that
    conclusion; measured with [Check], the claim was false in both halves,
    and it under-sold this route while over-stating that constant. *)

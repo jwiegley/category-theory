@@ -210,7 +210,7 @@ Open Scope category_scope.
    are pinned in the probe, with [Pow] at this topos as the accepted
    control.  So this is a genuine [ElementaryTopos] at which one of
    Structure/Topos.v's own two derived constants is not statable, and
-   docs/INHABITATION.md's row for those two constants keeps its
+   doc/INHABITATION.md's row for those two constants keeps its
    FinSet-only witness column for exactly that reason.
 
    WHAT EACH CONSTANT CONSUMES.  Most of the file is assembly or
@@ -472,7 +472,7 @@ Open Scope category_scope.
      * No [classifier_classifies] and no [relations_iso] at any bundle
        here: both are refused, both refusals are pinned, and neither is
        repaired.  So this file adds NO witness to
-       docs/INHABITATION.md's row for those two constants.
+       doc/INHABITATION.md's row for those two constants.
 
      * No comparison between the three bundles: no isomorphism of their
        truth objects, no isomorphism of their power objects, and no

@@ -142,7 +142,7 @@ Generalizable All Variables.
    are formable and axiom-free over a generic [C] and [D], and why they are
    not vacuous: a CONSTANT discrete diagram eliminates nothing and is
    formable, so the class applies to it.  This is the trap the
-   Construction/Comma/Special.v bullet of docs/INDEX.md already records for
+   Construction/Comma/Special.v bullet of doc/INDEX.md already records for
    [DiscreteCat_Functor], sighted here one step earlier.
 
    Three of issue #438's substantive claims about the tree are FALSE as of

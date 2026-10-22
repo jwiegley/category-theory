@@ -128,7 +128,7 @@ Generalizable All Variables.
    it is for [Sets] and [FinSet].  No enumeration of the quotient objects
    of any finite group.  No [Print Assumptions] claim about the donors:
    the eleven verdicts below cover the constants of THIS file, and
-   docs/AXIOMS.md is where the library-wide picture lives. *)
+   doc/AXIOMS.md is where the library-wide picture lives. *)
 
 (** ** Mac Lane's illustration: the quotient objects of a group *)
 

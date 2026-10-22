@@ -399,7 +399,7 @@ Phase 8's image factorization avoids it); Bicategory coherence (Phase 13).
   per phase before pushing (Section 2.2 step 6 — no `.#category-theory` attribute
   exists).
 - Each phase ends with a `docs(INDEX)` commit adding a Key Files entry for the
-  phase's development to `docs/INDEX.md` (follow the style of the existing
+  phase's development to `doc/INDEX.md` (follow the style of the existing
   Premonoidal/PROP entries).
 - Full mechanics, PR stacking, and the escalation discipline: Section 6.
 
@@ -437,7 +437,7 @@ Bicartesian.v:18, Adjunction.v RAPL note, Sets.v:348) ride WITH the commit that
 delivers the artifact, in the same commit.
 
 Each phase closes with `docs(INDEX): index the <topic> development` adding the
-phase's Key Files entry to `docs/INDEX.md` (the former `CLAUDE.md` section),
+phase's Key Files entry to `doc/INDEX.md` (the former `CLAUDE.md` section),
 following the existing Premonoidal/PROP entry style.
 
 Before pushing a phase: the full Section 2.2 gate, including

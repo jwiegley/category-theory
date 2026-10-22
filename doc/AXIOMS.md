@@ -532,7 +532,7 @@ each reported "Closed under the global context":
   "Axiom-freedom is NOT existence here: the solution set fed to the
   theorem is derived from the free-group adjunction the theorem is
   meant to produce, and the file's header says so in capitals —
-  docs/INHABITATION.md's `GAFT` row carries the same disclosure".
+  doc/INHABITATION.md's `GAFT` row carries the same disclosure".
   That was true when written and is now superseded: in the PR
   "algebraic carriers are sets" (2026-09-17) all three applications
   were retargeted onto solution sets indexed by the `Prop`-valued
@@ -674,7 +674,7 @@ Among them:
   hypothesis in their statements, so their "Closed" is the second kind
   of the [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
-  has no axiom-free in-tree inhabitant (docs/INHABITATION.md)
+  has no axiom-free in-tree inhabitant (doc/INHABITATION.md)
 - `empty_SubobjectIndex` and `SubobjectIndex_not_exhaustive`
   (`Adjunction/SAFT.v`), `WellPowered_SubobjectIndex` and
   `SAFT_of_WellPowered` (`Adjunction/SAFT/WellPowered.v`), and
@@ -722,7 +722,7 @@ or a `Parameter`, and every proof in them closes with `Qed` or
   (`Adjunction/SAFT/InitialObject.v`) — the theorem in its hypothesis
   forms and its uniqueness half, stated over an arbitrary category;
   which forms a concrete category witnesses is recorded in the
-  `special_initial_object` row of docs/INHABITATION.md
+  `special_initial_object` row of doc/INHABITATION.md
 - `special_vs_freyd` and `freyd_of_cogenerator` — the comparison with
   Freyd's construction of `Theory/WeaklyInitial.v`, parametric and
   applied at no concrete category
@@ -733,7 +733,7 @@ or a `Parameter`, and every proof in them closes with `Qed` or
   `setsop_special_initial` (`Instance/Sets/SpecialInitial.v`) — the
   theorem applied with every premise supplied in tree and no
   hypothesis, at the powerset lattice of a setoid, at an indiscrete
-  category and at `Sets^op`; docs/INHABITATION.md records what each
+  category and at `Sets^op`; doc/INHABITATION.md records what each
   witnesses and the circularity caveat on the last
 - `Sets_Cogenerator_large` and `Sets_terminal_not_cogenerates`
   (`Instance/Sets/Cogenerator.v`) — an unconditional, large cogenerator
@@ -749,7 +749,7 @@ or a `Parameter`, and every proof in them closes with `Qed` or
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above: `Untruncate` and `IEM` are `Definition`s (Π-types), not
   `Axiom`s, and neither has an axiom-free in-tree inhabitant
-  (docs/INHABITATION.md)
+  (doc/INHABITATION.md)
 
 The special adjoint functor theorem as a characterization (Mac Lane
 §V.8 Theorem 2, the Lemma in its proof and the Corollary; Awodey
@@ -781,7 +781,7 @@ enumeration; among them:
   Mac Lane's Theorem 2 and the necessity of its second clause, stated
   over an arbitrary category; which of these a concrete category
   witnesses is recorded in the `SAFT_wellpowered` and `SAFT_thm2` rows
-  of docs/INHABITATION.md
+  of doc/INHABITATION.md
 - `SubobjectCoverAt`, `saft_cover_at` and `SAFT_cover_wp` (`Cover.v`) —
   the covering datum over a product depending on the object, proved,
   and the theorem through `GAFT`
@@ -793,7 +793,7 @@ enumeration; among them:
   `indiscrete_saft_cocomplete` (`Examples.v`) — the theorems applied
   with every premise supplied in tree and no hypothesis, at the
   powerset lattice of a setoid and at an indiscrete category, both
-  thin; docs/INHABITATION.md records the circularity of their
+  thin; doc/INHABITATION.md records the circularity of their
   continuity premises
 - `sets_id_saft`, `sets_id_saft_cover`, `sets_hom_saft`,
   `sets_id_repr_saft`, `sets_hom_repr_saft`, `sets_saft_cocomplete`,
@@ -803,7 +803,7 @@ enumeration; among them:
   in their statements, so their "Closed" is the second kind of the
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
-  has no axiom-free in-tree inhabitant (docs/INHABITATION.md)
+  has no axiom-free in-tree inhabitant (doc/INHABITATION.md)
 
 Watt's theorem with Mac Lane §V.8 Exercises 2 and 3 (#454) adds ONE
 block of 469 names over its seven modules, counted over the block's
@@ -831,7 +831,7 @@ the 469 gated names uses, every one being closed. Among the 469:
   contravariant form, and every continuous `K : (RMod R)^op ⟶ Sets`
   representable, with NO hypothesis beyond the book's (and `Set < c`):
   no `Untruncate`, no cogenerator, no choice; witnessed, as the
-  `watts_theorem_unconditional` row of docs/INHABITATION.md records
+  `watts_theorem_unconditional` row of doc/INHABITATION.md records
 - `watt_ab_iso`, `HomAb`, `CoHomAb`, `HomAb_continuous` and
   `CoHomAb_continuous` (`Functor/Representable/Additive.v`), the
   Exercise 2(a) adjunctions `tensor_homZ_adjunction`,
@@ -849,7 +849,7 @@ the 469 gated names uses, every one being closed. Among the 469:
   of the
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above: `Untruncate` is a `Definition` (a Π-type), not an `Axiom`, and
-  has no axiom-free in-tree inhabitant (docs/INHABITATION.md). The
+  has no axiom-free in-tree inhabitant (doc/INHABITATION.md). The
   text form's CONCLUSION needs no such hypothesis:
   `watts_theorem_via_unconditional` derives `watts_theorem`'s statement
   from `watts_theorem_unconditional` with `U` carried and not consumed
@@ -897,7 +897,7 @@ stay nine. Among the 74:
   `KSeparated_of_unit_injective_local` (`Instance/Top/StoneCech.v`) —
   unconditional, or over hypotheses that are data of the statement (a
   finite enumeration, a universal arrow, a separating space);
-  docs/INHABITATION.md records which of them a concrete object
+  doc/INHABITATION.md records which of them a concrete object
   exercises
 - `GAFT_CompHaus_only_complete` (`Instance/Top/StoneCech.v`) and
   `SAFT_CompHaus_Incl` (`Instance/Top/StoneCech/Refutations.v`) —
@@ -974,7 +974,7 @@ Among the 343:
   kind of the
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above; both premises are witnessed in tree at `PForget` (the next
-  item), and docs/INHABITATION.md records how
+  item), and doc/INHABITATION.md records how
 - `subspace_RARI`, `quotient_LARI`, `PTop_HasEqualizers` and
   `PTop_HasCoequalizers` (`Instance/Top/Subspace.v`) — unconditional
   over `Instance/Top/Prop.v`'s `PTopCat`, whose opens are `Prop`-valued.
@@ -1036,7 +1036,7 @@ stay nine. Among the 326:
   right adjoint, so their "Closed" is the second kind of the
   [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
   above; the premise is witnessed at `PForget` by `pcone_adjunction`,
-  and docs/INHABITATION.md records how
+  and doc/INHABITATION.md records how
 - `ex3a_left_adjoint_literal_refuted`, `box_not_indexed_product`,
   `cone_adjoints_differ_at_empty_shape`, `PTop_no_ArrowIndex_below` and
   `PTop_no_ArrowIndex_at_points` — closed refutations of a STATEMENT at
@@ -1173,7 +1173,7 @@ the stdlib-axioms section below stay nine. Among the 268:
 - `PIsHausdorff_PHaus` and `PHaus_PIsHausdorff` — conditionals over a
   classical principle stated as a hypothesis (stability of the points'
   equality under double negation; excluded middle for propositions),
-  never assumed; docs/INHABITATION.md records that neither is applied
+  never assumed; doc/INHABITATION.md records that neither is applied
 - `PHaus_coproduct` — a conditional over uniqueness of identity proofs
   at the loops of the coproduct's index, `∀ k (e : k = k), e = eq_refl`,
   a hypothesis in its statement and never assumed; `PHaus_coproduct_dec`
@@ -1234,7 +1234,7 @@ declares an `Axiom` or a `Parameter` (a grep of the sources). Among the
   `Reflective_Monadic`, `Reflective_of_UniversalArrows` and
   `Coreflective_of_CouniversalArrows` — general constructions quantified
   over an abstract category and record, "Closed" in the second sense
-  of the Caveats section above; docs/INHABITATION.md records their
+  of the Caveats section above; doc/INHABITATION.md records their
   concrete inhabitants
 - `S3_not_IsAbelian`, `abgrp_unit_S3_not_iso`,
   `S3_reflection_nontrivial`, `torsion_counit_MixedAb_not_iso`,
@@ -1411,7 +1411,7 @@ measure 151. Among the 201:
 - `closure_idem_eq`, `closed_eq`, `closed_tik_eq`, `int_idem_eq` and
   `open_eq` — conditionals over `Antisymmetric A eq eq_equiv R`, a
   property of the order in their statements (inhabited at (ℕ, ≤) by
-  `Test/Poset.v`'s `poset_nat_antisym`; docs/INHABITATION.md)
+  `Test/Poset.v`'s `poset_nat_antisym`; doc/INHABITATION.md)
 - `pcl_closed_of_talgebra`, `closed_of_coopen_lem` and
   `pclosure_ncl_lem` — conditionals over `lem : ∀ P, P ∨ ¬P`, excluded
   middle as a HYPOTHESIS in their statements and never assumed, which
@@ -1431,7 +1431,7 @@ measure 151. Among the 201:
   equation, the induced unit and multiplication of the idempotent
   reflection, the isomorphism-field record, `(Proset P)^op = Proset
   (flip_PreOrder P)`, the curry and modal object maps,
-  `Props = Proset impl_PreOrder` and the rest the docs/INDEX.md bullet
+  `Props = Proset impl_PreOrder` and the rest the doc/INDEX.md bullet
   lists), on universes (the bare thin route) and on typing (the
   endofunctor transfer) — are pinned in `Test/ProbeClosure463.v`, not
   constants, and so are not in the gate
@@ -1522,7 +1522,7 @@ unchanged. Among the 94:
   `TensorF_cocontinuous`, `TensorF2_cocontinuous` and their apex-level
   forms `TensorF_preserves_colimits` and `TensorF2_preserves_colimits`
   — over a `RingObject@{c c c}`, a universe restriction inherited from
-  `Instance/Mod/Coextension.v` (docs/INDEX.md), not a logical
+  `Instance/Mod/Coextension.v` (doc/INDEX.md), not a logical
   principle; the theorem they would feed, Riehl's Theorem 5.6.5(ii)
   (#1008's clause (ii)), is not in the tree, so no gated constant
   states her route to the corollary
@@ -1580,14 +1580,14 @@ lines), so the stdlib-axioms section below is unchanged. Among the
   `beck_monadicity`, whose applications stay three
 - `join_natural_via_image` and `join_natural_via_LAPC` (Riehl's route
   through #382's direct image as a left adjoint) — unconditional, with
-  the universe caps docs/INDEX.md's #466 bullet records
+  the universe caps doc/INDEX.md's #466 bullet records
 - `suplat_two_points_WLEM`, `bool_SupLat_WLEM` and
   `Prop_SupLat_decidable_WLEM` — unconditional theorems whose
   CONCLUSION is informative weak excluded middle; `bool_SupLat` takes
   informative weak excluded middle, `∀ Q : Prop, (~ Q) + (~ ~ Q)`, as
   a HYPOTHESIS in its statement, never assumed, which is why it is
   closed too, and the two necessity theorems show that the hypothesis
-  cannot be dropped (docs/INHABITATION.md)
+  cannot be dropped (doc/INHABITATION.md)
 - the refusals — by conversion at `eq_refl` (the round trips through
   the algebras on whole objects, on the order field and on the proof
   fields, the composites as identity functors, the redundant-law
@@ -1647,7 +1647,7 @@ the stdlib-axioms section below is unchanged. Among the 65:
   premise `N1_limiting`, the inequality `A_id_ne_A_true` (no Eqdep, no
   UIP) and the identity monad `IdSM` they use (built with every field
   given, not the library's `Id_Monad`, for the portability reason
-  docs/INDEX.md's #467 bullet records) are in the block
+  doc/INDEX.md's #467 bullet records) are in the block
 - the refusals — by conversion at `eq_refl`, the image of a created
   cone against the given cone as a record (refused on the coherence
   field alone), and an instrument — are pinned in
@@ -1770,7 +1770,7 @@ Among the 172:
   latter two are Full.v's now): these principles are
   HYPOTHESES in the statements and never axioms, so `Print Assumptions`
   reports the constants closed; none has an axiom-free in-tree
-  inhabitant (docs/INHABITATION.md's `MPos_Id_iso` row), and the
+  inhabitant (doc/INHABITATION.md's `MPos_Id_iso` row), and the
   derivation of the choice principle from the standard library's axiom
   `constructive_indefinite_description` was run in a scratch file and is
   not shipped

@@ -268,7 +268,7 @@ Local Set Default Proof Using "All".
     Construction/Enriched.v.  No concrete instantiation: no in-tree
     adjunction between two Ab-enriched categories is exhibited, so
     every result here is a conditional and the file adds no witness
-    to docs/INHABITATION.md.
+    to doc/INHABITATION.md.
 
     TWO ENGINEERING FINDINGS, both about elaboration rather than
     mathematics, recorded so the next reader does not rediscover them.

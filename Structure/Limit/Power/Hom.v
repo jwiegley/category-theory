@@ -181,7 +181,7 @@ Import EqNotations.
    either operator.
 
    STATUS: axiom-free.  All 58 constants -- 51 named plus 7 [Program]
-   obligations, enumerated by [Print Module] per the docs/AXIOMS.md
+   obligations, enumerated by [Print Module] per the doc/AXIOMS.md
    methodology -- report "Closed under the global context"; the Makefile's
    [print-assumptions] target audits the headline ones.  (Note that [Print
    Module] displays a [Qed]-opaque constant as [Parameter]; running it here

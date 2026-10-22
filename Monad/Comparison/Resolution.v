@@ -272,7 +272,7 @@ Generalizable All Variables.
    none of them about the Eilenberg–Moore comparison functor.  The
    Definition of Done's "CLAUDE.md Key Files index" was accurate when
    filed and has been stale since PR #1284 (merged 2026-09-09), which
-   moved the index to docs/INDEX.md. *)
+   moved the index out of CLAUDE.md. *)
 
 (* ------------------------------------------------------------------------ *)
 (** ** Definition: a comparison over an identification of the monads *)

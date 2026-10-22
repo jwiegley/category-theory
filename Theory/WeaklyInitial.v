@@ -301,7 +301,7 @@ Qed.
     [weakly_initial_iprod : WeaklyInitial (iprod (wif_obj W) P)] — the
     [wmap] the proof above builds inline (and Wide.v likewise builds one
     inline), now named; the original theorem is [Qed]-opaque and is NOT
-    re-proved through it, keeping docs/INDEX.md's "byte-identical" promise
+    re-proved through it, keeping doc/INDEX.md's "byte-identical" promise
     for the theorem.  Its converse — a family gives a weakly initial object
     at a chosen index — is FALSE without a singleton hypothesis, because
     [wif_cover] picks its own member per target: that is Riehl's
@@ -337,7 +337,7 @@ Qed.
     back at [eq_refl] (nothing about the recovered initial object does).
     It lands at [Sets@{Set u}], as Adjunction/GAFT/Sets.v's
     header already discloses for GAFT.  This turns the biconditional from a
-    conditional into an inhabited result; docs/INHABITATION.md has the row.
+    conditional into an inhabited result; doc/INHABITATION.md has the row.
 
     STALE PREMISES.  Every location in the issue's "Current state" is
     stale (they match commit 00fc744b, and 820201bc, "Powers and
@@ -358,7 +358,7 @@ Qed.
     the [Power.v] choice "keeps [Instance/Sets] off this file's dependency
     closure" — [Instance/Sets] is in it, TWO hops now that this file
     [Require]s Instance/Parallel.v directly, three before through
-    Structure/Equalizer/Fork.v (docs/INDEX.md's Power.v bullet records the
+    Structure/Equalizer/Fork.v (doc/INDEX.md's Power.v bullet records the
     one-hop route from Power.v itself, which is correct and is left alone);
     and Wide.v attributed the [Set] pin to [Terminal] and the
     equalizer supply — both

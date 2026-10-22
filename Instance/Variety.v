@@ -64,7 +64,7 @@ Generalizable All Variables.
    (Construction/Subcategory.v), so morphisms of [Variety] are compared
    with `≈`, and that `≈` is [Algs]' [AlgHom_Setoid], i.e. pointwise
    Leibniz [=] on carriers.  That is a property of the DONOR, which
-   docs/INDEX.md's Instance/Ab.v bullet already flags, not a choice made
+   doc/INDEX.md's Instance/Ab.v bullet already flags, not a choice made
    here.
 
    ** The axiom boundary, and what it is actually a boundary of
@@ -78,7 +78,7 @@ Generalizable All Variables.
    two [arity o → B] argument bundles that are only pointwise equal.
 
    AN EARLIER REVISION OF THIS HEADER, OF THE COMMIT MESSAGE AND OF THE
-   docs/INDEX.md BULLET DIAGNOSED THIS AS A FACT ABOUT EQUATION DEPTH —
+   doc/INDEX.md BULLET DIAGNOSED THIS AS A FACT ABOUT EQUATION DEPTH —
    depth 1 free, depth ≥ 2 not.  THAT IS FALSE, and it is refuted by
    construction rather than by argument: [InvInvEq] below is the law
    inv (inv x) = x, DEPTH 2, over the very same [GroupOp], and it is
@@ -116,7 +116,7 @@ Generalizable All Variables.
 
    Consequently [GroupVariety] and [GroupVariety_Bool] are deliberately
    NOT in the [make print-assumptions] gate — gating them would make the
-   axiom audit report a stdlib axiom — and docs/AXIOMS.md carries them
+   axiom audit report a stdlib axiom — and doc/AXIOMS.md carries them
    instead, with this reason.  Everything else in this file is gated,
    including the four [Variety_Forget] [Program] obligations and the two
    constructors, which are invisible to a [.glob] head census and were
@@ -251,7 +251,7 @@ Arguments Variety_Forget_Faithful {_} _.
 
     THIS CONSTANT CARRIES [functional_extensionality_dep], for the reason
     given in the header: it mentions [GroupEq], which is [Defined] using
-    the axiom.  It is not gated; docs/AXIOMS.md records it. *)
+    the axiom.  It is not gated; doc/AXIOMS.md records it. *)
 
 Definition GroupVariety : Category := Variety UA.GroupEq.
 

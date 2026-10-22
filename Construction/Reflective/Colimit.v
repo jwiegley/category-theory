@@ -70,13 +70,13 @@ Generalizable All Variables.
     alone 11) and makes Construction/ depend on Instance/Ab.  No ambient of
     an in-tree reflection ([Ab], [Top], [Ord]) is shown cocomplete, so
     [reflective_Cocomplete] at a concrete reflection stays a conditional —
-    the status docs/INHABITATION.md records, the same as
+    the status doc/INHABITATION.md records, the same as
     [reflective_Complete]'s.  CORRECTION (#461): one ambient now is.
     Instance/Top/Hausdorff.v's [Haus_Cocomplete] is
     [reflective_Cocomplete] at the Hausdorff reflection [Haus_reflective]
     of the Prop-valued spaces [PTopCat] (Instance/Top/Prop.v), cocomplete
     by Instance/Top/Cocomplete.v's [PTop_Cocomplete], and
-    docs/INHABITATION.md's row has moved to the witnessed table.  No
+    doc/INHABITATION.md's row has moved to the witnessed table.  No
     witness of [reflective_Complete] at a concrete reflection is added.
     CORRECTION (#370): three more ambients are shown cocomplete in tree.
     [Grp], [Rng] and [RMod R] carry #370's [Ab_Reflective_in_Grp],
@@ -170,7 +170,7 @@ Generalizable All Variables.
     (disclosed, as in #430 and #433); Coq 8.19 and 8.20 are checked by nix
     source builds of the committed revision, which the PR records.
     Limit.v's header paragraph on the colimit half and its
-    docs/INDEX.md bullet's "OPEN" clause are corrected in place, the former
+    doc/INDEX.md bullet's "OPEN" clause are corrected in place, the former
     line-neutrally.
 
     NOT DELIVERED: creation of colimits by the inclusion, or Riehl §4.6 ex

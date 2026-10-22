@@ -56,7 +56,7 @@ Generalizable All Variables.
      - "the limit functor at a fixed shape is #353's obligation": #353
        landed — Adjunction/Diagonal/Limit.v has [HasLimitsOfShape],
        [lim_obj], [Lim_map], [LimitFunctor], the adjunction
-       with the diagonal and [ColimitFunctor]; the docs/INDEX.md bullet
+       with the diagonal and [ColimitFunctor]; the doc/INDEX.md bullet
        for that file already lists "no functoriality in J" as the
        remaining gap — this file.
      - "no category of diagrams, no super-comma, no Cat ↓": true as

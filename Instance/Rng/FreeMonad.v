@@ -158,7 +158,7 @@ Generalizable All Variables.
    exist; the files are this one, its two satellites and
    Instance/Ab/TensorPower.v.  Its "CLAUDE.md Key Files index" was
    accurate when filed and has been stale since PR #1284 (merged
-   2026-09-09), which moved the index to docs/INDEX.md.
+   2026-09-09), which moved the index out of CLAUDE.md.
 
    STRENGTHS.  Every [Example] holds at [eq_refl], and
    Test/ProbeFreeRing474.v restates each one (C5 to C15, C21 to C44, C46 to

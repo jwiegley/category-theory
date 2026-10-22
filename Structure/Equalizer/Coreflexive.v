@@ -48,7 +48,7 @@ Generalizable All Variables.
 
    STALE PREMISES, RE-MEASURED.
      - "the base theorem the exercise refines is itself absent": it landed
-       as Structure/Limit/FromProducts.v (#416; docs/INDEX.md) — the
+       as Structure/Limit/FromProducts.v (#416; doc/INDEX.md) — the
        arrow index [ArrowIx] with [mk_arrow], the generating
        closure [Gen] with [gen_id] and [Generates],
        [ArrowIx_Generates], the elementary core [pe_cone] and
@@ -225,7 +225,7 @@ Generalizable All Variables.
    NOT DELIVERED.
      - A category with coreflexive equalizers but not all equalizers: none
        is built, so the criterion's strict gain over Theorem 1 has no
-       witness in the tree (docs/INHABITATION.md should record it).
+       witness in the tree (doc/INHABITATION.md should record it).
      - The generating-family form of [pe_coreflexive] (transport needed,
        not stated, not built).
      - The unconditional Sets converse of part (b) from [diagonal_in_image]

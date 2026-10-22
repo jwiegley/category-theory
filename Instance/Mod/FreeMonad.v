@@ -182,7 +182,7 @@ Generalizable All Variables.
    2026-08-31.  Monad/Instance/ does not exist; the files are this one,
    its satellite and Instance/Ab/FreeMonad.v.  Its "CLAUDE.md Key Files
    index" was accurate when filed and has been stale since PR #1284
-   (merged 2026-09-09), which moved the index to docs/INDEX.md.
+   (merged 2026-09-09), which moved the index out of CLAUDE.md.
 
    STRENGTHS.  Every [Example] holds at [eq_refl], and
    Test/ProbeFreeModule472.v restates each one (its RESTATEMENTS).  At ≈ only:

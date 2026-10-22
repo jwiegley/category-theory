@@ -89,7 +89,7 @@ Open Scope R_scope.
    inherits its axioms.  That is permitted by the issue's Definition of Done
    ("if classical reals are unavoidable the file lives in the instance
    layer") and follows the precedent of the Instance/Top/ reals files, where
-   docs/AXIOMS.md prices the reals per constant.  The stratification is
+   doc/AXIOMS.md prices the reals per constant.  The stratification is
    sharp, and the numbers below are MEASURED per constant rather than
    sampled.  [R_complete] is the only door through which [sig_not_dec]
    enters.  Instance/Met/Extended.v never opens it: none of its 55 constants

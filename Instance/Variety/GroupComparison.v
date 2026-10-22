@@ -52,12 +52,12 @@ Generalizable All Variables.
    [op_commute]'s argument-bundle equation into the pointwise statements
    [grp_map_unit] and [grp_map_mul], which is the same bundle rebuild that
    Instance/Variety.v's header describes.  Nothing here is gated;
-   docs/AXIOMS.md records the file.
+   doc/AXIOMS.md records the file.
 
    This is also why the comparison lives in its own file: it keeps
    Instance/Grp.v's closure off Instance/Variety.v, and it keeps every
    axiom-carrying constant of this development in the two places
-   docs/AXIOMS.md can point at. *)
+   doc/AXIOMS.md can point at. *)
 
 Module UA := Category.Instance.Comp.UniversalAlgebra.
 

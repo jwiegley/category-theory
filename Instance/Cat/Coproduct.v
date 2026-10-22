@@ -57,7 +57,7 @@ Generalizable All Variables.
       free and confines nothing at [C := Cat].  Reason (ii) below is
       untouched by that repair and is on its own sufficient, which is why
       the passage is still not derived.  The same measurement is recorded
-      in docs/INDEX.md for issues #331 and #335.
+      in doc/INDEX.md for issues #331 and #335.
 
       (ii) Independently of universes, the passage does not exist: the
       tree carries [colimit_is_indexed_coproduct], which reads a

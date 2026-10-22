@@ -72,10 +72,10 @@ Body sections, in order:
 5. **Definition of Done** — checklist; must include: statement fidelity to
    the book (setoid `≈` discipline, never `=` on morphisms); no
    `Admitted`/`admit`/`Axiom` (zero axioms in core theory per
-   docs/AXIOMS.md scoping); `Print Assumptions` closed for each principal
+   doc/AXIOMS.md scoping); `Print Assumptions` closed for each principal
    artifact; registered in `_CoqProject`; full `make` green on Rocq 9.1;
    builds on Coq 8.19/8.20 (nix targets); `make todo` adds no new hits;
-   docs/INDEX.md (the Key Files index) updated if the result is flagship-level.
+   doc/INDEX.md (the Key Files index) updated if the result is flagship-level.
 6. **Verification** — the exact commands/evidence a reviewer runs
    (single-file compile, `Print Assumptions` on named artifacts, nix build
    targets), plus "statement matches book §X" as a review item.
@@ -117,7 +117,7 @@ records the mapping from every item ID to its issue (or PRESENT evidence).
   numbering = a missed page → re-read that page).
 - **C (coverage)**: per-chapter agents classify every item
   (PRESENT/PARTIAL/ABSENT/OUT-OF-SCOPE) with file:line evidence, using
-  the docs/INDEX.md Key Files index, grep, and file reads.
+  the doc/INDEX.md Key Files index, grep, and file reads.
 - **D (adversarial verify)**: independent agents re-check every PRESENT
   claim (hunting false-PRESENT) and every ABSENT claim (hunting
   false-ABSENT/duplicates); disagreements resolved by a third look in the
@@ -194,7 +194,7 @@ PART OF THE FROZEN PLAN:
 3. **Phase C search protocol**: before ANY search, the agent must write an
    alias/abstraction expansion for the item (3–5 alternative names,
    likely typeclass encodings, Coq-idiom renderings, dual forms); search
-   uses ripgrep over the whole tree (never only the docs/INDEX.md index) plus
+   uses ripgrep over the whole tree (never only the doc/INDEX.md index) plus
    the library's own naming conventions. Evidence contracts: PRESENT and
    PARTIAL verdicts must include a STATEMENT RECORD — the book statement
    (paraphrased) and the in-tree statement (quoted, file:line) side by
@@ -206,7 +206,7 @@ PART OF THE FROZEN PLAN:
    same-name-weaker-statement, special-case-only, dual-assumed-but-absent,
    and not-actually-compiled failure modes; OUT-OF-SCOPE claims are
    audited too; Print Assumptions spot-checks on PRESENT claims for
-   foundational results (docs/AXIOMS.md is the baseline).
+   foundational results (doc/AXIOMS.md is the baseline).
 5. **Completeness is page-accounting, not numbering**: Phase A agents
    return a PER-PAGE report (every PDF page → items found, or an explicit
    "no inventoriable items" entry); Phase B verifies every page of the

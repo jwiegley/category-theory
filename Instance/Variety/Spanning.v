@@ -230,7 +230,7 @@ Generalizable All Variables.
    about the neighbourhood: Instance/Variety/Free.v's own
    [FreeGroupOn] and [FreeGroup_adjunction] carry
    [functional_extensionality_dep] inherited from Instance/Comp.v, and
-   docs/AXIOMS.md records them.  Nothing here instantiates an
+   doc/AXIOMS.md records them.  Nothing here instantiates an
    [EqSignature], which is where that axiom is paid, so nothing here
    inherits it. *)
 

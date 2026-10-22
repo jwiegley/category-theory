@@ -220,7 +220,7 @@ Generalizable All Variables.
    no [WidePullback] at C^op, no [HasCoimages] and no [Terminal]
    instance for anything, and exhibits no quotient object of any object
    -- the whole development is a conditional over structure supplied
-   from outside, and docs/INHABITATION.md is where the question of which
+   from outside, and doc/INHABITATION.md is where the question of which
    witnesses exist is settled.  Mac Lane's two illustrations are
    therefore NOT here: the clause that quotient objects are the usual
    quotients where epis are surjections is not stated over [Sets] (the

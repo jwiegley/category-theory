@@ -117,7 +117,7 @@ Generalizable All Variables.
 
    This is the library's single statement of why the adjoint functor
    theorems are hard to APPLY at a concrete algebraic category, and of what
-   this library does about it.  docs/INHABITATION.md's preamble carries a
+   this library does about it.  doc/INHABITATION.md's preamble carries a
    two-paragraph echo and names this block as the authority; the headers of
    Adjunction/GAFT.v, Adjunction/SpanningArrow.v, Instance/Mod/TensorAFT.v
    and Instance/Grp/FreeAFT.v cite it rather than re-deriving the

@@ -257,7 +257,7 @@ Generalizable All Variables.
        (disclosed beside the [make todo] box).
      - A non-trivial in-tree category satisfying [ArrowIndex] + [Complete]
        + [DecHom] (the terminal category does, trivially); the theorem is
-       conditional, and docs/INHABITATION.md is not edited here.
+       conditional, and doc/INHABITATION.md is not edited here.
      - A [HasIndexedProducts C] CLASS instance from [Complete C]: only the
        elementary [IsIndexedProduct] per family is built (item (6)), which
        is what the kernel consumes; the class's single index universe was
