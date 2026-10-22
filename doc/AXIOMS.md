@@ -132,7 +132,17 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14510** on 2026-10-08, after #482 (Mac Lane §VI.7, the definition of a
+**14509** on 2026-10-22, after #1377 (`pcc_Prop`, the setoid of truth
+values of `Instance/Top/Cocomplete/Refutations.v`, given its
+`setoid_equiv` field explicitly, so that no `Program` obligation exists
+on any toolchain) removed ONE name from #458's block,
+`pcc_Prop_obligation_1`, which no longer exists; the removal is not a
+shrinkage of coverage, `pcc_Prop` itself staying gated and "Closed
+under the global context", and the recipe carries an in-recipe note
+saying why, keyed to the phrase "pcc_Prop_obligation_1 was gated
+here"; 14510 − 1 = 14509.
+An earlier revision of this paragraph gave
+**14510**, the figure on 2026-10-08, after #482 (Mac Lane §VI.7, the definition of a
 comparison of two resolutions of one monad and the Lemma: a comparison
 is a map of adjunctions with Mε' ≈ εM that commutes with adjoint
 transposition, and when G creates the coequalizers of G-split pairs
@@ -999,13 +1009,16 @@ Among the 343:
 
 The completeness and cocompleteness development (Mac Lane §V.9 Remarks 1
 and 2 and Exercise 3, Awodey §2.6, Riehl §3.1 Example 3.1.10 and §3.6
-Proposition 3.6.2 and Example 3.6.3; #458) adds ONE block of 326
+Proposition 3.6.2 and Example 3.6.3; #458) adds ONE block of 325
 names over its six modules, `Instance/Top/Complete.v`,
 `Instance/Top/Complete/ConeComma.v`, `Instance/Top/Complete/Refutations.v`,
 `Instance/Top/Cocomplete.v`, `Instance/Top/Cocomplete/Refutations.v` and
 `Instance/Top/Cocomplete/TypeValued.v`: every constant `Print Module`
 lists for each, the `Program` obligations included, each reported
-"Closed under the global context" by its fully qualified name. None of
+"Closed under the global context" by its fully qualified name (an
+earlier revision said 326, counting `pcc_Prop_obligation_1`, which no
+longer exists since #1377 gave `pcc_Prop`'s `setoid_equiv` explicitly;
+#1377 removed its gate line). None of
 the six declares a record or an inductive, so there is no `Build_`
 constructor and no elimination scheme to gate, and none declares an
 `Axiom` or a `Parameter` (a grep of the sources). Their standard-library
@@ -1015,7 +1028,7 @@ box non-example) and `Coq.Logic.Eqdep_dec` (`UIP_dec` and
 requiring all six loads 182 `Category` modules, the six included, none
 of them a standard-library reals module (`Print Libraries`), so the nine
 reals-importing development files of the stdlib-axioms section below
-stay nine. Among the 326:
+stay nine. Among the 325:
 
 - `PTop_Complete`, `PTop_Cocomplete`, the recipe lemmas
   `pinit_cone_limiting` and `pfinal_cocone_colimiting`, the book's

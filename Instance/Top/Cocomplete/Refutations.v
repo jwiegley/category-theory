@@ -183,9 +183,11 @@ Generalizable All Variables.
    declared inside the sections carry the sections' universes and the
    bounds [s <= r] and [o <= r] (or [h <= r]) of the [Cocomplete]
    hypothesis in their [Context], whether or not their statements
-   mention it.  Over the [About] output of all 32 of this file's
-   constants (its [Print Module] listing, the one [Program] obligation
-   included; it declares no record or inductive), [Set] occurs in no
+   mention it.  Over the [About] output of all 31 of this file's
+   constants (its [Print Module] listing; it declares no record or
+   inductive and, since #1377 gave [pcc_Prop]'s [setoid_equiv]
+   explicitly, no [Program] obligation: an earlier revision said 32, the
+   one obligation included), [Set] occurs in no
    equation and pins no universe, and it occurs in no block of the three
    Freyd forms over [Top].  It occurs only as bounds, each implied by a
    declared one or recording a sort: [Set < s] in 25 blocks (the sort of
@@ -197,10 +199,10 @@ Generalizable All Variables.
    [Set < Logic_lemmas.equality.u0] and
    [Set < Eqdep_dec.inj_pair2_eq_dec.u1] in 8 each ([inj_pair2_eq_dec]
    at the same family of predicates, first in [pcc_enc_inj] and
-   [tcc_enc_inj]); and [Set < o] in 4: [pcc_Prop], whose carrier [Prop]
-   sits at [Set+1], its obligation, and the two [_Cantor_ObjDecEq] forms
-   that use it, which are therefore stated for [o] above [Set]; no other
-   form is.
+   [tcc_enc_inj]); and [Set < o] in 3: [pcc_Prop], whose carrier [Prop]
+   sits at [Set+1], and the two [_Cantor_ObjDecEq] forms that use it,
+   which are therefore stated for [o] above [Set]; no other form is (an
+   earlier revision said 4, counting the obligation).
 
    ROUTE AND COST.  Closure 176 [Category.*] modules excluding this file
    ([Print Libraries] on a file requiring it).  Instance/Top/Complete/
@@ -403,17 +405,19 @@ Qed.
 
 End PCantor.
 
-(* The truth values, under [<->], as a setoid at the points' universe. *)
-Program Definition pcc_Prop@{o | Set < o} : SetoidObject@{o o} := {|
+(* The truth values, under [<->], as a setoid at the points' universe.
+   Its [setoid_equiv] is written out rather than left to [Program], whose
+   obligation for it exists on Rocq 9.1.1, where no type class instance
+   is found, and not with the Corelib changes of rocq-prover/rocq#22575
+   (measured on Rocq 9.1.1 with them applied), where resolution fills
+   the field with [iff_equivalence] (#1377). *)
+Definition pcc_Prop@{o | Set < o} : SetoidObject@{o o} := {|
   carrier := Prop;
-  is_setoid := {| equiv := fun P Q => P <-> Q |}
+  is_setoid := {| equiv := fun P Q => P <-> Q;
+                  setoid_equiv := {| Equivalence_Reflexive := iff_refl;
+                                     Equivalence_Symmetric := @iff_sym;
+                                     Equivalence_Transitive := @iff_trans |} |}
 |}.
-Next Obligation.
-  constructor.
-  - intro P; exact (iff_refl P).
-  - intros P Q H; exact (iff_sym H).
-  - intros P Q R H1 H2; exact (iff_trans H1 H2).
-Qed.
 
 (* Cocompleteness of [PTopCat] is refuted at every shape universe strictly
    above the points, under decidable equality of spaces: the separator is
