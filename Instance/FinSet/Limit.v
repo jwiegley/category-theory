@@ -74,7 +74,7 @@
     [FinSet_FinitelyComplete_terminal_computes] is the first COMPUTING
     witness of finite completeness in the tree, which corrects
     Structure/Limit/Finite.v's "no computing witness" clause (recorded
-    there as a correction, and in its docs/INDEX.md bullet).  The issue's
+    there as a correction, and in its doc/INDEX.md bullet).  The issue's
     "Current state" is stale on three points, each re-measured: there IS
     now a finiteness predicate on [Category] ([FiniteCategory], #417); the
     passage from the generators to all finite limits IS formalized, and the

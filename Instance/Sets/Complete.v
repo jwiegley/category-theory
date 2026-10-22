@@ -97,7 +97,7 @@ Generalizable All Variables.
    [right_adjoint_PreservesImageLimit] (Construction/Comma/Limit.v, which
    covers every right adjoint) and [SolutionSet] by direct construction.
    Adjunction/GAFT/Sets.v now assembles all three and runs [GAFT] at
-   [Id : Sets ⟶ Sets], and docs/INHABITATION.md lists the result among the
+   [Id : Sets ⟶ Sets], and doc/INHABITATION.md lists the result among the
    witnessed ones on that basis.  Nothing in this file changes any statement
    of GAFT or SAFT; it supplies an inhabitant of one of their hypotheses.
 

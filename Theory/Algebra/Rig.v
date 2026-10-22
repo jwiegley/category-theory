@@ -110,7 +110,7 @@ Generalizable All Variables.
     forgetful functor [Ring_Forget_Rig]; the concrete witness is the
     integers [Int_Ring] over stdlib [Z] — axiom-free, unlike the ℝ
     witness the source suggests, whose stdlib axioms the library's
-    zero-axiom discipline prefers to avoid (docs/AXIOMS.md).  Ring
+    zero-axiom discipline prefers to avoid (doc/AXIOMS.md).  Ring
     homomorphisms need no extra clause: preservation of negation is a
     THEOREM ([RigHom_neg]), by uniqueness of additive inverses.
 

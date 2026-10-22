@@ -121,7 +121,7 @@ Generalizable All Variables.
     followed by cancellation of the denominator.
 
     AXIOMS.  Everything here is axiom-free, counted the way
-    docs/AXIOMS.md counts: all 76 constants the module declares — the
+    doc/AXIOMS.md counts: all 76 constants the module declares — the
     50 source-level definitions and theorems, the 2 [Faithful]
     instances, and the 24 [Program] obligations, which no [.glob] sweep
     sees — report "Closed under the global context".  The arithmetic is

@@ -166,7 +166,7 @@ Open Scope R_scope.
    since the completion's distance is a limit taken with [R_complete]
    (Instance/Met/Completion.v, whose header prices the same three).
    They are stdlib axioms of the reals, permitted in the instance layer
-   by docs/AXIOMS.md and to be enumerated there, not gated.
+   by doc/AXIOMS.md and to be enumerated there, not gated.
 
    UNIVERSES, read by [About] under [Set Printing Universes] on every
    constant.  [MetU@{u o} : Category@{u o o}] with the one constraint

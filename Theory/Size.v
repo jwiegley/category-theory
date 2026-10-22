@@ -8,7 +8,7 @@
     set.  Riehl Definition 1.1.6 says the same with "a set's worth of arrows",
     and Definition 1.1.7 the same for local smallness.
 
-    This library takes a different foundational route, and docs/SIZE.md sets
+    This library takes a different foundational route, and doc/SIZE.md sets
     the two side by side in full.  The short version: there is no universe
     object, no membership, and no size axiom.  [Class Category@{o h p}]
     (Theory/Category.v) is universe-POLYMORPHIC, so every category already

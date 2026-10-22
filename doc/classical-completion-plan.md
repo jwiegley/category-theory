@@ -3,7 +3,7 @@
 > **Status: COMPLETED (historical record).** Every one of the seventeen
 > developments planned below has since been delivered and merged; this file
 > is retained as a record of the campaign, not as a list of outstanding work.
-> The delivered artefacts are indexed in `docs/INDEX.md` (until 2026-09-09 in
+> The delivered artefacts are indexed in `doc/INDEX.md` (until 2026-09-09 in
 > `CLAUDE.md`) and enumerated in Section 4. Read the present tense
 > throughout this document ("missing", "to add", "will") as describing the
 > plan at the time it was written.

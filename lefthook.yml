@@ -21,7 +21,7 @@ pre-commit:
       glob: "{CLAUDE.md,_CoqProject,*.v}"
       run: make -s claude-md-counts-check
     index-check:
-      glob: "docs/INDEX.md"
+      glob: "doc/INDEX.md"
       run: make -s index-check
     nix-build:
       glob: "*.{v,nix}"

@@ -208,31 +208,31 @@ claude-md-counts-check:
 	fi; \
 	exit $$rc
 
-# Guard the structure of docs/INDEX.md, the per-development Key Files index
+# Guard the structure of doc/INDEX.md, the per-development Key Files index
 # that moved out of CLAUDE.md on 2026-09-09: an `Edit` inserting a bullet has
 # twice eaten the `## ` heading after it, and a bullet count cannot see a lost
 # heading.  The five section headings must all be present, in order.  Pure
 # file inspection, like claude-md-counts-check.
 index-check:
-	@echo "Checking docs/INDEX.md's section headings..."
+	@echo "Checking doc/INDEX.md's section headings..."
 	@expected=$$(printf '%s\n' '## Theory Core' \
 		'## Structures (Internal Properties)' \
 		'## Constructions (External Combinators)' \
 		'## Concrete Instances' \
 		'## Applied Programming (Theory/Coq/)'); \
-	actual=$$(grep '^## ' docs/INDEX.md); \
+	actual=$$(grep '^## ' doc/INDEX.md); \
 	if [ "$$actual" != "$$expected" ]; then \
-		echo "ERROR: docs/INDEX.md's section headings changed. Expected:"; \
+		echo "ERROR: doc/INDEX.md's section headings changed. Expected:"; \
 		echo "$$expected"; echo "Got:"; echo "$$actual"; \
 		exit 1; \
 	fi; \
-	echo "docs/INDEX.md carries its five section headings ($$(grep -c '^- \*\*' docs/INDEX.md) bullets)."
+	echo "doc/INDEX.md carries its five section headings ($$(grep -c '^- \*\*' doc/INDEX.md) bullets)."
 
 check: format-check admitted-check bench-config-check claude-md-counts-check index-check category-theory print-assumptions
 	@echo "All checks passed."
 
 # Print Print-Assumptions output for the library's key definitions.
-# See docs/AXIOMS.md for the expected output ("Closed under the global
+# See doc/AXIOMS.md for the expected output ("Closed under the global
 # context" for all except ZX-instance definitions, which list the 3
 # user-supplied Phase parameters).
 print-assumptions: category-theory

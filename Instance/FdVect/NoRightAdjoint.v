@@ -106,7 +106,7 @@ Generalizable All Variables.
     ℚ discrete vanishes on a basic neighbourhood of 0, so it is a finite
     combination of coordinates.  For F = ℚ the premise is therefore
     independent of ZF + DC, and no axiom-free witness can be built in this
-    tree; docs/INHABITATION.md records the row as one that will never get a
+    tree; doc/INHABITATION.md records the row as one that will never get a
     constructive inhabitant, unlike the "awaiting a model" rows.  Finite
     shapes give no obstruction (finite products of modules are biproducts,
     which D carries to biproducts — analysis again), so the countability is

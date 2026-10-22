@@ -50,7 +50,7 @@ Generalizable All Variables.
       finite abelian groups of the example the two dualizing choices
       agree.  ℚ/ℤ is chosen because the stdlib rationals are
       axiom-free while the reals import classical axioms
-      (docs/AXIOMS.md) — the issue's disclosed restriction.
+      (doc/AXIOMS.md) — the issue's disclosed restriction.
       CORRECTION (#410): the standard library's classical reals [R]
       do; its constructive Cauchy reals [CReal] do not, and over them
       Instance/Top/Solenoid/Presentations.v builds ℝ/ℤ as an abelian

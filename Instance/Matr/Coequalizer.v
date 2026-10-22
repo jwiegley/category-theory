@@ -218,7 +218,7 @@ Generalizable All Variables.
     the global context".  The file uses no [Program] and declares no
     [Instance], so it generates no obligations and the enumeration from
     its own declarations is the complete one; this is the [Print Module]
-    caveat docs/AXIOMS.md records, and it does not arise here. *)
+    caveat doc/AXIOMS.md records, and it does not arise here. *)
 
 Section MatrCoequalizer.
 

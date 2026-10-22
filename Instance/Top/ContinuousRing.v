@@ -103,7 +103,7 @@ Ltac RlinH := RcasesH; lra.
    3. WHAT IT COSTS.  This is the FOURTH file importing Coq.Reals
       (after Interval.v, FundamentalGroupoid.v, Presheaf.v), and it
       inherits the standard library's axioms for R exactly as
-      docs/AXIOMS.md's "Stdlib axioms" section documents; the section
+      doc/AXIOMS.md's "Stdlib axioms" section documents; the section
       enumerates this file alongside the other three, with the same
       measured per-constant discipline: 36 of the 38 constants carry
       the two axioms ([ClassicalDedekindReals.sig_forall_dec] and

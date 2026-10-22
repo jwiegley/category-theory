@@ -218,7 +218,7 @@ Generalizable All Variables.
    three hypotheses -- this file has no [HasPullbacks], [HasWidePullbacks]
    or [HasImages] instance for any category, and [Regular_HasImages]
    rests on a class with no instance in tree; the whole development is a
-   conditional over structure supplied from outside, and docs/
+   conditional over structure supplied from outside, and doc/
    INHABITATION.md is where the question of which witnesses exist is
    settled.  No limit presentation: [IsIntersection] is a greatest lower
    bound in the factorization preorder, not a limit cone over a shape

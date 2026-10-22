@@ -315,8 +315,8 @@ Generalizable All Variables.
    Monad/Comparison.v in its tree (checked by ancestry): that functor
    was not constructible when any of them was written.  The issue's
    "CLAUDE.md Key Files index" was accurate when filed and has been stale
-   since PR #1284 (merged 2026-09-09), which moved the index to
-   docs/INDEX.md.
+   since PR #1284 (merged 2026-09-09), which moved the index out of
+   CLAUDE.md.
 
    STRENGTHS.  Every [Example] holds at [eq_refl] but
    [Kleisli_Comparison_Image_surjective_obj], proved by case analysis on

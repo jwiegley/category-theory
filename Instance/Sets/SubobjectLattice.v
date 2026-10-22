@@ -73,7 +73,7 @@ Generalizable All Variables.
    (c) [Sets_HasWidePullbacks]: THE CLASS IS INHABITED HERE FOR THE FIRST
        TIME.  Structure/Pullback/Wide.v declares [HasWidePullbacks]
        and its own header records under NOT DELIVERED that it builds no
-       instance for any concrete category; docs/INDEX.md's
+       instance for any concrete category; doc/INDEX.md's
        Structure/Pullback/Wide.v clause said "declared but UNINHABITED".
        Both statements were true at the parent commit; both are corrected
        in place, as corrections, in the commit that lands this file, and

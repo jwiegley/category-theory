@@ -96,7 +96,7 @@ Generalizable All Variables.
    that construction gives exactly two, [classic] and
    [constructive_indefinite_description] -- so the barrier really is a
    choice principle, as the informal story says, and this library is
-   axiom-free (docs/AXIOMS.md).
+   axiom-free (doc/AXIOMS.md).
 
    The machinery in Functor/Twist.v is therefore exactly one principle
    short of the exercise as posed, and that principle is the object

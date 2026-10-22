@@ -175,7 +175,7 @@ Generalizable All Variables.
    those would redo both files' universe annotations; it is not built,
    so its size is not measured.  Instance/Variety's setoid algebras are
    no route, building an [EqSignature] carrying
-   [functional_extensionality_dep] (docs/AXIOMS.md).  The generic parts
+   [functional_extensionality_dep] (doc/AXIOMS.md).  The generic parts
    are stated once, in tree: [quot_rel_object] and [quot_rel_proj] ARE
    Instance/Sets/Quotient.v's [SetsQuotient] and [sets_quot_proj] at G's
    setoid, [quot_rel_IsCoequalizer]'s descent is its [sets_quot_med]

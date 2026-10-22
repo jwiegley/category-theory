@@ -34,7 +34,7 @@
     `probe_limit_of_discrete` measured WHERE the `Set` pin on the
     `Limit`-of-a-discrete-diagram route came from, back when there was
     one.  Measured here rather than assumed, and the result CORRECTED
-    what ONE of this tree's own docs/INDEX.md bullets said -- the
+    what ONE of this tree's own doc/INDEX.md bullets said -- the
     `Construction/Coproduct/Indexed.v`/`Instance/Cat/Coproduct.v` one.
     (An earlier revision of this header named three bullets; the other
     two are sound, `Functor/Hom/Limit.v`'s naming both donors and

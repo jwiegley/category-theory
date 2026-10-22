@@ -27,7 +27,7 @@ instead by **universe polymorphism**: `Class Category@{o h p | h <= p}`
 
 — and the constraint solver enforces stratification at every use site. The
 audited consequence is that the core theory needs no size axiom at all
-(`docs/AXIOMS.md`).
+(`doc/AXIOMS.md`).
 
 Since this issue's work, the *vocabulary* also exists: `Theory/Size.v` declares
 `Small` and `LocallySmall`, which before had no declaration anywhere in the tree
@@ -143,7 +143,7 @@ and would remain one at any levels whatsoever. Pinning instances changes nothing
 
 ### remark2 — which axioms are in force
 
-`docs/AXIOMS.md` is the audit. The headline: **zero axioms** in every
+`doc/AXIOMS.md` is the audit. The headline: **zero axioms** in every
 proof-carrying constant of `Theory/` (excluding `Theory/Coq/`), `Structure/`, and
 `Construction/`; the concrete instance layers (`Instance/`, `Theory/Coq/`) use
 stdlib axioms, enumerated there. In particular no universe axiom is declared
@@ -359,7 +359,7 @@ and this document still records as absent.
 | def5 (class, proper class) | no counterpart — needs membership |
 | def6 (large category) | **not statable** — negation is a metatheoretic claim |
 | remark1 (`Set` not self-membered) | **corrected**: naive check *succeeds*; pinned form rejected; `Sets` case is a type error |
-| remark2 (axioms in force) | `docs/AXIOMS.md` — zero in the core |
+| remark2 (axioms in force) | `doc/AXIOMS.md` — zero in the core |
 | remark3 (set-free alternatives) | **both formalized**: `Theory/Metacategory.v`, `Structure/Topos.v` |
 | Awodey 1.11 (small) | `Small` |
 | Awodey 1.12 (locally small) | `LocallySmall` + `locally_small_ambient` |

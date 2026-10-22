@@ -209,7 +209,7 @@ Generalizable All Variables.
     a domain.
 
     AXIOMS.  Everything here is axiom-free, counted the way
-    docs/AXIOMS.md counts: all 99 constants the module declares — the
+    doc/AXIOMS.md counts: all 99 constants the module declares — the
     69 source-level definitions and theorems and the 30 [Program]
     obligations, which no [.glob] sweep sees — report "Closed under the
     global context", including both principal artifacts,

@@ -256,7 +256,7 @@ Generalizable All Variables.
 
    AXIOMS.  All 46 constants of this module — the 32 named ones plus the
    14 [Program] obligations of the three isomorphism definitions,
-   enumerated with [Print Module] per the methodology of docs/AXIOMS.md —
+   enumerated with [Print Module] per the methodology of doc/AXIOMS.md —
    report "Closed under the global context".  Twelve of them are wired into the
    [print-assumptions] gate of the Makefile; the names were checked
    against the whole tree first and collide with nothing, which matters

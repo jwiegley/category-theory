@@ -327,7 +327,7 @@ Generalizable All Variables.
    STATUS: axiom-free.  All 44 constants of this module -- 32 named, 8
    [Program] obligations and the 4 eliminators generated for [colim_rel]
    -- report "Closed under the global context", enumerated by
-   [Print Module] per the docs/AXIOMS.md methodology. *)
+   [Print Module] per the doc/AXIOMS.md methodology. *)
 
 #[local] Obligation Tactic := idtac.
 

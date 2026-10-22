@@ -172,7 +172,7 @@
     LABELS.  The labels are not constants: each refutation and each
     control carries its label in a comment on the line above it, and the
     labels are stable identifiers that the five files' headers and
-    docs/INDEX.md cite.  C1 to C22 and R1 to R3 (with R1a, R1b, R1c, R2a,
+    doc/INDEX.md cite.  C1 to C22 and R1 to R3 (with R1a, R1b, R1c, R2a,
     R2b and R2c) pin the Top files; C23 to C35 and R4 to R12 the Pos and
     PropSets files; C36 and R13 the hand-unfolded residue behind R1 to
     R3; C37 and C38 the stronger readbacks [PDiscMonad_fields] and

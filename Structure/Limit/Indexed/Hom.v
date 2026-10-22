@@ -251,7 +251,7 @@ Generalizable All Variables.
    this file exhibits no such category.
 
    STATUS: axiom-free.  All 59 constants -- 47 named plus 12 [Program]
-   obligations, enumerated by [Print Module] per the docs/AXIOMS.md
+   obligations, enumerated by [Print Module] per the doc/AXIOMS.md
    methodology -- report "Closed under the global context"; the Makefile's
    [print-assumptions] target audits the headline ones.  Nothing here
    appeals to funext, choice, or UIP.  The concrete [Sets] witness of a

@@ -31,7 +31,7 @@ Generalizable All Variables.
    is wrong in two of four entries.
      - Adjunction/Diagonal/Connected.v [EvalAt@{jo jh co ch +} (j : J) :
        [J, C] ⟶ C] IS this functor, general in shape and target, closed
-       under the global context, and docs/INDEX.md records it as NEW
+       under the global context, and doc/INDEX.md records it as NEW
        there with a by-type sweep.  [Eval] below has the same two data
        fields at [eq_refl] under [EvalAt]'s own annotation (probe); the
        RECORDS do not convert (probe N1: both are [Program Definition]s with
@@ -115,7 +115,7 @@ Generalizable All Variables.
          Adjunction/Diagonal/Connected.v (with its exact annotation, and a
          re-check of [EvalAt_retracts], [colimit_is_EvalAt] and
          Test/ProbeConnected378.v); deleting it is a removal of working
-         code.  Neither is done here: docs/INDEX.md's "NEW" is corrected
+         code.  Neither is done here: doc/INDEX.md's "NEW" is corrected
          in place and both remain.
 
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 17

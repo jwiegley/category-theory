@@ -45,7 +45,7 @@ Generalizable All Variables.
        only functor between functor categories is precomposition": FALSE.
        Functor/Construction/Postcompose.v's [Postcompose : [D, E] ⟶
        [D, E']] (#318) is [J ◯ −] on objects and left whiskering on arrows,
-       with its three laws; docs/INDEX.md's Adjunction/Diagonal/Limit.v
+       with its three laws; doc/INDEX.md's Adjunction/Diagonal/Limit.v
        bullet lists eleven constants typed [[X, Y] ⟶ _].  Work item 1 was
        done by #318; [postcompose] below is that functor at a fixed shape.
      - "[Cat_Hcompose] is a bifunctor never partially applied": FALSE
@@ -152,7 +152,7 @@ Generalizable All Variables.
    header figures are corrected in place (427 constants, 213 [Qed], five
    [Defined], 82 [eq_refl] — 440, 220, six and 83 before); the gate
    entries for the thirteen moved constants are requalified; the one
-   outside citation of a later Bimodule.v line (docs/INDEX.md's
+   outside citation of a later Bimodule.v line (doc/INDEX.md's
    Instance/InnerProduct/Galois.v bullet) is repointed.  No statement or
    proof of the moved section changes, and it stays [Defined].
 
@@ -227,7 +227,7 @@ Generalizable All Variables.
        abstract [F ⊣ G] (and [HasLimitsOfShape]); nothing in the tree
        instantiates [postcompose_adjunction], [precompose_adjunction] or
        [Lim_commutes_right_adjoint] at a named adjunction, and
-       docs/INHABITATION.md is not touched (the donor
+       doc/INHABITATION.md is not touched (the donor
        Adjunction/Diagonal/Limit.v carries [Sets_Diagonal_Limit_Adjunction];
        composing with it would need a named [F ⊣ G] into or out of Sets).
      - No edit to Functor/Construction/Postcompose.v, Theory/Kan/

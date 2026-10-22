@@ -128,7 +128,7 @@ Generalizable All Variables.
    defax) ' on the .glob), no [Program] anywhere so
    [strings … .vo | grep obligation] returns nothing, and all 33 report
    "Closed under the global context" under [Print Assumptions] -- the
-   [Sets] layer is often a place where stdlib axioms enter (docs/
+   [Sets] layer is often a place where stdlib axioms enter (doc/
    AXIOMS.md), and here none does.  5 [Defined] and 7 [Qed] (grep -c on
    '^Defined\.' / '^Qed\.'; a first draft of this paragraph said 28
    constants, 3 [Defined] and 8 [Qed], figures stale by the time it was

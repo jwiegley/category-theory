@@ -87,7 +87,7 @@ Definition test_scfa_eta_compose := compose test_scfa_epsilon test_scfa_eta.
     that dropped an operation.
 
     This remains a resolution and typing test rather than a behavioural one:
-    [HypergraphPROP] has no in-tree witness yet (see docs/INHABITATION.md),
+    [HypergraphPROP] has no in-tree witness yet (see doc/INHABITATION.md),
     so there is no concrete model here to compute against.  A behavioural
     test awaits such a witness. *)
 Definition test_scfa_special_law : Type :=

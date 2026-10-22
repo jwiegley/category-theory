@@ -287,7 +287,7 @@
    make returned 0 on both, and the probe's stripped refutations are
    refused there as its header records.  Those closures are not the
    whole library; the Nix flake's builds of the committed revision are
-   the authoritative gate, and docs/INDEX.md's bullet for this file
+   the authoritative gate, and doc/INDEX.md's bullet for this file
    records their result. *)
 
 Require Import Category.Lib.

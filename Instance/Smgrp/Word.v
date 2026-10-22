@@ -199,7 +199,7 @@ Generalizable All Variables.
    and Instance/SupLat.v use theirs) and this one, with Theory/Algebra/
    Semigroup.v for the internal notion.  Its "CLAUDE.md Key Files index"
    was accurate when filed and has been stale since PR #1284 (merged
-   2026-09-09), which moved the index to docs/INDEX.md.
+   2026-09-09), which moved the index out of CLAUDE.md.
 
    STRENGTHS.  Every [Example] above holds at [eq_refl], and
    Test/ProbeWord470.v restates each one (C19 to C30, C33 to C44 and C46

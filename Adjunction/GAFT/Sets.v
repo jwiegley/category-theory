@@ -59,7 +59,7 @@ Generalizable All Variables.
    it for EVERY right adjoint, fed by [adj_id] and [Δ ⊣ ×] -- and since #436
    the third has the same: [solution_set_of_adjunction] builds it for every
    right adjoint, agreeing with [Sets_Id_SolutionSet] below at [eq_refl] on
-   index, member and arrow.  docs/INHABITATION.md records the row.
+   index, member and arrow.  doc/INHABITATION.md records the row.
 
    WHY [Id], AND WHAT A REAL APPLICATION WOULD NEED
 

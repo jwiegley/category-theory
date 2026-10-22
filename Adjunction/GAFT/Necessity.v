@@ -259,7 +259,7 @@ Generalizable All Variables.
        hypothesis, exactly as the issue's Definition of Done requires the
        header to disclose, and there is no [Axiom] or [Parameter] here or
        anywhere in the file.  The section is therefore UNINHABITED at its
-       distinctive premise in the sense of docs/INHABITATION.md, and a
+       distinctive premise in the sense of doc/INHABITATION.md, and a
        reader must not cite it as evidence that complete Boolean algebras
        behave this way -- only that IF they do, the solution set cannot
        be dropped.

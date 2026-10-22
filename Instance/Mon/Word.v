@@ -194,7 +194,7 @@ Generalizable All Variables.
    (beside #470's Instance/Smgrp/Word.v), its satellite and
    Instance/CMon/Free.v.  Its "CLAUDE.md Key Files index" was accurate
    when filed and has been stale since PR #1284 (merged 2026-09-09),
-   which moved the index to docs/INDEX.md.  The body cites constants by
+   which moved the index out of CLAUDE.md.  The body cites constants by
    line number, which this tree replaces by their names.
 
    STRENGTHS.  Every [Example] holds at [eq_refl], and

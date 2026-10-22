@@ -39,7 +39,7 @@ Generalizable All Variables.
    on the nose — an isomorphism in [StrictCat], not merely an equivalence,
    obtained by feeding two equivalences to
    [skeletal_equivalence_is_isomorphism].  This is the in-tree witness
-   docs/INHABITATION.md records for the [Skeleton] record: the chosen
+   doc/INHABITATION.md records for the [Skeleton] record: the chosen
    representative is named outright ([true]), so nothing here smuggles a
    choice principle, and no existence claim is made for an arbitrary
    category.

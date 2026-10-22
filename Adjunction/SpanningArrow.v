@@ -276,7 +276,7 @@ Generalizable All Variables.
    [SubObj] and is not introduced below.  (3) No inhabitation of either
    hypothesis.  No [HasWidePullbacks] instance and no
    [PreservesWidePullbacks] witness is built in this file; Lemma 2 is an
-   axiom-free CONDITIONAL, in the sense docs/INHABITATION.md uses, and
+   axiom-free CONDITIONAL, in the sense doc/INHABITATION.md uses, and
    [GAFT_from_spanning] is a conditional over four hypotheses at once.
    The tree's only [HasWidePullbacks] instance,
    Instance/Sets/SubobjectLattice.v's [Sets_HasWidePullbacks], does NOT

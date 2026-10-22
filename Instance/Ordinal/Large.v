@@ -360,7 +360,7 @@ Generalizable All Variables.
        two file counts in CLAUDE.md (981/985 -> 982/986, so that
        [make claude-md-counts-check] stays green) together with the
        [Instance/Ordinal.v] entry of its Order map; one bullet appended to
-       docs/INDEX.md under "Concrete Instances" (269 -> 270 bullets, five
+       doc/INDEX.md under "Concrete Instances" (269 -> 270 bullets, five
        headings before and after, [make index-check] green); and one
        [Print Assumptions] block appended to the Makefile's
        [print-assumptions] gate carrying all 43 names fully qualified. *)

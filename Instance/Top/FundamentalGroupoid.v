@@ -129,13 +129,13 @@ Set Default Proof Using "All".
    [Bool_Discrete_loops_trivial].  No constant of this file carries any
    further axiom, and no constant of Instance/Top/Interval.v carries the third
    at all.  These figures are measured per constant, not sampled and not
-   inferred from a headline, and they are enumerated in docs/AXIOMS.md under
+   inferred from a headline, and they are enumerated in doc/AXIOMS.md under
    "Stdlib axioms".  (An earlier revision said every remaining constant
    carried the first two; [const_arrow_eval] does not, and the direction of
    that error was to over-report the cost.)  No axiom is declared in either
    file, and the core theory is untouched: these two files are the only ones
    in the tree that import the reals.  CORRECTION (#410): not so;
-   docs/AXIOMS.md, under "Stdlib axioms", names the development files that
+   doc/AXIOMS.md, under "Stdlib axioms", names the development files that
    import the classical reals, and Instance/Top/Circle.v,
    Instance/Top/Solenoid.v and Instance/Top/Solenoid/Presentations.v
    import the standard library's constructive Cauchy reals

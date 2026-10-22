@@ -454,7 +454,7 @@ Definition skeleton_remark {C : Category} (S : Skeleton C) :
    needs the ambient groupoid, and there is none: Construction/Groupoid.v
    supplies only the core [Groupoid C] of a given C, and building the groupoid
    of ALL finite sets over [Sets] would reproduce the universe obstruction
-   docs/INHABITATION.md already records for cospans, where [Sets] places its
+   doc/INHABITATION.md already records for cospans, where [Sets] places its
    objects one universe above its homs.  The skeleton-side facts about
    [Groupoid FinSet] — that it is skeletal, that its off-diagonal hom-sets are
    empty, and that its automorphism monoid at [n] is the group of bijections

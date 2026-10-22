@@ -104,7 +104,7 @@
       of the standard library's construction of R — principally
       [ClassicalDedekindReals.sig_forall_dec] and
       [FunctionalExtensionality.functional_extensionality_dep] — exactly
-      as docs/AXIOMS.md's "Stdlib axioms" section documents for the other
+      as doc/AXIOMS.md's "Stdlib axioms" section documents for the other
       two; the section enumerates this file alongside them.  Constants
       that never touch R (the subspace machinery) remain closed under the
       global context.

@@ -334,7 +334,7 @@ Generalizable All Variables.
      - "No topological categories exist — no [Top], no [CompHaus]": both
        exist, Instance/Top.v (#259) and Instance/Top/CompHaus.v (#413).
      - "SAFT itself is never applied to any concrete category"
-       (docs/INHABITATION.md): its [SAFT_wellpowered] row records
+       (doc/INHABITATION.md): its [SAFT_wellpowered] row records
        applications at the powerset lattice [Subsets Y] and at
        [Indiscrete], conditionally on [Untruncate] at [Sets], and at
        [(RMod R)^op] (#454).
@@ -380,7 +380,7 @@ Generalizable All Variables.
        Hausdorff there, and every constant naming it inherits the stdlib
        axioms [ClassicalDedekindReals.sig_forall_dec] and
        [functional_extensionality_dep] (Print Assumptions [I_Top]; that file
-       is among docs/AXIOMS.md's reals-importing files), so none is here.
+       is among doc/AXIOMS.md's reals-importing files), so none is here.
        The route would be vacuous classically in any case: its completeness
        hypothesis is the refuted one, and Refutations.v's
        [CompHaus_cogenerator_stable_DNE] shows that any cogenerating family

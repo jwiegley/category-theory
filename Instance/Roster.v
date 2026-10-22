@@ -269,7 +269,7 @@ Generalizable All Variables.
 
     AXIOMS, measured per constant rather than sampled, and the
     measurement is FINER than the section headings would suggest.  The
-    count is docs/AXIOMS.md's: everything the module declares, which
+    count is doc/AXIOMS.md's: everything the module declares, which
     for this file is 96 constants — 94 [Example]s, the two
     [Definition]s of the [Mon_Sets] section, and no [Program]
     obligations, since no declaration here generates any.  Of those 96,
