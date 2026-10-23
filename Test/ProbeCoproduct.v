@@ -193,10 +193,12 @@ Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
 
 (* NEGATIVE 4 (formability, universe inconsistency:
    "Cannot enforce Set = ua"). *)
+Check @AbObject@{_ _ _}.
 Fail Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
 
 (* NEGATIVE 5 (formability, universe inconsistency, same cause one layer
    up: [RMod_trivial] is built from [Ab_trivial]). *)
+Check @RingObject@{_ _ _}.
 Fail Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
               RMod_Biproduct M N).
 
@@ -233,6 +235,7 @@ Check (fun (C : Category@{uo uh up}) (x y : obj[C]) => x ~{C}~> y).
 
 (* NEGATIVE 6 (formability, universe inconsistency:
    "Cannot enforce up = uh"). *)
+Check @Category@{_ _ _}.
 Fail Check (fun C : Category@{uo uh up} => @Cartesian C).
 
 (* NEGATIVE 7 (formability, same, at the upstream donor — the attribution

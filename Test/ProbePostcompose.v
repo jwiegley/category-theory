@@ -52,8 +52,12 @@ Generalizable All Variables.
    group; the instrument is sanity-checked by a control that differs from the
    negative in exactly the disputed spot.
 
-   Inventory: 5 conversion negatives, 4 formability negatives, 12 positive
-   controls. *)
+   Inventory: 5 conversion negatives, 4 formability negatives, 12 numbered
+   positive controls.
+
+   CORRECTION (#1380): the positive count covers controls 1–12 below.  The
+   two added bare arity [Check]s for [Category], in [HomsApart] and
+   [ShapeHomApart], are additional positive commands outside that inventory. *)
 
 (** ** Group 1 (CONVERSION): the Hcompose route's arrow action *)
 
@@ -178,6 +182,7 @@ Section HomsApart.
   Universes uo uh1 uh2.
   Constraint uh1 < uh2.
 
+  Check @Category@{_ _ _}.
   Fail Check (fun (D : Category@{uo uh1 uh1}) (E : Category@{uo uh1 uh1})
                   (E' : Category@{uo uh2 uh2}) (J : E ⟶ E') =>
                 @Postcompose D E E' J).
@@ -189,6 +194,7 @@ Section ShapeHomApart.
   Universes uo uh1 uh2.
   Constraint uh1 < uh2.
 
+  Check @Category@{_ _ _}.
   Fail Check (fun (D : Category@{uo uh1 uh1}) (E : Category@{uo uh2 uh2})
                   (E' : Category@{uo uh2 uh2}) (J : E ⟶ E') =>
                 @Postcompose D E E' J).

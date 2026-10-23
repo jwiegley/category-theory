@@ -111,6 +111,7 @@ Constraint Set < puh.
 
 Check (Rng_Forget_Ab : Rng@{puo puh} ⟶ Ab).
 
+Check @Rng@{_ _}.
 Fail Check (Rng_Forget_Mon : Rng@{puo puh} ⟶ MonSets).
 
 End ProbeMonRouteSetPin.

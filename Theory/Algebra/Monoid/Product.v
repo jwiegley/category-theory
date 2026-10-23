@@ -772,6 +772,7 @@ Check @Cartesian.
 Check @Terminal.
 
 (* NEGATIVE 1 (FORMABILITY). *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) => @Monoidal C).
 
 (* NEGATIVE 2 (FORMABILITY). *)

@@ -46,8 +46,12 @@ Generalizable All Variables.
    accompany each group, and the sharpest ones differ from their negative in
    exactly the disputed spot.
 
-   Inventory: 7 conversion negatives, 3 formability negatives, 12 positive
-   controls. *)
+   Inventory: 7 conversion negatives, 3 formability negatives, 12 numbered
+   positive controls.
+
+   CORRECTION (#1380): the positive count covers controls 1–12 below.  The
+   added bare arity [Check]s for [Category] and [Sets] are two further
+   positive commands, not included in that numbered inventory. *)
 
 (** ** Group 1 (CONVERSION): the nat/cone round trips *)
 
@@ -189,6 +193,8 @@ Constraint uh < us.
 (* NEGATIVE 8 (FORMABILITY).  The cone presheaf is not formable when D's
    objects sit strictly above its homs.  Stripped error: "universe
    inconsistency: Cannot enforce uh = _ because uh < uo <= _". *)
+Check @Category@{_ _ _}.
+Check @Sets@{_ _}.
 Fail Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
               KanCone K).
 

@@ -288,6 +288,7 @@ Definition p478_c15_law4_strict@{o h +} {C : Category@{o h h}}
 (** ** Universes: the fork needs h <= o *)
 
 (* R7 *)
+Check @Category@{_ _ _}.
 Fail Definition p478_r7_law1_o_lt_h@{o h + | o < h +} (C : Category@{o h h}) :
   Erase C ∘[Cat] Arrow_dom ≈[Cat] Erase C ∘[Cat] Arrow_cod
   := arrow_fork_law1 C.
@@ -356,6 +357,7 @@ Example p478_c26_not_coequalizer_0 :
 (** ** The components of the two split forks in Cat *)
 
 (* R8 *)
+Check @Category@{_ _ _}.
 Fail Example p478_r8_split_law3_component@{o h +} {C : Category@{o h h}}
   `{T : @Terminal C} (c : C) :
   to (projT1 (scoeq_law3 (@arrow_fork_split C T)) c) = id := eq_refl.

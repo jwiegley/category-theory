@@ -610,6 +610,7 @@ Proof.
 Defined.
 
 (* N1 *)
+Check @Category@{_ _ _}.
 Fail Example p457_eq_by_match_obj@{oA oX h +} {A : Category@{oA h h}}
   {X : Category@{oX h h}} (G : A ⟶ X) `{GF : @Faithful A X G}
   `{HX : @HasEqualizers X}
@@ -866,6 +867,9 @@ Definition p457_idx_union_above@{o | Set < o +} (X : p457_PTopIdx@{o})
   p457_piopen_union X (p457_idx_witness_index X S h I V).
 
 (* N8 *)
+Check @p457_PTopIdx@{_}.
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
 Fail Definition p457_idx_union_at_set (X : p457_PTopIdx@{Set})
   (S : SetoidObject@{Set Set}) (h : SetoidMorphism@{Set Set Set} S X)
   (I : Set) (V : I → S → Prop) :=
@@ -888,6 +892,7 @@ Qed.
 
 (* ... and the direct derivation at [Set] is refused. *)
 (* N9 *)
+Check @p457_PTopIdx@{_}.
 Fail Definition p457_idx_to_family_at_set (X : p457_PTopIdx@{Set})
   (F : (X → Prop) → Prop) :=
   p457_piopen_union X { U : X → Prop | F U }.
@@ -993,6 +998,9 @@ Definition p457_psub_obj@{o so +| o < so +} (X : PTop@{o})
   Sliced PForget@{o so} X (PSub_Functor X c) = c := psub_obj X c.
 
 (* N10 *)
+Check @PTop@{_}.
+Check @Sets@{_ _}.
+Check @PForget@{_ _}.
 Fail Example p457_psub_obj_refl@{o so +| o < so +} (X : PTop@{o})
   (c : @Slice Sets@{o so} (PForget@{o so} X)) :
   Sliced PForget@{o so} X (PSub_Functor X c) = c := eq_refl.
@@ -1024,6 +1032,9 @@ Definition p457_psub_counit@{o so +| o < so +} (X : PTop@{o})
   ltac:(destruct c; intro t; simpl; reflexivity).
 
 (* N12 *)
+Check @PTop@{_}.
+Check @Sets@{_ _}.
+Check @PForget@{_ _}.
 Fail Definition p457_psub_counit_opaque@{o so +| o < so +} (X : PTop@{o})
   (c : @Slice Sets@{o so} (PForget@{o so} X)) :
   @counit _ _ _ _ (psub_adjunction X) c ≈ id_cast (p457_psub_obj_opaque X c) :=
@@ -1224,6 +1235,9 @@ Definition p457_tsub_open_body@{o o1 +| o < o1 +} (X : TopSpace@{o})
     (IsOpen X U ∧ (∀ s : S, V s ↔ U (h s)))%type }.
 
 (* N13 *)
+Check @TopSpace@{_}.
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
 Fail Definition p457_tsub_open_at_o@{o +} (X : TopSpace@{o})
   (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o} :=
@@ -1255,6 +1269,7 @@ Definition p457_tquot_package@{o +} (X : TopSpace@{o})
   open_inter    := tquot_open_inter X T q |}.
 
 (* N14 *)
+Check @tsub_open@{_ _}.
 Fail Definition p457_tsub_package@{o o1 +| o < o1 +} (X : TopSpace@{o})
   (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X)) :
   TopSpace@{o} := {|
@@ -1296,6 +1311,7 @@ Definition p457_lifted_slice_space_h@{o h so +| o < h, h < so +}
   Discrete_Top (`1 x).
 
 (* N15 *)
+Check @Top_Forget@{_ _ _}.
 Fail Definition p457_lifted_slice_space@{o h so +| o < h, h < so +}
   (X : TopSpace@{o}) (x : @Slice Sets@{h so} (Top_Forget@{o h so} X)) :
   TopSpace@{o} :=
@@ -1325,6 +1341,7 @@ Definition p457_top_forget@{o h so +| o < h, h < so +} :
   Top_Forget@{o h so}.
 
 (* N17 *)
+Check @Top@{_ _}.
 Fail Definition p457_top_to_point_sets@{o h +| o < h +} :=
   (Top@{h o} ⟶ Sets@{o h}).
 
@@ -1363,6 +1380,8 @@ Example p457_forget_under_lift@{o h so +| o < h, h < so +} (X : TopSpace@{o})
        SetoidMorphism_Lift (`2 (tstrip_under X y))) := eq_refl.
 
 (* N18 *)
+Check @TQuot_Functor@{_ _ _ _}.
+Check @Top_Forget_under@{_ _ _}.
 Fail Definition p457_tquot_adjunction@{o h so +| o < h, h < so +}
   (X : TopSpace@{o}) :=
   (TQuot_Functor@{o h so _} X ⊣ Top_Forget_under@{o h so} X).
@@ -1379,6 +1398,7 @@ Definition p457_tquot_obj_stripped@{o h so +| o < h, o < so +}
   tquot_obj_stripped X c.
 
 (* N19 *)
+Check @tstrip_under@{_ _ _ _ _}.
 Fail Example p457_tquot_obj_stripped_refl@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
   tstrip_under@{o h so _ _} X (TQuot_Functor X c) = c := eq_refl.
@@ -1400,6 +1420,8 @@ Definition p457_tquot_unit@{o h so +| o < h, o < so +}
   ltac:(destruct c; intro t; simpl; reflexivity).
 
 (* N25 *)
+Check @TopSpace@{_}.
+Check @Sets@{_ _}.
 Fail Definition p457_tquot_unit_opaque@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
   to (tquot_adj X c (TQuot_Functor X c)) id
@@ -1517,6 +1539,10 @@ Definition p457_sq_elim_prop@{o o1 +| o < o1 +} (X : TopSpace@{o})
   (snd HV (g z0) v) True.
 
 (* N20 *)
+Check @TopSpace@{_}.
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
+Check @p457_sq_open@{_ _}.
 Fail Definition p457_sq_elim_open@{o o1 +| o < o1 +} (X : TopSpace@{o})
   (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
   (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S)
@@ -1529,6 +1555,7 @@ Definition p457_union_by_points@{o +} (Z : TopSpace@{o}) :=
   @open_union Z (top_carrier Z).
 
 (* N21 *)
+Check @p457_sq_box@{_ _}.
 Fail Definition p457_sq_union_by_boxes@{o o1 +| o < o1 +} (X : TopSpace@{o})
   (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
   (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S)
@@ -1566,6 +1593,7 @@ Definition p457_small_union_at_s@{s o +| s < o +} (X : TopSpace@{o})
 
 (* ... but over an index at [o], the index [open_union] takes, it is not. *)
 (* N23 *)
+Check @p457_small_sub_open@{_ _}.
 Fail Definition p457_small_union_at_o@{s o +| s < o +} (X : TopSpace@{o})
   (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
   (V : S → Type@{o}) (HV : p457_small_sub_open@{s o} X S h V)
@@ -1602,6 +1630,8 @@ Definition p457_cont2@{o o1 +| o < o1 +} (X Y : p457_Top2@{o o1})
 
 (* ... not at the points' universe. *)
 (* N24 *)
+Check @p457_Top2@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
 Fail Definition p457_cont2_at_o@{o o1 +| o < o1 +} (X Y : p457_Top2@{o o1})
   (f : SetoidMorphism@{o o o} X Y) : Type@{o} :=
   ∀ U : Y → Type@{o}, p457_IsOpen2 Y U → p457_IsOpen2 X (fun x => U (f x)).

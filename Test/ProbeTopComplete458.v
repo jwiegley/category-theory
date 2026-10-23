@@ -758,6 +758,8 @@ Definition p458_iprod_below@{i o so +| i < o, o < so +} :
   PTop_HasIndexedProducts.
 
 (* N1 *)
+Check @HasIndexedProducts@{_ _ _ _ _ _}.
+Check @PTopCat@{_ _}.
 Fail Definition p458_iprod_above@{s o so +| o < so, o < s +} :
   @HasIndexedProducts@{s s s s so o} PTopCat@{o so} :=
   PTop_HasIndexedProducts.
@@ -811,6 +813,7 @@ Definition p458_complete_record_above@{r o so +| o < r, o < so +} :
   @Complete@{r o o so} PTopCat@{o so} := PTop_Complete.
 
 (* N2 *)
+Check @Complete@{_ _ _ _}.
 Fail Definition p458_complete_above@{r s o so +| o < s, o < so, s <= r +} :
   @Complete@{r s o so} PTopCat@{o so} := PTop_Complete.
 
@@ -856,6 +859,7 @@ Definition p458_complete_routes_iso@{o so +| o < so +}
   PTop_Complete_routes_iso J T.
 
 (* N5 *)
+Check @Category@{_ _ _}.
 Fail Example p458_complete_routes_carrier@{o so +| o < so +}
   (J : Category@{o o o}) (T : J ⟶ PTopCat@{o so}) :
   carrier (pt_carrier (vertex_obj[@limit_cone _ _ _ (PTop_Complete J T)]))
@@ -938,9 +942,10 @@ Definition p458_left_adjoint_at_pforget@{j o so +| o < so +}
   pdisc_cone_adjunction T.
 
 (* N7 *)
+Check @Category.Instance.Top.Prop.PForget@{_ _}.
 Fail Definition p458_limit_via_left@{j o so +| o < so +}
   {J : Category@{j o o}} (T : J ⟶ PTopCat@{o so})
-  (L : Limit (PForget@{o so} ◯ T)) : Limit T :=
+  (L : Limit (Category.Instance.Top.Prop.PForget@{o so} ◯ T)) : Limit T :=
   limit_from_cone_right_adjoint PForget T (PDiscCone T)
     (pdisc_cone_adjunction T) L.
 
@@ -1072,6 +1077,7 @@ Definition p458_cocomplete_record_above@{r o so +| o < r, o < so +} :
   @Cocomplete@{r o o so} PTopCat@{o so} := PTop_Cocomplete.
 
 (* N10 *)
+Check @Cocomplete@{_ _ _ _}.
 Fail Definition p458_cocomplete_above@{r s o so +| o < s, o < so, s <= r +} :
   @Cocomplete@{r s o so} PTopCat@{o so} := PTop_Cocomplete.
 
@@ -1138,6 +1144,7 @@ Definition p458_icoprod_at_points@{o so u +| o < so, so <= u, o < u +} :
   PTop_HasIndexedCoproducts.
 
 (* N15 *)
+Check @HasIndexedCoproducts@{_ _ _ _ _}.
 Fail Definition p458_icoprod_above@{s o so u +| o < so, o < s, so <= u,
   s < u +} :
   @HasIndexedCoproducts@{u s s so o} PTopCat@{o so} :=
@@ -1166,6 +1173,7 @@ Example p458_top_coequalizer_obj@{o h +| o < h +} {x y : Top@{h o}}
         (sets_coeq_proj (continuous_map f) (continuous_map g)) := eq_refl.
 
 (* N16 *)
+Check @Top@{_ _}.
 Fail Definition p458_top_book_route@{o h +| o < h +} :
   @Cocomplete Top@{h o} :=
   Cocomplete_from_coproducts_coequalizers Top_HasIndexedCoproducts_small
@@ -1214,6 +1222,8 @@ Inductive p458_tcolim_relH@{o h s +| o < h, s <= o +}
       p458_tcolim_relH q r → p458_tcolim_relH p r.
 
 (* N20 *)
+Check @Category@{_ _ _}.
+Check @Top@{_ _}.
 Fail Definition p458_tcolim_relH_at_o@{o h s +| o < h, s <= o +}
   (D : Category@{s h h}) (F : D ⟶ Top@{h o}) :
   p458_tcarr D F → p458_tcarr D F → Type@{o} :=
@@ -1261,6 +1271,9 @@ Definition p458_squash_prop@{o +} (Z : TopSpace@{o}) (a b : top_carrier Z)
   match w with inhabits e => k e end.
 
 (* N21 *)
+Check @Category@{_ _ _}.
+Check @Top@{_ _}.
+Check @TopSpace@{_}.
 Fail Definition p458_tcolim_elim@{o h s +| o < h, s <= o +}
   (D : Category@{s h h}) (F : D ⟶ Top@{h o}) (Z : TopSpace@{o})
   (m : p458_tcarr D F → top_carrier Z) (p q : p458_tcarr D F)
@@ -1317,6 +1330,9 @@ Definition p458_not_complete_above@{e r s o so +| o < so, o < s,
   PTop_not_complete_IEM.
 
 (* N24 *)
+Check @IEM@{_}.
+Check @Complete@{_ _ _ _}.
+Check @PTopCat@{_ _}.
 Fail Definition p458_not_complete_at_points@{e r o so +| o < so, o <= r +} :
   IEM@{e} → @Complete@{r o o so} PTopCat@{o so} → False :=
   PTop_not_complete_IEM.
@@ -1331,6 +1347,7 @@ Definition p458_iprod_refuted_above@{e s o so +| o < so, o < s +} :
   PTop_iprod_refuted_IEM.
 
 (* N25 *)
+Check @HasIndexedProducts@{_ _ _ _ _ _}.
 Fail Definition p458_iprod_refuted_at_points@{e o so +| o < so +} :
   IEM@{e} → @HasIndexedProducts@{o o o o so o} PTopCat@{o so} → False :=
   PTop_iprod_refuted_IEM.
@@ -1359,6 +1376,7 @@ Definition p458_not_cocomplete_points_at_set@{e r s so +| Set < so,
   PTop_not_cocomplete_IEM.
 
 (* N27 *)
+Check @Cocomplete@{_ _ _ _}.
 Fail Definition p458_not_cocomplete_at_points@{e r o so +| o < so,
   o <= r +} :
   IEM@{e} → @Cocomplete@{r o o so} PTopCat@{o so} → False :=
@@ -1412,6 +1430,7 @@ Definition p458_top_rebuild_unexpanded_at_h@{o h | o < h +}
   {| continuous_map := continuous_map f; continuity := continuity f |}.
 
 (* N29 *)
+Check @ContinuousMorphism@{_ _}.
 Fail Definition p458_top_rebuild_unexpanded@{o h1 h2 | o < h1, h1 < h2 +}
   {X Y : TopSpace@{o}} (f : ContinuousMorphism@{h1 o} X Y) :
   ContinuousMorphism@{h2 o} X Y :=
@@ -1446,6 +1465,7 @@ Definition p458_top_not_complete_canonical@{e r s h o +| o < h, h <= s,
   Top_not_complete_IEM.
 
 (* N30 *)
+Check @Top_not_complete_below_IEM@{_ _ _ _ _}.
 Fail Definition p458_top_not_complete_at_points@{e r h o +| o < h,
   h <= r +} :
   IEM@{e} → @Complete@{r o h h} Top@{h o} → False :=
@@ -1483,6 +1503,7 @@ Definition p458_top_iprod_refuted_below@{e s h o +| o < s, s < h +} :
   Top_iprod_refuted_below_IEM.
 
 (* N33 *)
+Check @Top_iprod_refuted_below_IEM@{_ _ _ _}.
 Fail Definition p458_top_iprod_below_at_points@{e h o +| o < h +} :
   IEM@{e} → @HasIndexedProducts@{o o o h h h} Top@{h o} → False :=
   Top_iprod_refuted_below_IEM@{e o h o}.
@@ -1513,6 +1534,7 @@ Definition p458_top_cantor_objdeceq_above_set@{r s h o +| Set < o, o < s,
   Top_not_cocomplete_Cantor_ObjDecEq.
 
 (* N34 *)
+Check @Top_not_cocomplete_IEM@{_ _ _ _ _}.
 Fail Definition p458_top_not_cocomplete_at_points@{e r h o +| o < h,
   h <= r +} :
   IEM@{e} → @Cocomplete@{r o h h} Top@{h o} → False :=

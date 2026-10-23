@@ -117,6 +117,8 @@ Check (fun (I : Type@{i}) (C : I → Category@{so sh sh})
 
 (* N1: the donor.  The projection's product cannot have object universe
    [so] when [so < sh]. *)
+Check @Category@{_ _ _}.
+Check @PiCat@{_ _ _ _ _}.
 Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) (a : I) =>
               (PiCat_Proj C a : PiCat@{i so sh so sh} C ⟶ C a)).
 
@@ -125,6 +127,7 @@ Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
               PiCat_IsIndexedProduct C).
 
 (* N3: inherited, the instance refused directly. *)
+Check @Cat_HasIndexedProducts@{_ _ _ _ _}.
 Fail Check @Cat_HasIndexedProducts@{i so sh _ _}.
 
 End IndexBoundary.
@@ -141,6 +144,9 @@ Check @StrictCat_HasEqualizers@{h _ _ _ _ _}.
 
 (* N4: the strict product structure at an index universe below the hom
    universe. *)
+Check @DepFunext@{_ _}.
+Check @HasIndexedProducts@{_ _ _ _ _ _}.
+Check @Category@{_ _ _}.
 Fail Check (fun (uip : ∀ C : Category@{h h h}, ObjUIP C)
                 (fe : DepFunext@{h h}) =>
               (StrictCat_HasIndexedProducts uip fe
@@ -152,11 +158,15 @@ Check (fun (uip : ∀ C : Category@{h h h}, ObjUIP C)
          (StrictCat_Complete uip fe : Complete@{h h h _})).
 
 (* N5: completeness over diagram shapes whose objects sit below [h]. *)
+Check @Complete@{_ _ _ _}.
+Check @Category@{_ _ _}.
+Check @DepFunext@{_ _}.
 Fail Check (fun (uip : ∀ C : Category@{h h h}, ObjUIP C)
                 (fe : DepFunext@{h h}) =>
               (StrictCat_Complete uip fe : Complete@{i h h _})).
 
 (* N6: the donor of N5 — the reduction theorem itself demands index = hom. *)
+Check @HasIndexedProducts@{_ _ _ _ _ _}.
 Fail Check (fun (Cu : Category@{_ h h})
                 (HP : HasIndexedProducts@{i i i _ _ h} Cu)
                 (HE : HasEqualizers Cu) =>

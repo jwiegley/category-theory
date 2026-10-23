@@ -295,6 +295,7 @@ Definition p410_wrap_one@{h o | o < h +} :
   wrap@{h o} 1 ≈ @id Top@{h o} Circle@{o} := wrap_one.
 
 (* N1 *)
+Check @wrap@{_ _}.
 Fail Example p410_wrap_one_point@{h o | o < h +} (x : CReal) :
   continuous_map (wrap@{h o} 1) x = x := eq_refl.
 
@@ -329,6 +330,9 @@ Definition p410_init_union_up@{o o1 | o < o1 +} (S : SetoidObject@{o o})
      (IsOpen (X n) U * U (t n s) * ∀ s', U (t n s') → V s')%type } }.
 
 (* N2 *)
+Check @SetoidObject@{_ _}.
+Check @TopSpace@{_}.
+Check @SetoidMorphism@{_ _ _}.
 Fail Definition p410_init_family@{o} (S : SetoidObject@{o o})
   (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o o} S (X n))
   (V : S → Type@{o}) : Type@{o} :=
@@ -440,6 +444,7 @@ Example p410_tower_step@{s h o + | o < h +} (p : positive) (n : nat) :
   fmap[CircleTower@{s h o} p] (tower_step n) = id ∘ wrap p := eq_refl.
 
 (* N6 *)
+Check @CircleTower@{_ _ _}.
 Fail Example p410_tower_step_closed@{s h o | o < h} (p : positive)
   (n : nat) : fmap[CircleTower@{s h o} p] (tower_step n) = id ∘ wrap p
   := eq_refl.
@@ -488,6 +493,9 @@ Definition p410_points_iso@{s u o so r | o < u, o < so +} (p : positive) :
   solenoid_points_iso p.
 
 (* N7 *)
+Check @SolPoints@{_ _ _}.
+Check @Ab_Forget@{_ _ _}.
+Check @GSolenoid@{_ _ _ _ _}.
 Fail Example p410_points_group@{s u o so r | o < u, o < so +}
   (p : positive) :
   SolPoints@{s o so} p = Ab_Forget@{u so o} (GSolenoid@{s u o so r} p)
@@ -568,11 +576,21 @@ Definition p410_tsub_arc_whole@{o o1 | o < o1 +} (y : CReal) :
   tsub_open_whole Circle (csub_setoid (tarc y)) (csub_incl_map (tarc y)).
 
 (* N8 *)
+Check @TopSpace@{_}.
+Check @Category.Instance.Top.Solenoid.Presentations.csub_setoid@{_}.
+Check @Category.Instance.Top.Solenoid.Presentations.tarc@{_}.
+Check @tsub_open@{_ _}.
+Check @Category.Instance.Top.Circle.Circle@{_}.
+Check @Category.Instance.Top.Solenoid.Presentations.csub_incl_map@{_}.
 Fail Definition p410_tsub_arc@{o o1 | o < o1 +} (y : CReal) :
   TopSpace@{o} := {|
-  top_carrier   := csub_setoid@{o} (tarc@{o} y);
-  IsOpen        := tsub_open@{o o1} Circle@{o} (csub_setoid@{o} (tarc@{o} y))
-                     (csub_incl_map@{o} (tarc@{o} y));
+  top_carrier   := Category.Instance.Top.Solenoid.Presentations.csub_setoid@{o}
+                    (Category.Instance.Top.Solenoid.Presentations.tarc@{o} y);
+  IsOpen        := tsub_open@{o o1} Category.Instance.Top.Circle.Circle@{o}
+                    (Category.Instance.Top.Solenoid.Presentations.csub_setoid@{o}
+                      (Category.Instance.Top.Solenoid.Presentations.tarc@{o} y))
+                    (Category.Instance.Top.Solenoid.Presentations.csub_incl_map@{o}
+                      (Category.Instance.Top.Solenoid.Presentations.tarc@{o} y));
   open_respects := tsub_open_respects Circle (csub_setoid (tarc y))
                      (csub_incl_map (tarc y));
   open_proper   := tsub_open_proper Circle (csub_setoid (tarc y))

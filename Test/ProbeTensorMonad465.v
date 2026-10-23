@@ -392,6 +392,9 @@ Example p465_ctl_join@{a c p o x} (R : RingObject@{a c p})
   := eq_refl.
 
 (* N0 *)
+Check @RingObject@{_ _ _}.
+Check @Ab@{_ _}.
+Check @TensorMonad@{_ _ _ _ _}.
 Fail Example p465_N0_instrument@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r1 r2 : carrier (rig_setoid (ring_rig R)))
   (a0 : carrier A) :
@@ -437,6 +440,9 @@ Example p465_ctl_rt_smul@{a c p o x} (R : RingObject@{a c p})
   := eq_refl.
 
 (* N1 *)
+Check @RMod@{_ _ _ _ _}.
+Check @EM_to_RMod@{_ _ _ _ _}.
+Check @zext_adjunction@{_ _ _ _ _ _ _ _}.
 Fail Example p465_N1_rt_obj@{a c p o x} (R : RingObject@{a c p})
   (M : obj[RMod@{o x a p c} R]) :
   fobj[EM_to_RMod@{a c p o x} R
@@ -521,6 +527,8 @@ Example p465_ctl_rt2_equiv@{a c p o x} (R : RingObject@{a c p})
   ltac:(refine (tensor_hom_ext _ _ _ s); intros r m; reflexivity).
 
 (* N7 *)
+Check @EilenbergMoore@{_ _ _ _}.
+Check @TensorF@{_ _ _ _ _}.
 Fail Example p465_N7_rt2_fun@{a c p o x} (R : RingObject@{a c p})
   (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
@@ -688,6 +696,7 @@ Example p465_ctl_beck_act_Z@{o x}
   := eq_refl.
 
 (* N13Z *)
+Check @RMod_beck_equivalence@{_ _ _ _ _}.
 Fail Example p465_N13Z_beck_act_var@{o x}
   (X : @EilenbergMoore@{o o x Set} Ab@{o Set}
          (TensorF@{Set Set Set o x} Int_Ring)
@@ -726,6 +735,8 @@ Example p465_ctl_monadic_type@{a c p o x} (R : RingObject@{a c p}) :
       RMod_Forget_Ab_Monadic@{a c p o x} R).
 
 (* N15 *)
+Check @RMod_Forget_Ab_Monadic_beck@{_ _ _ _ _}.
+Check @RMod_Forget_Ab_Monadic@{_ _ _ _ _}.
 Fail Example p465_N15_monadic_same@{a c p o x} (R : RingObject@{a c p}) :
   RMod_Forget_Ab_Monadic_beck@{a c p o x} R
   = RMod_Forget_Ab_Monadic@{a c p o x} R
@@ -734,6 +745,9 @@ Fail Example p465_N15_monadic_same@{a c p o x} (R : RingObject@{a c p}) :
 (** ** Instance/Mod/Colimit/Creation.v *)
 
 (* C0 *)
+Check @Category@{_ _ _}.
+Check @RMod_Forget_Ab@{_ _ _ _ _ _}.
+Check @IsLimitCone@{_ _ _ _ _}.
 Fail Fail Example p465c_C0_instrument@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
@@ -864,6 +878,7 @@ Example p465c_ctl_terminal_own@{a c p o x j l l0} {R : RingObject@{a c p}}
   rmod_terminal_smul_own T K r m.
 
 (* C4 *)
+Check @rmod_terminal_colimit@{_ _ _ _ _ _ _ _}.
 Fail Example p465c_C4_terminal_own@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
@@ -907,6 +922,7 @@ Example p465c_ctl_to_Z@{o x} (A B : obj[Ab@{o Set}])
   = cmon_map φ (@ts_gen (ring_ab Int_Ring) A 3%Z a) := eq_refl.
 
 (* C5Z *)
+Check @TensorF_left_adjoint@{_ _ _}.
 Fail Example p465c_C5Z_to_var@{o x} (A B : obj[Ab@{o Set}])
   (φ : fobj[TensorF@{Set Set Set o x} Int_Ring] A ~{Ab@{o Set}}~> B)
   (a : carrier (cmon_setoid A)) (z : Z) :
@@ -958,6 +974,7 @@ Example p465c_ctl_from_Z@{o x} (A B : obj[Ab@{o Set}])
   := eq_refl.
 
 (* C6Z *)
+Check @Coextension@{_ _ _ _ _}.
 Fail Example p465c_C6Z_from_var@{o x} (A B : obj[Ab@{o Set}])
   (ψ : A ~{Ab@{o Set}}~>
      fobj[RMod_Forget_Ab@{x o o Set Set Set} Int_Ring
@@ -1044,14 +1061,18 @@ Definition p465c_ctl_ring_open@{a c p o x | Set < o, c < o, c < x +}
     (coex_adjunction@{a c p o x c} R).
 
 (* C8 *)
+Check @Adjunction@{_ _ _ _ _ _ _ _ _ _ _}.
+Check @coex_adjunction@{_ _ _ _ _ _}.
+Check @Category.Instance.Mod.BaseChange.zext_adjunction@{_ _ _ _ _ _ _ _}.
+Check @Category.Instance.Mod.Coextension.coex_adjunction@{_ _ _ _ _ _}.
 Fail Definition p465c_C8_carrier_below@{a c p o x |
     Set < o, c < o, c < x, c < a +}
   (R : RingObject@{a c p}) :
   @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o x} R)
     (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
-  Adjunction_Compose (zext_adjunction@{a c p o o x a a} R)
-    (coex_adjunction@{a c p o x c} R).
+  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{a c p o x c} R).
 
 (* C8a *)
 Fail Definition p465c_C8a_proof_below@{a c p o x |
@@ -1060,8 +1081,8 @@ Fail Definition p465c_C8a_proof_below@{a c p o x |
   @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o x} R)
     (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
-  Adjunction_Compose (zext_adjunction@{a c p o o x a a} R)
-    (coex_adjunction@{a c p o x c} R).
+  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{a c p o x c} R).
 
 (** ** Closure: a readback, not a refutation *)
 

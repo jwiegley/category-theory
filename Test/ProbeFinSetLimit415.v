@@ -136,6 +136,7 @@ Check (@Complete_FinitelyComplete FinSet
 Check FinSet_HasEqualizers@{_ _ _ _ _}.
 
 (* N5 UNIVERSE *)
+Check @FinSet_HasEqualizers@{_ _ _ _ _}.
 Fail Check FinSet_HasEqualizers@{_ _ Set _ _}.
 
 (** ** D: readbacks *)

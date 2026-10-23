@@ -336,6 +336,7 @@ Definition p450v_gaft_partial_at_set {S : UA.OpSignature}
   GAFT (@Diagonal (SVariety E) J) (SVariety_Complete E)
        (Continuous_PreservesImageLimit Diagonal_continuous).
 
+Check @Category@{_ _ _}.
 Fail Definition p450v_n4_colim_at_set {S : UA.OpSignature}
   (E : UA.EqSignature S) (J : Category@{Set Set Set}) :=
   SVariety_colim_via_GAFT E J.

@@ -281,6 +281,7 @@ Check (PshExp Pb Qb).
    the bound [coA <= ...] in the message is exactly [Transform]'s
    [Type@{max(o1,p2)}]: a set of natural transformations is a family
    indexed by C's objects. *)
+Check @Sets@{_ _}.
 Fail Check ([[[Cbig^op, Sets@{oA soA}]]](Pb, Qb) : obj[Sets@{oA soA}]).
 
 (* NEGATIVE 1b (FORMABILITY).  This is the discriminating one against
@@ -322,6 +323,7 @@ Fail Check (Cu^op).
 
 (* NEGATIVE 3 (FORMABILITY).  So does [Fun], with NO [^op] anywhere in
    the command -- two INDEPENDENT donors, same error shape. *)
+Check @Sets@{_ _}.
 Fail Check ([Cu, Sets@{oC soC}]).
 End HomBelowProof.
 

@@ -577,6 +577,11 @@ Example p453_iff_left_obj@{o dobj h so c w s t pk pa +|
               (fun _ => True))))) :=
   eq_refl.
 
+Check @Category@{_ _ _}.
+Check @Complete@{_ _ _ _}.
+Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @Cogenerator@{_ _ _}.
+Check @WellPowered@{_ _ _ _ _}.
 Fail Example p453_n1_obj_is_product@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -642,6 +647,8 @@ Example p453_iff_thm2_obj@{o dobj h so c pk pa q r rd pw k +|
                 (fun k => `1 k)) :=
   eq_refl.
 
+Check @HasSubobjectWidePullbacks@{_ _ _ _ _}.
+Check @PreservesWidePullbacks@{_ _ _ _ _ _ _ _}.
 Fail Example p453_n3_thm2_obj_is_product@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -759,6 +766,7 @@ Example p453_same_index@{o dobj h so +| h <= so +}
   cog_index (comma_cogenerator U d G) = saft_index U G d :=
   eq_refl.
 
+Check @saft_prod@{_ _ _ _ _}.
 Fail Example p453_n7_same_product@{o dobj h so dp pk pa +|
     h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
@@ -815,12 +823,16 @@ Definition p453_pa_below_t@{o dobj h so c w s t pk pa +|
 (* INSTRUMENT: the binder's constraints are enforced.  [Complete@{so so h
    o}] declares [h] at or below its first slot, so this is refused
    whatever the body. *)
+Check @Category.Construction.Comma.Limit.PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @Category.Adjunction.SAFT.Cogenerator@{_ _ _}.
+Check @Category.Structure.WellPowered.WellPowered@{_ _ _ _ _}.
 Fail Definition p453_n8_shapes_below_homs@{o dobj h so c w s t pk pa +|
     so < h, c < so, w < h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
-  (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
+  (cont : @Category.Construction.Comma.Limit.PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (G : @Category.Adjunction.SAFT.Cogenerator@{c o h} C)
+  (WP : @Category.Structure.WellPowered.WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_wellpowered U comp cont G WP.
 
@@ -998,6 +1010,7 @@ Definition p453_sets_cover_trivial@{o so +| o < so +} (d : Sets@{o so})
   saft_cover_at (@Id Sets@{o so}) Sets_Complete Sets_Id_PreservesImageLimit G d
     (wp_trivial _).
 
+Check @Sets@{_ _}.
 Fail Definition p453_n11_cover_wp_at_up@{o so +| o < so +}
   (G : Cogenerator@{o so o} Sets@{o so}) :
   { F : Sets@{o so} ⟶ Sets@{o so} & F ⊣ Id } :=
@@ -1109,6 +1122,7 @@ Definition p453_large_cog_abstract@{c o so w s t pk pa +|
   SAFT_wellpowered (@Id Sets@{o so}) comp cont Sets_Cogenerator_large@{c o so}
     WP.
 
+Check @Untruncate@{_}.
 Fail Definition p453_n15_large_cog_cover@{o so +| Set < o, o < so +}
   (Un : Untruncate@{o}) :
   { F : Sets@{o so} ⟶ Sets@{o so} & F ⊣ Id } :=
@@ -1151,6 +1165,8 @@ Definition p453_unannotated_hom_index@{j o +| j < o +} :
     (Indiscrete_Cogenerator_empty Type@{j})
     (Indiscrete_WellPowered@{o j j o _} Type@{j}).
 
+Check @Indiscrete@{_ _ _}.
+Check @Indiscrete_WellPowered@{_ _ _ _ _}.
 Fail Definition p453_n17_unannotated_set_index@{j o +| j < o +} :
   { F : Indiscrete@{o j j} Type@{j} ⟶ Indiscrete@{o j j} Type@{j}
     & F ⊣ @Id (Indiscrete@{o j j} Type@{j}) } :=
@@ -1174,6 +1190,7 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa _}
                             U comp cont G d c h)).
 
+Check @saft_pb_cone@{_ _ _ _ _ _ _ _ _ _ _}.
 Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
     h <= so, h < dp, h < cp, h < pc, pa < pc +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -1222,6 +1239,9 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
                         : { L : @Fun@{jo h o h fo h fa} J C ⟶ C
                           & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
 
+Check @Cocomplete@{_ _ _ _}.
+Check @Fun@{_ _ _ _ _ _ _}.
+Check @Diagonal@{_ _ _ _ _ _}.
 Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
     o <= fo, h <= fo, h < fa, h < cr, jo <= cr +}
@@ -1254,6 +1274,7 @@ Definition p453_repr_iff_pa_le_su@{o h so c w s t su pl pa ra rt +|
     ↔ @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
+Check @Representable@{_ _ _ _ _}.
 Fail Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
@@ -1355,6 +1376,7 @@ Definition p453_setsop_cover_up@{o so +| o < so +}
     (right_adjoint_PreservesImageLimit (@adj_id ((Sets@{o so}^op)%category)))
     setsop_cog d (Sets_CoWellPoweredAt_up _).
 
+Check @Sets@{_ _}.
 Fail Definition p453_n25_setsop_cover_wp_at_up@{o so +| o < so +} :
   { F : (Sets@{o so}^op)%category ⟶ (Sets@{o so}^op)%category & F ⊣ Id } :=
   SAFT_cover_wp_at (@Id ((Sets@{o so}^op)%category)) setsop_comp

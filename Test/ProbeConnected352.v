@@ -132,6 +132,8 @@ Context {C : Category@{o hc hc}} {D : Category@{o hd hd}} (F : C ⟶ D).
      The term "@zigzag_fmap C D F" has type
       "∀ x y : obj[C], ZigZag x y → ZigZag (fobj[F] x) (fobj[F] y)"
      while it is expected to have type "Proper (equiv ==> equiv) fobj[F]". *)
+Check @pi0@{_ _ _ _}.
+Check @Sets@{_ _}.
 Fail Definition probe_proper_as_field :
   pi0@{o o o hc} C ~{Sets@{o so}}~> pi0@{o o o hd} D :=
   {| morphism := fobj[F]; proper_morphism := @zigzag_fmap C D F |}.

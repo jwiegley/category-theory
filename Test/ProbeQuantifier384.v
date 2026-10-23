@@ -160,6 +160,7 @@ Example p384_fmap_agrees (T T' : carrier (Powerset_Prop_obj@{o} Y))
 
 (* NEGATIVE 1 (CONVERSION).  The WHOLE records do not: the three law
    fields are separate opaque [Program] obligations. *)
+Check @subset_le_preorder@{_}.
 Fail Example p384_functor_records_agree :
   GaloisFunctor_l (subset_le_preorder@{o} Y) (subset_le_preorder@{o} X)
     (preimage_dual_galois f)
@@ -197,11 +198,16 @@ Context (U V : SetoidObject@{o o}).
 Context (S : carrier (Powerset_Prop_obj@{o} (ProdSetoid@{o so} U V))).
 
 (* NEGATIVE 2 (CONVERSION). *)
+Check @proj_exists@{_ _}.
+Check @Powerset_Prop_image@{_}.
+Check @proj_fst@{_ _}.
 Fail Example p384_exists_is_image_strict :
   @proj_exists@{o so} U V S
     = Powerset_Prop_image@{o} (proj_fst@{o so} U V) S := eq_refl.
 
 (* NEGATIVE 3 (CONVERSION). *)
+Check @proj_forall@{_ _}.
+Check @Powerset_Prop_dual@{_}.
 Fail Example p384_forall_is_dual_strict :
   @proj_forall@{o so} U V S
     = Powerset_Prop_dual@{o} (proj_fst@{o so} U V) S := eq_refl.
@@ -279,6 +285,9 @@ Check (obj[Props@{o u}]).
    of [Props] is a [Prop].  So the [≅[Cat]] the target ships -- which in
    this library IS equivalence -- cannot be strengthened to an identity,
    and the header says so. *)
+Check @Subsets@{_ _}.
+Check @quant_one@{_ _}.
+Check @Props@{_ _}.
 Fail Example p384_subsets_one_is_Props :
   obj[Subsets@{o u} quant_one@{o so}] = obj[Props@{o u}] := eq_refl.
 

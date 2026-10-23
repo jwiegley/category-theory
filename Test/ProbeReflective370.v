@@ -493,6 +493,7 @@ Example p370_abgrp_unit_point@{u p +} (G : Grp@{u p}) (a : carrier G) :
   grp_map (abgrp_unit G) a = grp_map (abel_proj G) a := eq_refl.
 
 (* N7 *)
+Check @Grp@{_ _}.
 Fail Example p370_abgrp_unit_proj@{u p +} (G : Grp@{u p}) :
   abgrp_unit G = abel_proj G := eq_refl.
 
@@ -512,6 +513,7 @@ Example p370_torsion_counit_point@{u p +} (A : Ab@{u p})
   cmon_map (torsion_counit A) x = cmon_map (torsion_incl A) x := eq_refl.
 
 (* N9 *)
+Check @Ab@{_ _}.
 Fail Example p370_torsion_counit_incl@{u p +} (A : Ab@{u p}) :
   torsion_counit A = torsion_incl A := eq_refl.
 
@@ -531,6 +533,7 @@ Example p370_crng_unit_point@{u p +} (R : Rng@{u p})
   rig_map (crng_unit R) a = rig_map (rquot_proj (CommIdeal R)) a := eq_refl.
 
 (* N11 *)
+Check @Rng@{_ _}.
 Fail Example p370_crng_unit_proj@{u p +} (R : Rng@{u p}) :
   crng_unit R = rquot_proj (CommIdeal R) := eq_refl.
 
@@ -554,6 +557,7 @@ Example p370_completionU_unit_eta@{u o +} (X : MetU@{u o}) :
   := eq_refl.
 
 (* N14 *)
+Check @Met@{_ _}.
 Fail Example p370_completion_unit_eta@{u o +} (X : Met@{u o}) :
   @Category.Theory.Adjunction.unit _ _ _ _ completion_adj X = eta X
   := eq_refl.
@@ -638,6 +642,7 @@ Example p370_completionU_obj@{u o +} (X : MetU@{u o}) :
   fobj[reflector CMet_Reflective_in_MetU] X = CompletionU X := eq_refl.
 
 (* N20 *)
+Check @MetU@{_ _}.
 Fail Example p370_completionU_counit_point@{u o +}
   (Y : Sub MetU@{u o} CompleteSpacesU) (y : `1 Y) :
   umap (`1 (@counit _ _ _ _ completionU_adj Y)) (eta_seq (`1 Y) y) = y

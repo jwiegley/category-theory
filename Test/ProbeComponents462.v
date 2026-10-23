@@ -377,6 +377,8 @@ Definition p462_top_adj_up@{h o so +} (C : Top@{h o} ⟶ Sets@{h so})
   (D : Sets@{h so} ⟶ Top@{h o}) (A : C ⊣ D) : True := I.
 
 (* N1 *)
+Check @Top@{_ _}.
+Check @Sets@{_ _}.
 Fail Definition p462_top_to_sets@{h o so +}
   (C : Top@{h o} ⟶ Sets@{o so}) : True := I.
 
@@ -410,6 +412,7 @@ Definition p462_tconnected_up@{o h | o < h +} (X : TopSpace@{o})
   ∀ (S : SetoidObject@{o o}) (g : X → S), ∀ a b, W a → W b → g a ≈ g b.
 
 (* N3 *)
+Check @TopSpace@{_}.
 Fail Definition p462_tcomp_rel_sigma@{o} (X : TopSpace@{o}) (x y : X) :
   Type@{o} :=
   { W : X → Type@{o} & (W x * W y)%type }.
@@ -420,6 +423,7 @@ Fail Definition p462_tcomp_rel_forall@{o} (X : TopSpace@{o}) (x y : X) :
   ∀ U : X → Type@{o}, IsOpen X U → U x → U y.
 
 (* N5 *)
+Check @SetoidObject@{_ _}.
 Fail Definition p462_tconnected@{o} (X : TopSpace@{o}) (W : X → Type@{o}) :
   Type@{o} :=
   ∀ (S : SetoidObject@{o o}) (g : X → S), ∀ a b, W a → W b → g a ≈ g b.
@@ -427,6 +431,7 @@ Fail Definition p462_tconnected@{o} (X : TopSpace@{o}) (W : X → Type@{o}) :
 (** ** Instance/Top/Components.v, MAC LANE'S SET: the propositional sets *)
 
 (* N6 *)
+Check @PTop@{_}.
 Fail Definition p462_comp_rel_witness@{o} (X : PTop@{o}) (x y : X)
   (H : comp_rel X x y) :
   { W : X → Prop & (PConnectedSub X W * W x * W y)%type } :=
@@ -434,6 +439,7 @@ Fail Definition p462_comp_rel_witness@{o} (X : PTop@{o}) (x y : X)
   end.
 
 (* N7 *)
+Check @PMor@{_}.
 Fail Definition p462_transpose_inh@{o} (X : PTop@{o})
   (S : SetoidObject@{o o}) (g : PMor@{o} X (PDiscrete S)) (x y : X)
   (HR : inhabited (pmap g x ≈ pmap g y)) : pmap g x ≈ pmap g y :=
@@ -481,6 +487,7 @@ Definition p462_psets_sub_at_o@{o so | o < so +} :
 Definition p462_psets_sub_Set@{so | Set < so +} := PSetsSub@{Set so}.
 
 (* N8 *)
+Check @p462_psets_sub_at_o@{_ _}.
 Fail Definition p462_psets_sub_o_Set@{so | Set < so +} :=
   p462_psets_sub_at_o@{Set so}.
 
@@ -677,6 +684,7 @@ Definition p462_iota@{o so +| o < so +} : Parallel ⟶ PTopCat@{o so}^op :=
 Definition p462_yoneda@{o so +| o < so +} := Curried_CoHom PTopCat@{o so}.
 
 (* N12 *)
+Check @PTopCat@{_ _}.
 Fail Definition p462_P_derived@{o so +| o < so +} :=
   Induced p462_iota ◯ Curried_CoHom PTopCat@{o so}.
 

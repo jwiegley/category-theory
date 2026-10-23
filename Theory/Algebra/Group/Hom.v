@@ -890,6 +890,7 @@ Check @CartesianMonoidal.
 Check @GroupObject.
 
 (* Each reports: "Cannot enforce up = uh because uh < up". *)
+Check @Category@{_ _ _}.
 Fail Check (fun C : Category@{uo uh up} => @Monoidal C).
 Fail Check (fun C : Category@{uo uh up} => @Cartesian C).
 Fail Check (fun C : Category@{uo uh up} => @Terminal C).

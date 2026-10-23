@@ -37,8 +37,25 @@ minimize-requires:
 	    $(COQ_TOOLS)/minimize-requires.py -i -R . Category {} ::: \
 	    $$(find . -name '*.v')
 
-lint: todo bench-config-check claude-md-counts-check
+lint: todo bench-config-check claude-md-counts-check probe-arity-check
 	@echo "Lint checks complete."
+
+# Fast unit tests alone do NOT certify probe identities.
+probe-arity-unit:
+	python3 -B scripts/test_probe_arity.py
+
+# Semantic gate: rebuild a source-only snapshot before consuming compiler
+# evidence. It never trusts checkout .vo/.glob files or timestamp-only make.
+# The inner build uses generated Makefile.coq directly, so there is no cycle
+# through this target, lint, check, or the package's checkPhase.
+PROBE_ARITY_JOBS ?= 2
+PROBE_ARITY_WORK_DIR ?=
+probe-arity-check: probe-arity-unit
+	python3 -B scripts/probe_arity.py --jobs $(PROBE_ARITY_JOBS) $(if $(PROBE_ARITY_WORK_DIR),--work-dir "$(PROBE_ARITY_WORK_DIR)",)
+
+# Compiler-backed tests distinguish eager Checks from deferred/caught errors.
+probe-arity-coq-selftest:
+	PROBE_ARITY_COQC=coqc python3 -B scripts/test_probe_arity.py
 
 format-check:
 	@echo "Checking for trailing whitespace..."
@@ -228,7 +245,7 @@ index-check:
 	fi; \
 	echo "doc/INDEX.md carries its five section headings ($$(grep -c '^- \*\*' doc/INDEX.md) bullets)."
 
-check: format-check admitted-check bench-config-check claude-md-counts-check index-check category-theory print-assumptions
+check: format-check admitted-check bench-config-check claude-md-counts-check index-check probe-arity-check probe-arity-coq-selftest category-theory print-assumptions
 	@echo "All checks passed."
 
 # Print Print-Assumptions output for the library's key definitions.
@@ -15512,3 +15529,4 @@ force _CoqProject Makefile: ;
 .PHONY: all clean force lint format-check format admitted-count admitted-check
 .PHONY: bench-config-check bench-config-check-selftest timing timing-report
 .PHONY: claude-md-counts-check build-strict check print-assumptions
+.PHONY: probe-arity-unit probe-arity-check probe-arity-coq-selftest

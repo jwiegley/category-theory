@@ -383,6 +383,10 @@ Definition p452_is_initial@{o h so q +| h <= so, o <= q, h <= q +}
   IsInitialObj (Subobject.sub_dom w) :=
   special_initial_IsInitialObj comp G w Hw.
 
+Check @Category@{_ _ _}.
+Check @Complete@{_ _ _ _}.
+Check @Cogenerator@{_ _ _}.
+Check @IsIntersection@{_ _ _}.
 Fail Example p452_n1_obj_is_product@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
@@ -435,9 +439,10 @@ Definition p452_binder_ok@{o h r so +| so < h, h <= r +} {C : Category@{o h h}}
   x.
 
 (* With [r = so] the binder alone is refused, whatever the body. *)
+Check @Category.Adjunction.SAFT.Cogenerator@{_ _ _}.
 Fail Definition p452_n4_binder_collapsed@{o h so +| so < h +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
-  (G : Cogenerator@{so o h} C) (x : C) : C :=
+  (G : @Category.Adjunction.SAFT.Cogenerator@{so o h} C) (x : C) : C :=
   x.
 
 (* CONTROL: [cogen_prod] at [so < h <= r]. *)
@@ -536,6 +541,8 @@ Definition p452_freyd_wif_at_h@{o h s t d +| h < t, h < d, o <= s, h <= s +}
   initial_from_weakly_initial_complete comp (Complete_HasEqualizers comp)
     (wif_of_cogenerator comp G W).
 
+Check @WellPoweredAt@{_ _ _ _ _}.
+Check @cogen_prod@{_ _ _ _ _}.
 Fail Definition p452_n9_freyd_wif_low@{o h w s t d +|
     w < h, h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
@@ -561,6 +568,8 @@ Definition p452_sets_iem_direct@{o so +| o < so +} (E : IEM@{o}) :
     (sub_bot (Sets_zero_monic _))
     (intersection_all_of_least _ (sub_bot_least (Sets_zero_monic _))).
 
+Check @IEM@{_}.
+Check @Sets@{_ _}.
 Fail Definition p452_n10_small_at_sets@{o so +| o < so +} (E : IEM@{o}) :
   @Initial Sets@{o so} :=
   special_initial_object_small
@@ -585,6 +594,7 @@ Defined.
 Definition p452_truth_low@{l o so +| l < o, o < so +} : obj[Sets@{o so}] :=
   @Build_SetoidObject Type@{l} p452_iff_setoid.
 
+Check @Sets@{_ _}.
 Fail Definition p452_n11_truth_at@{o so +| o < so +} : obj[Sets@{o so}] :=
   @Build_SetoidObject Type@{o} p452_iff_setoid.
 
@@ -594,6 +604,7 @@ Definition p452_char_low@{l o so +| l < o, o < so +}
   carrier Y → carrier (@Build_SetoidObject Type@{l} p452_iff_setoid) :=
   fun b => @equiv _ (is_setoid Y) y0 b.
 
+Check @SetoidObject@{_ _}.
 Fail Definition p452_n12_char_at@{l o so +| l < o, o < so +}
   (Y : SetoidObject@{o o}) (y0 : carrier Y) :
   carrier Y → carrier (@Build_SetoidObject Type@{l} p452_iff_setoid) :=
@@ -638,6 +649,8 @@ Definition p452_small_prod_sets@{o so +| Set < o, o < so +}
   cogen_prod (Sets_Complete : @Complete@{o o o so} Sets@{o so})
     (Sets_Cogenerator_untruncate U).
 
+Check @Complete@{_ _ _ _}.
+Check @Sets_Cogenerator_large@{_ _ _}.
 Fail Definition p452_n13_large_prod_sets@{c o so +| o < so, o < c +} :
   obj[Sets@{o so}] :=
   cogen_prod (Sets_Complete : @Complete@{o o o so} Sets@{o so})
@@ -704,6 +717,7 @@ Example p452_sets_iem_obj@{o so +| o < so +} (E : IEM@{o}) :
   @initial_obj Sets@{o so} (sets_special_initial_IEM E)
     = @initial_obj Sets@{o so} Sets_Initial := eq_refl.
 
+Check @IEM@{_}.
 Fail Example p452_n18_sets_iem_obj_singleton@{o so +| o < so +}
   (E : IEM@{o}) :
   @initial_obj Sets@{o so} (sets_special_initial_IEM E)

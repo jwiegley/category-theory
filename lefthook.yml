@@ -23,6 +23,9 @@ pre-commit:
     index-check:
       glob: "doc/INDEX.md"
       run: make -s index-check
+    probe-arity:
+      glob: "{*.v,_CoqProject,scripts/probe_arity*,scripts/test_probe_arity.py,Makefile,lefthook.yml,flake.nix,flake.lock,CLAUDE.md,doc/PROBE_ARITY.md,.github/workflows/*.yml}"
+      run: make -s probe-arity-check
     nix-build:
       glob: "*.{v,nix}"
       run: nix build --no-warn-dirty 2>&1

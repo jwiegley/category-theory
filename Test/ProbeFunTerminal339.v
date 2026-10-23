@@ -121,6 +121,7 @@ Check (fun (C : Category@{uo uh up}) (x y : C) => x ~> y).
 Check (fun (C : Category@{uo uh up}) (A : Type) (f : A -> C) => f).
 
 (* NEGATIVE 1. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
 
 (* Control: [Cartesian] exists at unconstrained levels.  Same reason as
@@ -130,6 +131,7 @@ Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
 Check @Cartesian.
 
 (* NEGATIVE 2. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
 (* Control: [HasIndexedProducts] EXISTS and elaborates at UNCONSTRAINED
@@ -140,12 +142,14 @@ Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 Check @HasIndexedProducts.
 
 (* NEGATIVE 3. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) => @HasIndexedProducts C).
 
 (* Control: likewise for [IsIndexedProduct], for the same reason. *)
 Check @IsIndexedProduct.
 
 (* NEGATIVE 4. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) (A : Type) (f : A -> C)
                 (p : C) (proj : forall a, p ~> f a) =>
               @IsIndexedProduct C A f p proj).
@@ -155,6 +159,7 @@ Check @Fun.
 
 (* NEGATIVE 5.  [Fun] does MORE than the other four: it identifies hom
    with proof in BOTH arguments and the two hom levels with each other. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C D : Category@{uo uh up}) => @Fun C D).
 
 End Donors.
@@ -195,6 +200,7 @@ Check (fun (C : Category@{co ch cp}) (D : Category@{dro dh dh})
 Check @Diagonal.
 
 (* NEGATIVE 6. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{co ch cp}) (D : Category@{dro dh dh})
                 (T : @Terminal D) =>
               fobj[@Diagonal D C] (@terminal_obj D T)).

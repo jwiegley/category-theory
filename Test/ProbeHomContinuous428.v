@@ -104,6 +104,7 @@ Check (@hom_continuous_at Cw cw
    relation level — is pinned to the hom level of the source: the
    hom-functor of a FIXED category cannot be read into a strictly larger
    universe of sets *)
+Check @Sets@{_ _}.
 Fail Check (@HomFrom Cw cw : Cw ⟶ Sets@{hbig sbig}).
 
 End Universes.

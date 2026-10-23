@@ -302,8 +302,10 @@ Section WideUniverseHomProof.
   Universe uh up.
   Constraint uh < up.
 
+  Check @IsWidePullback@{_ _ _ _}.
   Fail Check IsWidePullback@{uh uh uh up}.
 
+  Check @IsIndexedProduct@{_ _ _ _}.
   Fail Check IsIndexedProduct@{uh uh uh up}.
 
   Check (fun (C : Category@{uh uh up}) (x y : obj[C])

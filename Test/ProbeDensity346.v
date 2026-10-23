@@ -122,6 +122,8 @@ Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) => @yo_inj D K).
    "Cannot enforce uh = _ because uh < uo <= _".  Inherited from the
    donors, NOT introduced by Theory/Density.v, and not claimed
    unavoidable. *)
+Check @Category@{_ _ _}.
+Check @Sets@{_ _}.
 Fail Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
               DensityDiagram K).
 

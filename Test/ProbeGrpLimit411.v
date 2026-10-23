@@ -127,6 +127,7 @@ Check Fj.
 Check (@Cone Ju Sets@{so sso} Fj).
 
 (* N1: UNIVERSE -- the donor. *)
+Check @Sets@{_ _}.
 Fail Check (@IsALimit Ju Sets@{so sso} Fj cu).
 
 (* N2: UNIVERSE -- inherited; fires at the functor argument. *)

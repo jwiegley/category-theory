@@ -799,6 +799,7 @@ Check (PointwiseGroup Tu).
    carrying it. *)
 Check (Bu ⟶ Grp).
 
+Check @Sets@{_ _}.
 Fail Check ([Bu, Sets@{uo uso}] : Category).
 
 End UniverseBoundary.
@@ -821,6 +822,7 @@ Context (Tv : Bv ⟶ Sets@{vo vso}).
 Check Bv.
 Check (PointwiseGroup Tv).
 
+Check @Sets@{_ _}.
 Fail Check ([Bv, Sets@{vo vso}] : Category).
 
 End UniverseBoundary2.

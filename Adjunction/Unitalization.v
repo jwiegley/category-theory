@@ -1148,6 +1148,7 @@ Constraint ao < ah.
 
 Check (RgObject@{ap ao ah} : Type).
 Check (fun (R : RgObject@{ap ao ah}) (a b : carrier R) => rg_mul R a b).
+Check @RgObject@{_ _ _}.
 Fail Check (fun R : RgObject@{ap ao ah} => (R : obj[Rg])).
 
 End ProbeRgObjects.
@@ -1158,6 +1159,7 @@ Constraint Set < bh.
 
 Check (fun R : RgObject@{bp bo bh} => Dorroh R).
 Check (fun R : RgObject@{bp bo bh} => zring (Dorroh R)).
+Check @RgObject@{_ _ _}.
 Fail Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
 
 End ProbeDonorPin.

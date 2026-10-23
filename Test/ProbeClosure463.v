@@ -404,6 +404,7 @@ Open Scope category_scope.
 (** ** Instrument: a false statement is refused *)
 
 (* The instrument *)
+Check @max_closure@{_}.
 Fail Example p463_instrument@{u} : cl_fun (max_closure@{u} 2%nat) 0%nat = 0%nat
   := eq_refl.
 
@@ -431,6 +432,8 @@ Definition p463_thin_join_iso@{t o h} {C : Category@{o h h}}
   IsIsomorphism (@join C M MM x) := thin_join_IsIso TC x.
 
 (* N1 *)
+Check @Category@{_ _ _}.
+Check @Thin@{_ _ _}.
 Fail Example p463_thin_monad_is_MM@{t o h} {C : Category@{o h h}}
   (TC : Thin@{t o h} C) (T : C ⟶ C) (MM : @Monad C T) :
   thin_monad TC T (@ret C T MM) (@join C T MM) = MM := eq_refl.
@@ -483,6 +486,7 @@ Definition p463_rt_equiv@{u h +} {A : Type@{u}} {R : relation A}
   monad_round_trip M.
 
 (* N2 *)
+Check @Proset@{_ _}.
 Fail Example p463_rt_eq@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (M : Proset@{u h} P ⟶ Proset@{u h} P)
   {MM : @Monad (Proset@{u h} P) M} :
@@ -505,6 +509,7 @@ Example p463_rt_fobj_T@{u h} {A : Type@{u}} {R : relation A}
   := eq_refl.
 
 (* N3 *)
+Check @p463_Functor_of_monotone_T@{_ _}.
 Fail Example p463_rt_eq_T@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (M : Proset@{u h} P ⟶ Proset@{u h} P)
   {MM : @Monad (Proset@{u h} P) M} :
@@ -543,6 +548,7 @@ Definition p463_iso_of_monad@{u h} {A : Type@{u}} {R : relation A}
          (@join _ M MM x) (@ret _ M MM (M x)) I I |}.
 
 (* N4 *)
+Check @p463_ClosureOperatorIso@{_ _}.
 Fail Example p463_iso_round_trip@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (c : p463_ClosureOperatorIso@{u h} P) :
   p463_iso_of_monad (Functor_of_monotone P P (p463_ci_fun c))
@@ -557,6 +563,9 @@ Example p463_iso_to@{u h} {A : Type@{u}} {R : relation A}
   := eq_refl.
 
 (* N5 *)
+Check @MonotoneFun@{_ _}.
+Check @Proset@{_ _}.
+Check @cl_idem@{_ _}.
 Fail Example p463_iso_whole@{u h} {A : Type@{u}} {R : relation A}
   (P : PreOrder R) (f : @MonotoneFun@{u u} A R A R) (ext : ∀ x, R x (f x))
   (idem : ∀ x, f (f x) ≅[Proset@{u h} P] f x) (x : A) :
@@ -585,6 +594,7 @@ Definition p463_cm_thin_plus@{u h +} {A : Type@{u}} {R : relation A}
     (closure_functor c) (cl_ext c) (cl_mult c).
 
 (* N6 *)
+Check @ClosureOperator@{_}.
 Fail Definition p463_cm_thin_bare@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (c : ClosureOperator@{u} P) :
   @Monad (Proset@{u h} P) (closure_functor c) :=
@@ -612,6 +622,7 @@ Definition p463_ic_thin_plus@{u h +} {A : Type@{u}} {R : relation A}
     (interior_functor j) (cl_ext j) (cl_mult j).
 
 (* N7 *)
+Check @InteriorOperator@{_}.
 Fail Definition p463_ic_thin_bare@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (j : InteriorOperator@{u} P) :
   @Comonad (Proset@{u h} P) (interior_functor j) :=
@@ -635,6 +646,8 @@ Definition p463_mm_thin_plus@{u h +} (B : Prop) :
     (modal_ext B) (modal_mult B).
 
 (* N8 *)
+Check @Props@{_ _}.
+Check @modal_functor@{_ _}.
 Fail Definition p463_mm_thin_bare@{u h} (B : Prop) :
   @Monad Props@{u h} (modal_functor@{u h} B) :=
   @thin_monad Props@{u h} (fun _ _ _ _ => I) (modal_functor@{u h} B)
@@ -668,6 +681,8 @@ Definition p463_idem_counit@{o h d s a | h < s +} {C : Category@{o h h}}
     ≈ @extract C W H x := idem_counit_agrees x.
 
 (* N9 *)
+Check @idem_reflective_adj@{_ _ _ _ _ _}.
+Check @Category@{_ _ _}.
 Fail Example p463_idem_ret_refl@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @ret C _ (Adjunction_Induced_Monad
@@ -682,6 +697,7 @@ Fail Example p463_idem_join_refl@{o h d s a | h < s +} {C : Category@{o h h}}
     = @join C M MM x := eq_refl.
 
 (* N11 *)
+Check @idem_reflector@{_ _ _ _ _ _}.
 Fail Example p463_idem_fun_refl@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} :
   Incl C (@MLocal_Subcategory C M MM)
@@ -727,12 +743,16 @@ Definition p463_aw_functor@{u h +} {A : Type@{u}} {R : relation A}
     ≈ closure_functor@{u h} c := closed_induced_functor c.
 
 (* N12 *)
+Check @closed_adj@{_ _ _ _}.
 Fail Example p463_aw_record@{u h s a | h < s +} {A : Type@{u}}
   {R : relation A} {P : PreOrder R} (c : ClosureOperator@{u} P) :
   closure_of_monad _ (MM := Adjunction_Induced_Monad (closed_adj@{u h s a} c))
     = c := eq_refl.
 
 (* N13 *)
+Check @GaloisFunctor_r@{_ _ _}.
+Check @GaloisFunctor_l@{_ _ _}.
+Check @closure_functor@{_ _}.
 Fail Example p463_aw_functor_eq@{u h +} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (c : ClosureOperator@{u} P) :
   GaloisFunctor_r@{u u h} P (closed_PreOrder c) (closed_galois c)
@@ -858,6 +878,7 @@ Fail Example p463_crt_eq@{u h} {A : Type@{u}} {R : relation A}
   interior_functor (interior_of_comonad W (H := H)) = W := eq_refl.
 
 (* N20 *)
+Check @p463_Functor_of_monotone_T@{_ _}.
 Fail Example p463_crt_eq_T@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (W : Proset@{u h} P ⟶ Proset@{u h} P)
   {H : @Comonad (Proset@{u h} P) W} :
@@ -886,6 +907,8 @@ Example p463_ic_thin_T@{u h t} {A : Type@{u}} {R : relation A}
         ((interior_functor j)^op) (cl_ext j) (cl_mult j) := eq_refl.
 
 (* N22 *)
+Check @interior_comonad@{_ _}.
+Check @thin_comonad@{_ _ _}.
 Fail Example p463_ic_thin_eq@{u h t} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (j : InteriorOperator@{u} P) :
   interior_comonad@{u h} j
@@ -914,6 +937,7 @@ Definition p463_curry_iso@{u h e + | h < e +} (B : Prop) :
   curry_modal_iso B.
 
 (* N23 *)
+Check @curry_functor@{_ _ _}.
 Fail Example p463_curry_is_modal_fobj@{u h e | h < e +} (B p : Prop) :
   fobj[curry_functor@{u h e} Props_Closed B] p = fobj[modal_functor@{u h} B] p
   := eq_refl.

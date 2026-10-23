@@ -528,6 +528,8 @@ Example p455_fin_obj_bool_enum@{o h +} :
 Example p455_point_ch_above_set@{o +| Set < o +} :
   `1 Point_CH = Point_Top@{o} := eq_refl.
 
+Check @Setoid_Lift@{_ _}.
+Check @bool_setoid_object@{_ _}.
 Fail Example p455_n1_fin_obj_bool_point@{o h +} :
   @arrow_obj Sets _ (Setoid_Lift@{o h} bool_setoid_object@{o o}) _
     (StoneCech_finite bool_setoid_object@{o o} bool_FinEnum) = Point_CH :=
@@ -561,6 +563,8 @@ Qed.
 Definition p455_bool_ch_rev@{o +} : CompHaus :=
   Discrete_CH bool_setoid_object@{o o} p455_bool_FinEnum_rev.
 
+Check @Setoid_Lift@{_ _}.
+Check @bool_setoid_object@{_ _}.
 Fail Example p455_n2_fin_obj_other_enum@{o h +} :
   @arrow_obj Sets _ (Setoid_Lift@{o h} bool_setoid_object@{o o}) _
     (StoneCech_finite bool_setoid_object@{o o} bool_FinEnum)
@@ -601,6 +605,8 @@ Lemma p455_negb_not_unit@{o h +} :
         (StoneCech_finite bool_setoid_object@{o o} bool_FinEnum) → False.
 Proof. intro H. specialize (H true). simpl in H. discriminate H. Qed.
 
+Check @Setoid_Lift@{_ _}.
+Check @bool_setoid_object@{_ _}.
 Fail Example p455_n3_fin_unit_negb@{o h +} :
   @arrow Sets _ (Setoid_Lift@{o h} bool_setoid_object@{o o}) _
     (StoneCech_finite bool_setoid_object@{o o} bool_FinEnum)
@@ -615,6 +621,7 @@ Example p455_incl_obj_point@{h o +} :
   @arrow_obj Top@{h o} _ (CompHaus_Incl Point_CH) _
     (CompHaus_Incl_universal Point_CH) = Point_CH := eq_refl.
 
+Check @Top@{_ _}.
 Fail Example p455_n4_incl_obj_point@{h o +} (K : CompHaus) :
   @arrow_obj Top@{h o} _ (CompHaus_Incl K) _ (CompHaus_Incl_universal K)
     = Point_CH := eq_refl.
@@ -623,6 +630,7 @@ Fail Example p455_n4_incl_obj_point@{h o +} (K : CompHaus) :
 Definition p455_ua_with_C@{o h +} (X : SetoidObject@{o o}) : Type :=
   UniversalArrow (C:=Sets) (Setoid_Lift@{o h} X) CompHaus_Forget.
 
+Check @SetoidObject@{_ _}.
 Fail Definition p455_n5_ua_without_C@{o h +} (X : SetoidObject@{o o}) :
   Type :=
   UniversalArrow (Setoid_Lift@{o h} X) CompHaus_Forget.
@@ -648,6 +656,7 @@ Definition p455_conthom_at_h@{h o +| o < h +} (X Y : TopSpace@{o}) :
   Type@{h} :=
   ContinuousMorphism X Y.
 
+Check @TopSpace@{_}.
 Fail Definition p455_n6_conthom_at_o@{o +} (X Y : TopSpace@{o}) :
   Type@{o} :=
   ContinuousMorphism X Y.
@@ -666,6 +675,8 @@ Definition p455_point_compact_o@{o +| Set < o +} :
   IsCompact Point_Top@{o} :=
   Point_Compact.
 
+Check @IsHausdorff@{_ _ _ _}.
+Check @Point_Top@{_}.
 Fail Definition p455_n7_point_hausdorff_o@{h o +| o < h +} :
   IsHausdorff@{h o o o} Point_Top@{o} :=
   Point_Hausdorff.
@@ -706,6 +717,7 @@ Definition p455_bool_ch_bare_at_set : CompHaus :=
      (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
       Discrete_Hausdorff _)).
 
+Check @Bool_Discrete@{_}.
 Fail Definition p455_n8_bool_ch_bare@{o +} : CompHaus :=
   (Bool_Discrete@{o};
      (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
@@ -739,6 +751,8 @@ Definition p455_taut_sols_above@{h s c +| h < c +} (d : obj[Sets@{h s}]) :
     d :=
   taut_sols d.
 
+Check @Complete@{_ _ _ _}.
+Check @Sets@{_ _}.
 Fail Definition p455_n9_gaft_taut_above@{h s c +| h < c +}
   (comp : @Complete@{h h h c} CompHaus) :
   { F : Sets@{h s} ⟶ CompHaus & F ⊣ CompHaus_Forget } :=
@@ -876,6 +890,7 @@ Definition p455_not_complete_IEM_above@{e h c +| h < c +} (E : IEM@{e})
   (comp : @Complete@{h h h c} (CompHaus : Category@{c h h})) : False :=
   CompHaus_not_complete_IEM_above E comp.
 
+Check @IEM@{_}.
 Fail Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
   (E : IEM@{e}) (comp : @Complete@{r s h c} CompHaus) : False :=
   CompHaus_not_complete_IEM E comp.
@@ -898,6 +913,9 @@ Definition p455_not_complete_IEM_top_slot@{e h t o +| t < h +}
   False :=
   CompHaus_not_complete_IEM E comp.
 
+Check @CompHaus@{_ _ _ _ _ _ _ _ _ _ _ _ _ _ _}.
+Check @Category@{_ _ _}.
+Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _ _ _ _ _ _ _}.
 Fail Definition p455_n21_below_top_slot@{e h c t o +| t < h, h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
@@ -915,6 +933,7 @@ Definition p455_top_not_complete_IEM@{e r s h o +| h <= s +} (E : IEM@{e})
   (comp : @Complete@{r s h h} Top@{h o}) : False :=
   Top_not_complete_IEM E comp.
 
+Check @Top@{_ _}.
 Fail Definition p455_n11_top_not_complete_IEM_below@{e r s h o +| s < h +}
   (E : IEM@{e}) (comp : @Complete@{r s h h} Top@{h o}) : False :=
   Top_not_complete_IEM E comp.
@@ -975,6 +994,7 @@ Definition p455_gaft_vacuous_above@{e h s c +| h < c +} (E : IEM@{e})
      & F ⊣ CompHaus_Forget } * False)%type :=
   GAFT_CompHaus_IEM_vacuous_above E comp sols.
 
+Check @StoneCech_adjunction_refuted_IEM_above@{_ _ _ _ _ _ _ _ _ _ _ _}.
 Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
   (E : IEM@{e})
   (A : { F : Sets@{h s} ⟶ (CompHaus@{c h h h _ _ o _ _ _ _ _ _ _ _}
@@ -1087,6 +1107,7 @@ Definition p455_wp_type_at_c@{c h t +| h < c +} : Type :=
 Definition p455_incl_above@{c h +| h < c +} :=
   CompHaus_Incl : (CompHaus : Category@{c h h}) ⟶ Top.
 
+Check @WellPowered@{_ _ _ _ _}.
 Fail Definition p455_n15_wp_type_at_h@{c h t +| h < c +} : Type :=
   WellPowered@{c h h h t} (CompHaus : Category@{c h h}).
 

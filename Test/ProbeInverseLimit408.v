@@ -102,6 +102,7 @@ Constraint Set < ch.
 (* [Cochain@{u u0}] is declared over [C : Category@{u0 Set Set}] -- hom AND
    proof pinned to the literal [Set] -- so it is refused at a [Sets] whose
    hom-and-proof level is declared strictly above [Set]. *)
+Check @Sets@{_ _}.
 Fail Definition neg_cochain_above_Set
   (G : Sets@{ch co} ⟶ Sets@{ch co}) : Omega^op ⟶ Sets@{ch co} := Cochain G.
 

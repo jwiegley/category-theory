@@ -325,5 +325,6 @@ Fail Definition CRelSpace_small@{u} (A : Type@{u}) : Type@{u} :=
     ([PropEquiv_at_carrier] above).  The control is [Setoid_above_carrier], the
     same record at [Type@{v}] with [u < v]. *)
 
+Check @Setoid@{_ _}.
 Fail Definition Setoid_at_carrier@{u} (A : Type@{u}) : Type@{u} :=
   Setoid@{u u} A.

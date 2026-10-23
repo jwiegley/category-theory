@@ -43,12 +43,18 @@
     being stuck.
 
     COUNTS.  Six negatives -- three formability, three conversion -- and
-    eight positive controls.  This is not a one-to-one pairing: the controls
-    of each group serve that group's negatives jointly.  The instrument
-    itself was checked -- wrapping [Fail] around a succeeding command reports
-    "The command has not failed!" and stops compilation -- and every negative
-    was compiled once with the [Fail] stripped, to confirm the error is the
-    intended one:
+    eight numbered positive controls.
+
+    CORRECTION (#1380): the positive count covers controls 1–8 below.  It
+    excludes the four added bare arity [Check]s in [BigIndex], for [Sets],
+    [Sets_HasIndexedProducts], [SetoidObject] and [Sets_HasIndexedCoproducts].
+    These are additional positive commands, not new boundary controls.
+
+    The boundary controls are not a one-to-one pairing: each group's
+    controls serve its negatives jointly.  The instrument itself was checked
+    -- wrapping [Fail] around a succeeding command reports "The command has
+    not failed!" and stops compilation -- and every negative was compiled
+    once with the [Fail] stripped, to confirm the error is the intended one:
 
       - group (1a), two reports of "universe inconsistency" -- "Cannot
         enforce o < <anon> because <anon> <= o" and "Cannot enforce o < o
@@ -118,10 +124,14 @@ Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{so o} nat X).
 (* Negative 1: indexing by [obj[Sets]] itself is not.  [SetoidObject@{o o}]
    lives at [Type@{o+1}] while the index must live at [Type@{o}] -- the
    universe of the carriers, which is where the small sets are. *)
+Check @Sets@{_ _}.
+Check @Sets_HasIndexedProducts@{_ _}.
+Check @SetoidObject@{_ _}.
 Fail Check (@power Sets@{o so} Sets_HasIndexedProducts@{so o}
               SetoidObject@{o o} X).
 
 (* Negative 2: dually for the copower. *)
+Check @Sets_HasIndexedCoproducts@{_ _}.
 Fail Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{so o}
               SetoidObject@{o o} X).
 

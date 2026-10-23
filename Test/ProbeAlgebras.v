@@ -74,9 +74,11 @@ Check (Rig_Forget_Mon (Int_Rig@{Set Set Set})).
 Check (Rng_Forget_Mon (Int_Ring@{Set Set Set})).
 
 (* NEGATIVE 1: the donor itself does not reach one universe up *)
+Check @Int_Rig@{_ _ _}.
 Fail Check (Rig_Forget_Mon (Int_Rig@{big big big})).
 
 (* NEGATIVE 2: and neither does the ring-level functor built from it *)
+Check @Int_Ring@{_ _ _}.
 Fail Check (Rng_Forget_Mon (Int_Ring@{big big big})).
 
 (** * 3-4: preservation of zero and one by the monoid ring's extension is

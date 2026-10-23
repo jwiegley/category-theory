@@ -272,6 +272,7 @@ Definition p481_c7_preserves_above@{co ch do dh + | ch < dh +}
   PreservesCoequalizers F.
 
 (* R2 *)
+Check @Category@{_ _ _}.
 Fail Definition p481_r2_conservative_above@{co ch do dh + | ch < dh +}
   {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D) : Type :=
   ReflectsIsos F.

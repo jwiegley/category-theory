@@ -271,6 +271,8 @@ Definition p470_c7_assoc_equiv@{o} (X : SetoidObject@{o o})
   pwapp (pwapp w v) u ≈ pwapp w (pwapp v u) := pwapp_assoc w v u.
 
 (* R1 *)
+Check @SetoidObject@{_ _}.
+Check @PWord@{_}.
 Fail Example p470_r1_assoc_variable@{o} (X : SetoidObject@{o o})
   (w v u : PWord@{o} X) :
   pwapp (pwapp w v) u = pwapp w (pwapp v u) := eq_refl.
@@ -350,6 +352,8 @@ Definition p470_c16_counit_right_equiv@{o so} (S : SmgrpSets@{o so})
   ≈ sg_mul S s1 (sg_mul S s2 s3) := sg_mul_assoc S s1 s2 s3.
 
 (* R4 *)
+Check @SmgrpSets@{_ _}.
+Check @Sg_adj@{_ _}.
 Fail Example p470_r4_counit_right@{o so} (S : SmgrpSets@{o so})
   (s1 s2 s3 : sg_ob S) :
   `1 (@counit _ _ _ _ Sg_adj@{o so} S)
@@ -372,6 +376,7 @@ Definition p470_c18_unique_equiv@{o so} (X : SetoidObject@{o o})
   sg_extend_unique g w.
 
 (* R5 *)
+Check @FreeSg@{_ _}.
 Fail Example p470_r5_unique_variable@{o so} (X : SetoidObject@{o o})
   (A : SmgrpSets@{o so}) (g : FreeSg@{o so} X ~{SmgrpSets@{o so}}~> A)
   (w : PWord@{o} X) :
@@ -435,6 +440,8 @@ Example p470_c28_direct_join@{o so} (X : SetoidObject@{o o}) :
   := eq_refl.
 
 (* R6 *)
+Check @WordMonad_direct@{_ _}.
+Check @WordMonad@{_ _}.
 Fail Example p470_r6_monads_eq@{o so} :
   WordMonad_direct@{o so} = WordMonad@{o so} := eq_refl.
 
@@ -466,6 +473,9 @@ Definition p470_c32_alg_rt_equiv@{o so} {X : SetoidObject@{o o}}
     ≈ t_alg[α] := alg_round_trip α.
 
 (* R7 *)
+Check @Sets@{_ _}.
+Check @WordF@{_ _}.
+Check @NAry_alg@{_ _}.
 Fail Example p470_r7_alg_rt_map@{o so} {X : SetoidObject@{o o}}
   (α : @TAlgebra Sets@{o so} WordF@{o so} WordMonad@{o so} X) :
   t_alg[NAry_alg@{o so} (alg_NAry α) (alg_NAry_unit α) (alg_NAry_assoc α)]
@@ -539,6 +549,9 @@ Example p470_c44_wsys_from_to_component@{o so c} (A : WSys@{o so}) :
        @setoid_morphism_id@{o o o} (ws_set A)) := eq_refl.
 
 (* R8 *)
+Check @WSys@{_ _}.
+Check @EM_to_WSys@{_ _}.
+Check @WSys_to_EM@{_ _}.
 Fail Example p470_r8_wsys_rt_obj@{o so} (A : WSys@{o so}) :
   fobj[EM_to_WSys@{o so} ◯ WSys_to_EM@{o so}] A = A := eq_refl.
 
@@ -553,6 +566,7 @@ Fail Example p470_r10_wsys_rt_hom@{o so} {A B : WSys@{o so}}
   fmap[EM_to_WSys@{o so} ◯ WSys_to_EM@{o so}] f = f := eq_refl.
 
 (* R11 *)
+Check @WordAlg@{_ _}.
 Fail Example p470_r11_em_wsys_rt_obj@{o so} (x : WordAlg@{o so}) :
   fobj[WSys_to_EM@{o so} ◯ EM_to_WSys@{o so}] x = x := eq_refl.
 
@@ -698,10 +712,13 @@ Example p470_c66_sg_rt_smu_at@{o so} (X : SetoidObject@{o o})
     (a, b) = @smu _ _ _ σ (a, b) := eq_refl.
 
 (* R14 *)
+Check @EM_to_Smgrp@{_ _}.
+Check @Sg_K@{_ _}.
 Fail Example p470_r14_sg_rt_obj@{o so} (A : SmgrpSets@{o so}) :
   fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] A = A := eq_refl.
 
 (* R15 *)
+Check @Sets_Product_Monoidal@{_ _}.
 Fail Example p470_r15_sg_rt_pair@{o so} (X : SetoidObject@{o o})
   (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{so o} X) :
   fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] (existT _ X σ) = existT _ X σ
@@ -742,6 +759,7 @@ Example p470_c67_bridge_to_from@{o so +} (x : WordAlg@{o so}) :
     = @setoid_morphism_id@{o o o} (`1 x) := eq_refl.
 
 (* R21 *)
+Check @Smgrp_EM_equivalence@{_ _}.
 Fail Example p470_r21_bridge_from_to@{o so +} (A : SmgrpSets@{o so}) :
   sg_fun (to (`1 (iso_from_to
                     (Equivalence_to_Cat_Iso Smgrp_EM_equivalence@{o so}))

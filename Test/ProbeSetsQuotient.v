@@ -8,9 +8,14 @@
     claims -- one about which route to a representation is available at
     [Sets], two universe walls, and two conversion boundaries -- pinned
     below by six [Fail] commands (the first boundary costs two) against
-    twelve positive controls.  A measurement made once and written into a
-    header is not guarded by anything; these are.  **If the [Fail]
-    commands below stop failing, this file breaks the build.**
+    twelve substantive positive controls.  A measurement made once and
+    written into a header is not guarded by anything; these are.  **If the
+    [Fail] commands below stop failing, this file breaks the build.**
+
+    CORRECTION (#1380): this count covers non-[Fail] [Check] and
+    [Definition] commands, excluding the added bare arity [Check]s for
+    [SetoidObject] and [crelation].  Those two are additional positive
+    commands, not part of the boundary-control inventory.
 
     Each negative is paired with a positive control that must SUCCEED,
     for the reason Test/ProbeQuiverConstructions.v gives: a [Fail] alone
@@ -148,6 +153,7 @@ Definition probe_parts_type_up@{o o'} (A : SetoidObject@{o o}) : Type@{o'} :=
     "Type@{o+1}" while it is expected to have type "Type@{o}" (universe
     inconsistency: Cannot enforce o < o because o = o)" -- a genuine
     universe inconsistency naming the declared binder.) *)
+Check @SetoidObject@{_ _}.
 Fail Definition probe_parts_type_same@{o} (A : SetoidObject@{o o}) : Type@{o} :=
   carrier A -> Type@{o}.
 
@@ -168,6 +174,7 @@ Definition probe_prop_quotient@{o so} (A : obj[Sets@{o so}])
     reports "The term "∀ R : crelation A, Equivalence R → R a b" has type
     "Type@{o+1}" while it is expected to have type "Type@{o}" (universe
     inconsistency: Cannot enforce o < o because o = o)".) *)
+Check @crelation@{_ _}.
 Fail Definition probe_intersection_type@{o} (A : SetoidObject@{o o})
   (a b : carrier A) : Type@{o} :=
   forall R : crelation@{o o} (carrier A), Equivalence R -> R a b.

@@ -344,6 +344,7 @@ Definition p477_c11_id_instance
   AbsoluteLimitCone_IsLimitCone A.
 
 (* R4 *)
+Check @AbsoluteLimitCone@{_ _ _ _ _ _ _ _}.
 Fail Definition p477_r4_id_instance
   (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone A.
@@ -445,6 +446,7 @@ Definition p477_c18_split_preserved (Xu : Category@{xo xh xh})
   split_coequalizer_preserved T f g S.
 
 (* R6 *)
+Check @AbsoluteCoequalizer@{_ _ _ _ _}.
 Fail Definition p477_r6_id_instance
   (A : AbsoluteCoequalizer@{co ch co xh _} f g (scoeq_obj S) (scoeq_e S)) :
   IsCoequalizer f g (scoeq_obj S) (scoeq_e S) :=
@@ -557,6 +559,7 @@ Context (Cl : Category@{co ch ch}) (Xl : Category@{xo xh xh})
 Definition p477_c37_after : Cl ⟶ LiftCat@{xo xh yo yh} Xl := Lift_after Tl.
 
 (* R9 *)
+Check @LiftCat@{_ _ _ _}.
 Fail Definition p477_r9_compose : Cl ⟶ LiftCat@{xo xh yo yh} Xl :=
   Lift_in Xl ◯ Tl.
 
@@ -587,6 +590,7 @@ Context (Cb : Category@{co ch ch}).
 Definition p477_c39_in_type : Type := Cb ⟶ LiftCat@{co ch xo xh} Cb.
 
 (* R10 *)
+Check @LiftCat@{_ _ _ _}.
 Fail Definition p477_r10_back_type : Type := LiftCat@{co ch xo xh} Cb ⟶ Cb.
 
 End LiftBack.

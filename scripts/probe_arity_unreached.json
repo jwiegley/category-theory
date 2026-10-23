@@ -1,0 +1,58 @@
+[
+  {
+    "file": "Test/ProbeSpecialInitial452.v",
+    "declaration": "p452_n4_binder_collapsed",
+    "constant": "Category.Adjunction.SAFT.Cogenerator",
+    "arity": 3,
+    "reason": "Complete's earlier binder refuses so < h. Require protected reference extraction and verify the earlier universe refusal; no missing-ref waiver."
+  },
+  {
+    "file": "Test/ProbeSAFT453.v",
+    "declaration": "p453_n8_shapes_below_homs",
+    "constant": "Category.Construction.Comma.Limit.PreservesImageLimit",
+    "arity": 8,
+    "reason": "Complete's earlier binder refuses so < h. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeSAFT453.v",
+    "declaration": "p453_n8_shapes_below_homs",
+    "constant": "Category.Adjunction.SAFT.Cogenerator",
+    "arity": 3,
+    "reason": "Complete's earlier binder refuses so < h. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeSAFT453.v",
+    "declaration": "p453_n8_shapes_below_homs",
+    "constant": "Category.Structure.WellPowered.WellPowered",
+    "arity": 5,
+    "reason": "Complete's earlier binder refuses so < h. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeTensorMonad465.v",
+    "declaration": "p465c_C8_carrier_below",
+    "constant": "Category.Instance.Mod.BaseChange.zext_adjunction",
+    "arity": 8,
+    "reason": "The declared adjunction type fails before its body at c < a. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeTensorMonad465.v",
+    "declaration": "p465c_C8_carrier_below",
+    "constant": "Category.Instance.Mod.Coextension.coex_adjunction",
+    "arity": 6,
+    "reason": "The declared adjunction type fails before its body at c < a. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeTensorMonad465.v",
+    "declaration": "p465c_C8a_proof_below",
+    "constant": "Category.Instance.Mod.BaseChange.zext_adjunction",
+    "arity": 8,
+    "reason": "The declared adjunction type fails before its body at p < a. Require protected reference extraction and verify the earlier universe refusal."
+  },
+  {
+    "file": "Test/ProbeTensorMonad465.v",
+    "declaration": "p465c_C8a_proof_below",
+    "constant": "Category.Instance.Mod.Coextension.coex_adjunction",
+    "arity": 6,
+    "reason": "The declared adjunction type fails before its body at p < a. Require protected reference extraction and verify the earlier universe refusal."
+  }
+]

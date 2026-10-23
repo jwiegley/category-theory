@@ -578,6 +578,8 @@ Example p469_c37_monad_fields@{o so s u u0 | o < so, o < s, o < u +} :
        (fun x : Sets@{o so} => @id Sets@{o so} x)) := eq_refl.
 
 (* R1 *)
+Check @PDiscT@{_ _ _}.
+Check @Sets@{_ _}.
 Fail Example p469_r1_functor_eq@{o so s | o < so, o < s +} :
   PDiscT@{o so s} = Id[Sets@{o so}] := eq_refl.
 
@@ -636,6 +638,8 @@ Example p469_c17_iso_components@{o so s u u0 m1 m2 |
     = (@id Sets@{o so} x, @id Sets@{o so} x) := eq_refl.
 
 (* R3 *)
+Check @PDiscMonad@{_ _ _ _ _}.
+Check @IdMonad@{_ _}.
 Fail Example p469_r3_monad_eq@{o so s u u0 | o < so, o < s, o < u +} :
   existT (fun T : Sets@{o so} ⟶ Sets@{o so} => @Monad Sets@{o so} T)
     PDiscT@{o so s} PDiscMonad@{o so s u u0}
@@ -682,6 +686,8 @@ Example p469_c38_K_alg@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
     = @setoid_morphism_id (pt_carrier X) := eq_refl.
 
 (* R2 *)
+Check @PDiscK@{_ _ _ _ _ _}.
+Check @PForget@{_ _}.
 Fail Example p469_r2_forget_eq@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
   EM_Forget _ ◯ PDiscK@{o so s u u0 e} = PForget@{o so} := eq_refl.
@@ -720,6 +726,8 @@ Example p469_c39_K_free_parts@{o so s u u0 e |
   := eq_refl.
 
 (* R14 *)
+Check @PTopCat@{_ _}.
+Check @EM_Free@{_ _ _ _}.
 Fail Example p469_r14_K_free_obj@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} (X : PTopCat@{o so}) :
   fobj[PDiscK@{o so s u u0 e}] X
@@ -804,6 +812,9 @@ Example p469_c44_factor_map@{c so po p0 p1 p2 p3 |
     = fmap[Pos_Forget@{po so p0 p2 p1 p3 c}] f := eq_refl.
 
 (* R18 *)
+Check @PropSets_Incl@{_ _}.
+Check @PosPForget@{_ _ _ _ _ _ _}.
+Check @Pos_Forget@{_ _ _ _ _ _ _}.
 Fail Example p469_r18_factor_eq@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} :
@@ -872,6 +883,9 @@ Example p469_c47_Id_to_component@{c so po p0 p1 p2 p3 s |
   := eq_refl.
 
 (* R7 *)
+Check @PropEquivObj@{_ _ _}.
+Check @TPosP@{_ _ _ _ _ _ _ _}.
+Check @PropSets@{_ _}.
 Fail Example p469_r7_pair_obj@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} (S : Sets@{c so}) (P : PropEquivObj@{so c c} S) :
@@ -898,6 +912,8 @@ Fail Example p469_r8_TPosP_eq@{c so po p0 p1 p2 p3 s |
   TPosP@{c so po p0 p1 p2 p3 s} = Id[PropSets@{c so}] := eq_refl.
 
 (* R9 *)
+Check @Monads@{_ _ _ _}.
+Check @MPosP@{_ _ _ _ _ _ _ _ _}.
 Fail Example p469_r9_monads_eq@{c so po p0 p1 p2 p3 s a m1 m2 |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1, so <= m1, c <= m1, so <= m2, c <= m2 +} :
@@ -942,6 +958,9 @@ Example p469_c49_PosDisc_map@{c so po p0 p1 p2 p3 |
   := eq_refl.
 
 (* R19 *)
+Check @PosDisc@{_ _ _ _ _ _ _}.
+Check @PosDiscP@{_ _ _ _ _ _ _}.
+Check @PropSets_trunc@{_ _}.
 Fail Example p469_r19_PosDisc_eq@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} :
@@ -963,6 +982,7 @@ Example p469_c50_TPos_fmap@{c so po p0 p1 p2 p3 s |
     = fmap[PropSets_Incl@{c so} ◯ PropSets_trunc@{c so}] f := eq_refl.
 
 (* R16 *)
+Check @TPos@{_ _ _ _ _ _ _ _}.
 Fail Example p469_r16_TPos_trunc_eq@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} :
@@ -970,6 +990,8 @@ Fail Example p469_r16_TPos_trunc_eq@{c so po p0 p1 p2 p3 s |
   := eq_refl.
 
 (* R17 *)
+Check @MPos@{_ _ _ _ _ _ _ _ _}.
+Check @PropSets_trunc_Incl@{_ _ _}.
 Fail Example p469_r17_trunc_monads_eq@{c so po p0 p1 p2 p3 s a r m1 m2 |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1, so <= m1, c <= m1, so <= m2, c <= m2 +} :
@@ -1033,6 +1055,7 @@ Fail Example p469_r6_MPos_ret@{c so po p0 p1 p2 p3 s a |
   @ret _ _ MPos@{c so po p0 p1 p2 p3 s a} S = id := eq_refl.
 
 (* R10 *)
+Check @SetsTruncElim@{_ _}.
 Fail Definition p469_r10_naive_elim@{c so | c < so +} :
   SetsTruncElim@{c so} :=
   fun S x y H => match H with inhabits h => h end.
