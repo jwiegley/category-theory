@@ -135,21 +135,26 @@ Generalizable All Variables.
    UNIVERSES, measured with [Set Printing Universes. About …] against the
    integrated Adjunction/SAFT/InitialObject.v, stdlib bounds left out:
 
-     setsop_special_initial@{o so u} : @Initial Sets@{o so}^op
-       (* o < so, so < u *)
-     sets_special_initial_untruncate@{o so u} :
-       Untruncate@{o} → @Initial Sets@{o so}   (* Set < o, o < so, so < u *)
-     sets_special_initial_wellpowered@{o so u u0} :
+     setsop_special_initial@{o so} : @Initial Sets@{o so}^op
+       (* o < so *)
+     sets_special_initial_untruncate@{o so} :
+       Untruncate@{o} → @Initial Sets@{o so}   (* Set < o, o < so *)
+     sets_special_initial_wellpowered@{o so u} :
        Untruncate@{o} → @Initial Sets@{o so}
-       (* Set < o, o < so, so < u, u0 <= o *)
-     sets_special_initial_book@{o so u u0 u1 u2} :
+       (* Set < o, o < so, u <= o *)
+     sets_special_initial_book@{o so u u0 u1} :
        Untruncate@{o} → @Initial Sets@{o so}
-       (* Set < o, o < so, o < u0, u < u1, u0 < u2, so <= u1, u <= o,
-          u <= so *)
-     sets_special_initial_IEM@{o so u} :
-       IEM@{o} → @Initial Sets@{o so}   (* o < so, so < u *)
-     sets_special_initial_IEM_at_Set@{so u} :
-       IEM@{Set} → @Initial Sets@{Set so}   (* Set < so, so < u *)
+       (* Set < o, o < so, o < u0, u < u1, so <= u1, u <= o, u <= so *)
+     sets_special_initial_IEM@{o so} :
+       IEM@{o} → @Initial Sets@{o so}   (* o < so *)
+     sets_special_initial_IEM_at_Set@{so} :
+       IEM@{Set} → @Initial Sets@{Set so}   (* Set < so *)
+
+   CORRECTION (#1379): re-running these six [About] commands on Rocq
+   9.1.1 and the #22575 stand-in gives the binders above. Each loses one
+   proof-only universe through [Pullback_to_Universal_ump]: formerly
+   [so < u] in all but the book form, whose removed bound was [u0 < u2].
+   The remaining auxiliary [u0] of the well-powered form is renamed [u].
 
    The [Set < o] of the [Untruncate] witnesses is the cogenerator's
    ([Prop] as a carrier, Instance/Sets/Cogenerator.v), and

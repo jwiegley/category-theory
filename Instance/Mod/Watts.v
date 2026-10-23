@@ -414,10 +414,12 @@
        [continuous_Set_functor_representable] and [SAFT_wellpowered]
        (whose readbacks carry [h < eq_rect_r.u0], attributed in
        Corollaries.v's header to Adjunction/SAFT/InitialObject.v's
-       [complete_pullbacks]), and [x <= eq_rect_r.u0], which is those
-       constants' [t <= eq_rect_r.u0] (from #452's
-       [special_initial_object_wellpowered_at], per the same header) at
-       [t := x], the fifth slot of [WellPowered@{o c c o x}].
+       [complete_pullbacks]). CORRECTION (#1379): the previously quoted
+       [x <= eq_rect_r.u0], inherited from those constants' former
+       [t <= eq_rect_r.u0] at [t := x], is gone through
+       [Pullback_to_Universal_ump]. Re-running [About] of this file's
+       constants and those donors on Rocq 9.1.1 and the #22575 stand-in
+       retains the carrier's strict bound but no [x <= eq_rect_r.u0].
      - The witnesses.  [HomAbForget]'s intermediate [Ab] sits at RMod's
        object universe o.  The continuity proof stated for the composite
        with that [Ab] at its own [m], and [o < m] declared, is refused,

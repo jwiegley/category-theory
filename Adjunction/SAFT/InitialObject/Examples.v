@@ -83,8 +83,13 @@ Generalizable All Variables.
    [so] is [Complete]'s shape-object universe and the family's index
    universe, as in the theorem; it is bounded below by the hom universe
    [u], and [Subsets_special_initial_empty] keeps it apart from [u]:
-   its block reads [u <= u3], [u3] being its instance of [so], and not
-   an equation.  [Set < o] is inherited through [Subsets] from
+   its block reads [u <= u2], [u2] being its instance of [so], and not
+   an equation. CORRECTION (#1379): this paragraph formerly quoted
+   [u <= u3]. Extracting [Pullback_to_Universal_ump] renumbers that
+   shape/index universe from [u3] to [u2], measured by [About] and
+   [Print] on Rocq 9.1.1 and the #22575 stand-in: both calls to
+   [Subsets_special_initial] and [Subsets_Cogenerator_empty] use [u2]
+   for that slot. [Set < o] is inherited through [Subsets] from
    Instance/Sets/Powerset.v's [Powerset_Prop_obj], whose carrier is
    built from [Prop] ([About Powerset_Prop_obj] reads [Set < o]).
 
