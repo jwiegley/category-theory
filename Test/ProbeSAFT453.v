@@ -147,6 +147,10 @@
     [eq_refl]:
       (cannot unify "projT1 (SAFT_cover_wp U comp cont G WP)" and "projT1
       (SAFT_wellpowered U comp cont G WP)").
+    CORRECTION (#1379): N6 now leaves [SAFT_cover_wp]'s universe instance
+    inferred, rather than padding it positionally. Stripping this command
+    alone in a whole-file copy on Rocq 9.1.1 and the #22575 stand-in gives
+    the conversion refusal above, not an instance-length error.
     The two routes index the same family ([p453_same_index], restating
     [comma_cogenerator_index]); N7, their products at [eq_refl]:
       (cannot unify "snd (projT1 (cogen_prod (Comma_Complete cont comp)
@@ -334,6 +338,12 @@
       "Functor.Compose_obligation_1@{dobj so o pa h} Roof@{so h}^op C D U
       (ASpan@{so o <1> h} (…) (…))^op"),
     the second term's arguments elided, identical to the first's.
+    CORRECTION (#1379): N18 leaves [saft_sub]'s instance inferred, rather
+    than padding it positionally; [saft_pb_cone]'s instance is retained,
+    with the same arity as the control's and [pc] in place of [pa]. Each
+    stripped whole-file copy on Rocq 9.1.1 and the #22575 stand-in refuses
+    that cone over [Compose@{dobj so o pc h}] where the one over
+    [Compose@{dobj so o pa h}] is expected, not an instance-length error.
 
     N19 (UNIVERSE).  Riehl 4.7.13's proviso: the Corollary at [@Diagonal C
     J] is accepted with the shapes at or below the homs ([p453_diag_small]),
@@ -713,9 +723,9 @@ Example p453_cover_is_gaft@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP
+  SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP
     = GAFT U comp cont
-        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _ _ _}
+        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _ _}
                     U comp cont G d
                     (WP (saft_prod@{o dobj h h dp} U comp G d))) :=
   eq_refl.
@@ -727,7 +737,7 @@ Definition p453_cover_iso@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP)
+  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
   SAFT_cover_wp_iso U comp cont G WP.
 
@@ -737,7 +747,7 @@ Fail Example p453_n6_routes_convertible@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP)
+  projT1 (SAFT_cover_wp U comp cont G WP)
     = projT1 (SAFT_wellpowered U comp cont G WP) :=
   eq_refl.
 
@@ -1160,7 +1170,7 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
-           (saft_sub@{o dobj h so dp cp _ _} U comp G d c h)) :=
+           (saft_sub@{o dobj h so dp cp _} U comp G d c h)) :=
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa _}
                             U comp cont G d c h)).
 
@@ -1171,7 +1181,7 @@ Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
-           (saft_sub@{o dobj h so dp cp _ _} U comp G d c h)) :=
+           (saft_sub U comp G d c h)) :=
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pc _}
                             U comp cont G d c h)).
 
@@ -1394,9 +1404,9 @@ Example p453_cover_index@{o dobj h so dp cp w s t pl pa +|
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
-  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _ _}
+  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _}
             U comp cont G d W c h)
-    = wp_from W (saft_sub@{o dobj h so dp cp _ _} U comp G d c h) :=
+    = wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h) :=
   eq_refl.
 
 (* The cover with the well-powering's [t] and [PreservesImageLimit]'s
@@ -1408,7 +1418,7 @@ Definition p453_cover_t_below_pa@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _ _} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
 
 Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= s, h <= s, h < t, pa < t +}
@@ -1417,7 +1427,7 @@ Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _ _} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
 
 (* At one tuple at [Id[Sets]] under [Untruncate], the reshaped covering
    datum holds at every object and the old one is refuted. *)

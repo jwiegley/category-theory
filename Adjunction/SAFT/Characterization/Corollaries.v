@@ -165,8 +165,11 @@ Generalizable All Variables.
    other hit is the equality stated by
    [continuous_Set_functor_representable_obj]).  Stdlib bounds are
    inherited ([About]): on the constants built on [SAFT_wellpowered], [so
-   <= Fin.case0.u0] and [t <= eq_rect_r.u0] from #452's
-   [special_initial_object_wellpowered_at]; on every constant but
+   <= Fin.case0.u0] from #452's [special_initial_object_wellpowered_at].
+   CORRECTION (#1379): the formerly quoted [t <= eq_rect_r.u0] is gone
+   through [Pullback_to_Universal_ump], measured by [About] of these
+   eight constants and that donor on Rocq 9.1.1 and the #22575 stand-in.
+   On every constant but
    [comma_cogenerator_index], the [VectorDef] bounds and [h <
    eq_rect_r.u0] from Adjunction/SAFT/InitialObject.v's
    [complete_pullbacks] (at [h] where [so] is [h]), and [h <=
@@ -237,7 +240,7 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa ra 
   Representable@{ra rt su o h} K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont
-       (saft_solution_set_at@{o su h h dp cp w s t pl pa h _ _ _}
+       (saft_solution_set_at@{o su h h dp cp w s t pl pa h _ _}
           K comp cont G SetsOne W)).
 
 (** ** Riehl 4.7.13: the SAFT hypotheses give cocompleteness *)
@@ -271,10 +274,10 @@ Definition SAFT_cover_wp_iso@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP)
+  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
   left_adjoint_iso U _ _
-    (projT2 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _ _} U comp cont G WP))
+    (projT2 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP))
     (projT2 (SAFT_wellpowered U comp cont G WP)).
 
 (** ** The two routes index the same family *)

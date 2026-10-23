@@ -80,12 +80,16 @@ Generalizable All Variables.
    Read with [Set Printing Universes. About complete_wide_pullback.],
    stdlib bounds omitted:
 
-     complete_wide_pullback@{u u0 u1 u2 u3 u4 u5 u6 u7} :
+     complete_wide_pullback@{u u0 u1 u2 u3 u4 u5 u6} :
        ∀ {C : Category@{u u0 u0}}, Complete@{u1 u2 u0 u} →
        ∀ {J : Type@{u3}} {A : J → obj[C]} {z : obj[C]}
          (f : ∀ j : J, A j ~{ C }~> z), WidePullback@{u3 u4 u u0} f
-     (* u0 < u5, u0 < u6, u2 < u6, u5 < u7, u <= u6, u0 <= u1, u0 <= u4,
+     (* u0 < u5, u0 < u6, u2 < u6, u <= u6, u0 <= u1, u0 <= u4,
         u1 <= u6, u2 <= u1, u3 <= u1, u3 <= u2, u3 <= u4 *)
+
+   CORRECTION (#1379): [About] on Rocq 9.1.1 and the #22575 stand-in
+   gives eight binders here, not the former nine: the proof-only [u7]
+   and [u5 < u7] disappear through [Pullback_to_Universal_ump].
 
    The omitted stdlib bounds are upper bounds by floating global
    universes, and they come from the equalizer bridge: [u1 <=
@@ -106,11 +110,14 @@ Generalizable All Variables.
    [Complete_HasWidePullbacks] instantiates the class's index slot at that
    shape-object universe itself:
 
-     Complete_HasWidePullbacks@{u u0 u1 u2 u3 u4 u5} :
+     Complete_HasWidePullbacks@{u u0 u1 u2 u3 u4} :
        ∀ {C : Category@{u1 u2 u2}}, Complete@{u0 u u2 u1} →
        HasWidePullbacks@{u u0 u1 u2} C
-     (* u < u4, u2 < u3, u2 < u4, u3 < u5, u <= u0, u0 <= u4, u1 <= u4,
+     (* u < u4, u2 < u3, u2 < u4, u <= u0, u0 <= u4, u1 <= u4,
         u2 <= u0 *)
+
+   The same correction removes this form's former seventh binder [u5]
+   and [u3 < u5], by the same two-toolchain [About] measurement.
 
    At the adjoint-functor regime, [C : Category@{o h h}] with [h < o] and
    [comp : Complete@{h h h o}], the index therefore lies at [h], the size

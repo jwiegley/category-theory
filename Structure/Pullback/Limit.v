@@ -60,23 +60,19 @@ Arguments Pullback_Limit {_%_category} F%_functor /.
 Definition Pushout_Limit {C : Category} (F : Span C) := Colimit F.
 Arguments Pushout_Limit {_%_category} F%_functor /.
 
-(* From the limit of a cospan, recover the universal-property pullback: the
-   pullback object is the limit apex, and the two projections are the limit
-   legs at RNeg and RPos. The square commutes by cone coherence, and the
-   pullback UMP is the limit UMP applied to the cone built from a competing
-   square (Q, q1, q2). *)
-Program Definition Pullback_to_Universal {C : Category}
-        (F : Cospan C) (P : Pullback_Limit F) :
-  Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
-  Pull := P;
-  pullback_fst := (vertex_map _);   (* leg at RNeg *)
-  pullback_snd := (vertex_map _)    (* leg at RPos *)
-|}.
-Next Obligation.
-  unfold unop.
-  now rewrite 2 cone_coherence.
-Qed.
-Next Obligation.
+(* Keep the universal-property proof in a separate Qed lemma: Program
+   obligations export proof-only universes into their own instances, their
+   parent's and its users'. Private Polymorphic Universes keeps those
+   universes private in a Qed lemma, so the setoid-rewriting proof below
+   does not enlarge Pullback_to_Universal's public universe instance. *)
+Lemma Pullback_to_Universal_ump {C : Category}
+      (F : Cospan C) (P : Pullback_Limit F) (Q : C)
+      (q1 : Q ~> F RNeg) (q2 : Q ~> F RPos) :
+  unop (fmap[F] ZeroNeg) ∘ q1 ≈ unop (fmap[F] ZeroPos) ∘ q2 →
+  ∃! u : Q ~> vertex_obj[P],
+    vertex_map[P] ∘ u ≈ q1 ∧ vertex_map[P] ∘ u ≈ q2.
+Proof.
+  intros X.
   given (cone : Cone F). {
     unshelve (refine {| vertex_obj := Q |}); unshelve econstructor; intros.
     - destruct x; auto.
@@ -102,6 +98,26 @@ Next Obligation.
   unfold unop.
   rewrite cone_coherence.
   reflexivity.
+Qed.
+
+(* From the limit of a cospan, recover the universal-property pullback: the
+   pullback object is the limit apex, and the two projections are the limit
+   legs at RNeg and RPos. The square commutes by cone coherence, and the
+   pullback UMP is the limit UMP applied to the cone built from a competing
+   square (Q, q1, q2). *)
+Program Definition Pullback_to_Universal {C : Category}
+        (F : Cospan C) (P : Pullback_Limit F) :
+  Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
+  Pull := P;
+  pullback_fst := (vertex_map _);   (* leg at RNeg *)
+  pullback_snd := (vertex_map _)    (* leg at RPos *)
+|}.
+Next Obligation.
+  unfold unop.
+  now rewrite 2 cone_coherence.
+Qed.
+Next Obligation.
+  exact (Pullback_to_Universal_ump F P Q q1 q2 X).
 Qed.
 
 (* Conversely, a universal-property pullback of f and g yields the limit of the

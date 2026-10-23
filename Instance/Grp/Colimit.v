@@ -234,10 +234,17 @@ Generalizable All Variables.
    [HasPullbacks_of_Cartesian_HasEqualizers] at [Grp_Cartesian].  Both
    carry the same strict bound, carrier < [eq_rect_r.u0]; the second
    reaches its equalizers through the first's pullbacks, and its
-   constraint block has 23 constraints on stdlib globals against the
-   first's 18 (the same strict one, plus four bounds [eq.u0],
-   [eq_ind.u0], [eq_ind_r.u0], [Fin.case0.u0] on the carrier and one,
-   [False_rect.u0], on the object universe), so the first is used.
+   constraint block has 22 constraints on stdlib globals against the
+   first's 17 on Rocq 9.1.1 (the same strict one, plus four bounds
+   [eq.u0], [eq_ind.u0], [eq_ind_r.u0], [Fin.case0.u0] on the carrier
+   and one, [False_rect.u0], on the object universe), so the first is
+   used. CORRECTION (#1379): formerly 23 against 18; the internal
+   [eq_rect_r.u0] bound disappears through [Pullback_to_Universal_ump].
+   Counted as constraints with a qualified global endpoint in [About]
+   of the two expressions above, the second fed
+   [FinitelyComplete_HasEqualizers (Complete_FinitelyComplete Grp_Complete)].
+   Under the #22575 stand-in the counts are 20 against 17: the second
+   also drops the carrier's [eq_ind.u0] and [eq_ind_r.u0] bounds.
 
    ** STRENGTHS, STRICTEST FIRST
 

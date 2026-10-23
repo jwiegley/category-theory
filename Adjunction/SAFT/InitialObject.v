@@ -191,13 +191,17 @@ Generalizable All Variables.
 
    With [Set Printing Universes. About …], stdlib bounds omitted:
 
-     special_initial_object@{o h so q u u0 u1} :
+     special_initial_object@{o h so q u u0} :
        ∀ {C : Category@{o h h}} (comp : Complete@{so so h o})
          (G : Cogenerator@{so o h} C)
          (w : SubObj@{o h} (cogen_prod@{so u so o h} comp G)),
        IsIntersection@{o h q} (λ m, m) w → @Initial C
-       (* h < u, h < u0, so < u0, u < u1, o <= q, o <= u0, h <= so,
-          h <= q *)
+       (* h < u, h < u0, so < u0, o <= q, o <= u0, h <= so, h <= q *)
+
+   CORRECTION (#1379): [About] on Rocq 9.1.1 and the #22575 stand-in
+   gives these six binders; the former seventh [u1] and its [u < u1]
+   came from [Pullback_to_Universal]'s proof and disappear when its UMP
+   is a separate [Qed] lemma.
 
    Nothing relates [o] to [h] or [so]: in scratch compiles both the
    regime of Adjunction/SAFT.v's [SAFT] ([Complete@{h h h o}],

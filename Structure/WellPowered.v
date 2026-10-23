@@ -197,11 +197,15 @@ Generalizable All Variables.
        Equalizer/Fork.v's [limit_equalizer_desc], also [Qed].
 
    [Print Opaque Dependencies wellpowered_complete_has_intersections]
-   lists 63 constants.  Besides [equalizer_of_pullback_awodey], two more
-   carry data: Theory/Subobject.v's [SubObj_Setoid_obligation_1], the
-   equivalence on subobjects, whose members are isomorphisms, and
-   Structure/Pullback/Limit.v's [Pullback_to_Universal_obligation_2], an
-   [∃!] mediator; reading the statements of the rest, they are
+   lists 64 constants on Rocq 9.1.1 and the #22575 stand-in, counted by
+   their [name :] entries (CORRECTION, #1379: formerly 63). Besides
+   [equalizer_of_pullback_awodey], data is carried by Theory/Subobject.v's
+   [SubObj_Setoid_obligation_1], the equivalence on subobjects, whose
+   members are isomorphisms, and Structure/Pullback/Limit.v's
+   [Pullback_to_Universal_obligation_2] and [Pullback_to_Universal_ump].
+   The latter is the new entry: the former now delegates its [∃!] mediator
+   to this separate [Qed] lemma, keeping proof-only universes private.
+   Reading the statements of the rest, they are
    ≈-equations, monicity, [Program] obligations of the shapes, and
    setoid-rewriting lemmas.  Making the factorizations compute would
    start with flipping [equalizer_of_pullback_awodey] to [Defined]; that
@@ -220,7 +224,7 @@ Generalizable All Variables.
    onto [so] in [complete_intersection_IsIntersection].  The binders are
    therefore load-bearing:
 
-     wellpowered_complete_has_intersections@{o h w s t r so p q u u0 u1 u2} :
+     wellpowered_complete_has_intersections@{o h w s t r so p q u u0 u1} :
        ∀ {C : Category@{o h h}}, WellPowered@{o h w s t} C →
        Complete@{r so h o} → ∀ (x : obj[C]) (P : SubObj@{o h} x → Type@{p}),
        (∀ m m', m ≈ m' → P m → P m') →
@@ -228,6 +232,9 @@ Generalizable All Variables.
      (* w <= h, h < t, o <= s, h <= s, so <= r, h <= r, w <= so, p <= so,
         o <= q, h <= q, p <= q, and internal ones *)
 
+   CORRECTION (#1379): [About] on Rocq 9.1.1 and the #22575 stand-in
+   gives the twelve binders above, rather than the former thirteen;
+   [Pullback_to_Universal_ump] removes the proof-only extra universe.
    The two bounds that matter are [w <= so] and [p <= so]: the index and
    the class's universe must fit [Complete]'s shape objects.  Nothing ties
    [h] to [so], and at the adjoint-functor regime ([so = h]) the pin
