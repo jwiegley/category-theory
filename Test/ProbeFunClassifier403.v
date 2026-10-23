@@ -346,6 +346,7 @@ Fail Check (Cu^op).
 
 (* NEGATIVE 6b (FORMABILITY).  So does [Fun], with NO [^op] anywhere in
    the command — two INDEPENDENT donors. *)
+Check @Sets@{_ _}.
 Fail Check ([Cu, Sets@{o so}]).
 End DonorA.
 
@@ -367,6 +368,7 @@ Check (Sets@{o2 so2}).
    universes, so the presheaf category pins C's hom universe to [Sets]'
    carrier universe.  The covariant reading is refused identically; the
    file's [Fun_Classifier_cov] therefore inherits the same bound. *)
+Check @Sets@{_ _}.
 Fail Check ([Cv^op, Sets@{o2 so2}]).
 End DonorB.
 
@@ -422,6 +424,7 @@ Check @powerset_squash_prop_inert.
 (* NEGATIVE 10 (FORMABILITY).  The naive elimination is refused with
    "Cannot enforce ... <= Prop" — #402's wall, at the same level, and
    what [Untruncate] buys. *)
+Check @Untruncate@{_}.
 Fail Definition probe403_naive_untruncate@{o} : Untruncate@{o} :=
   fun P h => h P (fun p => p).
 

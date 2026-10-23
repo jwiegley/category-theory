@@ -145,6 +145,7 @@ Check (perp_galois Pp
         : GaloisConnection (@subset_le@{po} Xp)
             (op_rel (@subset_le@{po} Xp))).
 
+Check @subset_le@{_}.
 Fail Check (perp_galois Pp
              : GaloisConnection (@subset_le@{po} Xp)
                  (@subset_le@{po} Xp)).
@@ -192,6 +193,7 @@ Fail Check (PerpFunctor Pp = PerpFunctor_r Pp).
 Check (fun S => perp_triple Pp S
          : perp_set Pp (perp_set Pp (perp_set Pp S)) ≈ perp_set Pp S).
 
+Check @Powerset_Prop_obj@{_}.
 Fail Check (fun S : carrier (Powerset_Prop_obj@{po} Xp) =>
               (eq_refl : perp_set Pp (perp_set Pp (perp_set Pp S))
                            = perp_set Pp S)).

@@ -305,6 +305,8 @@ Definition p461_idx@{o +| Set < o +} (Pr : PTop@{o} → Type@{o})
   (X : PTop@{o}) : Type@{o} := PSolIdx@{o} Pr X.
 
 (* N1 *)
+Check @PTop@{_}.
+Check @PSolIdx@{_}.
 Fail Definition p461_idx_at_set (Pr : PTop@{Set} → Type@{Set})
   (X : PTop@{Set}) : Type@{Set} := PSolIdx@{Set} Pr X.
 
@@ -359,14 +361,21 @@ Definition p461_no_right_sets_set@{so +| Set < so +}
   False := Haus_forget_no_right_adjoint R A.
 
 (* N4 *)
+Check @Haus_Sub@{_ _}.
 Fail Definition p461_gaft_set@{so +| Set < so +} :
   Reflective Haus_Sub@{Set so} := Haus_reflective.
 
 (* N5 *)
+Check @Haus@{_ _}.
 Fail Definition p461_cocomplete_set@{so +| Set < so +} :
   @Cocomplete Haus@{Set so} := Haus_Cocomplete.
 
 (* N6 *)
+Check @PSepSub@{_ _}.
+Check @prem_T0@{_}.
+Check @prem_T1@{_}.
+Check @PFullSub@{_ _}.
+Check @PT3@{_}.
 Fail Definition p461_ex4_set@{so +| Set < so +} :
   (Reflective (restrict_sub (PSepSub@{Set so} prem_T0@{Set})
                             (PSepSub@{Set so} prem_T1@{Set}))
@@ -399,6 +408,7 @@ Example p461_direct_obj@{o so +| o < so +} (X : PTopCat@{o so}) :
     = SepQuot prem_T2 X := eq_refl.
 
 (* N7 *)
+Check @PTopCat@{_ _}.
 Fail Example p461_gaft_obj@{o so +| Set < o, o < so +} (X : PTopCat@{o so}) :
   `1 (fobj[reflector (Haus_reflective : Reflective Haus_Sub@{o so})] X)
     = SepQuot prem_T2 X := eq_refl.
@@ -442,6 +452,9 @@ Proof.
 Qed.
 
 (* N9 *)
+Check @SepPremise@{_}.
+Check @SepLaws@{_}.
+Check @PTopCat@{_ _}.
 Fail Example p461_fmap@{o so +| o < so +} (prem : SepPremise@{o})
   (L : SepLaws@{o} prem) (X Y : PTopCat@{o so})
   (f : X ~{PTopCat@{o so}}~> Y) (x : carrier (pt_carrier X)) :
@@ -492,6 +505,7 @@ Definition p461_elim_leibniz@{o} (a b : carrier (pt_carrier PBool@{o}))
   end.
 
 (* N10 *)
+Check @PBool@{_}.
 Fail Definition p461_elim_setoid@{o} (a b : carrier (pt_carrier PBool@{o}))
   (H : ex (fun z : carrier (pt_carrier PBool@{o}) => z = a /\ z = b)) :
   a ≈ b :=
@@ -564,6 +578,9 @@ Definition p461_bool_opens_below@{t p q o +| p < t, q < t, p < o, q < o,
   tophaus_bool_hausdorff@{t p q o}.
 
 (* N11 *)
+Check @SetoidObject@{_ _}.
+Check @IsHausdorff@{_ _ _ _}.
+Check @Discrete_Top@{_ _}.
 Fail Definition p461_disc_opens_below@{t p q o +| p < t, q < t, p < o,
     q < o, o <= t +} (A : SetoidObject@{o o}) :
   IsHausdorff@{t p q o} (Discrete_Top@{o o} A) := Discrete_Hausdorff A.

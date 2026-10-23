@@ -94,6 +94,7 @@ Check @MonoidObject.
 Check @Monoidal.
 
 (* NEGATIVE 1. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
 (* NEGATIVE 2. *)

@@ -111,6 +111,9 @@ Example p1347_c8_compose_field@{o h p} (x y z : SetoidObject@{o p})
 (** ** The instrument *)
 
 (* The instrument *)
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
+Check @setoid_morphism_id@{_ _ _}.
 Fail Example p1347_instrument@{o h p} (x : SetoidObject@{o p})
   (f : SetoidMorphism@{o h p} x x) :
   @setoid_morphism_id@{o h p} x = f := eq_refl.

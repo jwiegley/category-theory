@@ -488,6 +488,8 @@ Definition p451_trivial_unpinned_sets :
 Definition p451_trivial_small@{o h t | o <= h, h < t +}
   (C : Category@{o h h}) : WellPowered@{o h h h t} C := trivial_small C.
 
+Check @WellPowered@{_ _ _ _ _}.
+Check @Sets@{_ _}.
 Fail Definition p451_n1_trivial_at_pin@{o so w s t} :
   WellPowered@{so o w s t} Sets@{o so} := fun X => wp_trivial X.
 
@@ -518,6 +520,7 @@ Fail Definition p451_n2_sets_up_at_pin@{o so | o < so, Set < o +} :
 Definition p451_grp_up@{o h | h < o, Set < o +} (G : Grp@{o h}) :=
   Grp_WellPoweredAt_up@{o o h} G.
 
+Check @Grp@{_ _}.
 Fail Definition p451_n3_grp_up_at_pin@{o h | h < o, Set < o +} :
   WellPowered@{o h h o o} Grp@{o h} := fun G => Grp_WellPoweredAt_up G.
 
@@ -550,6 +553,8 @@ Definition p451_class_small_objects@{o h +| o <= h +}
   complete_intersection_IsIntersection comp
     (fun k : { m : SubObj x & P m } => `1 k).
 
+Check @Category@{_ _ _}.
+Check @Complete@{_ _ _ _}.
 Fail Definition p451_n4_class_no_wp@{o h +| h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) (x : C)
   (P : SubObj x → Type@{h}) :=
@@ -616,6 +621,8 @@ Definition p451_image_small@{o h j +| h < o, j <= h +}
   wellpowered_complete_has_intersections WP comp x
     (fun m => { j : J & S j ≈ m }) (p451_image_resp S).
 
+Check @Category@{_ _ _}.
+Check @Complete@{_ _ _ _}.
 Fail Definition p451_n8_image_large@{o h +| h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) (WP : WellPowered C)
   (x : C) (J : Type@{o}) (S : J → SubObj x) :=
@@ -686,6 +693,8 @@ Definition p451_wide_pullbacks_regime@{o h +| Set < h, h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) :
   HasWidePullbacks C := Complete_HasWidePullbacks comp.
 
+Check @Category@{_ _ _}.
+Check @Complete@{_ _ _ _}.
 Fail Definition p451_n10_wideparallel_regime@{o h +| Set < h, h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) (J : Type@{h}) :=
   comp (WideParallel J).
@@ -793,6 +802,8 @@ Definition p451_subsets_free@{o u +| Set < o, o <= u +}
   wellpowered_complete_intersection_all (Subsets_WellPowered X)
     (Subsets_Complete_free X) S.
 
+Check @SetoidObject@{_ _}.
+Check @Subsets@{_ _}.
 Fail Definition p451_n15_subsets_at_set@{o +| Set < o +}
   (X : SetoidObject@{o o}) (S : Subsets@{o Set} X) :=
   wellpowered_complete_intersection_all (trivial_small _)
@@ -816,6 +827,8 @@ Definition p451_at_refuted@{i o h w s t |
   (WP : WellPowered@{o h w s t} AntichainTop@{i o h}) : False :=
   AntichainTop_not_WellPowered WP.
 
+Check @WellPoweredAt@{_ _ _ _ _}.
+Check @AntichainTop@{_ _ _}.
 Fail Definition p451_n16_at_up_low_homs@{i o h s t |
     i < o, h <= i, h < t, o <= s, h <= s +} :
   @WellPoweredAt@{h o s h t} AntichainTop@{i o h} None :=
@@ -830,6 +843,7 @@ Definition p451_typed_preimage@{o so | o < so +} (X A : SetoidObject@{o o})
   { b : carrier X & { a : carrier A & m a ≈ b } } → carrier A :=
   fun p => `1 (`2 p).
 
+Check @Sets@{_ _}.
 Fail Definition p451_n17_inhabited_preimage@{o so | o < so +}
   (X A : SetoidObject@{o o}) (m : A ~{Sets@{o so}}~> X) :
   { b : carrier X | inhabited { a : carrier A & m a ≈ b } } → carrier A :=
@@ -841,6 +855,7 @@ Definition p451_untruncated_preimage@{o so | o < so +} (U : Untruncate@{o})
   (h : Powerset_squash@{o} { a : carrier A & m a ≈ b }) : carrier A :=
   `1 (U _ h).
 
+Check @Powerset_squash@{_}.
 Fail Definition p451_n18_squashed_preimage@{o so | o < so +}
   (X A : SetoidObject@{o o}) (m : A ~{Sets@{o so}}~> X) (b : carrier X)
   (h : Powerset_squash@{o} { a : carrier A & m a ≈ b }) : carrier A :=
@@ -858,6 +873,7 @@ Definition p451_sets_meet_pinned@{o so | o < so, Set < o +}
        | Some p => wp_to (Sets_WellPoweredAt_untruncate U X) (`1 p)
        end).
 
+Check @Sets_HasWidePullbacks@{_ _}.
 Fail Definition p451_n19_sets_meet_up@{o so | o < so, Set < o +}
   (X : SetoidObject@{o o})
   (P : @SubObj Sets@{o so} X → Type@{o}) : @SubObj Sets@{o so} X :=

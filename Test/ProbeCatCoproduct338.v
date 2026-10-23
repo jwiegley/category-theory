@@ -109,6 +109,7 @@ Definition sigma_obj_unann {I : Type} (C : I -> Category) : Type :=
   ∃ i : I, C i.
 
 (* NEGATIVE 1. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (I : Type) (C : I -> Category@{uo uh up}) =>
               sigma_obj_unann C).
 
@@ -143,6 +144,7 @@ Check (fun (C : Category@{vo vh vp}) (x y : C)
 Check @Functor_Setoid.
 
 (* NEGATIVE 2. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (C D : Category@{vo vh vp}) => @Functor_Setoid C D).
 
 End SetoidBoundary.

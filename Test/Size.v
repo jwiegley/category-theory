@@ -56,6 +56,9 @@ Check (fun C : Category => locally_small_ambient C : LocallySmall C).
    Unlike BLOCK B, the rejections here are unambiguous: every term is
    well-typed apart from its universe constraints, so the only thing that can
    refuse it is the constraint solver. *)
+Check @Category@{_ _ _}.
+Check @LocallySmall@{_ _ _ _ _}.
+Check @Build_LocallySmall@{_ _ _ _ _}.
 Fail Definition A253_trivial_locally_small@{o h p uh up
     | h <= p, uh <= up, uh < h}
   (C : Category@{o h p}) : LocallySmall@{o h p uh up} C :=
@@ -65,6 +68,8 @@ Fail Definition A253_trivial_locally_small@{o h p uh up
     (fun _ _ _ _ H => H)
     (fun x y f => reflexivity f) (fun x y u => reflexivity u).
 
+Check @Small@{_ _ _ _ _ _}.
+Check @Build_Small@{_ _ _ _ _ _}.
 Fail Definition A253_trivial_small@{o h p uo uh up
     | h <= p, uh <= up, uo < o, uh < h}
   (C : Category@{o h p}) : Small@{o h p uo uh up} C :=
@@ -112,6 +117,7 @@ Fail Definition A253_no_object_resize@{o uo | uo < o} (A : Type@{o})
    This is the genuine formal counterpart of Mac Lane's remark, and the reason
    Instance/Cat.v can say self-membership is "a universe inconsistency
    caught by the elaborator rather than a paradox to be excluded by axiom". *)
+Check @Cat@{_ _ _ _ _}.
 Fail Definition B253_cat_self@{a b c d e}
   : obj[Cat@{a b c d e}] := Cat@{a b c d e}.
 

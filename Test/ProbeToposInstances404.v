@@ -243,6 +243,7 @@ Check (Fun_Classifier_small Cs UTs
          (Functor_Category_Cartesian Cs^op Sets Sets_Cartesian)"
      (universe inconsistency: Cannot enforce o = n4.97 because
       o < so <= n4.96 <= n4.97).                                     *)
+Check @Sets@{_ _}.
 Fail Check (Functor_Category_Closed Cs
             : @Closed (PShSmall Cs)
                 (@Functor_Category_Cartesian (Cs^op) Sets@{o so}
@@ -273,12 +274,14 @@ Check Sets_Topos_dec@{Set su}.
 (* NEGATIVE 10 (FORMABILITY).  Stripped:
 
      Universe inconsistency. Cannot enforce Set < Set because Set = Set. *)
+Check @Sets_Topos@{_ _}.
 Fail Check Sets_Topos@{Set su}.
 
 (* NEGATIVE 11 (FORMABILITY), the same refusal one layer in, at the
    classifier the bundle carries.  Stripped:
 
      Universe inconsistency. Cannot enforce Set < Set because Set = Set. *)
+Check @Sets_Classifier@{_ _}.
 Fail Check Sets_Classifier@{Set su}.
 
 End SetReach.

@@ -190,6 +190,8 @@ Definition probe_prop_le@{o} (X : SetoidObject@{o o}) :
    [Type@{o}]-valued members, so inclusion between two of its subsets is
    [Type]-valued and is not a [relation] at all.  This is why the order
    is put on the truncated carrier and not on this one. *)
+Check @SetoidObject@{_ _}.
+Check @Powerset_obj@{_ _}.
 Fail Definition probe_type_le@{o so} (X : SetoidObject@{o o}) :
   relation (carrier (Powerset_obj@{o so} X)) :=
   fun S T => ∀ x, S x → T x.
@@ -213,6 +215,7 @@ Definition probe_opens_hom (X : TopSpace) (U V : OpenSet X) : Type :=
    points, while [open_union] indexes only at the points' level.  This is
    why Instance/Top/Image.v delivers the right adjoint at its witness and
    not in general. *)
+Check @TopSpace@{_}.
 Fail Definition probe_interior@{o} (X : TopSpace@{o}) (P : X → Type@{o}) :
   X → Type@{o} :=
   fun x => { V : OpenSet X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
@@ -239,6 +242,7 @@ Definition probe_small_union@{o} (X : TopSpace@{o}) (I : Type@{o})
    at [@Complete (Subsets@{o Set} X)] -- which is a choice that file makes
    and has not re-measured.  [IsALimit] still identifies the shape's
    hom-and-proof universe with the ambient's; that part is unchanged. *)
+Check @Subsets@{_ _}.
 Fail Definition probe_complete_free@{o u + | Set < u +}
   (X : SetoidObject@{o o}) : @Complete (Subsets@{o u} X) :=
   Subsets_Complete.
@@ -260,6 +264,10 @@ Definition probe_cartesian_free@{o u + | Set < u +}
    sides are not the same term -- and they are not merely
    non-convertible, they are provably distinct, which is
    Instance/Powerset.v's [direct_image_not_meet_preserving]. *)
+Check @Powerset_Prop_image@{_}.
+Check @powerset_const0@{_ _}.
+Check @powerset_sng0@{_}.
+Check @powerset_sng1@{_}.
 Fail Example probe_image_meet@{o so} :
   Powerset_Prop_image@{o} powerset_const0@{o so}
       (subset_meet powerset_sng0@{o} powerset_sng1@{o})
@@ -288,6 +296,9 @@ Proof. intros _; exact I. Qed.
    are its own opaque obligations, while [GaloisFunctor_l]'s are its own.
    The two [eq_refl] object Examples in Instance/Powerset.v are the
    controls that the difference touches neither data field. *)
+Check @Sets@{_ _}.
+Check @subset_le_preorder@{_}.
+Check @SetoidObject@{_ _}.
 Fail Example probe_monotone_functor@{o so u}
   (X Y : SetoidObject@{o o}) (f : X ~{Sets@{o so}}~> Y) :
   Functor_of_monotone (subset_le_preorder@{o} X)
@@ -305,6 +316,10 @@ Example probe_monotone_functor_obj@{o so u +}
    the two truncated existentials are bracketed differently, one
    quantifying over image points and the other over elements of the
    domain. *)
+Check @Powerset_Prop_obj@{_}.
+Check @Powerset_subset_of_subobject@{_ _}.
+Check @Powerset_subobject_of_subset@{_ _}.
+Check @Powerset_Prop_image@{_}.
 Fail Example probe_sub_image_bridge@{o so}
   (A B : SetoidObject@{o o}) (f : A ~{Sets@{o so}}~> B)
   (S : carrier (Powerset_Prop_obj@{o} A)) :

@@ -152,6 +152,7 @@ Check (group_action_galois Gp Ap
         : GaloisConnection (@subset_le@{po} (act_setoid Ap))
             (op_rel (@subset_le@{po} (grp_setoid Gp)))).
 
+Check @subset_le@{_}.
 Fail Check (group_action_galois Gp Ap
              : GaloisConnection (@subset_le@{po} (act_setoid Ap))
                  (@subset_le@{po} (grp_setoid Gp))).
@@ -166,6 +167,7 @@ Fail Check (group_action_galois Gp Ap
 Check (fun X => stab_fixed_stab Gp Ap X
          : stab (fixed (stab X)) ≈ stab X).
 
+Check @Powerset_Prop_obj@{_}.
 Fail Check (fun (X : carrier (Powerset_Prop_obj@{po} (act_setoid Ap))) =>
               (eq_refl : @stab Gp Ap (@fixed Gp Ap (@stab Gp Ap X))
                            = @stab Gp Ap X)).
@@ -173,6 +175,7 @@ Fail Check (fun (X : carrier (Powerset_Prop_obj@{po} (act_setoid Ap))) =>
 Check (fun S => fixed_stab_fixed Gp Ap S
          : fixed (stab (fixed S)) ≈ fixed S).
 
+Check @Powerset_Prop_obj@{_}.
 Fail Check (fun (S : carrier (Powerset_Prop_obj@{po} (grp_setoid Gp))) =>
               (eq_refl : @fixed Gp Ap (@stab Gp Ap (@fixed Gp Ap S))
                            = @fixed Gp Ap S)).
@@ -207,6 +210,8 @@ Check (fun (S T U : carrier (Powerset_Prop_obj@{po} (grp_setoid Gp)))
                       = @compose ((Subsets@{po Set} (grp_setoid Gp))^op)
                                  S T U f g)).
 
+Check @Proset@{_ _}.
+Check @Subsets@{_ _}.
 Fail Check (eq_refl : Proset@{po Set} (stab_PreOrder_G Gp)
                         = (Subsets@{po Set} (grp_setoid Gp))^op).
 

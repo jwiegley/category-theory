@@ -170,6 +170,7 @@ Constraint Set < p392h.
 Check (TwoFun : @Functor Omega@{p392o p392h p392p} FinSet).
 
 (* Negative 1. *)
+Check @Omega@{_ _ _}.
 Fail Check (TwoFunUnann : @Functor Omega@{p392o p392h p392p} FinSet).
 
 End P392Binders.
@@ -190,6 +191,7 @@ Check (_2^op).
    because [_2]'s homs are the literal [Set], [Fun] identifies its
    source and target hom universes, and [Sets]'s hom universe IS its
    carrier universe. *)
+Check @Sets@{_ _}.
 Fail Check ([_2^op, Sets@{p392co p392so}]).
 
 (* Discriminating control: with the polymorphic [Omega] in place of

@@ -100,6 +100,7 @@ Check (fun (A : Category@{ao h h}) (B : Category@{bo h h})
 Check (fun (C : Category@{co h h}) => ObjUIP C).
 
 (* NEGATIVE 1. *)
+Check @Category@{_ _ _}.
 Fail Check (fun (A : Category@{ao h h}) (B : Category@{bo h h})
                 (C : Category@{co h h}) (F : A ⟶ C) (G : B ⟶ C)
                 (uip : ObjUIP C) =>

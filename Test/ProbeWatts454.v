@@ -706,6 +706,7 @@ Definition p454_homzl_coext_iso@{r +} (R : RingObject@{r r r})
   HomZL (Ring_RMod (Ring_op R)) G ≅[RMod R] CoextObj R G :=
   homzl_coext_iso G.
 
+Check @RingObject@{_ _ _}.
 Fail Example p454_n2_homzl_is_coext@{ra +} (R : RingObject@{ra ra ra})
   (G : AbObject) :
   HomZL (Ring_RMod (Ring_op R)) G = CoextObj R G := eq_refl.
@@ -745,6 +746,7 @@ Definition p454_qz_cogen_prod@{r a +} (R : RingObject@{r r r})
   (HC : QZ_family_cogenerates@{a r r _ _}) : RMod R :=
   cogen_prod (RMod_Complete R) (coext_cogenerator R (QZ_Cogenerator HC)).
 
+Check @RMod@{_ _ _ _ _}.
 Fail Definition p454_n4_large_cog_prod@{a c p o x +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o +}
   (R : RingObject@{a c p}) : RMod@{o x a p c} R :=
@@ -757,6 +759,7 @@ Definition p454_adj_one_hom@{co do h +}
   (F : D ⟶ C) (U : C ⟶ D) : Type :=
   F ⊣ U.
 
+Check @Category@{_ _ _}.
 Fail Definition p454_n5_adj_two_homs@{co hc do hd +| hc < hd +}
   (C : Category@{co hc hc}) (D : Category@{do hd hd})
   (F : D ⟶ C) (U : C ⟶ D) : Type :=
@@ -830,12 +833,14 @@ Definition p454_wp_up@{a c p o x w +|
   WellPoweredAt@{w o o c x} W :=
   RMod_WellPoweredAt_up W.
 
+Check @WellPowered@{_ _ _ _ _}.
 Fail Definition p454_n6_wp_up_at_pin@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} :
   WellPowered@{o c c o x} (RMod@{o x a p c} R) :=
   fun W => RMod_WellPoweredAt_up W.
 
+Check @WellPoweredAt@{_ _ _ _ _}.
 Fail Definition p454_n7_wp_up_fifth_slot@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, x < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
@@ -870,6 +875,7 @@ Definition p454_cwp_up_ccc@{c o x w +| Set < o, c < o, c < x, c < w +}
     @WellPoweredAt@{w o o c x} ((RMod@{o x c c c} R)^op) W :=
   fun W => RMod_CoWellPoweredAt_up W.
 
+Check @CoWellPowered@{_ _ _ _ _}.
 Fail Definition p454_n8_cwp_up_at_pin@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} :
@@ -943,6 +949,7 @@ Definition p454_cwp_record@{a c p o x +|
      wp_from    := fun u => pker (quot_epi u);
      wp_to_from := cwp_to_from U |}.
 
+Check @Untruncate@{_}.
 Fail Definition p454_n12_cwp_record_closed@{a c p o x |
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
@@ -971,6 +978,7 @@ Definition p454_cwp_up_unfolded@{a c p o x w +| c < w, a <= w +}
                      (rmod_epic_surjective _ (quot_is_epic u)));
      wp_to_from := ltac:(intro u; exists iso_id; simpl; cat) |}.
 
+Check @RModObject@{_ _ _ _ _ _ _ _}.
 Fail Definition p454_n13_cwp_up_closed@{a c p o x w | c < w, a <= w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
   @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W :=
@@ -1036,6 +1044,8 @@ Definition p454_ex3_forget_obj@{c o x b g +} (R : RingObject@{c c c})
     ≅[RMod@{o x c c c} R] Ring_RMod R :=
   watts_ex3_forget_obj R G U.
 
+Check @Cogenerator@{_ _ _}.
+Check @Ab@{_ _}.
 Fail Example p454_n16_ex3_forget_obj_refl@{c o x b g +}
   (R : RingObject@{c c c})
   (G : Cogenerator@{g o c} (RMod@{o x c c c} R)) (U : Untruncate@{c}) :
@@ -1093,12 +1103,15 @@ Definition p454_ex3_apart@{a c p o x b g pk pa ra rt +| c < a, p < a +}
   (U : Untruncate@{c}) :=
   watts_ex3 T AF contT G U.
 
+Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @Representable@{_ _ _ _ _}.
+Check @Category.Instance.Ab.Ab_Forget@{_ _ _}.
 Fail Definition p454_n17_sets_apart@{a c p o x b pk pa ra rt +| c < a +}
   {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})
   (contT : @PreservesImageLimit@{o c b c pk c pa c}
              ((RMod@{o x a p c} R)^op) Ab@{b c} T)
   (U : Untruncate@{c}) :
-  Representable@{ra rt pa o c} (Ab_Forget@{b pa c} ◯ T) :=
+  Representable@{ra rt pa o c} (Category.Instance.Ab.Ab_Forget@{b pa c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1122,7 +1135,7 @@ Fail Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
   (contT : @PreservesImageLimit@{o c a c pk c pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{ra rt s o c} (Ab_Forget@{a s c} ◯ T) :=
+  Representable@{ra rt s o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1136,7 +1149,7 @@ Fail Definition p454_n29_sets_level_below_pa@{c o x a s pk pa ra rt +|
   (contT : @PreservesImageLimit@{o c a c pk c pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{ra rt s o c} (Ab_Forget@{a s c} ◯ T) :=
+  Representable@{ra rt s o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1178,6 +1191,8 @@ Definition p454_hafc_body_at_o@{c o x b +} (R : RingObject@{c c c})
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
+Check @AbObject@{_ _ _}.
+Check @RMod_Forget_Ab@{_ _ _ _ _ _}.
 Fail Definition p454_n31_hafc_body_above_o@{c o x m b +| o < m +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{m c} _ Ab_AbEnriched A
@@ -1203,6 +1218,7 @@ Definition p454_hafc_at_x@{c o x b +} (R : RingObject@{c c c})
     (HomAbForget R A : (RMod@{o x c c c} R)^op ⟶ Ab@{b c}) :=
   HomAbForget_continuous R A.
 
+Check @ContinuousFunctor@{_ _ _ _ _ _ _ _ _ _}.
 Fail Definition p454_n21_hafc_above_x@{c o x b k6 +| x < k6 +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _ _ _ _ _ _ k6}
@@ -1293,6 +1309,11 @@ Definition p454_watts_Fz@{c o x a pk pa ra rt +}
   fobj[projT1 (watts_theorem_adjoint T contT U)] (FreeAb SetsOne) :=
   watts_theorem_Fz T AF contT U.
 
+Check @RingObject@{_ _ _}.
+Check @RMod@{_ _ _ _ _}.
+Check @Ab@{_ _}.
+Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @Untruncate@{_}.
 Fail Example p454_n23_Fz_refl@{c o x a pk pa ra rt +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
@@ -1372,6 +1393,7 @@ Definition p454_unc_Z_apart@{c p a o x b +|
 Definition p454_rmod_at_set@{o x +| Set < o, Set < x +} :=
   RMod@{o x Set Set Set} Int_Ring@{Set Set Set}.
 
+Check @Int_Ring@{_ _ _}.
 Fail Definition p454_n24_unc_Z_at_set@{o x b +}
   (A : RMod@{o x Set Set Set} Int_Ring@{Set Set Set}) :=
   watts_unconditional_at_Z A.
@@ -1443,6 +1465,7 @@ Definition p454_cop_obj@{a c p o x b s +|
   obj[RMod@{o x a p c} R] :=
   ew_Cop (Ab_Forget@{b s c} ◯ T).
 
+Check @Sets@{_ _}.
 Fail Example p454_n26_t_at_zero@{a c p o x s +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s +}
   {R : RingObject@{a c p}} (K : (RMod@{o x a p c} R)^op ⟶ Sets@{c s})
@@ -1462,6 +1485,8 @@ Example p454_unc_obj@{a c p o x b s +|
                  (continuous_compose contT Ab_Forget_creates_continuous)) :=
   eq_refl.
 
+Check @ContinuousFunctor@{_ _ _ _ _ _ _ _ _ _}.
+Check @Ab_Forget@{_ _ _}.
 Fail Example p454_n27_unc_obj_is_cop@{a c p o x b s +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
   {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})

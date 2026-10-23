@@ -137,9 +137,11 @@
           # acquires an unexpected axiom fails the build rather than merely
           # printing.  Gated to 9.1 to keep the other package builds lean.
           doCheck = coqPackages == "coqPackages_9_1";
+          nativeCheckInputs = [ pkgs.python3 ];
           checkPhase = ''
             runHook preCheck
             make -s print-assumptions
+            make probe-arity-check probe-arity-coq-selftest
             runHook postCheck
           '';
 
@@ -180,6 +182,7 @@
               rocqStdlib
               eqns
               pkgs.gnumake
+              pkgs.python3
               pkgs.lefthook
             ];
 
@@ -195,6 +198,19 @@
 
         checks = {
           build = packages.default;
+
+          # The semantic guard needs the declared compiler, Stdlib and
+          # Equations environment. The default package's checkPhase runs it;
+          # this alias and checks.build share one derivation, not a cycle.
+          probe-arity-check = packages.default;
+
+          probe-arity-unit = pkgs.runCommand "probe-arity-unit" {
+            nativeBuildInputs = [ pkgs.gnumake pkgs.python3 ];
+          } ''
+            cd ${self}
+            make probe-arity-unit
+            touch $out
+          '';
 
           format-check = pkgs.runCommand "format-check" {
             nativeBuildInputs = [ pkgs.gnugrep pkgs.findutils ];

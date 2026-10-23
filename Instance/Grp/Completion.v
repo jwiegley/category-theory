@@ -905,6 +905,7 @@ Check (fun G : GrpObject@{uo uh up} =>
    found" while this file still compiled. *)
 Check @grp_monoid.
 
+Check @GrpObject@{_ _ _}.
 Fail Check (fun G : GrpObject@{uo uh up} => grp_monoid G).
 Fail Check (fun G : GrpObject@{uo uh up} => Grp_MonSets G).
 
@@ -926,6 +927,7 @@ Check (fun M : obj[MonSets@{uo uh}] => CompletionObject M).
 Check (fun (M : obj[MonSets@{uo uh}]) (a b : carrier (mcar M)) =>
          comp_class_op M a b).
 
+Check @MonSets@{_ _}.
 Fail Check (fun M : obj[MonSets@{uo uh}] => completion_insert M).
 
 End CompletionInsertPin.

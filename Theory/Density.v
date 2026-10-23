@@ -1002,6 +1002,8 @@ Check @DensityDiagram.
    [DensityDiagram]'s block is real, and it enters at the DIAGRAM rather
    than at the index or at [yo_inj]. *)
 
+Check @Category@{_ _ _}.
+Check @Sets@{_ _}.
 Fail Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
               DensityDiagram K).
 

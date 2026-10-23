@@ -443,6 +443,8 @@ Example p466_instrument_ctl@{o} {X : SetoidObject@{o o}} (x y : carrier X) :
   Powerset_Prop_pair_comm@{o} x y.
 
 (* The instrument *)
+Check @SetoidObject@{_ _}.
+Check @Powerset_Prop_pair@{_}.
 Fail Example p466_instrument@{o} {X : SetoidObject@{o o}} (x y : carrier X) :
   Powerset_Prop_pair@{o} x y = Powerset_Prop_pair@{o} y x := eq_refl.
 
@@ -469,6 +471,10 @@ Example p466_assoc_ctl@{o} {X : SetoidObject@{o o}}
   Powerset_union_assoc@{o} SSS.
 
 (* M3 *)
+Check @Powerset_Prop_obj@{_}.
+Check @Powerset_union_pred@{_}.
+Check @Powerset_Prop_image@{_}.
+Check @Powerset_union@{_}.
 Fail Example p466_assoc_eq@{o} {X : SetoidObject@{o o}}
   (SSS : carrier (Powerset_Prop_obj@{o}
                     (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X)))) :
@@ -483,6 +489,7 @@ Example p466_unit_image_ctl@{o} {X : SetoidObject@{o o}}
   Powerset_union_image_singleton@{o} S.
 
 (* M4 *)
+Check @Powerset_Prop_singleton_map@{_}.
 Fail Example p466_unit_image_eq@{o} {X : SetoidObject@{o o}}
   (S : carrier (Powerset_Prop_obj@{o} X)) :
   Powerset_union_pred@{o}
@@ -496,6 +503,7 @@ Example p466_unit_singleton_ctl@{o} {X : SetoidObject@{o o}}
   Powerset_union_singleton@{o} S.
 
 (* M5 *)
+Check @Powerset_Prop_singleton_pred@{_}.
 Fail Example p466_unit_singleton_eq@{o} {X : SetoidObject@{o o}}
   (S : carrier (Powerset_Prop_obj@{o} X)) :
   Powerset_union_pred@{o} (Powerset_Prop_singleton_pred@{o} S) = S
@@ -509,6 +517,9 @@ Example p466_ret_natural_ctl@{o so} {X Y : SetoidObject@{o o}}
   @naturality_sym _ _ _ _ Powerset_Prop_Singleton@{o so} X Y f x.
 
 (* M6 *)
+Check @Sets@{_ _}.
+Check @Powerset_Monad@{_ _}.
+Check @Powerset_Prop@{_ _}.
 Fail Example p466_ret_natural_eq@{o so} {X Y : SetoidObject@{o o}}
   (f : X ~{Sets@{o so}}~> Y) (x : carrier X) :
   @ret _ _ Powerset_Monad@{o so} Y (f x)
@@ -551,6 +562,7 @@ Definition p466_prop_statement@{so o} : Type@{so} :=
   @Monad Sets@{o so} Powerset_Prop@{o so}.
 
 (* M2 *)
+Check @Powerset@{_ _ _}.
 Fail Definition p466_relevant_statement@{o so sso} : Type@{sso} :=
   @Monad Sets@{o so} Powerset@{o so sso}.
 
@@ -572,6 +584,9 @@ Example p466_rt_le_iff@{o so} (A : SupLatObject@{o})
       (sl_le A x y) := sl_talg_le_iff@{o so} A x y.
 
 (* N1 *)
+Check @SupLatObject@{_}.
+Check @EM_to_SupLat@{_ _}.
+Check @SupLat_to_EM@{_ _}.
 Fail Example p466_rt_obj@{o so} (A : SupLatObject@{o}) :
   fobj[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] A = A := eq_refl.
 
@@ -581,6 +596,7 @@ Fail Example p466_rt_le@{o so} (A : SupLatObject@{o}) :
   := eq_refl.
 
 (* N5b *)
+Check @SupLat@{_ _}.
 Fail Example p466_rt_functor@{o so} :
   EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so} = Id[SupLat@{o so}] := eq_refl.
 
@@ -596,6 +612,7 @@ Example p466_rt_hom_sup@{o so} (A B : SupLatObject@{o})
   := eq_refl.
 
 (* N6 *)
+Check @SupLatHom@{_}.
 Fail Example p466_rt_hom@{o so} (A B : SupLatObject@{o})
   (f : SupLatHom@{o} A B) :
   fmap[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] f = f := eq_refl.
@@ -629,6 +646,7 @@ Example p466_rt2_hom@{o so}
     = t_alg_hom[f] := eq_refl.
 
 (* N3 *)
+Check @EilenbergMoore@{_ _ _ _}.
 Fail Example p466_rt2_obj@{o so}
   (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
@@ -656,6 +674,8 @@ Fail Example p466_rt2_functor@{o so} :
            Powerset_Monad@{o so}] := eq_refl.
 
 (* N7 *)
+Check @SupLat_TAlgebra@{_ _}.
+Check @TAlgebra_SupLat@{_ _}.
 Fail Example p466_alg_rt@{o so} {X : SetoidObject@{o o}}
   (α : @TAlgebra Sets@{o so} Powerset_Prop@{o so} Powerset_Monad@{o so} X) :
   SupLat_TAlgebra@{o so} (TAlgebra_SupLat@{o so} α) = α := eq_refl.
@@ -725,6 +745,12 @@ Example p466_L_obj_rt@{o so} {X : SetoidObject@{o o}}
   = existT _ X α := eq_refl.
 
 (* N8 *)
+Check @p466_L_TAlgebra@{_ _}.
+Check @p466_TAlgebra_L@{_ _}.
+Check @EilenbergMoore@{_ _ _ _}.
+Check @Sets@{_ _}.
+Check @Powerset_Prop@{_ _}.
+Check @Powerset_Monad@{_ _}.
 Fail Example p466_L_var_rt@{o so}
   (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
@@ -739,6 +765,7 @@ Example p466_L_set_rt@{o so} (A : p466_SupLatObjectL@{o}) :
     = p466_sll_set A := eq_refl.
 
 (* N8b *)
+Check @p466_SupLatObjectL@{_}.
 Fail Example p466_L_le_rt@{o so} (A : p466_SupLatObjectL@{o}) :
   p466_sll_le (p466_TAlgebra_L@{o so} (p466_L_TAlgebra@{o so} A))
     = p466_sll_le A := eq_refl.
@@ -767,6 +794,8 @@ Example p466_varA_fun@{o} (A : SupLatObject@{o}) :
   (fun S => p466_varA_alg@{o} A S) = (fun S => sl_sup A S) := eq_refl.
 
 (* N9 *)
+Check @SupLatObject@{_}.
+Check @p466_varA_alg@{_}.
 Fail Example p466_varA_whole@{o} (A : SupLatObject@{o}) :
   p466_varA_alg@{o} A = sl_sup A := eq_refl.
 
@@ -790,6 +819,7 @@ Context (le_respects : ∀ x x' y y', @equiv _ (is_setoid X) x x' →
 Context (le_refl : ∀ x, le x x).
 
 (* N10 *)
+Check @Powerset_Prop_singleton_pred@{_}.
 Fail Definition p466_typeorder_unit (x : carrier X) :
   ∀ z, Powerset_Prop_singleton_pred@{o} x z → le z x :=
   fun z Hz => Hz (le z x)
@@ -842,11 +872,15 @@ Example p466_ind_join_fun_ctl@{o so} (X : SetoidObject@{o o}) :
                       SS)) := eq_refl.
 
 (* F2 *)
+Check @SetoidObject@{_ _}.
+Check @SL_induced@{_ _}.
+Check @Powerset_Monad@{_ _}.
 Fail Example p466_ind_join_fun@{o so} (X : SetoidObject@{o o}) :
   (fun SS => @join _ _ SL_induced@{o so} X SS)
     = (fun SS => @join _ _ Powerset_Monad@{o so} X SS) := eq_refl.
 
 (* F2b *)
+Check @Powerset_Prop_obj@{_}.
 Fail Example p466_ind_join_at@{o so} (X : SetoidObject@{o o})
   (SS : carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))) :
   @join _ _ SL_induced@{o so} X SS = @join _ _ Powerset_Monad@{o so} X SS
@@ -858,6 +892,9 @@ Example p466_ind_join_equiv@{o so} (X : SetoidObject@{o o}) :
   SL_induced_join_equiv@{o so} X.
 
 (* F3 *)
+Check @SL_Forget@{_ _}.
+Check @SL_Free@{_ _}.
+Check @Powerset_Prop@{_ _}.
 Fail Example p466_ind_functor@{o so} :
   SL_Forget@{o so} ◯ SL_Free@{o so} = Powerset_Prop@{o so} := eq_refl.
 
@@ -872,6 +909,7 @@ Example p466_ind_functor_component@{o so} (X : SetoidObject@{o o}) :
     = @iso_id Sets@{o so} (fobj[Powerset_Prop@{o so}] X) := eq_refl.
 
 (* F4 *)
+Check @Sets@{_ _}.
 Fail Definition p466_ind_monad@{o so} :
   @Monad Sets@{o so} (SL_Forget@{o so} ◯ SL_Free@{o so}) :=
   Powerset_Monad@{o so}.
@@ -897,17 +935,22 @@ Example p466_cmp_carrier@{o so} (A : SupLatObject@{o}) :
   = sl_set A := eq_refl.
 
 (* F5 *)
+Check @SL_adj@{_ _}.
+Check @EM_induced_to_SupLat@{_ _}.
+Check @EilenbergMoore@{_ _ _ _}.
 Fail Example p466_cmp_composite@{o so} :
   EM_Comparison SL_adj@{o so} ◯ EM_induced_to_SupLat@{o so}
   = Id[@EilenbergMoore@{so so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}] := eq_refl.
 
 (* F5b *)
+Check @SupLat@{_ _}.
 Fail Example p466_cmp_composite_b@{o so} :
   EM_induced_to_SupLat@{o so} ◯ EM_Comparison SL_adj@{o so}
   = Id[SupLat@{o so}] := eq_refl.
 
 (* F6 *)
+Check @SupLatObject@{_}.
 Fail Example p466_cmp_obj@{o so} (A : SupLatObject@{o}) :
   fobj[EM_induced_to_SupLat@{o so} ◯ EM_Comparison SL_adj@{o so}] A = A
   := eq_refl.
@@ -945,6 +988,8 @@ Example p466_freesl_em_le_iff@{o so} (X : SetoidObject@{o o})
   sl_talg_le_iff@{o so} (FreeSL@{o} X) S T.
 
 (* E1 *)
+Check @EM_to_SupLat@{_ _}.
+Check @FreeSL@{_}.
 Fail Example p466_freesl_em_obj@{o so} (X : SetoidObject@{o o}) :
   fobj[EM_to_SupLat@{o so}]
     (fobj[@EM_Free Sets@{o so} Powerset_Prop@{o so} Powerset_Monad@{o so}] X)
@@ -965,6 +1010,7 @@ Example p466_freealg_carrier@{o so} (X : SetoidObject@{o o}) :
                     Powerset_Monad@{o so}] X) := eq_refl.
 
 (* E3 *)
+Check @SupLat_to_EM@{_ _}.
 Fail Example p466_freealg_whole@{o so} (X : SetoidObject@{o o}) :
   projT2 (fobj[SupLat_to_EM@{o so}] (FreeSL@{o} X))
     = projT2 (fobj[@EM_Free Sets@{o so} Powerset_Prop@{o so}
@@ -985,6 +1031,9 @@ Example p466_p1_prop_rt@{o} (Q : Prop) :
   slh_map P1_to_Prop@{o} (slh_map Prop_to_P1@{o} Q) = Q := eq_refl.
 
 (* E2 *)
+Check @unit_setoid_object@{_ _}.
+Check @Prop_to_P1@{_}.
+Check @P1_to_Prop@{_}.
 Fail Example p466_prop_p1_rt@{o}
   (T : carrier (Powerset_Prop_obj@{o} unit_setoid_object@{o o})) :
   slh_map Prop_to_P1@{o} (slh_map P1_to_Prop@{o} T) = T := eq_refl.

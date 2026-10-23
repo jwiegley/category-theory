@@ -66,6 +66,8 @@ Definition probe_tensor_ok :=
     Error: The term "Funny_unit_left@{_ v}" has type "1 □ x ≅ x"
     while it is expected to have type "fobj[FunnyTensor@{..}] (1, x) ≅ x"
     (universe inconsistency: Cannot enforce Set = v). *)
+Check @StrictCat@{_ _ _ _ _}.
+Check @Category@{_ _ _}.
 Fail Check (@Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor
               (fun x : Category@{v v v} => @Funny_unit_left x)).
 
@@ -74,6 +76,7 @@ Fail Check (@Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor
     Error: The term "Funny_Monoidal" has type "Monoidal@{i Set}"
     while it is expected to have type "Monoidal@{i v}"
     (universe inconsistency: Cannot enforce Set = v). *)
+Check @Funny_Monoidal@{_}.
 Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v j v v}).
 
 (** ** Positive control: [Funny_Monoidal] is a well-formed [Monoidal] at its

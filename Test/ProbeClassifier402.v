@@ -120,6 +120,9 @@ Check (fun (x y : SetoidObject@{o o}) (f : y ~{Sets@{o so}}~> x)
    [SetoidObject] whose carrier is [SubObj x], which forces objects ≤
    homs; [Sets@{o so} : Category@{so o o}] has o < so.  Stripped:
      universe inconsistency: Cannot enforce so = _ because _ <= _ < so *)
+Check @Sets@{_ _}.
+Check @Sets_Terminal@{_ _}.
+Check @Sets_HasPullbacks@{_ _}.
 Fail Check (@classifier_classifies Sets@{o so} Sets_Terminal@{so o}
               Sets_HasPullbacks@{so o} HS).
 
@@ -146,6 +149,8 @@ Check (fun (a b : SetoidObject@{o o}) =>
 (* NEGATIVE 4 (FORMABILITY).  [SubObj x] is a [Type@{so}], so no setoid on
    it is an object of [Sets@{o so}].  Stripped:
      universe inconsistency: Cannot enforce _ = o because o < so <= _ *)
+Check @SetoidObject@{_ _}.
+Check @Sets@{_ _}.
 Fail Check (fun (x : SetoidObject@{o o}) =>
   ({| carrier := @SubObj Sets@{o so} x |} : obj[Sets@{o so}])).
 
@@ -157,6 +162,8 @@ Check (BoolSetoid@{o} : obj[Sets@{o so}]).
 (* NEGATIVE 5 (FORMABILITY).  Instance/Sets/Classifier.v's truth-value
    setoid is not.  Stripped:
      universe inconsistency: Cannot enforce so = o because o < so *)
+Check @PropSetoid@{_ _}.
+Check @Sets@{_ _}.
 Fail Check (PropSetoid@{o so} : obj[Sets@{o so}]).
 
 End CarrierWall.
@@ -173,6 +180,7 @@ Check (fun (P : Prop) => proj1 (powerset_squash_prop_inert@{o} P)).
    instantiates the impredicative quantifier outside [Prop].  Stripped:
      universe inconsistency: Cannot enforce o <= Prop
    This refusal is exactly what [Untruncate] buys. *)
+Check @Powerset_squash@{_}.
 Fail Check (fun (P : Type@{o}) (h : Powerset_squash@{o} P) =>
               h P (fun p => p)).
 
@@ -194,6 +202,9 @@ Check (@SubobjectClassifier Sets@{o so} Sets_Terminal@{so o}).
    Stripped:
      Illegal application (Non-functional construction)
    -- no universe clause, no "cannot unify". *)
+Check @Sets@{_ _}.
+Check @Sets_Terminal@{_ _}.
+Check @Sets_HasPullbacks@{_ _}.
 Fail Check (@SubobjectClassifier Sets@{o so} Sets_Terminal@{so o}
               Sets_HasPullbacks@{so o}).
 
@@ -222,6 +233,14 @@ Check (fun (U : Untruncate@{o}) (u x : SetoidObject@{o o})
      cannot unify "SetoidMorphism_Lift (char m M)" and
                   "sets_squash_mor ∘ char_setoid m"
    -- two terms of ONE type. *)
+Check @Untruncate@{_}.
+Check @SetoidMorphism_Lift@{_ _}.
+Check @Sets_Classifier@{_ _}.
+Check @sets_squash_mor@{_ _ _}.
+Check @char_setoid@{_ _}.
+Check @SetoidObject@{_ _}.
+Check @Sets@{_ _}.
+Check @Sets_Terminal@{_ _}.
 Fail Example bridge_record@{o' so' sso'} (U : Untruncate@{o'})
   {u x : SetoidObject@{o' o'}} (m : u ~{Sets@{o' so'}}~> x)
   (M : @Monic Sets@{o' so'} u x m) :
@@ -244,6 +263,11 @@ Check (fun (E : IEM@{o}) => @iem_routes_truth@{o so} E).
    the two routes elaborate separately.  Stripped:
      cannot unify "classifier_of_small (small_of_IEM E)" and
                   "Sets_Classifier_dec (DecImage_of_IEM E)" *)
+Check @IEM@{_}.
+Check @classifier_of_small@{_ _}.
+Check @small_of_IEM@{_}.
+Check @Sets_Classifier_dec@{_ _}.
+Check @DecImage_of_IEM@{_ _}.
 Fail Example iem_routes@{o' so'} (E : IEM@{o'}) :
   classifier_of_small@{o' so'} (small_of_IEM@{o'} E)
     = Sets_Classifier_dec@{o' so'} (DecImage_of_IEM@{o' so'} E) := eq_refl.

@@ -435,6 +435,7 @@ Context (J : Category@{jo p p}) (Jlow : Category@{jo jh jh}).
 Definition p450_fun_at_carrier : Category := [J, Grp@{u p}].
 Definition p450_colim_at_carrier := Grp_colim_via_GAFT J.
 
+Check @Grp@{_ _}.
 Fail Definition p450_n3_fun_below_carrier : Category := [Jlow, Grp@{u p}].
 
 End ShapeHoms.
@@ -488,6 +489,7 @@ Definition p450_not_monic_at_set@{u + | Set < u +}
 Definition p450_aft_above_set@{u p + | Set < p, p < u +} :=
   Grp_free_product_is_coequalizer Z2@{p} Z2@{p}.
 
+Check @Z2@{_}.
 Fail Definition p450_n6_aft_at_set :=
   Grp_free_product_is_coequalizer Z2@{Set} Z2@{Set}.
 
@@ -495,6 +497,7 @@ Fail Definition p450_n6_aft_at_set :=
 Definition p450_words_cocartesian_at_set@{u + | Set < u +} :
   @Cocartesian Grp@{u Set} := Grp_Cocartesian.
 
+Check @Grp@{_ _}.
 Fail Definition p450_n7_aft_cocartesian_at_set@{u + | Set < u +} :
   @Cocartesian Grp@{u Set} := Grp_Cocartesian_via_GAFT.
 

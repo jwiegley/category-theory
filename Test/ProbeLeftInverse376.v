@@ -302,6 +302,7 @@ Check (_1@{po ph ph}).
 Check (PointAt (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 Check (@terminal_LALI).
 
+Check @_1@{_ _ _}.
 Fail Check (Point (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 
 End PointProbe.

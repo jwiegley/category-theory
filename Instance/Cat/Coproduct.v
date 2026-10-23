@@ -447,6 +447,7 @@ Section Smallness.
   Check (fun (C : obj[Cat@{a b c d e}] → obj[Cat@{a b c d e}]) =>
            SigmaCat C).
 
+  Check @Cat@{_ _ _ _ _}.
   Fail Check (fun (C : obj[Cat@{a b c d e}] → obj[Cat@{a b c d e}]) =>
                 SigmaCat_IsIndexedCoproduct C).
 End Smallness.

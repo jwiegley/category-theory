@@ -410,6 +410,9 @@ Example p464_instrument_ctl@{o so} (M : MonObject@{o o o})
   eq_refl.
 
 (* The instrument *)
+Check @MonObject@{_ _ _}.
+Check @SetoidObject@{_ _}.
+Check @ActMonad@{_ _}.
 Fail Example p464_instrument@{o so} (M : MonObject@{o o o})
   (X : SetoidObject@{o o}) (g1 g2 : carrier M) (x : carrier X) :
   (@join _ _ (ActMonad@{o so} M) X) (g1, (g2, x)) = (mon_op g2 g1, x) :=
@@ -468,6 +471,9 @@ Example p464_rt_respects_eta@{o so} {M : MonObject@{o o o}}
   eq_refl.
 
 (* N1 *)
+Check @MSetoidAction@{_ _ _ _ _ _ _ _}.
+Check @EM_to_MSet@{_ _}.
+Check @MSet_adj@{_ _}.
 Fail Example p464_rt_op@{o so} {M : MonObject@{o o o}}
   (A : MSetoidAction@{o o o o o o o o} M) :
   act_op (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
@@ -493,6 +499,7 @@ Fail Example p464_rt_obj@{o so} {M : MonObject@{o o o}}
   eq_refl.
 
 (* N5 *)
+Check @MSet@{_ _ _ _ _ _ _ _}.
 Fail Example p464_rt_functor@{o so} {M : MonObject@{o o o}} :
   EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)
   = Id[MSet@{so so o o o o o o} M] := eq_refl.
@@ -522,6 +529,9 @@ Example p464_rt2_eta@{o so} {M : MonObject@{o o o}}
   = (fun p => t_alg[`2 x] (fst p, snd p)) := eq_refl.
 
 (* N6 *)
+Check @EilenbergMoore@{_ _ _ _}.
+Check @Sets@{_ _}.
+Check @ActF@{_ _}.
 Fail Example p464_rt2_functor@{o so} {M : MonObject@{o o o}} :
   EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M
   = Id[@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
@@ -558,6 +568,7 @@ Example p464_beck_act@{o so} (M : MonObject@{o o o})
   = t_alg[`2 x] (mon_op g mon_unit, z) := eq_refl.
 
 (* N9 *)
+Check @MSet_beck_equivalence@{_ _}.
 Fail Example p464_beck_qi@{o so} (M : MonObject@{o o o}) :
   @quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M) = EM_to_MSet@{o so} M
   := eq_refl.
@@ -570,6 +581,8 @@ Fail Example p464_beck_act_strict@{o so} (M : MonObject@{o o o})
   = t_alg[`2 x] (g, z) := eq_refl.
 
 (* N11 *)
+Check @MSet_Forget_Monadic@{_ _}.
+Check @MSet_Forget_Monadic_direct@{_ _}.
 Fail Example p464_monadic_same@{o so} (M : MonObject@{o o o}) :
   MSet_Forget_Monadic@{o so} M = MSet_Forget_Monadic_direct@{o so} M :=
   eq_refl.
@@ -605,6 +618,9 @@ Proof.
 Defined.
 
 (* N12 *)
+Check @MonObject@{_ _ _}.
+Check @p464_ActF_hand@{_ _}.
+Check @ActF@{_ _}.
 Fail Example p464_hand_is_composite@{o so} (M : MonObject@{o o o}) :
   p464_ActF_hand@{o so} M = ActF@{o so} M := eq_refl.
 
@@ -640,15 +656,20 @@ Example p464_bg_EM_to@{o so c} (M : MonObject@{o o o}) :
   to (BG_EM_iso@{o so c} M) = EM_Comparison (BG_adj@{o so} M) := eq_refl.
 
 (* N13 *)
+Check @SetoidObject@{_ _}.
+Check @BGMonad@{_ _}.
 Fail Example p464_bg_ret_strict@{o so} (M : MonObject@{o o o})
   (X : SetoidObject@{o o}) (x : carrier X) :
   (@ret _ _ (BGMonad@{o so} M) X) x = (mon_unit, x) := eq_refl.
 
 (* N14 *)
+Check @U_BG@{_ _}.
+Check @F_BG@{_ _}.
 Fail Example p464_bg_T_is_ActF@{o so} (M : MonObject@{o o o}) :
   U_BG@{o so} M ◯ F_BG@{o so} M = ActF@{o so} M := eq_refl.
 
 (* N15 *)
+Check @ActMonad@{_ _}.
 Fail Example p464_bg_join_fun@{o so} (M : MonObject@{o o o})
   (X : SetoidObject@{o o}) :
   @join _ _ (BGMonad@{o so} M) X = @join _ _ (ActMonad@{o so} M) X :=
@@ -668,6 +689,8 @@ Example p464_bg_U_map@{o so} (M : MonObject@{o o o}) (P Q : SetBG@{o so} M)
   eq_refl.
 
 (* N16 *)
+Check @MSet_Forget@{_ _}.
+Check @MSet_to@{_ _}.
 Fail Example p464_bg_U_is_composite@{o so} (M : MonObject@{o o o}) :
   U_BG@{o so} M = MSet_Forget@{o so} M ◯ MSet_to@{so o} M := eq_refl.
 
@@ -691,10 +714,14 @@ Definition p464_bg_free@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ MSet@{so so o o o o o o} M := MSet_Free@{o so} M.
 
 (* N17 *)
+Check @p464_SetBG_h@{_ _}.
+Check @Sets@{_ _}.
 Fail Definition p464_bg_down_h@{o so} (M : MonObject@{o o o}) : Type@{so} :=
   p464_SetBG_h@{o so} M ⟶ Sets@{o so}.
 
 (* N18 *)
+Check @MSet_from@{_ _ _ _ _}.
+Check @MSet_Free@{_ _}.
 Fail Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ p464_SetBG_h@{o so} M :=
   MSet_from@{so so o so o} M ◯ MSet_Free@{o so} M.
@@ -721,6 +748,10 @@ Example p464_tie_alg@{o so c} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
   eq_refl.
 
 (* N19 *)
+Check @SetBG@{_ _}.
+Check @BG_Act_EM@{_ _}.
+Check @BG_adj@{_ _}.
+Check @Fun_EM_iso@{_ _ _}.
 Fail Example p464_tie_obj@{o so c} (M : MonObject@{o o o})
   (P : SetBG@{o so} M) :
   fobj[BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M)] P

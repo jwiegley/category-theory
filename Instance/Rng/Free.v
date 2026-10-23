@@ -1428,7 +1428,9 @@ Constraint Set < uh.
 Check (Rng_Forget_Ab : Rng@{uo uh} ⟶ Ab).
 Check (Rig_Forget_CMon : Rig@{uo uh} ⟶ CMon).
 
+Check @Rng@{_ _}.
 Fail Check (Rng_Forget_Mon : Rng@{uo uh} ⟶ MonSets).
+Check @Rig@{_ _}.
 Fail Check (Rig_Forget_Mon : Rig@{uo uh} ⟶ MonSets).
 
 End MonRouteSetPin.

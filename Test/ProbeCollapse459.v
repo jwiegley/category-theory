@@ -388,6 +388,9 @@ Example p459_hwc_obj@{i o h | i <= o, o < h +}
         (wsets_coeq_proj@{i o} (fun i => continuous_map (fs i))) := eq_refl.
 
 (* N1 *)
+Check @HasWideCoequalizers@{_ _ _}.
+Check @Top@{_ _}.
+Check @Top_HasWideCoequalizers_small@{_ _ _}.
 Fail Definition p459_hwc_at_hom@{o h | o < h +} :
   HasWideCoequalizers@{h h h} Top@{h o} :=
   Top_HasWideCoequalizers_small@{h o h}.
@@ -399,6 +402,9 @@ Definition p459_rel_bounded@{i o | i <= o} {I : Type@{i}}
   B → B → Type@{o} := wcoeq_rel@{i o} fs.
 
 (* N2 *)
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
+Check @wcoeq_rel@{_ _}.
 Fail Definition p459_rel_unbounded@{i o |} {I : Type@{i}}
   {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
   B → B → Type@{o} := wcoeq_rel@{i o} fs.
@@ -423,6 +429,8 @@ Inductive p459_wrel_noglue@{i o |} {I : Type@{i}}
       p459_wrel_noglue b1 b3.
 
 (* N3 *)
+Check @SetoidObject@{_ _}.
+Check @SetoidMorphism@{_ _ _}.
 Fail Inductive p459_wrel_unbounded@{i o |} {I : Type@{i}}
   {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
   B → B → Type@{o} :=
@@ -490,6 +498,10 @@ Definition p459_coequalizer_at_hom@{o h | o < h +} (X : TopSpace@{o})
   collapse_family_coequalizer@{o h h} X I p.
 
 (* N5 *)
+Check @TopSpace@{_}.
+Check @IsWideCoequalizer@{_ _ _}.
+Check @collapse_family_coequalizer@{_ _ _}.
+Check @Top@{_ _}.
 Fail Definition p459_coequalizer_cumulative@{o h | o < h +}
   (X : TopSpace@{o}) (I : Type@{o}) (p : I → X) :
   IsWideCoequalizer@{h h h} (C := Top@{h o}) (collapse_family X I p)
@@ -509,6 +521,7 @@ Definition p459_collapse_colimit@{o h | o < h +} (X : TopSpace@{o})
   collapse_colimit X A a0.
 
 (* N6 *)
+Check @collapse_family@{_ _}.
 Fail Definition p459_colimit_at_points@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) (i0 : I) :=
   is_wide_coequalizer_colimit (C := Top@{h o}) (collapse_family@{o h} X I p)
@@ -539,6 +552,8 @@ Example p459_iso_generic_from@{o h u | o < h, h < u +} (X : TopSpace@{o})
   := eq_refl.
 
 (* N7 *)
+Check @twcoeq_obj@{_ _ _}.
+Check @twcoeq_IsWideCoequalizer@{_ _ _}.
 Fail Definition p459_iso_generic_no_u@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) :
   Top_collapse X I p ≅[Top@{h o}] twcoeq_obj@{o o h} (collapse_family X I p) :=
@@ -553,6 +568,7 @@ Definition p459_empty_iso@{o h u | o < h, h < u +} (X : TopSpace@{o}) :
        (fun a : collapse_sub_points X (fun _ => False) => projT2 a)).
 
 (* N8 *)
+Check @collapse_coequalizer@{_ _ _}.
 Fail Definition p459_empty_iso_no_u@{o h | o < h +} (X : TopSpace@{o}) :
   Top_collapse_sub X (fun _ => False) ≅[Top@{h o}] X :=
   wide_coequalizer_unique _ (collapse_coequalizer@{o h o} X (fun _ => False))
@@ -610,6 +626,7 @@ Example p459_point_pair_sub@{h o | o < h +} (Y : PointedTop@{o}) :
   pair_sub (fobj[PointPair@{h o}] Y) = p459_point_sub Y := eq_refl.
 
 (* N10 *)
+Check @PointedTop@{_}.
 Fail Definition p459_point_sub_prop@{o} (Y : PointedTop@{o}) :
   carrier (top_carrier (ptop_space Y)) → Prop :=
   fun y => y ≈ ptop_pt Y.
@@ -724,6 +741,11 @@ Example p459_adj_is@{h o u v | o < h, h < u +} (X : PairTop@{o})
     = pairs_quotient_iso@{h o u} X Y := eq_refl.
 
 (* N12 *)
+Check @PairTop@{_}.
+Check @Top_pointed@{_ _}.
+Check @PairQuotient@{_ _}.
+Check @Top_pairs@{_ _}.
+Check @PointPair@{_ _}.
 Fail Example p459_hom_eq@{h o | o < h +} (X : PairTop@{o})
   (Y : PointedTop@{o}) :
   @hom Top_pointed@{h o} (PairQuotient@{h o} X) Y
@@ -740,6 +762,7 @@ Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
     ltac:(intros X Y Z f g x; reflexivity).
 
 (* N13 *)
+Check @pairs_quotient_iso@{_ _ _}.
 Fail Definition p459_adjunction_built_notation@{h o u v | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   @Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o} PairQuotient@{h o}
@@ -855,6 +878,7 @@ Example p459_pquot_collapse_iso_from_none@{o h u | o < h, h < u +}
   := eq_refl.
 
 (* N15 *)
+Check @pquot_coequalizer@{_ _ _}.
 Fail Definition p459_pquot_collapse_iso_no_u@{o h | o < h +}
   (X : PairTop@{o}) (a0 : collapse_sub_points (pair_space X) (pair_sub X)) :
   Top_collapse_sub (pair_space X) (pair_sub X) ≅[Top@{h o}] pquot_space X :=
@@ -889,6 +913,7 @@ Example p459_empty_sum_none@{h o | o < h +} (X : TopSpace@{o}) :
     = Datatypes.inr ttt := eq_refl.
 
 (* N16 *)
+Check @Point_Top@{_}.
 Fail Example p459_empty_sum_eq@{o} (X : TopSpace@{o}) :
   pquot_space (empty_pair X) = Sum_Top X Point_Top@{o} := eq_refl.
 

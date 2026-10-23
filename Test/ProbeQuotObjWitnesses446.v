@@ -153,6 +153,8 @@ Constraint o < so.
    inherits [SubObj]'s setoid (Theory/Subobject.v) and has no
    antisymmetry, so the theorem holds at ≈ and the same statement at `=`
    is refused. *)
+Check @Sets@{_ _}.
+Check @NatDiscrete@{_}.
 Fail Example p446_n4 :
   @quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o}
     Sets_Q_parity Sets_Q_mod3 = Sets_Q_total := eq_refl.
@@ -162,6 +164,7 @@ Fail Example p446_n4 :
 (* [@QuotObj (C^op) x = @SubObj C x] holds by [eq_refl], C^op^op being C
    on the nose.  Dropping the [^op] must NOT: that is the whole content
    of the definition. *)
+Check @SetoidObject@{_ _}.
 Fail Example p446_n5 (X : SetoidObject@{o o}) :
   @QuotObj Sets@{o so} X = @SubObj Sets@{o so} X := eq_refl.
 

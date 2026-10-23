@@ -134,6 +134,7 @@ Check (obj[Lind Tu]).
 Check (fun p q : Sent@{lo} Vu => p ~{Lind Tu}~> q).
 
 (* N1 (FORMABILITY): "Cannot enforce lh = lp because lh < lp". *)
+Check @Category@{_ _ _}.
 Fail Check (Lind Tu : Category@{lo lh lp}).
 
 Context (Au : Type@{lo}) (Ru : Relation_Definitions.relation Au)
@@ -145,6 +146,7 @@ Check (Proset Pu : Category@{lo lh lh}).
 (* N2 (FORMABILITY): the donor alone, with no [Lind] in the command,
    is rejected with the identical clause — so the identification is
    inherited from [Proset] and the target introduces none of its own. *)
+Check @Category@{_ _ _}.
 Fail Check (Proset Pu : Category@{lo lh lp}).
 
 End UniverseProbe.

@@ -544,6 +544,10 @@ Example p468_c47_mforget_map@{o h m1 m2 u |
   fmap[Monads_Forget@{o h m1 m2 u} C] θ = mh_transform θ := eq_refl.
 
 (* R6 *)
+Check @Category@{_ _ _}.
+Check @Monads@{_ _ _ _}.
+Check @Monads_Forget@{_ _ _ _ _}.
+Check @Fun@{_ _ _ _ _ _ _}.
 Fail Example p468_r6_forget_id@{o h m1 m2 u |
   h < u, o <= m1, h <= m1, o <= m2, h <= m2 +}
   (C : Category@{o h h}) (N : Monads@{o h m1 m2} C) (x : C) :
@@ -587,6 +591,9 @@ Definition p468_c6_free_type@{o h e s | h < s, o <= e, h <= e +}
   p468_c5_book_type@{o h e s} θ := mh_EM_free@{o h e s} θ.
 
 (* R1 *)
+Check @MonadHom@{_ _}.
+Check @EM_Free@{_ _ _ _}.
+Check @mh_EM@{_ _ _ _}.
 Fail Definition p468_r1_issue_direction@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :=
@@ -650,6 +657,7 @@ Example p468_c41_forget_iso@{o h e s | h < s, o <= e, h <= e +}
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
 
 (* R2 *)
+Check @EM_Forget@{_ _ _ _}.
 Fail Example p468_r2_forget_eq@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
@@ -698,6 +706,7 @@ Example p468_c18_transpose_arrow@{o h e s | h < s, o <= e, h <= e +}
   := eq_refl.
 
 (* R5 *)
+Check @EM_extend@{_ _ _ _}.
 Fail Example p468_r5_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
@@ -731,6 +740,7 @@ Example p468_c15_id_alg@{o h e s | h < s, o <= e, h <= e +}
     = @t_alg _ _ _ _ (`2 X) ∘ id := eq_refl.
 
 (* R3 *)
+Check @EilenbergMoore@{_ _ _ _}.
 Fail Example p468_r3_id_obj@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
   (X : @EilenbergMoore@{e o s h} C T M) :
@@ -905,6 +915,9 @@ Example p468_c22_mon_id_right@{o h m1 f s mo t |
     = fmap[projT1 N] (@id C x) := eq_refl.
 
 (* R7 *)
+Check @Monads_Mon@{_ _ _ _ _ _ _ _}.
+Check @Mon@{_ _ _ _}.
+Check @Compose_Monoidal@{_ _ _ _}.
 Fail Example p468_r7_mon_id@{o h m1 f s mo t |
   h < s, f < t, o <= m1, h <= m1, o <= f, h <= f, f <= mo +}
   (C : Category@{o h h}) (N : Monads@{o h m1 f} C) (x : C) :
@@ -946,6 +959,8 @@ Example p468_c24_monad_round@{o h f s | h < s, o <= f, h <= f +}
     = (@ret C T M x, @join C T M x) := eq_refl.
 
 (* R8 *)
+Check @monoid_monad@{_ _ _ _}.
+Check @monad_monoid@{_ _ _ _}.
 Fail Example p468_r8_monad_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) :
   monoid_monad@{o h f s} (monad_monoid@{o h f s} M) = M := eq_refl.
@@ -990,6 +1005,8 @@ Example p468_c26_trans_round@{o h | +} {C : Category@{o h h}}
     = @lift C M HM T HT L x := eq_refl.
 
 (* R10 *)
+Check @hom_transformer@{_ _}.
+Check @transformer_hom@{_ _}.
 Fail Example p468_r10_trans_round@{o h | +} {C : Category@{o h h}}
   {M : C ⟶ C} {HM : @Monad C M} {T : (C ⟶ C) → (C ⟶ C)}
   {HT : @Monad C (T M)} (L : @MonadTransformer C M HM T HT) :
@@ -1068,6 +1085,13 @@ Example p468_r12_bg_alg@{o so | o < so +} (M : MonObject@{o o o})
     = @t_alg _ _ _ _ (`2 x) := eq_refl.
 
 (* R13 *)
+Check @MonObject@{_ _ _}.
+Check @Sets@{_ _}.
+Check @U_BG@{_ _}.
+Check @F_BG@{_ _}.
+Check @BGMonad@{_ _}.
+Check @BG_theta@{_ _}.
+Check @BG_Act_EM@{_ _}.
 Fail Example p468_r13_bg_obj@{o so | o < so +} (M : MonObject@{o o o})
   (x : @EilenbergMoore@{so so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
@@ -1158,6 +1182,12 @@ Example p468_r16_sl_sup@{o so | Set < o, o < so +}
     = sl_sup (fobj[EM_induced_to_SupLat@{o so}] x) := eq_refl.
 
 (* R17 *)
+Check @SL_Forget@{_ _}.
+Check @SL_Free@{_ _}.
+Check @SL_induced@{_ _}.
+Check @EM_to_SupLat@{_ _}.
+Check @SL_EM_theta@{_ _}.
+Check @EM_induced_to_SupLat@{_ _}.
 Fail Example p468_r17_sl_obj@{o so | Set < o, o < so +}
   (x : @EilenbergMoore@{so so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :

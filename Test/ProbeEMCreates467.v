@@ -205,6 +205,10 @@ Example p467_c8_record_but_coherence@{o h jo eo e l l0 s}
     = N := eq_refl.
 
 (* R1 *)
+Check @Category@{_ _ _}.
+Check @EilenbergMoore@{_ _ _ _}.
+Check @IsLimitCone@{_ _ _ _ _}.
+Check @em_strict_lift@{_ _ _ _ _ _ _ _ _}.
 Fail Example p467_r1_fcone@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
   (K : J ⟶ EilenbergMoore@{eo o e h} T)
@@ -219,6 +223,8 @@ Example p467_e1_carriers@{o so} : `1 A_id@{o so} = `1 A_true@{o so}
   := eq_refl.
 
 (* The instrument *)
+Check @A_id@{_ _}.
+Check @A_true@{_ _}.
 Fail Example p467_instrument@{o so} : A_id@{o so} = A_true@{o so}
   := eq_refl.
 
