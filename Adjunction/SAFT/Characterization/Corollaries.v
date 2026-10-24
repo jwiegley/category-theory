@@ -277,7 +277,7 @@ Definition SAFT_cover_wp_iso@{o dobj h dp cp w s t pl pa +|
   projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
   left_adjoint_iso U _ _
-    (projT2 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP))
+    (projT2 (SAFT_cover_wp U comp cont G WP))
     (projT2 (SAFT_wellpowered U comp cont G WP)).
 
 (** ** The two routes index the same family *)

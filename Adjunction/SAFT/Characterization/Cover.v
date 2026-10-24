@@ -247,6 +247,44 @@ Generalizable All Variables.
      "Functor.Compose_obligation_1@{dobj so o pa h} …"", while the same
      definition with [pa] (the control) is accepted.  Test/ProbeSAFT453.v
      pins it as N18 ([p453_n18_lift_at_pc], beside [p453_lift_at_pa]).
+   - CORRECTION (#1381): naming the binders is not a reason to keep every
+     positional instance.  Of the nineteen calls to [saft_sub],
+     [saft_sub_to], [saft_lift], [saft_cover_at], [saft_solution_set_at],
+     [SAFT_cover_wp_at] and [SAFT_cover_wp] with explicit instances in
+     this file and Corollaries.v (outside declaration heads and comments),
+     nine were redundant.  The count falls from sixteen plus three to
+     eight plus two.  [Print Module] enumerates twenty-two constants here
+     and eight there; their [About] and full [Print], including bodies and
+     constraints, agree before and after on Rocq 9.1.1 and, separately,
+     the #22575 stand-in, except for generated-universe serial renaming
+     and the standalone declaration coordinates in [About].  Each such
+     coordinate record is retained and validated against its declaration;
+     no other [About] property, body term or constraint is normalized.
+     The TEN SURVIVORS keep [cp] distinct from [dp]:
+       * Five are individually necessary: [saft_solution_set_at]'s
+         [saft_cover_at], [SAFT_cover_wp_at]'s [saft_solution_set_at],
+         [SAFT_cover_wp]'s [SAFT_cover_wp_at],
+         [saft_solution_set_at_index]'s [saft_solution_set_at], and
+         Corollaries.v's [continuous_Set_functor_representable_at]'s
+         [saft_solution_set_at].  Deleting any of the first three leaves
+         [cp] unused in that body.  In the original nineteen-site version,
+         deleting either of the latter two links ([SAFT_cover_wp_at] or
+         [SAFT_cover_wp]) also added [dp = cp] to [SAFT_cover_wp_is_GAFT];
+         that secondary equation is absent when deleting either link in
+         this ten-site version.  The index readback's instance prevents
+         its statement from instantiating [cp := dp];
+         the representability instance fixes the solution set's [cp].
+       * Five stand for interchangeable groups: [saft_sub_to] in
+         [saft_lift_commutes] (rather than [saft_lift]); the FIRST
+         [saft_sub], under [wp_from], in [saft_cover_at]'s script (rather
+         than its second [saft_sub], [saft_lift] or [saft_sub_to]);
+         [saft_cover_at] in [saft_cover_at_index] (rather than [saft_sub]);
+         [SAFT_cover_wp] in [SAFT_cover_wp_is_GAFT] (rather than
+         [saft_solution_set_at]); and [SAFT_cover_wp] under [projT1] in
+         [SAFT_cover_wp_iso]'s type (rather than under [projT2] in its
+         body).  Each group needs ONE instance: deleting the whole group
+         instantiates [cp := dp].  Do not re-add the redundant members
+         or remove the surviving member along with them.
    - [pa] in the conclusion's [Adjunction@{… pa …}] is [GAFT]'s own:
      Adjunction/SAFT.v's header quotes [GAFT]'s readback with the same
      slot of [PreservesImageLimit] in the same slot of the adjunction.
@@ -438,7 +476,7 @@ Definition saft_sub_to@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C)
   (d : D) (c : C) (h : d ~> U c) :
-  Subobject.sub_dom (saft_sub@{o dobj h so dp cp _} U comp G d c h) ~> c :=
+  Subobject.sub_dom (saft_sub U comp G d c h) ~> c :=
   pullback_snd _ _ (@pullback C (complete_pullbacks comp) _ _ _
                       (saft_kappa@{o dobj h so dp cp} U comp G d c h)
                       (cogen_canonical@{cp so h so o} comp G c)).
@@ -493,7 +531,7 @@ Definition saft_lift@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
-  d ~> U (Subobject.sub_dom (saft_sub@{o dobj h so dp cp _} U comp G d c h)) :=
+  d ~> U (Subobject.sub_dom (saft_sub U comp G d c h)) :=
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa _}
                             U comp cont G d c h)).
 
@@ -503,7 +541,7 @@ Lemma saft_lift_commutes@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   fmap[U] (saft_sub_to@{o dobj h so dp cp _} U comp G d c h)
-    ∘ saft_lift@{o dobj h so dp cp pl pa _} U comp cont G d c h ≈ h.
+    ∘ saft_lift U comp cont G d c h ≈ h.
 Proof.
   exact (unique_property (cont _ _ _ (saft_pb_cone U comp cont G d c h)) RPos).
 Qed.
@@ -531,11 +569,11 @@ Definition saft_cover_at@{o dobj h so dp cp w s t pl pa +|
 Proof.
   intros c h.
   exists (wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h)).
-  destruct (wp_to_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h))
+  destruct (wp_to_from W (saft_sub U comp G d c h))
     as [iso _].
   exists (fmap[U] (from iso)
-            ∘ saft_lift@{o dobj h so dp cp pl pa _} U comp cont G d c h).
-  exists (saft_sub_to@{o dobj h so dp cp _} U comp G d c h ∘ to iso).
+            ∘ saft_lift U comp cont G d c h).
+  exists (saft_sub_to U comp G d c h ∘ to iso).
   rewrite fmap_comp, <- comp_assoc, (comp_assoc (fmap[U] (to iso))).
   rewrite <- fmap_comp, iso_to_from, fmap_id, id_left.
   apply saft_lift_commutes.
@@ -599,7 +637,7 @@ Example saft_cover_at_index@{o dobj h so dp cp w s t pl pa +|
   (c : C) (h : d ~> U c) :
   projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _}
             U comp cont G d W c h)
-    = wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h) := eq_refl.
+    = wp_from W (saft_sub U comp G d c h) := eq_refl.
 
 (* The solution set's index is the well-powering's index paired with a
    [d]-arrow. *)
@@ -624,6 +662,6 @@ Example SAFT_cover_wp_is_GAFT@{o dobj h dp cp w s t pl pa +|
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP
     = GAFT U comp cont
-        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _ _}
+        (fun d => saft_solution_set_at
                     U comp cont G d (WP (saft_prod@{o dobj h h dp} U comp G d)))
   := eq_refl.
