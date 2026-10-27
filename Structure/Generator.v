@@ -155,21 +155,20 @@ Generalizable All Variables.
    [cogenerator_jointly_faithful] over a [Cogenerator].
 
    WHY THE ISOMORPHISM TRANSPORT IS HERE.  [separator_iso] moves
-   [IsSeparator] along c ≅ d.  It is not decoration: the Sets witness
-   needs it.  The singleton [unit_setoid_object] (Instance/Sets.v)
-   takes its setoid field from Lib/Setoid.v's [unit_setoid], while
-   the terminal object of [Sets_Terminal] (Instance/Sets.v) takes
-   its from [Unit_Setoid] -- measured, not read off the source:
-     Example t1 : @terminal_obj Sets Sets_Terminal
-       = {| carrier := poly_unit ; is_setoid := Unit_Setoid |} := eq_refl.
-   is ACCEPTED, while
+   [IsSeparator] along c ≅ d.  CORRECTION (#1382): this paragraph formerly
+   said the Sets witness NEEDS transport because
      Example f3_term :
        @terminal_obj Sets Sets_Terminal = unit_setoid_object := eq_refl.
-   is rejected with (cannot unify "1" and "unit_setoid_object") -- so
-   "the terminal object separates Sets" and "the singleton separates
-   Sets" are two statements, and whichever is proved reaches the other
-   only along an isomorphism.  [hom_test_iso] is the shared step: it
-   carries a family of tests out of d to a family of tests out of c, and
+   was rejected.  That was measured on ordinary Rocq 9.1.1 with the
+   opaque [Unit_Setoid] obligation; the #22575 stand-in already accepted
+   it.  With the explicit transparent Equivalence field, both tools
+   accept this equality.  The singleton's [unit_setoid] and the terminal
+   object's [Unit_Setoid] now use the same transparent equality proof:
+   the former obstruction was proof opacity, not a carrier-universe pin.
+   The two witness names are retained, but their objects convert and
+   these particular separation statements no longer require transport.
+   The GENERIC transport API is unchanged.  [hom_test_iso] carries a
+   family of tests out of d to a family of tests out of c, and
    [separator_iso], [gen_iso] and [gen_family_mono] are its three
    consumers.
 

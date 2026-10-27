@@ -263,7 +263,8 @@ Require Import Category.Structure.Terminal.
 (* The singleton setoid: [poly_unit] under `=`, used as the terminal object. *)
 #[export]
 Program Instance Unit_Setoid@{u} : Setoid@{u u} poly_unit@{u} := {
-  equiv := fun x y => x = y
+  equiv := fun x y => x = y;
+  setoid_equiv := Category.Lib.Setoid.eq_equivalence
 }.
 
 (* Terminal object: the singleton. There is exactly one map into it (every

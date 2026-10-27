@@ -242,7 +242,8 @@ Open Scope morphism_scope.
 Program Definition Morphism_equality@{o h p}
   {ob : Type@{o}} {hom : ob → ob → Type@{h}}
   (x y : ob) : Setoid@{h p} (hom x y) := {|
-  equiv := eq
+  equiv := eq;
+  setoid_equiv := Category.Lib.Setoid.eq_equivalence
 |}.
 Arguments Morphism_equality {_ _} _ _ /.
 

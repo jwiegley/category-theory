@@ -75,8 +75,9 @@ Generalizable All Variables.
        Structure/Pullback.v's [ump_pullbacks] and Theory/Morphisms.v's
        witnesses already are.
 
-   WHAT IS DELIVERED (45 named constants plus 3 [Program] obligations,
-   every one closed under the global context).
+   WHAT IS DELIVERED (45 named constants plus 2 [Program] obligations,
+   every one closed under the global context; the obligation-count
+   correction is recorded under COUNTS AND CONVENTIONS below).
      (1) [Projective p] — a [Class] like [Epic]/[Monic], one field
          [projective_lift {b c} (g : b ~> c) (He : Epic g) (f : p ~> c) : ∃ h
          : p ~> b, g ∘ h ≈ f] — with the accessors [proj_lift] /
@@ -179,8 +180,14 @@ Generalizable All Variables.
 
    COUNTS AND CONVENTIONS.
      - 45 [.glob] declaration heads (40 [def], 3 [prf], the class [rec] and
-       its [proj]) plus 3 [Program] obligations ([LeibnizSetoid] 1,
-       [two_X_initial] 2), all "Closed under the global context", zero
+       its [proj]) plus 2 [Program] obligations, both [two_X_initial]'s.
+       CORRECTION (#1382): an earlier revision counted 3, including
+       [LeibnizSetoid]'s opaque equivalence obligation on Rocq 9.1.1.
+       Its explicit transparent [Category.Lib.Setoid.eq_equivalence] field
+       leaves only [two_X_initial_obligation_1] and
+       [two_X_initial_obligation_2], by [Print Module Projective] on
+       Rocq 9.1.1 and the #22575-patched 9.1.1 stand-in.  All 47 are
+       "Closed under the global context", zero
        [Axioms:] lines; the gate carries the 45 heads, fully qualified, the
        issue's [Projective], [Injective]'s carrier [injective_extend] and
        [projective_iff_hom_preserves_epi] among them ([Injective] itself is
@@ -488,7 +495,9 @@ Definition terminal_obj_Injective {C : Category} `{T : @Terminal C} :
   @initial_obj_Projective (C^op) T.
 
 Program Definition LeibnizSetoid@{o p} (T : Type@{o}) : SetoidObject@{o p} :=
-  {| carrier := T; is_setoid := {| equiv := @eq T |} |}.
+  {| carrier := T;
+     is_setoid := {| equiv := @eq T;
+                    setoid_equiv := Category.Lib.Setoid.eq_equivalence |} |}.
 
 Definition Sets_Leibniz_Projective@{h p} (T : Type@{p}) :
   @Projective Sets@{p h} (LeibnizSetoid@{p p} T).
