@@ -32,10 +32,15 @@ Generalizable All Variables.
     shadow the way they do there; no bare occurrence of that name appears
     below).
 
-    Every negative below has been STRIPPED of its refutation keyword in a
-    copy of this WHOLE file and its complete error read; all five are
-    CONVERSION refusals ("cannot unify A and B").  The instrument check
-    comes first, and every library constant a negative names has a
+    CORRECTION (#1382): an earlier revision called N1-N5 all CONVERSION
+    refusals.  N1 and N5 now hold: [Unit_Setoid]'s explicit transparent
+    equivalence field replaces Rocq 9.1.1's opaque Program obligation.
+    This is proof transparency, not a carrier-universe pin; the
+    #22575-patched 9.1.1 stand-in already accepted both before this change.
+    On both tools, stripping each remaining negative in a copy of this
+    WHOLE file gives three CONVERSION refusals (N2-N4, "cannot unify")
+    and one missing-name instrument, four refutation commands in all.
+    The instrument check comes first, and every library constant a negative names has a
     positive control outside any refutation command.  "The empty setoid
     is not a separator" is NOT here: it is a theorem about a well-typed
     statement with no inhabitant, delivered as
@@ -88,8 +93,10 @@ Example p447w_g3 :
   := eq_refl.
 
 (* The terminal object's setoid field IS Instance/Sets.v's [Unit_Setoid];
-   the singleton's is Lib/Setoid.v's [unit_setoid] -- which is why N1
-   below is refused. *)
+   the singleton's is Lib/Setoid.v's [unit_setoid].  CORRECTION (#1382):
+   the earlier claim that this difference refuses N1 depended on the
+   opaque equivalence obligation.  With the explicit transparent field
+   the two setoids convert, as N1 below checks. *)
 Example p447w_t1 : @terminal_obj Sets Sets_Terminal
   = {| carrier := poly_unit ; is_setoid := Unit_Setoid |} := eq_refl.
 
@@ -102,12 +109,13 @@ Example p447w_empty : carrier (@terminal_obj (Sets^op) Sets_Initial) = False
 Definition p447w_ab : @IsSeparator Ab (FreeAbObject unit_setoid_object) :=
   Ab_free_one_separates.
 
-(** ** Negatives *)
+(** ** Boundary checks *)
 
-(* N1 -- CONVERSION.  The singleton is not the terminal object on the
-   nose: "cannot unify "1" and "unit_setoid_object"" (the [1] being the
-   terminal-object notation this import list puts in scope). *)
-Fail Example n1 : @terminal_obj Sets Sets_Terminal = unit_setoid_object
+(* N1 -- POSITIVE CONVERSION.  CORRECTION (#1382): the former refusal
+   "cannot unify "1" and "unit_setoid_object"" was caused by
+   [Unit_Setoid]'s opaque equivalence obligation.  Its explicit transparent
+   field makes the terminal object and the singleton convert. *)
+Example n1 : @terminal_obj Sets Sets_Terminal = unit_setoid_object
   := eq_refl.
 
 (* N2 -- CONVERSION.  Separation is at ≈, not at Leibniz =:
@@ -133,10 +141,9 @@ Fail Definition n3 :
    The isomorphism between them is not in tree (see the Ab header). *)
 Fail Definition n4 : @IsSeparator Ab ab_int := Ab_free_one_separates.
 
-(* N5 -- CONVERSION.  The singleton proof does not prove the
-   terminal-object statement: "cannot unify
-   "unit_setoid_object ~{ Sets }~> x" and "1 ~{ Sets }~> x"" -- N1 lifted
-   from the objects to the theorems, and the reason
-   [Sets_terminal_separates] is a separate constant. *)
-Fail Definition n5 : @IsSeparator Sets (@terminal_obj Sets Sets_Terminal)
+(* N5 -- POSITIVE SEPARATION.  CORRECTION (#1382): N1's conversion now
+   lets the singleton proof inhabit the terminal-object statement too.
+   The former refusal was the same proof-opacity boundary, not a size
+   restriction.  [Sets_terminal_separates] remains the pinned public name. *)
+Definition n5 : @IsSeparator Sets (@terminal_obj Sets Sets_Terminal)
   := Sets_unit_separates.

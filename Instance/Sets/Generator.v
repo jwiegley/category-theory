@@ -76,7 +76,7 @@ Generalizable All Variables.
    existed.  What was missing, and what this file adds, is the same
    content in the vocabulary issue #447 froze — [IsSeparator] and the
    [Generator] record of Structure/Generator.v — the SINGLETON reading
-   (a different object from the terminal object, measured below), the
+   (historically non-convertible with the terminal object; corrected below), the
    [Generator] packages, and the transport along the isomorphism between
    the two objects.  The two vocabularies are bridged in both directions
    by Structure/Generator/Concrete.v's [IsSeparator_of_Separator] and
@@ -88,31 +88,28 @@ Generalizable All Variables.
    integration kept the theory half's [separator_iso] and bridges and
    removed the copies.)
 
-   THE SINGLETON AND THE TERMINAL OBJECT ARE TWO STATEMENTS.  This is a
-   measurement, not a caution.  Instance/Sets.v's
-   [unit_setoid_object] is [{| carrier := poly_unit ; is_setoid :=
-   unit_setoid |}], a bare record; Instance/Sets.v's [Sets_Terminal]
-   is a [Program Instance] whose [terminal_obj] field is
-   [{| carrier := poly_unit |}] with the setoid field left to an
-   obligation term.  The two records therefore do not convert, and with
-   the exact requirement list of this file
+   THE SINGLETON AND THE TERMINAL OBJECT: CORRECTION (#1382).  An earlier
+   revision called these "TWO STATEMENTS" and attributed their refusal
+   to convert to the two setoid records.  Instance/Sets.v's
+   [unit_setoid_object] uses Lib/Setoid.v's [unit_setoid], whereas
+   [Sets_Terminal]'s object uses [Unit_Setoid].  The decisive difference
+   was the EQUIVALENCE PROOF: on ordinary Rocq 9.1.1, [Print Unit_Setoid]
+   showed the opaque [Unit_Setoid_obligation_1], while the #22575-patched
+   9.1.1 stand-in filled that field with a transparent instance.
+   Before #1382, with this file's requirement list,
 
      Example term_is_unit :
        @terminal_obj Sets Sets_Terminal = unit_setoid_object := eq_refl.
 
-   is rejected as
-
-     "The term "eq_refl" has type "1 = 1" while it is expected to have
-      type "1 = unit_setoid_object"
-      (cannot unify "1" and "unit_setoid_object")."
-
-   a CONVERSION refusal — the [1] being the terminal-object notation,
-   which is what this file's import list puts in scope for the left-hand
-   side, so the message is quoted with its environment.  Consequently
-   [Sets_unit_separates] and [Sets_terminal_separates] are separate
-   theorems, and the second is NOT obtained from the first by an
-   [eq_refl] identification.  Three routes to it are recorded, all cheap
-   and all here:
+   was refused on ordinary 9.1.1 with "cannot unify "1" and
+   "unit_setoid_object"" ([1] is the terminal-object notation), but
+   accepted under the stand-in.  The explicit transparent field
+   [Category.Lib.Setoid.eq_equivalence] now makes this [eq_refl] and
+   [Sets_unit_separates : @IsSeparator Sets
+   (@terminal_obj Sets Sets_Terminal)] accepted on BOTH tools (probe
+   N1 and N5).  This was proof opacity, not a carrier-universe pin.
+   [Sets_terminal_separates] remains issue #447's pinned public name;
+   its three existing proofs are retained, not consolidated here:
 
      1. DIRECT, and this is the delivered constant: [sets_elem_term]
         builds the constant map out of the terminal object itself, so the
@@ -240,9 +237,11 @@ Definition Sets_Generator@{o so+} : Generator Sets@{o so} :=
 
 (** ** The terminal object separates *)
 
-(* The same constant map, but out of [Sets_Terminal]'s object rather than
-   out of [unit_setoid_object].  It has to be built separately: the two
-   objects do not convert, as the header measures. *)
+(* The same constant map, written out of [Sets_Terminal]'s object.
+   CORRECTION (#1382): the earlier claim that it must be built separately
+   because the objects do not convert depended on [Unit_Setoid]'s opaque
+   equivalence obligation.  They now convert; this construction is kept
+   for the separate consolidation in #1387. *)
 Program Definition sets_elem_term@{o so+} {X : SetoidObject@{o o}}
   (x : carrier X) :
   @terminal_obj Sets@{o so} Sets_Terminal@{so o} ~{Sets@{o so}}~> X :=

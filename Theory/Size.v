@@ -250,12 +250,19 @@ Arguments st_from_to {A} _ _.
     The hom half is split out with an explicit type ascription because a nested
     record literal leaves the class parameter [C] unresolved. *)
 (* No explicit universe binder here, deliberately, and the hom half is INLINED
-   rather than named separately.  Two distinct obstacles force this shape:
+   rather than named separately.  The construction retains this shape:
 
-   - [_1]'s hom-setoid is [Morphism_equality], a [Program Definition] whose own
-     obligations carry constraints on [eq]'s global universes ([eq_ind.u0]).  A
-     declared binder cannot mention those, so declaring one makes the witness
-     un-typecheckable.
+   - CORRECTION (#1382): this paragraph formerly attributed the binder
+     restriction to [Morphism_equality]'s own [Program] obligations and
+     [eq_ind.u0].  Its explicit transparent Equivalence field has no such
+     obligation or bound.  On ordinary Rocq 9.1.1 and the #22575 stand-in,
+     [About One_Small] under [Set Printing Universes] instead records
+     [u1 < u0], [u2 < u] and [u0 <= Logic_lemmas.equality.u0].  Binding this
+     witness at [Small@{o h h uo uh uh} _1@{o h h}] with [@{o h uo uh}]
+     is accepted; adding the CLOSED clause [| uo < o, uh < h] is refused
+     because it does not imply [h <= Logic_lemmas.equality.u0].  Thus a
+     remaining global equality bound restricts a closed constraint clause,
+     not every explicit binder.  [One_Small]'s term is unchanged.
    - Naming the hom half separately makes Coq solve its constraints in
      isolation, where it collapses [uh] to [h]; the result then cannot be used
      at the strict [uh < h] that [Small] demands.  Inlining lets both halves be
