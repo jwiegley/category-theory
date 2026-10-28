@@ -155,9 +155,14 @@ Generalizable All Variables.
          [free_ab_one_carrier] (the carrier of the free group on a point IS
          [FATerm SetsPoint], [eq_refl]), [bin_diagram_objects] ([eq_refl]).
 
-   UNIVERSES (measured by [About] under [Set Printing Universes] on all 33
-   constants).  No block carries an equation.  [Set] appears in exactly 12
-   of the 33, from two donors, both attributed by [About] on the donor:
+   UNIVERSES.  CORRECTION (#1383–#1385): the earlier census found literal
+   [Set] in 12 of the 33 named constants' types.  Re-running [About] under
+   [Set Printing Universes] and [Set Printing All] on the 33 [def]/[prf]
+   heads of this module's [.glob], counting only [Set] inside a universe
+   instance of the TYPE, gives 8 on ordinary 9.1.1 after the Ab repair
+   (12 before), and 8 both before and after on the patched 9.1.1 stand-in.
+   Constraint-block [Set] bounds and global bounds are NOT counted.
+   The remaining eight are exactly the following empty-shape constants:
      - [_0@{u …} : Category@{u Set Set}] (Instance/Zero.v, declared
        bare, its hom at [Set]) pins the eight empty-shape constants:
        [empty_cone_at], [SetsEmptyDiagram], [SetsPoint_empty_IsLimitCone],
@@ -174,22 +179,22 @@ Generalizable All Variables.
        all.  The apex-level refutation exists only at the empty shape, so
        [FreeAb_not_PreservesAllLimits] is stated at [Ab@{u Set}] and cannot
        be otherwise here.
-     - [Ab_trivial@{} : AbObject@{Set Set Set}] (Instance/Ab.v,
-       MONOMORPHIC) pins everything assembled from the trivial group —
-       [Ab_one], [Ab_zero_hom], [Ab_Terminal], [Ab_Zero], [Ab_Cartesian]
-       ([Set < u], [Ab@{u Set}]) — and through [Ab_Cartesian] the four
-       binary-witness constants [FreeAb_binary_cmp],
+     - CORRECTION (#1383): the other donor WAS [Ab_trivial]'s empty
+       universe instance, not a monomorphic declaration (the old word
+       "MONOMORPHIC" was wrong: [About] called it universe polymorphic).
+       Its [reflexivity] proofs selected Corelib's minimized [eq_Reflexive].
+       Instance/Ab.v now binds [Ab_trivial@{o} : AbObject@{o o o}] and uses
+       [eq_refl] in [Ab_one_unique], lifting [Ab_Terminal], [Ab_Zero] and
+       [Ab_Cartesian].  The four binary-witness types [FreeAb_binary_cmp],
        [FreeAb_binary_comparison_not_iso],
-       [FreeAb_not_PreservesLimitCone_binary_product],
-       [FreeAb_not_CartesianFunctor] (probe N6-N8: [Ab_trivial],
-       [Ab_Terminal], [Ab_Cartesian] refused at a hom level strictly above
-       [Set], [Ab] and [Ab_Forget] accepted there).  [ab_zero_endo] is built
-       directly so that the core separation [free_ab_one_id_not_zero], the
-       countable witness and the headline escape this pin; the composite
-       [Ab_zero_hom A ∘ Ab_one A] would have carried it.  The pin is the
-       donor's and is not repaired here.  ℤ itself pins nothing:
-       [ab_int@{u u0 u1}] is fully polymorphic.
-     - The remaining 21 constants name no [Set].
+       [FreeAb_not_PreservesLimitCone_binary_product] and
+       [FreeAb_not_CartesianFunctor] no longer contain a literal [Set]
+       universe instance.  Probe N6-N8 are the same positive ascriptions
+       above [Set].  [ab_zero_endo]'s direct construction is retained;
+       it originally avoided this donor, but that reason no longer applies.
+       ℤ itself was not the cause: [ab_int] was already polymorphic.
+     - The remaining 25 of those 33 types contain no literal [Set] in a
+       universe instance; this says nothing about their global bounds.
 
    COUNTS AND CONVENTIONS.
      - 33 [.glob] declaration heads (23 [def], 10 [prf]) plus 1 [Program]
@@ -224,19 +229,23 @@ Generalizable All Variables.
        other files spell it the same way).  Name collisions: none — each of
        the 33 names has 0 word occurrences elsewhere in the tree.
      - Test/ProbeFreeAbNotContinuous430.v mirrors the [Require] list and
-       carries 9 refutation commands (1 instrument + N1-N3 CONVERSION +
-       N4-N5 TYPING + N6-N8 UNIVERSE), each stripped one at a time in a copy
-       of the whole file and each beside its accepted controls; three
-       [eq_refl] readbacks; guard coverage 37 identifier tokens inside the
-       refutations / 29 also named outside, comments stripped, with eight
-       exhaustive exceptions (two keywords, the five refuted declarations'
-       names, the absent name); rename-simulated 15/15 ([FreeAb],
+       now carries 6 refutation commands (1 instrument + N1-N3 CONVERSION +
+       N4-N5 TYPING), counted by [grep -c '^Fail'] on that probe.
+       CORRECTION (#1384–#1386): the earlier count was 9, including N6-N8
+       UNIVERSE, now positive checks.  Each remaining refusal was stripped
+       in a whole-file copy on ordinary 9.1.1 and the stand-in; wrapping
+       each newly positive command in [Fail] rejects.  Three [eq_refl]
+       readbacks remain.  Comment-stripped identifier-word sets inside
+       [Fail] commands versus the rest of the file now give guard coverage
+       30/22, formerly 37/29, with the same eight exceptions (two keywords,
+       the five refuted declarations' names, the absent name).  The original
+       rename audit, not rerun for this correction, was 15/15 ([FreeAb],
        [SetsPoint], [NatOneCone], [BinDiagram], [Ab_trivial], [Ab_Terminal],
        [Ab_Cartesian], [Ab], [Ab_Forget], [FreeAb_not_continuous],
        [FreeAb_not_PreservesLimitCone_binary_product],
        [PreservesAllLimits], [PreservesLimit], [cone_leg], [FCone]; module
-       paths excluded), every first break on a positive line.  [make todo]
-       grows by those 9 lines only (2246 →
+       paths excluded), every first break on a positive line.  Historically
+       [make todo] grew by those original 9 lines only (2246 →
        2255 over 3a387cdb, master b0d0fa63 with #429), so
        the issue's "adds no new hits" box is not met as written; disclosed.
      - "The free abelian group on a point" is never written as ℤ: no
@@ -253,20 +262,22 @@ Generalizable All Variables.
        normal form; the countable case would need ℤ ≇ ℤ^ℕ, whose right
        side cannot even be named in Ab — no [HasIndexedProducts Ab]); probe
        N5 pins the binary boundary, the countable one is unpinned.
-     - [FreeAb 1 ≅ ℤ]; countable products in Ab; a repair of [Ab_trivial]'s
-       or [_0]'s [Set] pins.
+     - [FreeAb 1 ≅ ℤ]; countable products in Ab; a repair of [_0]'s [Set]
+       pin.  CORRECTION (#1383): the Ab donor repair is now in Instance/Ab.v.
      - "The library's first recorded discontinuity witness" (false; see
        STALE PREMISES).
-     - No edit to Instance/Ab.v, Instance/Ab/Free.v, Instance/Zero.v,
-       Structure/Limit/Comparison.v or Structure/Limit/Preservation.v. *)
+     - The original development did not edit Instance/Ab.v,
+       Instance/Ab/Free.v, Instance/Zero.v, Structure/Limit/Comparison.v or
+       Structure/Limit/Preservation.v; #1383 now changes the first only. *)
 
 (** ** The point of Sets, and the zero endomorphism of an abelian group *)
 
 Definition SetsPoint : Sets := @terminal_obj Sets Sets_Terminal.
 
-(* Built directly rather than as [Ab_zero_hom A ∘ Ab_one A]: the composite
-   would route through [Ab_trivial], whose monomorphic [Set] universes would
-   then pin this constant (see the header's UNIVERSES). *)
+(* Built directly rather than as [Ab_zero_hom A ∘ Ab_one A].  CORRECTION
+   (#1383): this originally avoided [Ab_trivial]'s [Set] pin (not a
+   monomorphic declaration); that pin is now lifted.  Keep the construction
+   and its transparent readbacks unchanged. *)
 Definition ab_zero_endo (A : Ab) : A ~{Ab}~> A.
 Proof.
   unshelve refine {| cmon_map := {| morphism := fun _ => cmon_zero A |} |}.

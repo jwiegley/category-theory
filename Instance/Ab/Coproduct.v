@@ -85,21 +85,19 @@ Generalizable All Variables.
    ([ab_coprod_merge_computes], [ab_coprod_exl_computes],
    [ab_coprod_exr_computes]).
 
-   A UNIVERSE PIN, MEASURED AND ATTRIBUTED BUT NOT REPAIRED.
-   [Ab_product@{…}] is universe-polymorphic with thirteen free binders,
-   but [Ab_Biproduct@{u} : ∀ M N : AbObject@{Set Set Set}, …] and
-   [Ab_Cocartesian@{u} : Cartesian@{u Set}] are PINNED at [Set].  The
-   cause is located rather than guessed: Instance/Ab.v's [Ab_trivial]
-   is declared with NO universe binders, at [AbObject@{Set Set Set}], and
-   everything mentioning a zero morphism goes through it via [Ab_Zero].
-   The contrast that identifies it is Instance/CMon/Coproduct.v, whose
-   [CMon_Cocartesian@{u u0} : Cartesian@{u u0}] is FREE of any [Set] —
-   because Instance/CMon/Biproduct.v's [CMon_trivial@{o}] IS
-   polymorphic.  So the pin is one donor constant's, it enters exactly
-   where the zero object does, and it is NOT claimed unavoidable; the
-   repair belongs to Instance/Ab.v and is not made here.  Both halves are
-   guarded in Test/ProbeCoproduct.v, the negative at [Ab_Biproduct] and
-   the control at [Ab_product], each above [Set].
+   CORRECTION (#1383): THE FORMER ZERO-OBJECT PIN IS REPAIRED.
+   This header previously reported [Ab_Biproduct] and [Ab_Cocartesian]
+   pinned at [Set] through [Ab_trivial@{} : AbObject@{Set Set Set}].
+   Instance/Ab.v now gives [Ab_trivial] the explicit binder
+   [@{o} : AbObject@{o o o}] and uses [eq_refl] in [Ab_one_unique], avoiding
+   Corelib's minimized [eq_Reflexive].  [About] with [Set Printing Universes]
+   and [Set Printing All] on ordinary 9.1.1 and the patched 9.1.1 stand-in
+   reports no literal [Set] in the universe instances of [Ab_Biproduct]'s
+   type; constraint-block bounds, including global bounds, still remain.
+   Test/ProbeCoproduct.v's former NEGATIVE 4 is now the same positive check
+   above [Set], alongside [Ab_product].  The analogous RMod check does NOT
+   follow from the Ab-only repair: Instance/Mod.v retains its own
+   equality-proof donors, to be handled by a separate chain.
 
    WHAT IS NOT DELIVERED.  No indexed or infinite direct sums — the
    coproduct here is binary, matching [Cocartesian]; the indexed statement

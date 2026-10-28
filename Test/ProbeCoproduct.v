@@ -44,6 +44,14 @@
       [Fail Definition] at a declared universe), which report a universe
       inconsistency or a typing error.
 
+    CORRECTION (#1383–#1386, Ab chain): NEGATIVE 4 is now a positive
+    above-[Set] check.  There are eight remaining [Fail] commands
+    ([grep -c '^Fail' Test/ProbeCoproduct.v]), still of those two kinds.
+    NEGATIVE 5 remains a refusal on ordinary Rocq 9.1.1: the Ab-only
+    repair does not remove RMod's own equality-proof pin.  On the patched
+    9.1.1 stand-in both 4 and 5 already succeeded before this repair;
+    its remaining [Fail] at 5 belongs to the later RMod chain.
+
     A REAL FALSE PASS WAS CAUGHT WHILE WRITING THIS FILE and is recorded
     because the lesson is general: the wedge probe was first written
     against [WedgeSum_Top], a name that does not exist (the object is
@@ -170,16 +178,16 @@ End RoundTripNegatives.
 Fail Definition neg_wedge_is_sum (X Y : PointedTop) :
   Wedge_Top X Y = Sum_Top (ptop_space X) (ptop_space Y) := eq_refl.
 
-(** ** Formability negatives: the [Set] pin inherited from Instance/Ab.v *)
+(** ** Above-[Set] formability: Ab repaired, R-Mod still pinned *)
 
-(* Instance/Ab.v's [Ab_trivial] is declared with NO universe binders,
-   at [AbObject@{Set Set Set}] — unlike Instance/CMon/Biproduct.v's
-   [CMon_trivial@{o}], which is polymorphic.  That pin propagates through
-   [Ab_Zero] to everything mentioning a zero morphism, hence to the
-   biproduct records and to both derived structures, in Ab and (through
-   [RMod_trivial], which uses [Ab_trivial]) in R-Mod.  The DONOR is
-   Instance/Ab.v; nothing here repairs it, and it is not claimed
-   unavoidable. *)
+(* CORRECTION (#1383): the former empty instance of [Ab_trivial] and
+   [Ab_one_unique]'s use of Corelib's [eq_Reflexive] pinned [Ab_Zero] and
+   the Ab biproducts.  Instance/Ab.v now binds [Ab_trivial@{o}] explicitly
+   at [AbObject@{o o o}] and proves uniqueness with [eq_refl].  The same
+   command at 4 succeeds.  The earlier attribution of 5 solely to this
+   donor was incomplete: Instance/Mod.v's [RMod_trivial], [RMod_one]'s
+   obligation and [RMod_one_unique] have their own [reflexivity] proofs.
+   Ab-only treatment leaves [RMod_Biproduct] pinned on ordinary 9.1.1. *)
 
 Section SetPin.
 
@@ -191,21 +199,22 @@ Check (fun M N : AbObject@{ua ua ua} => Ab_product M N).
 Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
          RMod_product M N).
 
-(* NEGATIVE 4 (formability, universe inconsistency:
-   "Cannot enforce Set = ua"). *)
+(* Formerly NEGATIVE 4.  CORRECTION (#1383–#1384): the Ab donor repair
+   removes "Cannot enforce Set = ua" without changing this command. *)
 Check @AbObject@{_ _ _}.
-Fail Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
+Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
 
-(* NEGATIVE 5 (formability, universe inconsistency, same cause one layer
-   up: [RMod_trivial] is built from [Ab_trivial]). *)
+(* NEGATIVE 5 (formability, universe inconsistency).  CORRECTION (#1383):
+   still "Cannot enforce Set = ua" on ordinary 9.1.1 after the Ab repair;
+   RMod's own proof donors remain.  Its later chain must remeasure this. *)
 Check @RingObject@{_ _ _}.
 Fail Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
               RMod_Biproduct M N).
 
 End SetPin.
 
-(* Controls for negatives 4 and 5 at the pinned level, so that the two
-   constants are named by something that must succeed. *)
+(* Formerly the control for NEGATIVE 4, retained alongside 5's still-needed
+   control (#1386).  Both constants remain named outside any refutation. *)
 Check (fun M N : AbObject => Ab_Biproduct M N).
 Check (fun (R : RingObject) (M N : RModObject R) => RMod_Biproduct M N).
 
