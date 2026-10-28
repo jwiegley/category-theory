@@ -239,8 +239,14 @@ Program Definition Ab_Forget : Ab ⟶ Sets := {|
 
 (** The one-element abelian group.  Its negation is forced: there is only one
     element, so [ab_neg] is the constant map and the inverse law is
-    [reflexivity]. *)
-Definition Ab_trivial : AbObject.
+    [reflexivity].
+
+    CORRECTION (#1383): the formerly empty universe instance let Corelib's
+    [eq_Reflexive] pin this object at [AbObject@{Set Set Set}].  The explicit
+    binder keeps all three slots at [o]; [Ab_one_unique] below also needs a
+    direct equality proof so that the terminal and zero objects stay free
+    of that pin.  This changes neither the carrier nor the group laws. *)
+Definition Ab_trivial@{o} : AbObject@{o o o}.
 Proof.
   unshelve notypeclasses refine {|
     ab_cmon := CMon_trivial;
@@ -255,7 +261,7 @@ Definition Ab_one (A : AbObject) : A ~{Ab}~> Ab_trivial := CMon_one A.
 
 Lemma Ab_one_unique (A : AbObject) (f : A ~{Ab}~> Ab_trivial) :
   f ≈ Ab_one A.
-Proof. intro a; destruct (cmon_map f a); reflexivity. Qed.
+Proof. intro a; destruct (cmon_map f a); exact eq_refl. Qed.
 
 Program Definition Ab_Terminal : @Terminal Ab := {|
   terminal_obj := Ab_trivial;

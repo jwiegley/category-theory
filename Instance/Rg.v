@@ -182,18 +182,17 @@ Generalizable All Variables.
     are [Rg_Zero] and the packaged contrast
     [Rng_Rg_zero_object_contrast].
 
-    UNIVERSES, MEASURED AND ROUTED AROUND RATHER THAN INHERITED.
-    [Set Printing Universes] reports [Ab_trivial@{} : AbObject@{Set Set
-    Set}] — ZERO universe binders, pinned at [Set], the same donor
-    defect Instance/Grp/Quotient/Colimit.v records for [Grp_trivial]
-    (which #450 has since lifted for [Grp_trivial]; [Ab_trivial] is
-    unchanged).
-    Building the trivial rng on [Ab_trivial] would silently have
-    confined [Rg_Zero] to [Set]-sized rngs.  It is built instead on
-    Instance/CMon/Biproduct.v's [CMon_trivial@{o} : CMonObject@{o o
-    o}], which IS polymorphic, through a locally declared polymorphic
-    [rg_trivial_ab].  The resulting instance is reported at the foot of
-    this file by an [About] the reader can rerun; it carries no [Set].
+    UNIVERSES.  CORRECTION (#1383): this header formerly reported
+    [Ab_trivial@{} : AbObject@{Set Set Set}], and the local construction
+    avoided that pin.  Instance/Ab.v now binds
+    [Ab_trivial@{o} : AbObject@{o o o}], avoiding Corelib's minimized
+    [eq_Reflexive]; [About] under both printing flags on ordinary 9.1.1
+    and the patched 9.1.1 stand-in confirms the type has no literal [Set]
+    universe instance (global constraint bounds remain).  The old reason
+    for routing around [Ab_trivial] no longer applies.  [rg_trivial_ab]
+    remains unchanged, built on Instance/CMon/Biproduct.v's polymorphic
+    [CMon_trivial]; consolidation is separate work (#1387).  [Rg_Zero]'s
+    [About] at the foot of this file remains the readback for this file.
 
     STRENGTHS, GRADED STRICT-FIRST.  [eq_refl] was tried before [≈]
     everywhere, and what it bought is shipped as [Example]s: the
@@ -247,8 +246,9 @@ Generalizable All Variables.
     Theory/Category/Semi.v's semigroupoids, so the one-object reading of
     a rng as a non-unital enriched category is not built.  No universe
     claim is made about anything other than [Rg_Zero] and its
-    dependencies, and the [Set] pin located in [Ab_trivial] is routed
-    around rather than repaired: Instance/Ab.v is not edited. *)
+    dependencies.  The original development routed around [Ab_trivial]
+    without editing Instance/Ab.v; #1383 has since repaired that donor,
+    without changing this file's constructions. *)
 
 (** ** Rngs over a setoid carrier *)
 
@@ -500,9 +500,9 @@ Qed.
 
 (** ** The trivial rng is a zero object *)
 
-(* Built on Instance/CMon/Biproduct.v's polymorphic [CMon_trivial],
-   NOT on Instance/Ab.v's [Ab_trivial], which is measured to be
-   [AbObject@{Set Set Set}] with no universe binders at all. *)
+(* Built on Instance/CMon/Biproduct.v's polymorphic [CMon_trivial].
+   CORRECTION (#1383): [Ab_trivial] is no longer pinned at [Set]; the former
+   reason for this local copy has gone.  Keep it unchanged pending #1387. *)
 Definition rg_trivial_ab@{o} : AbObject@{o o o}.
 Proof.
   unshelve notypeclasses refine {|

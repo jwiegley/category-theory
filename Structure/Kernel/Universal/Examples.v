@@ -77,16 +77,23 @@ Generalizable All Variables.
    at Rng, which is the whole content of the "survives without a zero
    object" clause.
 
-   A UNIVERSE NOTE, since it dictates the shape of everything below.
-   [Ab_Zero@{u}] carries ONE universe parameter where [Ab@{u u0}] carries
-   two: it pins the second to [Set].  Inside a [Section], a
-   [Context {A B : AbObject}] fixes that second universe rigidly before
-   [Ab_Zero] is ever mentioned, and the later mention is then rejected
-   ("Cannot enforce Set = ...", measured).  Every definition below is
-   therefore stated at TOP LEVEL with its own [{A B : AbObject} (f)]
-   binders, so that the objects' universes and [Ab_Zero]'s are unified in
-   one elaboration.  This is a restriction inherited from Instance/Ab.v,
-   not one introduced here, and nothing below shows it unavoidable. *)
+   A UNIVERSE NOTE — CORRECTION (#1383).  An earlier revision recorded
+   [Ab_Zero@{u}] with ONE universe parameter, fixing [Ab]'s hom universe
+   to [Set].  A [Section]'s [Context {A B : AbObject}] then fixed that
+   universe rigidly before [Ab_Zero] was mentioned, and the later use was
+   rejected ("Cannot enforce Set = ...", measured).  That inherited pin
+   motivated the TOP-LEVEL [{A B : AbObject} (f)] binders below, which
+   unified the objects' universes and [Ab_Zero]'s in one elaboration.
+   After Instance/Ab.v's donor repair, [About Ab_Zero] with [Set Printing
+   Universes] and [Set Printing All] reports
+   [Ab_Zero@{u u0 u1} : ZeroObject@{u u0} Ab@{u u0}] on ordinary 9.1.1
+   and the patched 9.1.1 stand-in.  Both now accept, after the same
+   Section-bound [Context {A B : AbObject}],
+   [Check (@zero_mor Ab Ab_Zero A B)] and
+   [Check (fun f : A ~{Ab}~> B => ab_kernel_IsKernel f)].
+   This removes the inherited literal [Set] pin, not all global universe
+   bounds.  The existing top-level construction is kept; that pin no
+   longer requires it. *)
 
 (* WHAT IS DELIVERED
 
@@ -136,10 +143,12 @@ Proof. reflexivity. Qed.
    the corestriction is a homomorphism because the kernel's zero and
    addition are those of A read on first projections.
 
-   The hypothesis is stated ELEMENTWISE rather than as
-   [f ∘ h ≈ zero_mor], for the universe reason in the header;
-   [ab_kernel_IsKernel] feeds it from the [IsKernel] fork hypothesis,
-   where the zero object is inferred once. *)
+   CORRECTION (#1383): the ELEMENTWISE hypothesis rather than
+   [f ∘ h ≈ zero_mor] was chosen for the former [Ab_Zero] pin recorded
+   in the header.  That pin no longer requires this choice.  The existing
+   hypothesis and construction are retained: [ab_kernel_IsKernel] feeds
+   it from the [IsKernel] fork hypothesis, with the zero object inferred
+   once. *)
 Program Definition ab_kernel_med {A B : AbObject} (f : A ~{Ab}~> B)
   {Z0 : AbObject} (h : Z0 ~{Ab}~> A)
   (Hh : ∀ a : carrier (cmon_setoid Z0), cmon_map f (cmon_map h a) ≈ cmon_zero B)

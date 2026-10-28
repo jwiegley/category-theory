@@ -1,18 +1,20 @@
 (** * Probe for Instance/Ab/FreeNotContinuous.v (issue #430)
 
     Pins the measured boundaries of the discontinuity witness with
-    negatives of three kinds, kept lexically apart: CONVERSION (N1-N3: the
+    negatives of two kinds, kept lexically apart: CONVERSION (N1-N3: the
     identifications the proofs use — the image of the point's terminal
     arrow is [id], the image legs are [id], the free group on a point is
     not the zero group — hold at [≈] or as theorems, never on the nose);
     TYPING (N4-N5: the cone-level refutations do not ascribe at the
     apex-only classes — [ContinuousFunctor] against [PreservesAllLimits],
     and the binary witness against [PreservesLimit] — so the header's
-    "only the empty shape reaches the apex level" is a measured boundary);
-    UNIVERSE (N6-N8: [Ab_trivial], [Ab_Terminal] and [Ab_Cartesian] are
-    refused at a hom level strictly above [Set] while [Ab] and [Ab_Forget]
-    are accepted there — the [Set] pin is the trivial group's, Instance/
-    Ab.v, not the category's).  Three [eq_refl] readbacks (the carrier
+    "only the empty shape reaches the apex level" is a measured boundary).
+    CORRECTION (#1383–#1385): former UNIVERSE negatives N6-N8 now succeed
+    after Instance/Ab.v binds [Ab_trivial@{o} : AbObject@{o o o}] and uses
+    [eq_refl] in [Ab_one_unique].  The patched 9.1.1 stand-in already
+    accepted them before this repair.  Six [Fail] commands remain, counted
+    by [grep -c '^Fail' Test/ProbeFreeAbNotContinuous430.v]: the instrument,
+    N1-N3 CONVERSION and N4-N5 TYPING.  Three [eq_refl] readbacks (the carrier
     of the free group on a point, the binary diagram's objects, the zero
     endomorphism's value) are positive controls, the last making
     [ab_zero_endo]'s [Defined] load-bearing.  Each refutation was stripped
@@ -92,7 +94,7 @@ Fail Definition p430_binary_witness_is_cone_level_only :
   PreservesLimit BinDiagram FreeAb → False
   := FreeAb_not_PreservesLimitCone_binary_product.
 
-(** ** C: UNIVERSE — the [Set] pin is [Ab_trivial]'s, not [Ab]'s *)
+(** ** C: UNIVERSE — former N6-N8, now positive above [Set] *)
 
 Monomorphic Universe uo uh.
 Monomorphic Constraint Set < uh.
@@ -108,13 +110,14 @@ Check (Ab@{uo uh} : Category@{uo uh uh}).
    roles of [uo] and [uh] are unchanged. *)
 Check (Ab_Forget@{uo uo uh}).
 
-(* N6-N8 UNIVERSE: everything assembled from the trivial group is pinned
-   at [Set] *)
+(* Formerly N6-N8.  CORRECTION (#1383–#1384): these identical ascriptions
+   now succeed on ordinary 9.1.1 as well as the stand-in.  The repair is
+   at the Ab donors, not at these levels or hypotheses. *)
 Check @AbObject@{_ _ _}.
-Fail Check (Ab_trivial : AbObject@{uh uh uh}).
+Check (Ab_trivial : AbObject@{uh uh uh}).
 Check @Ab@{_ _}.
-Fail Check (Ab_Terminal : @Terminal Ab@{uo uh}).
-Fail Check (Ab_Cartesian : @Cartesian Ab@{uo uh}).
+Check (Ab_Terminal : @Terminal Ab@{uo uh}).
+Check (Ab_Cartesian : @Cartesian Ab@{uo uh}).
 
 (** ** D: readbacks *)
 

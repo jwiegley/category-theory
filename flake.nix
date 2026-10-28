@@ -141,7 +141,10 @@
           checkPhase = ''
             runHook preCheck
             make -s print-assumptions
-            make probe-arity-check probe-arity-coq-selftest
+            # Use allocated cores for the fresh rebuild, within the guard's 16-job cap.
+            probe_jobs=$NIX_BUILD_CORES
+            if (( probe_jobs > 16 )); then probe_jobs=16; fi
+            make PROBE_ARITY_JOBS="$probe_jobs" probe-arity-check probe-arity-coq-selftest
             runHook postCheck
           '';
 
