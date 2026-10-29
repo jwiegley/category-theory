@@ -7,8 +7,9 @@
     resulting fork in Set is split") and of Instance/Mon/Presentation.v
     (Awodey, 2005 pre-print, §3.4 Proposition 3.22 and §3.5 Exercise 3,
     items awodey:3.4:prop22 and awodey:3:ex3).  Donors named by a
-    refusal: Instance/Grp/TwoFunctors.v ([S3], R3) and Instance/Mon/
-    Free.v (the free functor's action on arrows, R5); by a control:
+    refusal: Instance/Mon/Free.v (the free functor's action on arrows,
+    R5); by a positive check: Instance/Grp/TwoFunctors.v ([S3], former
+    R3, corrected by #1383); by a control:
     Instance/Sets/Propositional/Full.v ([choice_of_untr] and
     [untr_of_choice], C19 and C20).
 
@@ -20,22 +21,23 @@
     shorter list is what makes a probe pass for no reason.
 
     DISCIPLINE.  Every negative other than the instrument is an
-    [Example] or a [Definition], never a [Check].  Each of the seven
-    refutation lines (the instrument and R1 to R6) was stripped of its
-    refutation keyword in a copy of this WHOLE file, one at a time, and
-    each copy stops inside the stripped command (seven of seven, by
-    loop-tools' swcheck.py, comparing the File line of the error with the
-    command's extent); each of the twenty controls, wrapped in the
-    keyword in a whole-file copy, stops at that command with the message
-    Rocq prints for a refutation whose command succeeds (twenty of
-    twenty, by the same script).  Quotations are Rocq 9.1.1's under
+    [Example] or a [Definition], never a [Check].  CORRECTION (#1384,
+    #1385): formerly seven refutation lines; now six (grep '^Fail', the
+    instrument and R1, R2, R4, R5, R6).  Each was stripped in a WHOLE-file
+    copy, one at a time, on ordinary Rocq 9.1.1 and the saved #22575
+    stand-in: six of six errors fall inside the stripped command,
+    matching the Error location rather than a preceding warning.  The
+    twenty retained controls and former R3, each wrapped separately in
+    a whole-file copy, reject with "The command has not failed!" at that
+    command on both tools (twenty-one of twenty-one).  Quotations are
+    Rocq 9.1.1's under
     this file's import list, the environment block left out and
     universe serials written u0, u1, ..., distinct serials distinctly.
 
     KINDS.  NAME-ABSENCE: the instrument.  CONVERSION, [eq_refl] refused
     with a "cannot unify" parenthetical, every statement well typed: R1,
     R4, R5.  UNIVERSE, "universe inconsistency" between levels this file
-    declares: R2, R3, R6.  CAUSES, read from the terms.  R1 and R4 are
+    declares: R2, R6.  Former R3 is positive.  CAUSES, read from the terms.  R1 and R4 are
     law 4 of the splitting after U, ∂₁ (t x) against s (p x), equal at
     ≈ (C1, C8) by a group or ring law of a variable G or R.  R5 is the
     free functor's action on arrows at a variable word of words, equal
@@ -47,10 +49,15 @@
     C5; C16, C15).  Below the carrier the readbacks of the pair are
     accepted (C17, C18): their binders keep N's membership level apart
     from the carrier level, which bare binders, left to minimization,
-    identified.  R3 is S₃'s own pin, Instance/Grp/TwoFunctors.v's
-    [S3@{u} : GrpObject@{u Set Set}]: the S₃/A₃ splitting is refused in
-    [Grp@{u p}] above [Set], where the Z/4 refutation is accepted (C6);
-    at [Set] it is accepted (C7).  C19 and C20 put the untruncation
+    identified.  CORRECTION (#1383–#1386): R3 formerly refused the
+    S₃/A₃ splitting above [Set] on ordinary Rocq; it already succeeded
+    on the stand-in.  The explicit [S3] binder, qualified library
+    equivalence in [s3_setoid], and direct equality proof in
+    [A3_hom_transversal] now make the identical command succeed on both.
+    These were proof-instance pins, not a restriction of the finite
+    carrier.  C6 and C7 remain as the Z/4 contrast and the unannotated
+    S₃ readback, no longer evidence of a Set-only boundary.  C19 and C20
+    put the untruncation
     principle at the membership level m, written out as Full.v writes
     Instance/Sets/Classifier/OneLevel.v's [Untruncate@{m}], against the
     untruncation of the coset relation of every N at that level: Full.v's
@@ -77,10 +84,8 @@
         expected to have type "NormalSubgroup@{u0 u1 u1 u1} ?G"
         (universe inconsistency: Cannot enforce m = u0 because
         u0 <= u1 < m).
-      R3: The term "semidirect_d0 A3" has type "SemidirectGrp@{…}
-        A3@{u0 Set} ~{ Grp@{u1 Set} }~> S3@{Set}" while it is
-        expected to have type "?x ~{ Grp@{u p} }~> ?y" (universe
-        inconsistency: Cannot enforce Set = p).
+      Former R3 (historical ordinary Rocq refusal, not a current
+        boundary): "universe inconsistency: Cannot enforce Set = p".
       R4: (cannot unify "rsemidirect_d1 A (scoeq_t (rtransversal_split A
         T) r)" and "rtransversal_map T r").
       R5: (cannot unify "mon_fun (Mon_free_evaluate M) ww" and "wmap (λ w
@@ -196,28 +201,28 @@ Definition p479_c14_sdp : GrpObject := SemidirectGrp N.
 
 End GrpMembershipAbove.
 
-(* Carriers above Set: Z/4's refutation is accepted there, the S3/A3
-   splitting is refused. *)
+(* Carriers above Set: both Z/4's refutation and the S3/A3 splitting
+   are accepted.  CORRECTION (#1383–#1386): former R3 is positive. *)
 Section AboveSet.
 
 Universes u p.
 Constraint Set < p.
 Constraint p < u.
 
-(* C6 *)
+(* C6: retained Z/4 contrast, formerly the control for R3. *)
 Definition p479_c6_Z4 :
   @SplitCoequalizer Grp@{u p} _ _ (semidirect_d0 Z4_two)
     (semidirect_d1 Z4_two) → False := Z4_two_not_split_in_Grp.
 
-(* R3 *)
+(* Former R3: the same splitting above Set, now a positive check. *)
 Check @Grp@{_ _}.
-Fail Definition p479_r3_S3 :
+Definition p479_r3_S3 :
   @SplitCoequalizer Grp@{u p} _ _ (semidirect_d0 A3) (semidirect_d1 A3)
   := S3_A3_Grp_split.
 
 End AboveSet.
 
-(* C7 *)
+(* C7: retained unannotated readback, formerly R3's Set-level control. *)
 Definition p479_c7_S3 :
   SplitCoequalizer (semidirect_d0 A3) (semidirect_d1 A3) := S3_A3_Grp_split.
 

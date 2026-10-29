@@ -48,13 +48,16 @@ Generalizable All Variables.
     two S₃ presentations are not related by an in-tree isomorphism —
     each serves its own file.
 
-    UNIVERSE SCOPE, disclosed.  TwoFunctors.v's [S3] pins its carrier
-    universe at Set, so [no_center_functor] as stated quantifies over
-    functors on Grp AT CARRIER UNIVERSE Set — precisely the hazard
-    Epi.v documents (its [GrpTwo] and three-letter setoid are built on
-    [poly_unit] to avoid pinning).  The argument itself is
-    universe-indifferent; a polymorphic restatement awaits either a
-    [poly_unit]-based semidirect S₃ or a sign character on [GrpSym3].
+    UNIVERSE SCOPE, disclosed.  CORRECTION (#1383, #1385): the earlier
+    account blamed S3's finite carrier and proposed replacing it.
+    TwoFunctors.v's proof-instance pins are now lifted without changing
+    that carrier: [S3@{u} : GrpObject@{u u u}].  This does NOT generalize
+    this file's whole chain.  About with both printing flags still reads
+    [no_center_functor] over [Grp@{u Set}] and [Ab@{u Set}] on ordinary
+    Rocq 9.1.1 and the saved #22575 stand-in.  [S3_center_trivial] now has
+    no literal Set in its type on either tool, whereas [s3_sign], [sign_retract]
+    and the headline retain it.  A polymorphic restatement of that
+    headline is not delivered by this donor repair.
 
     THE COMPUTATIONS: [GrpTwo_abelian] makes every element of ℤ/2
     central, giving [Center_GrpTwo_iso : CenterGrp GrpTwo ≅ GrpTwo]

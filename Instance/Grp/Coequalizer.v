@@ -243,19 +243,28 @@ Generalizable All Variables.
    constant from outside this development.  [Set] appears only as
    [Grp]'s own [Set < u] on its object level and [PropSets]'s
    [Set < so], as z4's own sort ([z4 : Set], and [z4_rec] over
-   z4 → Set), and in the five S₃ names, which inherit
-   Instance/Grp/TwoFunctors.v's [S3@{u} : GrpObject@{u Set Set}] (R3
-   refuses the S₃/A₃ splitting in [Grp@{u p}] above [Set]);
+   z4 → Set).  CORRECTION (#1383–#1385): the five S₃ names
+   [A3_transversal], [A3_hom_transversal], [S3_A3_Grp_split],
+   [A3_transversal_fun] and [S3_A3_Grp_split_s] formerly printed literal
+   [Set] in their types on ordinary Rocq 9.1.1.  About with both printing
+   flags now finds none on that tool or the saved #22575 stand-in, after
+   the explicit [S3] binder, the library equivalence in [s3_setoid], and
+   the direct equality proof in [A3_hom_transversal].  The finite carrier
+   was not the cause.  Former R3 now accepts the S₃/A₃ splitting in
+   [Grp@{u p}] above [Set]; the category's [Set < u] bound remains.
    [Z4@{p} : GrpObject@{p p p}] lifts z4 to every level, and its
-   refutation is accepted above [Set] (C6).
+   refutation is still accepted above [Set] (C6).
    [transversal_U_AbsoluteCoequalizer] names its target levels xo xh
    ("p <= xh"): left to Rocq, minimization set the target's hom level
    to p, as Absolute.v records for [split_coequalizer_absolute], whose
-   further level above xh it inherits.  On Coq 8.19.2 and 8.20.1
-   ([About] in a build of the files' closure and the probe under each)
-   each of the 93 names binds as many levels as on Rocq 9.1.1, no block
-   carries an equation, and [Set] occurs in the same seven types, the
-   five S₃ names, [z4] and [z4_rec].
+   further level above xh it inherits.  The original Coq 8.19.2/8.20.1
+   [About] comparison, in builds of the closure and probe, reported the
+   same number of bound levels as on Rocq 9.1.1 for all 93 names, no
+   equations, and Set in seven types: the five S₃ names, [z4] and
+   [z4_rec].  CORRECTION (#1383, #1385): these are pre-S3-repair
+   measurements, not a current seven-type census.  No fresh
+   supported-version 93-name census is claimed here; the current
+   ordinary Rocq/stand-in readbacks of the five S₃ names are above.
 
    STALE PREMISES, dated from gh.  The issue (filed 2026-07-23) says the
    tree has no category Grp or Rng and no normal-subgroup, semidirect
@@ -998,13 +1007,15 @@ Proof.
   - intros [i b]; destruct i, b; reflexivity.
 Defined.
 
-(* It is a homomorphism, so S3/A3 splits in Grp itself. *)
+(* It is a homomorphism, so S3/A3 splits in Grp itself.  The direct
+   equality proof below avoids Corelib's Set-minimized eq_Reflexive;
+   this is the proof donor of S3_A3_Grp_split (#1383). *)
 Definition A3_hom_transversal : HomTransversal A3.
 Proof.
   unshelve eexists.
   - unshelve refine
       (@Build_GrpHom' (QuotientGrp A3) S3 (transversal_map A3_transversal) _).
-    intros [i b] [j c]; destruct i, j, b, c; reflexivity.
+    intros [i b] [j c]; destruct i, j, b, c; exact eq_refl.
   - exact (transversal_coset A3_transversal).
 Defined.
 

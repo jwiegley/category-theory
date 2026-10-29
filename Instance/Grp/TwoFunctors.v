@@ -242,11 +242,21 @@ Definition s3_inv (p : S3carrier) : S3carrier :=
 
 Definition s3_unit : S3carrier := (rot0, false).
 
-Program Definition s3_setoid : Setoid S3carrier := {| equiv := @eq S3carrier |}.
+(* CORRECTION (#1383, #1385): the former implicit equivalence field chose
+   Corelib's Set-minimized instance on ordinary Rocq 9.1.1.  Name the
+   library's polymorphic proof explicitly; the finite carrier is unchanged. *)
+Definition s3_setoid : Setoid S3carrier :=
+  {| equiv := @eq S3carrier;
+     setoid_equiv := Category.Lib.Setoid.eq_equivalence |}.
 
 (* Every law is a finite check: associativity is 216 cases, the unit and
-   inverse laws 6 each. *)
-Definition S3 : GrpObject.
+   inverse laws 6 each.  The explicit binder keeps their equality proofs
+   from specializing the object to GrpObject@{u Set Set}.  About now reads
+   GrpObject@{u u u} on ordinary Rocq 9.1.1 and the saved #22575 stand-in;
+   its upper bounds remain.  This does not lift every downstream witness:
+   S3_twist_value and S3_id_value still print Set in their types on ordinary
+   Rocq, but not on the stand-in (About with both printing flags). *)
+Definition S3@{u} : GrpObject@{u u u}.
 Proof.
   unshelve notypeclasses refine {|
     grp_setoid := {| carrier := S3carrier ; is_setoid := s3_setoid |};
