@@ -172,6 +172,30 @@ Fail Check (fun S : @Subcategory Cu => @Reflective Cu S).
 
 End ProbeTorsionUniverses.
 
+(** ** ZMod2 donor controls (#1383)
+
+    The carrier is still [bool].  The diagonal donor and its torsion
+    proof are now usable strictly above [Set]; these are new positive
+    controls, not conversions of any of this file's seven rejections.
+    The closed computations also check that both definitions remain
+    transparent.  Other mixed and quotient witnesses are not claimed
+    to lose their own proof-instance restrictions. *)
+
+Section ProbeZMod2AboveSet.
+Universe u.
+Constraint Set < u.
+
+Check (ZMod2 : AbObject@{u u u}).
+Check (ZMod2_all_torsion :
+  forall b : carrier ZMod2@{u}, torsion_mem ZMod2@{u} b).
+
+End ProbeZMod2AboveSet.
+
+Check (eq_refl : cmon_plus ZMod2 true true = false).
+Check (eq_refl : ab_neg ZMod2 true = true).
+Check (eq_refl : projT1 (ZMod2_all_torsion true) = 2%nat).
+Check (eq_refl : projT1 (ZMod2_all_torsion false) = 2%nat).
+
 (** ** Controls naming every constant the negatives mention *)
 
 Check @torsion_unit.

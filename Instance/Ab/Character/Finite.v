@@ -1810,8 +1810,12 @@ Defined.
 (* The cyclic group of order two, on [bool] with exclusive or.  Every
    element is its own inverse, so [ab_neg] is the identity.  Built with
    [unshelve notypeclasses refine] rather than [Program] so that every
-   field is discharged explicitly and in a known order. *)
-Definition ZMod2 : AbObject.
+   field is discharged explicitly and in a known order.
+   CORRECTION (#1383, #1385): the explicit diagonal universe binder keeps
+   the laws from inheriting Corelib's minimized [eq_Reflexive] instance.
+   The former [AbObject@{a Set Set}] was a proof-instance pin, not a
+   restriction forced by the unchanged [bool] carrier. *)
+Definition ZMod2@{a} : AbObject@{a a a}.
 Proof.
   unshelve notypeclasses refine {|
     ab_cmon := {| cmon_setoid := {| carrier := bool;

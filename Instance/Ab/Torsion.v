@@ -103,36 +103,41 @@
     [TorsionFree_EM_Equivalence] (the comparison functor from
     [TorsionFree_Sub] is an equivalence) and [TorsionFree_Incl_Monadic].
 
-    UNIVERSES, read by [About] under [Set Printing Universes] on all
-    thirty-four named constants.  Each binder names the levels its
-    statement fixes, then [+]: [u p] for [Ab@{u p}]; [a c p] for
-    [IsTorsion] over [AbObject@{a c p}] (a fourth level, the result
-    sort, is left to [+]); [p] for [TorsionAb_IsTorsion] over
-    [AbObject@{p p p}], the only shape at which TorsionFree.v states
-    the inclusion [torsion_incl] its proof uses; [a] for
-    [ZMod2_IsTorsion]; [u] for the two ℤ/2 statements and the counit
-    statement over [Ab@{u Set}]; and none, [@{+}], for
-    [MixedAb_not_torsion], [mixed_tors_in_TA], its lemma and
-    [ZAb_TA_trivial], whose levels are all their donors'.  No
-    block carries an equation.  Thirty-one blocks carry an own [Set]
-    bound: twenty-seven [Set < u] on [Ab]'s object level, which is
-    [Ab]'s own bound ([About Ab]: [Set < u]; the [PropEquiv] field puts
-    [Set+1] in [AbObject]'s sort), and four on a level only a donor
-    names -- [TorsionAb_IsTorsion] through the [Ab] instance of
-    [torsion_incl] in its proof, and [MixedAb_not_torsion],
-    [mixed_tors_in_TA] and its lemma through [MixedAb]'s own
-    [Set < u2] ([MixedAb_not_torsion@{u}] reads [¬ IsTorsion
-    MixedAb@{Set u u u Set Set Set}] with [Set < u], and never mentions
-    [Ab]).  Seven witnesses print [Set] in their instances --
-    [ZMod2_IsTorsion], [ZMod2_Torsion], [ZMod2_coreflect_iso],
-    [MixedAb_not_torsion], [mixed_tors_in_TA], its lemma and
-    [torsion_counit_MixedAb_not_iso] -- because
-    [ZMod2@{u} : AbObject@{u Set Set}] ([About ZMod2]; its carrier is
-    [bool]).  Six blocks read [Set < Projections.u0], which in each
-    follows from an own [Set] bound and the block's caps, and every
-    global universe in every block is an upper bound.  Against a copy
-    with every binder removed, compared under [Set Printing All], no
-    constant lost a universe or gained an identification.
+    UNIVERSES.  CORRECTION (#1383, #1385): the earlier census of the
+    thirty-four named constants reported seven witness types with [Set]
+    in their instances and attributed this to [ZMod2]'s [bool] carrier.
+    The cause was instead the equality-proof instance: [ZMod2]'s
+    explicit binder now gives [ZMod2@{a} : AbObject@{a a a}], and direct
+    [eq_refl] keeps [ZMod2_all_torsion] at that universe too.  Thus
+    [ZMod2_IsTorsion@{a} : IsTorsion@{a a a a} ZMod2@{a}] on ordinary
+    Rocq 9.1.1 and the saved #22575 stand-in.  #1378's earlier change to
+    [IsTorsion ZMod2@{a}] named only the THEN-AUXILIARY universe on
+    ordinary Rocq: it preserved the carrier/proof [Set] slots then,
+    and was not itself a lift of them.  Its source statement is unchanged
+    here; it now inherits the new donor's diagonal instance.
+
+    Re-measured with [About] under BOTH printing flags on all 37
+    declarations from [Print Module] (34 [.glob] heads plus the three
+    [torsion_lift] obligations): SIX types still contain literal [Set]
+    in an [@{...}] instance on ordinary Rocq, down from seven.  They are
+    [ZMod2_Torsion], [ZMod2_coreflect_iso], [MixedAb_not_torsion],
+    [mixed_tors_in_TA], [mixed_tors_in_TA_nonzero] and
+    [torsion_counit_MixedAb_not_iso].  On the stand-in only THREE do,
+    unchanged: the two ℤ/2 subcategory witnesses and the mixed counit
+    statement, all explicitly at [Ab@{u Set}].  Those ascriptions are
+    retained; lifting the donor does not generalize their statements.
+    The other mixed witnesses still depend on their own proof instances,
+    notably [mixed_tors_torsion], not just on [ZMod2].
+
+    No constraint block carries an equation on either tool.  Counting
+    blocks mentioning [Set] separately from type instances gives 34 on
+    ordinary Rocq and 31 on the stand-in, unchanged by this chain; these
+    totals include the obligations, unlike the earlier 34-name census.
+    [Ab]'s [Set < u] object bound is the cost of [PropEquiv], not a
+    carrier pin.  Global upper bounds remain, so these counts are not
+    unrestricted-formability theorems.  The earlier comparison against
+    binder-free copies (no lost universe or gained identification) is a
+    historical measurement, not a new comparison of this donor change.
 
     AXIOMS.  All thirty-seven constants of this module, the thirty-four
     above and three [Program] obligations of [torsion_lift], are closed
