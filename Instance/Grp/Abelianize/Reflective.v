@@ -159,14 +159,26 @@
     [Set < Projections.u0]; in each it follows from [Set < u] and a
     chain of the block's own caps up to the standard library's
     monomorphic [Projections.u0], and every global universe in every
-    block is such an upper bound.  The six S₃ statements sit at
-    [Grp@{u Set}], because [S3@{a} : GrpObject@{a Set Set}] (its
-    carrier is built on [bool]) and an object of [Grp@{u p}] is a
-    [GrpObject@{p p p}]; [S3_not_IsAbelian], which is not about [Grp],
-    is general in [a] with an empty block.  Against a copy with every
-    binder removed, compared under [Set Printing All], no constant lost
-    a universe or gained an identification; [S3_not_IsAbelian] was
-    [IsAbelian@{Set Set Set} S3@{Set}] there and is general here.
+    block is such an upper bound.  CORRECTION (#1383, #1385): the six
+    S₃ statements still explicitly specialize [Grp@{u Set}].  The former
+    donor type [S3@{a} : GrpObject@{a Set Set}] came from equality-proof
+    instances, not its [bool] component.  [S3] now has type
+    [GrpObject@{a a a}], and [S3_not_IsAbelian] reads
+    [IsAbelian@{a a a} S3@{a} → False] on ordinary Rocq 9.1.1 and the
+    saved #22575 stand-in, with four upper bounds (eq_ind.u0,
+    Logic_lemmas.equality.u0, eq_ind_r.u0 and projections.u0), not an
+    empty block.  About with both printing flags on the forty-two named
+    constants still finds literal [Set] in those six specialized types;
+    thirty-nine constraint blocks mention [Set], and none has an equation.
+
+    HISTORICAL CORRECTION (#1378, #1385): the earlier binder-removal
+    account said [IsAbelian@{Set Set Set} S3@{Set}] became general.
+    Re-reading revision 93508361 on ordinary Rocq 9.1.1 instead found
+    the bare statement [IsAbelian@{u Set Set} S3@{u} → False], with an
+    empty block; only the variant explicitly casting S3 to [Grp] gave
+    the all-Set instance.  Naming [a] then exposed an auxiliary universe,
+    not the carrier or proof level.  The current post-donor lift above
+    is separate from that historical result.
 
     AXIOMS.  All sixty-one constants of this module, the forty-two above
     and nineteen [Program] obligations, are closed under the global context

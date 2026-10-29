@@ -187,47 +187,44 @@ Generalizable All Variables.
     the class of the unit ([abelianize_S3_separates]), computing to
     [grp_two_one] by [eq_refl].
 
-    UNIVERSES, read off the CONSTRAINT BLOCKS rather than the binders,
-    for every constant this file declares.  Of the 63 named constants,
-    SIX carry [Set] in a constraint block, and all six are S₃ witnesses:
-    [ab_two_sign], [abelianize_S3_med_s], [abelianize_S3_med_unit],
-    [abelianize_S3_separates], [abelianize_S3_factors] and the control
-    [probe_ctl_sign].  The cause is located: their types mention
-    [TwoFunctors.S3@{Set}], S₃ being carried on a [bool] component and
-    [bool : Set].  It is NOT [AbTwo]'s doing — [AbTwo@{u u0 u1 u2 u3 u4
-    u5}] has an empty [Set]-free block of its own, and neither is it
-    Instance/Grp.v's [Grp_trivial]/[Grp_Zero] pin (disclosed in
-    Instance/Grp/Quotient/Colimit.v, and lifted by #450), neither of which
-    is used anywhere in this file.  Two further S₃ statements,
-    [abelianize_S3_identifies] and [abelianize_S3_proper], display
-    [Set] inside a universe INSTANCE ([abel_eq@{u u Set}]) while
-    acquiring no [Set] CONSTRAINT: an instance is not a constraint.
+    UNIVERSES.  CORRECTION (#1383, #1385): the earlier account attributed
+    S₃'s pin to its [bool] component and called the general constraint
+    blocks Set-free.  About under both printing flags on the 65 named
+    definitions and lemmas in Print Module (not the Fail-named entries)
+    now finds six TYPES with literal Set in universe instances on both
+    ordinary Rocq 9.1.1 and the saved #22575 stand-in: [ab_two_sign],
+    [abelianize_S3_med_s], [abelianize_S3_med_unit],
+    [abelianize_S3_separates], [abelianize_S3_factors] and [probe_ctl_sign].
+    They remain specialized; the donor repair does not lift every witness.
+    The two types [abelianize_S3_identifies] and [abelianize_S3_proper]
+    formerly printed literal Set on ordinary Rocq; now neither type has
+    it on either tool (the stand-in already had none).  The change is from
+    equality-proof instances and the explicit [S3] binder, not a new
+    carrier.  Separately, 57 of those 65 CONSTRAINT BLOCKS mention Set
+    on both tools, including the categories' lower bounds; none contains
+    an equation.  A bound is not a literal Set in a type, nor an
+    identification.  The general constructions remain polymorphic in
+    Grp's and Ab's universes subject to their printed bounds.
 
-    THE GENERAL DEVELOPMENT IS [Set]-FREE.  [abel_kills],
-    [abelianize_med], [abelianize_universal],
-    [abelianize_universal_arrow], [abelianize_left],
-    [abelianize_adjunction], [abelianize_counit],
-    [abelianize_transform], [abelianize_adjunction_via_transform],
-    [abelianize_routes_agree], [abelianize_counit_iso],
-    [abelianize_left_iso], [Ab_to_Grp_Full] and [Ab_to_Grp_Faithful]
-    all have [Set]-free constraint blocks and are polymorphic in
-    [Grp]'s and [Ab]'s universes.  No lift of the S₃ witnesses is
-    attempted, and the pin is not claimed unavoidable.
-
-    AXIOMS.  90/90 constants are closed under the global context: the
-    63 the [.glob] records as [def] or [prf] after discarding the eight
-    [Fail]-named entries, which name no constant, plus 27 [Program]
-    obligations, which the [.glob] does not record at all and which
-    have to be queried by their fully qualified names.
+    AXIOMS.  CORRECTION (#1385): the earlier text reported 63 named
+    constants plus 27 Program obligations, 90 total.  Print Module now
+    lists 65 named definitions and lemmas plus 27 obligations; all 92
+    report "Closed under the global context" under fully qualified
+    Print Assumptions on ordinary Rocq 9.1.1 and the saved stand-in.
+    The same declaration counts already hold at baseline 3d7a472b;
+    the S3 repair adds no constant.  This local audit does not re-count
+    the other files of #312 or certify every library definition.
 
     NO EXPLICIT UNIVERSE INSTANCE IS WRITTEN ON ANY FUNCTOR OR
     ADJUNCTION in this file.  The number of universe binders [Functor]
     and [Adjunction] take differs between Coq 8.19/8.20 and Rocq 9.1, so
     such an annotation is not portable.  No universe fact needed
-    guarding here either: all seven negatives below are CONVERSION
-    failures and none is a formability (universe) one, so the universe
-    findings above are MEASURED but not guarded, and the file says so
-    rather than calling them pinned.
+    guarding here either: grep '^Fail' finds eight commands, the
+    conversion instrument [true = false] and seven semantic negatives.
+    Whole-file single-Fail strips on ordinary Rocq 9.1.1 and the saved
+    stand-in classify all eight as CONVERSION failures, none as a
+    formability (universe) one.  The universe findings above are
+    MEASURED but not guarded, rather than called pinned.
 
     WHAT IS NOT DELIVERED.
       - No [Reflective] instance, for the structural reason above, and
