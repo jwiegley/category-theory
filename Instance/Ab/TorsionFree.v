@@ -159,8 +159,11 @@
 
     ** Strengths, measured strict-first
 
-    Holding at [eq_refl] (seven occurrences outside comments, all
-    outside any rejection):
+    Holding at [eq_refl] (seven named readback [Example]s, all
+    outside any rejection). CORRECTION (#1383): an earlier revision
+    counted seven occurrences outside comments; there are now eight
+    [eq_refl] code occurrences, the eighth in [ZMod2_all_torsion]'s
+    direct proof. The seven readback [Example]s are unchanged:
     the reflector's object part is the quotient
     ([torsion_reflector_obj]); the universal arrow IS [ab_quot_proj] and
     its object IS [TorsionFreeMod] ([torsion_arrow_is_proj],
@@ -246,8 +249,9 @@
     [MonoidObject]), so whether [Reflective] identifies anything OF ITS
     OWN is not measured here.
 
-    FORTY-THREE of the 58 constants carry a [Set] token, and every one of
-    the 43 carries it as a BOUND ([Set < u]) and never as an equation.
+    The September 2026 census found FORTY-THREE of the 58 constants
+    carrying [Set] in a BOUND ([Set < u]), never in an equation.  That
+    criterion did not exclude literal [Set] inside TYPE instances.
 
     RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17), by
     an [About] under [Set Printing Universes] on each of the 58 names
@@ -269,6 +273,26 @@
     hits), and the two identifications still sitting in binders.  The
     [ZAb_one] routing is unchanged, and is
     Instance/Ab/Monoidal.v's own design note.
+
+    CORRECTION (#1383, #1385): neither the old ELEVEN nor the later
+    FORTY-THREE is a count of literal [Set] in type instances, and [bool]
+    itself was not the cause.  Re-measured by [About] with BOTH printing
+    flags on all 58 declarations from [Print Module] (55 [.glob] heads
+    plus the three [torsion_med] obligations): ordinary Rocq 9.1.1 has
+    FIVE types with [Set] in an [@{...}] instance, down from SEVEN before
+    this chain, and 39 constraint blocks mentioning [Set], down from 43.
+    The saved #22575 stand-in has ZERO such types and 37 such blocks,
+    unchanged by these edits.  Neither tool prints a universe equation
+    in any block; bounds and type instances are separate measurements.
+    The explicit [ZMod2] binder and [eq_refl] in [ZMod2_all_torsion]
+    lift that proof and [ZMod2_not_TorsionFree].  The five remaining
+    ordinary types are [ZMod2_quot_collapses], [mixed_tors_torsion],
+    [mixed_gen_not_torsion], [mixed_quot_merges] and
+    [mixed_gen_not_quot_zero]: their other proof instances still matter.
+    In particular, [mixed_tors_torsion]'s printed proof still contains
+    [eq_Reflexive@{Set}], and [ZMod2_quot_collapses] retains its own
+    [reflexivity] step.  They are not unrestricted witnesses merely
+    because [ZMod2] now has type [AbObject@{a a a}].
 
     ** NOT delivered
 
@@ -665,10 +689,13 @@ Definition ZAb_reflect_iso :
 
 (** * Non-vacuity: ℤ/2 is all torsion *)
 
+(* The donor binder alone does not suffice: with the old [reflexivity]
+   proof, ordinary Rocq still specializes this witness to [ZMod2@{Set}].
+   Direct equality preserves the donor's diagonal universe (#1383). *)
 Definition ZMod2_all_torsion (b : carrier ZMod2) : torsion_mem ZMod2 b.
 Proof.
   exists 2%nat; split; [ lia | ].
-  destruct b; reflexivity.
+  destruct b; exact eq_refl.
 Defined.
 
 Lemma ZMod2_not_TorsionFree : TorsionFree ZMod2 → False.
