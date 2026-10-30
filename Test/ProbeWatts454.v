@@ -47,7 +47,8 @@
     block writes Colimit.v's constant [Colimit.MGen].  A shorter import
     list is what makes a probe pass for no reason.
 
-    DISCIPLINE.  The instrument was checked both ways: the refutation of an
+    DISCIPLINE (historical #454 measurements, before the #1383 correction
+    below).  The instrument was checked both ways: the refutation of an
     absent name is refused for that reason, and each of the seventy-two
     definitions and examples of this file that is not a refutation,
     wrapped in one in a copy of this WHOLE file, stops the build at that
@@ -100,11 +101,22 @@
     their clauses one "cannot unify" of two cone types that differ in the
     [Ab] universe, m against o.
 
-    KINDS.  Thirty-five refutations, counted as the lines that open with
-    the refutation keyword: NAME-ABSENCE (the instrument), INSTANCE (N1),
+    CORRECTION (#1383–#1386): N15 is now positive, at its original level
+    requirements, after the equality-proof repair in Instance/Mod.v.
+    On ordinary Rocq 9.1.1 and the patched 9.1.1 stand-in the identical
+    command succeeds and its refutation wrapper rejects; it already
+    succeeded on the stand-in before the repair.  The remaining thirty-four
+    refutation commands were stripped in whole-file copies on both tools,
+    including those after N15; each stops in its own command with the same
+    error up to a bijective renaming of generated universe levels.  The
+    seventy-two-control and binder/older-version counts above are historical
+    experiments, not a current census or newly repeated wrapper tests.
+
+    KINDS.  Thirty-four refutations (previously thirty-five), counted as
+    lines opening with [Fail]: NAME-ABSENCE (the instrument), INSTANCE (N1),
     CONVERSION (N2, N16, N21-N23, N26, N27, N31-N34), TYPING (N10), BINDER
-    (N5, N12, N13) and UNIVERSE (N3, N4, N6-N9, N11, N14, N15, N17-N20,
-    N24, N25, N28-N30): one, one, eleven, one, three and eighteen.  N9's refusal is a sort's ("Type" is not a subtype
+    (N5, N12, N13) and UNIVERSE (N3, N4, N6-N9, N11, N14, N17-N20,
+    N24, N25, N28-N30): one, one, eleven, one, three and seventeen.  N9's refusal is a sort's ("Type" is not a subtype
     of "Prop") and is counted UNIVERSE.  BINDER means refused for the
     command's own binder or argument list: N5 whatever its body, N12 and
     N13 because a closed universe list does not name universes their
@@ -290,11 +302,15 @@
     The header measured it under [Monomorphic] universes in a section;
     N14 restates it with a polymorphic binder.
 
-    N15 (UNIVERSE).  The adjoint functor theorem's initial module and
-    Instance/Mod.v's zero module are each formed alone
-    ([p454_initial_via_gaft]; [p454_zero_module], at a [Set] carrier), and
-    [initial_unique] between two copies of the first
-    ([p454_initial_unique_gaft]); between the two, at an unannotated ring:
+    Former N15 (now positive).  CORRECTION (#1383–#1386): the comparison
+    [initial_unique (RMod_Initial_via_GAFT R) (RMod_Initial R)] at the
+    original unannotated ring now elaborates on ordinary Rocq 9.1.1 and
+    the patched 9.1.1 stand-in.  It gives an isomorphism, not a conversion.
+    The old controls remain: each initial object alone
+    ([p454_initial_via_gaft]; [p454_zero_module], still specialized at
+    [Set]), and the AFT initial module's self-comparison
+    ([p454_initial_unique_gaft]).  They no longer delimit a refusal.
+    Before RMod's equality-proof repair, the ordinary 9.1.1 refusal was:
       The term "R" has type "RingObject@{<1> <2> <3>}" while it is expected
       to have type "RingObject@{<4> Set <4>}" (universe inconsistency:
       Cannot enforce Set = <2> because Set < <2>).
@@ -995,7 +1011,7 @@ Fail Definition p454_n13_cwp_up_closed@{a c p o x w | c < w, a <= w +}
                      (rmod_epic_surjective _ (quot_is_epic u)));
      wp_to_from := ltac:(intro u; exists iso_id; simpl; cat) |}.
 
-(** ** N14, N15 (UNIVERSE): Instance/Mod/Colimit.v *)
+(** ** N14 (UNIVERSE), former N15 (positive): Instance/Mod/Colimit.v *)
 
 (* CONTROL: the solution set at a [Set] carrier. *)
 Definition p454_sols_at_set@{go gx ga gp +|
@@ -1015,20 +1031,24 @@ Fail Definition p454_n14_colim_at_set@{go gx ga gp +|
   (R : RingObject@{ga Set gp}) (J : Category@{Set Set Set}) :=
   RMod_colim_via_GAFT R J.
 
-(* CONTROL: each initial object alone, the adjoint functor theorem's and
-   Instance/Mod.v's zero module, the latter at a [Set] carrier. *)
+(* Former N15 controls, retained (#1386): each initial object alone,
+   the adjoint functor theorem's and Instance/Mod.v's zero module.
+   The latter's [Set] specialization remains unchanged; it is no longer
+   the only formable carrier level of that construction. *)
 Definition p454_initial_via_gaft (R : RingObject) :=
   RMod_Initial_via_GAFT R.
 
 Definition p454_zero_module@{a +} (R : RingObject@{a Set a}) :=
   RMod_Initial R.
 
-(* CONTROL: [initial_unique] between two copies of the adjoint functor
-   theorem's initial module. *)
+(* Former N15 control, retained as a self-comparison, not as the
+   opposite side of a live refusal (#1386). *)
 Definition p454_initial_unique_gaft (R : RingObject) :=
   initial_unique (RMod_Initial_via_GAFT R) (RMod_Initial_via_GAFT R).
 
-Fail Definition p454_n15_initial_vs_zero (R : RingObject) :=
+(* Formerly N15.  CORRECTION (#1383–#1384): the comparison with the
+   zero module is formable, an isomorphism rather than a conversion. *)
+Definition p454_n15_initial_vs_zero (R : RingObject) :=
   initial_unique (RMod_Initial_via_GAFT R) (RMod_Initial R).
 
 (** ** N16-N23, N29-N34 (CONVERSION, UNIVERSE): Instance/Mod/Watts.v *)
