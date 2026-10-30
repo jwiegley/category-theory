@@ -366,7 +366,10 @@ Next Obligation. intros R M N P f g a; simpl; reflexivity. Qed.
 (** ** The zero module as a zero object *)
 
 (** The one-element module: Instance/Ab.v's [Ab_trivial] with the only
-    action available.  Every law holds by computation. *)
+    action available.  Every law holds by computation.  Use [eq_refl]
+    directly: [reflexivity] selects Corelib's [eq_Reflexive], whose
+    relation universe is minimized to [Set] on the supported releases
+    (#1383).  No change to the module data or to the ring's universes. *)
 Definition RMod_trivial (R : RingObject) : RModObject R.
 Proof.
   unshelve notypeclasses refine {|
@@ -374,15 +377,15 @@ Proof.
     rm_smul  := fun _ _ => ttt
   |}.
   - (* rm_smul_respects *)
-    intros r s Hrs x y Hxy; reflexivity.
+    intros r s Hrs x y Hxy; exact eq_refl.
   - (* rm_smul_distr_l *)
-    intros r m n; reflexivity.
+    intros r m n; exact eq_refl.
   - (* rm_smul_distr_r *)
-    intros r s m; reflexivity.
+    intros r s m; exact eq_refl.
   - (* rm_smul_assoc *)
-    intros r s m; reflexivity.
+    intros r s m; exact eq_refl.
   - (* rm_smul_one *)
-    intros m; destruct m; reflexivity.
+    intros m; destruct m; exact eq_refl.
 Defined.
 
 (** Everything maps to the point, and only one map does. *)
@@ -390,11 +393,11 @@ Program Definition RMod_one {R : RingObject} (M : RModObject R) :
   M ~{RMod R}~> RMod_trivial R := {|
   rm_hom := Ab_one M
 |}.
-Next Obligation. intros R M r m; reflexivity. Qed.
+Next Obligation. intros R M r m; exact eq_refl. Qed.
 
 Lemma RMod_one_unique {R : RingObject} (M : RModObject R)
   (f : M ~{RMod R}~> RMod_trivial R) : f ≈ RMod_one M.
-Proof. intro a; destruct (cmon_map (rm_hom f) a); reflexivity. Qed.
+Proof. intro a; destruct (cmon_map (rm_hom f) a); exact eq_refl. Qed.
 
 Program Definition RMod_Terminal (R : RingObject) : @Terminal (RMod R) := {|
   terminal_obj := RMod_trivial R;

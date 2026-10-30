@@ -44,13 +44,13 @@
       [Fail Definition] at a declared universe), which report a universe
       inconsistency or a typing error.
 
-    CORRECTION (#1383–#1386, Ab chain): NEGATIVE 4 is now a positive
-    above-[Set] check.  There are eight remaining [Fail] commands
+    CORRECTION (#1383–#1386, RMod chain): NEGATIVE 4 became positive
+    with the Ab repair; NEGATIVE 5 now does too, after RMod's own proof
+    repair.  There are seven remaining [Fail] commands
     ([grep -c '^Fail' Test/ProbeCoproduct.v]), still of those two kinds.
-    NEGATIVE 5 remains a refusal on ordinary Rocq 9.1.1: the Ab-only
-    repair does not remove RMod's own equality-proof pin.  On the patched
-    9.1.1 stand-in both 4 and 5 already succeeded before this repair;
-    its remaining [Fail] at 5 belongs to the later RMod chain.
+    The identical commands at 4 and 5 succeed on ordinary Rocq 9.1.1
+    and the patched 9.1.1 stand-in; their [Fail] wrappers reject.
+    Both already succeeded on the stand-in before either donor repair.
 
     A REAL FALSE PASS WAS CAUGHT WHILE WRITING THIS FILE and is recorded
     because the lesson is general: the wedge probe was first written
@@ -178,7 +178,7 @@ End RoundTripNegatives.
 Fail Definition neg_wedge_is_sum (X Y : PointedTop) :
   Wedge_Top X Y = Sum_Top (ptop_space X) (ptop_space Y) := eq_refl.
 
-(** ** Above-[Set] formability: Ab repaired, R-Mod still pinned *)
+(** ** Above-[Set] formability: Ab and R-Mod repaired *)
 
 (* CORRECTION (#1383): the former empty instance of [Ab_trivial] and
    [Ab_one_unique]'s use of Corelib's [eq_Reflexive] pinned [Ab_Zero] and
@@ -186,8 +186,9 @@ Fail Definition neg_wedge_is_sum (X Y : PointedTop) :
    at [AbObject@{o o o}] and proves uniqueness with [eq_refl].  The same
    command at 4 succeeds.  The earlier attribution of 5 solely to this
    donor was incomplete: Instance/Mod.v's [RMod_trivial], [RMod_one]'s
-   obligation and [RMod_one_unique] have their own [reflexivity] proofs.
-   Ab-only treatment leaves [RMod_Biproduct] pinned on ordinary 9.1.1. *)
+   obligation and [RMod_one_unique] had their own [reflexivity] proofs.
+   Ab-only treatment left [RMod_Biproduct] pinned on ordinary 9.1.1;
+   using [eq_refl] at those three sites removes that pin too. *)
 
 Section SetPin.
 
@@ -204,17 +205,28 @@ Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
 Check @AbObject@{_ _ _}.
 Check (fun M N : AbObject@{ua ua ua} => Ab_Biproduct M N).
 
-(* NEGATIVE 5 (formability, universe inconsistency).  CORRECTION (#1383):
-   still "Cannot enforce Set = ua" on ordinary 9.1.1 after the Ab repair;
-   RMod's own proof donors remain.  Its later chain must remeasure this. *)
+(* Formerly NEGATIVE 5.  CORRECTION (#1383–#1384): RMod's proof repair
+   removes "Cannot enforce Set = ua" without changing this command or
+   its declared level.  Keep the eager [RingObject] arity twin. *)
 Check @RingObject@{_ _ _}.
-Fail Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
+Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
               RMod_Biproduct M N).
+
+(* Conversion controls above [Set]: the zero object, underlying zero
+   arrow and coincidence of product/coproduct still compute (#1386). *)
+Check (fun R : RingObject@{ua ua ua} =>
+         (eq_refl : @initial_obj (RMod R) (RMod_Initial R) = RMod_trivial R)).
+Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
+         (eq_refl : rm_hom (@zero_mor (RMod R) (RMod_Zero R) M N)
+                      = @zero_mor CMon CMon_Zero M N)).
+Check (fun (R : RingObject@{ua ua ua}) (M N : RModObject R) =>
+         (eq_refl : @Coprod (RMod R) (RMod_Cocartesian R) M N
+                      = @product_obj (RMod R) (RMod_Cartesian R) M N)).
 
 End SetPin.
 
-(* Formerly the control for NEGATIVE 4, retained alongside 5's still-needed
-   control (#1386).  Both constants remain named outside any refutation. *)
+(* Former controls for NEGATIVE 4 and 5, retained as unannotated
+   applications (#1386), not as opposite sides of live refusals. *)
 Check (fun M N : AbObject => Ab_Biproduct M N).
 Check (fun (R : RingObject) (M N : RModObject R) => RMod_Biproduct M N).
 
