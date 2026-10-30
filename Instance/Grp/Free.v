@@ -627,9 +627,20 @@ Qed.
     universal property applies directly and no bridge between the two
     [GrpObject] records is needed. *)
 
+(* CORRECTION (#1383, #1385): the former unqualified [eq_equivalence]
+   resolved to Corelib's instance in this import environment, giving
+   [TwoLetters@{u} : SetoidObject@{u Set}] on Rocq 9.1.1.  The pin was in
+   the RELATION slot, not forced by [bool : Set].  Naming the library's
+   transparent proof gives [TwoLetters@{u u0} : SetoidObject@{u0 u}] on
+   both 9.1.1 and the #22575-patched stand-in; the bound
+   [u0 <= Logic_lemmas.equality.u0] remains.  The carrier and relation
+   still compute to [bool] and [eq].  This does not lift every witness:
+   [two_to_S3], [two_S3] and the two theorems below still have literal
+   [Set] in their full-printing types on both tools, through their
+   separate [Structure/Groupoid.v]'s [S3_Grp] route. *)
 Definition TwoLetters : SetoidObject := {|
   carrier   := bool;
-  is_setoid := {| equiv := eq; setoid_equiv := eq_equivalence |}
+  is_setoid := {| equiv := eq; setoid_equiv := Category.Lib.Setoid.eq_equivalence |}
 |}.
 
 Definition two_to_S3

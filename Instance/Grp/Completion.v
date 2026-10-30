@@ -258,7 +258,12 @@ Generalizable All Variables.
         Through [completion_free_monoid_iso] the completion of the free
         monoid on two letters IS the free group on two letters, so
         Instance/Grp/Free.v's [free_group_two_generators_nonabelian]
-        transports; it is transported, not reproved.
+        transports; it is transported, not reproved.  READBACK (#1383):
+        qualifying [TwoLetters]'s equality proof does not lift this
+        witness.  [About] with full printing still shows literal [Set]
+        in [completion_free_mon_two_nonabelian]'s type on Rocq 9.1.1
+        and the #22575-patched stand-in; the comparison and the S3-based
+        source witness remain specialized.  No completion proof changes.
 
     Both are witnesses that the construction is not the pairs one in
     disguise -- reason (2) above, discharged by proof.

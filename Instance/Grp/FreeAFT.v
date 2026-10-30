@@ -246,10 +246,19 @@ Generalizable All Variables.
    forces that carrier strictly above [Set].  Measured, the unconditional
    [Grp_Forget_solution_set_prop] carries [Set < u] on the solution set's
    index slot where the circular
-   [Grp_Forget_solution_set_from_adjunction] does not.  In practice it
-   costs nothing — Lib.v's [Unset Universe Minimization ToSet] keeps
-   carrier universes off [Set] — but it is real, and it is pinned in
-   Test/ProbeGrpFreeAFT442.v's section I. *)
+   [Grp_Forget_solution_set_from_adjunction] does not.
+   CORRECTION (#1383, #1385): an earlier revision said "In practice it
+   costs nothing" because Lib.v disables minimization to [Set].  That
+   flag cannot undo a pin inherited from a compiled proof instance:
+   [TwoLetters]'s unqualified [eq_equivalence] resolved to Corelib's
+   [Set]-valued equivalence, not the library's polymorphic one.  Its
+   carrier slot was free; its RELATION slot was [Set], not a consequence
+   of [bool : Set].  Qualifying the library instance in Instance/Grp/Free.v
+   makes the unconditional application at [TwoLetters] succeed on both
+   Rocq 9.1.1 and the #22575-patched stand-in.  The real [Set < carrier]
+   boundary remains for explicitly pinned arguments, as section I's
+   [p442_uncond_app_at_set_carrier] still measures; its solution-set and
+   circular-application controls, and the [SetOne] control, are retained. *)
 
 Section FreeGrpCongruence.
 
@@ -775,6 +784,12 @@ Definition TwoLetters_dec : SetoidDecidable TwoLetters :=
              | right n => inr n
              end.
 
+(* READBACK (#1383): [TwoLetters_dec] now has no literal [Set] in its
+   full-printing type on Rocq 9.1.1 or the #22575-patched stand-in.  The
+   corollary below still does on ordinary 9.1.1, though not on the
+   stand-in.  Its Z/2 separation proof and the independent S3 proof are
+   unchanged; lifting [TwoLetters] is not a claim that every free-group
+   witness lifts. *)
 Corollary free_group_two_letters_distinct :
   free_group_unit TwoLetters true ≈ free_group_unit TwoLetters false → False.
 Proof.
