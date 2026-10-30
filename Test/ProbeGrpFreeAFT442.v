@@ -83,7 +83,9 @@
     correction: the circularity claims are now about
     [free_group_via_GAFT_from_adjunction], which is kept.  N13 there pins
     the one thing the unconditional reading costs, [Set < carrier], at a
-    named in-tree object.
+    named in-tree object.  CORRECTION (#1383, #1384): that named-object
+    refusal is now a positive check; the cost remains at the explicitly
+    pinned [Set]-carrier argument, not at [TwoLetters].
 
     KINDS, kept lexically apart: NAME-ABSENCE (the instrument), TYPE (I1,
     N3, N6, N7, N10), CONVERSION (N1, N2, N4, N8, N9, N11, N12), UNIVERSE
@@ -103,7 +105,18 @@
     the WHOLE file, stops the build at that command; each of the
     fourteen, stripped in such a copy, stops inside its command with the
     error it printed before #1347 (compared by script, universe serial
-    names aside). *)
+    names aside).
+    CORRECTION (#1383–#1386): THIRTEEN now by [grep -c '^Fail']:
+    one NAME-ABSENCE instrument, five TYPE (I1, N3, N6, N7, N10), six
+    CONVERSION (N1, N2, N8, N9, N11, N12), and one UNIVERSE (N13's
+    explicitly [Set]-pinned argument).  Each stripped alone in a copy of
+    this whole file refuses inside its command on both Rocq 9.1.1 and
+    the #22575-patched stand-in, with the same messages up to bijective
+    renaming of generated universe levels.  The former named-object
+    negative succeeds and its refutation wrapper rejects on both tools.
+    The former first stop was the old file's final command.  The new
+    above-Set definitions and [eq_refl] readbacks appended below are
+    checked by full-file compilation and their own rejecting wrappers. *)
 
 Require Import Category.Lib.
 Require Import Category.Lib.Setoid.Propositional.
@@ -510,7 +523,9 @@ Check @TwoLetters.
     THE NEW REFUTATIONS ARE N11 (CONVERSION), N12 (CONVERSION) and N13
     (UNIVERSE), taking this file to fifteen.  Each was stripped in a copy of
     the WHOLE file and its exact refusal recorded beside it.
-    CORRECTION (#1347): fourteen, since N4 became a control. *)
+    CORRECTION (#1347): fourteen, since N4 became a control.
+    CORRECTION (#1383, #1384): thirteen, since N13's named [TwoLetters]
+    application became a control; its explicitly pinned argument did not. *)
 
 Check @IsGrpCongruence.
 Check @FGCongIdx.
@@ -694,26 +709,54 @@ Fail Definition p442_uncond_app_at_set_carrier : obj[Grp] :=
 
 End SetCarrierPin.
 
-(* AND IT BITES AT A NAMED IN-TREE OBJECT, which is why it is a cost and
-   not a formality.  [TwoLetters] (Instance/Grp/Free.v) is the bool
-   setoid, and [bool : Set] pins its carrier universe there.  The circular
-   application applies to it; the unconditional one is refused, measured by
-   stripping this [Fail] in a copy of the WHOLE file:
+(* FORMER NAMED-OBJECT NEGATIVE, now a positive control (#1383–#1386).
+   CORRECTION: an earlier revision said "[bool : Set] pins its carrier
+   universe there" and reported "Cannot enforce Set = <anon> because
+   Set < <anon>" at [TwoLetters].  The refusal was real on ordinary
+   Rocq 9.1.1, but that cause was wrong: [TwoLetters@{u}] had type
+   [SetoidObject@{u Set}], with its RELATION slot pinned by Corelib's
+   [eq_equivalence], captured by the unqualified name in
+   Instance/Grp/Free.v.  Its carrier could already be read above [Set].
+   Using [Category.Lib.Setoid.eq_equivalence] gives
+   [TwoLetters@{u u0} : SetoidObject@{u0 u}] on 9.1.1 and the
+   #22575-patched stand-in, so this identical application now succeeds.
+   [bool] is cumulatively usable above [Set]; no carrier or relation was
+   changed.  The stand-in already accepted the application before this
+   library repair, through its polymorphic Corelib proof.
 
-     The term "TwoLetters" has type "SetoidObject"
-     while it is expected to have type "obj[Sets]"
-     (universe inconsistency: Cannot enforce Set = <anon> because Set <
-     <anon>).
-
-   [SetOne] is NOT affected — [poly_unit] is universe-polymorphic — which
-   is why the [SetOne] line above is a control and not an accident.  THIS
-   IS THE HONEST STATEMENT OF WHAT THE UNCONDITIONAL APPLICATION COSTS: it
-   is total over [Sets] as a polymorphic category, and it does not apply to
-   a setoid whose carrier is pinned at [Set].  [Grp_Forget_solution_set_prop
-   TwoLetters] above is checked and DOES elaborate, so the restriction is
-   the theorem's use of the index, not the solution set's. *)
+   Former controls are RETAINED: the from-adjunction application below,
+   [SetOne] above, and the congruence-index and solution-set checks.
+   [SetOne]'s success was never evidence that [bool] forces a pin.
+   The explicit [SetCarrierPin] fixture and its negative remain unchanged:
+   the theorem still costs [Set < carrier], not merely a renamed object. *)
 
 Check (`1 free_group_via_GAFT_from_adjunction TwoLetters).
 
-Fail Definition p442_uncond_at_two_letters : obj[Grp] :=
+Definition p442_uncond_at_two_letters : obj[Grp] :=
   `1 free_group_via_GAFT TwoLetters.
+
+(* The same bool setoid at [Set] and strictly above it.  Type ascriptions
+   avoid positional universe arity assumptions about [TwoLetters]. *)
+Check (TwoLetters : SetoidObject@{Set Set}).
+
+Section TwoLettersAboveSet.
+Universes pletters.
+Constraint Set < pletters.
+
+Definition p442_two_letters_above : SetoidObject@{pletters pletters} :=
+  TwoLetters.
+
+Example p442_two_letters_carrier :
+  carrier p442_two_letters_above = bool := eq_refl.
+
+Example p442_two_letters_equiv :
+  @equiv _ (is_setoid p442_two_letters_above) = @eq bool := eq_refl.
+
+Example p442_two_letters_equivalence :
+  @setoid_equiv _ (is_setoid p442_two_letters_above)
+  = @Category.Lib.Setoid.eq_equivalence bool := eq_refl.
+
+Definition p442_two_letters_gaft_above : obj[Grp] :=
+  `1 free_group_via_GAFT p442_two_letters_above.
+
+End TwoLettersAboveSet.
