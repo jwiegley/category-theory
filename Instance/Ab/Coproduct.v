@@ -95,9 +95,10 @@ Generalizable All Variables.
    reports no literal [Set] in the universe instances of [Ab_Biproduct]'s
    type; constraint-block bounds, including global bounds, still remain.
    Test/ProbeCoproduct.v's former NEGATIVE 4 is now the same positive check
-   above [Set], alongside [Ab_product].  The analogous RMod check does NOT
-   follow from the Ab-only repair: Instance/Mod.v retains its own
-   equality-proof donors, to be handled by a separate chain.
+   above [Set], alongside [Ab_product].  The analogous RMod check did not
+   follow from the Ab-only repair.  CORRECTION (#1385): an earlier revision
+   left that separate chain pending; #1405 has since repaired
+   Instance/Mod.v's equality-proof donors.
 
    WHAT IS NOT DELIVERED.  No indexed or infinite direct sums — the
    coproduct here is binary, matching [Cocartesian]; the indexed statement
