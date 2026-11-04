@@ -108,4 +108,4 @@ Qed.
 
 End Coproduct.
 
-Notation "C ∐ D" := (@Coproduct C D) (at level 90) : category_scope.
+Notation "C ∐ D" := (@Coproduct C D) (at level 89) : category_scope.

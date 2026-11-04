@@ -60,9 +60,9 @@ Coercion vertex_obj : Cone >-> obj.
 #[export] Existing Instance coneFrom.
 
 Notation "vertex_obj[ C ]" := (@vertex_obj _ _ _ C)
-  (at level 9, format "vertex_obj[ C ]") : category_scope.
+  (at level 0, format "vertex_obj[ C ]") : category_scope.
 Notation "vertex_map[ L ]" := (@vertex_map _ _ _ _ (@coneFrom _ _ _ L) _)
-  (at level 9, format "vertex_map[ L ]") : category_scope.
+  (at level 0, format "vertex_map[ L ]") : category_scope.
 
 Notation "Cone[ N ] F" := (ACone N F)(* . { ψ : Cone F | vertex_obj[ψ] = N } *)
   (at level 9, format "Cone[ N ] F") : category_scope.

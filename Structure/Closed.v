@@ -149,7 +149,7 @@ Next Obligation. now proper; simpl_eq; simpl in *; rewrite X, H. Qed.
 Next Obligation. now rewrite <- fmap_comp. Qed.
 
 Reserved Notation "[ X , Y ]"
-  (at level 90, right associativity, format "[ X ,  Y ]").
+  (at level 0, right associativity, format "[ X ,  Y ]").
 
 (* jww (2018-10-05): TODO
 
@@ -184,13 +184,13 @@ Class Closed := {
 }.
 
 Notation "[ X , Y ]" := (internal_hom_functor (X, Y))
-  (at level 90, right associativity, format "[ X ,  Y ]") : object_scope.
+  (at level 0, right associativity, format "[ X ,  Y ]") : object_scope.
 
 Notation "[ X , ─ ]" := (Curry internal_hom_functor X)
-  (at level 90, right associativity, format "[ X ,  ─ ]") : object_scope.
+  (at level 0, right associativity, format "[ X ,  ─ ]") : object_scope.
 
 Notation "[ ─ , X ]" := (Curry (Flip internal_hom_functor) X)
-  (at level 90, right associativity, format "[ ─ ,  X ]") : object_scope.
+  (at level 0, right associativity, format "[ ─ ,  X ]") : object_scope.
 
 *)
 
