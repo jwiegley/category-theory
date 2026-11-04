@@ -164,9 +164,12 @@ Generalizable All Variables.
    (1) Discrete spaces.  [Discrete_Hausdorff]: every discrete space
        (Instance/Top.v's [Discrete_Top]) is Hausdorff, at every universe,
        separating two points by the opens [z ≈ x] and [z ≈ y].  It is used
-       here in place of Instance/Top.v's [Point_Hausdorff], which is
-       monomorphised at a [Set] carrier (About: [IsHausdorff@{u Set Set
-       Set} Point_Top@{Set}]; that file's comment carries the correction).
+       here to build [Point_CH].  CORRECTION (#1383, #1385): the earlier
+       text called Instance/Top.v's [Point_Hausdorff] monomorphised at a
+       [Set] carrier.  Its pin came from Corelib's equality-proof instance,
+       not the point; direct [eq_refl] now gives [IsHausdorff@{u u0 u1 u2}
+       Point_Top@{u2}] on ordinary Rocq 9.1.1 and the saved
+       rocq-prover/rocq#22575 stand-in.  [Point_CH]'s construction is unchanged.
        [FinEnum A] is a list meeting every [≈]-class of [A], and
        [Discrete_Compact_of_FinEnum] with [FinEnum_of_Discrete_Compact]
        prove THE DISCRETE SPACE ON [A] IS COMPACT IF AND ONLY IF [A] IS
@@ -301,13 +304,21 @@ Generalizable All Variables.
    objects of [CompHaus] are placed at its hom universe, which is exactly
    what makes the tautological solution set legal and what Freyd's
    argument exploits.  A word-bounded [Set] occurs in none of the 41
-   readbacks of this file.  One binder was measured to matter: without
-   one, [bool_FinEnum] elaborates at [FinEnum@{Set} bool_setoid_object@{Set
-   Set}] (About, on the same lemma stated without a binder;
-   Test/ProbeStoneCech455.v pins its consequences), which would force
-   [Bool_CH], built from it, and so the refutations that use [Bool_CH], to
-   a [Set] carrier.  Every constant takes its hypotheses as top-level
-   binders; no [Section] is used.
+   readbacks of this file.  CORRECTION (#1384, #1385): the earlier claim
+   that [bool_FinEnum]'s binder is load-bearing was toolchain-specific.
+   The unchanged binderless fixture [p455_bool_FinEnum_bare] in
+   Test/ProbeStoneCech455.v has type [FinEnum@{Set}
+   bool_setoid_object@{Set Set}] on ordinary Rocq 9.1.1, through its
+   [reflexivity] proof's minimized Corelib equality instance.  On the saved
+   rocq-prover/rocq#22575 stand-in it has type [FinEnum@{u}
+   bool_setoid_object@{u u}].  Thus the body of [Bool_CH] with that fixture
+   and an inferred setoid refuses above [Set] only on the former tool;
+   naming the setoid at the higher universe works on both by conversion.
+   Former N8 tested this elaboration difference, not a mathematical size
+   obstruction, and is retired rather than repaired by rewriting its
+   fixture.  The library's explicitly bound [bool_FinEnum] is unchanged.
+   Every constant takes its hypotheses as top-level binders; no [Section]
+   is used.
 
    NON-VACUITY.  [FinEnum] is inhabited ([bool_FinEnum]; the one-point
    space through Instance/Top.v's [Point_Compact]) and not universal
