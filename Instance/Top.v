@@ -941,13 +941,17 @@ Definition IsCompact (X : TopSpace) : Type :=
    list containing the index that covers the point; the separation axiom is
    satisfied vacuously, there being no pair of distinct points to
    separate — exactly the classical situation.
-   CORRECTION (#455): as proved, [Point_Hausdorff] is monomorphised at a
-   [Set] carrier (About: [Point_Hausdorff@{u} : IsHausdorff@{u Set Set Set}
-   Point_Top@{Set}]), so it witnesses the separation half only at the
-   [Set]-carrier instances of [Top]; [Point_Compact] is universe-general.
-   Instance/Top/StoneCech.v's [Discrete_Hausdorff] separates every discrete
-   space at every universe, and its [Point_CH] is the one-point space as an
-   object of [CompHaus] at every carrier universe. *)
+   CORRECTION (#1383, #1385): #455 recorded a [Set]-carrier pin in
+   [Point_Hausdorff], not a mathematical restriction on the point.  On
+   ordinary Rocq 9.1.1 its [reflexivity] selected Corelib's minimized
+   [eq_Reflexive@{Set}].  Direct [eq_refl] removes that selection without
+   changing the statement, space or [Qed] opacity.  [About], with full
+   universes, now reads [Point_Hausdorff@{u u0 u1 u2} :
+   IsHausdorff@{u u0 u1 u2} Point_Top@{u2}] on ordinary 9.1.1 and the saved
+   rocq-prover/rocq#22575 stand-in: no literal [Set] in its type's universe
+   instances; the printed bounds still apply.  Both point predicates are
+   now universe-general.  Instance/Top/StoneCech.v's [Discrete_Hausdorff]
+   and [Point_CH] remain the discrete-space and compact Hausdorff witnesses. *)
 Lemma Point_Compact : IsCompact Point_Top.
 Proof.
   intros I U HU.
@@ -962,7 +966,7 @@ Qed.
 Lemma Point_Hausdorff : IsHausdorff Point_Top.
 Proof.
   intros x y Hxy; destruct x, y.
-  exfalso; apply Hxy; reflexivity.
+  exfalso; apply Hxy; exact eq_refl.
 Qed.
 
 (* The full subcategory of Hausdorff spaces.  [shom] retains every

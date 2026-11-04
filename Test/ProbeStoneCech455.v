@@ -11,10 +11,11 @@
     refuted under an arrow index or [IEM], above the hom universe through
     an index of [Top]; the vacuity pairs; SAFT at the inclusion reduced to
     three hypotheses; [big_inj]; the cost of a cogenerator with stable
-    members, and of a single point-separating space).  N2, N6-N14 and
+    members, and of a single point-separating space).  N2, N6, N9-N14 and
     N18-N22 restate a readback or a refusal that a target header records,
     N2 and N12 first measured by #455's review; N1, N3-N5 and N15-N17 are
-    this file's own.  The positive controls restate the files' claims
+    this file's own.  CORRECTION (#1383, #1384): N7 is now a positive
+    readback and N8 is retired, as detailed below.  The positive controls restate the files' claims
     independently.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
@@ -30,7 +31,8 @@
     Instance/Sets.v's is [Sets.bool_setoid_object] ([Locate]).  A shorter
     import list is what makes a probe pass for no reason.
 
-    DISCIPLINE.  The instrument was checked both ways: the refutation of an
+    DISCIPLINE AT #455 (historical measurements).  The instrument was
+    checked both ways: the refutation of an
     absent name is refused for that reason, and each of the eighty-one
     definitions, examples, lemmas and records of this file that is not a
     refutation, wrapped in one in a copy of this WHOLE file, stops the
@@ -76,10 +78,27 @@
     "cannot unify" parenthetical in place of theirs, and N12 and N17
     print the type mismatch with no parenthetical.
 
-    KINDS.  Twenty-three refutations, counted as the lines that open with
-    the refutation keyword: NAME-ABSENCE (the instrument), CONVERSION
-    (N1-N4), TYPING (N5) and UNIVERSE (N6-N22): one, four, one and
-    seventeen.  No refusal is an INSTANCE or a BINDER one: every binder
+    CORRECTION (#1383, #1384): the twenty-three stripped copies above and
+    the old cross-version error quotations describe #455, not the current
+    boundary set.  N7 is now positive after the Point_Hausdorff donor fix;
+    N8 is retired with its fixture unchanged.  Whole-file strips on the
+    donor-only treatment, on ordinary Rocq 9.1.1 and the saved
+    rocq-prover/rocq#22575 stand-in, reach each of the twenty-one remaining
+    refusals, including commands after the old N7/N8 stops.  Raw errors
+    are retained for comparison, separately from the historical quotations.
+    Current positive declarations number eighty-four (Definition, Example,
+    Lemma and Record commands outside Fail); this is a declaration count,
+    not eighty-four executed wrapper tests.  On the donor-only treatment,
+    N7 and the original adjacent point/binderless-enumeration controls
+    reject Fail wrappers on both tools.  The two new explicit above-Set
+    application/readback controls are not included in that measurement.
+    The historical cross-version stripped-error audit above is not a
+    completed current full-build matrix or final-tree gate result.
+
+    KINDS.  CORRECTION (#1383, #1384): twenty-one, formerly twenty-three,
+    refutations, counted by [grep -c '^Fail' Test/ProbeStoneCech455.v]:
+    NAME-ABSENCE (the instrument), CONVERSION (N1-N4), TYPING (N5) and
+    UNIVERSE (N6, N9-N22): one, four, one and fifteen.  No refusal is an INSTANCE or a BINDER one: every binder
     instrument is accepted.  N15 is reported over the whole command rather
     than at a subterm; the type it forms is its body, and its binder
     instrument is accepted.  N20, N21 and N22 carry no universe clause:
@@ -193,50 +212,35 @@
     The header's quotation, from a closed binder [@{o}], carries the same
     clause; N6's binder is extensible, so the refusal is not the binder's.
 
-    N7 (UNIVERSE).  Instance/Top.v's [Point_Hausdorff] is monomorphised at
-    a [Set] carrier ([About]: [IsHausdorff@{u Set Set Set}
-    Point_Top@{Set}]; that file's CORRECTION (#455) comment).  It is
-    accepted there ([p455_point_hausdorff_set]); above [Set] the one-point
-    space is separated by [Discrete_Hausdorff] ([p455_point_hausdorff_o])
-    and compact by Instance/Top.v's universe-general [Point_Compact]
-    ([p455_point_compact_o]), and [Point_CH]'s space is [Point_Top@{o}] at
-    [Set < o] ([p455_point_ch_above_set]).  [Point_Hausdorff] at that
-    type, N7:
-      The term "Point_Hausdorff" has type "IsHausdorff@{<1> Set Set Set}
-      Point_Top@{Set}" while it is expected to have type "IsHausdorff@{h o
-      o o} Point_Top@{o}" (universe inconsistency: Cannot enforce Set =
-      o).
+    FORMER N7.  CORRECTION (#1383, #1384, #1385): the earlier UNIVERSE
+    refusal came from [Point_Hausdorff]'s use of Corelib's minimized
+    [eq_Reflexive@{Set}], selected by [reflexivity], not from the point's
+    carrier.  Direct [eq_refl] gives [IsHausdorff@{u u0 u1 u2}
+    Point_Top@{u2}], still [Qed]-opaque, on ordinary Rocq 9.1.1 and the
+    saved rocq-prover/rocq#22575 stand-in.  The identical N7 command at
+    its original levels now succeeds on both; wrapping it in [Fail]
+    rejects.  Keep its [Set] control, the independent [Discrete_Hausdorff]
+    control and [Point_Compact], and add an explicit [Set < o] application
+    with an [eq_refl] readback of that application.  No equality between
+    the two opaque Hausdorff proofs is asserted.  [Point_CH]'s space stays
+    [Point_Top@{o}] at [eq_refl] ([p455_point_ch_above_set]).
 
-    N8 (UNIVERSE).  StoneCech.v's header, UNIVERSES: without a binder,
-    [bool_FinEnum] elaborates at [FinEnum@{Set} bool_setoid_object@{Set
-    Set}], "which would force [Bool_CH], built from it, and so the
-    refutations that use [Bool_CH], to a [Set] carrier".  Restated as
-    [p455_bool_FinEnum_bare], the same proof with no binder, whose [About]
-    reads the same (measured in a scratch copy of this file).  N8's own
-    body at [Set] is accepted ([p455_bool_ch_bare_at_set]), so that "forces
-    a [Set] carrier" is measured rather than read off the clause.  What it
-    forces is narrower than the lemma: it is accepted at [Set]
-    ([p455_bare_at_set]); at [FinEnum bool_setoid_object@{o o}] with [Set
-    < o] it is accepted too, by conversion ([p455_bare_at_o]); and so is an
-    object of [CompHaus] above [Set] built from it once the setoid is named
-    at [o] ([p455_bare_named_setoid]).  What is refused is [Bool_CH]'s own
-    body, which leaves the setoid to inference, so that the placeholder is
-    solved from the lemma's type, at [Set].  That body with the file's
-    [bool_FinEnum] is accepted under an extensible binder
-    ([p455_bool_ch_body]), and [Bool_CH] itself lives above [Set]
-    ([p455_bool_ch_above_set]); with [p455_bool_FinEnum_bare], N8:
-      The term "(Bool_Discrete; (Discrete_Compact_of_FinEnum
-      bool_setoid_object p455_bool_FinEnum_bare, Discrete_Hausdorff ?A))"
-      has type "∃ x : obj[Top], Subcategory.sobj _
-      CompactHausdorff_Subcategory x" while it is expected to have type
-      "obj[CompHaus]" (cannot satisfy constraint "IsCompact (Discrete_Top
-      bool_setoid_object) ∧ IsHausdorff (Discrete_Top ?A)" == "(λ x :
-      obj[Top], Subcategory.sobj _ CompactHausdorff_Subcategory x)
-      Bool_Discrete"; universe inconsistency: Cannot enforce Set = o).
-    With [Set < o] declared the same body is refused with the same clause
-    (measured in a scratch file with this file's import list).  So the
-    header's sentence holds of [Bool_CH] as written, where the binder is
-    load-bearing; the lemma itself converts to any carrier.
+    RETIRED N8.  CORRECTION (#1384, #1385): this was a toolchain-dependent
+    elaboration test, not a mathematical size obstruction.  Its unchanged
+    binderless fixture [p455_bool_FinEnum_bare], proved by [reflexivity],
+    reads [FinEnum@{Set} bool_setoid_object@{Set Set}] on ordinary Rocq
+    9.1.1 (universe polymorphic with an empty instance, not monomorphic),
+    but [FinEnum@{u} bool_setoid_object@{u u}] on the saved stand-in.
+    The original command using [Bool_CH]'s body with that fixture and an
+    inferred setoid refuses on ordinary 9.1.1, "Cannot enforce Set = o",
+    and succeeds on the stand-in, before and after the Point donor fix.
+    N8 is therefore retired by decision, not promoted by changing the
+    fixture.  Its former [Set]-level control [p455_bool_ch_bare_at_set]
+    stays, as do [p455_bare_at_set], [p455_bare_at_o] and
+    [p455_bare_named_setoid]: naming the setoid at [o] makes the higher
+    application convert even on ordinary 9.1.1.  The explicitly bound
+    library [bool_FinEnum], [p455_bool_ch_body] and
+    [p455_bool_ch_above_set] are unchanged.
 
     N9 (UNIVERSE).  StoneCech.v's header, (3) and UNIVERSES: the
     tautological solution set is legal because the whole object type of
@@ -437,10 +441,10 @@
     report of #455's scouts that [Section] [Context] binders over
     [CompHaus] are refused: it did not reproduce for #455's builder, and
     neither target rests on it.  (c) [About] readbacks as such, the
-    [Set] of [p455_bool_FinEnum_bare], the "c = h" of
-    [p455_saft_incl_apart] and the index of [taut_sols]: measured in
-    scratch copies of this file, and pinned here by their consequences (N8,
-    N13-N17 and N9); likewise the [h <= c] that [CompHaus_Forget] and
+    toolchain-dependent [Set] of [p455_bool_FinEnum_bare] (CORRECTION,
+    #1384: former N8 is retired, not a portable consequence), the "c = h"
+    of [p455_saft_incl_apart] and the index of [taut_sols]: the latter two
+    measured in scratch copies and pinned here by N13-N17 and N9; likewise the [h <= c] that [CompHaus_Forget] and
     [CompHaus_Incl] carry and the slots Refutations.v's COVERAGE names
     (N12, N17, N19-N22).  (d) Flip censuses ([Defined] against [Qed]) and the
     closure of the targets under [Print Assumptions]: measurements of the
@@ -661,9 +665,9 @@ Fail Definition p455_n6_conthom_at_o@{o +} (X Y : TopSpace@{o}) :
   Type@{o} :=
   ContinuousMorphism X Y.
 
-(* CONTROL: [Point_Hausdorff] at its [Set] carrier; the one-point space
-   separated and compact above [Set], by [Discrete_Hausdorff] and by
-   Instance/Top.v's [Point_Compact]. *)
+(* FORMER N7 CONTROL (#1383, #1386): retain the [Set] application, now
+   a specialization rather than a pin.  Keep the independent separation
+   and compactness controls from [Discrete_Hausdorff] and [Point_Compact]. *)
 Definition p455_point_hausdorff_set : IsHausdorff Point_Top@{Set} :=
   Point_Hausdorff.
 
@@ -677,9 +681,18 @@ Definition p455_point_compact_o@{o +| Set < o +} :
 
 Check @IsHausdorff@{_ _ _ _}.
 Check @Point_Top@{_}.
-Fail Definition p455_n7_point_hausdorff_o@{h o +| o < h +} :
+(* FORMER N7 (#1383, #1384): identical command, original levels. *)
+Definition p455_n7_point_hausdorff_o@{h o +| o < h +} :
   IsHausdorff@{h o o o} Point_Top@{o} :=
   Point_Hausdorff.
+
+Definition p455_point_hausdorff_above_set@{h o +| Set < o, o < h +} :
+  IsHausdorff@{h o o o} Point_Top@{o} :=
+  Point_Hausdorff.
+
+Example p455_point_hausdorff_readback@{h o +| Set < o, o < h +} :
+  p455_point_hausdorff_above_set =
+    (Point_Hausdorff : IsHausdorff@{h o o o} Point_Top@{o}) := eq_refl.
 
 (* CONTROL: [bool_FinEnum] stated without a universe binder, and its uses:
    at [Set], at [FinEnum] above [Set] by conversion, and in an object of
@@ -711,17 +724,15 @@ Definition p455_bool_ch_body@{o +} : CompHaus :=
 Example p455_bool_ch_above_set@{o +| Set < o +} :
   `1 Bool_CH = Bool_Discrete@{o} := eq_refl.
 
-(* CONTROL: N8's own body at [Set]. *)
+(* FORMER N8 CONTROL (#1384, #1386): retain its body at [Set], despite
+   retiring the toolchain-dependent refusal.  The fixture is unchanged. *)
 Definition p455_bool_ch_bare_at_set : CompHaus :=
   (Bool_Discrete@{Set};
      (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
       Discrete_Hausdorff _)).
 
+(* N8 retired (#1384); keep the eager arity control and every fixture. *)
 Check @Bool_Discrete@{_}.
-Fail Definition p455_n8_bool_ch_bare@{o +} : CompHaus :=
-  (Bool_Discrete@{o};
-     (Discrete_Compact_of_FinEnum _ p455_bool_FinEnum_bare,
-      Discrete_Hausdorff _)).
 
 (** ** N9 (UNIVERSE): Instance/Top/StoneCech.v, the reduction of GAFT *)
 
