@@ -109,10 +109,11 @@ Generalizable All Variables.
    (@terminal_obj Sets Sets_Terminal)] accepted on BOTH tools (probe
    N1 and N5).  This was proof opacity, not a carrier-universe pin.
    [Sets_terminal_separates] remains issue #447's pinned public name;
-   its three existing proofs are retained, not consolidated here:
+   its three proof routes remain.  CORRECTION (#1387): the direct route
+   now reuses [sets_elem], removing [sets_elem_term] and its obligation:
 
-     1. DIRECT, and this is the delivered constant: [sets_elem_term]
-        builds the constant map out of the terminal object itself, so the
+     1. DIRECT, and this is the delivered constant: [sets_elem] also builds
+        the constant map out of the terminal object by conversion, so the
         proof is the same two lines as for the singleton.
      2. TRANSPORT, [Sets_terminal_separates_by_transport]: the two
         objects ARE isomorphic ([Sets_terminal_unit_iso]), and
@@ -212,9 +213,9 @@ Generalizable All Variables.
    "The term "H (sets_elem x) ttt" has type "(f ∘ sets_elem x) ttt ≈
    (g ∘ sets_elem x) ttt" while it is expected to have type "f x ≈ g x"",
    a CONVERSION refusal: the whole proof is the reduction of the constant
-   map at the unique inhabitant.  [sets_elem_term] below measures the
-   same way, its message naming [1] where this one names
-   [unit_setoid_object]. *)
+   map at the unique inhabitant.  CORRECTION (#1387): the former duplicate
+   [sets_elem_term] is removed; both direct separator proofs now use this
+   same transparent map. *)
 Program Definition sets_elem@{o so+} {X : SetoidObject@{o o}}
   (x : carrier X) :
   unit_setoid_object@{o o} ~{Sets@{o so}}~> X := {| morphism := fun _ => x |}.
@@ -237,16 +238,6 @@ Definition Sets_Generator@{o so+} : Generator Sets@{o so} :=
 
 (** ** The terminal object separates *)
 
-(* The same constant map, written out of [Sets_Terminal]'s object.
-   CORRECTION (#1382): the earlier claim that it must be built separately
-   because the objects do not convert depended on [Unit_Setoid]'s opaque
-   equivalence obligation.  They now convert; this construction is kept
-   for the separate consolidation in #1387. *)
-Program Definition sets_elem_term@{o so+} {X : SetoidObject@{o o}}
-  (x : carrier X) :
-  @terminal_obj Sets@{o so} Sets_Terminal@{so o} ~{Sets@{o so}}~> X :=
-  {| morphism := fun _ => x |}.
-
 (* Route 1, the delivered constant: the direct proof.  This is issue
    #447's pinned name. *)
 Lemma Sets_terminal_separates@{o so+} :
@@ -254,7 +245,7 @@ Lemma Sets_terminal_separates@{o so+} :
     (@terminal_obj Sets@{o so} Sets_Terminal@{so o}).
 Proof.
   intros X Y f g H x.
-  exact (H (sets_elem_term x) ttt).
+  exact (H (sets_elem x) ttt).
 Qed.
 
 Definition Sets_terminal_Generator@{o so+} : Generator Sets@{o so} :=

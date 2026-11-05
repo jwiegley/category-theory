@@ -9270,7 +9270,6 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_unit_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_Generator.'; \
-	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_term.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_Generator.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_unit_iso.'; \
@@ -9279,7 +9278,6 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates_pick.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_obligation_1.'; \
-	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_term_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.grp_point.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_free_one_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_Generator.'; \

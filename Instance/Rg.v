@@ -189,10 +189,11 @@ Generalizable All Variables.
     [eq_Reflexive]; [About] under both printing flags on ordinary 9.1.1
     and the patched 9.1.1 stand-in confirms the type has no literal [Set]
     universe instance (global constraint bounds remain).  The old reason
-    for routing around [Ab_trivial] no longer applies.  [rg_trivial_ab]
-    remains unchanged, built on Instance/CMon/Biproduct.v's polymorphic
-    [CMon_trivial]; consolidation is separate work (#1387).  [Rg_Zero]'s
-    [About] at the foot of this file remains the readback for this file.
+    for routing around [Ab_trivial] no longer applies.  CORRECTION (#1387):
+    the local [rg_trivial_ab] copy is removed; [Rg_trivial] now reuses
+    [Ab_trivial@{o}] directly.  [Rg_trivial] and [Rg_Zero] retain their
+    universe instances and constraint blocks, read back by [About] at the
+    foot of this file against the immediate predecessor on both tools.
 
     STRENGTHS, GRADED STRICT-FIRST.  [eq_refl] was tried before [≈]
     everywhere, and what it bought is shipped as [Example]s: the
@@ -247,8 +248,9 @@ Generalizable All Variables.
     a rng as a non-unital enriched category is not built.  No universe
     claim is made about anything other than [Rg_Zero] and its
     dependencies.  The original development routed around [Ab_trivial]
-    without editing Instance/Ab.v; #1383 has since repaired that donor,
-    without changing this file's constructions. *)
+    without editing Instance/Ab.v; #1383 repaired that donor without
+    changing this file's constructions.  CORRECTION (#1387): [Rg_trivial]
+    now reuses it directly, removing the local duplicate. *)
 
 (** ** Rngs over a setoid carrier *)
 
@@ -500,23 +502,10 @@ Qed.
 
 (** ** The trivial rng is a zero object *)
 
-(* Built on Instance/CMon/Biproduct.v's polymorphic [CMon_trivial].
-   CORRECTION (#1383): [Ab_trivial] is no longer pinned at [Set]; the former
-   reason for this local copy has gone.  Keep it unchanged pending #1387. *)
-Definition rg_trivial_ab@{o} : AbObject@{o o o}.
-Proof.
-  unshelve notypeclasses refine {|
-    ab_cmon := CMon_trivial@{o};
-    ab_neg  := fun _ => ttt
-  |}.
-  - intros x y Hxy; reflexivity.
-  - intros a; reflexivity.
-Defined.
-
 Definition Rg_trivial@{o} : RgObject@{o o o}.
 Proof.
   unshelve notypeclasses refine {|
-    rg_ab  := rg_trivial_ab@{o};
+    rg_ab  := Ab_trivial@{o};
     rg_mul := fun _ _ => ttt
   |}.
   - intros x y Hxy u v Huv; reflexivity.

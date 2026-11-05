@@ -132,7 +132,17 @@ make print-assumptions
 
 The gate grows with the library, and the figure is a measurement with a
 criterion: `grep -c 'Print Assumptions' Makefile` returns
-**14509** on 2026-10-22, after #1377 (`pcc_Prop`, the setoid of truth
+**14507** on 2026-11-05. CORRECTION (#1387): the previous **14509**
+loses exactly the two queries for `sets_elem_term` and
+`sets_elem_term_obligation_1`, removed when `Sets_terminal_separates`
+was proved through the already gated `sets_elem`; 14509 − 2 = 14507.
+This literal count includes the banner: there are 14506 executable
+queries. A private single-quoted-echo regex counted 14503 before this
+change and 14501 after; it omits five queries with apostrophes in their
+names (one double-quoted and four assembled from shell quote segments),
+so that narrower figure is not the gate total. The surviving separator
+and map remain gated.
+The earlier **14509** was measured on 2026-10-22, after #1377 (`pcc_Prop`, the setoid of truth
 values of `Instance/Top/Cocomplete/Refutations.v`, given its
 `setoid_equiv` field explicitly, so that no `Program` obligation exists
 on any toolchain) removed ONE name from #458's block,
