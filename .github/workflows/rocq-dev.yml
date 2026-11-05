@@ -31,7 +31,15 @@ permissions:
   contents: read
 
 concurrency:
-  group: rocq-dev-${{ github.ref }}
+  # Only a pull request's superseded runs are cancelled: a PR run is grouped
+  # by its ref (refs/pull/N/merge), so the PR's next push replaces it. Every
+  # push, schedule and workflow_dispatch run gets a group of its own (its run
+  # id), as in coq-ci.yml and nix-ci.yml, which declare no concurrency at all.
+  # Grouping all events by ref let the daily cron, which GitHub starts hours
+  # late, cancel the push run of a commit just merged to master; a cancelled
+  # check counts as a failure in the commit's combined status, so master
+  # showed red with no job failed (the merge of PR #1407, 2026-11-05).
+  group: rocq-dev-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
