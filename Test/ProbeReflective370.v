@@ -38,7 +38,8 @@
     over the sixty-two [Category] lines), the nine targets among them.
     A shorter import list is what makes a probe pass for no reason.
 
-    DISCIPLINE.  The instrument was checked both ways: the refutation of
+    DISCIPLINE AT #370 (historical measurements).
+    The instrument was checked both ways: the refutation of
     an absent name is refused for that reason ("The reference
     p370_absent_name was not found in the current environment."), and
     each of the thirty-eight definitions and examples of this file that
@@ -77,6 +78,30 @@
     printed before #1347 (compared by script, universe serial names
     aside).  Both measurements on Rocq 9.1.1 only; the older versions
     were not re-run.
+
+    CORRECTION (#1388; executable source
+    2a0b10b526fa7000d624d0ced8bd631485828e11, remeasured 2026-11-05).
+    The older-version experiments above are historical, not measurements
+    of the current boundary set.  Fresh whole-file copies, each with just
+    one Fail removed, the original basename and every other byte kept,
+    were compiled on Coq 8.19.2, Coq 8.20.1 and ordinary Rocq 9.1.1.
+    Equality here compares the COMPLETE Error payload, environment and
+    layout included: only verified source origins and a bijection of
+    generated module.numeric universe names are normalized.  Named levels,
+    repeated/distinct levels and whitespace are preserved.  Layout-only
+    differences therefore count as unequal, not as changed boundaries.
+    All twenty current Fail commands (grep -c '^Fail' of this file,
+    including the instrument and nineteen numbered negatives) refuse
+    inside their intended commands, at the same file-relative line and
+    character range on all three tools; locations are not stable
+    cross-revision identifiers.  On 8.20.1 fourteen payloads equal 9.1.1's:
+    all except N3, N6, N14, N15, N21 and N22, whose differences are layout
+    only.  On 8.19.2 thirteen equal it: all except those six and N23,
+    which still prints its type mismatch without a parenthetical.
+    N8, N10, N12 and N13 stay positive.  The old twenty-three/nineteen
+    stripped-copy figures counted numbered negatives without the
+    instrument, not all Fail commands.  No historical positive-wrapper or
+    constant census is repeated by this stripped-error measurement.
 
     KINDS.  Twenty-four refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), TYPING (N1,

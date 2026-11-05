@@ -55,7 +55,8 @@
     the six targets and the three targets no other target requires.  A
     shorter import list is what makes a probe pass for no reason.
 
-    DISCIPLINE.  The instrument was checked both ways: the refutation of
+    DISCIPLINE AT #458 (historical measurements).
+    The instrument was checked both ways: the refutation of
     an absent name is refused for that reason ("The reference
     probe458_absent_name was not found in the current environment."),
     and each of the one hundred and one definitions, examples, lemmas and
@@ -116,6 +117,31 @@
     N32, N35), with no clause (N1, N15, N18, N29), or the same
     inconsistency between serial names (N19, N30, N33, N34) (compared by a
     script over the copies).
+
+    CORRECTION (#1388; executable source
+    2a0b10b526fa7000d624d0ced8bd631485828e11, remeasured 2026-11-05).
+    The older-version experiments above are historical, not measurements
+    of the current boundary set.  Fresh whole-file copies, each with just
+    one Fail removed, the original basename and every other byte kept,
+    were compiled on Coq 8.19.2, Coq 8.20.1 and ordinary Rocq 9.1.1.
+    Equality here compares the COMPLETE Error payload, environment and
+    layout included: only verified source origins and a bijection of
+    generated module.numeric universe names are normalized.  Named levels,
+    repeated/distinct levels and whitespace are preserved.  Layout-only
+    differences therefore count as unequal, not as changed boundaries.
+    All thirty-six current Fail commands (grep -c '^Fail' of this file)
+    refuse inside their intended commands, at the same file-relative line
+    and character range on all three tools; locations are not stable
+    cross-revision identifiers.  On 8.20.1 twenty-eight payloads equal
+    9.1.1's: all except N1, N7, N12, N15-N18 and N29, whose differences are
+    layout only.  On 8.19.2 nine equal it: the instrument, N5, N6, N13,
+    N14 and N20-N23.  N7, N16 and N17 differ only in layout.  The other
+    twenty-four retain the historical split: "cannot unify" instead of an
+    inconsistency at N2-N4, N8-N12, N24-N28, N31, N32 and N35; no clause
+    at N1, N15, N18 and N29; generated rather than named levels at N19,
+    N30, N33 and N34.  The removed pcc_Prop obligation is not a probe
+    refutation.  No positive-wrapper, binder or constraint-deletion test,
+    nor a constant census, is repeated by this stripped-error measurement.
 
     KINDS.  Thirty-six refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1-N4,

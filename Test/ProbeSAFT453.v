@@ -41,7 +41,8 @@
     write [(Sets@{o so}^op)%category].  A shorter import list is what makes
     a probe pass for no reason.
 
-    DISCIPLINE.  The instrument was checked both ways: the refutation of an
+    DISCIPLINE AT #453 (historical measurements).
+    The instrument was checked both ways: the refutation of an
     absent name is refused for that reason, and each of the fifty-six
     definitions and examples of this file that is not a refutation, wrapped
     in one in a copy of this WHOLE file, stops the build at that command
@@ -83,6 +84,32 @@
     N10 and N17 print as "cannot unify" mismatches, and N12-N16, N20, N28
     and N29 as type mismatches, those ten with no universe-inconsistency
     clause.
+
+    CORRECTION (#1388; executable source
+    2a0b10b526fa7000d624d0ced8bd631485828e11, remeasured 2026-11-05).
+    The older-version experiments above are historical, not measurements
+    of the current boundary set.  Fresh whole-file copies, each with just
+    one Fail removed, the original basename and every other byte kept,
+    were compiled on Coq 8.19.2, Coq 8.20.1 and ordinary Rocq 9.1.1.
+    Equality here compares the COMPLETE Error payload, environment and
+    layout included: only verified source origins and a bijection of
+    generated module.numeric universe names are normalized.  Named levels,
+    repeated/distinct levels and whitespace are preserved.  Layout-only
+    differences therefore count as unequal, not as changed boundaries.
+    All thirty current Fail commands (grep -c '^Fail' of this file) refuse
+    inside their intended commands, at the same file-relative line and
+    character range on all three tools.  Such locations are not stable
+    cross-revision identifiers.  On 8.20.1 thirteen payloads equal 9.1.1's:
+    the instrument, N1, N3, N5, N8, N14-N16, N21, N22, N25, N28 and N29;
+    the other seventeen differ only in layout.  On 8.19.2 seven equal it:
+    the instrument, N1, N3, N5, N21, N22 and N25.  N2, N4, N6, N7, N11,
+    N18, N23, N24, N26 and N27 differ only in layout; N8, N9 and N19
+    retain the named/generated-level differences described above; N10 and
+    N17 retain the "cannot unify" alternative; N12-N16, N20, N28 and N29
+    retain type mismatches without an inconsistency clause.  In particular
+    N6 and N18 remain conversion refusals, not positional-arity errors.
+    No positive-wrapper, binder-instrument or constant census is repeated
+    by this stripped-error measurement.
 
     KINDS.  Thirty refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), CONVERSION (N1-N7,
