@@ -1209,6 +1209,36 @@ the stdlib-axioms section below stay nine. Among the 268:
   readbacks refused at `eq_refl`, are refusals pinned in
   `Test/ProbeHausdorff461.v`, not constants, and so are not in the gate
 
+The six-file universal-arrow development (#312) was recounted separately
+on 2026-11-04 at `36a3ead23ce0bf0aa13a8c1ccd180123559d10f3`
+(#1385). `Print Module Category.<module>` followed by
+`Print Assumptions Category.<module>.<name>` for every declaration gives:
+
+| Module | Named definitions/lemmas | Program obligations | Total closed |
+|---|---:|---:|---:|
+| `Instance/Grp/Abelianize.v` | 65 | 27 | 92 |
+| `Instance/Sets/Pointed/Free.v` | 60 | 6 | 66 |
+| `Instance/Top/Discrete.v` | 9 | 0 | 9 |
+| `Instance/CMon/Grothendieck.v` | 71 | 20 | 91 |
+| `Instance/Grp/Completion.v` | 71 | 5 | 76 |
+| `Instance/Mod/Extension.v` | 53 | 44 | 97 |
+| **Total** | **329** | **102** | **431** |
+
+All 431 report "Closed under the global context" on ordinary Rocq 9.1.1
+and the saved rocq-prover/rocq#22575-patched 9.1.1 stand-in, not genuine
+Rocq master. The census counts each module-owned declaration once, including
+opaque proofs printed as `Parameter`; that spelling alone is not an axiom.
+These six module summaries contain only `Definition` and `Parameter` heads,
+with no local inductive or record declarations requiring additional
+constructors, eliminators or projections. Source/glob names alone are not
+the census. CORRECTION: the earlier INDEX total 429 used 90 for Abelianize.v
+where 92 already held before the S3 repair, and transposed Completion.v's
+and Extension.v's totals. The former 327 glob-only figure omitted obligations.
+The queries used explicitly imported products from accepted builds bound to
+the same source hashes and tool runtimes; they are not fresh library builds.
+This resolves the INDEX bullet's pending six-file accounting, does not
+expand the `print-assumptions` gate, and certifies no other module.
+
 The reflective-subcategory development (Mac Lane §IV.3's examples, book
 p. 92, with Seven Sketches' Example 3.74, Riehl's Example 4.6.13 (ii)
 and (iv) and her Exercise 5.3.ii; #370) adds 236 names over eight
