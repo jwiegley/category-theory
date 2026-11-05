@@ -225,8 +225,6 @@ Generalizable All Variables.
    [_Cantor_] forms are subsumed by the Freyd forms and kept as an
    independent second argument. *)
 
-#[local] Obligation Tactic := idtac.
-
 (** ** [PTopCat]: Freyd's form, dualized, and transported above the points *)
 
 (* Freyd's form, dualized: an arrow index at the shape universe refutes
