@@ -112,6 +112,33 @@
     seventy-two-control and binder/older-version counts above are historical
     experiments, not a current census or newly repeated wrapper tests.
 
+    CORRECTION (#1388; executable source
+    2a0b10b526fa7000d624d0ced8bd631485828e11, remeasured 2026-11-05).
+    The older-version experiments above are historical, not measurements
+    of the current boundary set.  Fresh whole-file copies, each with just
+    one Fail removed, the original basename and every other byte kept,
+    were compiled on Coq 8.19.2, Coq 8.20.1 and ordinary Rocq 9.1.1.
+    Equality here compares the COMPLETE Error payload, environment and
+    layout included: only verified source origins and a bijection of
+    generated module.numeric universe names are normalized.  Named levels,
+    repeated/distinct levels and whitespace are preserved.  Layout-only
+    differences therefore count as unequal, not as changed boundaries.
+    All thirty-four current Fail commands (grep -c '^Fail' of this file)
+    refuse inside their intended commands.  Both 8.x versions retain the
+    whole-command location for N12 and N13, where 9.1.1 points to a body
+    subterm; their errors still report the same unbound universes.  Every
+    other file-relative line and character range agrees across the three
+    tools; locations are not stable cross-revision identifiers.  On
+    8.20.1 twenty-four payloads equal 9.1.1's: all except N8, N19, N21,
+    N22, N25, N29 and N31-N34, whose differences are layout only.  On
+    8.19.2 eleven equal it: the instrument, N1, N2, N9, N10, N12, N13,
+    N16, N23, N26 and N27.  N21, N22, N25 and N31-N34 differ only in
+    layout; N3-N8, N11, N14, N17-N19, N24, N28 and N29 retain mismatches
+    without an inconsistency clause, and N20 and N30 retain their
+    "cannot unify" cone-type alternative.  N15 stays positive at its
+    original levels.  No historical positive-wrapper, binder-instrument
+    or constant census is repeated by this stripped-error measurement.
+
     KINDS.  Thirty-four refutations (previously thirty-five), counted as
     lines opening with [Fail]: NAME-ABSENCE (the instrument), INSTANCE (N1),
     CONVERSION (N2, N16, N21-N23, N26, N27, N31-N34), TYPING (N10), BINDER

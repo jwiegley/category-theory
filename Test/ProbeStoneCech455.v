@@ -95,6 +95,31 @@
     The historical cross-version stripped-error audit above is not a
     completed current full-build matrix or final-tree gate result.
 
+    CORRECTION (#1388; executable source
+    2a0b10b526fa7000d624d0ced8bd631485828e11, remeasured 2026-11-05).
+    The older-version experiments above are historical, not measurements
+    of the current boundary set.  Fresh whole-file copies, each with just
+    one Fail removed, the original basename and every other byte kept,
+    were compiled on Coq 8.19.2, Coq 8.20.1 and ordinary Rocq 9.1.1.
+    Equality here compares the COMPLETE Error payload, environment and
+    layout included: only verified source origins and a bijection of
+    generated module.numeric universe names are normalized.  Named levels,
+    repeated/distinct levels and whitespace are preserved.  Layout-only
+    differences therefore count as unequal, not as changed boundaries.
+    All twenty-one current Fail commands (grep -c '^Fail' of this file)
+    refuse inside their intended commands, at the same file-relative line
+    and character range on all three tools; locations are not stable
+    cross-revision identifiers.  On 8.20.1 sixteen payloads equal 9.1.1's:
+    all except N3, N13, N16, N17 and N21.  N13 still substitutes a generated
+    level for c; the other four differ only in layout.  On 8.19.2 eight
+    equal it: the instrument, N1, N2, N4-N6, N20 and N22.  N3 and N21
+    differ only in layout; N15 still substitutes generated levels for c
+    and h; N9-N11, N13, N14, N16, N18 and N19 retain the "cannot unify"
+    alternative, and N12 and N17 the mismatch without a parenthetical.
+    N7 stays positive and N8 retired, with fixtures and eager twins kept.
+    This audit does not repeat the historical positive-wrapper or binder
+    experiments, nor promote their counts to a current constant census.
+
     KINDS.  CORRECTION (#1383, #1384): twenty-one, formerly twenty-three,
     refutations, counted by [grep -c '^Fail' Test/ProbeStoneCech455.v]:
     NAME-ABSENCE (the instrument), CONVERSION (N1-N4), TYPING (N5) and
