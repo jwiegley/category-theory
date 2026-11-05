@@ -586,7 +586,7 @@ Qed.
    enumerated pointed set into one with decidable `≈`. *)
 Definition ImageDecidable {X Y : PointedSetoid}
   (f : PointedMorphism X Y) : Type :=
-  ∀ b : carrier Y, InImage f b + ¬ InImage f b.
+  ∀ b : carrier Y, InImage f b + (¬ InImage f b).
 
 (* The retraction: send a point of the image to its (unique, by injectivity)
    preimage, and everything else to the basepoint.  The basepoint of Y is
@@ -717,12 +717,12 @@ Qed.
 
 (* Decidability of `≈` on a pointed setoid. *)
 Definition DecidableEquiv (Y : PointedSetoid) : Type :=
-  ∀ y y' : carrier Y, (y ≈ y') + ¬ (y ≈ y').
+  ∀ y y' : carrier Y, (y ≈ y') + (¬ (y ≈ y')).
 
 (* Decidability of "is this the basepoint?", the weaker hypothesis needed by
    the essential-surjectivity argument of Instance/Sets/Pointed/Part.v. *)
 Definition DecidablePt (Z : PointedSetoid) : Type :=
-  ∀ z : carrier Z, (z ≈ pt Z) + ¬ (z ≈ pt Z).
+  ∀ z : carrier Z, (z ≈ pt Z) + (¬ (z ≈ pt Z)).
 
 (* Membership in a list up to `≈`, [Type]-valued so that the position of the
    witness may be inspected. *)
@@ -904,7 +904,7 @@ Defined.
    claim an impossibility, exhibit the principle the missing hypothesis is
    equivalent to. *)
 
-Definition InformativeEM := ∀ P : Prop, P + ¬ P.
+Definition InformativeEM := ∀ P : Prop, P + (¬ P).
 
 Section Necessity.
 

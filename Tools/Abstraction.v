@@ -60,8 +60,8 @@ Definition rel2 `{Repr a} `{Repr b} `{Repr c}
            (lam : a → b → c) (ccc : repr a ~{AST}~> repr c ^ repr b) : Type :=
   ∀ (x : a) (y : b), convert (lam x y) ≈ uncurry ccc ∘ convert (x, y).
 
-Infix ">==>" := rel (at level 99) : category_scope.
-Infix ">===>" := rel2 (at level 99) : category_scope.
+Infix ">==>" := rel (at level 98) : category_scope.
+Infix ">===>" := rel2 (at level 98) : category_scope.
 
 (* Variable rule: the identity lambda [λx, x] compiles to the identity arrow. *)
 Corollary ccc_id : ∀ `{Repr a}, (λ x : a, x) >==> id.
@@ -199,7 +199,7 @@ Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {
 
 Section Example.
 
-Infix ">==>" := rel (at level 99) : category_scope.
+Infix ">==>" := rel (at level 98) : category_scope.
 
 (*
 Theorem ccc_arity2 :

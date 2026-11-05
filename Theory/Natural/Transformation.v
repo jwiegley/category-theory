@@ -358,4 +358,4 @@ Next Obligation.
   apply fmap_respects, naturality_sym.
 Qed.
 
-Notation "F ⊳ N" := (whisker_left F N) (at level 10).
+Notation "F ⊳ N" := (whisker_left F N) (at level 10, N at level 10).

@@ -136,11 +136,11 @@ Program Definition Fun : Category := {|
 End Fun.
 
 Notation "[ C , D ]" := (@Fun C D)
-  (at level 90, right associativity, format "[ C ,  D ]") : category_scope.
+  (at level 0, right associativity, format "[ C ,  D ]") : category_scope.
 
 Notation "[[[ C , D ]]]( F , G )" := ({| carrier   := @hom (@Fun C D) F G
                                        ; is_setoid := @homset (@Fun C D) F G |})
-  (at level 90, right associativity, format "[[[ C ,  D ]]]( F , G )") : homset_scope.
+  (at level 0, right associativity, format "[[[ C ,  D ]]]( F , G )") : homset_scope.
 
 (* The category laws restated directly for `[C, D]`: left/right identity and
    associativity of vertical composition, each holding componentwise in D. *)

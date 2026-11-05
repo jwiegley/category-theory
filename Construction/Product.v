@@ -139,7 +139,7 @@ Definition Product (C D : Category) : Category := {|
      @comp_assoc_sym D (snd x) (snd y) (snd z) (snd w) (snd f) (snd g) (snd h))
 |}.
 
-Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
+Notation "C ∏ D" := (@Product C D) (at level 89) : category_scope.
 
 Require Import Category.Theory.Functor.
 
