@@ -147,57 +147,57 @@ Generalizable All Variables.
 (* ------------------------------------------------------------------------ *)
 (** ** P X, the free complete semilattice *)
 
-Example FreeSL_set@{o} (X : SetoidObject@{o o}) :
-  sl_set (FreeSL@{o} X) = Powerset_Prop_obj@{o} X := eq_refl.
+Example FreeSL_set@{o} (X : SetoidObject) :
+  sl_set (FreeSL X) = Powerset_Prop_obj@{o} X := eq_refl.
 
-Example FreeSL_le@{o} (X : SetoidObject@{o o})
-  (S T : carrier (Powerset_Prop_obj@{o} X)) :
+Example FreeSL_le@{o} (X : SetoidObject)
+  (S T : carrier (Powerset_Prop_obj X)) :
   sl_le (FreeSL@{o} X) S T = (∀ z, S z → T z) := eq_refl.
 
-Example FreeSL_sup@{o} (X : SetoidObject@{o o}) :
-  sl_sup (FreeSL@{o} X) = @Powerset_union@{o} X := eq_refl.
+Example FreeSL_sup@{o} (X : SetoidObject) :
+  sl_sup (FreeSL X) = @Powerset_union@{o} X := eq_refl.
 
 (* (c) at P X has the structure map of the free algebra (P X, μ_X); as a
    whole algebra it is refused (E3 of Test/ProbeSupLat466.v). *)
-Example FreeSL_alg@{o so} (X : SetoidObject@{o o}) :
-  t_alg[projT2 (fobj[SupLat_to_EM@{o so}] (FreeSL@{o} X))]
-    = t_alg[projT2 (fobj[@EM_Free Sets@{o so} Powerset_Prop@{o so}
+Example FreeSL_alg@{o so} (X : SetoidObject) :
+  t_alg[projT2 (fobj[SupLat_to_EM] (FreeSL X))]
+    = t_alg[projT2 (fobj[@EM_Free Sets Powerset_Prop
                           Powerset_Monad@{o so}] X)] := eq_refl.
 
 (* (b) at the free algebra: Mac Lane's order S ∪ T ≈ T is inclusion.  The
    free algebra's structure map is (c)'s at [FreeSL X] by conversion
    ([FreeSL_alg]) and the order reads only that map, so this is
    Instance/SupLat.v's [sl_talg_le_iff] there. *)
-Lemma FreeSL_talg_le_iff@{o so} (X : SetoidObject@{o o})
-  (S T : carrier (Powerset_Prop_obj@{o} X)) :
-  iff (sl_le (fobj[EM_to_SupLat@{o so}]
-                (fobj[@EM_Free Sets@{o so} Powerset_Prop@{o so}
+Lemma FreeSL_talg_le_iff@{o so} (X : SetoidObject)
+  (S T : carrier (Powerset_Prop_obj X)) :
+  iff (sl_le (fobj[EM_to_SupLat]
+                (fobj[@EM_Free Sets Powerset_Prop
                         Powerset_Monad@{o so}] X)) S T)
-      (sl_le (FreeSL@{o} X) S T).
-Proof. exact (sl_talg_le_iff@{o so} (FreeSL@{o} X) S T). Qed.
+      (sl_le (FreeSL X) S T).
+Proof. exact (sl_talg_le_iff (FreeSL X) S T). Qed.
 
 (* The universal property of P X, elementwise: a map ψ into a complete
    semilattice extends along the singletons, and uniquely so. *)
-Lemma FreeSL_extend_singleton@{o so} {X : SetoidObject@{o o}}
-  {A : SupLatObject@{o}} (ψ : X ~{Sets@{o so}}~> sl_set A) (x : carrier X) :
+Lemma FreeSL_extend_singleton@{o so} {X : SetoidObject}
+  {A : SupLatObject} (ψ : X ~{Sets}~> sl_set A) (x : carrier X) :
   @equiv _ (is_setoid (sl_set A))
-    (slh_map (SL_extend@{o so} ψ) (Powerset_Prop_singleton_pred@{o} x)) (ψ x).
-Proof. exact (@iso_to_from _ _ _ (SL_adj_iso@{o so} X A) ψ x). Qed.
+    (slh_map (SL_extend@{o so} ψ) (Powerset_Prop_singleton_pred x)) (ψ x).
+Proof. exact (@iso_to_from _ _ _ (SL_adj_iso X A) ψ x). Qed.
 
-Lemma FreeSL_extend_unique@{o so} {X : SetoidObject@{o o}}
-  {A : SupLatObject@{o}} (φ : SupLatHom@{o} (FreeSL@{o} X) A)
-  (ψ : X ~{Sets@{o so}}~> sl_set A)
+Lemma FreeSL_extend_unique@{o so} {X : SetoidObject}
+  {A : SupLatObject} (φ : SupLatHom (FreeSL X) A)
+  (ψ : X ~{Sets}~> sl_set A)
   (H : ∀ x, @equiv _ (is_setoid (sl_set A))
-              (slh_map φ (Powerset_Prop_singleton_pred@{o} x)) (ψ x))
-  (S : carrier (Powerset_Prop_obj@{o} X)) :
+              (slh_map φ (Powerset_Prop_singleton_pred x)) (ψ x))
+  (S : carrier (Powerset_Prop_obj X)) :
   @equiv _ (is_setoid (sl_set A)) (slh_map φ S)
     (slh_map (SL_extend@{o so} ψ) S).
 Proof.
-  transitivity (slh_map (SL_extend@{o so} (SL_restrict@{o so} φ)) S).
-  - symmetry. exact (@iso_from_to _ _ _ (SL_adj_iso@{o so} X A) φ S).
+  transitivity (slh_map (SL_extend (SL_restrict φ)) S).
+  - symmetry. exact (@iso_from_to _ _ _ (SL_adj_iso X A) φ S).
   - exact (@proper_morphism _ _ _ _
-             (@from _ _ _ (SL_adj_iso@{o so} X A))
-             (SL_restrict@{o so} φ) ψ H S).
+             (@from _ _ _ (SL_adj_iso X A))
+             (SL_restrict φ) ψ H S).
 Qed.
 
 (* ------------------------------------------------------------------------ *)
@@ -205,14 +205,14 @@ Qed.
 
 (* sup S := ∃ Q ∈ S, Q. *)
 Definition Prop_sup@{o} :
-  SetoidMorphism@{o o o}
-    (Powerset_Prop_obj@{o} Powerset_Prop_truth@{o}) Powerset_Prop_truth@{o}.
+  SetoidMorphism
+    (Powerset_Prop_obj Powerset_Prop_truth) Powerset_Prop_truth@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
-       (carrier (Powerset_Prop_obj@{o} Powerset_Prop_truth@{o}))
-       (is_setoid (Powerset_Prop_obj@{o} Powerset_Prop_truth@{o}))
-       Prop (is_setoid Powerset_Prop_truth@{o})
+    (@Build_SetoidMorphism
+       (carrier (Powerset_Prop_obj Powerset_Prop_truth))
+       (is_setoid (Powerset_Prop_obj Powerset_Prop_truth))
+       Prop (is_setoid Powerset_Prop_truth)
        (λ S, ex (fun Q : Prop => S Q /\ Q)) _).
   intros S T E; split; intros [Q [HQ q]]; exists Q; split; try exact q.
   - exact (proj1 (E Q) HQ).
@@ -223,8 +223,8 @@ Defined.
 Definition Prop_SupLat@{o} : SupLatObject@{o}.
 Proof.
   unshelve refine
-    (@Build_SupLatObject@{o} Powerset_Prop_truth@{o}
-       (λ P Q : Prop, P → Q) _ _ _ _ Prop_sup@{o} _ _).
+    (@Build_SupLatObject Powerset_Prop_truth
+       (λ P Q : Prop, P → Q) _ _ _ _ Prop_sup _ _).
   - intros P p; exact p.
   - intros P Q R f g p; exact (g (f p)).
   - intros P P' Q Q' EP EQ f p. exact (proj1 EQ (f (proj2 EP p))).
@@ -237,12 +237,12 @@ Example Prop_SupLat_le@{o} (P Q : Prop) :
   sl_le Prop_SupLat@{o} P Q = (P → Q) := eq_refl.
 
 Example Prop_SupLat_sup@{o}
-  (S : carrier (Powerset_Prop_obj@{o} Powerset_Prop_truth@{o})) :
+  (S : carrier (Powerset_Prop_obj Powerset_Prop_truth)) :
   sl_sup Prop_SupLat@{o} S = ex (fun Q : Prop => S Q /\ Q) := eq_refl.
 
 (* Two comparable points that are not equal: False ≤ True. *)
 Lemma Prop_SupLat_nontrivial@{o} :
-  sl_le Prop_SupLat@{o} False True
+  sl_le Prop_SupLat False True
   * (@equiv _ (is_setoid (sl_set Prop_SupLat@{o})) True False → False).
 Proof.
   split.
@@ -252,27 +252,27 @@ Qed.
 
 (* The one-point set, and the constant subsets on it. *)
 Definition Prop_to_P1_pred@{o} (Q : Prop) :
-  carrier (Powerset_Prop_obj@{o} unit_setoid_object@{o o}).
+  carrier (Powerset_Prop_obj unit_setoid_object@{o o}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o} poly_unit@{o} unit_setoid@{o o}
-       Prop (is_setoid Powerset_Prop_truth@{o}) (λ _, Q) _).
+    (@Build_SetoidMorphism poly_unit unit_setoid
+       Prop (is_setoid Powerset_Prop_truth) (λ _, Q) _).
   intros u v _; split; intro q; exact q.
 Defined.
 
 Definition Prop_to_P1@{o} :
-  SupLatHom@{o} Prop_SupLat@{o} (FreeSL@{o} unit_setoid_object@{o o}).
+  SupLatHom Prop_SupLat (FreeSL unit_setoid_object@{o o}).
 Proof.
   unshelve refine
-    (@Build_SupLatHom@{o} Prop_SupLat@{o}
-       (FreeSL@{o} unit_setoid_object@{o o})
-       (@Build_SetoidMorphism@{o o o} Prop (is_setoid Powerset_Prop_truth@{o})
-          (carrier (Powerset_Prop_obj@{o} unit_setoid_object@{o o}))
-          (is_setoid (Powerset_Prop_obj@{o} unit_setoid_object@{o o}))
-          Prop_to_P1_pred@{o} _) _).
+    (@Build_SupLatHom Prop_SupLat
+       (FreeSL unit_setoid_object)
+       (@Build_SetoidMorphism Prop (is_setoid Powerset_Prop_truth)
+          (carrier (Powerset_Prop_obj unit_setoid_object))
+          (is_setoid (Powerset_Prop_obj unit_setoid_object))
+          Prop_to_P1_pred _) _).
   - intros P Q E u. exact E.
   - intros S u; split.
-    + intros [Q [HQ q]]. exists (Prop_to_P1_pred@{o} Q); split; [ | exact q ].
+    + intros [Q [HQ q]]. exists (Prop_to_P1_pred Q); split; [ | exact q ].
       apply Powerset_squash_intro. exists Q; split; [ exact HQ | ].
       intro v; split; intro r; exact r.
     + intros [T [HT t]]. apply HT; intros [Q [HQ E]].
@@ -280,15 +280,15 @@ Proof.
 Defined.
 
 Definition P1_to_Prop@{o} :
-  SupLatHom@{o} (FreeSL@{o} unit_setoid_object@{o o}) Prop_SupLat@{o}.
+  SupLatHom (FreeSL unit_setoid_object) Prop_SupLat@{o}.
 Proof.
   unshelve refine
-    (@Build_SupLatHom@{o} (FreeSL@{o} unit_setoid_object@{o o})
-       Prop_SupLat@{o}
-       (@Build_SetoidMorphism@{o o o}
-          (carrier (Powerset_Prop_obj@{o} unit_setoid_object@{o o}))
-          (is_setoid (Powerset_Prop_obj@{o} unit_setoid_object@{o o}))
-          Prop (is_setoid Powerset_Prop_truth@{o})
+    (@Build_SupLatHom (FreeSL unit_setoid_object)
+       Prop_SupLat
+       (@Build_SetoidMorphism
+          (carrier (Powerset_Prop_obj unit_setoid_object))
+          (is_setoid (Powerset_Prop_obj unit_setoid_object))
+          Prop (is_setoid Powerset_Prop_truth)
           (λ T, T ttt) _) _).
   - intros S T E. exact (E ttt).
   - intros SS; split.
@@ -301,12 +301,12 @@ Defined.
 
 (* Prop = P 1, as an isomorphism of complete semilattices. *)
 Definition Prop_P1_iso@{o so} :
-  @Isomorphism SupLat@{o so} Prop_SupLat@{o}
-    (FreeSL@{o} unit_setoid_object@{o o}).
+  @Isomorphism SupLat@{o so} Prop_SupLat
+    (FreeSL unit_setoid_object).
 Proof.
   unshelve refine
-    (@Build_Isomorphism SupLat@{o so} Prop_SupLat@{o}
-       (FreeSL@{o} unit_setoid_object@{o o}) Prop_to_P1@{o} P1_to_Prop@{o}
+    (@Build_Isomorphism SupLat Prop_SupLat
+       (FreeSL unit_setoid_object) Prop_to_P1 P1_to_Prop
        _ _).
   - intros T u. destruct u.
     split; intro r; exact r.
@@ -314,25 +314,25 @@ Proof.
 Defined.
 
 (* Q goes to the constant subset Q, and back to Q itself. *)
-Example Prop_to_P1_at@{o} (Q : Prop) (u : poly_unit@{o}) :
+Example Prop_to_P1_at@{o} (Q : Prop) (u : poly_unit) :
   slh_map Prop_to_P1@{o} Q u = Q := eq_refl.
 
 Example Prop_P1_round_trip@{o} (Q : Prop) :
-  slh_map P1_to_Prop@{o} (slh_map Prop_to_P1@{o} Q) = Q := eq_refl.
+  slh_map P1_to_Prop (slh_map Prop_to_P1@{o} Q) = Q := eq_refl.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Two comparable points decide ¬Q or ¬¬Q *)
 
 (* The subset { x | Q ∧ x ≈ top }. *)
-Definition two_points_probe@{o} (A : SupLatObject@{o})
+Definition two_points_probe@{o} (A : SupLatObject)
   (top : carrier (sl_set A)) (Q : Prop) :
   carrier (Powerset_Prop_obj@{o} (sl_set A)).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism
        (carrier (sl_set A)) (is_setoid (sl_set A)) Prop
-       (is_setoid Powerset_Prop_truth@{o})
-       (λ x, Q /\ Powerset_squash@{o} (@equiv _ (is_setoid (sl_set A)) top x))
+       (is_setoid Powerset_Prop_truth)
+       (λ x, Q /\ Powerset_squash (@equiv _ (is_setoid (sl_set A)) top x))
        _).
   intros x y E; split; intros [q H]; split; try exact q;
     intros R k; apply H; intro e; apply k.
@@ -350,9 +350,9 @@ Theorem suplat_two_points_WLEM@{o} (A : SupLatObject@{o})
                  + (@equiv _ (is_setoid (sl_set A)) x y → False))
   (Q : Prop) : (~ Q) + (~ ~ Q).
 Proof.
-  destruct (Hdec (sl_sup A (two_points_probe@{o} A top Q)) top) as [E|N].
+  destruct (Hdec (sl_sup A (two_points_probe A top Q)) top) as [E|N].
   - right. intro nQ. apply Hne. apply sl_antisym; [ | exact Hle ].
-    apply (sl_le_respects A (sl_sup A (two_points_probe@{o} A top Q)) top
+    apply (sl_le_respects A (sl_sup A (two_points_probe A top Q)) top
              bot bot E (reflexivity bot)).
     apply sl_sup_least. intros x [q _]. contradiction.
   - left. intro q. apply N. apply sl_antisym.
@@ -366,13 +366,13 @@ Qed.
 (* Prop satisfies every hypothesis but the decidability of ≈, and with it
    the theorem gives informative weak excluded middle. *)
 Corollary Prop_SupLat_decidable_WLEM@{o}
-  (Hdec : ∀ P Q : Prop, @equiv _ (is_setoid (sl_set Prop_SupLat@{o})) P Q
+  (Hdec : ∀ P Q : Prop, @equiv _ (is_setoid (sl_set Prop_SupLat)) P Q
                         + (@equiv _ (is_setoid (sl_set Prop_SupLat@{o})) P Q
                            → False))
   (Q : Prop) : (~ Q) + (~ ~ Q).
 Proof.
-  destruct Prop_SupLat_nontrivial@{o} as [Hle Hne].
-  exact (suplat_two_points_WLEM@{o} Prop_SupLat@{o} False True Hle Hne Hdec Q).
+  destruct Prop_SupLat_nontrivial as [Hle Hne].
+  exact (suplat_two_points_WLEM Prop_SupLat False True Hle Hne Hdec Q).
 Qed.
 
 (* ------------------------------------------------------------------------ *)
@@ -385,18 +385,18 @@ Definition bool_chain_le@{} (b c : bool) : Prop := b = true → c = true.
 (* The chain with a given supremum operator: its four order axioms, proved
    once for the two uses below. *)
 Definition bool_chain_SupLat@{o}
-  (sup : SetoidMorphism@{o o o}
-           (Powerset_Prop_obj@{o} bool_setoid_object@{o o})
-           bool_setoid_object@{o o})
-  (ub : ∀ (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o}))
+  (sup : SetoidMorphism
+           (Powerset_Prop_obj bool_setoid_object)
+           bool_setoid_object)
+  (ub : ∀ (S : carrier (Powerset_Prop_obj bool_setoid_object))
           (x : bool), S x → bool_chain_le x (sup S))
-  (least : ∀ (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o}))
+  (least : ∀ (S : carrier (Powerset_Prop_obj bool_setoid_object))
              (y : bool),
              (∀ x : bool, S x → bool_chain_le x y) → bool_chain_le (sup S) y) :
   SupLatObject@{o}.
 Proof.
   unshelve refine
-    (@Build_SupLatObject@{o} bool_setoid_object@{o o} bool_chain_le
+    (@Build_SupLatObject bool_setoid_object bool_chain_le
        _ _ _ _ sup ub least).
   - intros x H; exact H.
   - intros x y z H1 H2 H; exact (H2 (H1 H)).
@@ -409,18 +409,18 @@ Defined.
 (* Any sup operator for this order on bool gives informative weak
    excluded middle. *)
 Theorem bool_SupLat_WLEM@{o}
-  (sup : SetoidMorphism@{o o o}
-           (Powerset_Prop_obj@{o} bool_setoid_object@{o o})
-           bool_setoid_object@{o o})
-  (ub : ∀ (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o}))
+  (sup : SetoidMorphism
+           (Powerset_Prop_obj bool_setoid_object)
+           bool_setoid_object)
+  (ub : ∀ (S : carrier (Powerset_Prop_obj bool_setoid_object))
           (x : bool), S x → bool_chain_le x (sup S))
-  (least : ∀ (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o}))
+  (least : ∀ (S : carrier (Powerset_Prop_obj bool_setoid_object@{o o}))
              (y : bool),
              (∀ x : bool, S x → bool_chain_le x y) → bool_chain_le (sup S) y)
   (Q : Prop) : (~ Q) + (~ ~ Q).
 Proof.
   unshelve refine
-    (suplat_two_points_WLEM@{o} (bool_chain_SupLat@{o} sup ub least)
+    (suplat_two_points_WLEM (bool_chain_SupLat sup ub least)
        false true _ _ _ Q).
   - intro H; discriminate H.
   - intro H; discriminate H.
@@ -431,11 +431,11 @@ Qed.
    complete semilattice, with sup S = true exactly when ¬¬(true ∈ S). *)
 Definition bool_chain_sup_fun@{o}
   (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q))
-  (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o})) : bool :=
+  (S : carrier (Powerset_Prop_obj bool_setoid_object@{o o})) : bool :=
   match wlem (S true) with inl _ => false | inr _ => true end.
 
 Lemma bool_chain_sup_true@{o} (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q))
-  (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o})) :
+  (S : carrier (Powerset_Prop_obj bool_setoid_object)) :
   bool_chain_sup_fun@{o} wlem S = true → ~ ~ S true.
 Proof.
   unfold bool_chain_sup_fun; destruct (wlem (S true)) as [n|n];
@@ -443,7 +443,7 @@ Proof.
 Qed.
 
 Lemma bool_chain_sup_false@{o} (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q))
-  (S : carrier (Powerset_Prop_obj@{o} bool_setoid_object@{o o})) :
+  (S : carrier (Powerset_Prop_obj bool_setoid_object)) :
   bool_chain_sup_fun@{o} wlem S = false → ~ S true.
 Proof.
   unfold bool_chain_sup_fun; destruct (wlem (S true)) as [n|n];
@@ -451,35 +451,35 @@ Proof.
 Qed.
 
 Definition bool_chain_sup@{o} (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q)) :
-  SetoidMorphism@{o o o}
-    (Powerset_Prop_obj@{o} bool_setoid_object@{o o})
+  SetoidMorphism
+    (Powerset_Prop_obj bool_setoid_object)
     bool_setoid_object@{o o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o} _
-       (is_setoid (Powerset_Prop_obj@{o} bool_setoid_object@{o o}))
-       bool (is_setoid bool_setoid_object@{o o})
-       (bool_chain_sup_fun@{o} wlem) _).
+    (@Build_SetoidMorphism _
+       (is_setoid (Powerset_Prop_obj bool_setoid_object))
+       bool (is_setoid bool_setoid_object)
+       (bool_chain_sup_fun wlem) _).
   intros S T E.
-  destruct (bool_chain_sup_fun@{o} wlem S) eqn:HS,
-           (bool_chain_sup_fun@{o} wlem T) eqn:HT; try reflexivity.
-  - destruct (bool_chain_sup_true@{o} wlem S HS
+  destruct (bool_chain_sup_fun wlem S) eqn:HS,
+           (bool_chain_sup_fun wlem T) eqn:HT; try reflexivity.
+  - destruct (bool_chain_sup_true wlem S HS
                 (fun s =>
-                   bool_chain_sup_false@{o} wlem T HT (proj1 (E true) s))).
-  - destruct (bool_chain_sup_true@{o} wlem T HT
+                   bool_chain_sup_false wlem T HT (proj1 (E true) s))).
+  - destruct (bool_chain_sup_true wlem T HT
                 (fun t =>
-                   bool_chain_sup_false@{o} wlem S HS (proj2 (E true) t))).
+                   bool_chain_sup_false wlem S HS (proj2 (E true) t))).
 Defined.
 
 Definition bool_SupLat@{o} (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q)) :
   SupLatObject@{o}.
 Proof.
-  unshelve refine (bool_chain_SupLat@{o} (bool_chain_sup@{o} wlem) _ _).
+  unshelve refine (bool_chain_SupLat (bool_chain_sup wlem) _ _).
   - intros S [|] Hx Ht; [ | discriminate Ht ].
-    change (bool_chain_sup_fun@{o} wlem S = true).
-    destruct (bool_chain_sup_fun@{o} wlem S) eqn:HS; [ reflexivity | ].
-    destruct (bool_chain_sup_false@{o} wlem S HS Hx).
+    change (bool_chain_sup_fun wlem S = true).
+    destruct (bool_chain_sup_fun wlem S) eqn:HS; [ reflexivity | ].
+    destruct (bool_chain_sup_false wlem S HS Hx).
   - intros S [|] Hub H; [ reflexivity | ].
-    destruct (bool_chain_sup_true@{o} wlem S H
+    destruct (bool_chain_sup_true wlem S H
                 (fun s => ltac:(discriminate (Hub true s eq_refl)))).
 Defined.
