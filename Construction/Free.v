@@ -277,7 +277,7 @@ Program Instance ForgetSyntax : FreeSyntax ⟶ Free := {
 (* Reflection functor: identity on objects, embedding each path as a
    right-nested syntax term. Its right adjoint, [ForgetSyntax ⊣ CanonicalMap]
    below. *)
-Program Instance CanonicalMap : Free ⟶ FreeSyntax := {
+Program Instance CanonicalMap@{u +} : Free@{o u u} ⟶ FreeSyntax@{u} := {
   fobj := λ x, x;
   fmap := λ x y f, tlistDA f;
 }.
@@ -302,8 +302,8 @@ Qed.
    up to ≈ ([tlistDA_morDA]), this is in fact an adjoint equivalence: [Free] and
    [FreeSyntax] are the same free category, one in normalized (path) form and
    one in raw syntactic form. *)
-Program Instance ForgetSyntax_CanonicalMap :
-  ForgetSyntax ⊣ CanonicalMap := {
+Program Instance ForgetSyntax_CanonicalMap@{u +} :
+  ForgetSyntax@{u} ⊣ CanonicalMap@{u} := {
   adj := λ x y,
     {| to   := {| morphism := tlistDA |}
      ; from := {| morphism := morDA |} |}
