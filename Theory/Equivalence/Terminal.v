@@ -134,8 +134,8 @@ Context {C : Category}.
    inhabitant, and -- holding unconditionally, hence vacuously in the
    empty case -- [terminal_sub_hom_contractible] and [terminal_sub_IsIso]
    of Block D. *)
-Program Definition terminal_sub_point (T : @Terminal C) :
-  _1 ⟶ Sub C TerminalObjects := {|
+Program Definition terminal_sub_point@{so sh +} (T : @Terminal C) :
+  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh _} C TerminalObjects := {|
   fobj := fun _ => terminal_sub_obj T;
   fmap := fun _ _ _ => id
 |}.
@@ -167,8 +167,8 @@ Section InitialSubContractible.
 
 Context {C : Category}.
 
-Program Definition initial_sub_point (I0 : @Initial C) :
-  _1 ⟶ Sub C InitialObjects := {|
+Program Definition initial_sub_point@{so sh +} (I0 : @Initial C) :
+  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh _} C InitialObjects := {|
   fobj := fun _ => initial_sub_obj I0;
   fmap := fun _ _ _ => id
 |}.
