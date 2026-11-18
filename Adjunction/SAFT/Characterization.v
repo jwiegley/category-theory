@@ -352,7 +352,7 @@ Generalizable All Variables.
 
      comma_monic_iff_underlying_monic@{o hc dobj h …} :
        {C : Category@{o hc hc}} {D : Category@{dobj h h}} … →
-       HasPullbacks@{o hc} C → Monic@{oc h} m ↔ Monic@{o hc} (snd `1 m)
+       HasPullbacks@{o hc} C → Monic@{oc h h} m ↔ Monic@{o hc hc} (snd `1 m)
        (* hc <= h *)
      comma_cogenerator@{o hc dobj h c cc …} :
        Cogenerator@{c o hc} C → Cogenerator@{cc oc h} (=(d) ↓ U)

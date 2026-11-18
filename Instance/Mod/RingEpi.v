@@ -174,7 +174,7 @@ Open Scope category_scope.
    headline of the first half:
 
      Restrict_Full_iff_Epic@{u p u0} :
-       Full (Restrict@{u u0 p} phi) ↔ Epic@{u p} phi
+       Full (Restrict@{u u0 p} phi) ↔ Epic@{u p p} phi
        (* u p u0 |= Set < u, p < u, p < u0 *)
 
    which is [About Restrict]'s own shape ([Restrict@{u u0 u1}] with
