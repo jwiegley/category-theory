@@ -640,7 +640,7 @@ Defined.
 
 Lemma pushout_codiag_legs_eq (X : C) :
   let P := pushout (id[X] ▽ id[X] : (X + X)%object ~> X)
-                   (id[X] ▽ id[X] : (X + X)%object ~> X)
+                   (id[X] ▽ id[X] :> (X + X)%object ~> X)
   in pushout_in1 P ≈ pushout_in2 P.
 Proof.
   intros P.
