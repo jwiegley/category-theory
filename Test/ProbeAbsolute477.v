@@ -345,7 +345,8 @@ Definition p477_c11_id_instance
 
 (* R4 *)
 Check @AbsoluteLimitCone@{_ _ _ _}.
-Fail Definition p477_r4_id_instance
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p477_r4_id_instance
   (A : AbsoluteLimitCone@{jo co ch do} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone A.
 
@@ -560,7 +561,8 @@ Definition p477_c37_after : Cl ⟶ LiftCat@{xo xh yo yh} Xl := Lift_after Tl.
 
 (* R9 *)
 Check @LiftCat@{_ _ _ _}.
-Fail Definition p477_r9_compose : Cl ⟶ LiftCat@{xo xh yo yh} Xl :=
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p477_r9_compose : Cl ⟶ LiftCat@{xo xh yo yh} Xl :=
   Lift_in Xl ◯ Tl.
 
 End LiftCompose.

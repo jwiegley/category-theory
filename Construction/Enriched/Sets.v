@@ -67,7 +67,8 @@ Proof.
          (snd Category_is_Enriched_over_Set D)
          EF EG
          (fun x => {| morphism := fun _ => @transform _ _ F G X x |}) _).
-    + proper.
+    (* With the universes of rocq-prover/rocq#22721 the [Proper] hole of the
+       constant maps is filled by typeclass resolution ([reflexive_proper]). *)
     + intros x y f.
       (* The enriched naturality square in Sets reduces pointwise to the
          [naturality_sym] orientation of the ordinary naturality square. *)

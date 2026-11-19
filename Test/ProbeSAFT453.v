@@ -757,9 +757,9 @@ Example p453_cover_is_gaft@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP
+  SAFT_cover_wp@{o dobj h dp cp w s t pl pa _} U comp cont G WP
     = GAFT U comp cont
-        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _ _}
+        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h}
                     U comp cont G d
                     (WP (saft_prod@{o dobj h h dp} U comp G d))) :=
   eq_refl.
@@ -771,7 +771,7 @@ Definition p453_cover_iso@{o dobj h dp cp w s t pl pa +|
   (comp : @Complete@{h h h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
-  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
+  projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
   SAFT_cover_wp_iso U comp cont G WP.
 
@@ -925,7 +925,8 @@ Definition p453_thm2_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_thm2 U comp cont G HW HU.
 
-Fail Definition p453_n10_thm2_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p453_n10_thm2_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
@@ -987,7 +988,8 @@ Definition p453_thm2_initial_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
        (HU _ _ _ _ (fun k => Subobject.sub_is_monic (`1 k)) _ _
           (wide_pullback_is_pullback (HW _ _ (fun k => `1 k))))).
 
-Fail Definition p453_n27_initial_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p453_n27_initial_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
@@ -1194,7 +1196,8 @@ Definition p453_unannotated_hom_index@{j o +| j < o +} :
 
 Check @Indiscrete@{_ _ _}.
 Check @Indiscrete_WellPowered@{_ _ _ _ _}.
-Fail Definition p453_n17_unannotated_set_index@{j o +| j < o +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p453_n17_unannotated_set_index@{j o +| j < o +} :
   { F : Indiscrete@{o j j} Type@{j} ⟶ Indiscrete@{o j j} Type@{j}
     & F ⊣ @Id (Indiscrete@{o j j} Type@{j}) } :=
   p453_unannotated (@Id (Indiscrete@{o j j} Type@{j}))
@@ -1213,11 +1216,11 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
-           (saft_sub@{o dobj h so dp cp _} U comp G d c h)) :=
-  unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa _}
+           (saft_sub@{o dobj h so dp cp} U comp G d c h)) :=
+  unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa}
                             U comp cont G d c h)).
 
-Check @saft_pb_cone@{_ _ _ _ _ _ _ _ _ _ _}.
+Check @saft_pb_cone@{_ _ _ _ _ _ _ _ _ _}.
 Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
     h <= so, h < dp, h < cp, h < pc, pa < pc +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -1264,12 +1267,13 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
+                          & L ⊣ @Diagonal@{o jo h} C J })) F.
 
 Check @Cocomplete@{_ _ _ _}.
 Check @Fun@{_ _ _ _ _ _}.
-Check @Diagonal@{_ _ _ _ _ _}.
-Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
+Check @Diagonal@{_ _ _}.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
     o <= fo, h <= fo, h < fa, h < cr, jo <= cr +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
@@ -1278,17 +1282,17 @@ Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
+                          & L ⊣ @Diagonal@{o jo h} C J })) F.
 
 (* CONTROL: the representability corollary with [PreservesImageLimit]'s
    auxiliary [pa] strictly below the objects [su] of [Sets@{h su}]. *)
-Definition p453_repr_pa_below_su@{o h so c w s t su pl pa ra rt +|
+Definition p453_repr_pa_below_su@{o h so c w s t su pl pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{ra rt su o h} K :=
+  Representable@{o h} K :=
   continuous_Set_functor_representable K comp cont G WP.
 
 (* CONTROL: its biconditional with [pa] declared at or below [su]. *)
@@ -1297,17 +1301,18 @@ Definition p453_repr_iff_pa_le_su@{o h so c w s t su pl pa ra rt +|
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{ra rt su o h} K
+  Representable@{o h} K
     ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
-Check @Representable@{_ _ _ _ _}.
-Fail Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
+Check @Representable@{_ _}.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{ra rt su o h} K
+  Representable@{o h} K
     ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
@@ -1431,7 +1436,7 @@ Fail Definition p453_n29_setsop_gaft_up@{o so +| o < so +} :
 
 (* The representing object is the left adjoint at the singleton
    ([continuous_Set_functor_representable_obj], restated). *)
-Example p453_repr_obj@{o h so c w s t su pl pa ra rt +|
+Example p453_repr_obj@{o h so c w s t su pl pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
@@ -1439,7 +1444,7 @@ Example p453_repr_obj@{o h so c w s t su pl pa ra rt +|
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @repr_obj C K
     (continuous_Set_functor_representable K comp cont G WP
-       : Representable@{ra rt su o h} K)
+       : Representable@{o h} K)
     = fobj[projT1 (SAFT_wellpowered K comp cont G WP)] SetsOne :=
   eq_refl.
 
@@ -1453,9 +1458,9 @@ Example p453_cover_index@{o dobj h so dp cp w s t pl pa +|
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
-  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _}
+  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa}
             U comp cont G d W c h)
-    = wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h) :=
+    = wp_from W (saft_sub@{o dobj h so dp cp} U comp G d c h) :=
   eq_refl.
 
 (* The cover with the well-powering's [t] and [PreservesImageLimit]'s
@@ -1467,7 +1472,7 @@ Definition p453_cover_t_below_pa@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa} U comp cont G d W.
 
 Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= s, h <= s, h < t, pa < t +}
@@ -1476,7 +1481,7 @@ Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa} U comp cont G d W.
 
 (* At one tuple at [Id[Sets]] under [Untruncate], the reshaped covering
    datum holds at every object and the old one is refuted. *)

@@ -847,7 +847,7 @@ Fail Definition p458_complete_above@{r s o so +| o < s, o < so, s <= r +} :
    [eq_refl]. *)
 Example p458_complete_apex@{s o so +| s <= o, o < so +}
   (J : Category@{s o o}) (T : J ⟶ PTopCat@{o so}) :
-  vertex_obj[@limit_cone _ _ _ (@PTop_Complete@{o s o so _ _} J T)]
+  vertex_obj[@limit_cone _ _ _ (@PTop_Complete@{o s o so} J T)]
     = pinit_top T (Sets_limit_cone (PForget ◯ T)) := eq_refl.
 
 (* CONTROL: the book's route, at its one instance [Complete@{o o o so}];
@@ -856,16 +856,18 @@ Definition p458_complete_via_products@{o so +| o < so +} :
   @Complete@{o o o so} PTopCat@{o so} := PTop_Complete_via_products.
 
 Example p458_via_products_is_book_route@{o so +| o < so +} :
-  @PTop_Complete_via_products@{o so _ _ _ _ _}
+  @PTop_Complete_via_products@{o so _}
     = @Complete_from_products_equalizers PTopCat@{o so}
         PTop_HasIndexedProducts PTop_HasEqualizers := eq_refl.
 
 (* N3 *)
-Fail Definition p458_via_products_below@{s o so +| s < o, o < so +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_via_products_below@{s o so +| s < o, o < so +} :
   @Complete@{o s o so} PTopCat@{o so} := PTop_Complete_via_products.
 
 (* N4 *)
-Fail Definition p458_via_products_record_above@{r o so +| o < r, o < so +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_via_products_record_above@{r o so +| o < r, o < so +} :
   @Complete@{r o o so} PTopCat@{o so} := PTop_Complete_via_products.
 
 (* CONTROL: the book route's limit is a subspace of a product space, and
@@ -985,7 +987,8 @@ Definition p458_complete_via_cones_at_points@{o so +| o < so +} :
   @Complete@{o o o so} PTopCat@{o so} := PTop_Complete_via_cones.
 
 (* N8 *)
-Fail Definition p458_via_cones_record_above@{r o so +| o < r, o < so +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_via_cones_record_above@{r o so +| o < r, o < so +} :
   @Complete@{r o o so} PTopCat@{o so} := PTop_Complete_via_cones.
 
 (* N9 *)
@@ -994,13 +997,13 @@ Fail Definition p458_via_cones_above@{s o so +| o < s, o < so +} :
 
 Example p458_via_cones_cone@{s o so +| s <= o, o < so +}
   (J : Category@{s o o}) (T : J ⟶ PTopCat@{o so}) :
-  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so _ _ _} J T)
-    = @limit_cone _ _ _ (@PTop_Complete@{o s o so _ _} J T) := eq_refl.
+  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so} J T)
+    = @limit_cone _ _ _ (@PTop_Complete@{o s o so} J T) := eq_refl.
 
 Definition p458_via_cones_cone_is@{s o so +| s <= o, o < so +}
   (J : Category@{s o o}) (T : J ⟶ PTopCat@{o so}) :
-  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so _ _ _} J T)
-    = @limit_cone _ _ _ (@PTop_Complete@{o s o so _ _} J T) :=
+  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so} J T)
+    = @limit_cone _ _ _ (@PTop_Complete@{o s o so} J T) :=
   PTop_via_cones_cone J T.
 
 Definition p458_products_via_cone_comma@{i o so +| i <= o, o < so +} :
@@ -1041,29 +1044,29 @@ Definition p458_pfinal_one_pquot@{o +} (X : PTop@{o})
 
 (* CONTROL: the colimit recipe at a shape universe ABOVE the points; the
    direct colimit's apex; Riehl's "must" for colimits. *)
-Definition p458_corecipe_above@{o so s r r' x x' +| o < so, o < s +}
+Definition p458_corecipe_above@{o so s +| o < so, o < s +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so})
   (N : Cocone (PForget@{o so} ◯ F))
-  (HN : IsColimitCocone@{x' x' r' s o so} N) :
-  IsColimitCocone@{x x r s o so} (PFinalCocone F N) :=
+  (HN : IsColimitCocone@{s so o} N) :
+  IsColimitCocone@{s so o} (PFinalCocone F N) :=
   pfinal_cocone_colimiting F N HN.
 
 Example p458_pcolimit_apex@{r s o so +| o < so, s <= o, o <= r +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so}) :
-  vertex_obj[@limit_cone _ _ _ (@PColimit@{r s o so _ _} D F)]
+  vertex_obj[@limit_cone _ _ _ (@PColimit@{r s o so} D F)]
     = PFinal (Sets_colim_obj (PForget ◯ F)) (obj[D]) (fun d => F d)
         (fun d => Sets_colim_inj (PForget ◯ F) d) := eq_refl.
 
 Example p458_pcolimit_med_at@{r s o so +| o < so, s <= o, o <= r +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so}) (M : Cocone F) (d : D)
   (x : pt_carrier (F d)) :
-  pmap (unique_obj (@ump_limits _ _ _ (@PColimit@{r s o so _ _} D F) M))
+  pmap (unique_obj (@ump_limits _ _ _ (@PColimit@{r s o so} D F) M))
     (existT _ d x) = pmap (cocone_inj M d) x := eq_refl.
 
 Definition p458_pcolimit_med_at_is@{r s o so +| o < so, s <= o, o <= r +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so}) (M : Cocone F) (d : D)
   (x : pt_carrier (F d)) :
-  pmap (unique_obj (@ump_limits _ _ _ (@PColimit@{r s o so _ _} D F) M))
+  pmap (unique_obj (@ump_limits _ _ _ (@PColimit@{r s o so} D F) M))
     (existT _ d x) = pmap (cocone_inj M d) x :=
   PColimit_med_at F M d x.
 
@@ -1114,16 +1117,18 @@ Definition p458_cocomplete_via_coeq@{o so +| o < so +} :
   @Cocomplete@{o o o so} PTopCat@{o so} := PTop_Cocomplete_via_coproducts.
 
 Example p458_via_coeq_is_book_route@{o so +| o < so +} :
-  @PTop_Cocomplete_via_coproducts@{o so _ _ _ _ _ _}
+  @PTop_Cocomplete_via_coproducts@{o so _ _}
     = Cocomplete_from_coproducts_coequalizers PTop_HasIndexedCoproducts
         PTop_HasCoequalizers := eq_refl.
 
 (* N11 *)
-Fail Definition p458_via_coeq_below@{s o so +| s < o, o < so +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_via_coeq_below@{s o so +| s < o, o < so +} :
   @Cocomplete@{o s o so} PTopCat@{o so} := PTop_Cocomplete_via_coproducts.
 
 (* N12 *)
-Fail Definition p458_via_coeq_record_above@{r o so +| o < r, o < so +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_via_coeq_record_above@{r o so +| o < r, o < so +} :
   @Cocomplete@{r o o so} PTopCat@{o so} := PTop_Cocomplete_via_coproducts.
 
 (* CONTROL: the two routes' apexes are isomorphic, and their points'
@@ -1166,19 +1171,19 @@ Example p458_psigma_open@{o i +| i <= o +} (Ix : Type@{i})
      (∀ k : Ix, POpen (X k) (fun x => V (existT _ k x)))) := eq_refl.
 
 Definition p458_icoprod_at_points@{o so u +| o < so, so <= u, o < u +} :
-  @HasIndexedCoproducts@{u o o so o} PTopCat@{o so} :=
+  @HasIndexedCoproducts@{so o o} PTopCat@{o so} :=
   PTop_HasIndexedCoproducts.
 
 (* N15 *)
-Check @HasIndexedCoproducts@{_ _ _ _ _}.
+Check @HasIndexedCoproducts@{_ _ _}.
 Fail Definition p458_icoprod_above@{s o so u +| o < so, o < s, so <= u,
   s < u +} :
   @HasIndexedCoproducts@{u s s so o} PTopCat@{o so} :=
   PTop_HasIndexedCoproducts.
 
 Definition p458_sum_injections_differ@{o so u | o < so, o < u +} :
-  psigma_inj@{o so o u} bool (fun _ => PTwoIndisc@{o}) true
-    ≈[PTopCat@{o so}] psigma_inj@{o so o u} bool (fun _ => PTwoIndisc) false
+  psigma_inj@{o so o} bool (fun _ => PTwoIndisc@{o}) true
+    ≈[PTopCat@{o so}] psigma_inj@{o so o} bool (fun _ => PTwoIndisc) false
   → False := PTwoIndiscSum_injections_differ.
 
 (** ** Instance/Top/Cocomplete/TypeValued.v: the three walls *)
@@ -1186,7 +1191,7 @@ Definition p458_sum_injections_differ@{o so u | o < so, o < u +} :
 (* CONTROL: W1's two ingredients, each accepted alone; the coequalizer
    IS the quotient topology at [eq_refl]. *)
 Definition p458_top_coproducts_small@{o h u u0 +| o < h, u0 <= o, h < u +} :
-  @HasIndexedCoproducts@{u u0 h h h} Top@{h o} :=
+  @HasIndexedCoproducts@{h u0 h} Top@{h o} :=
   Top_HasIndexedCoproducts_small.
 
 Definition p458_top_coequalizers@{o h +| o < h +} :
@@ -1327,12 +1332,14 @@ Definition p458_ex3a_literal_refuted :
 
 (* CONTROL: the same refutation under a CLOSED binder that puts every one
    of its eleven universes strictly above [Set]. *)
-Definition p458_ex3a_literal_above_set@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 |
-  Set < u, Set < u0, Set < u1, Set < u2, Set < u3, Set < u4, Set < u5,
-  Set < u6, Set < u7, Set < u8, Set < u9, u8 < u5, u9 < u2 +} :
-  Ex3a_left_literal@{u u5 u0 u1 u9 u2 u3 u4 u6 u8 u7} ex3_G1@{u7 u4 u8}
-    ex3_T0@{u6 u8 u7 u5} → False :=
-  ex3a_left_adjoint_literal_refuted@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9}.
+(* With the universes of rocq-prover/rocq#22721 the refutation has six
+   universes, the last two occurring in its type only through their maximum,
+   the last universe of [Ex3a_left_literal]: they are taken equal. *)
+Definition p458_ex3a_literal_above_set@{u4 u6 u7 u8 w |
+  Set < u4, Set < u6, Set < u7, Set < u8, Set < w +} :
+  Ex3a_left_literal@{u6 u7 u4 u8 w} ex3_G1@{u8 u7 u4}
+    ex3_T0@{u6 u8 u7} → False :=
+  ex3a_left_adjoint_literal_refuted@{u8 u7 u4 u6 w w}.
 
 Definition p458_ex3a_counterexample :
   Ex3a_left_refuting_data ex3_G1 ex3_T0 := ex3a_left_counterexample.
@@ -1457,7 +1464,8 @@ Definition p458_top_rebuild_unexpanded_at_h@{o h | o < h +}
 
 (* N29 *)
 Check @ContinuousMorphism@{_ _}.
-Fail Definition p458_top_rebuild_unexpanded@{o h1 h2 | o < h1, h1 < h2 +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_top_rebuild_unexpanded@{o h1 h2 | o < h1, h1 < h2 +}
   {X Y : TopSpace@{o}} (f : ContinuousMorphism@{h1 o} X Y) :
   ContinuousMorphism@{h2 o} X Y :=
   {| continuous_map := continuous_map f; continuity := continuity f |}.
@@ -1498,7 +1506,8 @@ Fail Definition p458_top_not_complete_at_points@{e r h o +| o < h,
   Top_not_complete_below_IEM@{e r o h o}.
 
 (* N31 *)
-Fail Definition p458_top_not_complete_canonical_below@{e r s h o +| o < s,
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p458_top_not_complete_canonical_below@{e r s h o +| o < s,
   s < h, h <= r +} :
   IEM@{e} → @Complete@{r s h h} Top@{h o} → False :=
   Top_not_complete_IEM.

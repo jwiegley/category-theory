@@ -284,24 +284,24 @@ Definition QZ_family_cogenerates@{a h c +} : Type :=
   ∀ (x y : Ab@{a h}) (f g : x ~{Ab@{a h}}~> y),
     (∀ (u : poly_unit@{c}) (k : y ~{Ab@{a h}}~> QZ), k ∘ f ≈ k ∘ g) → f ≈ g.
 
-Definition QZ_Cogenerator@{a h c +} (H : QZ_family_cogenerates@{a h c _ _}) :
+Definition QZ_Cogenerator@{a h c +} (H : QZ_family_cogenerates@{a h c}) :
   Cogenerator@{c a h} Ab@{a h} :=
   @Build_Cogenerator Ab@{a h} poly_unit@{c} (fun _ => QZ) H.
 
 Definition QZ_injective_cogenerator@{r a c +} (R : RingObject@{r r r})
-  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c _ _}) :
+  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c}) :
   (@Injective (RMod R) (CoextObj R QZ)) * Cogenerator@{c _ r} (RMod R) :=
   (coext_injective R QZ HI, coext_cogenerator R (QZ_Cogenerator HC)).
 
 Example QZ_injective_cogenerator_member@{r a c +} (R : RingObject@{r r r})
-  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c _ _})
+  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c})
   (u : poly_unit@{c}) :
   cog_obj (snd (QZ_injective_cogenerator R HI HC)) u = CoextObj R QZ :=
   eq_refl.
 
 (* Mac Lane's own route: Exercise 2(a) at B := R, read along R ⊗_R A ≅ A. *)
 Definition QZ_injective_cogenerator_via_2a@{r a c +} (R : RingObject@{r r r})
-  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c _ _}) :
+  (HI : @Injective Ab@{a r} QZ) (HC : QZ_family_cogenerates@{a r c}) :
   (@Injective (RMod R) (HomZL (Ring_RMod (Ring_op R)) QZ))
     * Cogenerator@{c _ r} (RMod R) :=
   (right_adjoint_injective homzl_ring_adjunction
@@ -311,7 +311,7 @@ Definition QZ_injective_cogenerator_via_2a@{r a c +} (R : RingObject@{r r r})
 
 Example QZ_injective_cogenerator_via_2a_member@{r a c +}
   (R : RingObject@{r r r}) (HI : @Injective Ab@{a r} QZ)
-  (HC : QZ_family_cogenerates@{a r c _ _}) (u : poly_unit@{c}) :
+  (HC : QZ_family_cogenerates@{a r c}) (u : poly_unit@{c}) :
   cog_obj (snd (QZ_injective_cogenerator_via_2a R HI HC)) u
     = HomZL (Ring_RMod (Ring_op R)) QZ := eq_refl.
 
@@ -352,7 +352,7 @@ Definition QZ_injective_cogenerator_ML@{r a +} (R : RingObject@{r r r})
 (* The conditional cogenerator is consumed by SAFT's product construction
    at [RMod R]'s own completeness witness. *)
 Definition QZ_cogen_prod@{r a +} (R : RingObject@{r r r})
-  (HC : QZ_family_cogenerates@{a r r _ _}) : RMod R :=
+  (HC : QZ_family_cogenerates@{a r r}) : RMod R :=
   cogen_prod (RMod_Complete R) (coext_cogenerator R (QZ_Cogenerator HC)).
 
 (* The large cogenerator: every module, tested by the identity. *)
@@ -438,7 +438,8 @@ Qed.
 Program Definition zchar@{a h +} (c : Q) : Zab ~{Ab@{a h}}~> QZ := {|
   cmon_map := {| morphism := fun k : Z => inject_Z k * c |}
 |}.
-Next Obligation. intros c k k' Hk; destruct Hk; apply qz_eq_refl. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation is
+   found by typeclass resolution, the equality of [Zab] being [eq]. *)
 Next Obligation. intros c; apply qz_of_Qeq; exact (q_zero_mul c). Qed.
 Next Obligation. intros c a b; apply qz_of_Qeq; exact (q_add_mul a b c). Qed.
 
@@ -447,7 +448,7 @@ Definition QZ_extends_along_mul@{a h +} (n : positive)
   { g : Zab ~{Ab@{a h}}~> QZ &
       ∀ k : Z, qz_eq (cmon_map g (Z.mul (Zpos n) k)) (cmon_map f k) }.
 Proof.
-  exists (zchar@{a h _} (projT1 (QZ_divisible (cmon_map f 1%Z) n))).
+  exists (zchar@{a h} (projT1 (QZ_divisible (cmon_map f 1%Z) n))).
   intro k.
   destruct (QZ_divisible (cmon_map f 1%Z) n) as [r Hr]; simpl.
   eapply qz_eq_trans; [|exact (qz_eq_sym _ _ (zchar_determined f k))].
@@ -737,7 +738,7 @@ Proof.
 Qed.
 
 Theorem QZ_cogenerates_Ab_DNE@{a h c +}
-  (HC : QZ_family_cogenerates@{a h c _ _}) :
+  (HC : QZ_family_cogenerates@{a h c}) :
   ∀ P : Prop, ~~P -> P.
 Proof.
   apply (cogenerator_stable_DNE (QZ_Cogenerator HC)).
@@ -772,20 +773,20 @@ Qed.
 (** ** 8. The metatheorems at R = ℤ *)
 
 Definition YPZ@{a h +} (P : Prop) : RModObject Int_Ring :=
-  fobj[Ab_to_ZMod@{a h _ _ _ _}] (YP P).
+  fobj[Ab_to_ZMod@{a h _}] (YP P).
 
 Definition BPZ@{a h +} (P : Prop) : RModObject Int_Ring :=
-  fobj[Ab_to_ZMod@{a h _ _ _ _}] (BP P).
+  fobj[Ab_to_ZMod@{a h _}] (BP P).
 
 Definition ypz_zero@{a h +} (P : Prop) :
-  YPZ@{a h _ _ _ _} P ~{RMod Int_Ring}~> YPZ@{a h _ _ _ _} P :=
-  fmap[Ab_to_ZMod@{a h _ _ _ _}] (yp_zero P).
+  YPZ@{a h _ _} P ~{RMod Int_Ring}~> YPZ@{a h _ _} P :=
+  fmap[Ab_to_ZMod@{a h _}] (yp_zero P).
 
 Definition bpz_incl@{a h +} (P : Prop) :
-  YPZ@{a h _ _ _ _} False ~{RMod Int_Ring}~> BPZ@{a h _ _ _ _} P :=
-  fmap[Ab_to_ZMod@{a h _ _ _ _}] (bp_incl P).
+  YPZ@{a h _ _} False ~{RMod Int_Ring}~> BPZ@{a h _ _} P :=
+  fmap[Ab_to_ZMod@{a h _}] (bp_incl P).
 
-Lemma bpz_incl_monic@{a h +} (P : Prop) : Monic (bpz_incl@{a h _ _ _ _} P).
+Lemma bpz_incl_monic@{a h +} (P : Prop) : Monic (bpz_incl@{a h _ _ _} P).
 Proof.
   apply rmod_injective_monic.
   intros x y H; left; exact (bp_incl_injective_prop P x y H).

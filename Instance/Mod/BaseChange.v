@@ -306,7 +306,11 @@ Open Scope category_scope.
 
 Section ZExtension.
 
-Context (R : RingObject).
+(* The universes of the ring are declared, so that they come first, as the
+   annotations of the tree expect: inferred, with the universes of
+   rocq-prover/rocq#22721 they would be [max(c, p) c p], after others. *)
+Universes a c p.
+Context (R : RingObject@{a c p}).
 
 Local Notation RS := (carrier (rig_setoid (ring_rig R))).
 Local Notation TT A := (AbTensor (ring_ab R) A).
@@ -454,7 +458,10 @@ Next Obligation.
   intros s a; reflexivity.
 Qed.
 
-Program Definition ZExt : Ab ⟶ RMod R := {|
+(* The universes are declared: those of the modules, then those of the
+   abelian groups. Inferred, the ring of [RMod] would be a copy of [R] at a
+   universe of its own. *)
+Program Definition ZExt@{o ao ac} : Ab@{ao ac} ⟶ RMod@{o a p c} R := {|
   fobj := ZExtObj;
   fmap := @ZExtMap
 |}.
@@ -820,7 +827,8 @@ Check (ZExtObj Ru Au : obj[RMod Ru]).
    Instance/Mod.v's OWN [Ring_RMod] is rejected at these levels while the
    bare [Check (Ring_RMod Ru)] control above is accepted, so what the
    ascription to [obj[RMod Ru]] forces is inherited. *)
-Fail Check (Ring_RMod Ru : obj[RMod Ru]).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Ring_RMod Ru : obj[RMod Ru]).
 
 Check (ZExt Ru).
 Check (zext_adjunction Ru).

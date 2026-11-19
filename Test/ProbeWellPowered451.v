@@ -498,7 +498,7 @@ Fail Definition p451_n1_trivial_at_pin@{o so w s t} :
 
 (* CONTROL: the witness one universe up, per object. *)
 Definition p451_sets_up@{o so | o < so +} (X : SetoidObject@{o o}) :=
-  Sets_WellPoweredAt_up@{o so so} X.
+  Sets_WellPoweredAt_up@{o so} X.
 
 (* CONTROL: at exactly N2's type, the conditional witness. *)
 Definition p451_sets_pinned_untruncate@{o so | o < so, Set < o +}
@@ -518,7 +518,7 @@ Fail Definition p451_n2_sets_up_at_pin@{o so | o < so, Set < o +} :
 
 (* CONTROL: the witness one universe up, per object. *)
 Definition p451_grp_up@{o h | h < o, Set < o +} (G : Grp@{o h}) :=
-  Grp_WellPoweredAt_up@{o o h} G.
+  Grp_WellPoweredAt_up@{h} G.
 
 Check @Grp@{_ _}.
 Fail Definition p451_n3_grp_up_at_pin@{o h | h < o, Set < o +} :
@@ -695,7 +695,8 @@ Definition p451_wide_pullbacks_regime@{o h +| Set < h, h < o +}
 
 Check @Category@{_ _ _}.
 Check @Complete@{_ _ _ _}.
-Fail Definition p451_n10_wideparallel_regime@{o h +| Set < h, h < o +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p451_n10_wideparallel_regime@{o h +| Set < h, h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) (J : Type@{h}) :=
   comp (WideParallel J).
 
@@ -933,11 +934,11 @@ Fail Definition p451_n20_span_svariety {S : UA.OpSignature}
 (* CONTROL: at [Sets] the class from completeness reads back at the
    universes of the direct instance. *)
 Definition p451_sets_hwp_from_complete@{o so +| o < so +} :
-  HasWidePullbacks@{o o so o} Sets@{o so} :=
+  HasWidePullbacks@{o so o} Sets@{o so} :=
   Complete_HasWidePullbacks Sets_Complete.
 
 Definition p451_sets_hwp_direct@{o so +| o < so +} :
-  HasWidePullbacks@{o o so o} Sets@{o so} := Sets_HasWidePullbacks.
+  HasWidePullbacks@{o so o} Sets@{o so} := Sets_HasWidePullbacks.
 
 (* CONTROL: the solution set at [Id[Sets]] over an abstract class. *)
 Definition p451_span_sets_abstract (HWP : HasWidePullbacks Sets)

@@ -367,7 +367,7 @@ Example mh_EM_free_forget@{o h e s | h < s, o <= e, h <= e +}
 Lemma mh_EM_free_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  t_alg_hom[@EM_extend@{o h e} C T M x
+  t_alg_hom[@EM_extend@{o h} C T M x
                  (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T' M'] x)
                  (@ret C T' M' x)]
     ≈ mh_transform θ x.

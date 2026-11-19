@@ -109,10 +109,11 @@ Section ProbeMonRouteSetPin.
 Universe puo puh.
 Constraint Set < puh.
 
-Check (Rng_Forget_Ab : Rng@{puo puh} ⟶ Ab).
+Check (Rng_Forget_Ab : Rng@{puh} ⟶ Ab).
 
-Check @Rng@{_ _}.
-Fail Check (Rng_Forget_Mon : Rng@{puo puh} ⟶ MonSets).
+Check @Rng@{_}.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Rng_Forget_Mon : Rng@{puh} ⟶ MonSets).
 
 End ProbeMonRouteSetPin.
 

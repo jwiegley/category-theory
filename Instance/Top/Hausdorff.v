@@ -758,7 +758,7 @@ Local Notation F := (fun k => pt_carrier (X k)).
 
 (* A summand is open: its preimage along each injection is constant. *)
 Lemma psigma_summand_open (k : Ix) :
-  POpen (PSigma@{o i u} Ix X) (fun p => projT1 p = k).
+  POpen (PSigma@{o i} Ix X) (fun p => projT1 p = k).
 Proof.
   refine (conj _ _).
   - intros [a x] [b y] [e _] h. simpl in *. exact (eq_trans (eq_sym e) h).
@@ -768,12 +768,12 @@ Qed.
 (* The image of a predicate on a summand: the points of that summand, read
    along a proof that they lie in it, at which the predicate holds. *)
 Definition psigma_img (k : Ix) (U : X k → Prop)
-  (p : carrier (pt_carrier (PSigma@{o i u} Ix X))) : Prop :=
+  (p : carrier (pt_carrier (PSigma@{o i} Ix X))) : Prop :=
   ex (fun e : projT1 p = k =>
         U (eq_rect _ (fun j => carrier (F j)) (projT2 p) k e)).
 
 Lemma psigma_img_open (k : Ix) (U : X k → Prop) (HU : POpen (X k) U) :
-  POpen (PSigma@{o i u} Ix X) (psigma_img k U).
+  POpen (PSigma@{o i} Ix X) (psigma_img k U).
 Proof.
   refine (conj _ _).
   - intros [a x] [b y] [e0 H0] [e h]. simpl in *.
@@ -798,7 +798,7 @@ Proof.
 Qed.
 
 Lemma PHaus_coproduct (uip : ∀ (k : Ix) (e : k = k), e = eq_refl)
-  (HX : ∀ k, PHaus (X k)) : PHaus (PSigma@{o i u} Ix X).
+  (HX : ∀ k, PHaus (X k)) : PHaus (PSigma@{o i} Ix X).
 Proof.
   intros [a x] [b y] Hp.
   assert (e : a = b).
@@ -841,9 +841,9 @@ Qed.
 
 (* So a coproduct of Hausdorff spaces over an index with decidable
    equality, [bool] for a binary coproduct among them, is Hausdorff. *)
-Corollary PHaus_coproduct_dec@{o i u +| i <= o, o < u +} (Ix : Type@{i})
+Corollary PHaus_coproduct_dec@{o i +| i <= o+} (Ix : Type@{i})
   (X : Ix → PTop@{o}) (dec : ∀ a b : Ix, sumbool (a = b) (a = b → False))
-  (HX : ∀ k, PHaus (X k)) : PHaus (PSigma@{o i u} Ix X).
+  (HX : ∀ k, PHaus (X k)) : PHaus (PSigma@{o i} Ix X).
 Proof. exact (PHaus_coproduct Ix X (sep_dec_uip Ix dec) HX). Qed.
 
 (** ** T0 and T1 spaces by the same argument *)

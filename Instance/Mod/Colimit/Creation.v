@@ -301,9 +301,9 @@ Generalizable All Variables.
 (* Two maps out of the nadir that agree after every insertion are ≈: both
    mediate the cocone i ↦ v ∘ ι_i. *)
 
-Lemma mcol_ext@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_ext@{a c p o x j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   {W : obj[Ab@{o c}]} (u v : vertex_obj[N] ~{Ab@{o c}}~> W)
   (H : ∀ (i : J) (m : carrier (rm_ab (K i))),
@@ -312,12 +312,12 @@ Lemma mcol_ext@{a c p o x j l l0} {R : RingObject@{a c p}}
   u ≈ v.
 Proof.
   unshelve eset (P := @Build_Cone (J^op) (Ab@{o c}^op)
-    ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op) W
+    ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op) W
     (@Build_ACone (J^op) (Ab@{o c}^op) W _
        (fun i => v ∘[Ab@{o c}] cone_leg N i) _)).
   - intros x y f m; simpl.
     exact (proper_morphism (cmon_map v) _ _
-             (cone_leg_coh@{j c o c c c} N f m)).
+             (cone_leg_coh@{j c o c c} N f m)).
   - transitivity (unique_obj (HN P)).
     + symmetry. apply (uniqueness (HN P)).
       intros i m. exact (H i m).
@@ -331,36 +331,36 @@ Qed.
    action. *)
 
 Definition mcol_smul_cone@{a c p o x j} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (r : carrier (rig_setoid (ring_rig R))) :
-  Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op).
+  Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op).
 Proof.
   unshelve refine
     (@Build_Cone (J^op) (Ab@{o c}^op)
-       ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op) vertex_obj[N]
+       ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op) vertex_obj[N]
        (@Build_ACone (J^op) (Ab@{o c}^op) vertex_obj[N]
-          ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op)
+          ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op)
           (fun i => cone_leg N i ∘[Ab@{o c}] module_act (K i) r) _)).
   intros x y f m; simpl.
   transitivity (cmon_map (cone_leg N x)
                   (cmon_map (rm_hom (fmap[K] f)) (rm_smul (K y) r m))).
   - apply (proper_morphism (cmon_map (cone_leg N x))).
     symmetry. exact (rm_map_smul (fmap[K] f) r m).
-  - exact (cone_leg_coh@{j c o c c c} N f (rm_smul (K y) r m)).
+  - exact (cone_leg_coh@{j c o c c} N f (rm_smul (K y) r m)).
 Defined.
 
-Definition mcol_smul_map@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Definition mcol_smul_map@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R))) :
   vertex_obj[N] ~{Ab@{o c}}~> vertex_obj[N] :=
   unique_obj (HN (mcol_smul_cone N r)).
 
-Lemma mcol_smul_triangle@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_triangle@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (i : J) (m : carrier (rm_ab (K i))) :
@@ -368,17 +368,17 @@ Lemma mcol_smul_triangle@{a c p o x j l l0} {R : RingObject@{a c p}}
     ≈ cmon_map (cone_leg N i) (rm_smul (K i) r m).
 Proof. exact (unique_property (HN (mcol_smul_cone N r)) i m). Qed.
 
-Definition mcol_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Definition mcol_smul@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (b : carrier (@vertex_obj _ _ _ N)) : carrier (@vertex_obj _ _ _ N) :=
   cmon_map (mcol_smul_map N HN r) b.
 
-Lemma mcol_smul_respects@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_respects@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) :
   Proper (equiv ==> equiv ==> equiv) (mcol_smul N HN).
 Proof.
@@ -391,9 +391,9 @@ Proof.
   exact (rm_smul_respects (K i) r r' Hr m m (reflexivity _)).
 Qed.
 
-Lemma mcol_smul_distr_l@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_distr_l@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (b b' : carrier (@vertex_obj _ _ _ N)) :
@@ -401,9 +401,9 @@ Lemma mcol_smul_distr_l@{a c p o x j l l0} {R : RingObject@{a c p}}
     ≈ cmon_plus vertex_obj[N] (mcol_smul N HN r b) (mcol_smul N HN r b').
 Proof. exact (cmon_map_plus (mcol_smul_map N HN r) b b'). Qed.
 
-Lemma mcol_smul_distr_r@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_distr_r@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r s : carrier (rig_setoid (ring_rig R)))
   (b : carrier (@vertex_obj _ _ _ N)) :
@@ -426,9 +426,9 @@ Proof.
            (Equivalence_Symmetric _ _ (mcol_smul_triangle N HN s i m))).
 Qed.
 
-Lemma mcol_smul_assoc@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_assoc@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r s : carrier (rig_setoid (ring_rig R)))
   (b : carrier (@vertex_obj _ _ _ N)) :
@@ -446,9 +446,9 @@ Proof.
   apply rm_smul_assoc.
 Qed.
 
-Lemma mcol_smul_one@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_one@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (b : carrier (@vertex_obj _ _ _ N)) :
   mcol_smul N HN (rig_one (ring_rig R)) b ≈ b.
@@ -464,32 +464,32 @@ Qed.
 
 (** ** The created module and cocone *)
 
-Definition ColimMod@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l j c o} N) : obj[RMod@{o x a p c} R] :=
+Definition ColimMod@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
+  (HN : IsLimitCone@{l j c o} N) : obj[RMod@{o a p c} R] :=
   @Build_RModObject R vertex_obj[N] (mcol_smul N HN)
     (mcol_smul_respects N HN) (mcol_smul_distr_l N HN)
     (mcol_smul_distr_r N HN) (mcol_smul_assoc N HN) (mcol_smul_one N HN).
 
-Definition mcol_hom@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Definition mcol_hom@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) (i : J) :
-  K i ~{RMod@{o x a p c} R}~> ColimMod N HN :=
+  K i ~{RMod@{o a p c} R}~> ColimMod N HN :=
   @Build_RModHom R (K i) (ColimMod N HN) (cone_leg N i)
     (fun r m => Equivalence_Symmetric _ _ (mcol_smul_triangle N HN r i m)).
 
-Definition mcol_cone@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Definition mcol_cone@{a c p o x j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) : Cone (K^op).
 Proof.
   unshelve refine
-    (@Build_Cone (J^op) ((RMod@{o x a p c} R)^op) (K^op) (ColimMod N HN)
-       (@Build_ACone (J^op) ((RMod@{o x a p c} R)^op) (ColimMod N HN)
+    (@Build_Cone (J^op) ((RMod@{o a p c} R)^op) (K^op) (ColimMod N HN)
+       (@Build_ACone (J^op) ((RMod@{o a p c} R)^op) (ColimMod N HN)
           (K^op) (mcol_hom N HN) _)).
-  intros x y f m. exact (cone_leg_coh@{j c o c c c} N f m).
+  intros x y f m. exact (cone_leg_coh@{j c o c c} N f m).
 Defined.
 
 (** ** Reflection, and the created cocone is colimiting *)
@@ -497,25 +497,25 @@ Defined.
 (* A cocone of modules whose underlying cocone is colimiting in Ab is
    colimiting; the mediator is the Ab one, R-linear by [mcol_ext]. *)
 
-Definition mcol_reflect@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
+Definition mcol_reflect@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
   (M : Cone (K^op))
   (HM : IsLimitCone@{l j c o}
-          (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M)) :
+          (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M)) :
   IsLimitCone@{l j c o} M.
 Proof.
   intros P.
   pose (m := unique_obj
-               (HM (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) P))).
+               (HM (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) P))).
   assert (Hm : ∀ (i : J) (a : carrier (rm_ab (K i))),
              cmon_map m (cmon_map (rm_hom (cone_leg M i)) a)
                ≈ cmon_map (rm_hom (cone_leg P i)) a).
   { intros i a.
     exact (unique_property
-             (HM (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) P)) i a). }
+             (HM (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) P)) i a). }
   unshelve refine (@Build_Unique _ _ _ (@Build_RModHom R _ _ m _) _ _).
   - intros r b.
-    refine (mcol_ext (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M) HM
+    refine (mcol_ext (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M) HM
               (m ∘[Ab@{o c}] module_act vertex_obj[M] r)
               (module_act vertex_obj[P] r ∘[Ab@{o c}] m) _ b).
     intros i a; simpl.
@@ -530,101 +530,101 @@ Proof.
   - intros i a. exact (Hm i a).
   - intros v Hv b.
     exact (uniqueness
-             (HM (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) P))
+             (HM (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) P))
              (rm_hom v) Hv b).
 Defined.
 
-Definition mcol_strict_lift@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Definition mcol_strict_lift@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) :
-  StrictLift (K^op) ((RMod_Forget_Ab@{x o o a p c} R)^op) N :=
-  @Build_StrictLift _ _ _ (K^op) ((RMod_Forget_Ab@{x o o a p c} R)^op) N
+  StrictLift (K^op) ((RMod_Forget_Ab@{o o a p c} R)^op) N :=
+  @Build_StrictLift _ _ _ (K^op) ((RMod_Forget_Ab@{o o a p c} R)^op) N
     (mcol_cone N HN) eq_refl (fun i m => reflexivity _).
 
 (** ** Riehl's Corollary 5.6.10 *)
 
-Definition RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o x j l l0}
+Definition RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o j}
   {R : RingObject@{a c p}} {J : Category@{j c c}}
-  (K : J ⟶ RMod@{o x a p c} R) :
-  StrictlyCreatesColimit@{l x l l l0 j o c o} K
-    (RMod_Forget_Ab@{x o o a p c} R) :=
-  @Build_StrictlyCreatesLimit (J^op) ((RMod@{o x a p c} R)^op)
-    (Ab@{o c}^op) (K^op) ((RMod_Forget_Ab@{x o o a p c} R)^op)
+  (K : J ⟶ RMod@{o a p c} R) :
+  StrictlyCreatesColimit@{j c o o} K
+    (RMod_Forget_Ab@{o o a p c} R) :=
+  @Build_StrictlyCreatesLimit (J^op) ((RMod@{o a p c} R)^op)
+    (Ab@{o c}^op) (K^op) ((RMod_Forget_Ab@{o o a p c} R)^op)
     (fun N HN => mcol_strict_lift N HN)
     (fun N HN => mcol_reflect (mcol_cone N HN) HN)
     (fun M HM => mcol_reflect M HM).
 
-Definition RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0}
+Definition RMod_Forget_Ab_CreatesColimit@{a c p o j}
   {R : RingObject@{a c p}} {J : Category@{j c c}}
-  (K : J ⟶ RMod@{o x a p c} R) :
-  CreatesColimit@{l x l l l0 j o c o} K (RMod_Forget_Ab@{x o o a p c} R) :=
+  (K : J ⟶ RMod@{o a p c} R) :
+  CreatesColimit@{j o o c} K (RMod_Forget_Ab@{o o a p c} R) :=
   StrictlyCreatesLimit_CreatesLimit
-    (RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o x j l l0} K).
+    (RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o j} K).
 
-Definition RMod_Forget_Ab_creates_colimits@{a c p o x t l l0 s}
+Definition RMod_Forget_Ab_creates_colimits@{a c p o s}
   (R : RingObject@{a c p}) :
-  CreatesAllColimits@{t l x l l l0 s o c o}
-    (RMod_Forget_Ab@{x o o a p c} R) :=
-  fun J K => RMod_Forget_Ab_CreatesColimit@{a c p o x s l l0} K.
+  CreatesAllColimits@{o o s c}
+    (RMod_Forget_Ab@{o o a p c} R) :=
+  fun J K => RMod_Forget_Ab_CreatesColimit@{a c p o s} K.
 
 (** ** Readbacks: the lift is on the nose *)
 
-Example mcol_over_obj@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Example mcol_over_obj@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) :
   rm_ab (ColimMod N HN) = vertex_obj[N] := eq_refl.
 
-Example mcol_over_legs@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Example mcol_over_legs@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) (i : J) :
   rm_hom (mcol_hom N HN i) = cone_leg N i := eq_refl.
 
-Example mcol_smul_is_mediator@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Example mcol_smul_is_mediator@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R))) :
   rm_smul (ColimMod N HN) r
   = cmon_map (unique_obj (HN (mcol_smul_cone N r))) := eq_refl.
 
-Example mcol_lift_apex@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (K : J ⟶ RMod@{o x a p c} R)
-  (L : Colimit (RMod_Forget_Ab@{x o o a p c} R ◯ K)) :
+Example mcol_lift_apex@{a c p o j} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
+  (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   rm_ab (vertex_obj[creates_colimit_lift
-           (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K) L])
+           (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L])
   = vertex_obj[L] := eq_refl.
 
-Example mcol_lift_legs@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (K : J ⟶ RMod@{o x a p c} R)
-  (L : Colimit (RMod_Forget_Ab@{x o o a p c} R ◯ K)) (i : J) :
+Example mcol_lift_legs@{a c p o j} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
+  (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) (i : J) :
   rm_hom (cone_leg (@limit_cone _ _ _
             (creates_colimit_lift
-               (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K) L)) i)
+               (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L)) i)
   = cone_leg (@limit_cone _ _ _ L) i := eq_refl.
 
 (* The whole lifted module IS [ColimMod] of the given colimit, read in the
    opposite category. *)
-Example mcol_lift_module@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (K : J ⟶ RMod@{o x a p c} R)
-  (L : Colimit (RMod_Forget_Ab@{x o o a p c} R ◯ K)) :
+Example mcol_lift_module@{a c p o j} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
+  (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   vertex_obj[creates_colimit_lift
-     (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K) L]
+     (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L]
   = ColimMod (cone_op_comp (@limit_cone _ _ _ L))
       (islimitcone_op_comp (limit_limitcone L)) := eq_refl.
 
 (* The reflected mediator computes: its group map IS the Ab mediator of
    the underlying cocones. *)
-Example mcol_reflect_mediator@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
+Example mcol_reflect_mediator@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
   (M : Cone (K^op))
   (HM : IsLimitCone@{l j c o}
-          (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M))
+          (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M))
   (P : Cone (K^op)) :
   rm_hom (unique_obj (mcol_reflect M HM P))
-  = unique_obj (HM (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) P))
+  = unique_obj (HM (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) P))
   := eq_refl.
 
 (** ** Uniqueness of the created action *)
@@ -632,9 +632,9 @@ Example mcol_reflect_mediator@{a c p o x j l l0} {R : RingObject@{a c p}}
 (* Any family of Ab endomorphisms making every insertion R-linear is ≈ the
    created action. *)
 
-Lemma mcol_smul_unique@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Lemma mcol_smul_unique@{a c p o j l} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (s : carrier (rig_setoid (ring_rig R)) →
        vertex_obj[N] ~{Ab@{o c}}~> vertex_obj[N])
@@ -654,33 +654,33 @@ Qed.
 (* Structure/Limit/Initial.v's [terminal_Colimit] is a colimit in Ab of
    U ◯ K; the lift has group U (K 1) and action K(!)(r · m). *)
 
-Definition rmod_terminal_colimit@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R) :
+Definition rmod_terminal_colimit@{a c p o j} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R) :
   Colimit K :=
-  creates_colimit_lift (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K)
-    (terminal_Colimit@{j c o c l0 l} T (RMod_Forget_Ab@{x o o a p c} R ◯ K)).
+  creates_colimit_lift (RMod_Forget_Ab_CreatesColimit@{a c p o j} K)
+    (terminal_Colimit@{j c o c} T (RMod_Forget_Ab@{o o a p c} R ◯ K)).
 
 Example rmod_terminal_group@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R) :
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R) :
   rm_ab (vertex_obj[@limit_cone _ _ _
-           (rmod_terminal_colimit@{a c p o x j l l0} T K)])
+           (rmod_terminal_colimit@{a c p o j} T K)])
   = rm_ab (K (@terminal_obj J T)) := eq_refl.
 
 Example rmod_terminal_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R)
   (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab (K (@terminal_obj J T)))) :
   rm_smul (vertex_obj[@limit_cone _ _ _
-             (rmod_terminal_colimit@{a c p o x j l l0} T K)]) r m
+             (rmod_terminal_colimit@{a c p o j} T K)]) r m
   = cmon_map (rm_hom (fmap[K] (@one J T (@terminal_obj J T))))
       (rm_smul (K (@terminal_obj J T)) r m) := eq_refl.
 
 Lemma rmod_terminal_smul_own@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R)
   (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab (K (@terminal_obj J T)))) :
   rm_smul (vertex_obj[@limit_cone _ _ _
-             (rmod_terminal_colimit@{a c p o x j l l0} T K)]) r m
+             (rmod_terminal_colimit@{a c p o j} T K)]) r m
   ≈ rm_smul (K (@terminal_obj J T)) r m.
 Proof.
   change (cmon_map (rm_hom (fmap[K] (@one J T (@terminal_obj J T))))

@@ -113,7 +113,7 @@ Context (HS : @SubobjectClassifier Sets@{o so} Sets_Terminal@{so o}).
    not about the classifier or the category. *)
 Check (fun (x y : SetoidObject@{o o}) (f : y ~{Sets@{o so}}~> x)
            (s : @SubObj Sets@{o so} x) =>
-  @char_reindex Sets@{o so} Sets_Terminal@{so o} Sets_HasPullbacks@{so o}
+  @char_reindex Sets@{o so} Sets_Terminal@{so o} Sets_HasPullbacks@{o}
     HS x y f s).
 
 (* NEGATIVE 1 (FORMABILITY).  The classification theorem builds a
@@ -122,19 +122,19 @@ Check (fun (x y : SetoidObject@{o o}) (f : y ~{Sets@{o so}}~> x)
      universe inconsistency: Cannot enforce so = _ because _ <= _ < so *)
 Check @Sets@{_ _}.
 Check @Sets_Terminal@{_ _}.
-Check @Sets_HasPullbacks@{_ _}.
+Check @Sets_HasPullbacks@{_}.
 Fail Check (@classifier_classifies Sets@{o so} Sets_Terminal@{so o}
-              Sets_HasPullbacks@{so o} HS).
+              Sets_HasPullbacks@{o} HS).
 
 (* NEGATIVE 2 (FORMABILITY).  Awodey's naturality clause, same wall, same
    error shape. *)
 Fail Check (@Sub_classifier_natural Sets@{o so} Sets_Terminal@{so o}
-              Sets_HasPullbacks@{so o} HS).
+              Sets_HasPullbacks@{o} HS).
 
 (* NEGATIVE 3 (FORMABILITY).  [Sub_Representable] is built on that
    isomorphism, so it inherits the refusal. *)
 Fail Check (@Sub_Representable Sets@{o so} Sets_Terminal@{so o}
-              Sets_HasPullbacks@{so o} HS).
+              Sets_HasPullbacks@{o} HS).
 
 End NotAtSets.
 
@@ -204,9 +204,9 @@ Check (@SubobjectClassifier Sets@{o so} Sets_Terminal@{so o}).
    -- no universe clause, no "cannot unify". *)
 Check @Sets@{_ _}.
 Check @Sets_Terminal@{_ _}.
-Check @Sets_HasPullbacks@{_ _}.
+Check @Sets_HasPullbacks@{_}.
 Fail Check (@SubobjectClassifier Sets@{o so} Sets_Terminal@{so o}
-              Sets_HasPullbacks@{so o}).
+              Sets_HasPullbacks@{o}).
 
 End ClassArity.
 

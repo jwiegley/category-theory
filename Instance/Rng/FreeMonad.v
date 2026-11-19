@@ -467,7 +467,7 @@ Arguments ralg_ring {A} α.
 (** ** The comparison functor K and the isomorphism Rng ≅ Ab^T *)
 
 Definition EM_rng_map@{+} {x y : RngAlg} (f : x ~{RngAlg}~> y) :
-  ralg_ring (projT2 x) ~{Rng@{u p}}~> ralg_ring (projT2 y).
+  ralg_ring (projT2 x) ~{Rng@{p}}~> ralg_ring (projT2 y).
 Proof.
   unshelve refine (@Build_RigHom (ralg_ring (projT2 x)) (ralg_ring (projT2 y))
                     (cmon_map (t_alg_hom[f])) _ _ _ _).
@@ -489,10 +489,10 @@ Proof.
       exact (T_map_relabel (t_alg_hom[f]) (fr_mul (fr_gen a) (fr_gen b))).
 Defined.
 
-Definition EM_to_Rng@{+} : RngAlg ⟶ Rng@{u p}.
+Definition EM_to_Rng@{+} : RngAlg ⟶ Rng@{p}.
 Proof.
   unshelve refine
-    (@Build_Functor RngAlg Rng@{u p} (fun x => ralg_ring (projT2 x))
+    (@Build_Functor RngAlg Rng@{p} (fun x => ralg_ring (projT2 x))
        (fun x y f => EM_rng_map f) _ _ _).
   - intros x y f g H. exact H.
   - intros x a. reflexivity.
@@ -500,7 +500,7 @@ Proof.
 Defined.
 
 (* The comparison functor K : Rng → Ab^T, K R = ⟨U R, U ε_R⟩. *)
-Definition Rng_K@{+} : Rng@{u p} ⟶ RngAlg :=
+Definition Rng_K@{+} : Rng@{p} ⟶ RngAlg :=
   EM_Comparison free_rng_ab_adjunction_hom.
 
 (* The algebra round trip, with the identity as its component. *)
@@ -531,11 +531,11 @@ Defined.
 
 (* The ring round trip, with the identity as its component: every
    operation comes back on the nose. *)
-Definition Rng_EM_unit_iso@{+} (R : Rng@{u p}) :
-  @Isomorphism Rng@{u p} (fobj[EM_to_Rng ◯ Rng_K] R) R.
+Definition Rng_EM_unit_iso@{+} (R : Rng@{p}) :
+  @Isomorphism Rng@{p} (fobj[EM_to_Rng ◯ Rng_K] R) R.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Rng@{u p} (fobj[EM_to_Rng ◯ Rng_K] R) R
+    (@Build_Isomorphism Rng@{p} (fobj[EM_to_Rng ◯ Rng_K] R) R
        (@Build_RigHom (fobj[EM_to_Rng ◯ Rng_K] R) R
           (@setoid_morphism_id (rig_setoid R)) _ _ _ _)
        (@Build_RigHom R (fobj[EM_to_Rng ◯ Rng_K] R)
@@ -545,7 +545,7 @@ Defined.
 
 (* K is an equivalence, with identity components both ways. *)
 Definition Rng_EM_equivalence@{+} :
-  @EquivalenceOfCategories@{u u u u p} Rng@{u p} RngAlg Rng_K.
+  @EquivalenceOfCategories@{u u u u p} Rng@{p} RngAlg Rng_K.
 Proof.
   unshelve refine (@Build_EquivalenceOfCategories _ _ Rng_K EM_to_Rng _ _).
   - exists (fun x => Rng_EM_counit_iso x).
@@ -556,7 +556,7 @@ Defined.
 
 (* Riehl, Example 5.5.7(ii): the forgetful functor Rng → Ab is monadic. *)
 Definition Rng_Forget_Ab_Monadic@{+} :
-  @Monadic@{u u u u u p u} Rng@{u p} Ab@{u p} Rng_Forget_Ab.
+  @Monadic@{u u u u u p u} Rng@{p} Ab@{u p} Rng_Forget_Ab.
 Proof.
   exists FreeRngAb.
   exists free_rng_ab_adjunction_hom.
@@ -566,10 +566,10 @@ Defined.
 (* Mac Lane's "the comparison functor from rings to T-algebras is an
    isomorphism": Rng ≅ Ab^T in Cat, from the two component isomorphisms. *)
 Definition Rng_EM_iso@{c +} :
-  @Isomorphism Cat@{c u u p} Rng@{u p} RngAlg.
+  @Isomorphism Cat@{c u u p} Rng@{p} RngAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c u u p} Rng@{u p} RngAlg Rng_K EM_to_Rng _ _).
+    (@Build_Isomorphism Cat@{c u u p} Rng@{p} RngAlg Rng_K EM_to_Rng _ _).
   - exists (fun x => Rng_EM_counit_iso x).
     intros x y f a. reflexivity.
   - exists (fun R => Rng_EM_unit_iso R).
@@ -591,10 +591,10 @@ Proof.
   intros x y f a. reflexivity.
 Qed.
 
-Example Rng_K_Forget_obj@{+} (R : Rng@{u p}) :
+Example Rng_K_Forget_obj@{+} (R : Rng@{p}) :
   fobj[RngAlg_Forget] (fobj[Rng_K] R) = fobj[Rng_Forget_Ab] R := eq_refl.
 
-Example Rng_K_Forget_map@{+} {R S : Rng@{u p}} (f : R ~{Rng@{u p}}~> S) :
+Example Rng_K_Forget_map@{+} {R S : Rng@{p}} (f : R ~{Rng@{p}}~> S) :
   fmap[RngAlg_Forget] (fmap[Rng_K] f) = fmap[Rng_Forget_Ab] f := eq_refl.
 
 Example EM_to_Rng_Forget_obj@{+} (x : RngAlg) :
@@ -615,37 +615,37 @@ Example Rng_EM_iso_from@{+} : from Rng_EM_iso = EM_to_Rng := eq_refl.
 
 (* K R = ⟨U R, U ε_R⟩: the structure map evaluates formal expressions in
    R, and so sends 1, ⟨a⟩, ⟨a⟩·⟨b⟩ and ⟨a⟩ + ⟨b⟩ to 1, a, a·b and a + b. *)
-Example Rng_K_carrier@{+} (R : Rng@{u p}) :
+Example Rng_K_carrier@{+} (R : Rng@{p}) :
   projT1 (fobj[Rng_K] R) = Rng_Forget_Ab R := eq_refl.
 
-Example Rng_K_alg@{+} (R : Rng@{u p}) :
+Example Rng_K_alg@{+} (R : Rng@{p}) :
   t_alg[projT2 (fobj[Rng_K] R)]
     = fmap[Rng_Forget_Ab] (@counit _ _ _ _ free_rng_ab_adjunction_hom R)
   := eq_refl.
 
-Example Rng_K_alg_fun@{+} (R : Rng@{u p}) (t : FRTerm (Rng_Forget_Ab R)) :
+Example Rng_K_alg_fun@{+} (R : Rng@{p}) (t : FRTerm (Rng_Forget_Ab R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) t
     = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R)) t := eq_refl.
 
-Example Rng_K_alg_one@{+} (R : Rng@{u p}) :
+Example Rng_K_alg_one@{+} (R : Rng@{p}) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) (@fr_one (Rng_Forget_Ab R))
     = rig_one R := eq_refl.
 
-Example Rng_K_alg_gen@{+} (R : Rng@{u p}) (a : carrier (rig_setoid R)) :
+Example Rng_K_alg_gen@{+} (R : Rng@{p}) (a : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) (@fr_gen (Rng_Forget_Ab R) a) = a
   := eq_refl.
 
-Example Rng_K_alg_mul@{+} (R : Rng@{u p}) (a b : carrier (rig_setoid R)) :
+Example Rng_K_alg_mul@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)])
     (fr_mul (@fr_gen (Rng_Forget_Ab R) a) (@fr_gen (Rng_Forget_Ab R) b))
     = rig_mul R a b := eq_refl.
 
-Example Rng_K_alg_plus@{+} (R : Rng@{u p}) (a b : carrier (rig_setoid R)) :
+Example Rng_K_alg_plus@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)])
     (fr_plus (@fr_gen (Rng_Forget_Ab R) a) (@fr_gen (Rng_Forget_Ab R) b))
     = rig_add R a b := eq_refl.
 
-Example Rng_K_map@{+} {R S : Rng@{u p}} (f : R ~{Rng@{u p}}~> S) :
+Example Rng_K_map@{+} {R S : Rng@{p}} (f : R ~{Rng@{p}}~> S) :
   t_alg_hom[fmap[Rng_K] f] = fmap[Rng_Forget_Ab] f := eq_refl.
 
 (* The ring of an algebra: 1 = h 1, a·b = h(⟨a⟩·⟨b⟩), and A's own +. *)
@@ -666,25 +666,25 @@ Example EM_to_Rng_map@{+} {x y : RngAlg} (f : x ~{RngAlg}~> y) :
 
 (* The ring round trip returns every operation and every map on the
    nose. *)
-Example Rng_rt_setoid@{+} (R : Rng@{u p}) :
+Example Rng_rt_setoid@{+} (R : Rng@{p}) :
   rig_setoid (fobj[EM_to_Rng ◯ Rng_K] R) = rig_setoid R := eq_refl.
 
-Example Rng_rt_zero@{+} (R : Rng@{u p}) :
+Example Rng_rt_zero@{+} (R : Rng@{p}) :
   rig_zero (fobj[EM_to_Rng ◯ Rng_K] R) = rig_zero R := eq_refl.
 
-Example Rng_rt_add@{+} (R : Rng@{u p}) :
+Example Rng_rt_add@{+} (R : Rng@{p}) :
   rig_add (fobj[EM_to_Rng ◯ Rng_K] R) = rig_add R := eq_refl.
 
-Example Rng_rt_one@{+} (R : Rng@{u p}) :
+Example Rng_rt_one@{+} (R : Rng@{p}) :
   rig_one (fobj[EM_to_Rng ◯ Rng_K] R) = rig_one R := eq_refl.
 
-Example Rng_rt_mul@{+} (R : Rng@{u p}) (a b : carrier (rig_setoid R)) :
+Example Rng_rt_mul@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
   rig_mul (fobj[EM_to_Rng ◯ Rng_K] R) a b = rig_mul R a b := eq_refl.
 
-Example Rng_rt_neg@{+} (R : Rng@{u p}) :
+Example Rng_rt_neg@{+} (R : Rng@{p}) :
   ring_neg (fobj[EM_to_Rng ◯ Rng_K] R) = ring_neg R := eq_refl.
 
-Example Rng_rt_hom@{+} {R S : Rng@{u p}} (f : R ~{Rng@{u p}}~> S) :
+Example Rng_rt_hom@{+} {R S : Rng@{p}} (f : R ~{Rng@{p}}~> S) :
   rig_map (fmap[EM_to_Rng ◯ Rng_K] f) = rig_map f := eq_refl.
 
 (* The algebra round trip keeps the group and the maps on the nose, and
@@ -707,7 +707,7 @@ Example Rng_EM_iso_to_from_component@{+} (x : RngAlg) :
    t_alg_hom[from (projT1 (iso_to_from Rng_EM_iso) x)])
     = (@id Ab@{u p} (projT1 x), @id Ab@{u p} (projT1 x)) := eq_refl.
 
-Example Rng_EM_iso_from_to_component@{+} (R : Rng@{u p}) :
+Example Rng_EM_iso_from_to_component@{+} (R : Rng@{p}) :
   (rig_map (to (projT1 (iso_from_to Rng_EM_iso) R)),
    rig_map (from (projT1 (iso_from_to Rng_EM_iso) R)))
     = (@setoid_morphism_id (rig_setoid R),
@@ -719,7 +719,7 @@ Example Rng_EM_counit_component@{+} (x : RngAlg) :
                              Rng_EM_equivalence) x)])
     = (@id Ab@{u p} (projT1 x), @id Ab@{u p} (projT1 x)) := eq_refl.
 
-Example Rng_EM_unit_component@{+} (R : Rng@{u p}) :
+Example Rng_EM_unit_component@{+} (R : Rng@{p}) :
   (rig_map (to (projT1 (@equivalence_unit _ _ _ Rng_EM_equivalence) R)),
    rig_map (from (projT1 (@equivalence_unit _ _ _ Rng_EM_equivalence) R)))
     = (@setoid_morphism_id (rig_setoid R),

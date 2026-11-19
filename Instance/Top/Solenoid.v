@@ -415,11 +415,11 @@ Proof. exact (EndoTower_map PForget PCircle (pwrap p)). Qed.
 
 (* Its points: #408's matching strings of the tower of points. *)
 Definition SolPoints@{s o so | o < so +} (p : positive) : SetoidObject@{o o} :=
-  inverse_limit@{o s o so so o} (UCircleTower@{s o so} p).
+  inverse_limit@{s o o} (UCircleTower@{s o so} p).
 
 Definition sol_pr@{s o so | o < so +} (p : positive) (n : nat) :
-  SetoidMorphism@{o o} (SolPoints@{s o so} p) Circle_setoid@{o} :=
-  tower_proj@{s o so o} (UCircleTower@{s o so} p) n.
+  SetoidMorphism@{o o o} (SolPoints@{s o so} p) Circle_setoid@{o} :=
+  tower_proj@{s o o} (UCircleTower@{s o so} p) n.
 
 (* Mac Lane's matching condition, read back: p x_(n+1) = x_n on the
    circle, for every n. *)
@@ -691,8 +691,8 @@ Defined.
 
 Definition PTop_solenoid_limit@{s o so r | o < so +} (p : positive) :
   Limit@{r s o so} (PCircleTower@{s o so} p) :=
-  PTop_Limit_lift@{s o so r r r r so} (PCircleTower@{s o so} p)
-    (Sets_tower_Limit@{s o so r o} (PForget@{o so} ◯ PCircleTower@{s o so} p)).
+  PTop_Limit_lift@{s o so r r} (PCircleTower@{s o so} p)
+    (Sets_tower_Limit@{s o o} (PForget@{o so} ◯ PCircleTower@{s o so} p)).
 
 Definition PSolenoid@{s o so r | o < so +} (p : positive) : PTop@{o} :=
   vertex_obj[@limit_cone _ _ _ (PTop_solenoid_limit@{s o so r} p)].

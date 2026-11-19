@@ -443,7 +443,7 @@ End SysRing.
 (* A map of systems is a ring map of their rings. *)
 Definition sys_ring_map@{+} {A B : Ab@{u p}} {σ : TSystem A} {τ : TSystem B}
   (f : A ~{Ab@{u p}}~> B) (Hf : TSystemHom σ τ f) :
-  sys_ring σ ~{Rng@{u p}}~> sys_ring τ.
+  sys_ring σ ~{Rng@{p}}~> sys_ring τ.
 Proof.
   unshelve refine (@Build_RigHom (sys_ring σ) (sys_ring τ)
                      (cmon_map f) _ _ _ _).
@@ -519,10 +519,10 @@ Proof.
 Defined.
 
 (* Systems to rings, and so to algebras through K. *)
-Definition TSys_to_Rng@{+} : TSys ⟶ Rng@{u p}.
+Definition TSys_to_Rng@{+} : TSys ⟶ Rng@{p}.
 Proof.
   unshelve refine
-    (@Build_Functor TSys Rng@{u p} (fun S => sys_ring (tsys_str S))
+    (@Build_Functor TSys Rng@{p} (fun S => sys_ring (tsys_str S))
        (fun S S' f => sys_ring_map (`1 f) (`2 f)) _ _ _).
   - intros S S' f g H. exact H.
   - intros S a. reflexivity.
@@ -606,7 +606,7 @@ Defined.
 
 (* The rings are the systems. *)
 Definition Rng_TSys_iso@{c +} :
-  @Isomorphism Cat@{c u u p} Rng@{u p} TSys :=
+  @Isomorphism Cat@{c u u p} Rng@{p} TSys :=
   iso_compose (iso_sym TSys_EM_iso) Rng_EM_iso.
 
 (* ------------------------------------------------------------------------ *)
@@ -690,19 +690,19 @@ Example TSys_EM_iso_from_to_component@{+} (S : TSys) :
 
 (* The system of a ring R: ν⟨⟩ = 1, ν⟨a⟩ = a, ν⟨a b⟩ = a·b, and ν of a
    word the product of its letters, bracketed to the right. *)
-Example Rng_system_nu@{+} (R : Rng@{u p})
+Example Rng_system_nu@{+} (R : Rng@{p})
   (w : list (carrier (rig_setoid R))) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) w
     = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R))
         (@fr_word (Rng_Forget_Ab R) w) := eq_refl.
 
-Example Rng_system_nil@{+} (R : Rng@{u p}) :
+Example Rng_system_nil@{+} (R : Rng@{p}) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) nil = rig_one R := eq_refl.
 
-Example Rng_system_letter@{+} (R : Rng@{u p}) (a : carrier (rig_setoid R)) :
+Example Rng_system_letter@{+} (R : Rng@{p}) (a : carrier (rig_setoid R)) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) (a :: nil) = a := eq_refl.
 
-Example Rng_system_pair@{+} (R : Rng@{u p}) (a b : carrier (rig_setoid R)) :
+Example Rng_system_pair@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) (a :: b :: nil)
     = rig_mul R a b := eq_refl.
 

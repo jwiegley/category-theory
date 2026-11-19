@@ -442,12 +442,12 @@ Example p464_beck_to@{o so c} (M : MonObject@{o o o}) :
 
 (* CONTROL: the carrier and the action as a function, on the nose. *)
 Example p464_rt_setoid@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act_setoid (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = act_setoid A := eq_refl.
 
 Example p464_rt_act@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = act A := eq_refl.
 
@@ -456,7 +456,7 @@ Example p464_rt_act@{o so} {M : MonObject@{o o o}}
    map's properness proof, and without that proof it is [act_respects A]
    by eta. *)
 Example p464_rt_respects_isolate@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act_respects
     (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = (fun g g' Hg a a' Ha =>
@@ -466,43 +466,43 @@ Example p464_rt_respects_isolate@{o so} {M : MonObject@{o o o}}
   eq_refl.
 
 Example p464_rt_respects_eta@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   (fun g g' Hg a a' Ha => act_respects A g g' Hg a a' Ha) = act_respects A :=
   eq_refl.
 
 (* N1 *)
-Check @MSetoidAction@{_ _ _ _ _ _ _ _}.
+Check @MSetoidAction@{_ _ _ _}.
 Check @EM_to_MSet@{_ _}.
 Check @MSet_adj@{_ _}.
 Fail Example p464_rt_op@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act_op (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = act_op A := eq_refl.
 
 (* N2 *)
 Fail Example p464_rt_unit@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act_unit (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = act_unit A := eq_refl.
 
 (* N3 *)
 Example p464_rt_respects@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   act_respects
     (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A)
   = act_respects A := eq_refl.
 
 (* N4 *)
 Fail Example p464_rt_obj@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o o o o o} M) :
+  (A : MSetoidAction@{o o o o} M) :
   fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] A = A :=
   eq_refl.
 
 (* N5 *)
-Check @MSet@{_ _ _ _ _ _ _ _}.
+Check @MSet@{_ _ _ _ _}.
 Fail Example p464_rt_functor@{o so} {M : MonObject@{o o o}} :
   EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)
-  = Id[MSet@{so so o o o o o o} M] := eq_refl.
+  = Id[MSet@{o o o o o} M] := eq_refl.
 
 (** ** Instance/Fun/Action/Monad.v: the round trip algebra → M-set →
     algebra *)
@@ -680,19 +680,19 @@ Fail Example p464_bg_join_fun@{o so} (M : MonObject@{o o o})
 (* CONTROL: evaluation against [MSet_to] followed by [MSet_Forget], in
    both data fields. *)
 Example p464_bg_U_obj@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
-  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{so o} M] P :=
+  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] P :=
   eq_refl.
 
 Example p464_bg_U_map@{o so} (M : MonObject@{o o o}) (P Q : SetBG@{o so} M)
   (η : P ~{SetBG@{o so} M}~> Q) :
-  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{so o} M] η :=
+  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] η :=
   eq_refl.
 
 (* N16 *)
 Check @MSet_Forget@{_ _}.
 Check @MSet_to@{_ _}.
 Fail Example p464_bg_U_is_composite@{o so} (M : MonObject@{o o o}) :
-  U_BG@{o so} M = MSet_Forget@{o so} M ◯ MSet_to@{so o} M := eq_refl.
+  U_BG@{o so} M = MSet_Forget@{o so} M ◯ MSet_to@{o o} M := eq_refl.
 
 (** ** Instance/Fun/Action/Monad/BG.v: the hom level of Set^BG *)
 
@@ -707,11 +707,11 @@ Definition p464_bg_up@{o so} (M : MonObject@{o o o}) : Type@{so} :=
   Sets@{o so} ⟶ p464_SetBG_h@{o so} M.
 
 Definition p464_bg_from_h@{o so} (M : MonObject@{o o o}) :
-  MSet@{so so o o o o o o} M ⟶ p464_SetBG_h@{o so} M :=
-  MSet_from@{so so o so o} M.
+  MSet@{o o o o o} M ⟶ p464_SetBG_h@{o so} M :=
+  MSet_from@{o o} M.
 
 Definition p464_bg_free@{o so} (M : MonObject@{o o o}) :
-  Sets@{o so} ⟶ MSet@{so so o o o o o o} M := MSet_Free@{o so} M.
+  Sets@{o so} ⟶ MSet@{o o o o o} M := MSet_Free@{o so} M.
 
 (* N17 *)
 Check @p464_SetBG_h@{_ _}.
@@ -720,11 +720,12 @@ Fail Definition p464_bg_down_h@{o so} (M : MonObject@{o o o}) : Type@{so} :=
   p464_SetBG_h@{o so} M ⟶ Sets@{o so}.
 
 (* N18 *)
-Check @MSet_from@{_ _ _ _ _}.
+Check @MSet_from@{_ _}.
 Check @MSet_Free@{_ _}.
-Fail Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ p464_SetBG_h@{o so} M :=
-  MSet_from@{so so o so o} M ◯ MSet_Free@{o so} M.
+  MSet_from@{o o} M ◯ MSet_Free@{o so} M.
 
 (** ** Instance/Fun/Action/Monad/BG.v: the tie *)
 
@@ -734,7 +735,7 @@ Fail Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
    functions. *)
 Example p464_fun_em_to@{o so c} (M : MonObject@{o o o}) :
   to (Fun_EM_iso@{o so c} M)
-  = EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{so o} M := eq_refl.
+  = EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o} M := eq_refl.
 
 Example p464_tie_carrier@{o so c} (M : MonObject@{o o o})
   (P : SetBG@{o so} M) :

@@ -403,7 +403,7 @@ Theorem CompHaus_not_complete_IEM_below@{e r s c h o +} (E : IEM@{e})
 Proof.
   exact (CompHaus_not_complete
            (CompHaus_ArrowIndex_of_Top
-              (canonical_ArrowIndex@{s h h} (ObjDecEq_of_IEM E Top@{h o})))
+              (canonical_ArrowIndex@{h h} (ObjDecEq_of_IEM E Top@{h o})))
            comp).
 Qed.
 

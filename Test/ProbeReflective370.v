@@ -548,22 +548,22 @@ Example p370_torsion_counit_map@{u p +} (A : Ab@{u p}) :
 
 (* CONTROL: the commutator-ideal unit, likewise, against the quotient
    map. *)
-Example p370_crng_unit@{u p +} (R : Rng@{u p}) :
+Example p370_crng_unit@{u p +} (R : Rng@{p}) :
   crng_unit R
-    = fmap[Incl Rng@{u p} CRng_Sub] (@id CRng (fobj[CRng_reflector] R))
+    = fmap[Incl Rng@{p} CRng_Sub] (@id CRng (fobj[CRng_reflector] R))
       ∘ rquot_proj (CommIdeal R) := eq_refl.
 
-Example p370_crng_unit_point@{u p +} (R : Rng@{u p})
+Example p370_crng_unit_point@{u p +} (R : Rng@{p})
   (a : carrier (rig_setoid R)) :
   rig_map (crng_unit R) a = rig_map (rquot_proj (CommIdeal R)) a := eq_refl.
 
 (* N11 *)
-Check @Rng@{_ _}.
-Fail Example p370_crng_unit_proj@{u p +} (R : Rng@{u p}) :
+Check @Rng@{_}.
+Fail Example p370_crng_unit_proj@{u p +} (R : Rng@{p}) :
   crng_unit R = rquot_proj (CommIdeal R) := eq_refl.
 
 (* N12 *)
-Example p370_crng_unit_map@{u p +} (R : Rng@{u p}) :
+Example p370_crng_unit_map@{u p +} (R : Rng@{p}) :
   rig_map (crng_unit R) = rig_map (rquot_proj (CommIdeal R)) := eq_refl.
 
 (* CONTROL: the completion unit in MetU and in Met, pointwise the
@@ -702,19 +702,20 @@ Fail Definition p370_const_isometry@{u +| Set < u +} :
 
 (* CONTROL: the localization's universal property at a ring of carrier
    level [Set], and the mediator [loc_hom] above it. *)
-Definition p370_loc_at_set@{u +| Set < u +} (W : obj[Rng@{u Set}])
-  (psi : Int_Ring ~{Rng@{u Set}}~> W)
+Definition p370_loc_at_set@{u +| Set < u +} (W : obj[Rng@{Set}])
+  (psi : Int_Ring ~{Rng@{Set}}~> W)
   (H : InvertsSet (R := Int_Ring) PosZ psi) :=
   @snd _ _ ZtoQ_IsLocalization W psi H.
 
 Definition p370_loc_hom_above@{u p +| Set < p, p < u +}
-  (W : obj[Rng@{u p}]) (psi : Int_Ring ~{Rng@{u p}}~> W)
-  (H : InvertsSet (R := Int_Ring) PosZ psi) : Q_Ring ~{Rng@{u p}}~> W :=
+  (W : obj[Rng@{p}]) (psi : Int_Ring ~{Rng@{p}}~> W)
+  (H : InvertsSet (R := Int_Ring) PosZ psi) : Q_Ring ~{Rng@{p}}~> W :=
   loc_hom W psi H.
 
 (* N23 *)
-Fail Definition p370_loc_above@{u p +| Set < p, p < u +}
-  (W : obj[Rng@{u p}]) (psi : Int_Ring ~{Rng@{u p}}~> W)
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p370_loc_above@{u p +| Set < p, p < u +}
+  (W : obj[Rng@{p}]) (psi : Int_Ring ~{Rng@{p}}~> W)
   (H : InvertsSet (R := Int_Ring) PosZ psi) :=
   @snd _ _ ZtoQ_IsLocalization W psi H.
 
@@ -746,7 +747,7 @@ Definition p370_mixed_not_iso@{u +} :
   torsion_counit_MixedAb_not_iso.
 
 Definition p370_UT2_not_iso@{u p +} :
-  IsIsomorphism (crng_unit (UT2 : Rng@{u p})) → False :=
+  IsIsomorphism (crng_unit (UT2 : Rng@{p})) → False :=
   crng_unit_UT2_not_iso.
 
 Definition p370_harmonic_not_iso@{u +| Set < u +} :

@@ -316,7 +316,8 @@ Definition p450v_colim_bool {S : UA.OpSignature} (E : UA.EqSignature S) :=
 Definition p450v_colim_fin2 {S : UA.OpSignature} (E : UA.EqSignature S) :=
   SVariety_colim_via_GAFT E (DiscreteCat (Fin.t 2)).
 
-Fail Definition p450v_n3_two_discrete {S : UA.OpSignature}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p450v_n3_two_discrete {S : UA.OpSignature}
   (E : UA.EqSignature S) := SVariety_colim_via_GAFT E Two_Discrete.
 
 (** ** N4 (UNIVERSE): at a [Set] carrier the solution set elaborates and

@@ -241,7 +241,7 @@ Constraint Set < o, c < o, c < x, p <= a, c <= a, a <= o, jo <= c.
 
 Context {R : RingObject@{a c p}}.
 Context {J : Category@{jo c c}}.
-Context (D : J ⟶ RMod@{o x a p c} R).
+Context (D : J ⟶ RMod@{o a p c} R).
 
 (* The generators: the disjoint union of the carriers, with Leibniz
    equality.  Each factor's own `≈` enters through [mcc_resp] below. *)
@@ -364,7 +364,9 @@ Definition mflat : MGen ~{Sets}~> RMod_Forget R M.
 Proof using h.
   unshelve refine {| morphism := fun q =>
                        cmon_map (rm_hom (transform[h] (`1 q))) (`2 q) |}.
-  intros q q' Hq; simpl in Hq; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution ([reflexive_proper] and
+     [reflexive_eq_dom_reflexive], the equality of [MGen] being [eq]). *)
 Defined.
 
 Definition mker : @FVTerm R MGen → @FVTerm R MGen → Prop :=
@@ -438,57 +440,57 @@ End ModDiagonalSolutionSet.
 
 (** ** Every colimit of R-modules within the shape discipline *)
 
-Definition RMod_colim_via_GAFT@{a c p o x jo +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, jo <= c +}
+Definition RMod_colim_via_GAFT@{a c p o jo +|
+    Set < c, c < o, p <= a, c <= a, a <= o, jo <= c +}
   (R : RingObject@{a c p}) (J : Category@{jo c c}) :
-  { K : [J, RMod@{o x a p c} R] ⟶ RMod@{o x a p c} R
-  & K ⊣ @Diagonal (RMod@{o x a p c} R) J } :=
+  { K : [J, RMod@{o a p c} R] ⟶ RMod@{o a p c} R
+  & K ⊣ @Diagonal (RMod@{o a p c} R) J } :=
   GAFT (@Diagonal (RMod R) J) (RMod_Complete R)
        (Continuous_PreservesImageLimit Diagonal_continuous)
        (@Diagonal_RMod_solution_set R J).
 
-Definition RMod_Cocomplete_via_GAFT@{a c p o x so +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, so <= c +}
-  (R : RingObject@{a c p}) : @Cocomplete@{c so c o} (RMod@{o x a p c} R) :=
+Definition RMod_Cocomplete_via_GAFT@{a c p o so +|
+    Set < c, c < o, p <= a, c <= a, a <= o, so <= c +}
+  (R : RingObject@{a c p}) : @Cocomplete@{c so c o} (RMod@{o a p c} R) :=
   fun J F =>
     Diagonal_left_adjoint_HasColimits (projT2 (RMod_colim_via_GAFT R J)) F.
 
 (** ** Coproducts, coequalizers and the initial module *)
 
-Definition RMod_FinitelyCocomplete_via_GAFT@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  (R : RingObject@{a c p}) : @FinitelyCocomplete (RMod@{o x a p c} R) :=
+Definition RMod_FinitelyCocomplete_via_GAFT@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  (R : RingObject@{a c p}) : @FinitelyCocomplete (RMod@{o a p c} R) :=
   Cocomplete_FinitelyCocomplete (RMod_Cocomplete_via_GAFT R).
 
-Definition RMod_Cocartesian_via_GAFT@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  (R : RingObject@{a c p}) : @Cocartesian (RMod@{o x a p c} R) :=
+Definition RMod_Cocartesian_via_GAFT@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  (R : RingObject@{a c p}) : @Cocartesian (RMod@{o a p c} R) :=
   FinitelyComplete_Cartesian
     (FinitelyCocomplete_FinitelyComplete_op
        (RMod_FinitelyCocomplete_via_GAFT R)).
 
-Definition RMod_HasCoequalizers_via_GAFT@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  (R : RingObject@{a c p}) : HasCoequalizers (RMod@{o x a p c} R) :=
+Definition RMod_HasCoequalizers_via_GAFT@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  (R : RingObject@{a c p}) : HasCoequalizers (RMod@{o a p c} R) :=
   HasCoequalizers_of_HasEqualizers_op
     (FinitelyComplete_HasEqualizers
        (FinitelyCocomplete_FinitelyComplete_op
           (RMod_FinitelyCocomplete_via_GAFT R))).
 
-Definition RMod_Initial_via_GAFT@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  (R : RingObject@{a c p}) : @Initial (RMod@{o x a p c} R) :=
+Definition RMod_Initial_via_GAFT@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  (R : RingObject@{a c p}) : @Initial (RMod@{o a p c} R) :=
   FinitelyCocomplete_Initial (RMod_FinitelyCocomplete_via_GAFT R).
 
 (** ** Non-vacuity *)
 
 (* The initial module the theorem produces is the zero module: the
    identity and the zero homomorphism are two arrows out of it. *)
-Lemma RMod_initial_via_GAFT_trivial@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
+Lemma RMod_initial_via_GAFT_trivial@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}}
   (a0 : carrier (cmon_setoid
-          (@initial_obj (RMod@{o x a p c} R) (RMod_Initial_via_GAFT R)))) :
+          (@initial_obj (RMod@{o a p c} R) (RMod_Initial_via_GAFT R)))) :
   a0 ≈ cmon_zero _.
 Proof.
   exact (@zero_unique (RMod R) (RMod_Initial_via_GAFT R) _ id rmod_hom_zero a0).
@@ -496,17 +498,17 @@ Qed.
 
 (* The left injection of the coproduct is split by the copairing of the
    identity with the zero homomorphism ... *)
-Lemma RMod_inl_via_GAFT_retract@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} (M N : obj[RMod@{o x a p c} R]) :
+Lemma RMod_inl_via_GAFT_retract@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} (M N : obj[RMod@{o a p c} R]) :
   @merge (RMod R) (RMod_Cocartesian_via_GAFT R) _ _ _ id rmod_hom_zero
     ∘ @inl (RMod R) (RMod_Cocartesian_via_GAFT R) M N ≈ id.
 Proof. exact (@inl_merge (RMod R) (RMod_Cocartesian_via_GAFT R) _ _ _ _ _). Qed.
 
 (* ... and is therefore injective. *)
-Lemma RMod_inl_via_GAFT_injective@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} (M N : obj[RMod@{o x a p c} R])
+Lemma RMod_inl_via_GAFT_injective@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} (M N : obj[RMod@{o a p c} R])
   (a0 b0 : carrier (cmon_setoid M)) :
   cmon_map (rm_hom (@inl (RMod R) (RMod_Cocartesian_via_GAFT R) M N)) a0
     ≈ cmon_map (rm_hom (@inl (RMod R) (RMod_Cocartesian_via_GAFT R) M N)) b0 →
@@ -521,9 +523,9 @@ Proof.
 Qed.
 
 (* The coproduct of ℤ with itself, as a ℤ-module, is not a subsingleton. *)
-Example RMod_coproduct_via_GAFT_nontrivial@{c o x +| Set < c, c < o, c < x +} :
+Example RMod_coproduct_via_GAFT_nontrivial@{c o +| Set < c, c < o +} :
   (∀ a0 b0 : carrier (cmon_setoid
-       (@Coprod (RMod@{o x c c c} Int_Ring@{c c c})
+       (@Coprod (RMod@{o c c c} Int_Ring@{c c c})
                 (RMod_Cocartesian_via_GAFT Int_Ring)
                 (Ring_RMod Int_Ring) (Ring_RMod Int_Ring))),
      a0 ≈ b0) → False.

@@ -411,7 +411,7 @@ Proof.
 Defined.
 
 (* to : T A → ⨁, the SHARED extension of the insertion. *)
-Definition tw_to_rng@{+} : FreeRngAbObject A ~{Rng@{u p}}~> TWRing A :=
+Definition tw_to_rng@{+} : FreeRngAbObject A ~{Rng@{p}}~> TWRing A :=
   free_rng_ab_extend tw_insert.
 
 (* from : ⨁ → T A, each word to the product of its letters. *)

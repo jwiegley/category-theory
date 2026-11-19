@@ -534,7 +534,7 @@ Qed.
 Definition pquot_fmap@{h o | o < h +} {X Y : PairTop@{o}}
   (f : X ~{Top_pairs@{h o}}~> Y) :
   pquot_pointed X ~{Top_pointed@{h o}}~> pquot_pointed Y :=
-  @Build_PointedMap@{h o} (pquot_pointed X) (pquot_pointed Y)
+  @Build_PointedMap@{o} (pquot_pointed X) (pquot_pointed Y)
     (@Build_ContinuousMorphism@{h o} (pquot_space X) (pquot_space Y)
        (pquot_fmap_map f) (pquot_fmap_cont f))
     ttt.
@@ -594,7 +594,7 @@ Defined.
 Definition pquot_from@{h o | o < h +} (X : PairTop@{o}) (Y : PointedTop@{o})
   (g : X ~{Top_pairs@{h o}}~> point_pair Y) :
   pquot_pointed X ~{Top_pointed@{h o}}~> Y :=
-  @Build_PointedMap@{h o} (pquot_pointed X) Y
+  @Build_PointedMap@{o} (pquot_pointed X) Y
     (tquot_desc (pair_space X) (pquot_carrier X) (pquot_some X)
        (ptop_space Y) (pair_map g) (pquot_from_map X Y g)
        (fun x => reflexivity _))
@@ -727,7 +727,7 @@ Definition pair_sub_incl@{h o | o < h +} (X : PairTop@{o}) :
 (* The new point, as a map from the one-point space. *)
 Definition pquot_base@{h o | o < h +} (X : PairTop@{o}) :
   Point_Top@{o} ~{Top@{h o}}~> pquot_space X :=
-  top_point@{h o} (pquot_space X) None.
+  top_point@{o} (pquot_space X) None.
 
 Section Pushout.
 
@@ -970,10 +970,10 @@ Definition pquot_collapse_iso_pointed@{o h u | o < h, h < u +}
   collapse_pointed X a0 ≅[Top_pointed@{h o}] fobj[PairQuotient@{h o}] X :=
   @Build_Isomorphism Top_pointed@{h o} (collapse_pointed X a0)
     (fobj[PairQuotient@{h o}] X)
-    (@Build_PointedMap@{h o} (collapse_pointed X a0)
+    (@Build_PointedMap@{o} (collapse_pointed X a0)
        (fobj[PairQuotient@{h o}] X) (to (pquot_collapse_iso@{o h u} X a0))
        (projT2 a0))
-    (@Build_PointedMap@{h o} (fobj[PairQuotient@{h o}] X)
+    (@Build_PointedMap@{o} (fobj[PairQuotient@{h o}] X)
        (collapse_pointed X a0) (from (pquot_collapse_iso@{o h u} X a0))
        (inl (reflexivity (projT1 a0))))
     (iso_to_from (pquot_collapse_iso@{o h u} X a0))

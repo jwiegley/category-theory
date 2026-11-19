@@ -582,7 +582,8 @@ Proof.
        (Fin.t 3) (is_setoid powerset_fin3@{o})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ i : Fin.t 3, i = Fin.F1 \/ i = Fin.FS Fin.F1) _).
-  intros x y Hxy; rewrite Hxy; split; intro H; exact H.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition powerset_sub0@{o} : carrier (Powerset_Prop_obj@{o} powerset_fin3@{o}).
@@ -592,7 +593,8 @@ Proof.
        (Fin.t 3) (is_setoid powerset_fin3@{o})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ i : Fin.t 3, i = Fin.F1) _).
-  intros x y Hxy; rewrite Hxy; split; intro H; exact H.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 (* The two subsets are genuinely different: 1 belongs to one and not the
@@ -649,7 +651,8 @@ Proof.
        (Fin.t 2) (is_setoid powerset_fin2@{o})
        (Fin.t 2) (is_setoid powerset_fin2@{o})
        (λ _, Fin.F1) _).
-  intros x y _; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition powerset_sng1@{o} : carrier (Powerset_Prop_obj@{o} powerset_fin2@{o}) :=
@@ -763,7 +766,7 @@ Lemma Powerset_subset_incl_monic@{o so} {A : SetoidObject@{o o}}
   (S : carrier (Powerset_Prop_obj@{o} A)) :
   @Monic Sets@{o so} _ _ (Powerset_subset_incl@{o so} S).
 Proof.
-  apply (injectivity_is_monic@{so o} (Powerset_subset_incl@{o so} S)).
+  apply (injectivity_is_monic@{o} (Powerset_subset_incl@{o so} S)).
   intros p q H; exact H.
 Qed.
 

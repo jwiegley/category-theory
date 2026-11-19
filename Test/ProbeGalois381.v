@@ -144,8 +144,8 @@ Constraint po <= pgu.
    [GrpObject@{pgu po po}]: [pgu] keeps its role, only its position moved.
    The constraints on this section are unchanged. *)
 Context (Gp : GrpObject@{pgu po po}).
-Context (Ap : MSetoidAction@{po po pgu pgu pgu po po pgu}
-                (grp_mon@{pgu po po} Gp)).
+Context (Ap : MSetoidAction@{po po po po}
+                (grp_mon@{po po} Gp)).
 
 (* The control: the connection DOES inhabit the antitone reading. *)
 Check (group_action_galois Gp Ap
@@ -242,14 +242,14 @@ Constraint qo < qh.
 Constraint qh <= qgu.
 
 Context (Gq : GrpObject@{qgu qo qh}).
-Context (Aq : MSetoidAction@{qo qh qgu qgu qgu qo qh qgu}
-                (grp_mon@{qgu qo qh} Gq)).
+Context (Aq : MSetoidAction@{qo qh qo qh}
+                (grp_mon@{qo qh} Gq)).
 
 (* Controls, at those very levels. *)
 Check (grp_setoid Gq).
 Check (act_setoid Aq).
 Check (carrier (grp_setoid Gq)).
-Check (grp_mon@{qgu qo qh} Gq).
+Check (grp_mon@{qo qh} Gq).
 
 Fail Check (Subsets (grp_setoid Gq)).
 

@@ -133,7 +133,8 @@ Context {P : Category@{jo jh jh}} {X : Category@{co ch ch}}.
 Check (@Functor_Category_Complete P X).
 
 (* N2 UNIVERSE: the bare one is refused there ("Cannot enforce jh = jo") *)
-Fail Check (@p425_bare_complete P X).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@p425_bare_complete P X).
 
 End Annotation.
 

@@ -506,7 +506,10 @@ Proof.
   unshelve eexists.
   - refine {| morphism :=
                 fun t => `1 (epic_implies_surjective@{h p} g He (f t)) |}.
-    now intros t t' Ht; rewrite Ht.
+    (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+       filled by typeclass resolution ([reflexive_proper] and
+       [reflexive_eq_dom_reflexive], the equality of [LeibnizSetoid] being
+       [eq]). *)
   - intro t; simpl.
     exact (`2 (epic_implies_surjective@{h p} g He (f t))).
 Defined.

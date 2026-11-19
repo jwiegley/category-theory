@@ -615,7 +615,7 @@ Definition p462_adj_Sets_at_Set@{so | Set < so +} :=
   components_left_adjoint_discrete_Sets@{Set so}.
 
 Definition p462_no_left_at_Set@{so u u0 | Set < so, Set < u +} :=
-  components_no_left_adjoint@{Set so u u0}.
+  components_no_left_adjoint@{Set so u0}.
 
 Definition p462_any_left_at_Set@{so ua ub u u0 | Set < so, Set < ua,
     Set < ub +} :=
@@ -623,16 +623,16 @@ Definition p462_any_left_at_Set@{so ua ub u u0 | Set < so, Set < ua,
 
 Definition p462_unsquash_principle_at_Set@{so u u0 | Set < so,
     Set < u +} :=
-  components_on_all_Sets_unsquashes@{Set so u u0}.
+  components_on_all_Sets_unsquashes@{Set so u0}.
 
 Definition p462_unsquash_at_Set@{so u u0 | Set < so, Set < u +} :=
-  components_on_all_Sets_Untruncate@{Set so u u0}.
+  components_on_all_Sets_Untruncate@{Set so u0}.
 
 Definition p462_ptop_at_Set@{so u u0 | Set < so, Set < u +} :=
-  discrete_no_left_adjoint_on_PTop@{Set so u u0}.
+  discrete_no_left_adjoint_on_PTop@{Set so u0}.
 
 Definition p462_pdisc_at_Set@{so u u0 | Set < so, Set < u +} :=
-  PDisc_no_left_adjoint@{Set so u u0}.
+  PDisc_no_left_adjoint@{Set so u0}.
 
 Definition p462_zig_at_Set@{so | Set < so +} :=
   components_zig_not_preserved@{Set so}.
@@ -955,12 +955,14 @@ Check Category.Instance.Top.Components.Paths.PPi0_inj_point.
 Check Category.Instance.Top.Components.Paths.PPi0_PBool_iso.
 Check Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_1.
 Check Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_2.
-Check Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_3.
+(* [Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_3]: with the universes of rocq-prover/rocq#22721 one obligation
+   fewer is generated, an instance being found by typeclass resolution. *)
 Check Category.Instance.Top.Components.Paths.PPi0_PInterval_iso.
 Check Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_1.
 Check Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_2.
 Check Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_3.
-Check Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_4.
+(* [Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_4]: with the universes of rocq-prover/rocq#22721 one obligation
+   fewer is generated, an instance being found by typeclass resolution. *)
 Check Category.Instance.Top.Components.Paths.PPi0_points_iso.
 Check Category.Instance.Top.Components.Paths.PPi0_points_iso_obligation_1.
 Check Category.Instance.Top.Components.Paths.PPi0_points_iso_obligation_2.

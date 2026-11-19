@@ -501,23 +501,23 @@ Open Scope category_scope.
 (** ** (A) The three bundles *)
 
 Definition Sets_Topos@{o so} (U : Untruncate@{o}) :
-  ElementaryTopos@{so so o} Sets@{o so} :=
+  ElementaryTopos@{so o} Sets@{o so} :=
   {| topos_terminal   := Sets_Terminal@{so o}
-   ; topos_cartesian  := Sets_Cartesian@{so o}
-   ; topos_pullbacks  := Sets_HasPullbacks@{so o}
-   ; topos_closed     := Sets_Closed@{so o}
+   ; topos_cartesian  := Sets_Cartesian@{o}
+   ; topos_pullbacks  := Sets_HasPullbacks@{o}
+   ; topos_closed     := Sets_Closed@{o}
    ; topos_classifier := Sets_Classifier@{o so} U |}.
 
 Definition Sets_Topos_dec@{o so} (D : DecImage@{o so}) :
-  ElementaryTopos@{so so o} Sets@{o so} :=
+  ElementaryTopos@{so o} Sets@{o so} :=
   {| topos_terminal   := Sets_Terminal@{so o}
-   ; topos_cartesian  := Sets_Cartesian@{so o}
-   ; topos_pullbacks  := Sets_HasPullbacks@{so o}
-   ; topos_closed     := Sets_Closed@{so o}
+   ; topos_cartesian  := Sets_Cartesian@{o}
+   ; topos_pullbacks  := Sets_HasPullbacks@{o}
+   ; topos_closed     := Sets_Closed@{o}
    ; topos_classifier := Sets_Classifier_dec@{o so} D |}.
 
 Definition Sets_Topos_IEM@{o so} (E : IEM@{o}) :
-  ElementaryTopos@{so so o} Sets@{o so} :=
+  ElementaryTopos@{so o} Sets@{o so} :=
   Sets_Topos@{o so} (untruncate_of_IEM@{o} E).
 
 Example sets_topos_terminal (U : Untruncate) :
@@ -553,7 +553,7 @@ Proof. destruct t; reflexivity. Qed.
    explicit binders rather than inside a Section: see universe reading
    (1) in the header. *)
 Definition PBONE@{o so} (a b : obj[Sets@{o so}]) :=
-  @pullback Sets@{o so} Sets_HasPullbacks@{so o} a b
+  @pullback Sets@{o so} Sets_HasPullbacks@{o} a b
     (@terminal_obj Sets@{o so} Sets_Terminal@{so o}) one one.
 
 Definition pbone@{o so} (a b : obj[Sets@{o so}]) : obj[Sets@{o so}] :=

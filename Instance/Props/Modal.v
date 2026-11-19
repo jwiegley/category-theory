@@ -221,7 +221,7 @@ Definition modal_talgebra_iff@{u h u0 +} (B p : Prop) :
               h I I).
 
 Example modal_talgebra_round@{u h p} (B p : Prop) (h : (B → p) → p) :
-  match modal_talgebra_iff@{u h p} B p with
+  match modal_talgebra_iff@{u h p _} B p with
   | (to_closed, of_closed) => to_closed (of_closed h)
   end = h := eq_refl.
 
@@ -243,14 +243,14 @@ Qed.
    [Prod_Functor] each carry a level absent from their own types, pinned
    here to e. *)
 Definition curry_functor@{u h e | h < e +}
-  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{h}) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
   @Compose@{u u u h} Props@{u h} Props@{u h} Props@{u h}
     (@Exp_Functor Props@{u h} _ CL B)
     (@Prod_Functor Props@{u h} _ B).
 
 Definition curry_cofunctor@{u h e | h < e +}
-  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{h}) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
   @Compose@{u u u h} Props@{u h} Props@{u h} Props@{u h}
     (@Prod_Functor Props@{u h} _ B)
@@ -260,7 +260,7 @@ Definition curry_cofunctor@{u h e | h < e +}
    free in its block and is pinned to h. *)
 Definition curry_monad@{u h e | h < e +} (B : Prop) :
   @Monad Props@{u h} (curry_functor@{u h e} Props_Closed B) :=
-  @Adjunction_Monad@{u h u h e h} Props@{u h} Props@{u h} _ _
+  @Adjunction_Monad@{u h u h h} Props@{u h} Props@{u h} _ _
     (@Curry_Adjunction@{u h e} Props@{u h} _ _ B).
 
 (* Its functor is B ⇒ (− ∧ B), on the nose. *)

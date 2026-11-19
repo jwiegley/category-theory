@@ -107,7 +107,7 @@ Lemma no_top_indisc_to_bool@{o h | o < h +}
   (∀ b : bool, continuous_map g b = b) → False.
 Proof.
   intros Hg.
-  apply (@indiscrete_to_discrete_id_not_continuous@{h o}).
+  apply (@indiscrete_to_discrete_id_not_continuous@{o}).
   intros U HU.
   apply (open_respects TwoPoint_Indiscrete@{o}
            (fun x => U (continuous_map g x))).

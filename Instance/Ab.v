@@ -233,7 +233,10 @@ Program Definition Ab@{u p} : Category@{u p p} := {|
 |}.
 
 (** The forgetful functor to [Sets], through the underlying setoid. *)
-Program Definition Ab_Forget : Ab ⟶ Sets := {|
+(* The universes are declared, in the order of the annotations of the tree:
+   the objects of [Ab], those of [Sets], then the carriers. Inferred, with the
+   universes of rocq-prover/rocq#22721 the carriers would come second. *)
+Program Definition Ab_Forget@{a s c} : Ab@{a c} ⟶ Sets@{c s} := {|
   fobj := fun A => cmon_setoid (ab_cmon A);
   fmap := fun _ _ f => cmon_map f
 |}.

@@ -385,7 +385,7 @@ Generalizable All Variables.
 Example p465_ctl_join@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r1 r2 : carrier (rig_setoid (ring_rig R)))
   (a0 : carrier A) :
-  cmon_map (@join _ _ (TensorMonad@{a c p o x} R) A)
+  cmon_map (@join _ _ (TensorMonad@{a c p o} R) A)
     (@ts_gen (ring_ab R) (AbTensor (ring_ab R) A) r1
        (@ts_gen (ring_ab R) A r2 a0))
   = @ts_gen (ring_ab R) A (rig_mul (ring_rig R) r1 r2) a0
@@ -394,11 +394,11 @@ Example p465_ctl_join@{a c p o x} (R : RingObject@{a c p})
 (* N0 *)
 Check @RingObject@{_ _ _}.
 Check @Ab@{_ _}.
-Check @TensorMonad@{_ _ _ _ _}.
+Check @TensorMonad@{_ _ _ _}.
 Fail Example p465_N0_instrument@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r1 r2 : carrier (rig_setoid (ring_rig R)))
   (a0 : carrier A) :
-  cmon_map (@join _ _ (TensorMonad@{a c p o x} R) A)
+  cmon_map (@join _ _ (TensorMonad@{a c p o} R) A)
     (@ts_gen (ring_ab R) (AbTensor (ring_ab R) A) r1
        (@ts_gen (ring_ab R) A r2 a0))
   = @ts_gen (ring_ab R) A (rig_mul (ring_rig R) r2 r1) a0
@@ -406,7 +406,7 @@ Fail Example p465_N0_instrument@{a c p o x} (R : RingObject@{a c p})
 
 (* CONTROL: over ℤ, μ (3 ⊗ (4 ⊗ a)) = 12 ⊗ a. *)
 Example p465_ctl_join_Z@{o x} (a0 : Z) :
-  cmon_map (@join _ _ (TensorMonad@{Set Set Set o x} Int_Ring)
+  cmon_map (@join _ _ (TensorMonad@{Set Set Set o} Int_Ring)
               (ring_ab Int_Ring))
     (@ts_gen (ring_ab Int_Ring)
        (AbTensor (ring_ab Int_Ring) (ring_ab Int_Ring))
@@ -415,7 +415,7 @@ Example p465_ctl_join_Z@{o x} (a0 : Z) :
 
 (* N0Z *)
 Fail Example p465_N0Z_instrument@{o x} (a0 : Z) :
-  cmon_map (@join _ _ (TensorMonad@{Set Set Set o x} Int_Ring)
+  cmon_map (@join _ _ (TensorMonad@{Set Set Set o} Int_Ring)
               (ring_ab Int_Ring))
     (@ts_gen (ring_ab Int_Ring)
        (AbTensor (ring_ab Int_Ring) (ring_ab Int_Ring))
@@ -426,72 +426,72 @@ Fail Example p465_N0Z_instrument@{o x} (a0 : Z) :
 
 (* CONTROL: the round trip on its group and on its action. *)
 Example p465_ctl_rt_ab@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_ab (fobj[EM_to_RMod@{a c p o x} R
-        ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+        ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_ab M
   := eq_refl.
 
 Example p465_ctl_rt_smul@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul (fobj[EM_to_RMod@{a c p o x} R
-        ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+        ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul M
   := eq_refl.
 
 (* N1 *)
-Check @RMod@{_ _ _ _ _}.
+Check @RMod@{_ _ _ _}.
 Check @EM_to_RMod@{_ _ _ _ _}.
-Check @zext_adjunction@{_ _ _ _ _ _ _ _}.
+Check @zext_adjunction@{_ _ _ _}.
 Fail Example p465_N1_rt_obj@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   fobj[EM_to_RMod@{a c p o x} R
-        ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M
+        ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M
   = M
   := eq_refl.
 
 (* N2 *)
 Fail Example p465_N2_rt_respects@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul_respects
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul_respects M
   := eq_refl.
 
 (* N3 *)
 Fail Example p465_N3_rt_distr_l@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul_distr_l
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul_distr_l M
   := eq_refl.
 
 (* N4 *)
 Fail Example p465_N4_rt_distr_r@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul_distr_r
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul_distr_r M
   := eq_refl.
 
 (* N5 *)
 Fail Example p465_N5_rt_assoc@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul_assoc
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul_assoc M
   := eq_refl.
 
 (* N6 *)
 Fail Example p465_N6_rt_one@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
+  (M : obj[RMod@{o a p c} R]) :
   rm_smul_one
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
   = rm_smul_one M
   := eq_refl.
 
@@ -500,60 +500,60 @@ Fail Example p465_N6_rt_one@{a c p o x} (R : RingObject@{a c p})
 (* CONTROL: the round trip on its carrier, its structure map on each
    generator r ⊗ m, and at every formal sum up to ≈. *)
 Example p465_ctl_rt2_carrier@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
-  `1 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
+  `1 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
         ◯ EM_to_RMod@{a c p o x} R] X)
   = `1 X
   := eq_refl.
 
 Example p465_ctl_rt2_gen@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
-  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
           ◯ EM_to_RMod@{a c p o x} R] X)])
     (@ts_gen (ring_ab R) (`1 X) r m)
   = cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m)
   := eq_refl.
 
 Example p465_ctl_rt2_equiv@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (s : carrier (AbTensor (ring_ab R) (`1 X))) :
-  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
           ◯ EM_to_RMod@{a c p o x} R] X)]) s
   ≈ cmon_map (t_alg[`2 X]) s :=
   ltac:(refine (tensor_hom_ext _ _ _ s); intros r m; reflexivity).
 
 (* N7 *)
 Check @EilenbergMoore@{_ _ _}.
-Check @TensorF@{_ _ _ _ _}.
+Check @TensorF@{_ _ _ _}.
 Fail Example p465_N7_rt2_fun@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
   (fun s =>
      cmon_map
-       (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+       (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
                       ◯ EM_to_RMod@{a c p o x} R] X)]) s)
   = (fun s => cmon_map (t_alg[`2 X]) s)
   := eq_refl.
 
 (* N8 *)
 Fail Example p465_N8_rt2_sum@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (s : carrier (AbTensor (ring_ab R) (`1 X))) :
-  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
           ◯ EM_to_RMod@{a c p o x} R] X)]) s
   = cmon_map (t_alg[`2 X]) s
   := eq_refl.
 
 (* N9 *)
 Fail Example p465_N9_rt2_obj@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
-  fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
+  fobj[EM_Comparison (zext_adjunction@{a c p a} R)
         ◯ EM_to_RMod@{a c p o x} R] X
   = X
   := eq_refl.
@@ -563,26 +563,26 @@ Fail Example p465_N9_rt2_obj@{a c p o x} (R : RingObject@{a c p})
 (* N10 *)
 Fail Example p465_N10_rt_functor@{a c p o x} (R : RingObject@{a c p}) :
   EM_to_RMod@{a c p o x} R
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)
-  = Id[RMod@{o x a p c} R]
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R)
+  = Id[RMod@{o a p c} R]
   := eq_refl.
 
 (* N11 *)
 Fail Example p465_N11_rt2_functor@{a c p o x} (R : RingObject@{a c p}) :
-  EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+  EM_Comparison (zext_adjunction@{a c p a} R)
     ◯ EM_to_RMod@{a c p o x} R
-  = Id[@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)]
+  = Id[@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)]
   := eq_refl.
 
 (** ** Instance/Mod/TensorMonad.v: T f against the bifunctor's 1 ⊗ f *)
 
 (* CONTROL: T f and 1 ⊗ f on a generator, and at every formal sum up
    to ≈. *)
-Example p465_ctl_fmap_gen@{a c p o x} (R : RingObject@{a c p})
+Example p465_ctl_fmap_gen@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (rig_setoid (ring_rig R))) (a0 : carrier A) :
-  cmon_map (fmap[TensorF@{a c p o x} R] f) (@ts_gen (ring_ab R) A s a0)
+  cmon_map (fmap[TensorF@{a c p o} R] f) (@ts_gen (ring_ab R) A s a0)
   = cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f)
       (@ts_gen (ring_ab R) A s a0)
   := eq_refl.
@@ -590,7 +590,7 @@ Example p465_ctl_fmap_gen@{a c p o x} (R : RingObject@{a c p})
 Example p465_ctl_fmap_equiv@{a c p o x} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (AbTensor (ring_ab R) A)) :
-  cmon_map (fmap[TensorF@{a c p o x} R] f) s
+  cmon_map (fmap[TensorF@{a c p o} R] f) s
   ≈ cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f) s :=
   ltac:(refine (tensor_hom_ext _ _ _ s); intros r a0; reflexivity).
 
@@ -598,7 +598,7 @@ Example p465_ctl_fmap_equiv@{a c p o x} (R : RingObject@{a c p})
 Fail Example p465_N12_fmap_sum@{a c p o x} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (AbTensor (ring_ab R) A)) :
-  cmon_map (fmap[TensorF@{a c p o x} R] f) s
+  cmon_map (fmap[TensorF@{a c p o} R] f) s
   = cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f) s
   := eq_refl.
 
@@ -607,36 +607,36 @@ Fail Example p465_N12_fmap_sum@{a c p o x} (R : RingObject@{a c p})
    that N12's two records can be compared field by field. *)
 Definition p465_tm_bilin@{a c p o} (R : RingObject@{a c p})
   {A B : obj[Ab@{o c}]} (f : A ~{Ab@{o c}}~> B) :
-  Bilinear@{c c c c c c c c c c c c c} (ring_ab R) A
+  Bilinear@{c c c c c c} (ring_ab R) A
     (AbTensor (ring_ab R) B) :=
-  @Build_Bilinear@{c c c c c c c c c c c c c} (ring_ab R) A
+  @Build_Bilinear@{c c c c c c} (ring_ab R) A
     (AbTensor (ring_ab R) B)
     (fun g h => @ts_gen (ring_ab R) B
                   (cmon_map (@cmon_hom_id (ring_ab R)) g) (cmon_map f h))
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{c c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{c c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{c c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f).
 
 (* CONTROL (the cause of N12): [tensor_map] at 1 ⊗ f IS the mediator of
    that record; the two records' maps are one; and each side of N12 is
    the stuck mediator of its own record at the variable sum. *)
-Example p465_ctl_n12_record@{a c p o x} (R : RingObject@{a c p})
+Example p465_ctl_n12_record@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
   tensor_map (@cmon_hom_id (ring_ab R)) f
-  = tensor_ump@{c c c c c c c c c} (p465_tm_bilin R f) := eq_refl.
+  = tensor_ump@{c c c c} (p465_tm_bilin R f) := eq_refl.
 
-Example p465_ctl_n12_maps@{a c p o x} (R : RingObject@{a c p})
+Example p465_ctl_n12_maps@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
   bilin_map (zext_map_bilin R f) = bilin_map (p465_tm_bilin R f)
   := eq_refl.
 
-Example p465_ctl_n12_left@{a c p o x} (R : RingObject@{a c p})
+Example p465_ctl_n12_left@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (AbTensor (ring_ab R) A)) :
-  cmon_map (fmap[TensorF@{a c p o x} R] f) s
+  cmon_map (fmap[TensorF@{a c p o} R] f) s
   = @tensor_med_fun _ _ _ (zext_map_bilin R f) s := eq_refl.
 
 Example p465_ctl_n12_right@{a c p o x} (R : RingObject@{a c p})
@@ -673,11 +673,11 @@ Fail Example p465_N12d_add_r@{a c p o x} (R : RingObject@{a c p})
 (* CONTROL: Beck's quasi-inverse acts through η; over ℤ at the scalar 3
    it IS h (3 ⊗ m). *)
 Example p465_ctl_beck_act@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul
-    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
     r m
   = cmon_map (t_alg[`2 X])
       (@ts_gen (ring_ab R) (`1 X)
@@ -686,51 +686,51 @@ Example p465_ctl_beck_act@{a c p o x} (R : RingObject@{a c p})
 
 Example p465_ctl_beck_act_Z@{o x}
   (X : @EilenbergMoore@{o o Set} Ab@{o Set}
-         (TensorF@{Set Set Set o x} Int_Ring)
-         (TensorMonad@{Set Set Set o x} Int_Ring))
+         (TensorF@{Set Set Set o} Int_Ring)
+         (TensorMonad@{Set Set Set o} Int_Ring))
   (m : carrier (`1 X)) :
   rm_smul
     (fobj[@quasi_inverse _ _ _
-            (RMod_beck_equivalence@{Set Set Set o x} Int_Ring)] X) 3%Z m
+            (RMod_beck_equivalence@{Set Set Set o} Int_Ring)] X) 3%Z m
   = cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab Int_Ring) (`1 X) 3%Z m)
   := eq_refl.
 
 (* N13Z *)
-Check @RMod_beck_equivalence@{_ _ _ _ _}.
+Check @RMod_beck_equivalence@{_ _ _ _}.
 Fail Example p465_N13Z_beck_act_var@{o x}
   (X : @EilenbergMoore@{o o Set} Ab@{o Set}
-         (TensorF@{Set Set Set o x} Int_Ring)
-         (TensorMonad@{Set Set Set o x} Int_Ring))
+         (TensorF@{Set Set Set o} Int_Ring)
+         (TensorMonad@{Set Set Set o} Int_Ring))
   (z : Z) (m : carrier (`1 X)) :
   rm_smul
     (fobj[@quasi_inverse _ _ _
-            (RMod_beck_equivalence@{Set Set Set o x} Int_Ring)] X) z m
+            (RMod_beck_equivalence@{Set Set Set o} Int_Ring)] X) z m
   = cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab Int_Ring) (`1 X) z m)
   := eq_refl.
 
 (* N13 *)
 Fail Example p465_N13_beck_act_strict@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul
-    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
     r m
   = cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m)
   := eq_refl.
 
 (* N14 *)
 Fail Example p465_N14_beck_qi@{a c p o x} (R : RingObject@{a c p}) :
-  @quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)
+  @quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)
   = EM_to_RMod@{a c p o x} R
   := eq_refl.
 
 (* CONTROL: the two witnesses inhabit one type. *)
 Example p465_ctl_monadic_type@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
-    (RMod_Forget_Ab@{x o o a p c} R)
-  * @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
-      (RMod_Forget_Ab@{x o o a p c} R)
+  @Monadic@{o x o o o c o} (RMod@{o a p c} R) Ab@{o c}
+    (RMod_Forget_Ab@{o o a p c} R)
+  * @Monadic@{o x o o o c o} (RMod@{o a p c} R) Ab@{o c}
+      (RMod_Forget_Ab@{o o a p c} R)
   := (RMod_Forget_Ab_Monadic_beck@{a c p o x} R,
       RMod_Forget_Ab_Monadic@{a c p o x} R).
 
@@ -746,32 +746,32 @@ Fail Example p465_N15_monadic_same@{a c p o x} (R : RingObject@{a c p}) :
 
 (* C0 *)
 Check @Category@{_ _ _}.
-Check @RMod_Forget_Ab@{_ _ _ _ _ _}.
+Check @RMod_Forget_Ab@{_ _ _ _ _}.
 Check @IsLimitCone@{_ _ _ _}.
 Fail Fail Example p465c_C0_instrument@{a c p o x j l l0}
   {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) :
   rm_ab (ColimMod N HN) = vertex_obj[N] := eq_refl.
 
 (* CONTROL: the created module's group and insertions, and the action on
    an inserted element up to ≈. *)
-Example p465c_ctl_obj@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Example p465c_ctl_obj@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) :
   rm_ab (ColimMod N HN) = vertex_obj[N] := eq_refl.
 
-Example p465c_ctl_legs@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+Example p465c_ctl_legs@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N) (i : J) :
   rm_hom (mcol_hom N HN i) = cone_leg N i := eq_refl.
 
 Example p465c_ctl_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (i : J) (m : carrier (rm_ab (K i))) :
@@ -781,8 +781,8 @@ Example p465c_ctl_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
 
 (* C1 *)
 Fail Example p465c_C1_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (i : J) (m : carrier (rm_ab (K i))) :
@@ -791,39 +791,39 @@ Fail Example p465c_C1_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
 
 (* CONTROL: the module reflected from a cocone M of modules has M's
    group, and its mediators compute to the Ab ones. *)
-Example p465c_ctl_reflect_group@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
+Example p465c_ctl_reflect_group@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
   (M : Cone (K^op))
   (HM : IsLimitCone@{l j c o}
-          (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M)) :
-  rm_ab (ColimMod (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M) HM)
+          (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M)) :
+  rm_ab (ColimMod (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M) HM)
   = rm_ab (vertex_obj[M]) := eq_refl.
 
 Example p465c_ctl_reflect_mediator@{a c p o x j l l0}
   {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
   (M : Cone (K^op))
   (HM : IsLimitCone@{l j c o}
-          (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M))
+          (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M))
   (P : Cone (K^op)) :
   rm_hom (unique_obj (mcol_reflect M HM P))
-  = unique_obj (HM (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) P))
+  = unique_obj (HM (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) P))
   := eq_refl.
 
 (* C2 *)
 Fail Example p465c_C2_reflect_is_self@{a c p o x j l l0}
   {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
   (M : Cone (K^op))
   (HM : IsLimitCone@{l j c o}
-          (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M)) :
-  ColimMod (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M) HM
+          (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M)) :
+  ColimMod (FCone ((RMod_Forget_Ab@{o o a p c} R)^op) M) HM
   = vertex_obj[M] := eq_refl.
 
 (* CONTROL: two colimit witnesses of one cocone act alike up to ≈. *)
 Example p465c_ctl_two_witnesses@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN HN' : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (b : carrier (@vertex_obj _ _ _ N)) :
@@ -834,58 +834,58 @@ Example p465c_ctl_two_witnesses@{a c p o x j l l0} {R : RingObject@{a c p}}
 (* C3 *)
 Fail Example p465c_C3_two_witnesses@{a c p o x j l l0}
   {R : RingObject@{a c p}}
-  {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
-  (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
+  {J : Category@{j c c}} {K : J ⟶ RMod@{o a p c} R}
+  (N : Cone ((RMod_Forget_Ab@{o o a p c} R)^op ◯ K^op))
   (HN HN' : IsLimitCone@{l j c o} N) :
   ColimMod N HN = ColimMod N HN' := eq_refl.
 
 (* CONTROL: the lift read back through [creates_colimit_lift] has the
    given nadir as its group and IS [ColimMod] of the colimit read in the
    opposite category. *)
-Example p465c_ctl_lift_apex@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (K : J ⟶ RMod@{o x a p c} R)
-  (L : Colimit (RMod_Forget_Ab@{x o o a p c} R ◯ K)) :
+Example p465c_ctl_lift_apex@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
+  (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   rm_ab (vertex_obj[creates_colimit_lift
-           (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K) L])
+           (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L])
   = vertex_obj[L] := eq_refl.
 
-Example p465c_ctl_lift_module@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (K : J ⟶ RMod@{o x a p c} R)
-  (L : Colimit (RMod_Forget_Ab@{x o o a p c} R ◯ K)) :
+Example p465c_ctl_lift_module@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
+  (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   vertex_obj[creates_colimit_lift
-     (RMod_Forget_Ab_CreatesColimit@{a c p o x j l l0} K) L]
+     (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L]
   = ColimMod (cone_op_comp (@limit_cone _ _ _ L))
       (islimitcone_op_comp (limit_limitcone L)) := eq_refl.
 
 (* CONTROL: at a shape with a terminal object the created action is
    K(!)(r · m) on the nose and K 1's own up to ≈. *)
-Example p465c_ctl_terminal_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
+Example p465c_ctl_terminal_smul@{a c p o j l l0} {R : RingObject@{a c p}}
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R)
   (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab (K (@terminal_obj J T)))) :
   rm_smul (vertex_obj[@limit_cone _ _ _
-             (rmod_terminal_colimit@{a c p o x j l l0} T K)]) r m
+             (rmod_terminal_colimit@{a c p o j} T K)]) r m
   = cmon_map (rm_hom (fmap[K] (@one J T (@terminal_obj J T))))
       (rm_smul (K (@terminal_obj J T)) r m) := eq_refl.
 
 Example p465c_ctl_terminal_own@{a c p o x j l l0} {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R)
   (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab (K (@terminal_obj J T)))) :
   rm_smul (vertex_obj[@limit_cone _ _ _
-             (rmod_terminal_colimit@{a c p o x j l l0} T K)]) r m
+             (rmod_terminal_colimit@{a c p o j} T K)]) r m
   ≈ rm_smul (K (@terminal_obj J T)) r m :=
   rmod_terminal_smul_own T K r m.
 
 (* C4 *)
-Check @rmod_terminal_colimit@{_ _ _ _ _ _ _ _}.
+Check @rmod_terminal_colimit@{_ _ _ _ _}.
 Fail Example p465c_C4_terminal_own@{a c p o x j l l0}
   {R : RingObject@{a c p}}
-  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o x a p c} R)
+  {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R)
   (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab (K (@terminal_obj J T)))) :
   rm_smul (vertex_obj[@limit_cone _ _ _
-             (rmod_terminal_colimit@{a c p o x j l l0} T K)]) r m
+             (rmod_terminal_colimit@{a c p o j} T K)]) r m
   = rm_smul (K (@terminal_obj J T)) r m := eq_refl.
 
 (** ** Instance/Mod/TensorMonad/Cocontinuous.v *)
@@ -894,7 +894,7 @@ Fail Example p465c_C4_terminal_own@{a c p o x j l l0}
    it, up to ≈; and over ℤ at the scalar 3 without it, on the nose. *)
 Example p465c_ctl_to@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF@{c c c o} R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -905,7 +905,7 @@ Example p465c_ctl_to@{c o x} (R : RingObject@{c c c})
 
 Example p465c_ctl_to_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF@{c c c o} R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -914,7 +914,7 @@ Example p465c_ctl_to_gen@{c o x} (R : RingObject@{c c c})
   tensor_hom_to_gen R A B φ a r.
 
 Example p465c_ctl_to_Z@{o x} (A B : obj[Ab@{o Set}])
-  (φ : fobj[TensorF@{Set Set Set o x} Int_Ring] A ~{Ab@{o Set}}~> B)
+  (φ : fobj[TensorF@{Set Set Set o} Int_Ring] A ~{Ab@{o Set}}~> B)
   (a : carrier (cmon_setoid A)) :
   @cmon_map (ab_cmon (ring_ab Int_Ring)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _
@@ -924,7 +924,7 @@ Example p465c_ctl_to_Z@{o x} (A B : obj[Ab@{o Set}])
 (* C5Z *)
 Check @TensorF_left_adjoint@{_ _ _}.
 Fail Example p465c_C5Z_to_var@{o x} (A B : obj[Ab@{o Set}])
-  (φ : fobj[TensorF@{Set Set Set o x} Int_Ring] A ~{Ab@{o Set}}~> B)
+  (φ : fobj[TensorF@{Set Set Set o} Int_Ring] A ~{Ab@{o Set}}~> B)
   (a : carrier (cmon_setoid A)) (z : Z) :
   @cmon_map (ab_cmon (ring_ab Int_Ring)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _
@@ -934,7 +934,7 @@ Fail Example p465c_C5Z_to_var@{o x} (A B : obj[Ab@{o Set}])
 (* C5 *)
 Fail Example p465c_C5_to@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF@{c c c o} R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -945,7 +945,7 @@ Fail Example p465c_C5_to@{c o x} (R : RingObject@{c c c})
 Example p465c_ctl_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -955,7 +955,7 @@ Example p465c_ctl_from@{c o x} (R : RingObject@{c c c})
 Example p465c_ctl_from_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -964,8 +964,8 @@ Example p465c_ctl_from_gen@{c o x} (R : RingObject@{c c c})
 
 Example p465c_ctl_from_Z@{o x} (A B : obj[Ab@{o Set}])
   (ψ : A ~{Ab@{o Set}}~>
-     fobj[RMod_Forget_Ab@{x o o Set Set Set} Int_Ring
-          ◯ Coextension@{Set Set Set o x} Int_Ring] B)
+     fobj[RMod_Forget_Ab@{o o Set Set Set} Int_Ring
+          ◯ Coextension@{Set Set} Int_Ring] B)
   (a : carrier (cmon_setoid A)) :
   cmon_map (from (@adj _ _ _ _
      (TensorF_left_adjoint@{Set o x} Int_Ring) A B) ψ)
@@ -974,11 +974,11 @@ Example p465c_ctl_from_Z@{o x} (A B : obj[Ab@{o Set}])
   := eq_refl.
 
 (* C6Z *)
-Check @Coextension@{_ _ _ _ _}.
+Check @Coextension@{_ _}.
 Fail Example p465c_C6Z_from_var@{o x} (A B : obj[Ab@{o Set}])
   (ψ : A ~{Ab@{o Set}}~>
-     fobj[RMod_Forget_Ab@{x o o Set Set Set} Int_Ring
-          ◯ Coextension@{Set Set Set o x} Int_Ring] B)
+     fobj[RMod_Forget_Ab@{o o Set Set Set} Int_Ring
+          ◯ Coextension@{Set Set} Int_Ring] B)
   (a : carrier (cmon_setoid A)) (z : Z) :
   cmon_map (from (@adj _ _ _ _
      (TensorF_left_adjoint@{Set o x} Int_Ring) A B) ψ)
@@ -990,7 +990,7 @@ Fail Example p465c_C6Z_from_var@{o x} (A B : obj[Ab@{o Set}])
 Fail Example p465c_C6_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -999,90 +999,92 @@ Fail Example p465c_C6_from@{c o x} (R : RingObject@{c c c})
 
 (* CONTROL: U^T ◯ K against U on objects and arrows on the nose, and as
    functors up to ≈. *)
-Example p465c_ctl_cmp_obj@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
-  fobj[EM_Forget (TensorF@{a c p o x} R)
-         ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M
-  = fobj[RMod_Forget_Ab@{x o o a p c} R] M := eq_refl.
+Example p465c_ctl_cmp_obj@{a c p o} (R : RingObject@{a c p})
+  (M : obj[RMod@{o a p c} R]) :
+  fobj[EM_Forget (TensorF@{a c p o} R)
+         ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M
+  = fobj[RMod_Forget_Ab@{o o a p c} R] M := eq_refl.
 
-Example p465c_ctl_cmp_map@{a c p o x} (R : RingObject@{a c p})
-  (M N : obj[RMod@{o x a p c} R]) (f : M ~{RMod@{o x a p c} R}~> N) :
-  fmap[EM_Forget (TensorF@{a c p o x} R)
-         ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] f
-  = fmap[RMod_Forget_Ab@{x o o a p c} R] f := eq_refl.
+Example p465c_ctl_cmp_map@{a c p o} (R : RingObject@{a c p})
+  (M N : obj[RMod@{o a p c} R]) (f : M ~{RMod@{o a p c} R}~> N) :
+  fmap[EM_Forget (TensorF@{a c p o} R)
+         ◯ EM_Comparison (zext_adjunction@{a c p a} R)] f
+  = fmap[RMod_Forget_Ab@{o o a p c} R] f := eq_refl.
 
 Example p465c_ctl_cmp@{a c p o x} (R : RingObject@{a c p}) :
-  EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)
-  ≈ RMod_Forget_Ab@{x o o a p c} R :=
+  EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R)
+  ≈ RMod_Forget_Ab@{o o a p c} R :=
   rmod_forget_comparison R.
 
 (* C7 *)
 Fail Example p465c_C7_forget_record@{a c p o x} (R : RingObject@{a c p}) :
-  EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)
-  = RMod_Forget_Ab@{x o o a p c} R := eq_refl.
+  EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R)
+  = RMod_Forget_Ab@{o o a p c} R := eq_refl.
 
 (* C7a *)
 Fail Example p465c_C7a_fmap_respects@{a c p o x} (R : RingObject@{a c p}) :
-  @fmap_respects _ _ (EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R))
-  = @fmap_respects _ _ (RMod_Forget_Ab@{x o o a p c} R) := eq_refl.
+  @fmap_respects _ _ (EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R))
+  = @fmap_respects _ _ (RMod_Forget_Ab@{o o a p c} R) := eq_refl.
 
 (* C7b *)
 Fail Example p465c_C7b_fmap_id@{a c p o x} (R : RingObject@{a c p}) :
-  @fmap_id _ _ (EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R))
-  = @fmap_id _ _ (RMod_Forget_Ab@{x o o a p c} R) := eq_refl.
+  @fmap_id _ _ (EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R))
+  = @fmap_id _ _ (RMod_Forget_Ab@{o o a p c} R) := eq_refl.
 
 (* C7c *)
 Fail Example p465c_C7c_fmap_comp@{a c p o x} (R : RingObject@{a c p}) :
-  @fmap_comp _ _ (EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R))
-  = @fmap_comp _ _ (RMod_Forget_Ab@{x o o a p c} R) := eq_refl.
+  @fmap_comp _ _ (EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R))
+  = @fmap_comp _ _ (RMod_Forget_Ab@{o o a p c} R) := eq_refl.
 
 (* CONTROL: the tensor–hom adjunction at [RingObject@{c c c}]. *)
 Definition p465c_ctl_ring_ccc@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{c c c o x} R)
-    (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R) :=
-  Adjunction_Compose (zext_adjunction@{c c c o o x c c} R)
-    (coex_adjunction@{c c c o x c} R).
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{c c c o} R)
+    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R) :=
+  Adjunction_Compose (zext_adjunction@{c c c c} R)
+    (coex_adjunction@{c c c} R).
 
 (* CONTROL (for C8 and C8a): at [RingObject@{a c p}] under an extensible
    binder the same composite is accepted, elaboration adding a = c and
    a = p. *)
 Definition p465c_ctl_ring_open@{a c p o x | Set < o, c < o, c < x +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{a c p o x} R)
-    (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
-  Adjunction_Compose (zext_adjunction@{a c p o o x a a} R)
-    (coex_adjunction@{a c p o x c} R).
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{a c p o} R)
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+  Adjunction_Compose (zext_adjunction@{a c p a} R)
+    (coex_adjunction@{c p c} R).
 
 (* C8 *)
-Check @Adjunction@{_ _ _ _ _}.
-Check @coex_adjunction@{_ _ _ _ _ _}.
-Check @Category.Instance.Mod.BaseChange.zext_adjunction@{_ _ _ _ _ _ _ _}.
-Check @Category.Instance.Mod.Coextension.coex_adjunction@{_ _ _ _ _ _}.
-Fail Definition p465c_C8_carrier_below@{a c p o x |
+Check @Adjunction@{_ _ _ _ _ _ _ _ _ _ _}.
+Check @coex_adjunction@{_ _ _}.
+Check @Category.Instance.Mod.BaseChange.zext_adjunction@{_ _ _ _}.
+Check @Category.Instance.Mod.Coextension.coex_adjunction@{_ _ _}.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p465c_C8_carrier_below@{a c p o x |
     Set < o, c < o, c < x, c < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{a c p o x} R)
-    (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
-  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)
-    (@Category.Instance.Mod.Coextension.coex_adjunction@{a c p o x c} R).
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{a c p o} R)
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p a} R)
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{c p c} R).
 
 (* C8a *)
-Fail Definition p465c_C8a_proof_below@{a c p o x |
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p465c_C8a_proof_below@{a c p o x |
     Set < o, c < o, c < x, p < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{a c p o x} R)
-    (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
-  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)
-    (@Category.Instance.Mod.Coextension.coex_adjunction@{a c p o x c} R).
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{a c p o} R)
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+  Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p a} R)
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{c p c} R).
 
 (** ** Closure: a readback, not a refutation *)
 

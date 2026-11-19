@@ -707,7 +707,7 @@ Example p470_c65_unit_component@{o so} (A : SmgrpSets@{o so}) :
 (* C66: at an object written as a pair, the uncurried multiplication comes
    back at each literal pair (a, b). *)
 Example p470_c66_sg_rt_smu_at@{o so} (X : SetoidObject@{o o})
-  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{so o} X) (a b : X) :
+  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{o} X) (a b : X) :
   @smu _ _ _ (`2 (fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] (existT _ X σ)))
     (a, b) = @smu _ _ _ σ (a, b) := eq_refl.
 
@@ -718,15 +718,15 @@ Fail Example p470_r14_sg_rt_obj@{o so} (A : SmgrpSets@{o so}) :
   fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] A = A := eq_refl.
 
 (* R15 *)
-Check @Sets_Product_Monoidal@{_ _}.
+Check @Sets_Product_Monoidal@{_}.
 Fail Example p470_r15_sg_rt_pair@{o so} (X : SetoidObject@{o o})
-  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{so o} X) :
+  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{o} X) :
   fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] (existT _ X σ) = existT _ X σ
   := eq_refl.
 
 (* R16 *)
 Fail Example p470_r16_sg_rt_smu@{o so} (X : SetoidObject@{o o})
-  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{so o} X) :
+  (σ : @Semigroup Sets@{o so} Sets_Product_Monoidal@{o} X) :
   (fun p : prod X X =>
      @smu _ _ _ (`2 (fobj[EM_to_Smgrp@{o so} ◯ Sg_K@{o so}] (existT _ X σ)))
        p)

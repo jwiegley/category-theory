@@ -336,8 +336,8 @@ Generalizable All Variables.
 
 (* Instance/Mod/Spanning.v's round trip between submodules and
    subobjects IS a [WellPoweredAt]; nothing is added. *)
-Definition RMod_WellPoweredAt_up@{a c p o x w +| c < w +}
-  {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
+Definition RMod_WellPoweredAt_up@{a c p o w +| c < w +}
+  {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
   WellPoweredAt@{w o o c} W :=
   {| wp_index   := Submodule W;
      wp_to      := smod_subobj;
@@ -349,8 +349,8 @@ Definition RMod_WellPoweredAt_up@{a c p o x w +| c < w +}
 (* The index at the pin: a submodule whose membership is a [Prop].  It
    sits at the carrier universe, where [Submodule]'s [Type]-valued
    membership sits one above. *)
-Record PSubmodule@{a c p m0 m1 m2 m3 m4}
-  {R : RingObject@{a c p}} (M : RModObject@{m0 m1 m2 m3 m4 a c p} R) := {
+Record PSubmodule@{a c p m2 m3}
+  {R : RingObject@{a c p}} (M : RModObject@{c p m2 m3} R) := {
   psm_mem : carrier (cmon_setoid M) → Prop;
   psm_resp : ∀ a b : carrier (cmon_setoid M), a ≈ b → psm_mem a → psm_mem b;
   psm_zero : psm_mem (cmon_zero M);
@@ -366,8 +366,8 @@ Arguments psm_plus {R M} _ _ _ _ _.
 Arguments psm_smul {R M} _ _ _ _.
 
 (* A [Prop] submodule read as a [Submodule]: [Prop] is a [Type]. *)
-Definition psm_sub@{a c p o x +}
-  {R : RingObject@{a c p}} {M : obj[RMod@{o x a p c} R]} (P : PSubmodule M) :
+Definition psm_sub@{a c p o +}
+  {R : RingObject@{a c p}} {M : obj[RMod@{o a p c} R]} (P : PSubmodule M) :
   Submodule M :=
   {| smod_mem  := fun a => psm_mem P a;
      smod_resp := psm_resp P;
@@ -378,8 +378,8 @@ Definition psm_sub@{a c p o x +}
 (* The image of a homomorphism, truncated: "has a preimage" as the
    impredicative [Powerset_squash] of Instance/Sets/Powerset.v. *)
 Definition pimage@{a c p o x +}
-  {R : RingObject@{a c p}} {M N : obj[RMod@{o x a p c} R]}
-  (f : M ~{RMod@{o x a p c} R}~> N) : PSubmodule N.
+  {R : RingObject@{a c p}} {M N : obj[RMod@{o a p c} R]}
+  (f : M ~{RMod@{o a p c} R}~> N) : PSubmodule N.
 Proof.
   unshelve refine {| psm_mem := fun b => Powerset_squash
         { a : carrier (cmon_setoid M) & cmon_map (rm_hom f) a ≈ b } |}.
@@ -402,7 +402,7 @@ Universes a c p o x.
 Constraint Set < c, c < o, c < x, p <= a, c <= a, a <= o.
 
 Context {R : RingObject@{a c p}} (U : Untruncate@{c})
-        {W : obj[RMod@{o x a p c} R]} (m : @SubObj (RMod@{o x a p c} R) W).
+        {W : obj[RMod@{o a p c} R]} (m : @SubObj (RMod@{o a p c} R) W).
 
 (* The one place [Untruncate] is spent: the truncated preimage becomes
    the carried one. *)
@@ -459,9 +459,9 @@ Defined.
 
 End Untrunc.
 
-Definition RMod_WellPoweredAt_untruncate@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o x a p c} R]) :
+Definition RMod_WellPoweredAt_untruncate@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o a p c} R]) :
   WellPoweredAt@{c o o c} W :=
   {| wp_index   := PSubmodule W;
      wp_to      := fun P => smod_subobj (psm_sub P);
@@ -471,7 +471,7 @@ Definition RMod_WellPoweredAt_untruncate@{a c p o x +|
 Definition RMod_WellPowered_untruncate@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) :
-  WellPowered@{o c c o x} (RMod@{o x a p c} R) :=
+  WellPowered@{o c c o x} (RMod@{o a p c} R) :=
   fun W => RMod_WellPoweredAt_untruncate U W.
 
 (** ** 4. Co-well-powered at the pin, under [Untruncate] *)
@@ -480,8 +480,8 @@ Definition RMod_WellPowered_untruncate@{a c p o x +|
    target's [Prop] mirror of "e x ≈ 0" ([cmon_prop], a field of every
    module since the PR "algebraic carriers are sets", 2026-09-17). *)
 Definition pker@{a c p o x +}
-  {R : RingObject@{a c p}} {W Q : obj[RMod@{o x a p c} R]}
-  (e : W ~{RMod@{o x a p c} R}~> Q) : PSubmodule W.
+  {R : RingObject@{a c p}} {W Q : obj[RMod@{o a p c} R]}
+  (e : W ~{RMod@{o a p c} R}~> Q) : PSubmodule W.
 Proof.
   unshelve refine {| psm_mem := fun x =>
      @pequiv _ _ (cmon_prop Q) (cmon_map (rm_hom e) x) (cmon_zero Q) |}.
@@ -497,9 +497,9 @@ Defined.
 
 (* The quotient object a [Prop] submodule names: the projection onto the
    quotient module, epic by Instance/Mod/Quotient.v's [mquot_proj_epic]. *)
-Definition pquot@{a c p o x +}
-  {R : RingObject@{a c p}} {W : obj[RMod@{o x a p c} R]}
-  (N : PSubmodule W) : @QuotObj (RMod@{o x a p c} R) W :=
+Definition pquot@{a c p o +}
+  {R : RingObject@{a c p}} {W : obj[RMod@{o a p c} R]}
+  (N : PSubmodule W) : @QuotObj (RMod@{o a p c} R) W :=
   mk_quot (mquot_proj (psm_sub N)) (mquot_proj_epic (psm_sub N)).
 
 (* An existential in [Prop] read as an impredicative truncation. *)
@@ -513,7 +513,7 @@ Universes a c p o x.
 Constraint Set < c, c < o, c < x, p <= a, c <= a, a <= o.
 
 Context {R : RingObject@{a c p}} (U : Untruncate@{c})
-        {W : obj[RMod@{o x a p c} R]} (u : @QuotObj (RMod@{o x a p c} R) W).
+        {W : obj[RMod@{o a p c} R]} (u : @QuotObj (RMod@{o a p c} R) W).
 
 Let Q := quot_cod u.
 Let e : W ~{RMod R}~> Q := quot_epi u.
@@ -589,10 +589,10 @@ Defined.
 
 End CoUntrunc.
 
-Definition RMod_CoWellPoweredAt_untruncate@{a c p o x +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{c o o c} ((RMod@{o x a p c} R)^op) W :=
+Definition RMod_CoWellPoweredAt_untruncate@{a c p o +|
+    Set < c, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o a p c} R]) :
+  @WellPoweredAt@{c o o c} ((RMod@{o a p c} R)^op) W :=
   {| wp_index   := PSubmodule W;
      wp_to      := pquot;
      wp_from    := fun u => pker (quot_epi u);
@@ -601,7 +601,7 @@ Definition RMod_CoWellPoweredAt_untruncate@{a c p o x +|
 Definition RMod_CoWellPowered_untruncate@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) :
-  CoWellPowered@{o c c o x} (RMod@{o x a p c} R) :=
+  CoWellPowered@{o c c o x} (RMod@{o a p c} R) :=
   fun W => RMod_CoWellPoweredAt_untruncate U W.
 
 (** ** 5. R is a generator of R-Mod *)
@@ -611,7 +611,7 @@ Definition RMod_CoWellPowered_untruncate@{a c p o x +|
    Representable.v's [rmod_by_element]). *)
 Lemma RMod_ring_separates@{c o x +| Set < o, c < o, c < x +}
   {R : RingObject@{c c c}} :
-  @IsSeparator (RMod@{o x c c c} R) (Ring_RMod R).
+  @IsSeparator (RMod@{o c c c} R) (Ring_RMod R).
 Proof.
   intros x y f g Hk m.
   pose proof (Hk (rmod_by_element R x m) (rig_one (ring_rig R))) as H.
@@ -619,12 +619,12 @@ Proof.
   rewrite (rm_smul_one x m) in H. exact H.
 Qed.
 
-Definition RMod_Generator@{c o x +| Set < o, c < o, c < x +}
-  (R : RingObject@{c c c}) : Generator (RMod@{o x c c c} R) :=
+Definition RMod_Generator@{c o +| Set < o, c < o +}
+  (R : RingObject@{c c c}) : Generator (RMod@{o c c c} R) :=
   @Generator_of_separator (RMod R) (Ring_RMod R) RMod_ring_separates.
 
-Definition RModop_Cogenerator@{c o x +| Set < o, c < o, c < x +}
-  (R : RingObject@{c c c}) : Cogenerator ((RMod@{o x c c c} R)^op) :=
+Definition RModop_Cogenerator@{c o +| Set < o, c < o +}
+  (R : RingObject@{c c c}) : Cogenerator ((RMod@{o c c c} R)^op) :=
   cog_of_gen (RMod_Generator R).
 
 (** ** 6. Co-well-powered one universe up, unconditionally *)
@@ -636,14 +636,14 @@ Definition RModop_Cogenerator@{c o x +| Set < o, c < o, c < x +}
    quantifies over the carrier only.  Nothing is rebuilt from a kernel, so
    no preimage is needed as data and [Untruncate] is not spent; the
    round trip is the identity isomorphism of the codomain. *)
-Definition RMod_CoWellPoweredAt_up@{a c p o x w +| c < w, a <= w +}
-  {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W.
+Definition RMod_CoWellPoweredAt_up@{a c p o w +| c < w, a <= w +}
+  {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
+  @WellPoweredAt@{w o o c} ((RMod@{o a p c} R)^op) W.
 Proof.
   unshelve refine {|
-    wp_index := { Q : RModObject@{c a c c c a c p} R
-                & { e : W ~{RMod@{o x a p c} R}~> Q & RModPropSurjective e } };
-    wp_to := fun i => @mk_quot (RMod@{o x a p c} R) W (`1 i) (`1 (`2 i))
+    wp_index := { Q : RModObject@{c p c c} R
+                & { e : W ~{RMod@{o a p c} R}~> Q & RModPropSurjective e } };
+    wp_to := fun i => @mk_quot (RMod@{o a p c} R) W (`1 i) (`1 (`2 i))
                         (rmod_prop_surjective_epic _ (`2 (`2 i)));
     wp_from := fun u => existT _ (quot_cod u)
                  (existT _ (quot_epi u)
@@ -653,8 +653,8 @@ Defined.
 
 (* The family, in [CoWellPowered]'s shape but one universe up, which
    [CoWellPowered]'s own [w <= h] rules out. *)
-Definition RMod_CoWellPowered_up@{a c p o x w +| c < w, a <= w +}
+Definition RMod_CoWellPowered_up@{a c p o w +| c < w, a <= w +}
   {R : RingObject@{a c p}} :
-  ∀ W : obj[RMod@{o x a p c} R],
-    @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W :=
+  ∀ W : obj[RMod@{o a p c} R],
+    @WellPoweredAt@{w o o c} ((RMod@{o a p c} R)^op) W :=
   fun W => RMod_CoWellPoweredAt_up W.

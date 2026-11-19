@@ -255,7 +255,8 @@ Check (@Opposite_Functor_respects Ju Cu).
 
 (* NEGATIVE. Stripped:
      universe inconsistency: Cannot enforce co = jo because jo < co *)
-Fail Check (@fmap_respects Cat Cat Op Ju Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@fmap_respects Cat Cat Op Ju Cu).
 
 End FormabilityOpUniverses.
 
@@ -276,7 +277,8 @@ Check (obj[Cs]).
    literal token. Donors: `Instance/Two.v`'s `TwoHom : ... -> Set` fixes the
    SHAPE's hom, and `IsALimit` identifies the shape's hom-and-proof with the
    ambient's. Not repaired, not claimed unavoidable. *)
-Fail Check (@two_IsALimit Cs).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@two_IsALimit Cs).
 
 End FormabilitySetPin.
 

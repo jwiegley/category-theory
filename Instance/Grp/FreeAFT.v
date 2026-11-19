@@ -620,9 +620,13 @@ Program Definition Grp_Forget_Representable : Representable Grp_Forget := {|
 |}.
 Next Obligation. symmetry; exact (grp_repr_to_natural f x0). Qed.
 Next Obligation. exact (grp_repr_to_natural f x0). Qed.
+(* The hypothesis [x ≈ y] is not referred to by name: with the universes of
+   rocq-prover/rocq#22721 the equality of [G] is no longer at [Set], so it is
+   named [X] rather than [H]. *)
 Next Obligation.
   exact (proper_morphism (from (grp_adj G))
-           (grp_repr_const G x) (grp_repr_const G y) (fun _ => H) a).
+           (grp_repr_const G x) (grp_repr_const G y)
+           (fun _ => ltac:(assumption)) a).
 Qed.
 Next Obligation. symmetry; exact (grp_repr_from_natural f x0 a). Qed.
 Next Obligation. exact (grp_repr_from_natural f x0 a). Qed.

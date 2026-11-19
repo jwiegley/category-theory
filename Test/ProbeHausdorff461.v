@@ -519,14 +519,14 @@ Fail Definition p461_elim_setoid@{o} (a b : carrier (pt_carrier PBool@{o}))
    relation [coeq_rel] generates, and the quotient map is the identity on
    points, all at [eq_refl]. *)
 Example p461_glueq_points@{o so +| o < so +} :
-  carrier (pt_carrier GlueQ@{o so _ _ _ _ _ _}) = option nat := eq_refl.
+  carrier (pt_carrier GlueQ@{o so _}) = option nat := eq_refl.
 
 Example p461_glueq_equiv@{o so +| o < so +} (a b : option nat) :
-  @equiv _ (pt_carrier GlueQ@{o so _ _ _ _ _ _}) a b
+  @equiv _ (pt_carrier GlueQ@{o so _}) a b
     = coeq_rel glue_f_set glue_g_set a b := eq_refl.
 
 Example p461_glue_q_point@{o so +| o < so +} (x : option nat) :
-  pmap glue_q@{o so _ _ _ _ _ _} x = x := eq_refl.
+  pmap glue_q@{o so _} x = x := eq_refl.
 
 (* CONTROL: the binary coproduct of the two Hausdorff spaces of Exercise
    5 is Hausdorff. *)
@@ -542,8 +542,8 @@ Definition p461_bool_dec (a b : bool) : sumbool (a = b) (a = b → False) :=
                      with eq_refl => I end)
   end.
 
-Definition p461_sum_haus@{o u +| o < u +} :
-  PHaus (PSigma@{o Set u} bool (fun b => if b then PNat@{o} else PConv@{o})) :=
+Definition p461_sum_haus@{o +|+} :
+  PHaus (PSigma@{o Set} bool (fun b => if b then PNat@{o} else PConv@{o})) :=
   PHaus_coproduct_dec bool _ p461_bool_dec
     (fun b => match b return PHaus (if b then PNat@{o} else PConv@{o}) with
               | true => PNat_PHaus
@@ -568,7 +568,7 @@ Definition p461_not_complete_above@{e h o u u0 u1 u2 u3 u4 +| o < h,
     u <= u4 +} (E : IEM@{e})
   (comp : @Complete@{h h h u4}
             (Sub@{h h u u0 u4 h} Top@{h o}
-               Hausdorff_Subcategory@{h u0 o u u2 u3})) : False :=
+               Hausdorff_Subcategory@{u0 o u2 u3})) : False :=
   TopHaus_not_complete_below_IEM E comp.
 
 (* CONTROL: the two-point discrete space is Hausdorff with its separating

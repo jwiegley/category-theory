@@ -304,33 +304,33 @@ Generalizable All Variables.
 
 (* T is the composite U ◯ F of the free/forgetful adjunction; the monad is
    Monad/Comparison.v's, whose ret is η and whose join is U ε F. *)
-Definition TensorF@{a c p o x} (R : RingObject@{a c p}) :
+Definition TensorF@{a c p o} (R : RingObject@{a c p}) :
   Ab@{o c} ⟶ Ab@{o c} :=
-  RMod_Forget_Ab@{x o o a p c} R ◯ ZExt@{a c p x o a o c} R.
+  RMod_Forget_Ab@{o o a p c} R ◯ ZExt@{a c p o o c} R.
 
-Definition TensorMonad@{a c p o x} (R : RingObject@{a c p}) :
-  @Monad Ab@{o c} (TensorF@{a c p o x} R) :=
-  Adjunction_Induced_Monad (zext_adjunction@{a c p o o x a a} R).
+Definition TensorMonad@{a c p o} (R : RingObject@{a c p}) :
+  @Monad Ab@{o c} (TensorF@{a c p o} R) :=
+  Adjunction_Induced_Monad (zext_adjunction@{a c p a} R).
 
 (* Mac Lane's formulas, read back on the nose: TA = R ⊗ A, T f = 1 ⊗ f
    (BaseChange.v's [zext_map_ab]), η a = 1 ⊗ a, and
    μ (r₁ ⊗ (r₂ ⊗ a)) = r₁r₂ ⊗ a. *)
-Example TensorF_obj@{a c p o x} (R : RingObject@{a c p}) (A : obj[Ab@{o c}]) :
-  fobj[TensorF@{a c p o x} R] A = AbTensor (ring_ab R) A := eq_refl.
+Example TensorF_obj@{a c p o} (R : RingObject@{a c p}) (A : obj[Ab@{o c}]) :
+  fobj[TensorF@{a c p o} R] A = AbTensor (ring_ab R) A := eq_refl.
 
-Example TensorF_map@{a c p o x} (R : RingObject@{a c p})
+Example TensorF_map@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
-  fmap[TensorF@{a c p o x} R] f = zext_map_ab R f := eq_refl.
+  fmap[TensorF@{a c p o} R] f = zext_map_ab R f := eq_refl.
 
 Example TensorMonad_ret@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (a : carrier A) :
-  cmon_map (@ret _ _ (TensorMonad@{a c p o x} R) A) a
+  cmon_map (@ret _ _ (TensorMonad@{a c p o} R) A) a
   = @ts_gen (ring_ab R) A (rig_one (ring_rig R)) a := eq_refl.
 
 Example TensorMonad_join@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r1 r2 : carrier (rig_setoid (ring_rig R)))
   (a : carrier A) :
-  cmon_map (@join _ _ (TensorMonad@{a c p o x} R) A)
+  cmon_map (@join _ _ (TensorMonad@{a c p o} R) A)
     (@ts_gen (ring_ab R) (AbTensor (ring_ab R) A) r1
        (@ts_gen (ring_ab R) A r2 a))
   = @ts_gen (ring_ab R) A (rig_mul (ring_rig R) r1 r2) a := eq_refl.
@@ -340,19 +340,19 @@ Example TensorMonad_join@{a c p o x} (R : RingObject@{a c p})
    free module's own action r · y. *)
 Example TensorMonad_join_counit@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) :
-  @join _ _ (TensorMonad@{a c p o x} R) A
-  = rm_hom (zext_counit@{a c p o x a o a} R (ZExtObj R A)) := eq_refl.
+  @join _ _ (TensorMonad@{a c p o} R) A
+  = rm_hom (zext_counit@{a c p} R (ZExtObj R A)) := eq_refl.
 
 Example TensorMonad_join_gen@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r : carrier (rig_setoid (ring_rig R)))
   (y : carrier (AbTensor (ring_ab R) A)) :
-  cmon_map (@join _ _ (TensorMonad@{a c p o x} R) A)
+  cmon_map (@join _ _ (TensorMonad@{a c p o} R) A)
     (@ts_gen (ring_ab R) (AbTensor (ring_ab R) A) r y)
   = zext_act R A r y := eq_refl.
 
 (* A computing witness over ℤ: μ (3 ⊗ (4 ⊗ a)) = 12 ⊗ a. *)
 Example TensorMonad_join_Z@{o x} (a : Z) :
-  cmon_map (@join _ _ (TensorMonad@{Set Set Set o x} Int_Ring)
+  cmon_map (@join _ _ (TensorMonad@{Set Set Set o} Int_Ring)
               (ring_ab Int_Ring))
     (@ts_gen (ring_ab Int_Ring) (AbTensor (ring_ab Int_Ring) (ring_ab Int_Ring))
        3%Z (@ts_gen (ring_ab Int_Ring) (ring_ab Int_Ring) 4%Z a))
@@ -363,15 +363,15 @@ Example TensorMonad_join_Z@{o x} (a : Z) :
 (* An algebra (A, h) acts by r · m := h (r ⊗ m).  Riehl's "ℤ-bilinear
    map (r, a) ↦ r·a" is h composed with the universal bilinear map. *)
 Definition em_smul@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   carrier (`1 X) :=
   cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m).
 
 Lemma em_smul_respects@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
   Proper (equiv ==> equiv ==> equiv) (em_smul@{a c p o x} X).
 Proof.
   intros r r' Hr m m' Hm.
@@ -381,8 +381,8 @@ Qed.
 
 (* Additivity in m and in r: h is additive and ⊗ is bilinear. *)
 Lemma em_smul_distr_l@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m n : carrier (`1 X)) :
   em_smul X r (cmon_plus (`1 X) m n)
     ≈ cmon_plus (`1 X) (em_smul X r m) (em_smul X r n).
@@ -398,8 +398,8 @@ Proof.
 Qed.
 
 Lemma em_smul_distr_r@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r s : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   em_smul X (rig_add (ring_rig R) r s) m
     ≈ cmon_plus (`1 X) (em_smul X r m) (em_smul X s m).
@@ -417,8 +417,8 @@ Qed.
 (* Mac Lane's μ-law of the algebra, read at r ⊗ (s ⊗ m), is associativity
    of the action; [t_action] states it with the two sides exchanged. *)
 Lemma em_smul_assoc@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r s : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   em_smul X (rig_mul (ring_rig R) r s) m ≈ em_smul X r (em_smul X s m).
 Proof.
@@ -430,39 +430,39 @@ Qed.
 
 (* The η-law of the algebra is 1 · m ≈ m. *)
 Lemma em_smul_one@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (m : carrier (`1 X)) :
   em_smul X (rig_one (ring_rig R)) m ≈ m.
 Proof. exact (@t_id _ _ _ _ (`2 X) m). Qed.
 
 Definition EM_mod@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
-  obj[RMod@{o x a p c} R] :=
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
+  obj[RMod@{o a p c} R] :=
   @Build_RModObject R (`1 X) (em_smul X) (em_smul_respects X)
     (em_smul_distr_l X) (em_smul_distr_r X) (em_smul_assoc X)
     (em_smul_one X).
 
 Definition EM_mod_hom@{a c p o x} {R : RingObject@{a c p}}
-  {X Y : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-           (TensorMonad@{a c p o x} R)}
-  (f : X ~{@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-             (TensorMonad@{a c p o x} R)}~> Y) :
-  EM_mod X ~{RMod@{o x a p c} R}~> EM_mod Y :=
+  {X Y : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+           (TensorMonad@{a c p o} R)}
+  (f : X ~{@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+             (TensorMonad@{a c p o} R)}~> Y) :
+  EM_mod X ~{RMod@{o a p c} R}~> EM_mod Y :=
   @Build_RModHom R (EM_mod X) (EM_mod Y) t_alg_hom[f]
     (fun r m => @t_alg_hom_commutes _ _ _ _ _ _ _ f
                   (@ts_gen (ring_ab R) (`1 X) r m)).
 
 Definition EM_to_RMod@{a c p o x} (R : RingObject@{a c p}) :
-  @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-    (TensorMonad@{a c p o x} R) ⟶ RMod@{o x a p c} R.
+  @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+    (TensorMonad@{a c p o} R) ⟶ RMod@{o a p c} R.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-          (TensorMonad@{a c p o x} R))
-       (RMod@{o x a p c} R) (fun X => EM_mod X) (fun X Y f => EM_mod_hom f)
+       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+          (TensorMonad@{a c p o} R))
+       (RMod@{o a p c} R) (fun X => EM_mod X) (fun X Y f => EM_mod_hom f)
        _ _ _).
   - intros X Y f f' Hf m. exact (Hf m).
   - intros X m. reflexivity.
@@ -471,8 +471,8 @@ Defined.
 
 (* The action of [EM_mod X] IS h on generators, by definition. *)
 Example EM_mod_smul@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul (EM_mod X) r m
   = cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m) := eq_refl.
@@ -481,20 +481,20 @@ Example EM_mod_smul@{a c p o x} {R : RingObject@{a c p}}
 
 (* Module round trip: identity components, both laws by reflexivity. *)
 Definition RMod_counit_iso@{a c p o x} {R : RingObject@{a c p}}
-  (M : obj[RMod@{o x a p c} R]) :
-  @Isomorphism (RMod@{o x a p c} R)
+  (M : obj[RMod@{o a p c} R]) :
+  @Isomorphism (RMod@{o a p c} R)
     (fobj[EM_to_RMod@{a c p o x} R
-          ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M) M.
+          ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M) M.
 Proof.
   unshelve refine
-    (@Build_Isomorphism (RMod@{o x a p c} R) _ _
+    (@Build_Isomorphism (RMod@{o a p c} R) _ _
        (@Build_RModHom R
           (fobj[EM_to_RMod@{a c p o x} R
-                ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M) M
+                ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M) M
           (@cmon_hom_id (rm_ab M)) _)
        (@Build_RModHom R M
           (fobj[EM_to_RMod@{a c p o x} R
-                ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)
+                ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M)
           (@cmon_hom_id (rm_ab M)) _) _ _).
   - intros r m. reflexivity.
   - intros r m. reflexivity.
@@ -507,28 +507,28 @@ Defined.
    [tensor_hom_ext], the uniqueness half of the tensor's universal
    property. *)
 Definition RMod_unit_iso@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
   @Isomorphism
-    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-       (TensorMonad@{a c p o x} R))
-    (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+       (TensorMonad@{a c p o} R))
+    (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
           ◯ EM_to_RMod@{a c p o x} R] X) X.
 Proof.
   unshelve refine
     (@Build_Isomorphism
-       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-          (TensorMonad@{a c p o x} R))
-       (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+          (TensorMonad@{a c p o} R))
+       (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
              ◯ EM_to_RMod@{a c p o x} R] X) X
-       (@Build_TAlgebraHom Ab@{o c} (TensorF@{a c p o x} R)
-          (TensorMonad@{a c p o x} R) (`1 X) (`1 X)
-          (`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+       (@Build_TAlgebraHom Ab@{o c} (TensorF@{a c p o} R)
+          (TensorMonad@{a c p o} R) (`1 X) (`1 X)
+          (`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
                     ◯ EM_to_RMod@{a c p o x} R] X)) (`2 X)
           (@cmon_hom_id (`1 X)) _)
-       (@Build_TAlgebraHom Ab@{o c} (TensorF@{a c p o x} R)
-          (TensorMonad@{a c p o x} R) (`1 X) (`1 X)
-          (`2 X) (`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
+       (@Build_TAlgebraHom Ab@{o c} (TensorF@{a c p o} R)
+          (TensorMonad@{a c p o} R) (`1 X) (`1 X)
+          (`2 X) (`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)
                         ◯ EM_to_RMod@{a c p o x} R] X))
           (@cmon_hom_id (`1 X)) _) _ _).
   - intros s.
@@ -542,11 +542,11 @@ Proof.
 Defined.
 
 Definition RMod_comparison_equivalence@{a c p o x} (R : RingObject@{a c p}) :
-  EquivalenceOfCategories (EM_Comparison (zext_adjunction@{a c p o o x a a} R)).
+  EquivalenceOfCategories (EM_Comparison (zext_adjunction@{a c p a} R)).
 Proof.
   unshelve refine
     (@Build_EquivalenceOfCategories _ _
-       (EM_Comparison (zext_adjunction@{a c p o o x a a} R))
+       (EM_Comparison (zext_adjunction@{a c p a} R))
        (EM_to_RMod@{a c p o x} R) _ _).
   - exists (fun X => RMod_unit_iso X).
     intros [A α] [B β] f m; simpl. reflexivity.
@@ -558,52 +558,52 @@ Defined.
    equivalence is the canonical comparison functor of [zext_adjunction]
    itself (her Definition 5.3.1), not some other equivalence. *)
 Definition RMod_Forget_Ab_Monadic@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
-    (RMod_Forget_Ab@{x o o a p c} R).
+  @Monadic@{o x o o o c o} (RMod@{o a p c} R) Ab@{o c}
+    (RMod_Forget_Ab@{o o a p c} R).
 Proof.
-  exists (ZExt@{a c p x o a o c} R).
-  exists (zext_adjunction@{a c p o o x a a} R).
+  exists (ZExt@{a c p o o c} R).
+  exists (zext_adjunction@{a c p a} R).
   exact (RMod_comparison_equivalence@{a c p o x} R).
 Defined.
 
 Definition EM_RMod_iso@{a c p o x k} (R : RingObject@{a c p}) :
   @Isomorphism Cat@{k o o c}
-    (RMod@{o x a p c} R)
-    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-       (TensorMonad@{a c p o x} R)) :=
+    (RMod@{o a p c} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+       (TensorMonad@{a c p o} R)) :=
   Equivalence_to_Cat_Iso (RMod_comparison_equivalence@{a c p o x} R).
 
 Example EM_RMod_iso_to@{a c p o x k} (R : RingObject@{a c p}) :
   to (EM_RMod_iso@{a c p o x k} R)
-  = EM_Comparison (zext_adjunction@{a c p o o x a a} R) := eq_refl.
+  = EM_Comparison (zext_adjunction@{a c p a} R) := eq_refl.
 
 Example EM_RMod_iso_from@{a c p o x k} (R : RingObject@{a c p}) :
   from (EM_RMod_iso@{a c p o x k} R) = EM_to_RMod@{a c p o x} R := eq_refl.
 
 (* The comparison algebra on a module M is U ε_M: on r ⊗ m it is r · m,
    and as a homomorphism it IS the counit at M. *)
-Example comparison_alg_is_smul@{a c p o x} {R : RingObject@{a c p}}
-  (M : obj[RMod@{o x a p c} R]) (r : carrier (rig_setoid (ring_rig R)))
+Example comparison_alg_is_smul@{a c p o} {R : RingObject@{a c p}}
+  (M : obj[RMod@{o a p c} R]) (r : carrier (rig_setoid (ring_rig R)))
   (m : carrier (rm_ab M)) :
   cmon_map (t_alg[`2 (fobj[EM_Comparison
-                              (zext_adjunction@{a c p o o x a a} R)] M)])
+                              (zext_adjunction@{a c p a} R)] M)])
     (@ts_gen (ring_ab R) (rm_ab M) r m)
   = rm_smul M r m := eq_refl.
 
-Example comparison_alg_counit@{a c p o x} {R : RingObject@{a c p}}
-  (M : obj[RMod@{o x a p c} R]) :
-  t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M)]
-  = rm_hom (zext_counit@{a c p o x a o a} R M) := eq_refl.
+Example comparison_alg_counit@{a c p o} {R : RingObject@{a c p}}
+  (M : obj[RMod@{o a p c} R]) :
+  t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)] M)]
+  = rm_hom (zext_counit@{a c p} R M) := eq_refl.
 
 (** ** Riehl's Theorem 5.5.1: the creation of U-split coequalizers *)
 
 (* Absorption: a map h out of U B coforking the pair satisfies
    h (s (e y)) ≈ h y. *)
-Lemma rmod_split_absorb@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Lemma rmod_split_absorb@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g))
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g))
   {W : obj[Ab@{o c}]} (h : rm_ab B ~{Ab@{o c}}~> W)
   (Hh : ∀ y, cmon_map h (cmon_map (rm_hom f) y)
              ≈ cmon_map h (cmon_map (rm_hom g) y))
@@ -620,20 +620,20 @@ Proof.
 Qed.
 
 (* The created action on the split coequalizer Z: r · z := e (r · s z). *)
-Definition rmod_created_smul@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Definition rmod_created_smul@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g))
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g))
   (r : carrier (rig_setoid (ring_rig R))) (z : carrier (scoeq_obj S)) :
   carrier (scoeq_obj S) :=
   cmon_map (scoeq_e S) (rm_smul B r (cmon_map (scoeq_s S) z)).
 
-Lemma rmod_created_absorb@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Lemma rmod_created_absorb@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g))
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g))
   (r : carrier (rig_setoid (ring_rig R))) (y : carrier (rm_ab B)) :
   cmon_map (scoeq_e S) (rm_smul B r (cmon_map (scoeq_s S)
                                        (cmon_map (scoeq_e S) y)))
@@ -664,12 +664,12 @@ Proof.
            apply rm_smul_respects; [ reflexivity | exact L3 ].
 Qed.
 
-Definition RModCreated@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Definition RModCreated@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
-  obj[RMod@{o x a p c} R].
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
+  obj[RMod@{o a p c} R].
 Proof.
   unshelve refine (@Build_RModObject R (scoeq_obj S)
                      (rmod_created_smul f g S) _ _ _ _ _).
@@ -708,24 +708,24 @@ Proof.
     apply (proper_morphism (cmon_map (scoeq_e S))). apply rm_smul_one.
 Defined.
 
-Definition RModCreatedE@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Definition RModCreatedE@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
-  B ~{RMod@{o x a p c} R}~> RModCreated f g S.
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
+  B ~{RMod@{o a p c} R}~> RModCreated f g S.
 Proof.
   unshelve refine (@Build_RModHom R B (RModCreated f g S) (scoeq_e S) _).
   intros r y. simpl. unfold rmod_created_smul. symmetry.
   apply rmod_created_absorb.
 Defined.
 
-Definition RModCreatedE_is_coeq@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Definition RModCreatedE_is_coeq@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
-  @IsCoequalizer (RMod@{o x a p c} R) A B f g
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
+  @IsCoequalizer (RMod@{o a p c} R) A B f g
     (RModCreated f g S) (RModCreatedE f g S).
 Proof.
   unshelve refine (@Build_IsCoequalizer _ _ _ _ _ _ _ _ _).
@@ -748,17 +748,17 @@ Proof.
       * apply (proper_morphism (cmon_map (rm_hom v))). exact L2.
 Defined.
 
-Definition RModReflected_is_coeq@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Definition RModReflected_is_coeq@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g))
-  (Q : obj[RMod@{o x a p c} R]) (e : B ~{RMod@{o x a p c} R}~> Q)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g))
+  (Q : obj[RMod@{o a p c} R]) (e : B ~{RMod@{o a p c} R}~> Q)
   (He : e ∘ f ≈ e ∘ g)
-  (i : @Isomorphism Ab@{o c} (fobj[RMod_Forget_Ab@{x o o a p c} R] Q)
+  (i : @Isomorphism Ab@{o c} (fobj[RMod_Forget_Ab@{o o a p c} R] Q)
          (scoeq_obj S))
-  (Hi : to i ∘ fmap[RMod_Forget_Ab@{x o o a p c} R] e ≈ scoeq_e S) :
-  @IsCoequalizer (RMod@{o x a p c} R) A B f g Q e.
+  (Hi : to i ∘ fmap[RMod_Forget_Ab@{o o a p c} R] e ≈ scoeq_e S) :
+  @IsCoequalizer (RMod@{o a p c} R) A B f g Q e.
 Proof.
   assert (L0 : ∀ w, w ≈ cmon_map (rm_hom e)
                           (cmon_map (scoeq_s S) (cmon_map (to i) w))).
@@ -829,8 +829,8 @@ Proof.
       * apply (proper_morphism (cmon_map (rm_hom v))). symmetry. exact (L0 w).
 Defined.
 
-Definition RMod_Forget_Ab_creates_split@{a c p o x} (R : RingObject@{a c p}) :
-  CreatesUSplitCoequalizers (RMod_Forget_Ab@{x o o a p c} R).
+Definition RMod_Forget_Ab_creates_split@{a c p o} (R : RingObject@{a c p}) :
+  CreatesUSplitCoequalizers (RMod_Forget_Ab@{o o a p c} R).
 Proof.
   unshelve refine (@Build_CreatesUSplitCoequalizers _ _ _ _ _).
   - intros A B f g S.
@@ -847,77 +847,77 @@ Defined.
 (* The lift chosen is on the nose: its group IS Z, its action IS
    e (r · s z), its coequalizing arrow IS e and its comparison isomorphism
    IS the identity. *)
-Example rmod_created_carrier@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Example rmod_created_carrier@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
-  rm_ab (`1 (@create_coeq _ _ _ (RMod_Forget_Ab_creates_split@{a c p o x} R)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
+  rm_ab (`1 (@create_coeq _ _ _ (RMod_Forget_Ab_creates_split@{a c p o} R)
                A B f g S)) = scoeq_obj S := eq_refl.
 
-Example rmod_created_action@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Example rmod_created_action@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g))
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g))
   (r : carrier (rig_setoid (ring_rig R))) (z : carrier (scoeq_obj S)) :
-  rm_smul (`1 (@create_coeq _ _ _ (RMod_Forget_Ab_creates_split@{a c p o x} R)
+  rm_smul (`1 (@create_coeq _ _ _ (RMod_Forget_Ab_creates_split@{a c p o} R)
                  A B f g S)) r z
   = cmon_map (scoeq_e S) (rm_smul B r (cmon_map (scoeq_s S) z)) := eq_refl.
 
-Example rmod_created_arrow@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Example rmod_created_arrow@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
   rm_hom (`1 (`2 (@create_coeq _ _ _
-                   (RMod_Forget_Ab_creates_split@{a c p o x} R) A B f g S)))
+                   (RMod_Forget_Ab_creates_split@{a c p o} R) A B f g S)))
   = scoeq_e S := eq_refl.
 
-Example rmod_created_iso@{a c p o x} {R : RingObject@{a c p}}
-  {A B : obj[RMod@{o x a p c} R]} (f g : A ~{RMod@{o x a p c} R}~> B)
+Example rmod_created_iso@{a c p o} {R : RingObject@{a c p}}
+  {A B : obj[RMod@{o a p c} R]} (f g : A ~{RMod@{o a p c} R}~> B)
   (S : @SplitCoequalizer Ab@{o c} _ _
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] f)
-         (fmap[RMod_Forget_Ab@{x o o a p c} R] g)) :
+         (fmap[RMod_Forget_Ab@{o o a p c} R] f)
+         (fmap[RMod_Forget_Ab@{o o a p c} R] g)) :
   `1 (snd (`2 (`2 (@create_coeq _ _ _
-                     (RMod_Forget_Ab_creates_split@{a c p o x} R)
+                     (RMod_Forget_Ab_creates_split@{a c p o} R)
                      A B f g S))))
   = @iso_id Ab@{o c} (scoeq_obj S) := eq_refl.
 
 (* An R-linear map invertible as a group homomorphism is invertible as a
    module map. *)
-Definition RMod_Forget_Ab_reflects@{a c p o x} (R : RingObject@{a c p}) :
-  ReflectsIsos (RMod_Forget_Ab@{x o o a p c} R) :=
-  creates_split_reflects_isos _ (RMod_Forget_Ab_creates_split@{a c p o x} R).
+Definition RMod_Forget_Ab_reflects@{a c p o} (R : RingObject@{a c p}) :
+  ReflectsIsos (RMod_Forget_Ab@{o o a p c} R) :=
+  creates_split_reflects_isos _ (RMod_Forget_Ab_creates_split@{a c p o} R).
 
 (** ** Beck's route to monadicity *)
 
-Definition RMod_beck_equivalence@{a c p o x} (R : RingObject@{a c p}) :
+Definition RMod_beck_equivalence@{a c p o} (R : RingObject@{a c p}) :
   EquivalenceOfCategories
-    (EM_Comparison (zext_adjunction@{a c p o o x a a} R)) :=
-  beck_monadicity (zext_adjunction@{a c p o o x a a} R)
-    (RMod_Forget_Ab_creates_split@{a c p o x} R).
+    (EM_Comparison (zext_adjunction@{a c p a} R)) :=
+  beck_monadicity (zext_adjunction@{a c p a} R)
+    (RMod_Forget_Ab_creates_split@{a c p o} R).
 
 Definition RMod_Forget_Ab_Monadic_beck@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
-    (RMod_Forget_Ab@{x o o a p c} R).
+  @Monadic@{o x o o o c o} (RMod@{o a p c} R) Ab@{o c}
+    (RMod_Forget_Ab@{o o a p c} R).
 Proof.
-  exists (ZExt@{a c p x o a o c} R).
-  exists (zext_adjunction@{a c p o o x a a} R).
-  exact (RMod_beck_equivalence@{a c p o x} R).
+  exists (ZExt@{a c p o o c} R).
+  exists (zext_adjunction@{a c p a} R).
+  exact (RMod_beck_equivalence@{a c p o} R).
 Defined.
 
 Definition EM_RMod_iso_beck@{a c p o x k} (R : RingObject@{a c p}) :
   @Isomorphism Cat@{k o o c}
-    (RMod@{o x a p c} R)
-    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-       (TensorMonad@{a c p o x} R)) :=
-  Equivalence_to_Cat_Iso (RMod_beck_equivalence@{a c p o x} R).
+    (RMod@{o a p c} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+       (TensorMonad@{a c p o} R)) :=
+  Equivalence_to_Cat_Iso (RMod_beck_equivalence@{a c p o} R).
 
 (* The Beck Cat iso's [to] leg IS the comparison functor. *)
 Example EM_RMod_iso_beck_to@{a c p o x k} (R : RingObject@{a c p}) :
   to (EM_RMod_iso_beck@{a c p o x k} R)
-  = EM_Comparison (zext_adjunction@{a c p o o x a a} R) := eq_refl.
+  = EM_Comparison (zext_adjunction@{a c p a} R) := eq_refl.
 
 (* The two routes' [to] legs are one term. *)
 Example rmod_beck_direct_to@{a c p o x k} (R : RingObject@{a c p}) :
@@ -928,35 +928,35 @@ Example rmod_beck_direct_to@{a c p o x k} (R : RingObject@{a c p}) :
    r · m = h ((r · 1) ⊗ m).  It is ≈ to [EM_to_RMod], by [rig_mul_one_r]
    in the scalar slot. *)
 Example rmod_beck_carrier@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
-  rm_ab (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
+  rm_ab (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
   = `1 X := eq_refl.
 
 Example rmod_beck_act@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R))
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
-  rm_smul (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+  rm_smul (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
     r m
   = cmon_map (t_alg[`2 X])
       (@ts_gen (ring_ab R) (`1 X)
          (rig_mul (ring_rig R) r (rig_one (ring_rig R))) m) := eq_refl.
 
 Definition rmod_beck_vs_direct_iso@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
-  @Isomorphism (RMod@{o x a p c} R)
-    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o} R)
+         (TensorMonad@{a c p o} R)) :
+  @Isomorphism (RMod@{o a p c} R)
+    (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
     (fobj[EM_to_RMod@{a c p o x} R] X).
 Proof.
   unshelve refine
-    (@Build_Isomorphism (RMod@{o x a p c} R) _ _
+    (@Build_Isomorphism (RMod@{o a p c} R) _ _
        (@Build_RModHom R
-          (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+          (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
           (fobj[EM_to_RMod@{a c p o x} R] X) (@cmon_hom_id (`1 X)) _)
        (@Build_RModHom R (fobj[EM_to_RMod@{a c p o x} R] X)
-          (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
+          (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)] X)
           (@cmon_hom_id (`1 X)) _) _ _).
   - intros r m; simpl. apply (proper_morphism (cmon_map (t_alg[`2 X]))).
     apply te_gen; [ exact (rig_mul_one_r (ring_rig R) r) | reflexivity ].
@@ -968,7 +968,7 @@ Proof.
 Defined.
 
 Definition rmod_beck_vs_direct@{a c p o x} (R : RingObject@{a c p}) :
-  @quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)
+  @quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o} R)
   ≈ EM_to_RMod@{a c p o x} R.
 Proof.
   exists (fun X => rmod_beck_vs_direct_iso X).

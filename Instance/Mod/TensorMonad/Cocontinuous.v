@@ -235,20 +235,20 @@ Generalizable All Variables.
    coextension, composed. *)
 
 Definition TensorF_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{c c c o x} R)
-    (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R) :=
-  Adjunction_Compose (zext_adjunction@{c c c o o x c c} R)
-    (coex_adjunction@{c c c o x c} R).
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{c c c o} R)
+    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R) :=
+  Adjunction_Compose (zext_adjunction@{c c c c} R)
+    (coex_adjunction@{c c c} R).
 
-Example TensorF_right_adjoint_obj@{c o x} (R : RingObject@{c c c})
+Example TensorF_right_adjoint_obj@{c o} (R : RingObject@{c c c})
   (B : obj[Ab@{o c}]) :
-  fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B
+  fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B
   = hom_ab Ab_AbEnriched (ring_ab R) B := eq_refl.
 
 Example tensor_hom_to@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF@{c c c o} R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -259,7 +259,7 @@ Example tensor_hom_to@{c o x} (R : RingObject@{c c c})
 
 Lemma tensor_hom_to_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF@{c c c o} R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -274,7 +274,7 @@ Qed.
 Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -284,7 +284,7 @@ Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
 Lemma tensor_hom_from_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -298,10 +298,10 @@ Qed.
 (** ** The square of the monad is a left adjoint *)
 
 Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{c c c o x} R ◯ TensorF@{c c c o x} R)
-    ((RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)
-       ◯ (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)) :=
+  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+    (TensorF@{c c c o} R ◯ TensorF@{c c c o} R)
+    ((RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R)
+       ◯ (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R)) :=
   Adjunction_Compose (TensorF_left_adjoint@{c o x} R)
     (TensorF_left_adjoint@{c o x} R).
 
@@ -310,28 +310,28 @@ Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
 (* Left adjoints preserve colimits: Riehl's Theorem 4.6.2, here
    Adjunction/Continuity.v. *)
 
-Definition TensorF_cocontinuous@{c o x t l l0 s} (R : RingObject@{c c c}) :
-  CocontinuousFunctor@{t l l l0 l s c o o x} (TensorF@{c c c o x} R) :=
-  left_adjoint_Cocontinuous@{t l l l0 l x c o s o o c}
+Definition TensorF_cocontinuous@{c o x s} (R : RingObject@{c c c}) :
+  CocontinuousFunctor@{o o s c} (TensorF@{c c c o} R) :=
+  left_adjoint_Cocontinuous@{o o c o s}
     (TensorF_left_adjoint@{c o x} R).
 
-Definition TensorF2_cocontinuous@{c o x t l l0 s} (R : RingObject@{c c c}) :
-  CocontinuousFunctor@{t l l l0 l s c o o x}
-    (TensorF@{c c c o x} R ◯ TensorF@{c c c o x} R) :=
-  left_adjoint_Cocontinuous@{t l l l0 l x c o s o o c}
+Definition TensorF2_cocontinuous@{c o x s} (R : RingObject@{c c c}) :
+  CocontinuousFunctor@{o o s c}
+    (TensorF@{c c c o} R ◯ TensorF@{c c c o} R) :=
+  left_adjoint_Cocontinuous@{o o c o s}
     (TensorF2_left_adjoint@{c o x} R).
 
-Definition TensorF_preserves_colimits@{c o x t l l0 s}
+Definition TensorF_preserves_colimits@{c o x s}
   (R : RingObject@{c c c}) :
-  PreservesAllColimits@{t l x l0 s o c o} (TensorF@{c c c o x} R) :=
-  left_adjoint_preserves_colimits@{t l x l0 o c t o s c o}
+  PreservesAllColimits@{o o s c} (TensorF@{c c c o} R) :=
+  left_adjoint_preserves_colimits@{o o c o s}
     (TensorF_left_adjoint@{c o x} R).
 
-Definition TensorF2_preserves_colimits@{c o x t l l0 s}
+Definition TensorF2_preserves_colimits@{c o x s}
   (R : RingObject@{c c c}) :
-  PreservesAllColimits@{t l x l0 s o c o}
-    (TensorF@{c c c o x} R ◯ TensorF@{c c c o x} R) :=
-  left_adjoint_preserves_colimits@{t l x l0 o c t o s c o}
+  PreservesAllColimits@{o o s c}
+    (TensorF@{c c c o} R ◯ TensorF@{c c c o} R) :=
+  left_adjoint_preserves_colimits@{o o c o s}
     (TensorF2_left_adjoint@{c o x} R).
 
 (** ** The forgetful functor against U^T ◯ K *)
@@ -339,24 +339,24 @@ Definition TensorF2_preserves_colimits@{c o x t l l0 s}
 (* EM_Forget ◯ EM_Comparison agrees with U on objects and arrows on the
    nose, and is isomorphic to it with identity components. *)
 
-Example rmod_forget_comparison_obj@{a c p o x} (R : RingObject@{a c p})
-  (M : obj[RMod@{o x a p c} R]) :
-  fobj[EM_Forget (TensorF@{a c p o x} R)
-         ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] M
-  = fobj[RMod_Forget_Ab@{x o o a p c} R] M := eq_refl.
+Example rmod_forget_comparison_obj@{a c p o} (R : RingObject@{a c p})
+  (M : obj[RMod@{o a p c} R]) :
+  fobj[EM_Forget (TensorF@{a c p o} R)
+         ◯ EM_Comparison (zext_adjunction@{a c p a} R)] M
+  = fobj[RMod_Forget_Ab@{o o a p c} R] M := eq_refl.
 
-Example rmod_forget_comparison_map@{a c p o x} (R : RingObject@{a c p})
-  (M N : obj[RMod@{o x a p c} R]) (f : M ~{RMod@{o x a p c} R}~> N) :
-  fmap[EM_Forget (TensorF@{a c p o x} R)
-         ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)] f
-  = fmap[RMod_Forget_Ab@{x o o a p c} R] f := eq_refl.
+Example rmod_forget_comparison_map@{a c p o} (R : RingObject@{a c p})
+  (M N : obj[RMod@{o a p c} R]) (f : M ~{RMod@{o a p c} R}~> N) :
+  fmap[EM_Forget (TensorF@{a c p o} R)
+         ◯ EM_Comparison (zext_adjunction@{a c p a} R)] f
+  = fmap[RMod_Forget_Ab@{o o a p c} R] f := eq_refl.
 
-Definition rmod_forget_comparison@{a c p o x} (R : RingObject@{a c p}) :
-  EM_Forget (TensorF@{a c p o x} R)
-    ◯ EM_Comparison (zext_adjunction@{a c p o o x a a} R)
-  ≈ RMod_Forget_Ab@{x o o a p c} R.
+Definition rmod_forget_comparison@{a c p o} (R : RingObject@{a c p}) :
+  EM_Forget (TensorF@{a c p o} R)
+    ◯ EM_Comparison (zext_adjunction@{a c p a} R)
+  ≈ RMod_Forget_Ab@{o o a p c} R.
 Proof.
-  exists (fun M => @iso_id Ab@{o c} (fobj[RMod_Forget_Ab@{x o o a p c} R] M)).
+  exists (fun M => @iso_id Ab@{o c} (fobj[RMod_Forget_Ab@{o o a p c} R] M)).
   intros M N f.
   simpl. intros m. reflexivity.
 Defined.

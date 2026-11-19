@@ -434,10 +434,9 @@ Program Definition sieve_truth (C : Category) :
     ⟹ Sieve_Presheaf C := {|
   transform := fun c => {| morphism := fun _ => @total_sieve C c |}
 |}.
-Next Obligation.
-  intros C c; unfold Proper, respectful; intros u v _ d g; simpl.
-  split; auto.
-Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   constant maps is found by typeclass resolution ([reflexive_proper]), so
+   there is no obligation for it. *)
 Next Obligation. intros C x y f u d k; simpl; split; auto. Qed.
 Next Obligation. intros C x y f u d k; simpl; split; auto. Qed.
 

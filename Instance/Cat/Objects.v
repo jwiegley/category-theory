@@ -411,7 +411,10 @@ Proof.
                     (fun x y (e : x = y) =>
                        match e in _ = z return f x ~{C}~> f z with
                        | eq_refl => id end) _ _ _).
-  - intros x y e1 e2 He. destruct He. reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole of the map
+     of arrows is filled by typeclass resolution ([reflexive_proper] and
+     [reflexive_eq_dom_reflexive], the arrows of [DiscreteCat] being compared
+     by [eq]). *)
   - intros x. reflexivity.
   - intros x y z g e. destruct g, e. simpl. symmetry; apply id_left.
 Defined.
@@ -847,10 +850,16 @@ End StrictCatHomsBelow.
    what the declaration buys is the CONTENT of the control -- without it
    the levels could collapse and the command would demonstrate nothing.
    Stated so that a later reader does not delete it as redundant. *)
+(* With the universes of rocq-prover/rocq#22721 the universes of [StrictCat]
+   itself are the least ones, [max(f+1, b+1)] and [max(f, b)], as is the one of
+   the objects of [Coq], [f+1], so the two functors only bind those of the
+   inner categories and of the types:
+   [StrictCat_Disc@{f b} : Coq@{f+1 f} ⟶ StrictCat@{_ _ f b}] and
+   [StrictCat_Objects@{f b f} : StrictCat@{_ _ f b} ⟶ Coq@{f+1 f}]. *)
 Section AdjunctionUniversesSeparated.
-  Universes a b c e f.
+  Universes b f.
   Constraint b < f.
-  Check (StrictCat_Disc@{a b c f e f} ⊣ StrictCat_Objects@{a c f e f b}).
+  Check (StrictCat_Disc@{f b} ⊣ StrictCat_Objects@{f b f}).
 End AdjunctionUniversesSeparated.
 
 (** ** §9. The objects functor genuinely forgets *)

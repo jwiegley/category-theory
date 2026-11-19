@@ -316,9 +316,9 @@ Definition PDiscT@{o so s | o < so, o < s +} :
   Sets@{o so} ⟶ Sets@{o so} :=
   PForget@{o so} ◯ PDisc@{o so}.
 
-Definition PDiscMonad@{o so s u u0 | o < so, o < s, o < u +} :
+Definition PDiscMonad@{o so s u0 | o < so, o < s+} :
   @Monad Sets@{o so} PDiscT@{o so s} :=
-  @Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u u0}.
+  @Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}.
 
 Example PDiscT_fobj@{o so s | o < so, o < s +} (x : Sets@{o so}) :
   fobj[PDiscT@{o so s}] x = x := eq_refl.
@@ -326,20 +326,20 @@ Example PDiscT_fobj@{o so s | o < so, o < s +} (x : Sets@{o so}) :
 Example PDiscT_fmap@{o so s | o < so, o < s +} (x y : Sets@{o so})
   (f : x ~> y) : fmap[PDiscT@{o so s}] f = f := eq_refl.
 
-Example PDisc_PForget_unit@{o so u u0 | o < so, o < u +}
+Example PDisc_PForget_unit@{o so u0 | o < so+}
   (x : Sets@{o so}) :
-  @unit _ _ _ _ PDisc_PForget@{o so u u0} x = id := eq_refl.
+  @unit _ _ _ _ PDisc_PForget@{o so u0} x = id := eq_refl.
 
-Example PDisc_PForget_counit@{o so u u0 | o < so, o < u +}
+Example PDisc_PForget_counit@{o so u0 | o < so+}
   (X : PTopCat@{o so}) :
-  pmap (@counit _ _ _ _ PDisc_PForget@{o so u u0} X) = setoid_morphism_id
+  pmap (@counit _ _ _ _ PDisc_PForget@{o so u0} X) = setoid_morphism_id
   := eq_refl.
 
 Example PDiscMonad_ret@{o so s u u0 | o < so, o < s, o < u +}
-  (x : Sets@{o so}) : @ret _ _ PDiscMonad@{o so s u u0} x = id := eq_refl.
+  (x : Sets@{o so}) : @ret _ _ PDiscMonad@{o so s u0} x = id := eq_refl.
 
 Example PDiscMonad_join@{o so s u u0 | o < so, o < s, o < u +}
-  (x : Sets@{o so}) : @join _ _ PDiscMonad@{o so s u u0} x = id := eq_refl.
+  (x : Sets@{o so}) : @join _ _ PDiscMonad@{o so s u0} x = id := eq_refl.
 
 (* The data fields of the functor and of the monad, as functions: I = ⟨I,
    1, 1⟩ on the nose. *)
@@ -348,7 +348,7 @@ Example PDiscT_fields@{o so s | o < so, o < s +} :
     = (@fobj _ _ Id[Sets@{o so}], @fmap _ _ Id[Sets@{o so}]) := eq_refl.
 
 Example PDiscMonad_fields@{o so s u u0 | o < so, o < s, o < u +} :
-  (@ret _ _ PDiscMonad@{o so s u u0}, @join _ _ PDiscMonad@{o so s u u0})
+  (@ret _ _ PDiscMonad@{o so s u0}, @join _ _ PDiscMonad@{o so s u0})
     = (@ret _ _ (IdMonad@{so o} Sets@{o so}),
        @join _ _ (IdMonad@{so o} Sets@{o so})) := eq_refl.
 
@@ -371,14 +371,14 @@ Proof.
 Defined.
 
 Definition disc_id_hom@{o so s u u0 | o < so, o < s, o < u +} :
-  MonadHom@{so o} PDiscMonad@{o so s u u0} (IdMonad@{so o} Sets@{o so}).
+  MonadHom@{so o} PDiscMonad@{o so s u0} (IdMonad@{so o} Sets@{o so}).
 Proof.
   unshelve refine {| mh_transform := disc_to_id@{o so s} |};
     intros x z; simpl; reflexivity.
 Defined.
 
 Definition id_disc_hom@{o so s u u0 | o < so, o < s, o < u +} :
-  MonadHom@{so o} (IdMonad@{so o} Sets@{o so}) PDiscMonad@{o so s u u0}.
+  MonadHom@{so o} (IdMonad@{so o} Sets@{o so}) PDiscMonad@{o so s u0}.
 Proof.
   unshelve refine {| mh_transform := id_to_disc@{o so s} |};
     intros x z; simpl; reflexivity.
@@ -395,11 +395,11 @@ Example id_disc_hom_component@{o so s u u0 | o < so, o < s, o < u +}
 Definition disc_id_iso@{o so s u u0 m1 m2 |
   o < so, o < s, o < u, so <= m1, o <= m1, so <= m2, o <= m2 +} :
   @Isomorphism (Monads@{so o m1 m2} Sets@{o so})
-    (existT _ PDiscT@{o so s} PDiscMonad@{o so s u u0})
+    (existT _ PDiscT@{o so s} PDiscMonad@{o so s u0})
     (existT _ Id[Sets@{o so}] (IdMonad@{so o} Sets@{o so})).
 Proof.
   unshelve refine (@Build_Isomorphism (Monads@{so o m1 m2} Sets@{o so})
-                     (existT _ PDiscT@{o so s} PDiscMonad@{o so s u u0})
+                     (existT _ PDiscT@{o so s} PDiscMonad@{o so s u0})
                      (existT _ Id[Sets@{o so}] (IdMonad@{so o} Sets@{o so}))
                      disc_id_hom@{o so s u u0} id_disc_hom@{o so s u u0}
                      _ _);
@@ -411,8 +411,8 @@ Defined.
 Definition PDiscK@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PTopCat@{o so} ⟶
     @EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-      PDiscMonad@{o so s u u0} :=
-  EM_Comparison PDisc_PForget@{o so u u0}.
+      PDiscMonad@{o so s u0} :=
+  EM_Comparison PDisc_PForget@{o so u0}.
 
 Example PDiscK_forget_obj@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} (X : PTopCat@{o so}) :
@@ -442,21 +442,21 @@ Defined.
 
 Definition PDiscK_forget@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   EM_Forget _ ◯ PDiscK@{o so s u u0 e} ≈ PForget@{o so} :=
-  EM_Comparison_Forget PDisc_PForget@{o so u u0}.
+  EM_Comparison_Forget PDisc_PForget@{o so u0}.
 
 (** ** Set^I = Set *)
 
 Lemma PDiscMonad_alg_id@{o so s u u0 | o < so, o < s, o < u +}
   (a : Sets@{o so})
-  (ν : @TAlgebra Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u u0} a)
+  (ν : @TAlgebra Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u0} a)
   (x : a) : t_alg[ν] x ≈ x.
 Proof. exact (@t_id _ _ _ _ ν x). Qed.
 
 Definition EM_PDisc_counit@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
-  @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u u0}
+  @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u0}
     ◯ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
-        PDiscMonad@{o so s u u0}
+        PDiscMonad@{o so s u0}
     ≈ Id[Sets@{o so}].
 Proof.
   exists (fun x => iso_id).
@@ -466,20 +466,20 @@ Defined.
 Definition EM_PDisc_unit_iso@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +}
   (X : @EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-         PDiscMonad@{o so s u u0}) :
+         PDiscMonad@{o so s u0}) :
   @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-                  PDiscMonad@{o so s u u0})
+                  PDiscMonad@{o so s u0})
     X (fobj[@EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
-              PDiscMonad@{o so s u u0}
+              PDiscMonad@{o so s u0}
              ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
-                 PDiscMonad@{o so s u u0}] X).
+                 PDiscMonad@{o so s u0}] X).
 Proof.
   unshelve econstructor.
   - unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                       PDiscMonad@{o so s u u0} _ _ _ _ id _).
+                       PDiscMonad@{o so s u0} _ _ _ _ id _).
     intro x; simpl. exact (PDiscMonad_alg_id _ (`2 X) x).
   - unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                       PDiscMonad@{o so s u u0} _ _ _ _ id _).
+                       PDiscMonad@{o so s u0} _ _ _ _ id _).
     intro x; simpl. exact (symmetry (PDiscMonad_alg_id _ (`2 X) x)).
   - intro x; simpl. reflexivity.
   - intro x; simpl. reflexivity.
@@ -487,11 +487,11 @@ Defined.
 
 Definition EM_PDisc_unit@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   Id[@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-       PDiscMonad@{o so s u u0}]
+       PDiscMonad@{o so s u0}]
     ≈ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
-        PDiscMonad@{o so s u u0}
+        PDiscMonad@{o so s u0}
         ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
-            PDiscMonad@{o so s u u0}.
+            PDiscMonad@{o so s u0}.
 Proof.
   exists EM_PDisc_unit_iso.
   intros X Y f x; simpl. reflexivity.
@@ -501,30 +501,30 @@ Definition EM_PDisc_equivalence@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
   EquivalenceOfCategories
     (@EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
-       PDiscMonad@{o so s u u0}) :=
+       PDiscMonad@{o so s u0}) :=
   @Build_EquivalenceOfCategories _ _ _ _
     EM_PDisc_counit@{o so s u u0 e} EM_PDisc_unit@{o so s u u0 e}.
 
 Definition PDiscK_free_iso@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   (X : PTopCat@{o so}) :
   @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-                  PDiscMonad@{o so s u u0})
+                  PDiscMonad@{o so s u0})
     (fobj[PDiscK@{o so s u u0 e}] X)
     (fobj[@EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
-            PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X).
+            PDiscMonad@{o so s u0} ◯ PForget@{o so}] X).
 Proof.
   unshelve econstructor;
     [ unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                         PDiscMonad@{o so s u u0} _ _ _ _ id _)
+                         PDiscMonad@{o so s u0} _ _ _ _ id _)
     | unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                         PDiscMonad@{o so s u u0} _ _ _ _ id _)
+                         PDiscMonad@{o so s u0} _ _ _ _ id _)
     | | ]; intro x; simpl; reflexivity.
 Defined.
 
 Definition PDiscK_free@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PDiscK@{o so s u u0 e}
     ≈ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
-        PDiscMonad@{o so s u u0} ◯ PForget@{o so}.
+        PDiscMonad@{o so s u0} ◯ PForget@{o so}.
 Proof.
   exists PDiscK_free_iso.
   intros X Y f x; simpl. reflexivity.

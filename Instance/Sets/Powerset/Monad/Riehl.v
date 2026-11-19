@@ -124,7 +124,7 @@ Generalizable All Variables.
    members, indexed by the members themselves. *)
 Lemma Powerset_union_IsLUB@{o} {X : SetoidObject@{o o}}
   (SS : carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))) :
-  IsLUB@{o o Set Set Set} (@subset_le@{o} X)
+  IsLUB@{o o Set} (@subset_le@{o} X)
     (fun i : { S : carrier (Powerset_Prop_obj@{o} X) & SS S } => projT1 i)
     (Powerset_union_pred@{o} SS).
 Proof.
@@ -137,7 +137,7 @@ Qed.
 Lemma Powerset_union_family@{o} {X : SetoidObject@{o o}}
   (SS : carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))) :
   Powerset_union_pred@{o} SS
-    ≈ subset_union@{o o o}
+    ≈ subset_union@{o o}
         (fun i : { S : carrier (Powerset_Prop_obj@{o} X) & SS S } => projT1 i).
 Proof.
   intro x; split.

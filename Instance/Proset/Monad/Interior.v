@@ -540,10 +540,12 @@ Definition adj_closure@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
   (Adj : @Adjunction@{b a h s w} _ _ F U) :
   ClosureOperator@{a} PA :=
-  closure_of_monad (U ◯ F) (MM := Adjunction_Monad@{b h a h s w} Adj).
+  closure_of_monad (U ◯ F) (MM := Adjunction_Monad@{b h a h w} Adj).
 
 (* [Adjunction_Comonad]'s level u4 (sixth in its binder) occurs in
    neither its type nor its constraints; it is pinned to h. *)
+(* With the universes of rocq-prover/rocq#22721 there is no such level:
+   [Adjunction_Comonad] has the six universes of [Adjunction_Monad]. *)
 Definition adj_interior@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   {RA : relation A} {RB : relation B} {PA : PreOrder RA}
   {PB : PreOrder RB} {F : Proset@{a h} PA ⟶ Proset@{b h} PB}
@@ -551,7 +553,7 @@ Definition adj_interior@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   (Adj : @Adjunction@{b a h s w} _ _ F U) :
   InteriorOperator@{b} PB :=
   interior_of_comonad (F ◯ U)
-    (H := Adjunction_Comonad@{b h a h s} Adj).
+    (H := Adjunction_Comonad@{b h a h w} Adj).
 
 Example adj_closure_fun@{a b h s w | h < s +} {A : Type@{a}}
   {B : Type@{b}} {RA : relation A} {RB : relation B} {PA : PreOrder RA}

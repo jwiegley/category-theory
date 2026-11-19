@@ -312,7 +312,10 @@ Qed.
 (** [RMod R] has the same shape as [Ab]: objects with more structure,
     homomorphisms respecting it, and identities, composition and the
     hom-setoid inherited unchanged from the underlying groups. *)
-Program Definition RMod (R : RingObject) : Category := {|
+(* The universes are declared: [o] for the objects, and the ring's [a], [p]
+   and [c], the last one being the universe of the carriers and of the homs.
+   Inferred, the universe of the objects would be [max(c+1, p)]. *)
+Program Definition RMod@{o a p c} (R : RingObject@{a c p}) : Category@{o c c} := {|
   obj     := RModObject R;
   hom     := @RModHom R;
   homset  := fun M N => @RModHom_Setoid R M N;
@@ -347,7 +350,8 @@ Defined.
     composite (the object and morphism parts agree with the composite; the
     functor-law proofs are opaque, so the two records are not the same
     term). *)
-Program Definition RMod_Forget_Ab (R : RingObject) : RMod R ⟶ Ab := {|
+Program Definition RMod_Forget_Ab@{o oa a p c} (R : RingObject@{a c p}) :
+  RMod@{o a p c} R ⟶ Ab@{oa c} := {|
   fobj := fun M => rm_ab M;
   fmap := fun _ _ f => rm_hom f
 |}.

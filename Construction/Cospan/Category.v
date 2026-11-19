@@ -487,6 +487,11 @@ Proof.
   - simpl; split; cbn [to from]; fold Pgf Phg; fold PL PR.
     + (* uLR ∘ (pushout_in1 PL ∘ (pushout_in1 Pgf ∘ cospan_in1 f))
          ≈ pushout_in1 PR ∘ cospan_in1 f *)
+      (* With the universes of rocq-prover/rocq#22721 [fold PL PR] does not
+         fold the occurrences of [PL] and [PR], whose universes are copies of
+         those of the goal: the goal is restated. *)
+      change (uLR ∘ (pushout_in1 PL ∘ (pushout_in1 Pgf ∘ cospan_in1 f))
+                ≈ pushout_in1 PR ∘ cospan_in1 f).
       rewrite (comp_assoc uLR).
       rewrite (comp_assoc _ (pushout_in1 Pgf)).
       rewrite HuLR1.
@@ -494,6 +499,8 @@ Proof.
       reflexivity.
     + (* uLR ∘ (pushout_in2 PL ∘ cospan_in2 h)
          ≈ pushout_in2 PR ∘ (pushout_in2 Phg ∘ cospan_in2 h) *)
+      change (uLR ∘ (pushout_in2 PL ∘ cospan_in2 h)
+                ≈ pushout_in2 PR ∘ (pushout_in2 Phg ∘ cospan_in2 h)).
       rewrite (comp_assoc uLR).
       rewrite HuLR2.
       rewrite <- comp_assoc.

@@ -329,8 +329,8 @@ Example PTop_via_cones_apex@{s o so +| s <= o, o < so +}
 (* Not only the apex: the whole limiting cone, legs included. *)
 Example PTop_via_cones_cone@{s o so +| s <= o, o < so +}
   (J : Category@{s o o}) (T : J ⟶ PTopCat@{o so}) :
-  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so _ _ _} J T)
-    = @limit_cone _ _ _ (@PTop_Complete@{o s o so _ _} J T) := eq_refl.
+  @limit_cone _ _ _ (@PTop_Complete_via_cones@{o s o so} J T)
+    = @limit_cone _ _ _ (@PTop_Complete@{o s o so} J T) := eq_refl.
 
 (* Exercise 3(c): Top has all products, J discrete.  The limit of the
    discrete diagram on [X], through the cone adjunction. *)

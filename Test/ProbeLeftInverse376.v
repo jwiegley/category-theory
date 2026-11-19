@@ -275,8 +275,10 @@ Check (Bu ⟶ Cu2).
 Check (LeftAdjointLeftInverse Gu2).
 Check (@LeftAdjointFFInjective Bu Cu2 Gu2).
 
-Fail Check (@Isomorphism StrictCat Bu Cu2).
-Fail Check (@ffi_implies_ri Bu Cu2 Gu2).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Isomorphism StrictCat Bu Cu2).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@ffi_implies_ri Bu Cu2 Gu2).
 
 End StrictCatObjectProbe.
 
@@ -303,7 +305,8 @@ Check (PointAt (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 Check (@terminal_LALI).
 
 Check @_1@{_ _ _}.
-Fail Check (Point (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Point (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 
 End PointProbe.
 

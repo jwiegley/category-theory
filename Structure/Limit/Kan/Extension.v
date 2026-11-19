@@ -83,10 +83,13 @@ Proof.
         abstract cat.
     }
 
+    (* [rewrites] runs before [X0] is introduced: with the universes of
+       rocq-prover/rocq#22721 it would otherwise rewrite with [X0] (and clear
+       it), which the rest of the script does by hand. *)
+    rewrites.
     spose (@to_adj_nat_l _ _ _ _ ran_adjoint
                          (Ran (Erase J) F) (Δ(Lim))
                          F nat from_ran ttt) as X0.
-    rewrites.
 
     assert (∀ f g, f ≈ g
               → to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) f

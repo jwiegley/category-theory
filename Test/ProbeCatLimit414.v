@@ -128,7 +128,7 @@ Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
               PiCat_IsIndexedProduct C).
 
 (* N3: inherited, the instance refused directly. *)
-Check @Cat_HasIndexedProducts@{_ _ _ _}.
+Check @Cat_HasIndexedProducts@{_ _ _}.
 Fail Check @Cat_HasIndexedProducts@{i so sh _}.
 
 End IndexBoundary.

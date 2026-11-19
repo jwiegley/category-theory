@@ -158,9 +158,9 @@ Program Definition nat_of_cone (c : C) (κ : ACone c F) :
   Δ[J]( @terminal_obj Sets Sets_Terminal ) ⟹ HomDiagram c F := {|
   transform := fun j => {| morphism := fun _ => @vertex_map _ _ _ _ κ j |}
 |}.
-Next Obligation.
-  repeat intro; reflexivity.
-Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   constant maps is found by typeclass resolution ([reflexive_proper]), so
+   there is no obligation for it. *)
 Next Obligation.
   intros c κ x y f u; simpl.
   now rewrite (@cone_coherence _ _ _ _ κ x y f).

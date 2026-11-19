@@ -296,8 +296,11 @@ Qed.
    the theorem covers large categories.  Theory/Size.v's [Small] is
    deliberately NOT consumed: it resizes per hom-set through [ObjEq]
    transports, and the proof needs one index type for all arrows. *)
-Record ArrowIndex (C : Category) := {
-  ai_index   : Type;
+(* The universes are declared, in the order of the annotations of the tree:
+   [i] for the index, then those of [C]. Inferred, with the universes of
+   rocq-prover/rocq#22721 the index would come after the objects of [C]. *)
+Record ArrowIndex@{i o h} (C : Category@{o h h}) := {
+  ai_index   : Type@{i};
   ai_enc     : ∀ {x y : C}, (x ~> y) → ai_index;
   ai_dec     : ∀ {x y : C}, ai_index → (x ~> y) → (x ~> y);
   ai_dec_enc : ∀ {x y : C} (h d : x ~> y), ai_dec (ai_enc h) d ≈ h

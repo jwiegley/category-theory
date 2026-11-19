@@ -271,7 +271,9 @@ Context (c : Rng) (h : D ~{[J, Rng]}~> fobj[@Diagonal Rng J] c).
 Definition rflat : RGen ~{Sets}~> Ab_Forget (Rng_Forget_Ab c).
 Proof using h.
   unshelve refine {| morphism := fun p => rig_map (transform[h] (`1 p)) (`2 p) |}.
-  intros p q Hpq; simpl in Hpq; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution ([reflexive_proper] and
+     [reflexive_eq_dom_reflexive], the equality of [RGen] being [eq]). *)
 Defined.
 
 Definition rhab : RGenAb ~{Ab}~> Rng_Forget_Ab c :=

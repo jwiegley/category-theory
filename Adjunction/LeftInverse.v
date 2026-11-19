@@ -953,7 +953,9 @@ Program Definition PointAt (c : C) : One ⟶ C := {|
   fobj := fun _ => c;
   fmap := fun _ _ _ => id
 |}.
-Next Obligation. proper. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   map of arrows is found by typeclass resolution ([reflexive_proper] and
+   [reflexive_eq_dom_reflexive]), so there is no obligation for it. *)
 Next Obligation. intros; reflexivity. Qed.
 Next Obligation. intros; now rewrite id_left. Qed.
 

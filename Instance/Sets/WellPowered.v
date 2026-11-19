@@ -405,7 +405,7 @@ Context (U : Untruncate@{o}).
    the index is the hom-set [X ~> Ω], at the hom universe [o]. *)
 Definition Sets_WellPoweredAt_untruncate (X : SetoidObject@{o o}) :
   @WellPoweredAt Sets@{o so} X :=
-  @wp_of_classifier Sets@{o so} Sets_Terminal@{so o} Sets_HasPullbacks@{so o}
+  @wp_of_classifier Sets@{o so} Sets_Terminal@{so o} Sets_HasPullbacks@{o}
     (Sets_Classifier@{o so} U) X.
 
 End SetsWellPoweredPinned.

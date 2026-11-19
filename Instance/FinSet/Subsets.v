@@ -243,7 +243,10 @@ Qed.
 Definition FinSubsets@{u} (n : nat) : Category@{Set u u} :=
   Proset@{Set u} (finpow_le_preorder n).
 
-Example FinSubsets_obj_is_code@{u} (n : nat) :
+(* [+]: with the universes of rocq-prover/rocq#22721 the elaboration of the
+   equation creates a universe above [Set], which [Unset Universe Minimization
+   ToSet] keeps. *)
+Example FinSubsets_obj_is_code@{u +} (n : nat) :
   obj[FinSubsets@{u} n] = Fin.t (finpow n) := eq_refl.
 
 Example FinSubsets_hom_is_finpow_le@{u} (n : nat)
@@ -321,7 +324,8 @@ Proof.
        (Fin.t n) (is_setoid (Powerset_Prop_fin_object@{o} n))
        Prop (is_setoid Powerset_Prop_truth@{o})
        (fun i => finpow_mem S i = true) _).
-  intros i j Hij; rewrite Hij; split; exact (fun h => h).
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 (* Monotone, and ORDER-REFLECTING: both directions are the same

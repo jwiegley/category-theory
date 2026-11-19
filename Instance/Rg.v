@@ -257,14 +257,18 @@ Generalizable All Variables.
 (* An abelian group with an associative, doubly distributive
    multiplication.  No unit, and no annihilation clause: the latter is
    derivable here, which is exactly the difference from [RigObject]. *)
-Record RgObject := {
-  rg_ab :> AbObject;
+(* The universes are declared: [p] for the compatibility of the operations
+   with the equality, [c] for the carrier and [e] for its equality. Inferred,
+   the first one would be [max(c, e)]. *)
+Record RgObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  rg_ab :> AbObject@{p c e};
 
   rg_mul : carrier (cmon_setoid (ab_cmon rg_ab)) →
            carrier (cmon_setoid (ab_cmon rg_ab)) →
            carrier (cmon_setoid (ab_cmon rg_ab));
 
-  rg_mul_respects : Proper (equiv ==> equiv ==> equiv) rg_mul;
+  rg_mul_respects :
+    Proper@{c p} (respectful@{c e c p} equiv (respectful@{c e c e} equiv equiv)) rg_mul;
 
   rg_mul_assoc : ∀ a b c,
     rg_mul (rg_mul a b) c ≈ rg_mul a (rg_mul b c);
@@ -396,9 +400,9 @@ Program Definition Rg@{u p} : Category@{u p p} := {|
   hom     := RgHom@{p};
   homset  := @RgHom_Setoid@{p};
   id      := @rg_hom_id@{p};
-  compose := @rg_hom_compose@{u p};
+  compose := @rg_hom_compose@{p};
 
-  compose_respects := @rg_hom_compose_respects@{u p}
+  compose_respects := @rg_hom_compose_respects@{p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -552,7 +556,10 @@ Program Definition Rg_zero_hom@{u o} (R : RgObject@{o o o})
     cmon_map := {| morphism := fun _ => cmon_zero (ab_cmon (rg_ab R)) |}
   |}
 |}.
-Next Obligation. intros R x y Hxy; reflexivity. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   constant map is found by typeclass resolution at elaboration time
+   ([reflexive_proper] and [reflexive_eq_dom_reflexive], the equality of
+   [Unit_Setoid] being [eq]), so there is no obligation for it. *)
 Next Obligation. intros R; simpl; reflexivity. Qed.
 Next Obligation.
   intros R a b; simpl; symmetry; apply cmon_plus_zero_l.

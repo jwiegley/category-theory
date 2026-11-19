@@ -1150,7 +1150,8 @@ Program Definition wpow_cone (c : C) (pi : ∀ _ : J, c ~> b) :
   power_weight J ⟹ HomDiagram c (power_diagram b) := {|
   transform := fun _ => {| morphism := pi |}
 |}.
-Next Obligation. intros c pi i x y Hxy; simpl in Hxy; subst; reflexivity. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation is
+   found by typeclass resolution, [index_setoid J] being [eq]. *)
 Next Obligation. intros c pi x y f j; simpl; now rewrite id_left. Qed.
 Next Obligation. intros c pi x y f j; simpl; now rewrite id_left. Qed.
 
@@ -1208,9 +1209,8 @@ Program Definition wcop_cocone (c : C) (iota : ∀ _ : J, b ~{C}~> c) :
     ⟹ HomDiagram (C:=C^op) c (Opposite_Functor (copower_diagram b)) := {|
   transform := fun _ => {| morphism := iota |}
 |}.
-Next Obligation.
-  intros c iota i x y Hxy; simpl in Hxy; subst; reflexivity.
-Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation is
+   found by typeclass resolution, [index_setoid J] being [eq]. *)
 Next Obligation. intros c iota x y f j; simpl; now rewrite id_right. Qed.
 Next Obligation. intros c iota x y f j; simpl; now rewrite id_right. Qed.
 

@@ -929,13 +929,13 @@ Section CompletionInsertPin.
 Universe uo uh.
 Constraint Set < uo.
 
-Check (fun M : obj[MonSets@{uo uh}] => comp_free M).
-Check (fun M : obj[MonSets@{uo uh}] => CompletionObject M).
-Check (fun (M : obj[MonSets@{uo uh}]) (a b : carrier (mcar M)) =>
+Check (fun M : obj[MonSets@{uh}] => comp_free M).
+Check (fun M : obj[MonSets@{uh}] => CompletionObject M).
+Check (fun (M : obj[MonSets@{uh}]) (a b : carrier (mcar M)) =>
          comp_class_op M a b).
 
-Check @MonSets@{_ _}.
+Check @MonSets@{_}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
-Check (fun M : obj[MonSets@{uo uh}] => completion_insert M).
+Check (fun M : obj[MonSets@{uh}] => completion_insert M).
 
 End CompletionInsertPin.

@@ -852,7 +852,7 @@ Definition PTop_Complete@{r s o so +| s <= o, o < so, o <= r +} :
    compatible families. *)
 Example PTop_Complete_apex@{s o so +| s <= o, o < so +}
   (J : Category@{s o o}) (T : J ⟶ PTopCat@{o so}) :
-  vertex_obj[@limit_cone _ _ _ (@PTop_Complete@{o s o so _ _} J T)]
+  vertex_obj[@limit_cone _ _ _ (@PTop_Complete@{o s o so} J T)]
     = pinit_top T (Sets_limit_cone (PForget ◯ T)) := eq_refl.
 
 (* By the book's route: products and equalizers, through #416's

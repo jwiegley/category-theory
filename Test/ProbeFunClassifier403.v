@@ -235,12 +235,14 @@ Check (@Sub_classifier_natural ([C^op, Sets])
    [Fun_Classifier], whose elaboration minimizes the presheaf category's
    hom universe below its object universe.  The stripped error ends
    "Cannot enforce ... because ... <= ... < ...". *)
-Fail Check (@classifier_classifies ([C^op, Sets])
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@classifier_classifies ([C^op, Sets])
               (Functor_Category_Terminal Sets_Terminal)
               (Fun_HasPullbacks Sets_HasPullbacks) (Fun_Classifier UT)).
 
 (* NEGATIVE 2 (FORMABILITY).  Nor is the naturality upgrade. *)
-Fail Check (@Sub_classifier_natural ([C^op, Sets])
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Sub_classifier_natural ([C^op, Sets])
               (Functor_Category_Terminal Sets_Terminal)
               (Fun_HasPullbacks Sets_HasPullbacks) (Fun_Classifier UT)).
 End CC.
@@ -267,7 +269,8 @@ Check (fun_Sub_Representable Cs UTs).
 (* NEGATIVE 3 (FORMABILITY).  The BUILT [Fun_Classifier] still cannot be
    re-typed at those levels — a re-annotated REDEFINITION is what
    escapes, not a re-ascription of the constant. *)
-Fail Check (Fun_Classifier (C:=Cs) UTs
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Fun_Classifier (C:=Cs) UTs
               : @SubobjectClassifier (PShSmall Cs) (PShSmall_Terminal Cs)).
 End CCSmall.
 

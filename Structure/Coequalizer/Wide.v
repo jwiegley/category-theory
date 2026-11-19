@@ -107,13 +107,17 @@ Generalizable All Variables.
 (* The wide coequalizer of a diagram of shape [WideParallel I]: a colimit,
    exactly as [Structure/Equalizer.v]'s [Coequalizer] is over the two-arrow
    shape. *)
-Definition WideCoequalizer {C : Category} {I : Type} (F : WideParallel I ⟶ C) :=
+(* The universes are declared in the order of the annotations of the tree
+   (here and for [IsWideCoequalizer] below): inferred, with the universes of
+   rocq-prover/rocq#22721 those of [C] would come first. *)
+Definition WideCoequalizer@{h o} {C : Category@{o h h}} {I : Type@{h}}
+  (F : WideParallel I ⟶ C) :=
   Colimit F.
 
 (* The elementary universal property: [e] coequalizes the whole family at q,
    and every map h out of y that absorbs the family descends uniquely
    across e. *)
-Record IsWideCoequalizer {C : Category} {I : Type} {x y : C}
+Record IsWideCoequalizer@{i o h} {C : Category@{o h h}} {I : Type@{i}} {x y : C}
   (fs : I → x ~> y) (q : C) (e : y ~> q) := {
   (* the coequalizing map absorbs every member in the same way *)
   wcofork : ∀ i j : I, e ∘ fs i ≈ e ∘ fs j;
@@ -128,8 +132,11 @@ Arguments wcoeq_desc {_ _ _ _ _ _ _} _ {_} _ _.
 
 (* A category has all wide coequalizers when every family of parallel
    arrows carries an elementary wide coequalizer. *)
-Class HasWideCoequalizers (C : Category) := {
-  wide_coeq {I : Type} {x y : C} (fs : I → x ~> y) :
+(* The universes are declared, in the order of the annotations of the tree:
+   [i] for the index, then those of [C]. Inferred, with the universes of
+   rocq-prover/rocq#22721 the index would come after the objects of [C]. *)
+Class HasWideCoequalizers@{i o h} (C : Category@{o h h}) := {
+  wide_coeq {I : Type@{i}} {x y : C} (fs : I → x ~> y) :
     ∃ (q : C) (e : y ~> q), IsWideCoequalizer fs q e
 }.
 

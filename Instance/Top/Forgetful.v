@@ -477,7 +477,10 @@ Program Definition indiscrete_pair_diagram@{o h so | o < h, o < so +} :
   fobj := fun _ : bool => Indiscrete_Top@{o o} unit_setoid_object@{o o};
   fmap := fun _ _ _ => top_id
 |}.
-Next Obligation. intros x y f g H p; reflexivity. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   map of arrows is found by typeclass resolution ([reflexive_proper] and
+   [reflexive_eq_dom_reflexive], the arrows of [DiscreteCat] being compared
+   by [eq]), so there is no obligation for it. *)
 Next Obligation. intros x p; reflexivity. Qed.
 Next Obligation. intros x y z f g p; reflexivity. Qed.
 

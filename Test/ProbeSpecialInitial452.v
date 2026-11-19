@@ -408,7 +408,8 @@ Definition p452_power_low_index@{o h so c +| h <= so, c < so +}
   (G : Cogenerator@{c o h} C) (x : C) : C :=
   cogen_power comp G x.
 
-Fail Definition p452_n2_prod_low_index@{o h so c +| h <= so, c < so +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p452_n2_prod_low_index@{o h so c +| h <= so, c < so +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) : C :=
   cogen_prod comp G.
@@ -425,7 +426,8 @@ Definition p452_prod_high_datum@{o h r so +| h <= so, so < r +}
   (G : Cogenerator@{so o h} C) : C :=
   cogen_prod comp G.
 
-Fail Definition p452_n3_power_high_datum@{o h r so +| h <= so, so < r +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p452_n3_power_high_datum@{o h r so +| h <= so, so < r +}
   {C : Category@{o h h}} (comp : @Complete@{r so h o} C)
   (G : Cogenerator@{so o h} C) (x : C) : C :=
   cogen_power comp G x.
@@ -512,7 +514,8 @@ Definition p452_freyd_at_h@{o h +} {C : Category@{o h h}}
          (wif_of_weakly_initial (special_weakly_initial comp G w Hw))) :=
   initial_unique _ _.
 
-Fail Definition p452_n8_freyd_above@{o h so +| h < so +} {C : Category@{o h h}}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p452_n8_freyd_above@{o h so +| h < so +} {C : Category@{o h h}}
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C)
   (w : SubObj (cogen_prod comp G))
   (Hw : ∀ v : SubObj (cogen_prod comp G), sub_le w v) :
@@ -543,7 +546,8 @@ Definition p452_freyd_wif_at_h@{o h s t d +| h < t, h < d, o <= s, h <= s +}
 
 Check @WellPoweredAt@{_ _ _ _}.
 Check @cogen_prod@{_ _ _ _}.
-Fail Definition p452_n9_freyd_wif_low@{o h w s t d +|
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p452_n9_freyd_wif_low@{o h w s t d +|
     w < h, h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
@@ -681,7 +685,7 @@ Definition p452_setsop_wp_free@{o so +| o < so +}
 
 (* CONTROL: the co-well-powered datum one universe up, per object. *)
 Definition p452_sets_cowp_up@{o so +| o < so +} (X : SetoidObject@{o o}) :=
-  Sets_CoWellPoweredAt_up@{o so so} X.
+  Sets_CoWellPoweredAt_up@{o so} X.
 
 Fail Definition p452_n15_setsop_wp_up@{o so +| o < so +} :
   @Initial (Sets@{o so}^op) :=

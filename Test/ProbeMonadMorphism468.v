@@ -504,15 +504,14 @@ Generalizable All Variables.
 (** ** Part (a): Monad/Morphism.v *)
 
 (* C1: the right factor of [mh_join] is [nat_hcompose θ θ] at x. *)
-Example p468_c1_hcompose@{o h s | h < s +} {C : Category@{o h h}}
+Example p468_c1_hcompose@{o h |+} {C : Category@{o h h}}
   {T T2 : C ⟶ C} {M : @Monad C T} {M2 : @Monad C T2}
   (θ : MonadHom@{o h} M M2) (x : C) :
-  transform[nat_hcompose@{s o o o h} (mh_transform θ) (mh_transform θ)] x
+  transform[nat_hcompose@{o o o h} (mh_transform θ) (mh_transform θ)] x
     = mh_transform θ (T2 x) ∘ fmap[T] (mh_transform θ x) := eq_refl.
 
 (* C2: the ≈ of [Monads C] is the ≈ of [C, C] on [mh_transform]. *)
-Example p468_c2_equiv@{o h m1 m2 u |
-  h < u, o <= m1, h <= m1, o <= m2, h <= m2 +}
+Example p468_c2_equiv@{o h m1 m2 | o <= m1, h <= m1, o <= m2, h <= m2 +}
   (C : Category@{o h h}) (N N2 : Monads@{o h m1 m2} C)
   (θ φ : N ~{Monads@{o h m1 m2} C}~> N2) :
   @equiv _ (@homset (Monads@{o h m1 m2} C) N N2) θ φ
@@ -526,8 +525,7 @@ Example p468_c3_id_components@{o h m1 m2 |
   mh_transform (@id (Monads@{o h m1 m2} C) N) x = id := eq_refl.
 
 (* C4: the identity of [C, C] has components [fmap[T] id]. *)
-Example p468_c4_fun_id@{o h m1 m2 u |
-  h < u, o <= m1, h <= m1, o <= m2, h <= m2 +}
+Example p468_c4_fun_id@{o h m1 m2 | o <= m1, h <= m1, o <= m2, h <= m2 +}
   (C : Category@{o h h}) (T : C ⟶ C) (x : C) :
   transform[@id (@Fun@{o h o h m1 m2} C C) T] x = fmap[T] id := eq_refl.
 
@@ -699,18 +697,18 @@ Example p468_c13_free_forget@{o h e s | h < s, o <= e, h <= e +}
 Example p468_c18_transpose_arrow@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
-  t_alg_hom[@EM_extend@{o h e} C T M x
+  t_alg_hom[@EM_extend@{o h} C T M x
                  (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T2 M2] x)
                  (@ret C T2 M2 x)]
     = (@join C T2 M2 x ∘ mh_transform θ (T2 x)) ∘ fmap[T] (@ret C T2 M2 x)
   := eq_refl.
 
 (* R5 *)
-Check @EM_extend@{_ _ _}.
+Check @EM_extend@{_ _}.
 Fail Example p468_r5_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
-  t_alg_hom[@EM_extend@{o h e} C T M x
+  t_alg_hom[@EM_extend@{o h} C T M x
                  (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T2 M2] x)
                  (@ret C T2 M2 x)]
     = mh_transform θ x := eq_refl.
@@ -821,7 +819,7 @@ Example p468_c49_em_map@{o h m1 m2 e s u |
 (** ** Monad/Morphism/Monoid.v *)
 
 (* C19: the tensor of [Compose_Monoidal] on (θ, θ), at x. *)
-Example p468_c19_bimap@{o h f s | h < s, o <= f, h <= f +}
+Example p468_c19_bimap@{o h f | o <= f, h <= f +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
   transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f o h} C))

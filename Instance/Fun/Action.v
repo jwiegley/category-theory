@@ -299,8 +299,12 @@ Qed.
    category over a delooped monoid IS the category of M-actions, an
    isomorphism in Cat and hence (by Cat's convention) an equivalence
    of categories. *)
-Program Definition MSet_Fun_equiv (M : MonObject) :
-  [Deloop M, Sets] ≅[Cat] MSet M := {|
+(* The universes are declared, as the annotations of the tree expect: [so]
+   for the objects of [Sets], [c] for those of [Cat], [o] for the monoid and
+   the carriers. Inferred, with the universes of rocq-prover/rocq#22721 the
+   objects of [Sets] would be at the least universe, [o+1]. *)
+Program Definition MSet_Fun_equiv@{so c o} (M : MonObject@{o o o}) :
+  [Deloop@{o o} M, Sets@{o so}] ≅[Cat@{c so so o}] MSet@{o o o o o} M := {|
   to   := MSet_to M;
   from := MSet_from M
 |}.

@@ -1210,7 +1210,9 @@ Program Definition PPi0_PInterval_iso@{o so p f | o < so, p <= o, o < f +} :
   from := {| morphism := fun _ => existT _ ParY ival_end0@{o} |}
 |}.
 Next Obligation. intros c d _; reflexivity. Qed.
-Next Obligation. intros u v _; apply colim_rel_refl. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   constant map [from], out of [unit_setoid_object], is found by typeclass
+   resolution, so there is no obligation for it. *)
 Next Obligation. intros []; reflexivity. Qed.
 Next Obligation. intro c. exact (pinterval_rel c). Qed.
 
@@ -1270,7 +1272,9 @@ Program Definition PPi0_PBool_iso@{o so p f | o < so, p <= o, o < f +} :
   from := {| morphism := fun b =>
                existT _ ParY (ppoint_at@{o} PBool@{o} b) |}
 |}.
-Next Obligation. intros b c H; simpl in H; subst; apply colim_rel_refl. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of
+   [from], out of [bool_setoid_object], is found by typeclass resolution, so
+   there is no obligation for it. *)
 Next Obligation. intro b; reflexivity. Qed.
 Next Obligation.
   intros [[] x]; simpl.

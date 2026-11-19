@@ -480,8 +480,8 @@ Example space_step_fn@{s h o hs + | o < h, h < hs +} (p : positive)
    strings of the underlying tower. *)
 Definition GroupSolenoid@{s u o so r | o < u, o < so +} (p : positive) :
   Limit@{r s o u} (GroupTower@{s u o} p) :=
-  Ab_Forget_lifts_limits@{r r r u s o so} (GroupTower@{s u o} p)
-    (Sets_tower_Limit@{s o so r o}
+  Ab_Forget_lifts_limits@{s o} (GroupTower@{s u o} p)
+    (Sets_tower_Limit@{s o o}
        (Ab_Forget@{u so o} ◯ GroupTower@{s u o} p)).
 
 Definition GSolenoid@{s u o so r | o < u, o < so +} (p : positive) :
@@ -651,22 +651,22 @@ Proof.
 Qed.
 
 (* The additive group of Instance/Rng/Zp.v's p-adic integers. *)
-Definition ZpAb@{s o so | o < so +} (p : positive) : AbObject@{o o o} :=
-  ring_ab@{o o o} (Zp@{o o o o so s so o so} ZComm@{o o o} (Zpos p)).
+Definition ZpAb@{o |+} (p : positive) : AbObject@{o o o} :=
+  ring_ab@{o o} (Zp@{o o} ZComm@{o o} (Zpos p)).
 
 (* Equal integers are equal residues. *)
 Lemma zres_of_eq@{o +} (p : positive) (n : nat) (x y : Z) :
-  x = y → @equiv _ (rig_setoid (ResRing ZComm@{o o o} (Zpos p) n)) x y.
+  x = y → @equiv _ (rig_setoid (ResRing ZComm@{o o} (Zpos p) n)) x y.
 Proof. intro E. apply (res_of_dvd (Zpos p) n x y 0%Z). lia. Qed.
 
 (** *** From the p-adic integers into the fibre: f ↦ (f_n / p^n)_n *)
 
 Definition zp_coord@{s o so | o < so +} (p : positive)
-  (f : carrier (cmon_setoid (ZpAb@{s o so} p))) (n : nat) : CReal :=
+  (f : carrier (cmon_setoid (ZpAb@{o} p))) (n : nat) : CReal :=
   inject_Q ((`1 f n) # ppow p n).
 
 Lemma zp_coord_compat@{s o so | o < so +} (p : positive)
-  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{s o so} p)))
+  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{o} p)))
   (n : nat) :
   circ_eq@{o} (CReal_mult (posR p) (zp_coord@{s o so} p f (S n)))
               (zp_coord@{s o so} p f n).
@@ -680,14 +680,14 @@ Proof.
 Qed.
 
 Definition zp_string@{s o so | o < so +} (p : positive)
-  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{s o so} p))) :
+  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{o} p))) :
   SolPoints@{s o so} p.
 Proof.
   exists (zp_coord@{s o so} p f). exact (zp_coord_compat p Hp f).
 Defined.
 
 Lemma zp_coord_base@{s o so | o < so +} (p : positive)
-  (f : carrier (cmon_setoid (ZpAb@{s o so} p))) :
+  (f : carrier (cmon_setoid (ZpAb@{o} p))) :
   circ_eq@{o} (zp_coord@{s o so} p f 0) (inject_Q 0).
 Proof.
   exists (`1 f 0%nat). unfold zp_coord, inject_Z. apply inject_Q_minus_int.
@@ -695,7 +695,7 @@ Proof.
 Qed.
 
 Lemma zp_coord_respects@{s o so + | o < so +} (p : positive)
-  (Hp : (1 < p)%positive) (f g : carrier (cmon_setoid (ZpAb@{s o so} p))) :
+  (Hp : (1 < p)%positive) (f g : carrier (cmon_setoid (ZpAb@{o} p))) :
   f ≈ g → ∀ n, circ_eq@{o} (zp_coord@{s o so} p f n) (zp_coord@{s o so} p g n).
 Proof.
   intros H n.
@@ -709,7 +709,7 @@ Qed.
 (* The fibre of the leg μ_0 over the base point 0: the kernel of μ_0. *)
 Definition SolFibre@{s u o so r | o < u, o < so +} (p : positive) :
   AbObject@{o o o} :=
-  AbKernel@{o o o o o o u u} (gsol_leg@{s u o so r} p 0).
+  AbKernel@{o o o o} (gsol_leg@{s u o so r} p 0).
 
 Example sol_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
   carrier (cmon_setoid (SolFibre@{s u o so r} p))
@@ -718,7 +718,7 @@ Example sol_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
 
 Program Definition zp_to_fibre_map@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  SetoidMorphism@{o o} (cmon_setoid (ZpAb@{s o so} p))
+  SetoidMorphism@{o o o} (cmon_setoid (ZpAb@{o} p))
     (cmon_setoid (SolFibre@{s u o so r} p)) := {|
   morphism := fun f => (zp_string@{s o so} p Hp f; zp_coord_base p f)
 |}.
@@ -726,7 +726,7 @@ Next Obligation. intros p Hp f g H. exact (zp_coord_respects p Hp f g H). Qed.
 
 Program Definition zp_to_fibre@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  ZpAb@{s o so} p ~{Ab@{u o}}~> SolFibre@{s u o so r} p := {|
+  ZpAb@{o} p ~{Ab@{u o}}~> SolFibre@{s u o so r} p := {|
   cmon_map := zp_to_fibre_map@{s u o so r} p Hp
 |}.
 Next Obligation.
@@ -738,7 +738,7 @@ Next Obligation.
 Qed.
 
 Example zp_to_fibre_coord@{s u o so r | o < u, o < so +} (p : positive)
-  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{s o so} p)))
+  (Hp : (1 < p)%positive) (f : carrier (cmon_setoid (ZpAb@{o} p)))
   (n : nat) :
   sol_pr@{s o so} p n (projT1 (cmon_map (zp_to_fibre@{s u o so r} p Hp) f))
   = inject_Q ((`1 f n) # ppow p n) := eq_refl.
@@ -747,7 +747,7 @@ Example zp_to_fibre_coord@{s u o so r | o < u, o < so +} (p : positive)
 Example zp_one_to_unit_string@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
   `1 (projT1 (cmon_map (zp_to_fibre@{s u o so r} p Hp)
-                (rig_one (Zp@{o o o o so s so o so} ZComm@{o o o} (Zpos p)))))
+                (rig_one (Zp@{o o} ZComm@{o o} (Zpos p)))))
   = `1 (unit_string@{s o so} p) := eq_refl.
 
 (** *** From the fibre back: the integers p^n x_n, read off the witnesses *)
@@ -795,7 +795,7 @@ Proof. exact (fibre_int_spec p (projT1 a) _ (projT2 (projT2 a)) n). Qed.
 
 Definition fibre_to_zp_pt@{s u o so r | o < u, o < so +} (p : positive)
   (a : carrier (cmon_setoid (SolFibre@{s u o so r} p))) :
-  carrier (cmon_setoid (ZpAb@{s o so} p)).
+  carrier (cmon_setoid (ZpAb@{o} p)).
 Proof.
   exists (fibre_coord@{s u o so r} p a). intro n.
   apply (res_of_dvd (Zpos p) n _ _
@@ -805,8 +805,8 @@ Defined.
 
 Program Definition fibre_to_zp_map@{s u o so r | o < u, o < so +}
   (p : positive) :
-  SetoidMorphism@{o o} (cmon_setoid (SolFibre@{s u o so r} p))
-    (cmon_setoid (ZpAb@{s o so} p)) := {|
+  SetoidMorphism@{o o o} (cmon_setoid (SolFibre@{s u o so r} p))
+    (cmon_setoid (ZpAb@{o} p)) := {|
   morphism := fibre_to_zp_pt@{s u o so r} p
 |}.
 Next Obligation.
@@ -820,7 +820,7 @@ Qed.
 
 Program Definition fibre_to_zp@{s u o so r | o < u, o < so +}
   (p : positive) :
-  SolFibre@{s u o so r} p ~{Ab@{u o}}~> ZpAb@{s o so} p := {|
+  SolFibre@{s u o so r} p ~{Ab@{u o}}~> ZpAb@{o} p := {|
   cmon_map := fibre_to_zp_map@{s u o so r} p
 |}.
 Next Obligation.
@@ -842,7 +842,7 @@ Qed.
 (* The fibre of μ_0 over the base point is Z_p, as abelian groups. *)
 Program Definition Zp_fibre_iso@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  @Isomorphism Ab@{u o} (ZpAb@{s o so} p) (SolFibre@{s u o so r} p) := {|
+  @Isomorphism Ab@{u o} (ZpAb@{o} p) (SolFibre@{s u o so r} p) := {|
   to := zp_to_fibre@{s u o so r} p Hp;
   from := fibre_to_zp@{s u o so r} p
 |}.

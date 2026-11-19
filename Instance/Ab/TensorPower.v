@@ -403,7 +403,9 @@ Proof.
     (@Build_SetoidMorphism (carrier ZAb) (is_setoid (cmon_setoid ZAb))
        (TWTerm A) (tw_Setoid A) (fun k => zsmul (TWAb A) k (tw_word nil)) _)
     _ _).
-  - intros k k' H. apply ZAb_eq in H. subst. apply tw_refl.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole of the map
+     out of [ZAb] is filled by typeclass resolution ([reflexive_proper] and
+     [reflexive_eq_dom_reflexive], the equality of [ZAb] being [eq]). *)
   - exact (zsmul_Z0 (TWAb A) _).
   - intros k k'. exact (zsmul_add (TWAb A) k k' _).
 Defined.

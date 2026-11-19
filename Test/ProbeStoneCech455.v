@@ -625,7 +625,9 @@ Definition p455_negb_lift@{o h +} :
     CompHaus_Forget (Discrete_CH bool_setoid_object@{o o} bool_FinEnum).
 Proof.
   unshelve refine {| morphism := negb |}.
-  intros a b e. simpl in *. rewrite e. reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution, the equality of [bool_setoid_object] being
+     [eq]. *)
 Defined.
 
 Lemma p455_negb_not_unit@{o h +} :
@@ -789,7 +791,8 @@ Definition p455_taut_sols_above@{h s c +| h < c +} (d : obj[Sets@{h s}]) :
 
 Check @Complete@{_ _ _ _}.
 Check @Sets@{_ _}.
-Fail Definition p455_n9_gaft_taut_above@{h s c +| h < c +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n9_gaft_taut_above@{h s c +| h < c +}
   (comp : @Complete@{h h h c} CompHaus) :
   { F : Sets@{h s} ⟶ CompHaus & F ⊣ CompHaus_Forget } :=
   GAFT CompHaus_Forget comp CompHaus_Forget_PreservesImageLimit taut_sols.
@@ -927,7 +930,8 @@ Definition p455_not_complete_IEM_above@{e h c +| h < c +} (E : IEM@{e})
   CompHaus_not_complete_IEM_above E comp.
 
 Check @IEM@{_}.
-Fail Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
   (E : IEM@{e}) (comp : @Complete@{r s h c} CompHaus) : False :=
   CompHaus_not_complete_IEM E comp.
 
@@ -938,24 +942,24 @@ Fail Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
 Definition p455_not_complete_below_slots@{e h c o +| h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
-            (CompHaus@{c h h c _ _ o _ _ _ _ _ _ _ _} : Category@{c h h})) :
+            (CompHaus@{h o _ _ _} : Category@{c h h})) :
   False :=
-  CompHaus_not_complete_IEM_below@{e h h c h o _ _ _ _ _ _ _} E comp.
+  CompHaus_not_complete_IEM_below@{e h h c h o _} E comp.
 
 Definition p455_not_complete_IEM_top_slot@{e h t o +| t < h +}
   (E : IEM@{e})
   (comp : @Complete@{h h h h}
-            (CompHaus@{h h t h _ _ o _ _ _ _ _ _ _ _} : Category@{h h h})) :
+            (CompHaus@{h o _ _ _} : Category@{h h h})) :
   False :=
   CompHaus_not_complete_IEM E comp.
 
-Check @CompHaus@{_ _ _ _ _ _ _ _ _ _ _ _ _ _ _}.
+Check @CompHaus@{_ _ _ _ _}.
 Check @Category@{_ _ _}.
-Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _ _ _ _ _ _ _}.
+Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _}.
 Fail Definition p455_n21_below_top_slot@{e h c t o +| t < h, h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
-            (CompHaus@{c h t c _ _ o _ _ _ _ _ _ _ _} : Category@{c h h})) :
+            (CompHaus@{h o _ _ _} : Category@{c h h})) :
   False :=
   CompHaus_not_complete_IEM_below@{e h h c h o _ _ _ _ _ _ _} E comp.
 
@@ -970,7 +974,8 @@ Definition p455_top_not_complete_IEM@{e r s h o +| h <= s +} (E : IEM@{e})
   Top_not_complete_IEM E comp.
 
 Check @Top@{_ _}.
-Fail Definition p455_n11_top_not_complete_IEM_below@{e r s h o +| s < h +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n11_top_not_complete_IEM_below@{e r s h o +| s < h +}
   (E : IEM@{e}) (comp : @Complete@{r s h h} Top@{h o}) : False :=
   Top_not_complete_IEM E comp.
 
@@ -983,7 +988,7 @@ Definition p455_adj_refuted_IEM@{e h s +} (E : IEM@{e})
 Definition p455_refutes_gaft_output@{e h s +} (E : IEM@{e})
   (comp : @Complete@{h h h h} CompHaus) : False :=
   StoneCech_adjunction_refuted_IEM E
-    (GAFT_CompHaus_only_complete@{h s _ _ _ _ _ _ _ _} comp).
+    (GAFT_CompHaus_only_complete@{h s _ _ _} comp).
 
 Definition p455_large_ua_refuted@{c h +} (AI : ArrowIndex@{h c h} CompHaus)
   (UA : UniversalArrow (C:=Sets) (KSet AI) CompHaus_Forget) : False :=
@@ -1009,7 +1014,8 @@ Definition p455_adj_refuted_IEM_above@{e h s c +| h < c +} (E : IEM@{e})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above E A.
 
-Fail Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
   (E : IEM@{e})
   (A : { F : Sets@{h s} ⟶ (CompHaus : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
@@ -1018,10 +1024,10 @@ Fail Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
 (* CONTROL: the same slot by slot, the proof slot at the objects; and
    GAFT's route with the objects above the homs, any solution sets. *)
 Definition p455_adj_above_slots@{e h s c o +| h < c +} (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{c h h c _ _ o _ _ _ _ _ _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
-  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
+  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
 
 Definition p455_gaft_vacuous_above@{e h s c +| h < c +} (E : IEM@{e})
   (comp : @Complete@{h h h c} (CompHaus : Category@{c h h}))
@@ -1030,10 +1036,10 @@ Definition p455_gaft_vacuous_above@{e h s c +| h < c +} (E : IEM@{e})
      & F ⊣ CompHaus_Forget } * False)%type :=
   GAFT_CompHaus_IEM_vacuous_above E comp sols.
 
-Check @StoneCech_adjunction_refuted_IEM_above@{_ _ _ _ _ _ _ _ _ _ _ _}.
+Check @StoneCech_adjunction_refuted_IEM_above@{_ _ _ _ _ _ _}.
 Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{c h h h _ _ o _ _ _ _ _ _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
@@ -1043,14 +1049,14 @@ Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
    at the points' universe o. *)
 Definition p455_adj_above_hausdorff_at_o@{e h s c o +| h < c +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{c h h c _ _ o _ _ _ _ _ _ o o}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
-  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
+  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
 
 Fail Definition p455_n22_hausdorff_opens_below@{e h s c o q +| h < c, q < o +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{c h h c _ _ o _ _ _ _ _ _ q q}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
@@ -1102,7 +1108,8 @@ Definition p455_saft_iem_vacuous_below@{e s c h +| h <= s, s < c +}
   ({ F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } * False)%type :=
   SAFT_Incl_IEM_vacuous_below E comp cont G WP.
 
-Fail Definition p455_n13_saft_incl_above@{s c h +| h < c +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n13_saft_incl_above@{s c h +| h < c +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus) :
   { F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } :=
@@ -1147,11 +1154,13 @@ Check @WellPowered@{_ _ _ _ _}.
 Fail Definition p455_n15_wp_type_at_h@{c h t +| h < c +} : Type :=
   WellPowered@{c h h h t} (CompHaus : Category@{c h h}).
 
-Fail Definition p455_n16_trivial_small_at_c@{c h t +| h < c +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n16_trivial_small_at_c@{c h t +| h < c +} :
   WellPowered@{c h h c t} (CompHaus : Category@{c h h}) :=
   trivial_small CompHaus.
 
-Fail Definition p455_n17_incl_below@{c h +| c < h +} :=
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n17_incl_below@{c h +| c < h +} :=
   CompHaus_Incl : (CompHaus : Category@{c h h}) ⟶ Top.
 
 (** ** N18 (UNIVERSE): Instance/Top/StoneCech/Refutations.v, [big_inj] *)
@@ -1173,7 +1182,8 @@ Definition p455_big_inj_unsplit@{r s c h +| s < c +}
               (complete_iprod comp (fun _ : obj[CompHaus] => Bool_CH))
               (fun j => sc_pt_bool (phi j))))) ttt.
 
-Fail Definition p455_n18_big_inj_below@{r s c h +| s < c +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n18_big_inj_below@{r s c h +| s < c +}
   (comp : @Complete@{r s h c} (CompHaus : Category@{c h h}))
   (phi : obj[CompHaus] → bool) :=
   big_inj comp phi.

@@ -859,7 +859,8 @@ Definition squash_id@{o} (Q : Type@{o}) :
   SetoidMorphism@{o o} PTwoIndisc@{o} (SquashSetoid Q).
 Proof.
   refine {| morphism := fun b : bool => b |}.
-  intros x y e; simpl in e; subst; left; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 (* Merely inhabited [Q] makes the identity continuous from the indiscrete
@@ -1106,14 +1107,16 @@ Definition zig_f_set@{o} :
   SetoidMorphism@{o o} zig_setoid@{o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := fun _ : zig_pt => false |}.
-  intros x y _; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition zig_g_set@{o} :
   SetoidMorphism@{o o} zig_setoid@{o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := zig_g_fun |}.
-  intros x y e; simpl in e; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition zig_f_map@{o} : PMor@{o} PZig@{o} PTwoIndisc@{o} :=
@@ -1129,7 +1132,8 @@ Definition zig_e_set@{o} :
   SetoidMorphism@{o o} bool_setoid_object@{o o} zig_setoid@{o}.
 Proof.
   refine {| morphism := zig_e_fun |}.
-  intros x y e; simpl in e; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition zig_e_map@{o} : PMor@{o} PBool@{o} PZig@{o} :=
@@ -1340,7 +1344,8 @@ Definition swap_set@{o} :
   SetoidMorphism@{o o} bool_setoid_object@{o o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := negb |}.
-  intros x y e; simpl in e; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition swap_map@{o} : PMor@{o} PTwoIndisc@{o} PTwoIndisc@{o} :=

@@ -123,7 +123,7 @@ Generalizable All Variables.
    every universe of the setoids of natural transformations. [u3 u4] are
    the universes of the functor category. *)
 Program Definition Fun@{u u0 u1 u2 u3 u4 | u <= u3, u <= u4,
-    u0 <= u3, u0 <= u4, u1 <= u3, u0 = u2 +}
+    u0 <= u3, u0 <= u4, u1 <= u3, u0 = u2}
   {C : Category@{u u0 u0}} {D : Category@{u1 u2 u2}} : Category@{u3 u4 u4} := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
   hom     := @Transform C D;        (* morphisms are natural transformations *)

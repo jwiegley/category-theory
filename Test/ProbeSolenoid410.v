@@ -510,13 +510,13 @@ Example p410_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
 
 Definition p410_Zp_iso@{s u o so r | o < u, o < so +} (p : positive)
   (Hp : (1 < p)%positive) :
-  @Isomorphism Ab@{u o} (ZpAb@{s o so} p) (SolFibre@{s u o so r} p) :=
+  @Isomorphism Ab@{u o} (ZpAb@{o} p) (SolFibre@{s u o so r} p) :=
   Zp_fibre_iso p Hp.
 
 Example p410_zp_one@{s u o so r | o < u, o < so +} (p : positive)
   (Hp : (1 < p)%positive) :
   `1 (projT1 (cmon_map (zp_to_fibre@{s u o so r} p Hp)
-                (rig_one (Zp@{o o o o so s so o so} ZComm@{o o o} (Zpos p)))))
+                (rig_one (Zp@{o o} ZComm@{o o} (Zpos p)))))
   = `1 (unit_string@{s o so} p) := eq_refl.
 
 (** ** Instance/Top/Solenoid/Presentations.v: the covering *)
@@ -649,7 +649,8 @@ Check Circle.circle_lift_iso_obligation_1.
 Check Circle.circle_lift_iso_obligation_2.
 Check Circle.circle_lift_iso_obligation_3.
 Check Circle.circle_lift_iso_obligation_4.
-Check Circle.creal_setoid_obligation_1.
+(* With the universes of rocq-prover/rocq#22721 [creal_setoid] has no
+   obligation: its [Equivalence] is found by typeclass resolution. *)
 Check Circle.line_mul_obligation_1.
 Check circle_half_not_zero.
 Check circle_lift_iso.

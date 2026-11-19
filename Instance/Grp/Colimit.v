@@ -384,7 +384,9 @@ Context (c : Grp) (h : D ~{[J, Grp]}~> fobj[@Diagonal Grp J] c).
 Definition dflat : DGen ~{Sets}~> Grp_Forget c.
 Proof using h.
   unshelve refine {| morphism := fun p => grp_map (transform[h] (`1 p)) (`2 p) |}.
-  intros p q Hpq; simpl in Hpq; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution ([reflexive_proper] and
+     [reflexive_eq_dom_reflexive], the equality of [DGen] being [eq]). *)
 Defined.
 
 Lemma dflat_gen (j : J) (a : carrier (grp_setoid (D j))) :

@@ -258,8 +258,13 @@ Example wide_pullback_bundled_round {C : Category} {I : Type} {A : I → C}
    codomain carries one.  As with [HasIndexedProducts], the index [Type] is
    a universe PARAMETER of the class and not a quantifier over every
    universe; a consumer whose index is a hom-type instantiates it there. *)
-Class HasWidePullbacks (C : Category) := {
-  wide_pullback {I : Type} {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) :
+(* The universes are declared, in the order of the annotations of the tree:
+   [i] for the index, then those of [C]. Inferred, with the universes of
+   rocq-prover/rocq#22721 the index would come after the objects of [C], and
+   the second universe of the tree's annotations, an upper bound of the
+   others, is not needed. *)
+Class HasWidePullbacks@{i o h} (C : Category@{o h h}) := {
+  wide_pullback {I : Type@{i}} {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) :
     WidePullback f
 }.
 

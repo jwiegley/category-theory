@@ -244,7 +244,7 @@ Open Scope category_scope.
    [ab_hom_neg] (Structure/AbCategory.v) as its negation.  The instance
    of [LocallyPropositional] is passed by name: the record literal is
    elaborated before instance resolution would see it. *)
-Definition AbEndRing@{u p +} (A : obj[Ab@{u p}]) : obj[Rng@{u p}].
+Definition AbEndRing@{u p +} (A : obj[Ab@{u p}]) : obj[Rng@{p}].
 Proof.
   refine {| ring_rig :=
               @EndRig Ab@{u p} Ab_LocallyPropositional Ab_Preadditive A;
@@ -281,7 +281,7 @@ Defined.
 
 (** ** A module structure is a ring map into the endomorphisms *)
 
-Definition smul_endo@{u p +} {T : obj[Rng@{u p}]} (M : obj[RMod T])
+Definition smul_endo@{u p +} {T : obj[Rng@{p}]} (M : obj[RMod T])
   (t : carrier (rig_setoid (ring_rig T))) : rm_ab M ~{Ab@{u p}}~> rm_ab M.
 Proof.
   refine (@Build_CMonHom (rm_ab M) (rm_ab M)
@@ -293,8 +293,8 @@ Proof.
     apply rm_smul_distr_l.
 Defined.
 
-Definition module_rep@{u p +} {T : obj[Rng@{u p}]} (M : obj[RMod T]) :
-  T ~{Rng@{u p}}~> AbEndRing (rm_ab M).
+Definition module_rep@{u p +} {T : obj[Rng@{p}]} (M : obj[RMod T]) :
+  T ~{Rng@{p}}~> AbEndRing (rm_ab M).
 Proof.
   unshelve refine (@Build_RigHom (ring_rig T) (ring_rig (AbEndRing (rm_ab M)))
     {| morphism := smul_endo M |} _ _ _ _); simpl.
@@ -318,7 +318,7 @@ Local Set Default Proof Using "All".
 
 Universes u p.
 
-Context {T : obj[Rng@{u p}]}.
+Context {T : obj[Rng@{p}]}.
 Context (M N : obj[RMod T]).
 Context (f : rm_ab M ~{Ab@{u p}}~> rm_ab N).
 
@@ -424,15 +424,15 @@ Section RingEpi.
 
 Universes u p.
 
-Context {R T : obj[Rng@{u p}]}.
-Context (phi : R ~{Rng@{u p}}~> T).
+Context {R T : obj[Rng@{p}]}.
+Context (phi : R ~{Rng@{p}}~> T).
 
 Definition Restrict_Faithful : Faithful (Restrict phi).
 Proof. constructor; intros M N f g H a; exact (H a). Qed.
 
 (* The identity of S, read as an R-linear map between the two
    phi-restrictions of S along g1 and along g2. *)
-Definition two_actions_id {S : obj[Rng@{u p}]} (g1 g2 : T ~{Rng@{u p}}~> S)
+Definition two_actions_id {S : obj[Rng@{p}]} (g1 g2 : T ~{Rng@{p}}~> S)
   (Hg : g1 ∘ phi ≈ g2 ∘ phi) :
   RestrictObj phi (RestrictObj g1 (Ring_RMod S))
     ~{RMod R}~> RestrictObj phi (RestrictObj g2 (Ring_RMod S)).
@@ -503,8 +503,8 @@ Local Set Default Proof Using "All".
 
 Universes u p.
 
-Context {R T : obj[Rng@{u p}]}.
-Context (phi : R ~{Rng@{u p}}~> T).
+Context {R T : obj[Rng@{p}]}.
+Context (phi : R ~{Rng@{p}}~> T).
 Context (Hc : CentralImage phi).
 Context (He : Epic phi).
 
@@ -620,13 +620,13 @@ Section Localization.
 
 Universes u p.
 
-Context {R L : obj[Rng@{u p}]}.
-Context (phi : R ~{Rng@{u p}}~> L).
+Context {R L : obj[Rng@{p}]}.
+Context (phi : R ~{Rng@{p}}~> L).
 Context (S : carrier (rig_setoid (ring_rig R)) → Type).
 
 (* psi carries every element of S to a two-sided unit; the inverse is
    data. *)
-Definition InvertsSet {W : obj[Rng@{u p}]} (psi : R ~{Rng@{u p}}~> W) : Type :=
+Definition InvertsSet {W : obj[Rng@{p}]} (psi : R ~{Rng@{p}}~> W) : Type :=
   ∀ s, S s → ∃ v : carrier (rig_setoid (ring_rig W)),
     (rig_mul (ring_rig W) (rig_map psi s) v ≈ rig_one (ring_rig W)) ∧
     (rig_mul (ring_rig W) v (rig_map psi s) ≈ rig_one (ring_rig W)).
@@ -635,8 +635,8 @@ Definition InvertsSet {W : obj[Rng@{u p}]} (psi : R ~{Rng@{u p}}~> W) : Type :=
    homomorphisms R → T that carry all of the elements of S to units". *)
 Definition IsLocalization : Type :=
   InvertsSet phi ∧
-  (∀ (W : obj[Rng@{u p}]) (psi : R ~{Rng@{u p}}~> W),
-      InvertsSet psi → ∃! chi : L ~{Rng@{u p}}~> W, chi ∘ phi ≈ psi).
+  (∀ (W : obj[Rng@{p}]) (psi : R ~{Rng@{p}}~> W),
+      InvertsSet psi → ∃! chi : L ~{Rng@{p}}~> W, chi ∘ phi ≈ psi).
 
 (* Only the uniqueness half is spent: g1 ∘ phi inverts S, and g1, g2
    both factor it. *)
@@ -687,8 +687,8 @@ Local Set Default Proof Using "All".
 
 Universes u p.
 
-Context (W : obj[Rng@{u p}]).
-Context (psi : Int_Ring ~{Rng@{u p}}~> W).
+Context (W : obj[Rng@{p}]).
+Context (psi : Int_Ring ~{Rng@{p}}~> W).
 Context (Hpsi : InvertsSet (R := Int_Ring) PosZ psi).
 
 Local Notation "x · y" := (rig_mul (ring_rig W) x y)

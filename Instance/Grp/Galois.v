@@ -547,7 +547,7 @@ Constraint Set < o.
 Constraint o <= gu.
 
 Context (G : GrpObject@{gu o o}).
-Context (A : MSetoidAction@{o o gu gu gu o o gu} (grp_mon@{gu o o} G)).
+Context (A : MSetoidAction@{o o o o} (grp_mon@{o o} G)).
 
 (* Mac Lane's [sigma . x = x], truncated: [equiv] is [Type]-valued here,
    and a member of a [Powerset_Prop_obj] must be a [Prop].  Every use below
@@ -951,7 +951,8 @@ Proof.
                    ; grp_mul := xorb
                    ; grp_inv := fun b : bool => b
                    ; grp_prop := eq_PropEquiv@{wo} bool |}.
-  - exact (fun x y Hxy u v Huv => f_equal2 xorb Hxy Huv).
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution, the equality of [galois_two] being [eq]. *)
   - intros [|] [|] [|]; reflexivity.
   - intros [|]; reflexivity.
   - intros [|]; reflexivity.
@@ -981,7 +982,8 @@ Proof.
   unshelve refine (@Build_SetoidMorphism@{wo wo}
     bool (is_setoid galois_two@{wo})
     Prop (is_setoid Powerset_Prop_truth@{wo}) p _).
-  intros x y Hxy; simpl in Hxy; subst; split; exact (fun h => h).
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition galois_true@{wo} : carrier (Powerset_Prop_obj@{wo} galois_two@{wo})
@@ -1094,7 +1096,8 @@ Proof.
                    ; grp_mul := galois_v4_mul
                    ; grp_inv := fun g : bool * bool => g
                    ; grp_prop := eq_PropEquiv@{wo} (bool * bool)%type |}.
-  - exact (fun x y Hxy u v Huv => f_equal2 galois_v4_mul Hxy Huv).
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution, the equality of [galois_four] being [eq]. *)
   - intros [[|] [|]] [[|] [|]] [[|] [|]]; reflexivity.
   - intros [[|] [|]]; reflexivity.
   - intros [[|] [|]]; reflexivity.

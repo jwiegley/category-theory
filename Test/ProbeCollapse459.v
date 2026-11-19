@@ -502,7 +502,8 @@ Check @TopSpace@{_}.
 Check @IsWideCoequalizer@{_ _ _}.
 Check @collapse_family_coequalizer@{_ _ _}.
 Check @Top@{_ _}.
-Fail Definition p459_coequalizer_cumulative@{o h | o < h +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_coequalizer_cumulative@{o h | o < h +}
   (X : TopSpace@{o}) (I : Type@{o}) (p : I → X) :
   IsWideCoequalizer@{h h h} (C := Top@{h o}) (collapse_family X I p)
     (Top_collapse X I p) (collapse_proj X I p) :=
@@ -522,7 +523,8 @@ Definition p459_collapse_colimit@{o h | o < h +} (X : TopSpace@{o})
 
 (* N6 *)
 Check @collapse_family@{_ _}.
-Fail Definition p459_colimit_at_points@{o h | o < h +} (X : TopSpace@{o})
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_colimit_at_points@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) (i0 : I) :=
   is_wide_coequalizer_colimit (C := Top@{h o}) (collapse_family@{o h} X I p)
     i0 (collapse_family_coequalizer@{o h o} X I p).
@@ -554,7 +556,8 @@ Example p459_iso_generic_from@{o h u | o < h, h < u +} (X : TopSpace@{o})
 (* N7 *)
 Check @twcoeq_obj@{_ _ _}.
 Check @twcoeq_IsWideCoequalizer@{_ _ _}.
-Fail Definition p459_iso_generic_no_u@{o h | o < h +} (X : TopSpace@{o})
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_iso_generic_no_u@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) :
   Top_collapse X I p ≅[Top@{h o}] twcoeq_obj@{o o h} (collapse_family X I p) :=
   wide_coequalizer_unique _ (collapse_family_coequalizer@{o h o} X I p)
@@ -569,7 +572,8 @@ Definition p459_empty_iso@{o h u | o < h, h < u +} (X : TopSpace@{o}) :
 
 (* N8 *)
 Check @collapse_coequalizer@{_ _ _}.
-Fail Definition p459_empty_iso_no_u@{o h | o < h +} (X : TopSpace@{o}) :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_empty_iso_no_u@{o h | o < h +} (X : TopSpace@{o}) :
   Top_collapse_sub X (fun _ => False) ≅[Top@{h o}] X :=
   wide_coequalizer_unique _ (collapse_coequalizer@{o h o} X (fun _ => False))
     (wide_empty_id_IsWideCoequalizer _
@@ -763,7 +767,8 @@ Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
 
 (* N13 *)
 Check @pairs_quotient_iso@{_ _ _}.
-Fail Definition p459_adjunction_built_notation@{h o u v | o < h, h < u +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_adjunction_built_notation@{h o u v | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   @Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o} PairQuotient@{h o}
     PointPair@{h o} pairs_quotient_iso@{h o u}
@@ -777,7 +782,8 @@ Definition p459_adjunction_notation@{h o u v | o < h, h < u +} :
   pairs_quotient_adjunction@{h o u v}.
 
 (* N14 *)
-Fail Definition p459_adjunction_notation_no_v@{h o u | o < h, h < u +} :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_adjunction_notation_no_v@{h o u | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   pairs_quotient_adjunction.
 
@@ -879,7 +885,8 @@ Example p459_pquot_collapse_iso_from_none@{o h u | o < h, h < u +}
 
 (* N15 *)
 Check @pquot_coequalizer@{_ _ _}.
-Fail Definition p459_pquot_collapse_iso_no_u@{o h | o < h +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p459_pquot_collapse_iso_no_u@{o h | o < h +}
   (X : PairTop@{o}) (a0 : collapse_sub_points (pair_space X) (pair_sub X)) :
   Top_collapse_sub (pair_space X) (pair_sub X) ≅[Top@{h o}] pquot_space X :=
   wide_coequalizer_unique _

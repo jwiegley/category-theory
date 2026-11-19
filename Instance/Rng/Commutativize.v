@@ -189,8 +189,8 @@ Definition Commutativize@{a c p +} (R : RingObject@{a c p}) : RingObject :=
 Definition IsCommutative@{a c p +} (R : RingObject@{a c p}) : Type :=
   ∀ x y, rig_mul R x y ≈ rig_mul R y x.
 
-Example IsCommutative_is_CRng_sobj@{u p +} (R : Rng@{u p}) :
-  sobj Rng@{u p} CRng_Sub R = IsCommutative R := eq_refl.
+Example IsCommutative_is_CRng_sobj@{u p +} (R : Rng@{p}) :
+  sobj Rng@{p} CRng_Sub R = IsCommutative R := eq_refl.
 
 Lemma Commutativize_comm@{a c p +} (R : RingObject@{a c p}) :
   IsCommutative (Commutativize R).
@@ -207,8 +207,8 @@ Definition CommutativizeC@{a c p +} (R : RingObject@{a c p}) : CRng :=
 (* A homomorphism into a commutative ring kills the commutator ideal: by
    induction on the generation, into the [Type]-valued equality of the
    target. *)
-Lemma comm_kills@{u p +} {R K : Rng@{u p}} (HK : IsCommutative K)
-  (f : R ~{Rng@{u p}}~> K) (a : carrier (rig_setoid R)) :
+Lemma comm_kills@{u p +} {R K : Rng@{p}} (HK : IsCommutative K)
+  (f : R ~{Rng@{p}}~> K) (a : carrier (rig_setoid R)) :
   InCommIdeal R a → rig_map f a ≈ rig_zero K.
 Proof.
   intro Ha.
@@ -226,10 +226,10 @@ Qed.
 
 (* The mediator is Instance/Rng/Quotient.v's [rquot_med], fed the map
    together with [comm_kills]. *)
-Theorem crng_universal@{u p +} (R : Rng@{u p}) :
-  ∀ (d : CRng) (f : R ~{Rng@{u p}}~> Incl Rng@{u p} CRng_Sub d),
+Theorem crng_universal@{u p +} (R : Rng@{p}) :
+  ∀ (d : CRng) (f : R ~{Rng@{p}}~> Incl Rng@{p} CRng_Sub d),
     ∃! g : CommutativizeC R ~{CRng}~> d,
-      f ≈ fmap[Incl Rng@{u p} CRng_Sub] g ∘ rquot_proj (CommIdeal R).
+      f ≈ fmap[Incl Rng@{p} CRng_Sub] g ∘ rquot_proj (CommIdeal R).
 Proof.
   intros d f.
   pose (p := existT (fun h : R ~{Rng}~> `1 d =>
@@ -243,46 +243,46 @@ Proof.
     exact (Hg a).
 Defined.
 
-Definition crng_universal_arrow@{u p +} (R : Rng@{u p})
-  : @UniversalArrow Rng@{u p} CRng R (Incl Rng@{u p} CRng_Sub) :=
-  @universal_arrow_from_UMP Rng@{u p} CRng R (Incl Rng@{u p} CRng_Sub)
+Definition crng_universal_arrow@{u p +} (R : Rng@{p})
+  : @UniversalArrow Rng@{p} CRng R (Incl Rng@{p} CRng_Sub) :=
+  @universal_arrow_from_UMP Rng@{p} CRng R (Incl Rng@{p} CRng_Sub)
     (CommutativizeC R) (rquot_proj (CommIdeal R)) (crng_universal R).
 
-Definition CRng_reflector@{u p +} : Rng@{u p} ⟶ CRng :=
-  LeftAdjointFunctorFromUniversalArrows (Incl Rng@{u p} CRng_Sub)
+Definition CRng_reflector@{u p +} : Rng@{p} ⟶ CRng :=
+  LeftAdjointFunctorFromUniversalArrows (Incl Rng@{p} CRng_Sub)
     crng_universal_arrow.
 
-Definition CRng_adj@{u p +} : CRng_reflector ⊣ Incl Rng@{u p} CRng_Sub :=
-  AdjunctionFromUniversalArrows (Incl Rng@{u p} CRng_Sub)
+Definition CRng_adj@{u p +} : CRng_reflector ⊣ Incl Rng@{p} CRng_Sub :=
+  AdjunctionFromUniversalArrows (Incl Rng@{p} CRng_Sub)
     crng_universal_arrow.
 
 (* Riehl 4.6.13 (ii), second half: CRing is reflective in Ring.  The
    fullness field is Instance/Rng.v's [CRng_Full], unchanged. *)
-Definition CRng_Reflective_in_Rng@{u p +} : @Reflective Rng@{u p} CRng_Sub :=
-  @Build_Reflective Rng@{u p} CRng_Sub CRng_Full CRng_reflector CRng_adj.
+Definition CRng_Reflective_in_Rng@{u p +} : @Reflective Rng@{p} CRng_Sub :=
+  @Build_Reflective Rng@{p} CRng_Sub CRng_Full CRng_reflector CRng_adj.
 
 (** ** Readbacks: the unit is the quotient map *)
 
-Example crng_reflector_obj@{u p +} (R : Rng@{u p}) :
+Example crng_reflector_obj@{u p +} (R : Rng@{p}) :
   `1 (fobj[CRng_reflector] R) = QuotientRing (CommIdeal R) := eq_refl.
 
-Example crng_arrow_is_proj@{u p +} (R : Rng@{u p}) :
-  @arrow Rng@{u p} CRng R (Incl Rng@{u p} CRng_Sub) (crng_universal_arrow R)
+Example crng_arrow_is_proj@{u p +} (R : Rng@{p}) :
+  @arrow Rng@{p} CRng R (Incl Rng@{p} CRng_Sub) (crng_universal_arrow R)
     = rquot_proj (CommIdeal R) := eq_refl.
 
-Definition crng_unit@{u p +} (R : Rng@{u p})
-  : R ~{Rng@{u p}}~> Incl Rng@{u p} CRng_Sub (fobj[CRng_reflector] R) :=
+Definition crng_unit@{u p +} (R : Rng@{p})
+  : R ~{Rng@{p}}~> Incl Rng@{p} CRng_Sub (fobj[CRng_reflector] R) :=
   @Category.Theory.Adjunction.unit _ _ _ _ CRng_adj R.
 
-Example crng_unit_pointwise@{u p +} (R : Rng@{u p})
+Example crng_unit_pointwise@{u p +} (R : Rng@{p})
   (a : carrier (rig_setoid R)) :
   rig_map (crng_unit R) a = rig_map (rquot_proj (CommIdeal R)) a := eq_refl.
 
-Lemma crng_unit_is_proj@{u p +} (R : Rng@{u p}) :
+Lemma crng_unit_is_proj@{u p +} (R : Rng@{p}) :
   crng_unit R ≈ rquot_proj (CommIdeal R).
 Proof. intro a; reflexivity. Defined.
 
 (* Mac Lane p. 91: at a commutative R, R/[R,R] ≅ R. *)
-Definition crng_reflect_iso@{u p +} (R : Sub Rng@{u p} CRng_Sub) :
-  fobj[CRng_reflector] (fobj[Incl Rng@{u p} CRng_Sub] R) ≅[CRng] R :=
+Definition crng_reflect_iso@{u p +} (R : Sub Rng@{p} CRng_Sub) :
+  fobj[CRng_reflector] (fobj[Incl Rng@{p} CRng_Sub] R) ≅[CRng] R :=
   reflective_counit_iso CRng_Reflective_in_Rng R.

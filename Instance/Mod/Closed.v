@@ -1159,12 +1159,14 @@ Check (@hm_curry Ru Rcu V W W).
    plain type mismatch and no universe clause at all, so it would say
    nothing about the constraint.  Compare the trap
    Structure/Limit/Product/Finite.v records. *)
-Fail Check (@ModSymmetric Ru Rcu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@ModSymmetric Ru Rcu).
 
 (* NEGATIVE 10.  And therefore the headline.  Note the binder/block trap:
    `RMod_SymMonClosed@{u u0}`'s constraint block carries no equation at
    all, and only the binder `R : RingObject@{u0 u0 u0}` reveals this. *)
-Fail Check (RMod_SymMonClosed Ru Rcu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (RMod_SymMonClosed Ru Rcu).
 
 End ProbeUniverses.
 

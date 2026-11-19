@@ -116,23 +116,23 @@ Constraint o < so.
 Context (X : SetoidObject@{o o}).
 
 (* Positive control 1: at a small index the power is formable. *)
-Check (@power Sets@{o so} Sets_HasIndexedProducts@{so o} nat X).
+Check (@power Sets@{o so} Sets_HasIndexedProducts@{o} nat X).
 
 (* Positive control 2: and so is the copower. *)
-Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{so o} nat X).
+Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o} nat X).
 
 (* Negative 1: indexing by [obj[Sets]] itself is not.  [SetoidObject@{o o}]
    lives at [Type@{o+1}] while the index must live at [Type@{o}] -- the
    universe of the carriers, which is where the small sets are. *)
 Check @Sets@{_ _}.
-Check @Sets_HasIndexedProducts@{_ _}.
+Check @Sets_HasIndexedProducts@{_}.
 Check @SetoidObject@{_ _}.
-Fail Check (@power Sets@{o so} Sets_HasIndexedProducts@{so o}
+Fail Check (@power Sets@{o so} Sets_HasIndexedProducts@{o}
               SetoidObject@{o o} X).
 
 (* Negative 2: dually for the copower. *)
-Check @Sets_HasIndexedCoproducts@{_ _}.
-Fail Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{so o}
+Check @Sets_HasIndexedCoproducts@{_}.
+Fail Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o}
               SetoidObject@{o o} X).
 
 End BigIndex.

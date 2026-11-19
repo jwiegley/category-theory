@@ -792,8 +792,8 @@ Qed.
     [AbObject@{s s s}] and the category itself is [Ab@{o s}] with [s < o]. *)
 
 Program Definition Ab_lam@{s +} (A : AbObject@{s s s}) :
-  AbHom (AbTensor ZAb@{s s s} A) A :=
-  tensor_ump (@Build_Bilinear ZAb@{s s s} A A (fun n a => zsmul A n a) _ _ _).
+  AbHom (AbTensor ZAb@{s s} A) A :=
+  tensor_ump (@Build_Bilinear ZAb@{s s} A A (fun n a => zsmul A n a) _ _ _).
 Next Obligation.
   intros A n n' Hn a a' Ha.
   pose proof (ZAb_eq n n' Hn) as Hn'.
@@ -810,8 +810,8 @@ Next Obligation.
 Qed.
 
 Program Definition Ab_lam_inv@{s +} (A : AbObject@{s s s}) :
-  AbHom A (AbTensor ZAb@{s s s} A) := {|
-  cmon_map := {| morphism := fun a : carrier A => @ts_gen ZAb@{s s s} A ZAb_one a |}
+  AbHom A (AbTensor ZAb@{s s} A) := {|
+  cmon_map := {| morphism := fun a : carrier A => @ts_gen ZAb@{s s} A ZAb_one a |}
 |}.
 Next Obligation.
   intros A a a' Ha.
@@ -827,8 +827,8 @@ Next Obligation.
 Qed.
 
 Program Definition Ab_rho@{s +} (A : AbObject@{s s s}) :
-  AbHom (AbTensor A ZAb@{s s s}) A :=
-  tensor_ump (@Build_Bilinear A ZAb@{s s s} A (fun a n => zsmul A n a) _ _ _).
+  AbHom (AbTensor A ZAb@{s s}) A :=
+  tensor_ump (@Build_Bilinear A ZAb@{s s} A (fun a n => zsmul A n a) _ _ _).
 Next Obligation.
   intros A a a' Ha n n' Hn.
   pose proof (ZAb_eq n n' Hn) as Hn'.
@@ -845,8 +845,8 @@ Next Obligation.
 Qed.
 
 Program Definition Ab_rho_inv@{s +} (A : AbObject@{s s s}) :
-  AbHom A (AbTensor A ZAb@{s s s}) := {|
-  cmon_map := {| morphism := fun a : carrier A => @ts_gen A ZAb@{s s s} a ZAb_one |}
+  AbHom A (AbTensor A ZAb@{s s}) := {|
+  cmon_map := {| morphism := fun a : carrier A => @ts_gen A ZAb@{s s} a ZAb_one |}
 |}.
 Next Obligation.
   intros A a a' Ha.
@@ -1030,7 +1030,7 @@ Qed.
 (** ** The structural isomorphisms *)
 
 Program Definition Ab_unit_left_iso@{s o + | s < o +} (x : AbObject@{s s s}) :
-  @Isomorphism Ab@{o s} (AbTensor ZAb@{s s s} x) x := {|
+  @Isomorphism Ab@{o s} (AbTensor ZAb@{s s} x) x := {|
   to   := Ab_lam x;
   from := Ab_lam_inv x
 |}.
@@ -1048,7 +1048,7 @@ Next Obligation.
 Qed.
 
 Program Definition Ab_unit_right_iso@{s o + | s < o +} (x : AbObject@{s s s}) :
-  @Isomorphism Ab@{o s} (AbTensor x ZAb@{s s s}) x := {|
+  @Isomorphism Ab@{o s} (AbTensor x ZAb@{s s}) x := {|
   to   := Ab_rho x;
   from := Ab_rho_inv x
 |}.

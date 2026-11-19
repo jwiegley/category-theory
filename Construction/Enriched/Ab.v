@@ -220,11 +220,10 @@ Qed.
 Program Definition ab_eid (x : C) : AbHom ZAb (ehom_ab x x) := {|
   cmon_map := {| morphism := fun n : Z => zsmul (ehom_ab x x) n (@id C x) |}
 |}.
-Next Obligation.
-  intros x n m Hnm.
-  rewrite (ZAb_eq n m Hnm).
-  reflexivity.
-Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the
+   map out of [ZAb] is found by typeclass resolution ([reflexive_proper] and
+   [reflexive_eq_dom_reflexive], the equality of [ZAb] being [eq]), so there
+   is no obligation for it. *)
 Next Obligation.
   intros x; simpl.
   reflexivity.

@@ -135,8 +135,12 @@ Proof.
   intros x y f; symmetry; apply natural.
 Defined.
 
+(* The universe of the carrier of the setoid is declared, as the one of its
+   equality: inferred, it would be [max(o1, h1, h2, p2)], the universe of
+   [Transform], and [Fun]'s homs could not live in a universe of their own. *)
 #[export]
-Program Instance Transform_Setoid : Setoid Transform :=
+Program Instance Transform_Setoid@{u | o1 <= u, h1 <= u, h2 <= u, p2 <= u +} :
+  Setoid@{u u} Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.
 Next Obligation.
   equivalence.
@@ -257,9 +261,16 @@ End ProofFields.
 
 Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 
-Program Definition nat_compose_respects
+(* The universe [s] of the setoids is declared, and given to them: inferred,
+   it would be minimized to [max(oC, h)] (rocq-prover/rocq#22721), and the
+   homs of [Fun] could not live in a universe of their own. *)
+Program Definition nat_compose_respects@{oC oD h s | oC <= s, h <= s}
+        {C : Category@{oC h h}} {D : Category@{oD h h}}
         `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
-  Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
+  Proper (@equiv _ (@Transform_Setoid@{oC h h oD h h s} C D G K) ==>
+          @equiv _ (@Transform_Setoid@{oC h h oD h h s} C D F G) ==>
+          @equiv _ (@Transform_Setoid@{oC h h oD h h s} C D F K))
+    (@nat_compose C D F G K).
 Proof. proper. Qed.
 
 #[export]

@@ -429,7 +429,8 @@ Proof.
   unshelve epose (P := @Build_Cone J Sets F unit_setoid_object
            (@Build_ACone J Sets unit_setoid_object F
               (fun i => {| morphism := fun _ => e i |}) _)).
-  - intros w w' _; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole of the
+     constant maps is filled by typeclass resolution ([reflexive_proper]). *)
   - intros i i' f w; simpl; exact (He i i' f).
   - destruct (HN P) as [w Hw _].
     exists (w ttt).
@@ -438,34 +439,35 @@ Defined.
 
 (** ** 3. The free module on one generator, and evaluation at an element *)
 
-Definition ew_Gen@{a c p o x +|
-    Set < o, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} : obj[RMod@{o x a p c} R] :=
+Definition ew_Gen@{a c p o +|
+    Set < o, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} : obj[RMod@{o a p c} R] :=
   @FreeModObject R unit_setoid_object@{c c}.
 
-Definition ew_g0@{a c p o x +|
-    Set < o, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} : carrier (cmon_setoid (@ew_Gen@{a c p o x} R)) :=
+Definition ew_g0@{a c p o +|
+    Set < o, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} : carrier (cmon_setoid (@ew_Gen@{a c p o} R)) :=
   @fv_gen R unit_setoid_object@{c c} ttt.
 
 (* [m ↦ the homomorphism sending the generator to m]: the free module's own
    extension, so it needs no choice and computes. *)
-Definition ew_ev@{a c p o x +|
-    Set < o, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} {M : obj[RMod@{o x a p c} R]}
+Definition ew_ev@{a c p o +|
+    Set < o, c < o, p <= a, c <= a, a <= o +}
+  {R : RingObject@{a c p}} {M : obj[RMod@{o a p c} R]}
   (m : carrier (cmon_setoid M)) :
-  @ew_Gen@{a c p o x} R ~{RMod@{o x a p c} R}~> M.
+  @ew_Gen@{a c p o} R ~{RMod@{o a p c} R}~> M.
 Proof.
   refine (@fv_extend R unit_setoid_object@{c c} M
             {| morphism := fun _ => m |}).
-  intros ? ? ?; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Example ew_ev_g0@{a c p o x +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o +}
-  {R : RingObject@{a c p}} {M : obj[RMod@{o x a p c} R]}
+  {R : RingObject@{a c p}} {M : obj[RMod@{o a p c} R]}
   (m : carrier (cmon_setoid M)) :
-  cmon_map (rm_hom (ew_ev@{a c p o x} m)) ew_g0 = m := eq_refl.
+  cmon_map (rm_hom (ew_ev@{a c p o} m)) ew_g0 = m := eq_refl.
 
 (** ** 4. The element-wise solution set at (R-Mod)^op *)
 
@@ -482,28 +484,28 @@ Constraint Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s, c < w,
   o <= w1, x <= w1.
 
 Context {R : RingObject@{a c p}}.
-Context (K : (RMod@{o x a p c} R)^op ⟶ Sets@{c s}).
+Context (K : (RMod@{o a p c} R)^op ⟶ Sets@{c s}).
 Context (contK : ContinuousFunctor K).
 
-#[local] Notation Gen := (@ew_Gen@{a c p o x} R).
-#[local] Notation g0 := (@ew_g0@{a c p o x} R).
+#[local] Notation Gen := (@ew_Gen@{a c p o} R).
+#[local] Notation g0 := (@ew_g0@{a c p o} R).
 
 (* The ONE fixed object: the coproduct of copies of [Gen], one per element
    of [K Gen], taken from [RMod_Cocomplete_via_GAFT]. *)
 Definition ew_Idx : Type@{c} := carrier (K Gen).
 
-Definition ew_CopD : DiscreteCat@{c c c} ew_Idx ⟶ RMod@{o x a p c} R :=
+Definition ew_CopD : DiscreteCat@{c c c} ew_Idx ⟶ RMod@{o a p c} R :=
   DiscreteCat_Functor@{c c c o c c} (fun _ => Gen).
 
-Definition ew_CC : @Cocomplete@{c c c o} (RMod@{o x a p c} R) :=
-  RMod_Cocomplete_via_GAFT@{a c p o x c w0 w1} R.
+Definition ew_CC : @Cocomplete@{c c c o} (RMod@{o a p c} R) :=
+  RMod_Cocomplete_via_GAFT@{a c p o c} R.
 
 Definition ew_CopL : Colimit ew_CopD := ew_CC _ ew_CopD.
 
-Definition ew_Cop : obj[RMod@{o x a p c} R] :=
+Definition ew_Cop : obj[RMod@{o a p c} R] :=
   vertex_obj[@limit_cone _ _ _ ew_CopL].
 
-Definition ew_inj (i : ew_Idx) : Gen ~{RMod@{o x a p c} R}~> ew_Cop :=
+Definition ew_inj (i : ew_Idx) : Gen ~{RMod@{o a p c} R}~> ew_Cop :=
   cone_leg (@limit_cone _ _ _ ew_CopL) i.
 
 (* [K] carries that coproduct to a product, so the tautological family
@@ -528,7 +530,7 @@ Definition ew_y0_leg (i : ew_Idx) :
 
 Section AtElement.
 
-Context (M : obj[RMod@{o x a p c} R]) (x0 : carrier (K M)).
+Context (M : obj[RMod@{o a p c} R]) (x0 : carrier (K M)).
 
 (* For each m, the element [K(ev m)(x0)] of [K Gen] names a copy of [Gen]
    inside [ew_Cop]. *)
@@ -538,23 +540,23 @@ Definition ew_am (m : carrier (cmon_setoid M)) : ew_Idx :=
 (* The diagram M ← Gen → ew_Cop, one span per element m of M, and its
    colimit P. *)
 Definition ew_PD :
-  MultiSpan@{c} (carrier (cmon_setoid M)) ⟶ RMod@{o x a p c} R :=
-  ms_diagram@{o c w} M ew_Cop Gen
+  MultiSpan@{c} (carrier (cmon_setoid M)) ⟶ RMod@{o a p c} R :=
+  ms_diagram@{o c} M ew_Cop Gen
     (fun m => ew_ev m) (fun m => ew_inj (ew_am m)).
 
 Definition ew_PL : Colimit ew_PD := ew_CC _ ew_PD.
 
-Definition ew_P : obj[RMod@{o x a p c} R] :=
+Definition ew_P : obj[RMod@{o a p c} R] :=
   vertex_obj[@limit_cone _ _ _ ew_PL].
 
-Definition ew_pM : M ~{RMod@{o x a p c} R}~> ew_P :=
+Definition ew_pM : M ~{RMod@{o a p c} R}~> ew_P :=
   cone_leg (@limit_cone _ _ _ ew_PL) ms_mod.
 
-Definition ew_pF : ew_Cop ~{RMod@{o x a p c} R}~> ew_P :=
+Definition ew_pF : ew_Cop ~{RMod@{o a p c} R}~> ew_P :=
   cone_leg (@limit_cone _ _ _ ew_PL) ms_free.
 
 Definition ew_pG (m : carrier (cmon_setoid M)) :
-  Gen ~{RMod@{o x a p c} R}~> ew_P :=
+  Gen ~{RMod@{o a p c} R}~> ew_P :=
   cone_leg (@limit_cone _ _ _ ew_PL) (ms_gen m).
 
 Lemma ew_pM_ev (m : carrier (cmon_setoid M)) : ew_pM ∘ ew_ev m ≈ ew_pG m.
@@ -615,9 +617,9 @@ Proof using contK. exact (projT2 ew_e_ex ms_mod). Qed.
    [ew_pF], a [PSubmodule] of the ONE fixed module [ew_Cop]. *)
 Definition ew_N : PSubmodule ew_Cop := pker ew_pF.
 
-Definition ew_Q : obj[RMod@{o x a p c} R] := QuotientMod (psm_sub ew_N).
+Definition ew_Q : obj[RMod@{o a p c} R] := QuotientMod (psm_sub ew_N).
 
-Definition ew_k : ew_Q ~{RMod@{o x a p c} R}~> ew_P.
+Definition ew_k : ew_Q ~{RMod@{o a p c} R}~> ew_P.
 Proof.
   refine (mquot_med (psm_sub ew_N) (existT _ ew_pF _)).
   intros z Hz; exact (pequiv_to _ _ Hz).
@@ -639,7 +641,7 @@ Definition ew_tfun (m : carrier (cmon_setoid M)) :
   carrier (cmon_setoid ew_Cop) :=
   cmon_map (rm_hom (ew_inj (ew_am m))) g0.
 
-Definition ew_t : M ~{RMod@{o x a p c} R}~> ew_Q.
+Definition ew_t : M ~{RMod@{o a p c} R}~> ew_Q.
 Proof.
   unshelve econstructor; [unshelve econstructor; [unshelve econstructor|..]|].
   - exact ew_tfun.
@@ -689,7 +691,7 @@ Definition ew_WIdx : Type@{c} :=
 
 Definition RModop_esols : ElementSolutionSet K.
 Proof using contK.
-  refine (@Build_ElementSolutionSet ((RMod@{o x a p c} R)^op) K ew_WIdx
+  refine (@Build_ElementSolutionSet ((RMod@{o a p c} R)^op) K ew_WIdx
             (fun i => QuotientMod (psm_sub (projT1 i))) (fun i => projT2 i) _).
   intros M x.
   exists (existT (fun N : PSubmodule ew_Cop =>
@@ -703,9 +705,9 @@ End Covering.
 
 (** ** 5. Every continuous K : (R-Mod)^op ⟶ Sets is representable *)
 
-Definition RModop_continuous_representable@{a c p o x s +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s +}
-  {R : RingObject@{a c p}} (K : (RMod@{o x a p c} R)^op ⟶ Sets@{c s})
+Definition RModop_continuous_representable@{a c p o s +|
+    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+  {R : RingObject@{a c p}} (K : (RMod@{o a p c} R)^op ⟶ Sets@{c s})
   (contK : ContinuousFunctor K) : Representable K :=
   representability_theorem K
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
@@ -713,14 +715,14 @@ Definition RModop_continuous_representable@{a c p o x s +|
 
 (** ** 6. Watt's theorem, contravariant form, with no hypothesis *)
 
-Definition watts_theorem_unconditional@{a c p o x b s +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
-  {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})
+Definition watts_theorem_unconditional@{a c p o b s +|
+    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
+  {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
-  (contT : ContinuousFunctor@{_ _ _ _ _ _ _ _ _ s} T) :
-  { A : RMod@{o x a p c} R &
-    @Isomorphism (@Fun ((RMod@{o x a p c} R)^op) Ab@{b c})
+  (contT : ContinuousFunctor@{_ _ _ _} T) :
+  { A : RMod@{o a p c} R &
+    @Isomorphism (@Fun ((RMod@{o a p c} R)^op) Ab@{b c})
       (@CoHomAb _ (RMod_LocallyPropositional R) (RMod_AbEnriched R) A) T }.
 Proof.
   pose (Rp := RModop_continuous_representable (Ab_Forget@{b s c} ◯ T)
@@ -732,12 +734,12 @@ Defined.
 
 (* The representing module IS the object the representability theorem
    produces for [Ab_Forget ◯ T]. *)
-Example watts_theorem_unconditional_obj@{a c p o x b s +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
-  {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})
+Example watts_theorem_unconditional_obj@{a c p o b s +|
+    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
+  {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
-  (contT : ContinuousFunctor@{_ _ _ _ _ _ _ _ _ s} T) :
+  (contT : ContinuousFunctor@{_ _ _ _} T) :
   projT1 (watts_theorem_unconditional T AF contT)
     = wab_obj (RModop_continuous_representable (Ab_Forget@{b s c} ◯ T)
                  (continuous_compose contT Ab_Forget_creates_continuous))
@@ -748,9 +750,9 @@ Example watts_theorem_unconditional_obj@{a c p o x b s +|
 (* Every module A gives an instance of the theorem, through
    Functor/Representable/Additive.v's [CoHomAb_continuous], and the
    module the theorem returns is isomorphic to A. *)
-Definition watts_unconditional_CoHomAb_obj@{a c p o x b +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, Set < b, c < b +}
-  {R : RingObject@{a c p}} (A : RMod@{o x a p c} R) :
+Definition watts_unconditional_CoHomAb_obj@{a c p o b +|
+    Set < c, c < o, p <= a, c <= a, a <= o, Set < b, c < b +}
+  {R : RingObject@{a c p}} (A : RMod@{o a p c} R) :
   projT1 (watts_theorem_unconditional
             (@CoHomAb _ (RMod_LocallyPropositional R) (RMod_AbEnriched R) A
              : _ ⟶ Ab@{b c})
@@ -758,7 +760,7 @@ Definition watts_unconditional_CoHomAb_obj@{a c p o x b +|
                (LocallyPropositional_op (RMod_LocallyPropositional R))
                (AbEnriched_op (RMod_AbEnriched R)) A)
             (CoHomAb_continuous (RMod_AbEnriched R) A))
-    ≅[(RMod@{o x a p c} R)^op] A :=
+    ≅[(RMod@{o a p c} R)^op] A :=
   repr_unique_iso
     (@HomAb_representable _
        (LocallyPropositional_op (RMod_LocallyPropositional R))
@@ -768,21 +770,21 @@ Definition watts_unconditional_CoHomAb_obj@{a c p o x b +|
           Ab_Forget_creates_continuous)).
 
 (* The set-valued form at the plain hom-functor. *)
-Definition RModop_hom_representable_obj@{a c p o x s +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, c < s +}
-  {R : RingObject@{a c p}} (A : RMod@{o x a p c} R) :
+Definition RModop_hom_representable_obj@{a c p o s +|
+    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+  {R : RingObject@{a c p}} (A : RMod@{o a p c} R) :
   @repr_obj _ _ (RModop_continuous_representable
-                   (@HomFrom_at ((RMod@{o x a p c} R)^op) A : _ ⟶ Sets@{c s})
-                   (@hom_continuous_at ((RMod@{o x a p c} R)^op) A))
-    ≅[(RMod@{o x a p c} R)^op] A :=
-  repr_unique_iso (@Hom_Representable ((RMod@{o x a p c} R)^op) A)
+                   (@HomFrom_at ((RMod@{o a p c} R)^op) A : _ ⟶ Sets@{c s})
+                   (@hom_continuous_at ((RMod@{o a p c} R)^op) A))
+    ≅[(RMod@{o a p c} R)^op] A :=
+  repr_unique_iso (@Hom_Representable ((RMod@{o a p c} R)^op) A)
     (RModop_continuous_representable _
-       (@hom_continuous_at ((RMod@{o x a p c} R)^op) A)).
+       (@hom_continuous_at ((RMod@{o a p c} R)^op) A)).
 
 (* At a concrete ring: ℤ, with its three universes apart. *)
-Definition watts_unconditional_at_Z@{a c p o x b +|
-    Set < c, c < o, c < x, p <= a, c <= a, a <= o, Set < b, c < b +}
-  (A : RMod@{o x a p c} Int_Ring@{c p a}) :
+Definition watts_unconditional_at_Z@{a c p o b +|
+    Set < c, c < o, p <= a, c <= a, a <= o, Set < b, c < b +}
+  (A : RMod@{o a p c} Int_Ring@{c p a}) :
   projT1 (watts_theorem_unconditional
             (@CoHomAb _ (RMod_LocallyPropositional _) (RMod_AbEnriched _) A
              : _ ⟶ Ab@{b c})
@@ -790,5 +792,5 @@ Definition watts_unconditional_at_Z@{a c p o x b +|
                (LocallyPropositional_op (RMod_LocallyPropositional _))
                (AbEnriched_op (RMod_AbEnriched _)) A)
             (CoHomAb_continuous (RMod_AbEnriched _) A))
-    ≅[(RMod@{o x a p c} Int_Ring@{c p a})^op] A :=
+    ≅[(RMod@{o a p c} Int_Ring@{c p a})^op] A :=
   watts_unconditional_CoHomAb_obj A.

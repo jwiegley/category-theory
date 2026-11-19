@@ -142,8 +142,11 @@ Generalizable All Variables.
    There is deliberately no decidability field and nothing below decides
    membership. *)
 
-Record Ideal (R : RingObject) := {
-  idl_mem : carrier (rig_setoid R) → Type;
+(* The universes are declared: [m] for the membership, then those of the
+   ring. Inferred, with the universes of rocq-prover/rocq#22721 the first
+   universe of the ring would be [max(c, e)] and [m] would come last. *)
+Record Ideal@{m a c e} (R : RingObject@{a c e}) := {
+  idl_mem : carrier (rig_setoid R) → Type@{m};
 
   (* (1) ≈-saturation *)
   idl_resp : ∀ a b : carrier (rig_setoid R),

@@ -231,9 +231,11 @@ Constraint Set < uh.
 
 Context (Cu : Category@{uo uh uh}).
 
-Fail Check (Terminal_Limit Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Terminal_Limit Cu).
 
-Fail Check (Cartesian_Limit Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Cartesian_Limit Cu).
 
 (* Controls at the very same declared levels. *)
 Check (@Terminal_transport Cu Cu).
@@ -277,9 +279,11 @@ Check (@power_object_monadic Cv Hv).
 Check (@topos_has_finite_colimits Cv Hv).
 Check (@SubObj Cv).
 
-Fail Check (@relations_iso Cv Hv).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@relations_iso Cv Hv).
 
-Fail Check (@pow_relations Cv Hv).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@pow_relations Cv Hv).
 
 End RelationsBoundary.
 

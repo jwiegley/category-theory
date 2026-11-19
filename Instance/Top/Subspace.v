@@ -947,7 +947,7 @@ Definition PBool_equalizer@{o so +| o < so +} :=
     pbool_true.
 
 Example PBool_equalizer_obj@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _ _ _}
+  `1 PBool_equalizer@{o so _ _ _}
     = PSub PBool
         (`1 (@equalizer _ SetsEq _ _ setoid_morphism_id
                (pconst bool_setoid_object PBool true)))
@@ -955,8 +955,8 @@ Example PBool_equalizer_obj@{o so +| o < so +} :
                    (pconst bool_setoid_object PBool true)))) := eq_refl.
 
 Example PBool_equalizer_rari@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _ _ _}
-    = `1 (rari_right PBool_subspace_RARI@{o so _ _}
+  `1 PBool_equalizer@{o so _ _ _}
+    = `1 (rari_right PBool_subspace_RARI@{o so _}
             (`1 (@equalizer _ SetsEq _ _ setoid_morphism_id
                    (pconst bool_setoid_object PBool true));
              `1 (`2 (@equalizer _ SetsEq _ _ setoid_morphism_id
@@ -967,8 +967,8 @@ Example PBool_equalizer_rari@{o so +| o < so +} :
    equation, the "if" the universal property at the point picking
    [true]. *)
 Lemma PBool_equalizer_points@{o so +| o < so +} (b : bool) :
-  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _ _ _}) =>
-        pmap (`1 (`2 PBool_equalizer@{o so _ _ _ _ _})) e = b)
+  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _}) =>
+        pmap (`1 (`2 PBool_equalizer@{o so _ _ _})) e = b)
   <-> b = true.
 Proof.
   split.
@@ -977,7 +977,7 @@ Proof.
   - intros ->.
     pose (t := pdisc_mor unit_setoid_object PBool (pconst _ PBool true)
                : PPoint ~{PTopCat@{o so}}~> PBool).
-    destruct (eq_desc (`2 (`2 PBool_equalizer@{o so _ _ _ _ _})) t
+    destruct (eq_desc (`2 (`2 PBool_equalizer@{o so _ _ _})) t
                 (fun _ => eq_refl)) as [u Hu _].
     exists (pmap u ttt). exact (Hu ttt).
 Qed.
@@ -1003,7 +1003,7 @@ Definition PBool_coequalizer@{o so +| o < so +} :=
     ppoint_true.
 
 Example PBool_coequalizer_obj@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _ _ _ _}
+  `1 PBool_coequalizer@{o so _ _ _}
     = PQuot PBool
         (SetsCoeq (pconst unit_setoid_object PBool false)
                   (pconst unit_setoid_object PBool true))
@@ -1011,8 +1011,8 @@ Example PBool_coequalizer_obj@{o so +| o < so +} :
                         (pconst unit_setoid_object PBool true)) := eq_refl.
 
 Example PBool_coequalizer_lari@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _ _ _ _}
-    = `1 (lari_left PBool_quotient_LARI@{o so _ _}
+  `1 PBool_coequalizer@{o so _ _ _}
+    = `1 (lari_left PBool_quotient_LARI@{o so _}
             (SetsCoeq (pconst unit_setoid_object PBool false)
                       (pconst unit_setoid_object PBool true);
              sets_coeq_proj (pconst unit_setoid_object PBool false)
@@ -1023,7 +1023,7 @@ Example PBool_coequalizer_lari@{o so +| o < so +} :
    points [PBool] separates ([PBool_points_distinct]) are glued: a proper
    quotient, to one point up to its equality. *)
 Lemma PBool_coequalizer_points@{o so +| o < so +} (b : bool) :
-  @equiv _ (`1 PBool_coequalizer@{o so _ _ _ _ _ _}) b true.
+  @equiv _ (`1 PBool_coequalizer@{o so _ _ _}) b true.
 Proof.
   destruct b.
   - apply cq_base. reflexivity.

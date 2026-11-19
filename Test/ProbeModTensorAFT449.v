@@ -569,7 +569,11 @@ Universes pa pb pc.
 Constraint pb = Set.
 
 Context (Rs : RingObject@{pa pb pc}).
-Context (Vs Vs' : RModObject Rs).
+(* With the universes of rocq-prover/rocq#22721 the hom universe of the
+   codomain of [Bilin] is the maximum of the carrier's and the modules'
+   universes, which [ElementSolutionSet] equates with the carrier's: the
+   modules' universes are put at [Set]. *)
+Context (Vs Vs' : RModObject@{Set pc Set Set} Rs).
 
 (* THE CONTROL: the conditional form elaborates at this very ring. *)
 Definition p449_cond_at_set_carrier

@@ -447,9 +447,9 @@ Section W0Monad.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{o}).
 Local Notation UMonOS :=
-  (@Mon_Forget@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon_Forget@{so o} Sets@{o so} Sets_Product_Monoidal@{o}).
 
 Definition W0F@{+} : Sets@{o so} ⟶ Sets@{o so} := UMonOS ◯ FreeMonSets.
 

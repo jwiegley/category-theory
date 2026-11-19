@@ -68,8 +68,11 @@ Generalizable All Variables.
    every object [c] a *choice* of covering member together with an arrow
    into [c].  No uniqueness of the covering arrow is required — that is what
    makes the family only *weakly* initial. *)
-Record WeaklyInitialFamily (C : Category) := {
-  wif_index : Type;
+(* The universes are declared, in the order of the annotations below: [idx]
+   for the index, then those of [C]. Inferred, with the universes of
+   rocq-prover/rocq#22721 the index would come after the objects of [C]. *)
+Record WeaklyInitialFamily@{idx obj h} (C : Category@{obj h h}) := {
+  wif_index : Type@{idx};
   wif_obj : wif_index -> C;
   wif_cover (c : C) : { i : wif_index & wif_obj i ~> c }
 }.

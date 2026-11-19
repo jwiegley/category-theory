@@ -107,11 +107,14 @@ Definition sets_coarse_equiv (b b' : bool) : Type := ((b = b') + P)%type.
 Program Definition sets_coarse_setoid : Setoid bool := {|
   equiv := sets_coarse_equiv
 |}.
+(* The hypotheses are named: with the universes of rocq-prover/rocq#22721 the
+   universe of [sets_coarse_equiv] in [sets_coarse_setoid], which does not
+   occur in its type, is [Set], so [intro] would name them [H] and [H0]. *)
 Next Obligation.
-  constructor; repeat intro.
-  - left; reflexivity.
-  - destruct X; [ left; now symmetry | now right ].
-  - destruct X; destruct X0; try (now right).
+  constructor.
+  - intros x; left; reflexivity.
+  - intros x y X; destruct X; [ left; now symmetry | now right ].
+  - intros x y z X X0; destruct X; destruct X0; try (now right).
     left; now transitivity y.
 Qed.
 
@@ -142,7 +145,7 @@ Program Definition sets_coarse_sharpen (np : P → False) :
   morphism := fun b : bool => b
 |}.
 Next Obligation.
-  repeat intro.
+  intros x y X.
   destruct X as [E | p]; [ exact E | now contradiction np ].
 Qed.
 

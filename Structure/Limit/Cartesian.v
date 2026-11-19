@@ -62,7 +62,10 @@ Proof.
       destruct limit_cone.
       simpl. change y with (fobj[Pick_Two x y] TwoDY).
       apply vertex_map.
-    + proper.
+    + (* With the universes of rocq-prover/rocq#22721 the hom-setoids of [C]
+         are no longer forced to [Set], so the hypotheses introduced by
+         [proper] are named [X0] and [X1]: they are named here. *)
+      intros ?? H ?? H0.
       apply uniqueness; simpl; intros.
       destruct x2; simpl.
       * rewrite H.
@@ -73,7 +76,7 @@ Proof.
         apply (unique_property TwoDY).
     + simpl.
       destruct (ump_limits _); simpl in *.
-      split; intros.
+      split; intro H.
       * split.
         ** rewrite H.
            apply (unique_property TwoDX).
@@ -99,7 +102,7 @@ Proof.
         destruct x; simpl.
         ** now rewrite exl_fork.
         ** now rewrite exr_fork.
-      * intros.
+      * intros ? H.
         simpl in *.
         rewrite <- !H.
         rewrite fork_comp.

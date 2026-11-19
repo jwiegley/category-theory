@@ -1160,7 +1160,8 @@ Constraint Set < bh.
 Check (fun R : RgObject@{bp bo bh} => Dorroh R).
 Check (fun R : RgObject@{bp bo bh} => zring (Dorroh R)).
 Check @RgObject@{_ _ _}.
-Fail Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
 
 End ProbeDonorPin.
 

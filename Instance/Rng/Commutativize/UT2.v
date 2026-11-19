@@ -107,8 +107,8 @@ Lemma ut2_e12_in_CommIdeal@{a c p +} :
 Proof. exact (@ici_gen UT2 ut2_e11 ut2_e12). Defined.
 
 Lemma crng_unit_UT2_merges@{u p +} :
-  rig_map (crng_unit (UT2 : Rng@{u p})) ut2_e12
-    ≈ rig_map (crng_unit (UT2 : Rng@{u p})) ut2_zero.
+  rig_map (crng_unit (UT2 : Rng@{p})) ut2_e12
+    ≈ rig_map (crng_unit (UT2 : Rng@{p})) ut2_zero.
 Proof.
   simpl; unfold rquot_rel; constructor.
   exact (@ici_resp UT2 ut2_e12 _ eq_refl ut2_e12_in_CommIdeal).
@@ -122,7 +122,7 @@ Proof. unfold ut2_e12, ut2_zero; simpl; unfold ut2_eqT; discriminate. Qed.
 (* So the unit at UT2 is not invertible: the reflection is a proper
    quotient there. *)
 Theorem crng_unit_UT2_not_iso@{u p +} :
-  IsIsomorphism (crng_unit (UT2 : Rng@{u p})) → False.
+  IsIsomorphism (crng_unit (UT2 : Rng@{p})) → False.
 Proof.
   intros [g _ Hgf].
   apply ut2_e12_nonzero.
@@ -146,7 +146,7 @@ Definition ut2_diag1_proper@{+}
   fun x y H => f_equal ut2_diag1 H.
 
 Program Definition ut2_diag1_hom@{u p +} :
-  (UT2 : Rng@{u p}) ~{Rng@{u p}}~> Int_Ring := {|
+  (UT2 : Rng@{p}) ~{Rng@{p}}~> Int_Ring := {|
   rig_map := {| morphism := ut2_diag1; proper_morphism := ut2_diag1_proper |}
 |}.
 Next Obligation. reflexivity. Qed.
@@ -157,12 +157,12 @@ Next Obligation. intros [[a b] c] [[a' b'] c']; reflexivity. Qed.
 (* Exercising the universal property on it separates one from zero in
    the quotient. *)
 Example crng_UT2_med_one@{u p +} :
-  rig_map `1 (unique_obj (crng_universal (UT2 : Rng@{u p}) Int_CRng
+  rig_map `1 (unique_obj (crng_universal (UT2 : Rng@{p}) Int_CRng
                             ut2_diag1_hom))
     (rig_one UT2) = 1%Z := eq_refl.
 
 Theorem Commutativize_UT2_nonzero@{u p +} :
-  @equiv (carrier (rig_setoid (Commutativize (UT2 : Rng@{u p})))) _
+  @equiv (carrier (rig_setoid (Commutativize (UT2 : Rng@{p})))) _
     (rig_one UT2) (rig_zero UT2) → False.
 Proof.
   intro H.

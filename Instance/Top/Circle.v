@@ -358,12 +358,9 @@ Qed.
 
 Program Definition creal_setoid@{o} : Setoid@{o o} CReal :=
   {| equiv := CRealEq |}.
-Next Obligation.
-  constructor.
-  - intro x; exact (CRealEq_refl x).
-  - intros x y H; exact (CRealEq_sym x y H).
-  - intros x y z H1 H2; exact (CRealEq_trans x y z H1 H2).
-Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Equivalence] obligation
+   is found by typeclass resolution, from the standard library's instance for
+   [CRealEq], so there is no obligation for it. *)
 
 Definition RLine_setoid@{o} : SetoidObject@{o o} :=
   {| carrier := CReal; is_setoid := creal_setoid@{o} |}.

@@ -99,7 +99,8 @@ Constraint Set < ch.
 (* Former stripped refusal: the [Cochain] donor forced [ch = Set].
    Keep exactly that application as a positive control after #1399. *)
 Check @Sets@{_ _}.
-Definition cochain_above_Set
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition neg_cochain_above_Set
   (G : Sets@{ch co} ⟶ Sets@{ch co}) : Omega^op ⟶ Sets@{ch co} := Cochain G.
 
 (* The category, both functor categories, the index and the forward

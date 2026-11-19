@@ -530,11 +530,11 @@ End Recipe.
 (* THE RECIPE, as a lemma: if [N] is a colimiting cocone of the points,
    the final topology for its legs makes the lifted cocone colimiting.
    The two universal properties are stated at independent levels. *)
-Lemma pfinal_cocone_colimiting@{o so s r r' x x' +| o < so +}
+Lemma pfinal_cocone_colimiting@{o so s x +| o < so +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so})
   (N : Cocone (PForget@{o so} ◯ F))
-  (HN : IsColimitCocone@{x' x' r' s o so} N) :
-  IsColimitCocone@{x x r s o so} (PFinalCocone F N).
+  (HN : IsColimitCocone@{s so o} N) :
+  IsColimitCocone@{s so o} (PFinalCocone F N).
 Proof.
   intro M.
   pose proof (colimitcocone_ump HN (FCocone PForget@{o so} M)) as U.
@@ -553,8 +553,8 @@ Defined.
 Example pfinal_cocone_med_map@{o so s r r' x x' +| o < so +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so})
   (N : Cocone (PForget@{o so} ◯ F))
-  (HN : IsColimitCocone@{x' x' r' s o so} N) (M : Cocone F) :
-  pmap (unique_obj (pfinal_cocone_colimiting@{o so s r r' x x' _} F N HN M))
+  (HN : IsColimitCocone@{s so o} N) (M : Cocone F) :
+  pmap (unique_obj (pfinal_cocone_colimiting@{o so s x} F N HN M))
     = unique_obj (colimitcocone_ump HN (FCocone PForget@{o so} M)) := eq_refl.
 
 (* The recipe for a colimit record of the points.  The colimit of the
@@ -569,7 +569,7 @@ Definition PTop_Colimit_lift@{r r' s o so +| o < so +}
 Example PTop_Colimit_lift_apex@{r r' s o so +| o < so +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so})
   (L : Colimit@{r' s o so} (PForget@{o so} ◯ F)) :
-  vertex_obj[@limit_cone _ _ _ (PTop_Colimit_lift@{r r' s o so _ _ _} F L)]
+  vertex_obj[@limit_cone _ _ _ (PTop_Colimit_lift@{r r' s o so} F L)]
     = PFinal (vertex_obj[@limit_cone _ _ _ L]) (obj[D]) (fun d => F d)
         (fun d => cocone_inj (@limit_cone _ _ _ L) d) := eq_refl.
 
@@ -854,11 +854,11 @@ Definition PForget_PreservesColimitCocone@{s o so +| o < so +}
    to a colimiting cocone, [PForget]'s image of [PFinalCocone N] having
    [N]'s apex and legs.  With [pfinal_cocone_colimiting], [N] is
    colimiting exactly when its lift is. *)
-Lemma pfinal_cocone_colimiting_reflect@{o so s r x +| o < so +}
+Lemma pfinal_cocone_colimiting_reflect@{o so s +| o < so +}
   {D : Category@{s o o}} (F : D ⟶ PTopCat@{o so})
   (N : Cocone (PForget@{o so} ◯ F))
-  (H : IsColimitCocone@{x x r s o so} (PFinalCocone F N)) :
-  IsColimitCocone@{x x r s o so} N.
+  (H : IsColimitCocone@{s so o} (PFinalCocone F N)) :
+  IsColimitCocone@{s so o} N.
 Proof.
   exact (PForget_PreservesColimitCocone D F (PFinalCocone F N) H).
 Qed.
@@ -901,20 +901,20 @@ Definition PTwoIndisc@{o} : PTop@{o} := PIndiscrete bool_setoid_object@{o o}.
 
 (* The sum, with its index universe set to the points' own, so that every
    statement below names one space. *)
-Definition PTwoIndiscSum@{o u | o < u +} : PTop@{o} :=
-  PSigma@{o o u} bool (fun _ => PTwoIndisc@{o}).
+Definition PTwoIndiscSum@{o |+} : PTop@{o} :=
+  PSigma@{o o} bool (fun _ => PTwoIndisc@{o}).
 
 (* The two injections are different arrows of [PTopCat]. *)
-Lemma PTwoIndiscSum_injections_differ@{o so u | o < so, o < u +} :
-  psigma_inj@{o so o u} bool (fun _ => PTwoIndisc@{o}) true
-    ≈[PTopCat@{o so}] psigma_inj@{o so o u} bool (fun _ => PTwoIndisc) false
+Lemma PTwoIndiscSum_injections_differ@{o so | o < so+} :
+  psigma_inj@{o so o} bool (fun _ => PTwoIndisc@{o}) true
+    ≈[PTopCat@{o so}] psigma_inj@{o so o} bool (fun _ => PTwoIndisc) false
   → False.
 Proof. intro H. destruct (H true) as [e _]. discriminate e. Qed.
 
 (* Each summand is open, and it is not uniform: the topology is not the
    indiscrete one. *)
 Lemma PTwoIndiscSum_summand_open@{o u | o < u +} :
-  POpen PTwoIndiscSum@{o u} (fun p => projT1 p = true).
+  POpen PTwoIndiscSum@{o} (fun p => projT1 p = true).
 Proof.
   split.
   - intros [i x] [j y] [e _] Hi; simpl in *. rewrite <- e. exact Hi.
@@ -922,8 +922,8 @@ Proof.
 Qed.
 
 Lemma PTwoIndiscSum_not_indiscrete@{o u | o < u +} :
-  (∀ U, POpen PTwoIndiscSum@{o u} U →
-     ∀ p q : PTwoIndiscSum@{o u}, U p → U q) → False.
+  (∀ U, POpen PTwoIndiscSum@{o} U →
+     ∀ p q : PTwoIndiscSum@{o}, U p → U q) → False.
 Proof.
   intro H.
   discriminate (H _ PTwoIndiscSum_summand_open
@@ -933,9 +933,9 @@ Qed.
 (* A point respecting the points' equality that is NOT open: the topology
    is not the discrete one either. *)
 Lemma PTwoIndiscSum_not_discrete@{o u | o < u +} :
-  (∀ p q : PTwoIndiscSum@{o u}, p ≈ q →
+  (∀ p q : PTwoIndiscSum@{o}, p ≈ q →
      projT1 p = true /\ projT2 p = true → projT1 q = true /\ projT2 q = true)
-  /\ ~ POpen PTwoIndiscSum@{o u}
+  /\ ~ POpen PTwoIndiscSum@{o}
          (fun p => projT1 p = true /\ projT2 p = true).
 Proof.
   split.

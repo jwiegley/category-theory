@@ -417,7 +417,8 @@ Fail Example p450_n1_aft_coprod_is_words (G H : Grp) :
 Definition p450_grp_colim_bool := Grp_colim_via_GAFT (DiscreteCat bool).
 Definition p450_grp_colim_fin2 := Grp_colim_via_GAFT (DiscreteCat (Fin.t 2)).
 
-Fail Definition p450_n2_grp_two_discrete := Grp_colim_via_GAFT Two_Discrete.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p450_n2_grp_two_discrete := Grp_colim_via_GAFT Two_Discrete.
 
 (** ** N3 (UNIVERSE): shape homs below the carrier, refused at [J, Grp] *)
 
@@ -449,7 +450,7 @@ Universes gu.
 Constraint Set < gu.
 
 Context (J : Category@{Set Set Set}).
-Context (D : J ⟶ Grp@{gu Set}) (DR : J ⟶ Rng@{gu Set}).
+Context (D : J ⟶ Grp@{gu Set}) (DR : J ⟶ Rng@{Set}).
 
 (* CONTROLS: the two solution sets at a [Set] carrier. *)
 Definition p450_grp_sols_at_set := @Diagonal_Grp_solution_set J D.
@@ -462,7 +463,7 @@ Definition p450_grp_gaft_partial_at_set :=
   GAFT (@Diagonal Grp@{gu Set} J) Grp_Complete
        (Continuous_PreservesImageLimit Diagonal_continuous).
 Definition p450_rng_gaft_partial_at_set :=
-  GAFT (@Diagonal Rng@{gu Set} J) Rng_Complete
+  GAFT (@Diagonal Rng@{Set} J) Rng_Complete
        (Continuous_PreservesImageLimit Diagonal_continuous).
 
 Fail Definition p450_n4_grp_colim_at_set := Grp_colim_via_GAFT J.
@@ -606,9 +607,10 @@ Definition p450_grp_initial_comparison :=
   initial_unique Grp_Initial_via_GAFT Grp_Initial.
 
 (* CONTROL: ℤ is initial at [Set] carriers. *)
-Check (Rng_Initial_Z : @Initial Rng@{_ Set}).
+Check (Rng_Initial_Z : @Initial Rng@{Set}).
 
-Fail Definition p450_n13_rng_initial_comparison :=
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p450_n13_rng_initial_comparison :=
   initial_unique Rng_Initial_via_GAFT Rng_Initial_Z.
 
 (** ** The zero object and [Z2] above [Set]: controls, formerly refused *)

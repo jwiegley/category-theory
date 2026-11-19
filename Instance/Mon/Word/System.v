@@ -219,7 +219,7 @@ Section W0Systems.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{o}).
 
 (* ν₁ = 1 is #470's [nu_unit] of the positive part.  (2): for every word of
    words, ν of the values of the inner words is ν of their concatenation,

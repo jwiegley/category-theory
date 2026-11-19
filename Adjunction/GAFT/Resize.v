@@ -164,8 +164,8 @@ Defined.
     section [ElementSolutionSet] takes FOUR universes, not one. *)
 Definition resize_element_solution_set@{cobj h su i w}
   {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
-  (E : ElementSolutionSet@{cobj h su i} K)
-  (H : SmallType@{w i} (esol_index E)) : ElementSolutionSet@{cobj h su w} K.
+  (E : ElementSolutionSet@{cobj h i} K)
+  (H : SmallType@{w i} (esol_index E)) : ElementSolutionSet@{cobj h w} K.
 Proof.
   unshelve refine
     {| esol_index := st_carrier H
@@ -293,6 +293,6 @@ Defined.
 Definition representable_of_small@{cobj h su i +}
   {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C Sets K)
-  (E : ElementSolutionSet@{cobj h su i} K)
+  (E : ElementSolutionSet@{cobj h i} K)
   (H : SmallType@{h i} (esol_index E)) : Representable K :=
   representability_theorem K comp cont (resize_element_solution_set K E H).

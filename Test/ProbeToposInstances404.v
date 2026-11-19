@@ -103,7 +103,8 @@ Context (C : Category) (UT : Untruncate).
      while it is expected to have type "Terminal@{n1.26 n1.27}"
      (universe inconsistency: Cannot enforce n1.23 = n1.27 because
       n1.23 < n1.31 <= n1.26 <= n1.27).                              *)
-Fail Check (@classifier_classifies ([C^op, Sets])
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@classifier_classifies ([C^op, Sets])
               (@topos_terminal _ (Presheaf_Topos C UT))
               (@topos_pullbacks _ (Presheaf_Topos C UT))
               (@topos_classifier _ (Presheaf_Topos C UT))).
@@ -127,7 +128,8 @@ Fail Check (@relations_iso ([C^op, Sets]) (Presheaf_Topos C UT)).
      while it is expected to have type "Terminal@{n3.26 n3.27}"
      (universe inconsistency: Cannot enforce n3.23 = n3.27 because
       n3.23 < n3.31 <= n3.26 <= n3.27).                              *)
-Fail Check (@Sub_classifier_natural ([C^op, Sets])
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Sub_classifier_natural ([C^op, Sets])
               (@topos_terminal _ (Presheaf_Topos C UT))
               (@topos_pullbacks _ (Presheaf_Topos C UT))
               (@topos_classifier _ (Presheaf_Topos C UT))).
@@ -163,7 +165,8 @@ End PshNegatives.
      (universe inconsistency: Cannot enforce Set = n5.30 because
       Set < n5.30).                                                  *)
 Check (Functor_Category_Closed _2).
-Fail Definition p404_two (UT : Untruncate) := Presheaf_Topos _2 UT.
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p404_two (UT : Untruncate) := Presheaf_Topos _2 UT.
 
 (* NEGATIVE 8 (RESOLUTION).  The bundle does not resolve: [ElementaryTopos]
    has no registered instance and its constructor is not one.  Stripped:
@@ -244,7 +247,8 @@ Check (Fun_Classifier_small Cs UTs
      (universe inconsistency: Cannot enforce o = n4.97 because
       o < so <= n4.96 <= n4.97).                                     *)
 Check @Sets@{_ _}.
-Fail Check (Functor_Category_Closed Cs
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Functor_Category_Closed Cs
             : @Closed (PShSmall Cs)
                 (@Functor_Category_Cartesian (Cs^op) Sets@{o so}
                    Sets_Cartesian)).
@@ -265,9 +269,9 @@ Constraint Set < su.
 
 Check Sets@{Set su}.
 Check Sets_Terminal@{su Set}.
-Check Sets_Cartesian@{su Set}.
-Check Sets_HasPullbacks@{su Set}.
-Check Sets_Closed@{su Set}.
+Check Sets_Cartesian@{Set}.
+Check Sets_HasPullbacks@{Set}.
+Check Sets_Closed@{Set}.
 Check Sets_Classifier_dec@{Set su}.
 Check Sets_Topos_dec@{Set su}.
 

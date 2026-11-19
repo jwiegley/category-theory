@@ -194,7 +194,8 @@ Proof.
     (@Build_MonObject@{o o o}
        (@Build_SetoidObject@{o o} (option bool) (eq_Setoid@{o} (option bool)))
        None lz_op _ _ _ _).
-  - intros x x' Hx y y' Hy; simpl in *; subst; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is filled
+     by typeclass resolution, the equality being [eq]. *)
   - exact lz_op_assoc.
   - intros x; reflexivity.
   - exact lz_op_unit_r.
@@ -237,18 +238,19 @@ Definition lz_pick@{o so} (k : option bool) :
     ~{Sets@{o so}}~> act_prod LZ@{o} unit_setoid_object@{o o}.
 Proof.
   unshelve refine {| morphism := fun u : poly_unit@{o} => (k, u) |}.
-  intros u v H; simpl in *; subst; split; reflexivity.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 (* ------------------------------------------------------------------------ *)
 (** ** The issue's reading, refuted at the adjunction of LZ-sets *)
 
 (* σ*: an action restricted along σ. *)
-Definition SwapAct@{o} (A : MSetoidAction@{o o o o o o o o} LZ@{o}) :
-  MSetoidAction@{o o o o o o o o} LZ@{o}.
+Definition SwapAct@{o} (A : MSetoidAction@{o o o o} LZ@{o}) :
+  MSetoidAction@{o o o o} LZ@{o}.
 Proof.
   unshelve refine
-    (@Build_MSetoidAction@{o o o o o o o o} LZ@{o} (act_setoid A)
+    (@Build_MSetoidAction@{o o o o} LZ@{o} (act_setoid A)
        (fun (g : option bool) (x : carrier (act_setoid A)) =>
           act A (lz_swap g) x) _ _ _).
   - intros g g' Hg x x' Hx; simpl in Hg; subst.
@@ -259,18 +261,18 @@ Proof.
     exact (act_op A (lz_swap g) (lz_swap h) x).
 Defined.
 
-Definition Swap_map@{o so} {A B : MSetoidAction@{o o o o o o o o} LZ@{o}}
-  (f : A ~{MSet@{so so o o o o o o} LZ@{o}}~> B) :
-  SwapAct A ~{MSet@{so so o o o o o o} LZ@{o}}~> SwapAct B :=
+Definition Swap_map@{o so} {A B : MSetoidAction@{o o o o} LZ@{o}}
+  (f : A ~{MSet@{o o o o o} LZ@{o}}~> B) :
+  SwapAct A ~{MSet@{o o o o o} LZ@{o}}~> SwapAct B :=
   @Build_Equivariant LZ@{o} (SwapAct A) (SwapAct B) (equiv_map f)
     (fun g x => equivar f (lz_swap g) x).
 
 Definition Swap_MSet@{o so} :
-  MSet@{so so o o o o o o} LZ@{o} ⟶ MSet@{so so o o o o o o} LZ@{o}.
+  MSet@{o o o o o} LZ@{o} ⟶ MSet@{o o o o o} LZ@{o}.
 Proof.
   unshelve refine
-    (@Build_Functor (MSet@{so so o o o o o o} LZ@{o})
-       (MSet@{so so o o o o o o} LZ@{o}) SwapAct
+    (@Build_Functor (MSet@{o o o o o} LZ@{o})
+       (MSet@{o o o o o} LZ@{o}) SwapAct
        (fun A B f => Swap_map@{o so} f) _ _ _).
   - intros A B f f' Hf x. exact (Hf x).
   - intros A x. reflexivity.
@@ -279,7 +281,7 @@ Defined.
 
 (* K, the comparison functor after σ*. *)
 Definition K_swap@{o so} :
-  MSet@{so so o o o o o o} LZ@{o}
+  MSet@{o o o o o} LZ@{o}
     ⟶ @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
           (ActMonad@{o so} LZ@{o}) :=
   EM_Comparison (MSet_adj@{o so} LZ@{o}) ◯ Swap_MSet@{o so}.
@@ -293,7 +295,7 @@ Proof.
 Defined.
 
 Example K_forget_components@{o so}
-  (A : MSetoidAction@{o o o o o o o o} LZ@{o}) :
+  (A : MSetoidAction@{o o o o} LZ@{o}) :
   `1 K_forget@{o so} A = iso_id := eq_refl.
 
 Definition KF_to@{o so} (X : SetoidObject@{o o}) :
@@ -382,7 +384,7 @@ Qed.
 
 (* The issue's reading of Awodey's clause, refuted. *)
 Theorem bare_awodey_refuted@{o so} :
-  ¬ (∀ K' : MSet@{so so o o o o o o} LZ@{o}
+  ¬ (∀ K' : MSet@{o o o o o} LZ@{o}
               ⟶ @EilenbergMoore@{so so o} Sets@{o so}
                     (ActF@{o so} LZ@{o}) (ActMonad@{o so} LZ@{o}),
        EM_Forget (ActF@{o so} LZ@{o}) ◯ K' ≈ MSet_Forget@{o so} LZ@{o} →

@@ -1165,7 +1165,7 @@ Definition p457_ppoint_maps_differ@{o so | o < so +} :
    the subspace construction at [PBool] there, and exactly [true] lies in
    it. *)
 Example p457_pbool_equalizer_obj@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _ _ _}
+  `1 PBool_equalizer@{o so _ _ _}
     = PSub PBool
         (`1 (@equalizer _ (@HasEqualizers_of_HasPullbacks_Terminal Sets
                              Sets_Terminal Sets_HasPullbacks)
@@ -1176,8 +1176,8 @@ Example p457_pbool_equalizer_obj@{o so +| o < so +} :
                    (pconst bool_setoid_object PBool true)))) := eq_refl.
 
 Example p457_pbool_equalizer_rari@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _ _ _}
-    = `1 (rari_right PBool_subspace_RARI@{o so _ _}
+  `1 PBool_equalizer@{o so _ _ _}
+    = `1 (rari_right PBool_subspace_RARI@{o so _}
             (`1 (@equalizer _ (@HasEqualizers_of_HasPullbacks_Terminal Sets
                                  Sets_Terminal Sets_HasPullbacks)
                    _ _ setoid_morphism_id
@@ -1189,8 +1189,8 @@ Example p457_pbool_equalizer_rari@{o so +| o < so +} :
   eq_refl.
 
 Definition p457_pbool_equalizer_points@{o so +| o < so +} (b : bool) :
-  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _ _ _}) =>
-        pmap (`1 (`2 PBool_equalizer@{o so _ _ _ _ _})) e = b)
+  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _}) =>
+        pmap (`1 (`2 PBool_equalizer@{o so _ _ _})) e = b)
   <-> b = true :=
   PBool_equalizer_points b.
 
@@ -1199,7 +1199,7 @@ Definition p457_pbool_equalizer_points@{o so +| o < so +} (b : bool) :
    quotient construction at [PBool] there, and every point is identified
    with [true] in it. *)
 Example p457_pbool_coequalizer_obj@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _ _ _ _}
+  `1 PBool_coequalizer@{o so _ _ _}
     = PQuot PBool
         (SetsCoeq (pconst unit_setoid_object PBool false)
                   (pconst unit_setoid_object PBool true))
@@ -1207,8 +1207,8 @@ Example p457_pbool_coequalizer_obj@{o so +| o < so +} :
                         (pconst unit_setoid_object PBool true)) := eq_refl.
 
 Example p457_pbool_coequalizer_lari@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _ _ _ _}
-    = `1 (lari_left PBool_quotient_LARI@{o so _ _}
+  `1 PBool_coequalizer@{o so _ _ _}
+    = `1 (lari_left PBool_quotient_LARI@{o so _}
             (SetsCoeq (pconst unit_setoid_object PBool false)
                       (pconst unit_setoid_object PBool true);
              sets_coeq_proj (pconst unit_setoid_object PBool false)
@@ -1216,7 +1216,7 @@ Example p457_pbool_coequalizer_lari@{o so +| o < so +} :
   := eq_refl.
 
 Definition p457_pbool_coequalizer_points@{o so +| o < so +} (b : bool) :
-  @equiv _ (`1 PBool_coequalizer@{o so _ _ _ _ _ _}) b true :=
+  @equiv _ (`1 PBool_coequalizer@{o so _ _ _}) b true :=
   PBool_coequalizer_points b.
 
 (** ** Instance/Top/Subspace/TypeValued.v: the subspace predicate *)
@@ -1380,7 +1380,7 @@ Example p457_forget_under_lift@{o h so +| o < h, h < so +} (X : TopSpace@{o})
        SetoidMorphism_Lift (`2 (tstrip_under X y))) := eq_refl.
 
 (* N18 *)
-Check @TQuot_Functor@{_ _ _ _}.
+Check @TQuot_Functor@{_ _ _}.
 Check @Top_Forget_under@{_ _ _}.
 Fail Definition p457_tquot_adjunction@{o h so +| o < h, h < so +}
   (X : TopSpace@{o}) :=
@@ -1390,15 +1390,15 @@ Fail Definition p457_tquot_adjunction@{o h so +| o < h, h < so +}
 Example p457_tquot_obj_stripped_pair@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (T : SetoidObject@{o o})
   (q : top_carrier X ~{Sets@{o so}}~> T) :
-  tstrip_under@{o h so _ _} X (TQuot_Functor X (T; q)) = (T; q) := eq_refl.
+  tstrip_under@{o h so} X (TQuot_Functor X (T; q)) = (T; q) := eq_refl.
 
 Definition p457_tquot_obj_stripped@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
-  tstrip_under@{o h so _ _} X (TQuot_Functor X c) = c :=
+  tstrip_under@{o h so} X (TQuot_Functor X c) = c :=
   tquot_obj_stripped X c.
 
 (* N19 *)
-Check @tstrip_under@{_ _ _ _ _}.
+Check @tstrip_under@{_ _ _}.
 Fail Example p457_tquot_obj_stripped_refl@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
   tstrip_under@{o h so _ _} X (TQuot_Functor X c) = c := eq_refl.
@@ -1406,7 +1406,7 @@ Fail Example p457_tquot_obj_stripped_refl@{o h so +| o < h, o < so +}
 (* The stripped object equation closed [Qed] instead of [Defined]. *)
 Lemma p457_tquot_obj_stripped_opaque@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
-  tstrip_under@{o h so _ _} X (TQuot_Functor X c) = c.
+  tstrip_under@{o h so} X (TQuot_Functor X c) = c.
 Proof. destruct c; reflexivity. Qed.
 
 (* CONTROL: the transposed identity is [id_cast] of the inverse of

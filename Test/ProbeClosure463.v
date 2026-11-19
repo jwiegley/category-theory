@@ -595,7 +595,8 @@ Definition p463_cm_thin_plus@{u h +} {A : Type@{u}} {R : relation A}
 
 (* N6 *)
 Check @ClosureOperator@{_}.
-Fail Definition p463_cm_thin_bare@{u h} {A : Type@{u}} {R : relation A}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p463_cm_thin_bare@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (c : ClosureOperator@{u} P) :
   @Monad (Proset@{u h} P) (closure_functor c) :=
   @thin_monad (Proset@{u h} P) (fun _ _ _ _ => I)
@@ -623,7 +624,8 @@ Definition p463_ic_thin_plus@{u h +} {A : Type@{u}} {R : relation A}
 
 (* N7 *)
 Check @InteriorOperator@{_}.
-Fail Definition p463_ic_thin_bare@{u h} {A : Type@{u}} {R : relation A}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p463_ic_thin_bare@{u h} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (j : InteriorOperator@{u} P) :
   @Comonad (Proset@{u h} P) (interior_functor j) :=
   @thin_comonad (Proset@{u h} P) (fun _ _ _ _ => I)
@@ -648,7 +650,8 @@ Definition p463_mm_thin_plus@{u h +} (B : Prop) :
 (* N8 *)
 Check @Props@{_ _}.
 Check @modal_functor@{_ _}.
-Fail Definition p463_mm_thin_bare@{u h} (B : Prop) :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p463_mm_thin_bare@{u h} (B : Prop) :
   @Monad Props@{u h} (modal_functor@{u h} B) :=
   @thin_monad Props@{u h} (fun _ _ _ _ => I) (modal_functor@{u h} B)
     (modal_ext B) (modal_mult B).

@@ -257,7 +257,8 @@ Proof.
   unshelve refine
     (@Build_SetoidMorphism poly_unit unit_setoid
        Prop (is_setoid Powerset_Prop_truth) (λ _, Q) _).
-  intros u v _; split; intro q; exact q.
+  (* With the universes of rocq-prover/rocq#22721 the [Proper] hole is
+     filled by typeclass resolution. *)
 Defined.
 
 Definition Prop_to_P1@{o} :

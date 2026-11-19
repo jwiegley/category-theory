@@ -345,7 +345,7 @@ End RngSemidirect.
 
 (* U corestricted to the propositional setoids, by [rig_prop], as the
    group file's [Grp_ForgetP]. *)
-Definition Rng_ForgetP@{u p so | p < so +} : Rng@{u p} ⟶ PropSets@{p so} :=
+Definition Rng_ForgetP@{u p so | p < so +} : Rng@{p} ⟶ PropSets@{p so} :=
   PropSets_lift Rng_Forget (fun R => rig_prop R).
 
 (* The pair, the coequalizer and the splitting live in [Rng], whose objects

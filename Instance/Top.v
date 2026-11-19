@@ -222,9 +222,11 @@ Qed.
 (* Continuity, in its categorical form: the preimage of every open is open.
    The map itself is a [SetoidMorphism], so it already respects the two
    carriers' equalities; continuity is the extra topological condition. *)
-Definition Continuous (X Y : TopSpace)
-           (f : SetoidMorphism (top_carrier X) (top_carrier Y)) : Type :=
-  ∀ U : Y → Type, IsOpen Y U → IsOpen X (fun x => U (f x)).
+(* The universes are declared, as for [ContinuousMorphism] below: inferred,
+   the universe of the property would be the least one, [o+1]. *)
+Definition Continuous@{h o | o < h} (X Y : TopSpace@{o})
+           (f : SetoidMorphism (top_carrier X) (top_carrier Y)) : Type@{h} :=
+  ∀ U : Y → Type@{o}, IsOpen Y U → IsOpen X (fun x => U (f x)).
 
 (* A morphism of [Top]: a setoid map on points that is moreover continuous.
    This wraps [SetoidMorphism] exactly as [SetoidMorphism] wraps a bare
@@ -924,9 +926,12 @@ Defined.
    as a Σ-type carrying the two chosen opens.  A constructive topologist
    would usually prefer a positive apartness relation; that refinement is
    out of scope here, where the work order asks only for the definition. *)
-Definition IsHausdorff (X : TopSpace) : Type :=
+(* The universes are declared: [h] for the property, [u] and [v] for the
+   two opens, [o] for the space. Inferred, the universe of the property would
+   be [max(o, u+1, v+1)]. *)
+Definition IsHausdorff@{h u v o} (X : TopSpace@{o}) : Type@{h} :=
   ∀ x y : X, ¬ (x ≈ y) →
-    ∃ U : X → Type, ∃ V : X → Type,
+    ∃ U : X → Type@{u}, ∃ V : X → Type@{v},
       ((IsOpen X U ∧ IsOpen X V)
          ∧ (U x ∧ V y)
          ∧ (∀ z : X, U z → V z → False))%type.

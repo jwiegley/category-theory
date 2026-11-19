@@ -126,7 +126,9 @@ Program Definition Free@{fo fh fp} : Category@{fo fh fp} := {|
   id      := fun _ => tnil;                  (* identity = empty path *)
   compose := fun _ _ _ f g => g +++ f        (* composition = path concatenation *)
 |}.
-Next Obligation. equivalence; congruence. Qed.
+(* With the universes of rocq-prover/rocq#22721 the [Equivalence] obligation
+   of the equality of paths is found by typeclass resolution, so there is no
+   obligation for it. *)
 Next Obligation. now apply tlist_app_tnil_r. Qed.
 Next Obligation. now apply tlist_app_assoc. Qed.
 Next Obligation. now symmetry; apply tlist_app_assoc. Qed.
@@ -269,7 +271,9 @@ Next Obligation. now symmetry; apply tlist_app_assoc. Qed.
 
 (* Normalization functor: identity on objects, flattening each syntax term to
    its path. Faithful and full by [morDA_tlistDA]/[tlistDA_morDA]. *)
-Program Instance ForgetSyntax : FreeSyntax ⟶ Free := {
+(* The universes are declared: inferred, the homs and the proofs of [Free]
+   would have universes of their own, above those of [FreeSyntax]. *)
+Program Instance ForgetSyntax@{u} : FreeSyntax@{u} ⟶ Free@{o u u} := {
   fobj := λ x, x;
   fmap := λ x y f, morDA f;
 }.

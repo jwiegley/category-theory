@@ -438,7 +438,7 @@ Arguments esol_elem {C K} _ _.
 Definition representability_theorem@{cobj h su +}
   {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C Sets K)
-  (E : ElementSolutionSet@{cobj h su h} K) : Representable K :=
+  (E : ElementSolutionSet@{cobj h h} K) : Representable K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont (sols_of_esols K E)).
 
