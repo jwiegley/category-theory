@@ -413,16 +413,21 @@ Require Import Category.Instance.Sets.Cartesian.
 
 (** ** Bounded lattices on a setoid carrier *)
 
-Record SetoidLattice := {
-  sl_setoid :> SetoidObject;
+(* The universes are declared, as those of [MonObject]: [u] for the carrier,
+   [u0] for its equality and [u1] for the compatibility of the operations with
+   it. Inferred, the latter would be [max(u, u0)]. *)
+Record SetoidLattice@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+  sl_setoid :> SetoidObject@{u u0};
 
   sl_bot  : carrier sl_setoid;
   sl_join : carrier sl_setoid → carrier sl_setoid → carrier sl_setoid;
   sl_top  : carrier sl_setoid;
   sl_meet : carrier sl_setoid → carrier sl_setoid → carrier sl_setoid;
 
-  sl_join_respects : Proper (equiv ==> equiv ==> equiv) sl_join;
-  sl_meet_respects : Proper (equiv ==> equiv ==> equiv) sl_meet;
+  sl_join_respects :
+    Proper@{u u1} (respectful@{u u0 u u1} equiv (respectful@{u u0 u u0} equiv equiv)) sl_join;
+  sl_meet_respects :
+    Proper@{u u1} (respectful@{u u0 u u1} equiv (respectful@{u u0 u u0} equiv equiv)) sl_meet;
 
   sl_join_assoc : ∀ a b c,
     sl_join (sl_join a b) c ≈ sl_join a (sl_join b c);

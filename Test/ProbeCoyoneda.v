@@ -195,7 +195,8 @@ Constraint uh < us.
    inconsistency: Cannot enforce uh = _ because uh < uo <= _". *)
 Check @Category@{_ _ _}.
 Check @Sets@{_ _}.
-Fail Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
               KanCone K).
 
 (* NEGATIVE 9 (FORMABILITY).  The transformation presheaf independently

@@ -179,15 +179,18 @@ Generalizable All Variables.
    quantifies over PAIRS of indices, exactly as [wfork_eq] does in
    Structure/Equalizer/Wide.v; no distinguished index is named, so nothing
    in this record requires I to be inhabited. *)
-Record IsWidePullback {C : Category} {I : Type} {A : I → C} {z : C}
-  (f : ∀ i : I, A i ~> z) (P : C) (p : ∀ i : I, P ~> A i) := {
+(* The universes are declared, as for [IsIndexedProduct]: [a] for the index,
+   [q] for the uniqueness of the mediating arrow, then those of [C]. *)
+Record IsWidePullback@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {I : Type@{a}}
+  {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) (P : C) (p : ∀ i : I, P ~> A i) :
+  Type@{max(q,o,h)} := {
   (* every leg is carried to the common codomain in the same way *)
   wpull_commutes : ∀ i j : I, f i ∘ p i ≈ f j ∘ p j;
 
   (* universal property: every jointly agreeing family factors uniquely *)
   wpull_ump {Q : C} (q : ∀ i : I, Q ~> A i)
     (Hq : ∀ i j : I, f i ∘ q i ≈ f j ∘ q j) :
-    ∃! u : Q ~> P, ∀ i : I, p i ∘ u ≈ q i
+    Unique@{h q h} (fun u : Q ~> P => ∀ i : I, p i ∘ u ≈ q i)
 }.
 
 Arguments wpull_commutes {_ _ _ _ _ _ _} _ _ _.
@@ -199,8 +202,9 @@ Arguments wpull_ump {_ _ _ _ _ _ _} _ {_} _ _.
    rather than after the ∃-valued [HasWideEqualizers] of the sibling: a
    wide pullback is CHOSEN here, so consumers read the object off the
    record instead of destructing an existential. *)
-Record WidePullback {C : Category} {I : Type} {A : I → C} {z : C}
-  (f : ∀ i : I, A i ~> z) := {
+(* The universes are declared, as for [IsWidePullback]. *)
+Record WidePullback@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {I : Type@{a}}
+  {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) : Type@{max(q,o,h)} := {
   WPull : C;                             (* the wide pullback object *)
   wide_pullback_proj : ∀ i : I, WPull ~> A i;   (* the projections *)
 
@@ -209,7 +213,7 @@ Record WidePullback {C : Category} {I : Type} {A : I → C} {z : C}
 
   ump_wide_pullbacks : ∀ (Q : C) (q : ∀ i : I, Q ~> A i),
     (∀ i j : I, f i ∘ q i ≈ f j ∘ q j)
-    → ∃! u : Q ~> WPull, ∀ i : I, wide_pullback_proj i ∘ u ≈ q i
+    → Unique@{h q h} (fun u : Q ~> WPull => ∀ i : I, wide_pullback_proj i ∘ u ≈ q i)
 }.
 
 Arguments WPull {_ _ _ _ _} _.

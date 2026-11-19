@@ -77,7 +77,7 @@ Set Transparent Obligations.
 
 Local Set Warnings "-intuition-auto-with-star".
 
-Program Definition Parallel : Category := {|
+Program Definition Parallel@{u u0} : Category@{u u0 u0} := {|
   obj     := ParObj;
   hom     := fun x y => ∃ b : bool, ParHom b x y;
   (* Any hom that typechecks is valid. *)

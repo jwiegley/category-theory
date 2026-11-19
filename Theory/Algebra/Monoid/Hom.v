@@ -28,7 +28,10 @@ Generalizable All Variables.
 
 Section MonoidHom.
 
-Context {C : Category}.
+(* The universes are named, to declare the one of the monoids below *)
+Universe o h.
+
+Context {C : Category@{o h h}}.
 Context `{M : @Monoidal C}.
 
 Class MonoidHom {x y : C} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) :
@@ -80,7 +83,9 @@ Qed.
    a proof of homomorphy, and equivalence is equivalence of the underlying
    morphisms — exactly the sigma packaging of [Sub] in
    Construction/Subcategory.v. *)
-Program Definition Mon : Category := {|
+(* The universe of the monoids is declared: inferred, it would be the least one,
+   [max(o, h)]. *)
+Program Definition Mon@{oM | o <= oM, h <= oM +} : Category@{oM h h} := {|
   obj     := { x : C & Monoid x };
   hom     := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f };
   homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};

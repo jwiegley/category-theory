@@ -289,7 +289,8 @@ Definition p478_c15_law4_strict@{o h +} {C : Category@{o h h}}
 
 (* R7 *)
 Check @Category@{_ _ _}.
-Fail Definition p478_r7_law1_o_lt_h@{o h + | o < h +} (C : Category@{o h h}) :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p478_r7_law1_o_lt_h@{o h + | o < h +} (C : Category@{o h h}) :
   Erase C ∘[Cat] Arrow_dom ≈[Cat] Erase C ∘[Cat] Arrow_cod
   := arrow_fork_law1 C.
 

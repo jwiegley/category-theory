@@ -646,7 +646,7 @@ Example sg_insert_universal_obj@{o so} (X : SetoidObject@{o o})
    levels on Coq 8.19 and 8.20 than on Rocq 9.1 (the header's
    UNIVERSES). *)
 Definition sg_insert_UA@{o so +} (X : SetoidObject@{o o}) :
-  @UniversalArrow@{so o so o o so so so so o so}
+  @UniversalArrow
     Sets@{o so} SmgrpSets@{o so} X Sg_Forget@{o so} :=
   @universal_arrow_from_UMP Sets@{o so} SmgrpSets@{o so} X Sg_Forget@{o so}
     (FreeSg@{o so} X) (sg_insert@{o so} X) (sg_insert_universal@{o so} X).

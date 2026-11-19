@@ -743,7 +743,8 @@ Definition fin3_sub01 : carrier (Powerset_obj (fin_setoid_object 3)).
 Proof.
   unshelve refine {| morphism := fun i : Fin.t 3 =>
                        (i = Fin.F1) ∨ (i = Fin.FS Fin.F1) |}.
-  intros x y ->; split; intro H; exact H.
+  (* The respectfulness may already be solved by instance resolution *)
+  all: intros x y ->; split; intro H; exact H.
 Defined.
 
 Lemma fin32_image_sub01 :
@@ -1163,7 +1164,10 @@ Defined.
    Instance/SupLat.v identifies the monad's algebras with the complete
    semilattices.  #750, the initial-algebra question, remains open. *)
 
-Definition Powerset_Prop_Monad_statement : Type := @Monad Sets Powerset_Prop.
+(* The universe of the statement is declared: inferred, it would be the least
+   one. *)
+Definition Powerset_Prop_Monad_statement@{u so o | Set < o, o < so, so <= u +} : Type@{u} :=
+  @Monad Sets@{o so} Powerset_Prop.
 
 Definition Powerset_Prop_FAlg : Category := FAlg Powerset_Prop.
 

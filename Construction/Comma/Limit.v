@@ -67,7 +67,10 @@ Generalizable All Variables.
 
 Section CommaLimit.
 
-Context {C D : Category}.
+(* The universes are named, to declare those of [PreservesImageLimit] *)
+Universe oC h oD hD.
+
+Context {C : Category@{oC h h}} {D : Category@{oD hD hD}}.
 Context {U : C ⟶ D}.
 Context {d : D}.
 
@@ -107,10 +110,13 @@ Definition image_acone {J : Category} {G : J ⟶ C} (L : Limit G) :
 (* U preserves limits, cone-faithfully: for every diagram the image cone above
    is a limit of [U ◯ G].  (See the STATUS header for why this — rather than the
    apex-only [PreservesAllLimits] — is the operative hypothesis.) *)
-Definition PreservesImageLimit : Type :=
-  ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)),
-    ∃! φ : vertex_obj[N] ~{D}~> U L,
-      ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.
+(* The universes are declared: [s] for the proposition, [l] for the limits and
+   [oJ] for the objects of their diagrams. Inferred, [s] would be the least
+   one. *)
+Definition PreservesImageLimit@{s l oJ | +} : Type@{s} :=
+  ∀ (J : Category@{oJ h h}) (G : J ⟶ C) (L : Limit@{l oJ h oC} G) (N : Cone (U ◯ G)),
+    Unique@{hD l hD} (fun φ : vertex_obj[N] ~{D}~> U L =>
+      ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x).
 
 (* Packaged apex-pinned limit whose legs are the image legs. *)
 Definition image_is_alimit (HU : PreservesImageLimit)

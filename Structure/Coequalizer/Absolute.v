@@ -178,9 +178,11 @@ Generalizable All Variables.
 
 (** ** The predicate, and Mac Lane's two remarks *)
 
-Definition AbsoluteCoequalizer@{co ch xo xh +}
+(* The universe [u] of the proposition is declared: inferred, it would be the
+   least one. *)
+Definition AbsoluteCoequalizer@{co ch xo xh u | xo < u, xh < u, co <= u, ch <= xh +}
   {C : Category@{co ch ch}} {x y : C} (f g : x ~> y) (q : C) (e : y ~> q) :
-  Type :=
+  Type@{u} :=
   ∀ (X : Category@{xo xh xh}) (T : C ⟶ X),
     IsCoequalizer (fmap[T] f) (fmap[T] g) (T q) (fmap[T] e).
 

@@ -217,9 +217,10 @@ Proof. simpl; cat. Qed.
 (* The identity natural transformation `id_F : F ⟹ F`. Its component at `X` is
    `id_{F X}`, written here as `fmap[F] id` (equal to `id` by `fmap_id`). *)
 
-Section ProofFields.
-Local Obligation Tactic := idtac.
-Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
+(* The universes are declared, the two categories sharing their homs:
+   inferred, the identity would carry those of the proofs of its laws. *)
+Program Definition nat_id@{oC oD h | +} {C : Category@{oC h h}} {D : Category@{oD h h}}
+  {F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
 Next Obligation.

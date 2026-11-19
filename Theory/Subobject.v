@@ -30,7 +30,9 @@ Universes o h p.
 Context {C : Category@{o h p}}.
 Context {x : C}.
 
-#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := {
+(* The universe [u] of the subobjects is declared: inferred, it would be the
+   least one. *)
+#[export] Program Instance SubObj_Setoid@{u | o <= u, p <= u +} : Setoid@{u p} (SubObj x) := {
   equiv := fun u v =>
     { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }
 }.

@@ -352,7 +352,7 @@ Generalizable All Variables.
 
      comma_monic_iff_underlying_monic@{o hc dobj h …} :
        {C : Category@{o hc hc}} {D : Category@{dobj h h}} … →
-       HasPullbacks@{o hc} C → Monic@{oc h h} m ↔ Monic@{o hc hc} (snd `1 m)
+       HasPullbacks@{o hc} C → Monic@{oc h} m ↔ Monic@{o hc} (snd `1 m)
        (* hc <= h *)
      comma_cogenerator@{o hc dobj h c cc …} :
        Cogenerator@{c o hc} C → Cogenerator@{cc oc h} (=(d) ↓ U)
@@ -702,7 +702,7 @@ Constraint hc <= h.
 
 Context {C : Category@{o hc hc}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D).
 Context (HP : HasPullbacks C) (X : =(d) ↓ U).
-Context (W : WellPoweredAt@{w o s hc t} (snd (`1 X))).
+Context (W : WellPoweredAt@{w o s hc} (snd (`1 X))).
 
 (* A subobject of [X] in the comma: a C-subobject of the underlying
    object, named by [W], with a factorization of [X]'s structure arrow
@@ -759,7 +759,7 @@ Proof using HP.
 Defined.
 
 Definition comma_wp_to_from@{sc tc +| h <= sc, h < tc +} (v : SubObj X) :
-  @equiv _ (@SubObj_Setoid@{_ h h sc tc} (=(d) ↓ U) X)
+  @equiv _ (@SubObj_Setoid@{_ h h sc} (=(d) ↓ U) X)
     (comma_wp_to (comma_wp_from v)) v.
 Proof using HP.
   unshelve eexists.
@@ -774,7 +774,7 @@ Proof using HP.
 Defined.
 
 Definition comma_WellPoweredAt@{wc sc tc +| w <= wc, h <= wc, h <= sc, h < tc +} :
-  @WellPoweredAt@{wc _ sc h tc} (=(d) ↓ U) X :=
+  @WellPoweredAt@{wc _ sc h} (=(d) ↓ U) X :=
   {| wp_index := comma_wp_index;
      wp_to := comma_wp_to;
      wp_from := comma_wp_from;
@@ -810,7 +810,7 @@ Definition SAFT_comma_initial@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   @Initial (=(d) ↓ U) :=
   special_initial_object_wellpowered_at (Comma_Complete cont comp)
@@ -821,7 +821,7 @@ Definition SAFT_universal_arrow@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   UniversalArrow d U :=
   {| arrow_initial := SAFT_comma_initial U comp cont G WP d |}.
@@ -832,7 +832,7 @@ Definition SAFT_left@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) : D ⟶ C :=
   @LeftAdjointFunctorFromUniversalArrows D C U
     (SAFT_universal_arrow U comp cont G WP).
@@ -841,7 +841,7 @@ Definition SAFT_adjunction@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   SAFT_left U comp cont G WP ⊣ U :=
   @AdjunctionFromUniversalArrows D C U (SAFT_universal_arrow U comp cont G WP).
@@ -852,7 +852,7 @@ Definition SAFT_wellpowered@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   existT _ (SAFT_left U comp cont G WP) (SAFT_adjunction U comp cont G WP).
@@ -863,7 +863,7 @@ Example SAFT_left_obj@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (SAFT_wellpowered U comp cont G WP)] d
     = snd (`1 (Subobject.sub_dom
@@ -885,7 +885,7 @@ Definition SAFT_wellpowered_iff@{o dobj h so c w s t pk pa +|
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U }
-    ↔ @PreservesImageLimit@{o h dobj h pk so pa so} C D U :=
+    ↔ @PreservesImageLimit@{o h dobj h pk pa so} C D U :=
   (fun H => right_adjoint_PreservesImageLimit (`2 H),
    fun cont => SAFT_wellpowered U comp cont G WP).
 
@@ -1038,7 +1038,7 @@ Definition SAFT_thm2_initial@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -1058,7 +1058,7 @@ Definition SAFT_thm2_universal_arrow@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -1069,7 +1069,7 @@ Definition SAFT_thm2_left@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) : D ⟶ C :=
@@ -1080,7 +1080,7 @@ Definition SAFT_thm2_adjunction@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -1092,7 +1092,7 @@ Definition SAFT_thm2@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -1106,7 +1106,7 @@ Example SAFT_thm2_left_obj@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -1165,7 +1165,7 @@ Definition SAFT_iff@{o dobj h so c pk pa q r rd pw k +|
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C) :
   { F : D ⟶ C & F ⊣ U }
-    ↔ (@PreservesImageLimit@{o h dobj h pk so pa so} C D U
+    ↔ (@PreservesImageLimit@{o h dobj h pk pa so} C D U
        * PreservesWidePullbacks@{o h dobj h pw q r rd} U) :=
   (fun H => (right_adjoint_PreservesImageLimit (`2 H),
              right_adjoint_PreservesWidePullbacks (`2 H)),

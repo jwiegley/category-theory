@@ -508,7 +508,7 @@ Defined.
 (* The comparison functor is an equivalence, with identity components both
    ways. *)
 Definition SL_comparison_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
+  @EquivalenceOfCategories@{so so so so o} SupLat@{o so}
     (@EilenbergMoore@{so so o} Sets@{o so}
        (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
     (EM_Comparison SL_adj@{o so}).
@@ -523,7 +523,7 @@ Proof.
 Defined.
 
 Definition SL_Forget_Monadic@{o so} :
-  @Monadic@{so so so so so o so so} SupLat@{o so} Sets@{o so}
+  @Monadic@{so so so so so o so} SupLat@{o so} Sets@{o so}
     SL_Forget@{o so}.
 Proof.
   exists SL_Free@{o so}.

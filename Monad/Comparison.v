@@ -280,5 +280,11 @@ End EilenbergMooreComparison.
 (** A functor U is monadic when it has a left adjoint whose Eilenberg–Moore
     comparison functor is an equivalence of categories. *)
 
-Definition Monadic {C D : Category} (U : C ⟶ D) : Type :=
-  ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).
+(* The universes are declared: [u] for the proposition, [so] above the homs
+   for the adjunction, [oE] for the algebras and [f] for the equality of the
+   functors on [C]. Inferred, [u] would be the least one. *)
+Definition Monadic@{u so f oC oE h oD | h < so, f <= u, oC <= u, oC <= f, oE <= u,
+    h <= u, h <= f, h <= oE, oD <= u, oD <= oE +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} (U : C ⟶ D) : Type@{u} :=
+  ∃ (F : D ⟶ C) (A : @Adjunction@{oC h h oD h h h h so h Set} _ _ F U),
+    EquivalenceOfCategories@{oE f oC oE h} (EM_Comparison A).

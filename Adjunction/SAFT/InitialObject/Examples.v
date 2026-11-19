@@ -141,7 +141,7 @@ Example Subsets_special_initial_obj@{o u t so d +|
            (Subsets_Complete_free X : @Complete@{so so u o} (Subsets@{o u} X))
            (wp_class_family
               (Subsets_WellPowered@{o u t} X
-                 (cogen_prod@{so d so o u}
+                 (cogen_prod@{so so o u}
                     (Subsets_Complete_free X
                      : @Complete@{so so u o} (Subsets@{o u} X)) G))
               (fun _ => True))) :=

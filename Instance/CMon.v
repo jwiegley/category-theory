@@ -52,13 +52,17 @@ Generalizable All Variables.
    tree writes the record with named fields under [Program], and [Program]
    emits its obligations in field order; putting the new field last leaves the
    numbering of every existing obligation alone and adds one at the end. *)
-Record CMonObject := {
-  cmon_setoid :> SetoidObject;
+(* The universes are declared: [p] for the compatibility of the operations
+   with the equality, [c] for the carrier and [e] for its equality. Inferred,
+   the first one would be [max(c, e)]. *)
+Record CMonObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  cmon_setoid :> SetoidObject@{c e};
 
   cmon_zero : carrier cmon_setoid;
   cmon_plus : carrier cmon_setoid → carrier cmon_setoid → carrier cmon_setoid;
 
-  cmon_plus_respects : Proper (equiv ==> equiv ==> equiv) cmon_plus;
+  cmon_plus_respects :
+    Proper@{c p} (respectful@{c e c p} equiv (respectful@{c e c e} equiv equiv)) cmon_plus;
 
   cmon_plus_assoc : ∀ a b c,
     cmon_plus (cmon_plus a b) c ≈ cmon_plus a (cmon_plus b c);
@@ -202,11 +206,11 @@ Qed.
    removing either remaining instance left an unbound universe on Rocq
    9.2.0. The proof of composition now needs only [p], not [u p]. *)
 Program Definition CMon@{u p} : Category@{u p p} := {|
-  obj     := CMonObject;
-  hom     := CMonHom;
-  homset  := @CMonHom_Setoid;
-  id      := @cmon_hom_id;
-  compose := @cmon_hom_compose;
+  obj     := CMonObject@{p p p};
+  hom     := CMonHom@{p};
+  homset  := @CMonHom_Setoid@{p};
+  id      := @cmon_hom_id@{p};
+  compose := @cmon_hom_compose@{p};
 
   compose_respects := @cmon_hom_compose_respects@{p}
 |}.

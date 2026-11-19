@@ -364,8 +364,10 @@ Check (Functor_Category_Closed_cov Cr).
    refused identically.  So a route through the Yoneda LEMMA would have
    narrowed the theorem, which is the measured content of the header's
    route paragraph. *)
-Fail Check (@Yoneda_Lemma Cr Pr).
-Fail Check (yoneda_natural_pre Cr).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Yoneda_Lemma Cr Pr).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (yoneda_natural_pre Cr).
 
 (* NEGATIVE 4c (FORMABILITY).  The UNANNOTATED clone of the instance is
    refused here too, with the same message, where the shipped
@@ -375,7 +377,8 @@ Fail Check (yoneda_natural_pre Cr).
    or the [Sets@{h so}] annotation alone keeps the object universe free,
    and only their joint absence collapses it (the target's header
    records both variants). *)
-Fail Check (probe718_closed_unannotated Cr).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (probe718_closed_unannotated Cr).
 End Route.
 
 (* ------------------------------------------------------------------ *)

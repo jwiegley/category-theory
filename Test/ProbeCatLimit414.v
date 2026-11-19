@@ -107,9 +107,9 @@ Constraint i <= so.
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
          (PiCat C : Category@{so sh sh})).
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
-         (PiCat C : obj[Cat@{_ sh _ so sh}])).
+         (PiCat C : obj[Cat@{_ sh so sh}])).
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
-         @IsIndexedProduct Cat@{_ sh _ so sh} I C (PiCat C)).
+         @IsIndexedProduct Cat@{_ sh so sh} I C (PiCat C)).
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) (a : I) =>
          PiCat_Proj C a).
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh})
@@ -123,12 +123,13 @@ Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) (a : I) =>
               (PiCat_Proj C a : PiCat@{i so sh so sh} C ⟶ C a)).
 
 (* N2: inherited, firing at the argument [C]. *)
-Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
               PiCat_IsIndexedProduct C).
 
 (* N3: inherited, the instance refused directly. *)
-Check @Cat_HasIndexedProducts@{_ _ _ _ _}.
-Fail Check @Cat_HasIndexedProducts@{i so sh _ _}.
+Check @Cat_HasIndexedProducts@{_ _ _ _}.
+Fail Check @Cat_HasIndexedProducts@{i so sh _}.
 
 End IndexBoundary.
 
@@ -140,7 +141,7 @@ Universe i h.
 Constraint i < h.
 
 (* Control: equalizers in [StrictCat] mention no index. *)
-Check @StrictCat_HasEqualizers@{h _ _ _ _ _}.
+Check @StrictCat_HasEqualizers@{h _ _ _ _}.
 
 (* N4: the strict product structure at an index universe below the hom
    universe. *)

@@ -275,8 +275,10 @@ Program Instance Unit_Setoid@{u} : Setoid@{u u} poly_unit@{u} := {
 
 (* Terminal object: the singleton. There is exactly one map into it (every
    element maps to [ttt]), unique up to `≈`. *)
+(* The universes are declared in the order of the uses of
+   [Sets_Terminal@{...}]: the objects of [Sets] first. *)
 #[export]
-Program Instance Sets_Terminal : @Terminal Sets := {
+Program Instance Sets_Terminal@{so o | o < so +} : @Terminal Sets@{o so} := {
   terminal_obj := {| carrier := poly_unit |};
   one := fun _ => {| morphism := fun _ => ttt |};
   one_unique := fun x f g => _
@@ -293,8 +295,10 @@ Program Instance False_Setoid@{u} : Setoid@{u u} False := {
 
 (* Initial object: the empty setoid. The unique map out of it is the empty
    function (by [False] elimination). *)
+(* The universes are declared in the order of the uses of
+   [Sets_Initial@{...}]: the objects of [Sets] first. *)
 #[export]
-Program Instance Sets_Initial : @Initial Sets := {
+Program Instance Sets_Initial@{so o | o < so +} : @Initial Sets@{o so} := {
   terminal_obj := {| carrier := False |};
   one := _
 }.
@@ -536,7 +540,7 @@ End CokernelPair.
    surjections.  Both directions, at one universe. *)
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
-  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p p} h.
+  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
 Proof.
   split.
   - intros HA.
@@ -554,11 +558,11 @@ Defined.
 
 (* The two halves under their own names, for callers that want just one. *)
 Definition surjective_implies_epic@{h p} {A B : SetoidObject@{p p}}
-  (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p p} h :=
+  (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p} h :=
   fst (surjectivity_is_epic@{h p} h).
 
 Definition epic_implies_surjective@{h p} {A B : SetoidObject@{p p}}
-  (h : A ~{Sets}~> B) : Epic@{h p p} h → (∀ b, ∃ a, h a ≈ b)%type :=
+  (h : A ~{Sets}~> B) : Epic@{h p} h → (∀ b, ∃ a, h a ≈ b)%type :=
   snd (surjectivity_is_epic@{h p} h).
 
 (* Sets is balanced: a map that is both monic and epic is an isomorphism.
@@ -567,7 +571,7 @@ Definition epic_implies_surjective@{h p} {A B : SetoidObject@{p p}}
    appeal to choice, the preimages having been data all along. *)
 Definition Sets_balanced@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets@{p h}}~> B)
-  (Hm : @Monic Sets@{p h} A B h) (He : @Epic@{h p p} Sets@{p h} A B h) :
+  (Hm : @Monic Sets@{p h} A B h) (He : @Epic@{h p} Sets@{p h} A B h) :
   @IsIsomorphism Sets@{p h} A B h :=
   bijective_is_iso h
     {| inj := λ x y, snd (injectivity_is_monic h) Hm x y |}

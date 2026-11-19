@@ -125,7 +125,9 @@ Definition Reflect (C : Category) : C ⟶ PreorderReflect C :=
 
 (** A category is THIN when any two parallel morphisms agree.  By
     Theory/Category.v that is exactly "is a preorder". *)
-Definition Thin (D : Category) : Type :=
+(* The universes are declared, the proposition at its own universe [u]: inferred,
+   it would be at the least one, [max(o, h)]. *)
+Definition Thin@{u o h | o <= u, h <= u} (D : Category@{o h h}) : Type@{u} :=
   ∀ (x y : D) (f g : x ~> y), f ≈ g.
 
 (** [PreorderReflect C] is thin -- [preorder_reflect_thin] repackaged to the

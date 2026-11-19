@@ -209,14 +209,18 @@ Generalizable All Variables.
    refine], both of which emit obligations in field order, so a field at the
    end leaves the numbering of every existing obligation alone and adds one
    at the end. *)
-Record GrpObject := {
-  grp_setoid :> SetoidObject;
+(* The universes are declared: [p] for the compatibility of the operations
+   with the equality, [c] for the carrier and [e] for its equality. Inferred,
+   the first one would be [max(c, e)]. *)
+Record GrpObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  grp_setoid :> SetoidObject@{c e};
 
   grp_unit : carrier grp_setoid;
   grp_mul  : carrier grp_setoid → carrier grp_setoid → carrier grp_setoid;
   grp_inv  : carrier grp_setoid → carrier grp_setoid;
 
-  grp_mul_respects : Proper (equiv ==> equiv ==> equiv) grp_mul;
+  grp_mul_respects :
+    Proper@{c p} (respectful@{c e c p} equiv (respectful@{c e c e} equiv equiv)) grp_mul;
 
   grp_mul_assoc : ∀ a b c,
     grp_mul (grp_mul a b) c ≈ grp_mul a (grp_mul b c);
@@ -225,7 +229,7 @@ Record GrpObject := {
 
   (* The carrier is a SET: its `≈` is logically equivalent to a [Prop]-valued
      relation.  See Lib/Setoid/Propositional.v. *)
-  grp_prop : PropEquiv (is_setoid grp_setoid)
+  grp_prop : PropEquiv@{c e} (is_setoid grp_setoid)
 }.
 
 #[export] Existing Instance grp_mul_respects.
@@ -534,9 +538,9 @@ Program Definition Grp@{u p} : Category@{u p p} := {|
   hom     := GrpHom@{p};
   homset  := @GrpHom_Setoid@{p};
   id      := @grp_hom_id@{p};
-  compose := @grp_hom_compose@{u p};
+  compose := @grp_hom_compose@{p};
 
-  compose_respects := @grp_hom_compose_respects@{u p}
+  compose_respects := @grp_hom_compose_respects@{p}
 |}.
 Next Obligation.
   intros x y f a; simpl.
@@ -707,7 +711,7 @@ Definition Grp_Initial@{u p} : @Initial Grp@{u p} :=
    isomorphism of Structure/ZeroObject.v is the identity. *)
 #[export] Instance Grp_Zero@{u p} : ZeroObject Grp@{u p} :=
   @Build_ZeroObject Grp@{u p} Grp_Terminal@{u p} Grp_Initial@{u p}
-    iso_id@{u p p}.
+    iso_id.
 
 (** ** Binary direct products *)
 

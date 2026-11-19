@@ -219,7 +219,7 @@ Section W0Systems.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 
 (* ν₁ = 1 is #470's [nu_unit] of the positive part.  (2): for every word of
    words, ν of the values of the inner words is ν of their concatenation,
@@ -545,10 +545,10 @@ Defined.
 (* The systems ⟨S, ν₀, ν₁, …⟩ with ν₁ = 1 and (2) are isomorphic in Cat to
    Set^{W₀}, every component of both natural isomorphisms the identity. *)
 Definition W0Sys_EM_iso@{c +} :
-  @Isomorphism Cat@{c so so so o} W0Sys W0Alg.
+  @Isomorphism Cat@{c so so o} W0Sys W0Alg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} W0Sys W0Alg
+    (@Build_Isomorphism Cat@{c so so o} W0Sys W0Alg
        W0Sys_to_EM EM_to_W0Sys _ _).
   - exists (fun x => W0Sys_EM_counit_iso x).
     intros x y f a. reflexivity.
@@ -558,7 +558,7 @@ Defined.
 
 (* Mac Lane's Exercise 1 as a category: the systems are the monoids. *)
 Definition Mon_W0Sys_iso@{c +} :
-  @Isomorphism Cat@{c so so so o} MonOS W0Sys :=
+  @Isomorphism Cat@{c so so o} MonOS W0Sys :=
   iso_compose (iso_sym W0Sys_EM_iso) Mon_EM_iso.
 
 (* ------------------------------------------------------------------------ *)

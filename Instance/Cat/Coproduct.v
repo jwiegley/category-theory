@@ -444,10 +444,11 @@ Fail Example SigmaBool_cat_strict (C D : Category) :
 Section Smallness.
   Universe a b c d e.
 
-  Check (fun (C : obj[Cat@{a b c d e}] → obj[Cat@{a b c d e}]) =>
+  Check (fun (C : obj[Cat@{a b d e}] → obj[Cat@{a b d e}]) =>
            SigmaCat C).
 
-  Check @Cat@{_ _ _ _ _}.
-  Fail Check (fun (C : obj[Cat@{a b c d e}] → obj[Cat@{a b c d e}]) =>
+  Check @Cat@{_ _ _ _}.
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Check (fun (C : obj[Cat@{a b d e}] → obj[Cat@{a b d e}]) =>
                 SigmaCat_IsIndexedCoproduct C).
 End Smallness.

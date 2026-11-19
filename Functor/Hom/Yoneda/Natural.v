@@ -465,11 +465,11 @@ Definition yoneda_natural_pre (C : Category) :
   := yoneda_natural (C^op).
 
 (* The presheaf-side object actions, read in C's own vocabulary. *)
-Definition yo_nat_pre_obj@{u u0 u1} (C : Category@{u u0 u0})
+Definition yo_nat_pre_obj@{u u0 u1 +} (C : Category@{u u0 u0})
   (F : C^op ⟶ Sets@{u0 u1}) (A : C) :
   fobj[YoNatPre C] (F, A) = Presheaves [Hom ─,A] F := eq_refl.
 
-Definition yo_eval_pre_obj@{u u0 u1} (C : Category@{u u0 u0})
+Definition yo_eval_pre_obj@{u u0 u1 +} (C : Category@{u u0 u0})
   (F : C^op ⟶ Sets@{u0 u1}) (A : C) :
   fobj[YoEvalPre C] (F, A) = F A := eq_refl.
 

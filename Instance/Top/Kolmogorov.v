@@ -455,14 +455,19 @@ Proof. intros H U HU; exact (H U HU). Defined.
 Definition IsT0 (X : TopSpace) : Type :=
   ∀ x y : X, SameOpens X x y → x ≈ y.
 
-Definition T0_Subcategory : Subcategory Top :=
-  @Build_Subcategory Top
+(* The universes are declared, the predicates at the homs [h] of [Top]: the
+   reflection below requires it. *)
+Definition T0_Subcategory@{h o | o < h +} : Subcategory@{h h o h} Top@{h o} :=
+  @Build_Subcategory Top@{h o}
     (fun X : Top => IsT0 X)
     (fun _ _ _ _ _ => True)
     (fun _ _ _ _ _ _ _ _ _ _ => I)
     (fun _ _ => I).
 
-Definition T0Spaces : Category := Sub Top T0_Subcategory.
+(* The universes are declared, the homs at those of [Top], as for the
+   reflection below. *)
+Definition T0Spaces@{h o | o < h +} : Category@{h h h} :=
+  Sub@{h h o h h h} Top@{h o} T0_Subcategory@{h o}.
 
 Lemma T0_Full :
   Category.Construction.Subcategory.Full Top T0_Subcategory.

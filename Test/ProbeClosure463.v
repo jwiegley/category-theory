@@ -660,48 +660,48 @@ Fail Definition p463_mm_thin_bare@{u h} (B : Prop) :
 Example p463_idem_obj@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   fobj[Incl C (@MLocal_Subcategory C M MM)
-         ◯ @idem_reflector@{o h d h h s} C M MM IM] x = M x := eq_refl.
+         ◯ @idem_reflector@{o h d h h} C M MM IM] x = M x := eq_refl.
 
 Example p463_idem_fmap@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} {x y : C}
   (f : x ~> y) :
   fmap[Incl C (@MLocal_Subcategory C M MM)
-         ◯ @idem_reflector@{o h d h h s} C M MM IM] f = fmap[M] f := eq_refl.
+         ◯ @idem_reflector@{o h d h h} C M MM IM] f = fmap[M] f := eq_refl.
 
 Definition p463_idem_unit@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @ret C _ (Adjunction_Induced_Monad
-              (@idem_reflective_adj@{o h d a h s} C M MM IM)) x
+              (@idem_reflective_adj@{o h d h s} C M MM IM)) x
     ≈ @ret C M MM x := idem_unit_agrees x.
 
 Definition p463_idem_counit@{o h d s a | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} (x : C) :
   @ret (C^op) _ (Adjunction_Induced_Monad
-                   (@idem_reflective_adj@{o h d a h s} (C^op) (W^op) H IH)) x
+                   (@idem_reflective_adj@{o h d h s} (C^op) (W^op) H IH)) x
     ≈ @extract C W H x := idem_counit_agrees x.
 
 (* N9 *)
-Check @idem_reflective_adj@{_ _ _ _ _ _}.
+Check @idem_reflective_adj@{_ _ _ _ _}.
 Check @Category@{_ _ _}.
 Fail Example p463_idem_ret_refl@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @ret C _ (Adjunction_Induced_Monad
-              (@idem_reflective_adj@{o h d a h s} C M MM IM)) x
+              (@idem_reflective_adj@{o h d h s} C M MM IM)) x
     = @ret C M MM x := eq_refl.
 
 (* N10 *)
 Fail Example p463_idem_join_refl@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @join C _ (Adjunction_Induced_Monad
-               (@idem_reflective_adj@{o h d a h s} C M MM IM)) x
+               (@idem_reflective_adj@{o h d h s} C M MM IM)) x
     = @join C M MM x := eq_refl.
 
 (* N11 *)
-Check @idem_reflector@{_ _ _ _ _ _}.
+Check @idem_reflector@{_ _ _ _ _}.
 Fail Example p463_idem_fun_refl@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} :
   Incl C (@MLocal_Subcategory C M MM)
-    ◯ @idem_reflector@{o h d h h s} C M MM IM = M := eq_refl.
+    ◯ @idem_reflector@{o h d h h} C M MM IM = M := eq_refl.
 
 (** ** Instance/Proset/Monad/Awodey.v *)
 

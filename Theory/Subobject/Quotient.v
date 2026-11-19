@@ -258,7 +258,10 @@ Generalizable All Variables.
    epimorphism out of x.  Since [Epic] in C is [Monic] in C^op
    (Theory/Morphisms/Duality.v), the definition is one line, the idiom of
    Theory/Monad.v's [Comonad := @Monad (C^op) (W^op)]. *)
-Definition QuotObj {C : Category} (x : C) : Type := @SubObj (C^op) x.
+(* The universe [u] of the quotients is declared: inferred, it would be the
+   least one. *)
+Definition QuotObj@{u o h | o <= u, h <= u +} {C : Category@{o h h}} (x : C) : Type@{u} :=
+  @SubObj (C^op) x.
 
 Section QuotientAccessors.
 

@@ -266,7 +266,9 @@ Record ArrowHit (a : @ArrowIx J) {x y : J} (f : x ~{J}~> y) : Type := {
    the enumeration can feed the [Type]-valued [Gen] of
    Structure/Limit/FromProducts.v, which is what the corollary consumes. *)
 
-Record FiniteCategory : Type := {
+(* The universe of the record is declared: inferred, it would be the least one,
+   the maximum of those of [J]. *)
+Record FiniteCategory@{w | +} : Type@{w} := {
   fc_size  : nat;
   fc_arr   : Fin.t fc_size → @ArrowIx J;
   fc_cover : ∀ (x y : J) (f : x ~{J}~> y),

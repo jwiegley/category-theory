@@ -127,7 +127,7 @@ Generalizable All Variables.
 Lemma idem_unit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @ret C _ (Adjunction_Induced_Monad
-              (@idem_reflective_adj@{o h d a h s} C M MM IM)) x
+              (@idem_reflective_adj@{o h d h s} C M MM IM)) x
     ≈ @ret C M MM x.
 Proof. cbn. apply id_left. Qed.
 
@@ -136,7 +136,7 @@ Proof. cbn. apply id_left. Qed.
 Lemma idem_join_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   @join C _ (Adjunction_Induced_Monad
-               (@idem_reflective_adj@{o h d a h s} C M MM IM)) x
+               (@idem_reflective_adj@{o h d h s} C M MM IM)) x
     ≈ @join C M MM x.
 Proof. cbn. rewrite fmap_id. apply id_right. Qed.
 
@@ -144,14 +144,14 @@ Proof. cbn. rewrite fmap_id. apply id_right. Qed.
 Theorem idem_Monad_agrees@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} :
   Incl C (@MLocal_Subcategory C M MM)
-    ◯ @idem_reflector@{o h d h h s} C M MM IM ≈ M.
+    ◯ @idem_reflector@{o h d h h} C M MM IM ≈ M.
 Proof. exists (fun x => iso_id). intros x y f; cbn. cat. Qed.
 
 (* ...and on objects it is M on the nose. *)
 Example idem_factorisation_obj@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} (x : C) :
   fobj[Incl C (@MLocal_Subcategory C M MM)
-         ◯ @idem_reflector@{o h d h h s} C M MM IM] x = M x := eq_refl.
+         ◯ @idem_reflector@{o h d h h} C M MM IM] x = M x := eq_refl.
 
 (* ...and on arrows: the functor equation is refused in the law fields
    alone. *)
@@ -159,7 +159,7 @@ Example idem_factorisation_fmap@{o h d s | h < s +} {C : Category@{o h h}}
   {M : C ⟶ C} {MM : @Monad C M} {IM : @IdempotentMonad C M MM} {x y : C}
   (f : x ~> y) :
   fmap[Incl C (@MLocal_Subcategory C M MM)
-         ◯ @idem_reflector@{o h d h h s} C M MM IM] f = fmap[M] f := eq_refl.
+         ◯ @idem_reflector@{o h d h h} C M MM IM] f = fmap[M] f := eq_refl.
 
 (** ** The dual, as the three lemmas at C^op *)
 
@@ -167,7 +167,7 @@ Example idem_factorisation_fmap@{o h d s | h < s +} {C : Category@{o h h}}
 Definition idem_counit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} (x : C) :
   @ret (C^op) _ (Adjunction_Induced_Monad
-                   (@idem_reflective_adj@{o h d a h s} (C^op) (W^op) H IH)) x
+                   (@idem_reflective_adj@{o h d h s} (C^op) (W^op) H IH)) x
     ≈ @extract C W H x :=
   @idem_unit_agrees@{o h d s a} (C^op) (W^op) H IH x.
 
@@ -175,7 +175,7 @@ Definition idem_counit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
 Definition idem_comult_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} (x : C) :
   @join (C^op) _ (Adjunction_Induced_Monad
-                    (@idem_reflective_adj@{o h d a h s} (C^op) (W^op) H IH)) x
+                    (@idem_reflective_adj@{o h d h s} (C^op) (W^op) H IH)) x
     ≈ @duplicate C W H x :=
   @idem_join_agrees@{o h d s a} (C^op) (W^op) H IH x.
 
@@ -183,5 +183,5 @@ Definition idem_comult_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
 Definition idem_Comonad_agrees@{o h d s | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} :
   Incl (C^op) (@MLocal_Subcategory (C^op) (W^op) H)
-    ◯ @idem_reflector@{o h d h h s} (C^op) (W^op) H IH ≈ W^op :=
+    ◯ @idem_reflector@{o h d h h} (C^op) (W^op) H IH ≈ W^op :=
   @idem_Monad_agrees@{o h d s} (C^op) (W^op) H IH.

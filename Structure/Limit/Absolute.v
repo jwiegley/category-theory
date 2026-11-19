@@ -267,7 +267,7 @@ Definition AbsoluteColimitCocone_IsColimitCocone@{jo co ch +}
 
 Definition AbsoluteLimitCone_IsLimitCone_up@{jo co ch do +}
   {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
-  {N : Cone K} (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N) :
+  {N : Cone K} (A : AbsoluteLimitCone@{jo co ch do} N) :
   IsLimitCone N.
 Proof.
   intro M.
@@ -287,7 +287,7 @@ Defined.
 
 Definition AbsoluteColimitCocone_IsColimitCocone_up@{jo co ch do +}
   {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
-  {N : Cocone K} (A : AbsoluteColimitCocone@{jo co ch do _ _ _ _} N) :
+  {N : Cocone K} (A : AbsoluteColimitCocone@{jo co ch do} N) :
   IsColimitCocone N :=
   AbsoluteLimitCone_IsLimitCone_up (AbsoluteColimitCocone_op A).
 
@@ -296,8 +296,8 @@ Definition AbsoluteColimitCocone_IsColimitCocone_up@{jo co ch do +}
 
 Definition AbsoluteLimitCone_down@{jo co ch do eo +}
   {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
-  {N : Cone K} (A : AbsoluteLimitCone@{jo co ch eo _ _ _ _} N) :
-  AbsoluteLimitCone@{jo co ch do _ _ _ _} N.
+  {N : Cone K} (A : AbsoluteLimitCone@{jo co ch eo} N) :
+  AbsoluteLimitCone@{jo co ch do} N.
 Proof.
   intros D F M.
   pose (Ml := @Build_Cone J (LiftCat D) (Lift_after F ◯ K)
@@ -316,8 +316,8 @@ Defined.
 
 Definition AbsoluteColimitCocone_down@{jo co ch do eo +}
   {J : Category@{jo ch ch}} {C : Category@{co ch ch}} {K : J ⟶ C}
-  {N : Cocone K} (A : AbsoluteColimitCocone@{jo co ch eo _ _ _ _} N) :
-  AbsoluteColimitCocone@{jo co ch do _ _ _ _} N :=
+  {N : Cocone K} (A : AbsoluteColimitCocone@{jo co ch eo} N) :
+  AbsoluteColimitCocone@{jo co ch do} N :=
   AbsoluteColimitCocone_of_op
     (AbsoluteLimitCone_down (AbsoluteColimitCocone_op A)).
 

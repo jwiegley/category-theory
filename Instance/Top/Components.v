@@ -668,7 +668,7 @@ Definition Lconn_Sub@{o so | o < so +} :
   PFullSub@{o so} PLocConn@{o}.
 
 Definition Lconn@{o so | o < so +} : Category@{so o o} :=
-  Sub@{so o o o so o so} PTopCat@{o so} Lconn_Sub@{o so}.
+  Sub@{so o o o so o} PTopCat@{o so} Lconn_Sub@{o so}.
 
 (** ** The components functor *)
 
@@ -689,8 +689,8 @@ Qed.
 (* Mac Lane's C, on the locally connected spaces. *)
 Definition components_functor@{o so | o < so +} :
   Lconn@{o so} ⟶ PSets@{o so} :=
-  @Compose@{so so so so o} Lconn@{o so} PTopCat@{o so} PSets@{o so}
-    CompTop@{o so} (Incl@{so o o o so so} PTopCat@{o so} Lconn_Sub@{o so}).
+  @Compose@{so so so o} Lconn@{o so} PTopCat@{o so} PSets@{o so}
+    CompTop@{o so} (Incl@{so o o o so} PTopCat@{o so} Lconn_Sub@{o so}).
 
 (** ** The discrete-space functor into [Lconn] *)
 
@@ -720,8 +720,8 @@ Qed.
 
 (* Mac Lane's D : Set → Lconn, at the propositional sets. *)
 Definition PSetsDisc@{o so | o < so +} : PSets@{o so} ⟶ Lconn@{o so} :=
-  @Compose@{so so so so o} PSets@{o so} Sets@{o so} Lconn@{o so}
-    LDisc@{o so} (Incl@{so o so o so so} Sets@{o so} PSetsSub@{o so}).
+  @Compose@{so so so o} PSets@{o so} Sets@{o so} Lconn@{o so}
+    LDisc@{o so} (Incl@{so o so o so} Sets@{o so} PSetsSub@{o so}).
 
 (** ** Exercise 1, first half: C ⊣ D *)
 
@@ -987,8 +987,8 @@ Qed.
    inclusion of [PSets]. *)
 Definition components_functor_Sets@{o so | o < so +} :
   Lconn@{o so} ⟶ Sets@{o so} :=
-  @Compose@{so so so so o} Lconn@{o so} PSets@{o so} Sets@{o so}
-    (Incl@{so o so o so so} Sets@{o so} PSetsSub@{o so})
+  @Compose@{so so so o} Lconn@{o so} PSets@{o so} Sets@{o so}
+    (Incl@{so o so o so} Sets@{o so} PSetsSub@{o so})
     components_functor@{o so}.
 
 (* The hom-set bijection into all of [Sets]: [comp_adj_iso]'s maps, with
@@ -1437,8 +1437,8 @@ Qed.
 
 (* D into all of [PTopCat], from the propositional sets. *)
 Definition PSetsDiscTop@{o so | o < so +} : PSets@{o so} ⟶ PTopCat@{o so} :=
-  @Compose@{so so so so o} PSets@{o so} Sets@{o so} PTopCat@{o so}
-    PDisc@{o so} (Incl@{so o so o so so} Sets@{o so} PSetsSub@{o so}).
+  @Compose@{so so so o} PSets@{o so} Sets@{o so} PTopCat@{o so}
+    PDisc@{o so} (Incl@{so o so o so} Sets@{o so} PSetsSub@{o so}).
 
 Theorem discrete_no_left_adjoint_on_PTop@{o so +| o < so +}
   (C' : PTopCat@{o so} ⟶ PSets@{o so}) (A : C' ⊣ PSetsDiscTop@{o so}) :

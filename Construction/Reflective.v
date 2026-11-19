@@ -57,10 +57,15 @@ Qed.
 
 (* The reflector, the fullness witness, and the reflection adjunction. *)
 
-Record Reflective {C : Category} (S : Subcategory C) := {
-  reflective_full : Construction.Subcategory.Full C S;
-  reflector : C ⟶ Sub C S;
-  reflective_adj : reflector ⊣ Incl C S
+(* The universes are declared: [fu] for the fullness, [oS] for the objects of
+   the subcategory and [e] above the homs for the adjunction, the subcategory
+   selecting homs at the universe [h] of those of [C]. Inferred, the universes
+   of the subcategory would be [max(o, so)]. *)
+Record Reflective@{fu e oS o so h | h < e, o <= fu, o <= oS, so <= fu, so <= oS, h <= fu +}
+  {C : Category@{o h h}} (S : Subcategory@{o h so h} C) : Type@{max(fu,oS)} := {
+  reflective_full : Construction.Subcategory.Full@{o h so h fu} C S;
+  reflector : C ⟶ Sub@{o h so h oS h} C S;
+  reflective_adj : @Adjunction@{oS h h o h h h h e h Set} _ _ reflector (Incl@{o h so h oS} C S)
 }.
 
 Arguments reflective_full {C S} r.
@@ -71,8 +76,8 @@ Arguments reflective_adj {C S} r.
    x ~> y (that is, a C-morphism y ~> x) selected exactly when the underlying
    C-morphism is selected by S. *)
 
-Definition op_subcategory {C : Category} (S : Subcategory C) :
-  Subcategory (C^op) :=
+Definition op_subcategory@{o h so sh} {C : Category@{o h h}} (S : Subcategory@{o h so sh} C) :
+  Subcategory@{o h so sh} (C^op) :=
   @Build_Subcategory (C^op)
     (sobj C S)
     (fun x y ox oy f => shom C S oy ox f)
@@ -82,8 +87,12 @@ Definition op_subcategory {C : Category} (S : Subcategory C) :
 (* A coreflective subcategory of C is a reflective subcategory of C^op on the
    opposite subcategory: the inclusion then has a right adjoint in C. *)
 
-Definition Coreflective {C : Category} (S : Subcategory C) : Type :=
-  @Reflective (C^op) (op_subcategory S).
+(* The universes are declared as those of [Reflective], with [w] for the
+   proposition. *)
+Definition Coreflective@{w fu e oS so o h |
+    h < e, fu <= w, oS <= w, o <= fu, o <= oS, so <= fu, so <= oS, h <= fu +}
+  {C : Category@{o h h}} (S : Subcategory@{o h so h} C) : Type@{w} :=
+  @Reflective@{fu e oS o so h} (C^op) (op_subcategory S).
 
 (* For a full reflective subcategory the counit is a componentwise
    isomorphism: reflector (Incl x) ≅ x in Sub C S, with the counit as the

@@ -341,10 +341,11 @@ Example monad_round_trip_join@{u h} {A : Type@{u}} {R : relation A}
 (** ** Algebras are the closed elements *)
 
 (* Mac Lane p. 141: an algebra is exactly an x with Tx ≤ x. *)
-Definition talgebra_iff_closed@{u h +} {A : Type@{u}} {R : relation A}
+(* The universe of the equivalence is declared, as [u0]. *)
+Definition talgebra_iff_closed@{u h u0 +} {A : Type@{u}} {R : relation A}
   {P : PreOrder R} (M : Proset@{u h} P ⟶ Proset@{u h} P)
   {MM : @Monad (Proset@{u h} P) M} (x : A) :
-  @TAlgebra (Proset@{u h} P) M MM x ↔ R (M x) x :=
+  iffT@{h u0} (@TAlgebra (Proset@{u h} P) M MM x) (R (M x) x) :=
   (fun alg => @t_alg (Proset@{u h} P) M MM x alg,
    fun h => @Build_TAlgebra (Proset@{u h} P) M MM x h I I).
 

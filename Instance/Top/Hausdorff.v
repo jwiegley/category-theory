@@ -617,7 +617,7 @@ Definition Haus_Sub@{o so | o < so +} : Subcategory@{so o o o} PTopCat@{o so} :=
   PSepSub@{o so} prem_T2@{o}.
 
 Definition Haus@{o so | o < so +} : Category@{so o o} :=
-  Sub@{so o o o so o so} PTopCat@{o so} Haus_Sub@{o so}.
+  Sub@{so o o o so o} PTopCat@{o so} Haus_Sub@{o so}.
 
 (* Mac Lane's Proposition 2, first sentence: Haus is complete, at every
    shape universe at or below the points', as [PTopCat] is. *)

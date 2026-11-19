@@ -388,7 +388,10 @@ Qed.
     obligations are discharged by transporting reflexivity of [word_eq]
     along them. *)
 
-Definition FreeMonSetsObject (X : SetoidObject) : MonS.
+(* The universes are declared, those of [Sets]: [u0] for the words, [u] above
+   them. *)
+Definition FreeMonSetsObject@{u u0 | u0 < u +} (X : SetoidObject@{u0 u0}) :
+  @obj (@Mon@{u u0 u} Sets@{u0 u} Sets_Product_Monoidal@{u u0}).
 Proof.
   unshelve refine
     (mk_mon_obj (WordObj X) Datatypes.nil (@wapp X) _ _ _ _).

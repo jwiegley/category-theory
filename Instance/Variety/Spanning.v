@@ -250,7 +250,8 @@ Program Definition svariety_const (B : SVariety E)
   unit_setoid_object ~{Sets}~> SVariety_Forget E B := {|
   morphism := fun _ => x
 |}.
-Next Obligation. intros B x u v Huv; reflexivity. Qed.
+(* The respectfulness may already be solved by instance resolution *)
+Solve All Obligations with (intros B x u v Huv; reflexivity).
 
 Definition svariety_probe (B : SVariety E) (x : carrier (soa_obj (`1 B))) :
   Free_Variety E unit_setoid_object ~{SVariety E}~> B :=

@@ -161,10 +161,13 @@ Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := {
    [Functor_Setoid].  The orientation matches the adjunction every
    equivalence refines to (counit F ◯ G ⟹ Id[D], unit Id[C] ⟹ G ◯ F; see
    Theory/Equivalence/Adjoint.v). *)
-Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := {
+(* The universes are declared, the two categories sharing their homs [h]: [u]
+   and [u1] for the equalities of the functors on [D] and on [C]. *)
+Class EquivalenceOfCategories@{u u1 oC oD h | oC <= u1, oD <= u, h <= u, h <= u1 +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} (F : C ⟶ D) : Type@{max(u,u1)} := {
   quasi_inverse : D ⟶ C;
-  equivalence_counit : F ◯ quasi_inverse ≈ Id[D];
-  equivalence_unit   : Id[C] ≈ quasi_inverse ◯ F
+  equivalence_counit : Compose@{oD oD oC h} F quasi_inverse ≈ Id[D];
+  equivalence_unit   : Id[C] ≈ Compose@{oC oC oD h} quasi_inverse F
 }.
 
 (* An equivalence of categories IS an isomorphism in Cat: Cat's hom-setoid

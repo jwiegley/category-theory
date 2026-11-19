@@ -468,10 +468,10 @@ Proof.
 Defined.
 
 (* Ab ≅ Set^{ℤ[−]} in Cat, from the two component isomorphisms. *)
-Definition Ab_EM_iso@{k +} : @Isomorphism Cat@{k so so so c} Ab ZMAlg.
+Definition Ab_EM_iso@{k +} : @Isomorphism Cat@{k so so c} Ab ZMAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{k so so so c} Ab ZMAlg Ab_K EM_to_AbS _ _).
+    (@Build_Isomorphism Cat@{k so so c} Ab ZMAlg Ab_K EM_to_AbS _ _).
   - exists (fun x => Ab_EM_counit_iso x). intros x y f a. reflexivity.
   - exists (fun G => Ab_EM_unit_iso G). intros G H f a. reflexivity.
 Defined.

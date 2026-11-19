@@ -65,7 +65,10 @@ Generalizable All Variables.
 
 Section EilenbergMooreAdjunction.
 
-Context {C : Category}.
+(* The universes are named, to declare the one of the algebras below *)
+Universe o h.
+
+Context {C : Category@{o h h}}.
 Context (T : C ⟶ C).
 Context `{H : @Monad C T}.
 
@@ -76,7 +79,7 @@ Context `{H : @Monad C T}.
     algebra homomorphisms in C^T is equivalence of their underlying arrows,
     all three functor laws hold on the nose. *)
 
-Program Definition EM_Forget : EilenbergMoore T ⟶ C := {|
+Program Definition EM_Forget@{oE | o <= oE, h <= oE +} : EilenbergMoore@{oE o h} T ⟶ C := {|
   fobj := fun a => `1 a;
   fmap := fun _ _ f => t_alg_hom[f]
 |}.
@@ -90,7 +93,7 @@ Next Obligation. reflexivity. Qed.
     homomorphism square for fmap[T] f is the multiplication naturality
     join_fmap_fmap. *)
 
-Program Definition EM_Free : C ⟶ EilenbergMoore T := {|
+Program Definition EM_Free@{oE | o <= oE, h <= oE +} : C ⟶ EilenbergMoore@{oE o h} T := {|
   fobj := fun a => (T a; {| t_alg := @join C T H a |});
   fmap := fun x y f => {| t_alg_hom := fmap[T] f |}
 |}.

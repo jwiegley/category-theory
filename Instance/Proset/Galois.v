@@ -78,7 +78,9 @@ Generalizable All Variables.
     thinness was available only as the trivial hom-setoid buried inside
     [Proset] and an ad-hoc [two_thin] for the walking arrow, so it could not be
     used as a hypothesis. *)
-Definition Thin (C : Category) : Type :=
+(* The universes are declared, the proposition at its own universe [u]: inferred,
+   it would be at the least one, [max(o, h)]. *)
+Definition Thin@{u o h | o <= u, h <= u} (C : Category@{o h h}) : Type@{u} :=
   ∀ (x y : C) (f g : x ~> y), f ≈ g.
 
 (** Every [Proset] is thin, by construction: its hom-setoid relates everything. *)
@@ -137,7 +139,10 @@ Arguments gal_from {A B RA RB} _ a b _.
 
 Section Galois.
 
-Context {A B : Type}.
+(* The universes are named, to declare those of [GaloisAdjunction] *)
+Universe a b.
+
+Context {A : Type@{a}} {B : Type@{b}}.
 Context {RA : relation A} {RB : relation B}.
 Context (PA : PreOrder RA) (PB : PreOrder RB).
 Context (G : GaloisConnection RA RB).
@@ -170,8 +175,11 @@ Program Definition galois_adj_iso (a : Proset PA) (b : Proset PB) :
 
 (** The adjunction.  Every remaining field is a side condition in a thin
     category, so the whole coherence burden is discharged uniformly. *)
-Program Definition GaloisAdjunction :
-  @Adjunction (Proset PB) (Proset PA) GaloisFunctor_l GaloisFunctor_r := {|
+(* The universes are declared: [h] for the homs of the two posets, [e] above
+   them for the adjunction. *)
+Program Definition GaloisAdjunction@{h e | h < e +} :
+  @Adjunction@{b h h a h h h h e h Set} (Proset PB) (Proset PA)
+    GaloisFunctor_l@{h} GaloisFunctor_r@{h} := {|
   adj := galois_adj_iso
 |}.
 
@@ -256,8 +264,10 @@ Next Obligation. lia. Qed.
 Next Obligation. lia. Qed.
 Next Obligation. lia. Qed.
 
-Definition nat_shift_adjunction (k : nat) : _ :=
-  GaloisAdjunction Nat.le_preorder Nat.le_preorder (nat_shift_galois k).
+(* The universes are declared, in the order of the uses of
+   [nat_shift_adjunction@{...}]. *)
+Definition nat_shift_adjunction@{a b e h | h < e +} (k : nat) :=
+  GaloisAdjunction@{a b h e} Nat.le_preorder Nat.le_preorder (nat_shift_galois k).
 
 (** The witness is not degenerate: the two maps genuinely differ for [k > 0],
     so this is not the identity connection wearing a disguise. *)

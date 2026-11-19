@@ -213,7 +213,10 @@ End ReflectiveInducesIdempotent.
 
 Section IdempotentInducesReflective.
 
-Context {C : Category}.
+(* The universes are named, to declare those of the reflection below *)
+Universe o h.
+
+Context {C : Category@{o h h}}.
 Context {M : C ⟶ C}.
 Context `{MM : @Monad C M}.
 Context `{IM : @IdempotentMonad C M MM}.
@@ -221,7 +224,7 @@ Context `{IM : @IdempotentMonad C M MM}.
 (* The M-local objects: those x whose unit ret x is invertible.  The
    subcategory is full — every C-morphism between local objects is retained —
    so [shom] is the terminal predicate. *)
-Definition MLocal_Subcategory : Subcategory C :=
+Definition MLocal_Subcategory@{l} : Subcategory@{o h h l} C :=
   {| sobj  := fun x => IsIsomorphism (@ret C M MM x)
    ; shom  := fun _ _ _ _ _ => True
    ; scomp := fun _ _ _ _ _ _ _ _ _ _ => I
@@ -269,8 +272,11 @@ Lemma idem_reflector_fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
   idem_reflector_fmap (f ∘ g) ≈ idem_reflector_fmap f ∘ idem_reflector_fmap g.
 Proof. simpl; apply fmap_comp. Qed.
 
-Definition idem_reflector : C ⟶ Sub C MLocal_Subcategory :=
-  Build_Functor C (Sub C MLocal_Subcategory)
+(* The universes are declared: [oS] and [hS] for the objects and homs of the
+   subcategory, [l] for its predicates. *)
+Definition idem_reflector@{oS hS l | +} :
+  C ⟶ Sub@{o h h l oS hS} C MLocal_Subcategory@{l} :=
+  Build_Functor C (Sub@{o h h l oS hS} C MLocal_Subcategory@{l})
     idem_reflector_fobj
     (fun x y f => idem_reflector_fmap f)
     (fun x y f g E => idem_reflector_fmap_respects f g E)
@@ -332,8 +338,11 @@ Definition idem_reflection_transform :
    ; Transformation.counit_fmap_unit := @idem_triangle_counit
    ; Transformation.fmap_counit_unit := @idem_triangle_unit |}.
 
-Definition idem_reflective_adj :
-  idem_reflector ⊣ Incl C MLocal_Subcategory :=
+(* The universes are declared: [oS] for the objects of the subcategory, [l] for
+   its predicates and [so] above the homs for the adjunction. *)
+Definition idem_reflective_adj@{oS l so | h < so +} :
+  @Adjunction@{oS h h o h h h h so h Set} _ _ idem_reflector@{oS h l}
+    (Incl@{o h h l oS} C MLocal_Subcategory@{l}) :=
   Adjunction_from_Transform idem_reflection_transform.
 
 (* The M-local subcategory is full: every C-morphism between local objects is

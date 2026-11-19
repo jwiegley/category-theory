@@ -835,10 +835,10 @@ Defined.
 
 (* R-Mod ≅ Set^{T_R} in Cat, from the two component isomorphisms. *)
 Definition RMod_EM_iso@{k +} :
-  @Isomorphism Cat@{k so so so c} (RMod R) TRAlg.
+  @Isomorphism Cat@{k so so c} (RMod R) TRAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{k so so so c} (RMod R) TRAlg
+    (@Build_Isomorphism Cat@{k so so c} (RMod R) TRAlg
        RMod_K EM_to_RModS _ _).
   - exists (fun x => RMod_EM_counit_iso x). intros x y f a. reflexivity.
   - exists (fun M => RMod_EM_unit_iso M). intros M N f a. reflexivity.

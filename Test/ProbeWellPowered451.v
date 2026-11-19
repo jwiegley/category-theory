@@ -479,7 +479,7 @@ Definition p451_trivial_at_sets (X : Sets) : WellPoweredAt X := wp_trivial X.
 (* CONTROL: a copy of [WellPowered] with the pin [w <= h] deleted accepts the
    trivial witness at [Sets], so the pin is what N1 meets. *)
 Definition p451_WellPowered_unpinned@{o h w s t | o <= s, h <= s, h < t +}
-  (C : Category@{o h h}) := ∀ x : C, WellPoweredAt@{w o s h t} x.
+  (C : Category@{o h h}) := ∀ x : C, WellPoweredAt@{w o s h} x.
 
 Definition p451_trivial_unpinned_sets :
   p451_WellPowered_unpinned Sets := fun X => wp_trivial X.
@@ -814,11 +814,11 @@ Fail Definition p451_n15_subsets_at_set@{o +| Set < o +}
 
 (* CONTROL: one universe up, the trivial index. *)
 Definition p451_at_trivial@{i o h t | i < o, h < t, h <= o +} :
-  @WellPoweredAt@{o o o h t} AntichainTop@{i o h} None := AntichainTop_trivial.
+  @WellPoweredAt@{o o o h} AntichainTop@{i o h} None := AntichainTop_trivial.
 
 (* CONTROL: at the pin, with [i < h]. *)
 Definition p451_at_up@{i o h s t | i < o, i < h, h < t, o <= s, h <= s +} :
-  @WellPoweredAt@{h o s h t} AntichainTop@{i o h} None :=
+  @WellPoweredAt@{h o s h} AntichainTop@{i o h} None :=
   AntichainTop_WellPoweredAt_up.
 
 (* CONTROL: at N16's universes, the refutation. *)
@@ -827,11 +827,11 @@ Definition p451_at_refuted@{i o h w s t |
   (WP : WellPowered@{o h w s t} AntichainTop@{i o h}) : False :=
   AntichainTop_not_WellPowered WP.
 
-Check @WellPoweredAt@{_ _ _ _ _}.
+Check @WellPoweredAt@{_ _ _ _}.
 Check @AntichainTop@{_ _ _}.
 Fail Definition p451_n16_at_up_low_homs@{i o h s t |
     i < o, h <= i, h < t, o <= s, h <= s +} :
-  @WellPoweredAt@{h o s h t} AntichainTop@{i o h} None :=
+  @WellPoweredAt@{h o s h} AntichainTop@{i o h} None :=
   AntichainTop_WellPoweredAt_up.
 
 (** ** N17, N18 (TYPING), N19 (UNIVERSE): the routes to [Sets] at the pin
@@ -953,7 +953,7 @@ Fail Definition p451_n21_span_sets (GP : PreservesWidePullbacks (@Id Sets))
 
 (* FinSet, unconditionally at the pin, with its index read back. *)
 Definition p451_finset_wp@{o h s t u v +| Set < u, h < t, o <= s, h <= s +} :
-  WellPowered@{o h h s t} FinSet@{o h u v} := FinSet_WellPowered.
+  WellPowered@{o h h s t} FinSet@{o h} := FinSet_WellPowered.
 
 Example p451_finset_index (n : FinSet) :
   wp_index (FinSet_WellPowered n) = (Fin.t n → Fin.t 2) := eq_refl.
@@ -993,9 +993,9 @@ Constraint t < u.
 
 Context (C : Category@{cobj h h}) (D : Category@{dobj h h}) (U : C ⟶ D).
 Context (comp : @Complete@{h h h cobj} C).
-Context (cont : @PreservesImageLimit@{cobj h dobj h u1 h u h} C D U).
+Context (cont : @PreservesImageLimit@{cobj h dobj h u1 u h} C D U).
 Context (G : Cogenerator@{h cobj h} C) (W : WellPowered@{cobj h w s t} C).
-Context (cover : SubobjectCover@{u2 w h u h dobj cobj h} U comp G
+Context (cover : SubobjectCover@{u2 w h h dobj cobj h} U comp G
                    (WellPowered_SubobjectIndex@{cobj h w s t} W)).
 
 Definition p451_saft_direct :=
@@ -1017,7 +1017,7 @@ Constraint u3 <= h.
 Context (comp : @Complete@{h h h cobj} Sets@{h cobj}).
 Context (G : Cogenerator@{h cobj h} Sets@{h cobj}).
 Context (WP : ∀ x : Sets@{h cobj}, SubobjectIndex@{u3 cobj h} x).
-Context (cover : SubobjectCover@{u2 u3 h u h cobj cobj h}
+Context (cover : SubobjectCover@{u2 u3 h h cobj cobj h}
                    (@Id Sets@{h cobj}) comp G WP).
 
 Definition p451_cover_above : False :=
@@ -1036,7 +1036,7 @@ Constraint u3 <= h.
 Context (comp : @Complete@{h h h cobj} Sets@{h cobj}).
 Context (G : Cogenerator@{h cobj h} Sets@{h cobj}).
 Context (WP : ∀ x : Sets@{h cobj}, SubobjectIndex@{u3 cobj h} x).
-Context (cover : SubobjectCover@{u2 u3 h u h cobj cobj h}
+Context (cover : SubobjectCover@{u2 u3 h h cobj cobj h}
                    (@Id Sets@{h cobj}) comp G WP).
 
 Definition p451_cover_below : False :=

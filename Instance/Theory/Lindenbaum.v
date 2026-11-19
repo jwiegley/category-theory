@@ -195,7 +195,9 @@ Arguments s_imp {V} _ _.
 
 (* A theory is a bare set of sentences: its axioms.  It is not required
    to be deductively closed, consistent, or inhabited. *)
-Definition Theo (V : Type) : Type := Sent V -> Prop.
+(* The universes are declared, the theory at its own universe [u0]: inferred,
+   it would be at the least one, [max(Set+1, u)]. *)
+Definition Theo@{u u0 | Set < u0, u <= u0} (V : Type@{u}) : Type@{u0} := Sent V -> Prop.
 
 (** ** (B) Entailment relative to a theory *)
 

@@ -545,7 +545,7 @@ Defined.
 
 (* K is an equivalence, with identity components both ways. *)
 Definition Rng_EM_equivalence@{+} :
-  @EquivalenceOfCategories@{u u u u u p} Rng@{u p} RngAlg Rng_K.
+  @EquivalenceOfCategories@{u u u u p} Rng@{u p} RngAlg Rng_K.
 Proof.
   unshelve refine (@Build_EquivalenceOfCategories _ _ Rng_K EM_to_Rng _ _).
   - exists (fun x => Rng_EM_counit_iso x).
@@ -556,7 +556,7 @@ Defined.
 
 (* Riehl, Example 5.5.7(ii): the forgetful functor Rng → Ab is monadic. *)
 Definition Rng_Forget_Ab_Monadic@{+} :
-  @Monadic@{u u u u u p u u} Rng@{u p} Ab@{u p} Rng_Forget_Ab.
+  @Monadic@{u u u u u p u} Rng@{u p} Ab@{u p} Rng_Forget_Ab.
 Proof.
   exists FreeRngAb.
   exists free_rng_ab_adjunction_hom.
@@ -566,10 +566,10 @@ Defined.
 (* Mac Lane's "the comparison functor from rings to T-algebras is an
    isomorphism": Rng ≅ Ab^T in Cat, from the two component isomorphisms. *)
 Definition Rng_EM_iso@{c +} :
-  @Isomorphism Cat@{c u u u p} Rng@{u p} RngAlg.
+  @Isomorphism Cat@{c u u p} Rng@{u p} RngAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c u u u p} Rng@{u p} RngAlg Rng_K EM_to_Rng _ _).
+    (@Build_Isomorphism Cat@{c u u p} Rng@{u p} RngAlg Rng_K EM_to_Rng _ _).
   - exists (fun x => Rng_EM_counit_iso x).
     intros x y f a. reflexivity.
   - exists (fun R => Rng_EM_unit_iso R).

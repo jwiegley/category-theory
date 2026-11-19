@@ -220,11 +220,11 @@ Definition PropSets_sub@{o so | o < so +} :
     (fun _ _ => I).
 
 Definition PropSets@{o so | o < so +} : Category@{so o o} :=
-  Sub@{so o so o so o so} Sets@{o so} PropSets_sub@{o so}.
+  Sub@{so o so o so o} Sets@{o so} PropSets_sub@{o so}.
 
 Definition PropSets_Incl@{o so | o < so +} :
   PropSets@{o so} ⟶ Sets@{o so} :=
-  Incl@{so o so o so so} Sets@{o so} PropSets_sub@{o so}.
+  Incl@{so o so o so} Sets@{o so} PropSets_sub@{o so}.
 
 Example PropSets_Incl_fobj@{o so | o < so +} (X : PropSets@{o so}) :
   fobj[PropSets_Incl@{o so}] X = projT1 X := eq_refl.

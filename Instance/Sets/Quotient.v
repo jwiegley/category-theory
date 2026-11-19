@@ -178,7 +178,9 @@ Context (R : crelation (carrier A)).
 
 (* Seven Sketches' form: R is COARSER than the carrier's own equality,
    i.e. `≈` is contained in R. *)
-Definition SetoidCoarser : Type := ∀ x y : carrier A, x ≈ y → R x y.
+(* The universe of the proposition is declared: inferred, it would be the least
+   one, the maximum of those of [A] and [R]. *)
+Definition SetoidCoarser@{w | +} : Type@{w} := ∀ x y : carrier A, x ≈ y → R x y.
 
 (* Mac Lane's form: R RESPECTS the carrier's equality, i.e. R may be
    transported along `≈` in either argument.  Stated one-directionally;
@@ -246,9 +248,11 @@ Proof. reflexivity. Qed.
    elaborator not unfolding [SetoidCoarser] during unification, so the
    field is supplied by the one-step script below.  The same shape
    recurs at [sets_quot_med]. *)
-Definition sets_quot_proj (A : SetoidObject) (R : crelation (carrier A))
-  (HR : Equivalence R) (HC : SetoidCoarser R) :
-  A ~{Sets}~> SetsQuotient A R HR.
+(* The universes are declared in this order: [s] for the objects of [Sets],
+   then [o] for the carrier and its relations. *)
+Definition sets_quot_proj@{s o | o < s +} (A : SetoidObject@{o o}) (R : crelation@{o o} (carrier A))
+  (HR : Equivalence@{o o} R) (HC : SetoidCoarser@{o o o o} R) :
+  A ~{Sets@{o s}}~> SetsQuotient@{o o o} A R HR.
 Proof.
   unshelve refine {| morphism := fun a : carrier A => a |}.
   intros x y Hxy; exact (HC x y Hxy).

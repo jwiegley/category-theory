@@ -15,5 +15,8 @@
 #[export] Unset Transparent Obligations.
 #[export] Unset Intuition Negation Unfolding.
 #[export] Unset Universe Minimization ToSet.
+(* Rocq's variance-based minimization (rocq-prover/rocq#22721) keeps the universes
+   bounded only from below; set them to their lower bound, as before *)
+#[export] Set Universe Minimization Compat.
 
 Require Export Category.Lib.Datatypes.

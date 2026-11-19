@@ -338,7 +338,7 @@ Generalizable All Variables.
    subobjects IS a [WellPoweredAt]; nothing is added. *)
 Definition RMod_WellPoweredAt_up@{a c p o x w +| c < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  WellPoweredAt@{w o o c x} W :=
+  WellPoweredAt@{w o o c} W :=
   {| wp_index   := Submodule W;
      wp_to      := smod_subobj;
      wp_from    := subobj_smod;
@@ -462,7 +462,7 @@ End Untrunc.
 Definition RMod_WellPoweredAt_untruncate@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o x a p c} R]) :
-  WellPoweredAt@{c o o c x} W :=
+  WellPoweredAt@{c o o c} W :=
   {| wp_index   := PSubmodule W;
      wp_to      := fun P => smod_subobj (psm_sub P);
      wp_from    := fun m => pimage (sub_mono m);
@@ -592,7 +592,7 @@ End CoUntrunc.
 Definition RMod_CoWellPoweredAt_untruncate@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{c o o c x} ((RMod@{o x a p c} R)^op) W :=
+  @WellPoweredAt@{c o o c} ((RMod@{o x a p c} R)^op) W :=
   {| wp_index   := PSubmodule W;
      wp_to      := pquot;
      wp_from    := fun u => pker (quot_epi u);
@@ -638,7 +638,7 @@ Definition RModop_Cogenerator@{c o x +| Set < o, c < o, c < x +}
    round trip is the identity isomorphism of the codomain. *)
 Definition RMod_CoWellPoweredAt_up@{a c p o x w +| c < w, a <= w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W.
+  @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W.
 Proof.
   unshelve refine {|
     wp_index := { Q : RModObject@{c a c c c a c p} R
@@ -656,5 +656,5 @@ Defined.
 Definition RMod_CoWellPowered_up@{a c p o x w +| c < w, a <= w +}
   {R : RingObject@{a c p}} :
   ∀ W : obj[RMod@{o x a p c} R],
-    @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W :=
+    @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W :=
   fun W => RMod_CoWellPoweredAt_up W.

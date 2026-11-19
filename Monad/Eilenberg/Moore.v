@@ -47,9 +47,10 @@ Generalizable All Variables.
    (T a, μ_a) of Moore/Adjunction.v — would not be recognized as objects of
    this category. *)
 
-Section EMProofs.
-Local Obligation Tactic := idtac.
-Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {|
+(* The universes are declared: [oE] for the algebras, above the objects [oC]
+   and the homs [h] of [C]. Inferred, it would be the least one, [max(oC, h)]. *)
+Program Definition EilenbergMoore@{oE oC h | oC <= oE, h <= oE +}
+  {C : Category@{oC h h}} (T : C ⟶ C) `{H : @Monad C T} : Category@{oE h h} := {|
   obj     := ∃ a : C, @TAlgebra C T H a;
   hom     := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y);
   homset  := fun _ _ => {| equiv := fun f g => t_alg_hom[f] ≈ t_alg_hom[g] |};

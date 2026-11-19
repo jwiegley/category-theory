@@ -124,7 +124,7 @@ Generalizable All Variables.
    hom-equivalence of the image setoids, so this functor neither adds nor
    loses information on arrows. *)
 Program Definition Coq_Underlying@{u u0 +} :
-  Coq@{u u0 u0 u0} ⟶ Sets@{u0 u} := {|
+  Coq@{u u0} ⟶ Sets@{u0 u} := {|
   fobj := fun A => {| carrier   := A
                     ; is_setoid := {| equiv        := @eq A
                                     ; setoid_equiv := eq_equivalence |} |};
@@ -144,7 +144,7 @@ Proof.
   exact Hfg.
 Qed.
 
-#[export] Instance Coq_Concrete@{u u0 +} : Concrete Coq@{u u0 u0 u0} := {|
+#[export] Instance Coq_Concrete@{u u0 +} : Concrete Coq@{u u0} := {|
   underlying          := Coq_Underlying@{u u0};
   underlying_faithful := Coq_Underlying_Faithful@{u u0}
 |}.

@@ -539,8 +539,8 @@ Example pinit_cone_leg (N : Cone (PForget@{o so} ◯ T)) (k : obj[J]) :
 (* Riehl's recipe: a LIMITING cone over the underlying diagram, topologized
    by the initial topology for its legs, is a limiting cone over [T]. *)
 Definition pinit_cone_limiting@{v v1 w w1 +}
-  (N : Cone (PForget@{o so} ◯ T)) (HN : IsLimitCone@{v v1 j o so} N) :
-  IsLimitCone@{w w1 j o so} (pinit_cone N).
+  (N : Cone (PForget@{o so} ◯ T)) (HN : IsLimitCone@{v j o so} N) :
+  IsLimitCone@{w j o so} (pinit_cone N).
 Proof.
   intro M.
   unshelve refine

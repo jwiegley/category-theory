@@ -117,9 +117,11 @@ Generalizable All Variables.
    (Kock, "Strong functors and monoidal monads", Arch. Math. 23, 1972). *)
 
 #[export]
-Program Instance Coq : Category := {
-  obj     := Type;                                   (* objects are types *)
-  hom     := λ A B : Type, A → B;                    (* morphisms are functions *)
+(* The universes are declared: [u] for the types, [h] for the functions.
+   Inferred, the first one would be [h+1]. *)
+Program Instance Coq@{u h | h < u +} : Category@{u h h} := {
+  obj     := Type@{h};                               (* objects are types *)
+  hom     := λ A B : Type@{h}, A → B;                (* morphisms are functions *)
   homset  := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |};  (* pointwise equality *)
   id      := λ _ x, x;                               (* identity function *)
   compose := λ _ _ _ g f x, g (f x)                  (* function composition *)

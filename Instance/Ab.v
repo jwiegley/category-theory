@@ -121,11 +121,14 @@ Generalizable All Variables.
 (** An abelian group: a commutative monoid with a negation that is a
     left inverse.  The right inverse law follows by commutativity
     ([ab_neg_right] below), so it is not a field. *)
-Record AbObject := {
-  ab_cmon :> CMonObject;
+(* The universes are declared: [p] for the compatibility of the operations
+   with the equality, [c] for the carrier and [e] for its equality. Inferred,
+   the first one would be [max(c, e)]. *)
+Record AbObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  ab_cmon :> CMonObject@{p c e};
 
   ab_neg : carrier (cmon_setoid ab_cmon) → carrier (cmon_setoid ab_cmon);
-  ab_neg_respects : Proper (equiv ==> equiv) ab_neg;
+  ab_neg_respects : Proper@{c p} (respectful@{c e c e} equiv equiv) ab_neg;
 
   ab_neg_left : ∀ a, cmon_plus ab_cmon (ab_neg a) a ≈ cmon_zero ab_cmon
 }.

@@ -624,12 +624,12 @@ Definition special_initial_object_book@{o h so p q s t k d +|
   @Initial C.
 Proof.
   refine (special_initial_object_least comp G
-            (`1 (HI (cogen_prod@{so d so o h} comp G) (fun _ => unit)
+            (`1 (HI (cogen_prod@{so so o h} comp G) (fun _ => unit)
                    (fun _ _ _ t => t)))
             _).
   intro v.
   exact (inter_le _ _
-           (`2 (HI (cogen_prod@{so d so o h} comp G) (fun _ => unit)
+           (`2 (HI (cogen_prod@{so so o h} comp G) (fun _ => unit)
                   (fun _ _ _ t => t)))
            (existT _ v tt)).
 Defined.
@@ -640,7 +640,7 @@ Example special_initial_object_book_obj@{o h so p q s t k d +|
   (G : Cogenerator@{so o h} C) (HI : HasClassIntersections@{o h p q s t k} C) :
   @initial_obj C (special_initial_object_book comp G HI)
     = Subobject.sub_dom
-        (`1 (HI (cogen_prod@{so d so o h} comp G) (fun _ => unit)
+        (`1 (HI (cogen_prod@{so so o h} comp G) (fun _ => unit)
                (fun _ _ _ t => t))) :=
   eq_refl.
 
@@ -661,7 +661,7 @@ Definition special_initial_object_wellpowered@{o h w s t so d +|
   (G : Cogenerator@{so o h} C) : @Initial C :=
   special_initial_object comp G _
     (`2 (wellpowered_complete_intersection_all WP comp
-          (cogen_prod@{so d so o h} comp G))).
+          (cogen_prod@{so so o h} comp G))).
 
 Example special_initial_object_wellpowered_obj@{o h w s t so d +|
     w <= h, h < t, h < d, o <= s, h <= s, h <= so, w <= so +}
@@ -671,7 +671,7 @@ Example special_initial_object_wellpowered_obj@{o h w s t so d +|
   @initial_obj C (special_initial_object_wellpowered WP comp G)
     = Subobject.sub_dom
         (complete_intersection comp
-           (wp_class_family (WP (cogen_prod@{so d so o h} comp G))
+           (wp_class_family (WP (cogen_prod@{so so o h} comp G))
               (fun _ => True))) :=
   eq_refl.
 
@@ -680,7 +680,7 @@ Definition special_initial_object_wellpowered_at@{o h w s t so d +|
     h < t, h < d, o <= s, h <= s, h <= so, w <= so +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C)
-  (W : WellPoweredAt@{w o s h t} (cogen_prod@{so d so o h} comp G)) :
+  (W : WellPoweredAt@{w o s h} (cogen_prod@{so so o h} comp G)) :
   @Initial C.
 Proof.
   refine (special_initial_object_least comp G
@@ -697,7 +697,7 @@ Example special_initial_object_wellpowered_at_obj@{o h w s t so d +|
     h < t, h < d, o <= s, h <= s, h <= so, w <= so +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C)
-  (W : WellPoweredAt@{w o s h t} (cogen_prod@{so d so o h} comp G)) :
+  (W : WellPoweredAt@{w o s h} (cogen_prod@{so so o h} comp G)) :
   @initial_obj C (special_initial_object_wellpowered_at comp G W)
     = Subobject.sub_dom
         (complete_intersection comp (wp_class_family W (fun _ => True))) :=
@@ -739,7 +739,7 @@ Definition wif_of_cogenerator@{o h w s t so d +|
     h < t, h < d, o <= s, h <= s, h <= so +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C)
-  (W : WellPoweredAt@{w o s h t} (cogen_prod@{so d so o h} comp G)) :
+  (W : WellPoweredAt@{w o s h} (cogen_prod@{so so o h} comp G)) :
   WeaklyInitialFamily@{w o h} C.
 Proof.
   refine (Build_WeaklyInitialFamily C (wp_index W)
@@ -755,7 +755,7 @@ Definition freyd_of_cogenerator@{o h s t d +|
     h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{h o s h t} (cogen_prod@{h d h o h} comp G)) :
+  (W : WellPoweredAt@{h o s h} (cogen_prod@{h h o h} comp G)) :
   @Initial C :=
   initial_from_weakly_initial_complete comp (Complete_HasEqualizers comp)
     (wif_of_cogenerator comp G W).
@@ -764,7 +764,7 @@ Definition special_vs_freyd_of_cogenerator@{o h s t d +|
     h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{h o s h t} (cogen_prod@{h d h o h} comp G)) :
+  (W : WellPoweredAt@{h o s h} (cogen_prod@{h h o h} comp G)) :
   @initial_obj C (special_initial_object_wellpowered_at comp G W)
   ≅ @initial_obj C (freyd_of_cogenerator comp G W) :=
   initial_unique _ _.

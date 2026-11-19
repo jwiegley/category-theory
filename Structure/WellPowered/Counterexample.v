@@ -260,7 +260,7 @@ End AntichainTop.
    [i]. *)
 Theorem AntichainTop_not_WellPoweredAt@{i o h w s t |
     i < o, w <= i, h < t, o <= s, h <= s +}
-  (W : @WellPoweredAt@{w o s h t} AntichainTop@{i o h} None) : False.
+  (W : @WellPoweredAt@{w o s h} AntichainTop@{i o h} None) : False.
 Proof.
   exact (retract_paradox (wp_index W) (fun X => wp_from W (at_sub X))
            (at_up W) (at_up_down W)).
@@ -289,7 +289,7 @@ Proof. exact (AntichainTop_not_WellPowered@{i o h w s t} CWP). Qed.
 (* Positive control: one universe up, at the objects, the trivial datum
    exists, so the refutation measures size and nothing else. *)
 Definition AntichainTop_trivial@{i o h t | i < o, h < t, h <= o +} :
-  @WellPoweredAt@{o o o h t} AntichainTop@{i o h} None :=
+  @WellPoweredAt@{o o o h} AntichainTop@{i o h} None :=
   @wp_trivial@{o h o o t} AntichainTop@{i o h} None.
 
 (* Second positive control: with the homs one universe above the types
@@ -305,7 +305,7 @@ Definition at_name@{i o h | i < o +} (a : option Type@{i}) :
 
 Definition AntichainTop_WellPoweredAt_up@{i o h s t |
     i < o, i < h, h < t, o <= s, h <= s +} :
-  @WellPoweredAt@{h o s h t} AntichainTop@{i o h} None.
+  @WellPoweredAt@{h o s h} AntichainTop@{i o h} None.
 Proof.
   unshelve refine {| wp_index := option Type@{i};
                      wp_to := at_name;

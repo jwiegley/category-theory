@@ -327,7 +327,10 @@ Generalizable All Variables.
 
 Section SpanningArrow.
 
-Context {A X : Category}.
+(* The universes are named, to declare those of [PreservesWidePullbacks] *)
+Universe oA hA oX hX.
+
+Context {A : Category@{oA hA hA}} {X : Category@{oX hX hX}}.
 Context (G : A ⟶ X).
 
 (* f : x ~> G a FACTORS THROUGH the subobject m of a when it lifts along
@@ -361,11 +364,14 @@ Definition spanning_arrow {x : X} {a : A} (f : x ~> G a) : Type :=
    [right_adjoint_PreservesWidePullbacks] proves it for every right
    adjoint, and [SAFT_iff] there uses it as the second clause of Mac
    Lane's §V.8 Theorem 2. *)
-Definition PreservesWidePullbacks : Type :=
-  ∀ (I : Type) (B : I → A) (z : A) (g : ∀ i, B i ~> z)
+(* The universes are declared: [s] for the proposition, [i] for the index,
+   [qA] and [qX] for the wide pullbacks in [A] and in [X]. Inferred, they would
+   be the least ones. *)
+Definition PreservesWidePullbacks@{s i qA qX | +} : Type@{s} :=
+  ∀ (I : Type@{i}) (B : I → A) (z : A) (g : ∀ i, B i ~> z)
     (Hm : ∀ i, Monic (g i)) (P : A) (p : ∀ i, P ~> B i),
-    IsWidePullback g P p →
-    IsWidePullback (fun i => fmap[G] (g i)) (G P) (fun i => fmap[G] (p i)).
+    IsWidePullback@{i qA oA hA} g P p →
+    IsWidePullback@{i qX oX hX} (fun i => fmap[G] (g i)) (G P) (fun i => fmap[G] (p i)).
 
 (* The index of the solution set the lemma delivers: the spanning arrows
    out of x, with their codomains. *)

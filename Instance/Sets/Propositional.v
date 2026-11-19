@@ -80,7 +80,10 @@ Generalizable All Variables.
 
    -- the carrier and proof universes of the object bound it from below and
    nothing bounds it from above, so it sits at the object's own level. *)
-Definition PropEquivObj (X : SetoidObject) : Type := PropEquiv (is_setoid X).
+(* The universe [s] of the proposition is declared: inferred, it would be the
+   least one. *)
+Definition PropEquivObj@{s o p | Set < s, o <= s, p <= s +} (X : SetoidObject@{o p}) :
+  Type@{s} := PropEquiv (is_setoid X).
 
 (** ** Hom-setoids *)
 

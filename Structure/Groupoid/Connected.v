@@ -130,7 +130,10 @@ Arguments zz_bwd {C x y z} f s.
 
 (* Riehl §1.5: C is connected when every pair of objects is joined by a
    zig-zag. *)
-Definition Connected (C : Category) : Type := ∀ x y : C, ZigZag x y.
+(* The universes are declared, the proposition at its own universe [u]: inferred,
+   it would be at the least one, [max(o, h)]. *)
+Definition Connected@{u o h | o <= u, h <= u} (C : Category@{o h h}) : Type@{u} :=
+  ∀ x y : C, ZigZag x y.
 
 (* A single arrow is a one-step zig-zag, so the one-arrow form implies the
    zig-zag form in ANY category. *)

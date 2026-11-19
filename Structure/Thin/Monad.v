@@ -233,5 +233,5 @@ Example thin_wcoalgebra_round@{t o h} {C : Category@{o h h}}
    of the reflection onto the closed elements. *)
 Definition thin_coreflective@{t o h s f | h < s +} {C : Category@{o h h}}
   (TC : Thin@{t o h} C) {W : C ⟶ C} {H : @Comonad C W} :
-  Coreflective@{t t s t f h o h} (WLocal_Subcategory H) :=
+  Coreflective@{t t s t h o h} (WLocal_Subcategory H) :=
   Idempotent_Coreflective H (thin_IdempotentComonad TC).

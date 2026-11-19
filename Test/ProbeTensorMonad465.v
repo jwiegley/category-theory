@@ -727,9 +727,9 @@ Fail Example p465_N14_beck_qi@{a c p o x} (R : RingObject@{a c p}) :
 
 (* CONTROL: the two witnesses inhabit one type. *)
 Example p465_ctl_monadic_type@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o a} (RMod@{o x a p c} R) Ab@{o c}
+  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
     (RMod_Forget_Ab@{x o o a p c} R)
-  * @Monadic@{o x o o o c o a} (RMod@{o x a p c} R) Ab@{o c}
+  * @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
       (RMod_Forget_Ab@{x o o a p c} R)
   := (RMod_Forget_Ab_Monadic_beck@{a c p o x} R,
       RMod_Forget_Ab_Monadic@{a c p o x} R).
@@ -747,12 +747,12 @@ Fail Example p465_N15_monadic_same@{a c p o x} (R : RingObject@{a c p}) :
 (* C0 *)
 Check @Category@{_ _ _}.
 Check @RMod_Forget_Ab@{_ _ _ _ _ _}.
-Check @IsLimitCone@{_ _ _ _ _}.
+Check @IsLimitCone@{_ _ _ _}.
 Fail Fail Example p465c_C0_instrument@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l l0 j c o} N) :
+  (HN : IsLimitCone@{l j c o} N) :
   rm_ab (ColimMod N HN) = vertex_obj[N] := eq_refl.
 
 (* CONTROL: the created module's group and insertions, and the action on
@@ -760,19 +760,19 @@ Fail Fail Example p465c_C0_instrument@{a c p o x j l l0}
 Example p465c_ctl_obj@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l l0 j c o} N) :
+  (HN : IsLimitCone@{l j c o} N) :
   rm_ab (ColimMod N HN) = vertex_obj[N] := eq_refl.
 
 Example p465c_ctl_legs@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l l0 j c o} N) (i : J) :
+  (HN : IsLimitCone@{l j c o} N) (i : J) :
   rm_hom (mcol_hom N HN i) = cone_leg N i := eq_refl.
 
 Example p465c_ctl_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l l0 j c o} N)
+  (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (i : J) (m : carrier (rm_ab (K i))) :
   rm_smul (ColimMod N HN) r (cmon_map (cone_leg N i) m)
@@ -783,7 +783,7 @@ Example p465c_ctl_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
 Fail Example p465c_C1_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN : IsLimitCone@{l l0 j c o} N)
+  (HN : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (i : J) (m : carrier (rm_ab (K i))) :
   rm_smul (ColimMod N HN) r (cmon_map (cone_leg N i) m)
@@ -794,7 +794,7 @@ Fail Example p465c_C1_leg_smul@{a c p o x j l l0} {R : RingObject@{a c p}}
 Example p465c_ctl_reflect_group@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (M : Cone (K^op))
-  (HM : IsLimitCone@{l l0 j c o}
+  (HM : IsLimitCone@{l j c o}
           (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M)) :
   rm_ab (ColimMod (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M) HM)
   = rm_ab (vertex_obj[M]) := eq_refl.
@@ -803,7 +803,7 @@ Example p465c_ctl_reflect_mediator@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (M : Cone (K^op))
-  (HM : IsLimitCone@{l l0 j c o}
+  (HM : IsLimitCone@{l j c o}
           (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M))
   (P : Cone (K^op)) :
   rm_hom (unique_obj (mcol_reflect M HM P))
@@ -815,7 +815,7 @@ Fail Example p465c_C2_reflect_is_self@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (M : Cone (K^op))
-  (HM : IsLimitCone@{l l0 j c o}
+  (HM : IsLimitCone@{l j c o}
           (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M)) :
   ColimMod (FCone ((RMod_Forget_Ab@{x o o a p c} R)^op) M) HM
   = vertex_obj[M] := eq_refl.
@@ -824,7 +824,7 @@ Fail Example p465c_C2_reflect_is_self@{a c p o x j l l0}
 Example p465c_ctl_two_witnesses@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN HN' : IsLimitCone@{l l0 j c o} N)
+  (HN HN' : IsLimitCone@{l j c o} N)
   (r : carrier (rig_setoid (ring_rig R)))
   (b : carrier (@vertex_obj _ _ _ N)) :
   mcol_smul N HN' r b ≈ mcol_smul N HN r b :=
@@ -836,7 +836,7 @@ Fail Example p465c_C3_two_witnesses@{a c p o x j l l0}
   {R : RingObject@{a c p}}
   {J : Category@{j c c}} {K : J ⟶ RMod@{o x a p c} R}
   (N : Cone ((RMod_Forget_Ab@{x o o a p c} R)^op ◯ K^op))
-  (HN HN' : IsLimitCone@{l l0 j c o} N) :
+  (HN HN' : IsLimitCone@{l j c o} N) :
   ColimMod N HN = ColimMod N HN' := eq_refl.
 
 (* CONTROL: the lift read back through [creates_colimit_lift] has the

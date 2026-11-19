@@ -258,7 +258,7 @@ Example SL_factor_map@{o so | Set < o, o < so +}
 
 Definition SL_factor@{o so c | Set < o, o < so, o < c, so < c +} :
   @equiv _
-    (@homset Cat@{c so so so o}
+    (@homset Cat@{c so so o}
        (@EilenbergMoore Sets
           (SL_Forget ◯ SL_Free) SL_induced)
        SupLat)

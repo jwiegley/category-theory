@@ -92,18 +92,22 @@ Definition probe_iso_id_control :
   @Isomorphism ([([C, Sets] ∏ C), Sets]) (YoEval C) (YoEval C) := iso_id.
 
 (* Negative 1: the theorem itself is not formable at this category. *)
-Fail Check (yoneda_natural C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (yoneda_natural C).
 
 (* Negatives 2 and 3: neither is its donor, in either variance — so the
    restriction is inherited and not introduced by this development. *)
-Fail Check (fun (F : C ⟶ Sets) (A : C) => Covariant_Yoneda_Lemma C F A).
-Fail Check (fun (F : C^op ⟶ Sets) (A : C) => Yoneda_Lemma C F A).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (F : C ⟶ Sets) (A : C) => Covariant_Yoneda_Lemma C F A).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (F : C^op ⟶ Sets) (A : C) => Yoneda_Lemma C F A).
 
 (* Negative 4: the representability instance is restricted too, though the
    functor it represents is not — the boundary runs exactly where
    [Covariant_Yoneda_Lemma] is consumed, and [YoEvalAt] above does not
    consume it. *)
-Fail Check (fun c : C => YoEvalAt_Representable C c).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun c : C => YoEvalAt_Representable C c).
 
 End ObjectsBelowHoms.
 

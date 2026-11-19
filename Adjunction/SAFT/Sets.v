@@ -138,7 +138,7 @@ Lemma SubobjectCover_Id_Sets_absurd@{r g w u c h cobj |
   (comp : @Complete@{r g h cobj} Sets@{h cobj})
   (G : Cogenerator@{g cobj h} Sets@{h cobj})
   (WP : ∀ x : Sets@{h cobj}, SubobjectIndex@{w cobj h} x) :
-  SubobjectCover@{c w g u r cobj cobj h} (@Id Sets@{h cobj}) comp G WP →
+  SubobjectCover@{c w g r cobj cobj h} (@Id Sets@{h cobj}) comp G WP →
   False.
 Proof.
   intros cover.
@@ -187,6 +187,6 @@ Definition SubobjectCover_Id_Sets_absurd_at_SAFT@{cobj h u u2 u3 |
   (comp : @Complete@{h h h cobj} Sets@{h cobj})
   (G : Cogenerator@{h cobj h} Sets@{h cobj})
   (WP : ∀ x : Sets@{h cobj}, SubobjectIndex@{u3 cobj h} x)
-  (cover : SubobjectCover@{u2 u3 h u h cobj cobj h}
+  (cover : SubobjectCover@{u2 u3 h h cobj cobj h}
              (@Id Sets@{h cobj}) comp G WP) : False :=
   SubobjectCover_Id_Sets_absurd comp G WP cover.

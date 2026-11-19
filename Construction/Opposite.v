@@ -103,7 +103,9 @@ Generalizable All Variables.
    because op squared is the identity, there are likewise no cocomonads
    (Milewski, "Products and Coproducts", 2015). *)
 
-Definition Opposite `(C : Category) : Category := {|
+(* The universes are declared, the one of the homs first: inferred, they would
+   be in the order of those of [C]. *)
+Definition Opposite@{h o} (C : Category@{o h h}) : Category@{o h h} := {|
   obj     := @obj C;
   hom     := fun x y => @hom C y x;
   homset  := fun x y => @homset C y x;

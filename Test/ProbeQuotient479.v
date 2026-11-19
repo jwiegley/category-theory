@@ -315,7 +315,7 @@ Section MonProbe.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 
 Context (M : MonOS) (ww : list (list (mon_ob M))).
 

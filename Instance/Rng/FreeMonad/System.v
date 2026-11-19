@@ -593,10 +593,10 @@ Defined.
    isomorphic in Cat to Ab^T, every component of both natural isomorphisms
    the identity. *)
 Definition TSys_EM_iso@{c +} :
-  @Isomorphism Cat@{c u u u p} TSys RngAlg.
+  @Isomorphism Cat@{c u u p} TSys RngAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c u u u p} TSys RngAlg
+    (@Build_Isomorphism Cat@{c u u p} TSys RngAlg
        TSys_to_EM EM_to_TSys _ _).
   - exists (fun x => TSys_EM_counit_iso x).
     intros x y f a. reflexivity.
@@ -606,7 +606,7 @@ Defined.
 
 (* The rings are the systems. *)
 Definition Rng_TSys_iso@{c +} :
-  @Isomorphism Cat@{c u u u p} Rng@{u p} TSys :=
+  @Isomorphism Cat@{c u u p} Rng@{u p} TSys :=
   iso_compose (iso_sym TSys_EM_iso) Rng_EM_iso.
 
 (* ------------------------------------------------------------------------ *)

@@ -502,7 +502,8 @@ Definition Sets_copower_one_from (J : Type) :
 Proof.
   unshelve refine {| morphism := fun i : J =>
                        existT (fun _ : J => poly_unit) i ttt |}.
-  intros i j Hij; destruct Hij; exists eq_refl; reflexivity.
+  (* The respectfulness may already be solved by instance resolution *)
+  all: intros i j Hij; destruct Hij; exists eq_refl; reflexivity.
 Defined.
 
 Definition Sets_copower_one (J : Type) :

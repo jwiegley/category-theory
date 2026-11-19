@@ -198,7 +198,7 @@ Definition continuous_Set_functor_representable@{o h so c w s t su pl pa ra rt +
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K)
+  (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   Representable@{ra rt su o h} K :=
   representable_of_left_adjoint K (projT2 (SAFT_wellpowered K comp cont G WP)).
@@ -208,7 +208,7 @@ Example continuous_Set_functor_representable_obj@{o h so c w s t su pl pa ra rt 
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K)
+  (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @repr_obj C K
     (continuous_Set_functor_representable K comp cont G WP
@@ -221,7 +221,7 @@ Definition continuous_Set_functor_representable_iff@{o h so c w s t su pl pa ra 
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   Representable@{ra rt su o h} K
-    ↔ @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K.
+    ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K.
 Proof.
   split.
   - exact preserves_image_of_representable.
@@ -234,9 +234,9 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa ra 
     h < dp, h < cp, w <= h, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h su h pl h pa h} C Sets@{h su} K)
+  (cont : @PreservesImageLimit@{o h su h pl pa h} C Sets@{h su} K)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o su h h dp} K comp G SetsOne)) :
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o su h h dp} K comp G SetsOne)) :
   Representable@{ra rt su o h} K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont
@@ -251,8 +251,8 @@ Definition saft_colim@{o h so c w s t jo fo fa +|
   (C : Category@{o h h}) (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C)
   (J : Category@{jo h h}) :
-  { L : @Fun@{jo h o h fo h} J C ⟶ C & L ⊣ @Diagonal@{fo h jo o fa h} C J } :=
-  SAFT_wellpowered (@Diagonal@{fo h jo o fa h} C J) comp
+  { L : @Fun@{jo h o h fo h} J C ⟶ C & L ⊣ @Diagonal@{fo h fa jo o h} C J } :=
+  SAFT_wellpowered (@Diagonal@{fo h fa jo o h} C J) comp
     (Continuous_PreservesImageLimit Diagonal_continuous) G WP.
 
 Definition saft_cocomplete@{o h so c w s t jo fo fa +|
@@ -264,7 +264,7 @@ Definition saft_cocomplete@{o h so c w s t jo fo fa +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
+                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
 
 (** ** The two routes to the left adjoint agree up to isomorphism *)
 
@@ -272,7 +272,7 @@ Definition SAFT_cover_wp_iso@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=

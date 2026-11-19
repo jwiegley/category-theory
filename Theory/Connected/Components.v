@@ -433,7 +433,10 @@ Definition equivalence_connected {C D : Category} (F : C ⟶ D)
    fields of an equivalence relation.  [zz_nil] is reflexivity, [zigzag_sym]
    is symmetry and [zigzag_trans] is transitivity, each passed through
    unchanged: this constant introduces no proof content of its own. *)
-Definition zigzag_Equivalence (C : Category) : Equivalence (@ZigZag C) :=
+(* The universe of the relation is declared, as [p]: inferred, it would be
+   [max(o, h)]. *)
+Definition zigzag_Equivalence@{p o h | o <= p, h <= p +} (C : Category@{o h h}) :
+  Equivalence@{o p} (@ZigZag@{o h} C) :=
   {| Equivalence_Reflexive  := @zz_nil C
    ; Equivalence_Symmetric  := @zigzag_sym C
    ; Equivalence_Transitive := @zigzag_trans C |}.
@@ -467,8 +470,9 @@ Definition ObjSetoid@{o h p q} (C : Category@{o h p}) : SetoidObject@{o q} :=
    intervenes.  Per the house discipline of that file the CARRIER IS
    UNTOUCHED and only `≈` is coarsened; the two readbacks below record
    that. *)
-Definition pi0 (C : Category) : SetoidObject :=
-  SetsQuotient (ObjSetoid C) (@ZigZag C) (zigzag_Equivalence C).
+(* The universes are declared: [p] for the equality of the quotient. *)
+Definition pi0@{o p h | o <= p, h <= p +} (C : Category@{o h h}) : SetoidObject@{o p} :=
+  SetsQuotient (ObjSetoid C) (@ZigZag@{o h} C) (zigzag_Equivalence@{p o h} C).
 
 (* The carrier of π₀ IS the object type, and its equality IS the zig-zag
    relation, both by conversion.  Neither statement is a tautology: each
@@ -502,7 +506,7 @@ Definition pi0_coarser@{o h} (C : Category@{o h h}) :
    lands at [max(o, h)].  That constraint is [Sets]' own object type, not
    this file's, and no attempt is made here to route around it. *)
 Definition pi0_proj@{o so h} (C : Category@{o h h}) :
-  ObjSetoid@{o h h o} C ~{Sets@{o so}}~> pi0@{o o o h} C :=
+  ObjSetoid@{o h h o} C ~{Sets@{o so}}~> pi0@{o o h} C :=
   sets_quot_proj@{so o} (ObjSetoid@{o h h o} C) (@ZigZag@{o h} C)
     (zigzag_Equivalence@{o o h} C) (pi0_coarser@{o h} C).
 
@@ -521,7 +525,7 @@ Example pi0_proj_at (C : Category) (x : C) : pi0_proj C x = x := eq_refl.
    assignment is rejected.  (Measured here too, at exactly that spot.) *)
 Definition pi0_fmap@{o so hc hd} {C : Category@{o hc hc}}
   {D : Category@{o hd hd}} (F : C ⟶ D) :
-  pi0@{o o o hc} C ~{Sets@{o so}}~> pi0@{o o o hd} D.
+  pi0@{o o hc} C ~{Sets@{o so}}~> pi0@{o o hd} D.
 Proof.
   unshelve refine {| morphism := fobj[F] |}.
   intros x y s; exact (zigzag_fmap F s).

@@ -120,13 +120,17 @@ Generalizable All Variables.
    only up to `≈`.  [mon_op_assoc_sym] restates the law in the other
    orientation for consumers who want it, exactly as [comp_assoc_sym] does
    for categories. *)
-Record MonObject := {
-  mon_setoid :> SetoidObject;
+(* The universes are declared: [u] for the carrier, [u0] for its equality and
+   [u1] for the compatibility of the operation with it. Inferred, the latter
+   would be [max(u, u0)]. *)
+Record MonObject@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+  mon_setoid :> SetoidObject@{u u0};
 
   mon_unit : carrier mon_setoid;
   mon_op : carrier mon_setoid → carrier mon_setoid → carrier mon_setoid;
 
-  mon_op_respects : Proper (equiv ==> equiv ==> equiv) mon_op;
+  mon_op_respects :
+    Proper@{u u1} (respectful@{u u0 u u1} equiv (respectful@{u u0 u u0} equiv equiv)) mon_op;
 
   mon_op_assoc : ∀ a b c,
     mon_op a (mon_op b c) ≈ mon_op (mon_op a b) c;
@@ -264,8 +268,9 @@ Example hom_monoid_Deloop_op (M : MonObject) :
    [grp_inv] carries no [Proper] field: respecting `≈` is derivable from
    uniqueness of inverses, and is supplied as the instance
    [grp_inv_respects] below. *)
-Record GrpObject := {
-  grp_monoid :> MonObject;
+(* The universes are declared, as those of [MonObject]. *)
+Record GrpObject@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+  grp_monoid :> MonObject@{u u0 u1};
 
   grp_inv : carrier grp_monoid → carrier grp_monoid;
 

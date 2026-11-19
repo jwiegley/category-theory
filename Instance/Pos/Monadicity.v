@@ -477,7 +477,7 @@ Definition PosDiscP_PosPForget@{c so po p0 p1 p2 p3 a |
   @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} PropSets@{c so}
     PosDiscP@{c so po p0 p1 p2 p3} PosPForget@{c so po p0 p1 p2 p3}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
+  unshelve refine (@Build_Adjunction'@{po c c so c c so} _ _
                      PosDiscP@{c so po p0 p1 p2 p3}
                      PosPForget@{c so po p0 p1 p2 p3}
                      posdiscP_iso@{c so po p0 p1 p2 p3} _ _).
@@ -701,7 +701,7 @@ Definition PosDisc_Pos_Forget@{c so po p0 p1 p2 p3 a |
   @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} Sets@{c so}
     PosDisc@{c so po p0 p1 p2 p3} Pos_Forget@{po so p0 p2 p1 p3 c}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
+  unshelve refine (@Build_Adjunction'@{po c c so c c so} _ _
                      PosDisc@{c so po p0 p1 p2 p3}
                      Pos_Forget@{po so p0 p2 p1 p3 c}
                      posdisc_iso@{c so po p0 p1 p2 p3} _ _).
@@ -1108,7 +1108,7 @@ Lemma Pos_Forget_not_Monadic@{c so po p0 p1 p2 p3 m m0 m1 m3 m6 |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1,
   c < m0, po <= m, po <= m1, c <= m, c <= m1, c <= m3,
   so <= m, so <= m3, m1 <= m, m3 <= m +} :
-  Monadic@{m m0 m1 po m3 c so m6} Pos_Forget@{po so p0 p2 p1 p3 c} → False.
+  Monadic@{m m0 m1 po m3 c so} Pos_Forget@{po so p0 p2 p1 p3 c} → False.
 Proof.
   intros [F [A E]].
   pose proof (Equivalence_Full E) as HF.
@@ -1135,7 +1135,7 @@ Lemma PosPForget_not_Monadic@{c so po p0 p1 p2 p3 m m0 m1 m3 m6 |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1,
   c < m0, po <= m, po <= m1, c <= m, c <= m1, c <= m3,
   so <= m, so <= m3, m1 <= m, m3 <= m +} :
-  Monadic@{m m0 m1 po m3 c so m6} PosPForget@{c so po p0 p1 p2 p3} → False.
+  Monadic@{m m0 m1 po m3 c so} PosPForget@{c so po p0 p1 p2 p3} → False.
 Proof.
   intros [F [A E]].
   pose proof (Equivalence_Full E) as HF.
@@ -1161,5 +1161,5 @@ Qed.
 
 Definition PropSets_Incl_Monadic@{c so r m m1 m3 |
   c < so, so <= m1, so <= m3, c <= m1, c <= m3, m1 <= m, m3 <= m +} :
-  Monadic@{m so m1 so m3 c so r} PropSets_Incl@{c so} :=
+  Monadic@{m so m1 so m3 c so} PropSets_Incl@{c so} :=
   Reflective_Monadic PropSets_Reflective@{c so r}.

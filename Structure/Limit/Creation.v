@@ -164,11 +164,17 @@ Generalizable All Variables.
    clauses of the book — that the lift is limiting, and that it is unique —
    are the theorems [creates_limiting] and [creates_lift_unique] below. *)
 
-Class CreatesLimit {J C D : Category} (K : J ⟶ C) (F : C ⟶ D) := {
-  creates_lift (N : Cone (F ◯ K)) (HN : IsLimitCone N) : Cone K;
-  creates_lift_over (N : Cone (F ◯ K)) (HN : IsLimitCone N) :
-    ConeIso (FCone F (creates_lift N HN)) N;
-  creates_reflect (M : Cone K) : IsLimitCone (FCone F M) → IsLimitCone M
+(* The universes are declared, the three categories sharing their homs: [lD]
+   and [lC] for the limits in [D] and in [C], [ci] for the isomorphisms of
+   cones. Inferred, they would be the least ones. *)
+Class CreatesLimit@{lD oD lC ci oJ h oC | +}
+  {J : Category@{oJ h h}} {C : Category@{oC h h}} {D : Category@{oD h h}}
+  (K : J ⟶ C) (F : C ⟶ D) : Type@{max(lD,lC)} := {
+  creates_lift (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) : Cone K;
+  creates_lift_over (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) :
+    ConeIso@{ci oJ h oD} (FCone F (creates_lift N HN)) N;
+  creates_reflect (M : Cone K) :
+    IsLimitCone@{lD oJ h oD} (FCone F M) → IsLimitCone@{lC oJ h oC} M
 }.
 
 (* Mac Lane's clause (b): the lift is itself a limiting cone.
@@ -299,8 +305,11 @@ Proof. destruct p; simpl; intro H. rewrite id_right. now symmetry. Qed.
 (* An on-the-nose lift: the image apex is EQUAL to the given apex, and the
    image legs agree with the given legs up to [≈] after that transport. *)
 
-Record StrictLift {J C D : Category} (K : J ⟶ C) (F : C ⟶ D)
-  (N : Cone (F ◯ K)) := {
+(* The universes are declared, the three categories sharing their homs, in the
+   order of the uses of [StrictLift@{...}]. *)
+Record StrictLift@{oC oJ h oD} {J : Category@{oJ h h}} {C : Category@{oC h h}}
+  {D : Category@{oD h h}} (K : J ⟶ C) (F : C ⟶ D) (N : Cone (F ◯ K)) :
+  Type@{max(oC,oJ,h)} := {
   slift_cone : Cone K;
   slift_eq   : F (vertex_obj[slift_cone]) = vertex_obj[N];
   slift_legs : ∀ x : J,
@@ -311,7 +320,10 @@ Arguments slift_cone {J C D K F N} _.
 Arguments slift_eq {J C D K F N} _.
 Arguments slift_legs {J C D K F N} _ _.
 
-Definition slift_iso {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
+(* The universes are declared, the three categories sharing their homs:
+   inferred, the isomorphism would have universes of its own. *)
+Definition slift_iso@{oD h oC oJ | +} {J : Category@{oJ h h}} {C : Category@{oC h h}}
+  {D : Category@{oD h h}} {K : J ⟶ C} {F : C ⟶ D}
   {N : Cone (F ◯ K)} (L : StrictLift K F N) :
   F (vertex_obj[slift_cone L]) ≅ vertex_obj[N] := obj_eq_iso (slift_eq L).
 
@@ -336,11 +348,17 @@ Definition self_lift {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
    the book's.  Uniqueness in the form this setting supports is
    [screates_lift_unique] below, through the bridge to [CreatesLimit]. *)
 
-Class StrictlyCreatesLimit {J C D : Category} (K : J ⟶ C) (F : C ⟶ D) := {
-  screates (N : Cone (F ◯ K)) (HN : IsLimitCone N) : StrictLift K F N;
-  screates_limiting (N : Cone (F ◯ K)) (HN : IsLimitCone N) :
-    IsLimitCone (slift_cone (screates N HN));
-  screates_reflect (M : Cone K) : IsLimitCone (FCone F M) → IsLimitCone M
+(* The universes are declared, the three categories sharing their homs: [lD]
+   and [lC] for the limits in [D] and in [C]. Inferred, they would be the least
+   ones. *)
+Class StrictlyCreatesLimit@{lD oD lC oJ h oC | +}
+  {J : Category@{oJ h h}} {C : Category@{oC h h}} {D : Category@{oD h h}}
+  (K : J ⟶ C) (F : C ⟶ D) : Type@{max(lD,lC)} := {
+  screates (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) : StrictLift K F N;
+  screates_limiting (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) :
+    IsLimitCone@{lC oJ h oC} (slift_cone (screates N HN));
+  screates_reflect (M : Cone K) :
+    IsLimitCone@{lD oJ h oD} (FCone F M) → IsLimitCone@{lC oJ h oC} M
 }.
 
 Definition StrictlyCreatesLimit_CreatesLimit {J C D : Category}

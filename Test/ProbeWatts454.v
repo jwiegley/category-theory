@@ -873,7 +873,7 @@ Definition p454_wp_pin_U@{a c p o x +|
 Definition p454_wp_up@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  WellPoweredAt@{w o o c x} W :=
+  WellPoweredAt@{w o o c} W :=
   RMod_WellPoweredAt_up W.
 
 Check @WellPowered@{_ _ _ _ _}.
@@ -883,17 +883,17 @@ Fail Definition p454_n6_wp_up_at_pin@{a c p o x +|
   WellPowered@{o c c o x} (RMod@{o x a p c} R) :=
   fun W => RMod_WellPoweredAt_up W.
 
-Check @WellPoweredAt@{_ _ _ _ _}.
+Check @WellPoweredAt@{_ _ _ _}.
 Fail Definition p454_n7_wp_up_fifth_slot@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, x < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  WellPoweredAt@{w o o c w} W :=
+  WellPoweredAt@{w o o c} W :=
   RMod_WellPoweredAt_up W.
 
 Fail Definition p454_n28_wp_up_fifth_slot_below@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, w < x +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  WellPoweredAt@{w o o c w} W :=
+  WellPoweredAt@{w o o c} W :=
   RMod_WellPoweredAt_up W.
 
 (* CONTROL: (3) at the pin, under [U]. *)
@@ -909,13 +909,13 @@ Definition p454_cwp_up@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, a <= w +}
   {R : RingObject@{a c p}} :
   ∀ W : obj[RMod@{o x a p c} R],
-    @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W :=
+    @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W :=
   RMod_CoWellPowered_up.
 
 Definition p454_cwp_up_ccc@{c o x w +| Set < o, c < o, c < x, c < w +}
   {R : RingObject@{c c c}} :
   ∀ W : obj[RMod@{o x c c c} R],
-    @WellPoweredAt@{w o o c x} ((RMod@{o x c c c} R)^op) W :=
+    @WellPoweredAt@{w o o c} ((RMod@{o x c c c} R)^op) W :=
   fun W => RMod_CoWellPoweredAt_up W.
 
 Check @CoWellPowered@{_ _ _ _ _}.
@@ -975,7 +975,7 @@ Fail Definition p454_n11_ring_obj_apart@{a c p o x +|
 Definition p454_wp_record_closed@{a c p o x |
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
-  (W : obj[RMod@{o x a p c} R]) : WellPoweredAt@{c o o c x} W :=
+  (W : obj[RMod@{o x a p c} R]) : WellPoweredAt@{c o o c} W :=
   {| wp_index   := PSubmodule W;
      wp_to      := fun P => smod_subobj (psm_sub P);
      wp_from    := fun m => pimage (Subobject.sub_mono m);
@@ -986,7 +986,7 @@ Definition p454_cwp_record@{a c p o x +|
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
   (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{c o o c x} ((RMod@{o x a p c} R)^op) W :=
+  @WellPoweredAt@{c o o c} ((RMod@{o x a p c} R)^op) W :=
   {| wp_index   := PSubmodule W;
      wp_to      := pquot;
      wp_from    := fun u => pker (quot_epi u);
@@ -997,7 +997,7 @@ Fail Definition p454_n12_cwp_record_closed@{a c p o x |
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
   (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{c o o c x} ((RMod@{o x a p c} R)^op) W :=
+  @WellPoweredAt@{c o o c} ((RMod@{o x a p c} R)^op) W :=
   {| wp_index   := PSubmodule W;
      wp_to      := pquot;
      wp_from    := fun u => pker (quot_epi u);
@@ -1007,7 +1007,7 @@ Fail Definition p454_n12_cwp_record_closed@{a c p o x |
    its [Prop], as one term, under an extensible universe list. *)
 Definition p454_cwp_up_unfolded@{a c p o x w +| c < w, a <= w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W :=
+  @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W :=
   {| wp_index := { Q : RModObject@{c a c c c a c p} R
                  & { e : W ~{RMod@{o x a p c} R}~> Q &
                      ∀ b : carrier (cmon_setoid Q),
@@ -1024,7 +1024,7 @@ Definition p454_cwp_up_unfolded@{a c p o x w +| c < w, a <= w +}
 Check @RModObject@{_ _ _ _ _ _ _ _}.
 Fail Definition p454_n13_cwp_up_closed@{a c p o x w | c < w, a <= w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]) :
-  @WellPoweredAt@{w o o c x} ((RMod@{o x a p c} R)^op) W :=
+  @WellPoweredAt@{w o o c} ((RMod@{o x a p c} R)^op) W :=
   {| wp_index := { Q : RModObject@{c a c c c a c p} R
                  & { e : W ~{RMod@{o x a p c} R}~> Q &
                      ∀ b : carrier (cmon_setoid Q),
@@ -1112,7 +1112,7 @@ Definition p454_watt_at_forget@{c o x b +} (R : RingObject@{c c c}) :
 (* CONTROL: [watts_theorem_sets]'s body at [RingObject@{c c c}]. *)
 Definition p454_sets_ccc@{c o x a pk pa ra rt +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   Representable@{ra rt pa o c} (Ab_Forget ◯ T) :=
@@ -1127,7 +1127,7 @@ Definition p454_sets_ccc@{c o x a pk pa ra rt +}
    no constraint among them. *)
 Definition p454_sets_apart_free@{a c p o x b pk pa ra rt +}
   {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})
-  (contT : @PreservesImageLimit@{o c b c pk c pa c}
+  (contT : @PreservesImageLimit@{o c b c pk pa c}
              ((RMod@{o x a p c} R)^op) Ab@{b c} T)
   (U : Untruncate@{c}) :
   Representable@{ra rt pa o c} (Ab_Forget@{b pa c} ◯ T) :=
@@ -1144,18 +1144,18 @@ Definition p454_ex3_apart@{a c p o x b g pk pa ra rt +| c < a, p < a +}
   {R : RingObject@{a c p}} (T : RMod@{o x a p c} R ⟶ Ab@{b c})
   (AF : @AdditiveFunctor (RMod@{o x a p c} R) Ab@{b c}
           (RMod_AbEnriched R) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c b c pk c pa c}
+  (contT : @PreservesImageLimit@{o c b c pk pa c}
              (RMod@{o x a p c} R) Ab@{b c} T)
   (G : Cogenerator@{g o c} (RMod@{o x a p c} R))
   (U : Untruncate@{c}) :=
   watts_ex3 T AF contT G U.
 
-Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @PreservesImageLimit@{_ _ _ _ _ _ _}.
 Check @Representable@{_ _ _ _ _}.
 Check @Category.Instance.Ab.Ab_Forget@{_ _ _}.
 Fail Definition p454_n17_sets_apart@{a c p o x b pk pa ra rt +| c < a +}
   {R : RingObject@{a c p}} (T : (RMod@{o x a p c} R)^op ⟶ Ab@{b c})
-  (contT : @PreservesImageLimit@{o c b c pk c pa c}
+  (contT : @PreservesImageLimit@{o c b c pk pa c}
              ((RMod@{o x a p c} R)^op) Ab@{b c} T)
   (U : Untruncate@{c}) :
   Representable@{ra rt pa o c} (Category.Instance.Ab.Ab_Forget@{b pa c} ◯ T) :=
@@ -1179,7 +1179,7 @@ Fail Definition p454_n18_rmodop_cog_apart@{a c p o x +|
 Fail Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
     pa < s +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   Representable@{ra rt s o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
@@ -1193,7 +1193,7 @@ Fail Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
 Fail Definition p454_n29_sets_level_below_pa@{c o x a s pk pa ra rt +|
     s < pa +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   Representable@{ra rt s o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
@@ -1328,7 +1328,7 @@ Example p454_watts_obj@{c o x a pk pa ra rt +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
           (AbEnriched_op (RMod_AbEnriched R)) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   projT1 (watts_theorem T AF contT U)
@@ -1348,7 +1348,7 @@ Definition p454_watts_Fz@{c o x a pk pa ra rt +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
           (AbEnriched_op (RMod_AbEnriched R)) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   projT1 (watts_theorem T AF contT U)
@@ -1359,13 +1359,13 @@ Definition p454_watts_Fz@{c o x a pk pa ra rt +}
 Check @RingObject@{_ _ _}.
 Check @RMod@{_ _ _ _ _}.
 Check @Ab@{_ _}.
-Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @PreservesImageLimit@{_ _ _ _ _ _ _}.
 Check @Untruncate@{_}.
 Fail Example p454_n23_Fz_refl@{c o x a pk pa ra rt +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
           (AbEnriched_op (RMod_AbEnriched R)) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   projT1 (watts_theorem T AF contT U)
@@ -1384,7 +1384,7 @@ Definition p454_via_unconditional@{c o x a pk pa +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
           (AbEnriched_op (RMod_AbEnriched R)) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   { A : RMod@{o x c c c} R &
@@ -1396,7 +1396,7 @@ Example p454_via_unconditional_body@{c o x a pk pa +}
   {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c})
   (AF : @AdditiveFunctor ((RMod@{o x c c c} R)^op) Ab@{a c}
           (AbEnriched_op (RMod_AbEnriched R)) Ab_AbEnriched T)
-  (contT : @PreservesImageLimit@{o c a c pk c pa c}
+  (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o x c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
   watts_theorem_via_unconditional T AF contT U

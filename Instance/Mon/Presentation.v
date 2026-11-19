@@ -149,9 +149,9 @@ Section MonPresentation.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 Local Notation UMonOS :=
-  (@Mon_Forget@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon_Forget@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 
 (* Awodey's ε : T²M → TM, "using the multiplication in TM": the counit at
    the free monoid TM, which concatenates a word of words. *)

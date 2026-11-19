@@ -347,10 +347,12 @@ Qed.
    laws hold pointwise on the map parts exactly as in [Sets]; the
    distance-preservation witnesses play no part, the hom-setoid ignoring
    them. *)
-Program Definition Met : Category := {|
-  obj     := MetricSpace;
-  hom     := Isometry;
-  homset  := @Isometry_Setoid;
+(* The universes are declared: the objects at [u], above the level [o] of the
+   spaces. Inferred, the objects would be at [o+1]. *)
+Program Definition Met@{u o | o < u +} : Category@{u o o} := {|
+  obj     := MetricSpace@{o};
+  hom     := Isometry@{o};
+  homset  := @Isometry_Setoid@{o};
   id      := @met_id;
   compose := @met_compose;
 

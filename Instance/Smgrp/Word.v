@@ -750,10 +750,10 @@ Defined.
    Instance/Cat.v, an equivalence of categories; the identity components
    are what bring this one toward an isomorphism of categories. *)
 Definition WSys_EM_iso@{o so c} :
-  @Isomorphism Cat@{c so so so o} WSys@{o so} WordAlg@{o so}.
+  @Isomorphism Cat@{c so so o} WSys@{o so} WordAlg@{o so}.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} WSys@{o so} WordAlg@{o so}
+    (@Build_Isomorphism Cat@{c so so o} WSys@{o so} WordAlg@{o so}
        WSys_to_EM@{o so} EM_to_WSys@{o so} _ _).
   - exists (fun x => WSys_EM_counit_iso@{o so} x).
     intros x y f a. reflexivity.
@@ -965,7 +965,7 @@ Defined.
 
 (* The Remark: K is an equivalence, with identity components both ways. *)
 Definition Smgrp_EM_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SmgrpSets@{o so}
+  @EquivalenceOfCategories@{so so so so o} SmgrpSets@{o so}
     WordAlg@{o so} Sg_K@{o so}.
 Proof.
   unshelve refine
@@ -978,7 +978,7 @@ Defined.
 
 (* Semigroups are monadic over Set. *)
 Definition Sg_Forget_Monadic@{o so} :
-  @Monadic@{so so so so so o so so} SmgrpSets@{o so} Sets@{o so}
+  @Monadic@{so so so so so o so} SmgrpSets@{o so} Sets@{o so}
     Sg_Forget@{o so}.
 Proof.
   exists Sg_Free@{o so}.
@@ -993,10 +993,10 @@ Defined.
    issue's "or, minimally, an equivalence", strengthened by the identity
    components toward Mac Lane's isomorphism (the header's THE REMARK). *)
 Definition Smgrp_EM_iso@{o so c} :
-  @Isomorphism Cat@{c so so so o} SmgrpSets@{o so} WordAlg@{o so}.
+  @Isomorphism Cat@{c so so o} SmgrpSets@{o so} WordAlg@{o so}.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} SmgrpSets@{o so} WordAlg@{o so}
+    (@Build_Isomorphism Cat@{c so so o} SmgrpSets@{o so} WordAlg@{o so}
        Sg_K@{o so} EM_to_Smgrp@{o so} _ _).
   - exists (fun x => Smgrp_EM_counit_iso@{o so} x).
     intros x y f a. reflexivity.

@@ -117,7 +117,7 @@ Qed.
 
 Lemma Top_Forget_not_Monadic@{o h so m m0 m1 m3 m6 |
   o < h, h < so, h < m0, so <= m, h <= m1, so <= m3, m1 <= m, m3 <= m +} :
-  Monadic@{m m0 m1 h m3 h so m6} Top_Forget@{o h so} → False.
+  Monadic@{m m0 m1 h m3 h so} Top_Forget@{o h so} → False.
 Proof.
   intros [F [A E]].
   pose proof (Equivalence_Full E) as HF.

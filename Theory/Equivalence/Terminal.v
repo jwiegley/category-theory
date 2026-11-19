@@ -135,7 +135,7 @@ Context {C : Category}.
    empty case -- [terminal_sub_hom_contractible] and [terminal_sub_IsIso]
    of Block D. *)
 Program Definition terminal_sub_point@{so sh +} (T : @Terminal C) :
-  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh _} C TerminalObjects := {|
+  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh} C TerminalObjects := {|
   fobj := fun _ => terminal_sub_obj T;
   fmap := fun _ _ _ => id
 |}.
@@ -168,7 +168,7 @@ Section InitialSubContractible.
 Context {C : Category}.
 
 Program Definition initial_sub_point@{so sh +} (I0 : @Initial C) :
-  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh _} C InitialObjects := {|
+  _1@{so sh sh} ⟶ Sub@{_ _ _ _ so sh} C InitialObjects := {|
   fobj := fun _ => initial_sub_obj I0;
   fmap := fun _ _ _ => id
 |}.

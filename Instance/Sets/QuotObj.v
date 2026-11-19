@@ -527,7 +527,8 @@ Definition Sets_pick (b : bool) :
     bool_setoid_object@{o o}.
 Proof.
   unshelve refine {| morphism := fun _ => b |}.
-  proper.
+  (* The respectfulness may already be solved by instance resolution *)
+  all: proper.
 Defined.
 
 Lemma Sets_one_not_epic_empty :

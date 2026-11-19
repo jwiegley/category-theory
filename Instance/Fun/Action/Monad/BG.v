@@ -520,7 +520,7 @@ Definition BG_beck_equivalence@{o so} (M : MonObject@{o o o}) :
   beck_monadicity (BG_adj@{o so} M) (U_BG_creates@{o so} M).
 
 Definition U_BG_Monadic@{o so} (M : MonObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (SetBG@{o so} M) Sets@{o so}
+  @Monadic@{so so so so so o so} (SetBG@{o so} M) Sets@{o so}
     (U_BG@{o so} M).
 Proof.
   exists (F_BG@{o so} M).
@@ -542,7 +542,7 @@ Definition BGMonad@{o so} (M : MonObject@{o o o}) :
 (* Set^BM is isomorphic in Cat to the algebras of its monad, by the
    comparison functor itself. *)
 Definition BG_EM_iso@{o so c} (M : MonObject@{o o o}) :
-  @Isomorphism Cat@{c so so so o} (SetBG@{o so} M)
+  @Isomorphism Cat@{c so so o} (SetBG@{o so} M)
     (@EilenbergMoore@{so so o} Sets@{o so}
        (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :=
   Equivalence_to_Cat_Iso (BG_beck_equivalence@{o so} M).
@@ -719,7 +719,7 @@ Example tie_alg_fun@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
 (* The tie as a functor, in Cat, with identity components. *)
 Definition tie@{o so c} (M : MonObject@{o o o}) :
   @equiv _
-    (@homset Cat@{c so so so o} (SetBG@{o so} M)
+    (@homset Cat@{c so so o} (SetBG@{o so} M)
        (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M)))
     (BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M))
@@ -744,7 +744,7 @@ Defined.
 (* Riehl's statement for a group G, at Construction/Deloop.v's groups. *)
 Definition GSet_BG_Monadic@{o so}
   (G : Category.Construction.Deloop.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (SetBG@{o so} G) Sets@{o so}
+  @Monadic@{so so so so so o so} (SetBG@{o so} G) Sets@{o so}
     (U_BG@{o so} G) :=
   U_BG_Monadic@{o so} G.
 
@@ -752,7 +752,7 @@ Definition GSet_BG_Monadic@{o so}
    [grp_deloop_monoid]. *)
 Definition GSet_BG_Monadic_Grp@{o so}
   (G : Category.Instance.Grp.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so}
+  @Monadic@{so so so so so o so}
     (SetBG@{o so} (grp_deloop_monoid@{o o o} G)) Sets@{o so}
     (U_BG@{o so} (grp_deloop_monoid@{o o o} G)) :=
   U_BG_Monadic@{o so} (grp_deloop_monoid@{o o o} G).
@@ -763,7 +763,7 @@ Definition GSet_BG_Monadic_Grp@{o so}
 Definition GSet_BG_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
   (GO : @GroupObject@{so o so} Sets@{o so} Sets_CartesianMonoidal X) :
-  @Monadic@{so so so so so o so so}
+  @Monadic@{so so so so so o so}
     (SetBG@{o so}
        (grp_deloop_monoid@{o o o} (GroupObject_GrpObject X PX GO)))
     Sets@{o so}

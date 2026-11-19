@@ -493,7 +493,7 @@ Qed.
 (* Packaged form: every centre element of `Sets` IS the identity
    transformation, in the hom-setoid of `[Sets, Sets]`. *)
 Corollary centre_Sets_trivial_nat@{o so}
-  (α : Id[Sets@{o so}] ⟹ Id[Sets@{o so}]) : α ≈[Fun] nat_id.
+  (α : Id[Sets@{o so}] ⟹ Id[Sets@{o so}]) : α ≈[Fun@{so o so o so so}] nat_id.
 Proof.
   intros X x.
   simpl.

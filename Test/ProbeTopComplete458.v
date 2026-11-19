@@ -743,8 +743,8 @@ Definition p458_pinit_one_psub@{o +} (X : PTop@{o})
    universes; its mediator IS the [Sets] one at [eq_refl]. *)
 Definition p458_recipe_above@{j o so v v1 w w1 +| o < so, o < j +}
   {J : Category@{j o o}} (T : J ⟶ PTopCat@{o so})
-  (N : Cone (PForget@{o so} ◯ T)) (HN : IsLimitCone@{v v1 j o so} N) :
-  IsLimitCone@{w w1 j o so} (pinit_cone T N) :=
+  (N : Cone (PForget@{o so} ◯ T)) (HN : IsLimitCone@{v j o so} N) :
+  IsLimitCone@{w j o so} (pinit_cone T N) :=
   pinit_cone_limiting T N HN.
 
 Example p458_recipe_med_map@{j o so +| o < so +}

@@ -229,7 +229,10 @@ Definition Continuous (X Y : TopSpace)
 (* A morphism of [Top]: a setoid map on points that is moreover continuous.
    This wraps [SetoidMorphism] exactly as [SetoidMorphism] wraps a bare
    function in Instance/Sets.v. *)
-Record ContinuousMorphism (X Y : TopSpace) := {
+(* The universes are declared, [h] strictly above the level [o] of the
+   spaces as [Continuous] quantifies over their opens: inferred, the record
+   would land at [o+1] with [o] alone. *)
+Record ContinuousMorphism@{h o | o < h} (X Y : TopSpace@{o}) : Type@{h} := {
   continuous_map :> SetoidMorphism (top_carrier X) (top_carrier Y);
   continuity : Continuous X Y continuous_map
 }.
@@ -296,11 +299,12 @@ Qed.
 
 (* The category of topological spaces and continuous maps.  The category
    laws hold pointwise on the map parts, exactly as in [Sets]; the
-   continuity witnesses play no part because the hom-setoid ignores them. *)
-Program Definition Top : Category := {|
-  obj     := TopSpace;
-  hom     := ContinuousMorphism;
-  homset  := @ContinuousMorphism_Setoid;
+   continuity witnesses play no part because the hom-setoid ignores them.
+   Its universes are declared: the homs and their equalities live at [h]. *)
+Program Definition Top@{h o | o < h +} : Category@{h h h} := {|
+  obj     := TopSpace@{o};
+  hom     := ContinuousMorphism@{h o};
+  homset  := @ContinuousMorphism_Setoid@{o h h};
   id      := @top_id;
   compose := @top_compose;
 
@@ -465,7 +469,8 @@ Definition Point_Top : TopSpace := Discrete_Top unit_setoid_object.
 (* Terminality.  The unique map sends everything to the point; its
    continuity is [open_const], since the preimage of any predicate on a
    single point is a CONSTANT predicate upstairs. *)
-Definition top_one (X : TopSpace) : ContinuousMorphism X Point_Top := {|
+Definition top_one@{h o | o < h +} (X : TopSpace@{o}) :
+  ContinuousMorphism@{h o} X Point_Top@{o} := {|
   continuous_map := const_morphism (top_carrier X) (top_carrier Point_Top) ttt;
   continuity := fun U _ => open_const X (U ttt)
 |}.

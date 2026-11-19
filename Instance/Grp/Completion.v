@@ -911,8 +911,10 @@ Check (fun G : GrpObject@{uo uh up} =>
 Check @grp_monoid.
 
 Check @GrpObject@{_ _ _}.
-Fail Check (fun G : GrpObject@{uo uh up} => grp_monoid G).
-Fail Check (fun G : GrpObject@{uo uh up} => Grp_MonSets G).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun G : GrpObject@{uo uh up} => grp_monoid G).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun G : GrpObject@{uo uh up} => Grp_MonSets G).
 
 End CompletionSetPin.
 
@@ -933,6 +935,7 @@ Check (fun (M : obj[MonSets@{uo uh}]) (a b : carrier (mcar M)) =>
          comp_class_op M a b).
 
 Check @MonSets@{_ _}.
-Fail Check (fun M : obj[MonSets@{uo uh}] => completion_insert M).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun M : obj[MonSets@{uo uh}] => completion_insert M).
 
 End CompletionInsertPin.

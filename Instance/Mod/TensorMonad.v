@@ -558,7 +558,7 @@ Defined.
    equivalence is the canonical comparison functor of [zext_adjunction]
    itself (her Definition 5.3.1), not some other equivalence. *)
 Definition RMod_Forget_Ab_Monadic@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o a} (RMod@{o x a p c} R) Ab@{o c}
+  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
     (RMod_Forget_Ab@{x o o a p c} R).
 Proof.
   exists (ZExt@{a c p x o a o c} R).
@@ -567,7 +567,7 @@ Proof.
 Defined.
 
 Definition EM_RMod_iso@{a c p o x k} (R : RingObject@{a c p}) :
-  @Isomorphism Cat@{k o x o c}
+  @Isomorphism Cat@{k o o c}
     (RMod@{o x a p c} R)
     (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
        (TensorMonad@{a c p o x} R)) :=
@@ -899,7 +899,7 @@ Definition RMod_beck_equivalence@{a c p o x} (R : RingObject@{a c p}) :
     (RMod_Forget_Ab_creates_split@{a c p o x} R).
 
 Definition RMod_Forget_Ab_Monadic_beck@{a c p o x} (R : RingObject@{a c p}) :
-  @Monadic@{o x o o o c o a} (RMod@{o x a p c} R) Ab@{o c}
+  @Monadic@{o x o o o c o} (RMod@{o x a p c} R) Ab@{o c}
     (RMod_Forget_Ab@{x o o a p c} R).
 Proof.
   exists (ZExt@{a c p x o a o c} R).
@@ -908,7 +908,7 @@ Proof.
 Defined.
 
 Definition EM_RMod_iso_beck@{a c p o x k} (R : RingObject@{a c p}) :
-  @Isomorphism Cat@{k o x o c}
+  @Isomorphism Cat@{k o o c}
     (RMod@{o x a p c} R)
     (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
        (TensorMonad@{a c p o x} R)) :=

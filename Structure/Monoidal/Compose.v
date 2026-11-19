@@ -39,8 +39,9 @@ Generalizable All Variables.
    unitors and associator are component-wise identity isomorphisms, which is
    why the associator/unitor and coherence obligations still appear below. *)
 
-Program Definition Compose_Monoidal {C : Category} :
-  @Monoidal ([C, C]) := {|
+(* The universes are declared: [m] for the objects and homs of [C, C]. *)
+Program Definition Compose_Monoidal@{m o h | o <= m, h <= m +} {C : Category@{o h h}} :
+  @Monoidal (@Fun@{o h o h m m} C C) := {|
   tensor :=
     {| fobj := fun p => fst p ◯ snd p
      ; fmap := fun F G N =>

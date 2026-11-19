@@ -524,7 +524,7 @@ Context {C : Category@{co ch ch}} (SA : Subcategory@{co ch sa sah} C)
   (SB : Subcategory@{co ch sb ch} C)
   (fullA : Construction.Subcategory.Full@{co ch sa sah fa} C SA)
   (sub : ∀ x : C, sobj C SB x → sobj C SA x)
-  (RB : Reflective@{ra rb rc rd co sb ch} SB).
+  (RB : Reflective@{ra rb rc co sb ch} SB).
 
 Definition restrict_sub : Subcategory (Sub C SA) :=
   @Build_Subcategory (Sub C SA) (fun X => sobj C SB (`1 X))

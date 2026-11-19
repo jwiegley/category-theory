@@ -115,32 +115,38 @@ Check (fun (K K' : C ⟶ Sets) (R : Representable K) (R' : Representable K')
 Check (fun c : C => Hom_Representable c).
 
 (* Negative 1: faithfulness of the Yoneda embedding is not formable here. *)
-Fail Check (Yoneda_Faithful C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Yoneda_Faithful C).
 
 (* Negative 2: neither is fullness... *)
-Fail Check (Yoneda_Full C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Yoneda_Full C).
 
 (* ...and negative 3, therefore neither is the packaged hom-bijection the
    issue suggested routing through. *)
-Fail Check (fun c d : C => Yoneda_Embedding' C c d).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun c d : C => Yoneda_Embedding' C c d).
 
 (* Negative 4: the pin propagates to [repr_pair_iso], which consumes
    [Yoneda_Embedding'] — so it is the DONORS' restriction and not something
    Functor/Hom/Yoneda/Iso.v introduces. *)
-Fail Check (fun (F : C ⟶ Sets) (c v : C)
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (F : C ⟶ Sets) (c v : C)
                 (b1 : [Hom c,─] ≅[Fun] F) (b2 : [Hom v,─] ≅[Fun] F) =>
               repr_pair_iso b1 b2).
 
 (* Negative 5: ...and thence to Functor/Representable/Functorial.v's
    cross-link, whose printed binder does NOT show the identification. *)
-Fail Check (repr_pair_iso_from_is_induced C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (repr_pair_iso_from_is_induced C).
 
 (* Negative 6 is negative 1 one application further in: the projection out of
    the instance is rejected too, for the same reason.  It earns its place by
    pairing with control 7, which inhabits the very same class at this very
    category — so what is rejected is the CONSTANT [Yoneda_Faithful], not the
    claim that [Curried_Hom C] is faithful here. *)
-Fail Check (@fmap_inj _ _ (Curried_Hom C) (Yoneda_Faithful C)).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@fmap_inj _ _ (Curried_Hom C) (Yoneda_Faithful C)).
 
 (* Controls 7 and 8: the same two proof scripts, copied verbatim from
    Functor/Hom.v and run here, succeed.  This is what makes negatives

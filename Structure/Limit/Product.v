@@ -48,12 +48,14 @@ Generalizable All Variables.
    of projections is universal, so every competing family [pi] factors
    uniquely across it.  This mirrors the [IsEqualizer] record of
    [Structure/Equalizer/Fork.v]. *)
-Record IsIndexedProduct {C : Category} {A : Type} (f : A → C)
-  (p : C) (proj : ∀ a : A, p ~> f a) := {
+(* The universes are declared: [a] for the index, [q] for the uniqueness of the
+   mediating arrow, then those of [C]. *)
+Record IsIndexedProduct@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {A : Type@{a}}
+  (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) : Type@{max(a,q,o,h)} := {
   (* universal property: every family [pi] into the [f a] factors uniquely
      through the projections *)
   iprod_desc {c : C} (pi : ∀ a, c ~> f a) :
-    ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a
+    Unique@{h q h} (fun u : c ~> p => ∀ a, proj a ∘ u ≈ pi a)
 }.
 
 Arguments iprod_desc {_ _ _ _ _} _ {_} _.
@@ -125,10 +127,13 @@ Definition limit_is_indexed_product {C : Category} {A : Type} (f : A → C)
    arbitrary index [Type] carries an elementary indexed product.  This is the
    indexed-product analogue of [HasEqualizers] in
    [Structure/Equalizer/Fork.v]. *)
-Class HasIndexedProducts (C : Category) := {
-  indexed_product {A : Type} (f : A → C) : C;
-  indexed_product_proj {A : Type} (f : A → C) (a : A) :
+(* The universes are declared: those of the indices of the three fields, [q]
+   for the uniqueness of the mediating arrows, then those of [C]. *)
+Class HasIndexedProducts@{a a0 a1 q o h | a0 <= a, a1 <= a, a1 <= a0, a1 <= q, h <= q}
+  (C : Category@{o h h}) : Type@{max(a+1,a0+1,a1+1,q,o)} := {
+  indexed_product {A : Type@{a}} (f : A → C) : C;
+  indexed_product_proj {A : Type@{a0}} (f : A → C) (a : A) :
     indexed_product f ~> f a;
-  indexed_product_ump {A : Type} (f : A → C) :
-    IsIndexedProduct f (indexed_product f) (indexed_product_proj f)
+  indexed_product_ump {A : Type@{a1}} (f : A → C) :
+    IsIndexedProduct@{a1 q o h} f (indexed_product f) (indexed_product_proj f)
 }.

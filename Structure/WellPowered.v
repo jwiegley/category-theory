@@ -331,11 +331,14 @@ Generalizable All Variables.
    vocabulary: the dual runs through [C^op], exactly as Quotient.v's
    [quot_wide_meet] does. *)
 
-Record WellPoweredAt {C : Category} (x : C) := {
-  wp_index   : Type;
+(* The universes are declared: [i] for the index, [s] for the subobjects.
+   Inferred, the latter would be the least one. *)
+Record WellPoweredAt@{i o s h | o <= s, h <= s +} {C : Category@{o h h}} (x : C) :
+  Type@{max(i+1,o,h)} := {
+  wp_index   : Type@{i};
   wp_to      : wp_index → SubObj x;
   wp_from    : SubObj x → wp_index;
-  wp_to_from : ∀ u : SubObj x, wp_to (wp_from u) ≈ u
+  wp_to_from : ∀ u : SubObj x, @equiv _ (@SubObj_Setoid@{o h h s} C x) (wp_to (wp_from u)) u
 }.
 
 Arguments wp_index {C x} _.
@@ -397,7 +400,7 @@ End Bijection.
 
 Definition WellPowered@{o h w s t | w <= h, o <= s, h <= s, h < t +}
   (C : Category@{o h h}) :=
-  ∀ x : C, WellPoweredAt@{w o s h t} x.
+  ∀ x : C, WellPoweredAt@{w o s h} x.
 
 Definition CoWellPowered@{o h w s t | w <= h, o <= s, h <= s, h < t +}
   (C : Category@{o h h}) :=
@@ -509,7 +512,7 @@ Definition wp_complete_class_intersection@{o h w s t r so p q +|
     h < t, o <= s, h <= s, so <= r, h <= r, w <= so, p <= so,
     o <= q, h <= q, p <= q +}
   {C : Category@{o h h}} (comp : @Complete@{r so h o} C)
-  {x : C} (W : WellPoweredAt@{w o s h t} x) (P : SubObj x → Type@{p})
+  {x : C} (W : WellPoweredAt@{w o s h} x) (P : SubObj x → Type@{p})
   (HP : ∀ m m' : SubObj x, m ≈ m' → P m → P m') :
   { w : SubObj x &
     IsIntersection@{o h q} (fun k : { m : SubObj x & P m } => `1 k) w }.
@@ -619,7 +622,7 @@ Defined.
    object of every category, one universe too high to be [WellPowered] in
    general; [trivial_small] is the case where it is not too high. *)
 Definition wp_trivial@{o h w s t | o <= w, h <= w, o <= s, h <= s, h < t +}
-  {C : Category@{o h h}} (x : C) : WellPoweredAt@{w o s h t} x :=
+  {C : Category@{o h h}} (x : C) : WellPoweredAt@{w o s h} x :=
   {| wp_index   := SubObj x;
      wp_to      := fun u => u;
      wp_from    := fun u => u;

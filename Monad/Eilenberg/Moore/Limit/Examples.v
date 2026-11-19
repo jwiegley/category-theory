@@ -203,7 +203,7 @@ Definition N1@{j o so} : Cone (EM_Forget IdS@{o so} ◯ K1@{j o so}) :=
     (@Build_ACone _1 Sets Bool2 (EM_Forget IdS ◯ K1) (fun _ => id)
        (fun _ _ _ _ => I)).
 
-Definition N1_limiting@{l l0 j o so} : IsLimitCone@{l l0 j o so} N1@{j o so}.
+Definition N1_limiting@{l l0 j o so} : IsLimitCone@{l j o so} N1@{j o so}.
 Proof.
   intro M.
   unshelve refine (@Build_Unique _ _ _
@@ -242,7 +242,7 @@ Definition em_lift_alg_unique_Sets@{l l0 j o so} (f : bool → bool) :=
 
 Theorem em_lift_not_unique_leibniz@{l l0 j o so} :
   (∀ τ : Cone (EM_Forget IdS@{o so} ◯ K1@{j o so}),
-     IsLimitCone@{l l0 j o so} τ →
+     IsLimitCone@{l j o so} τ →
      ∀ (σ σ' : Cone K1@{j o so})
        (p : EM_Forget IdS (vertex_obj[σ]) = vertex_obj[τ])
        (p' : EM_Forget IdS (vertex_obj[σ']) = vertex_obj[τ]),
@@ -262,7 +262,7 @@ Proof.
 Qed.
 
 Definition lift1_limiting@{l l0 j o so} (f : bool → bool) :
-  IsLimitCone@{l l0 j o so}
+  IsLimitCone@{l j o so}
     (slift_cone (lift1_at@{j o so} (existT _ Bool2 (alg_of f)) eq_refl
                    (leg_id_from f) (fun _ => I))).
 Proof.
@@ -278,14 +278,14 @@ Defined.
 
 Theorem em_limiting_lift_not_unique_leibniz@{l l0 j o so} :
   (∀ τ : Cone (EM_Forget IdS@{o so} ◯ K1@{j o so}),
-     IsLimitCone@{l l0 j o so} τ →
+     IsLimitCone@{l j o so} τ →
      ∀ (σ σ' : Cone K1@{j o so})
        (p : EM_Forget IdS (vertex_obj[σ]) = vertex_obj[τ])
        (p' : EM_Forget IdS (vertex_obj[σ']) = vertex_obj[τ]),
        (∀ x, hom_rew p (fmap[EM_Forget IdS] (cone_leg σ x)) = cone_leg τ x) →
        (∀ x, hom_rew p' (fmap[EM_Forget IdS] (cone_leg σ' x))
                = cone_leg τ x) →
-       IsLimitCone@{l l0 j o so} σ → IsLimitCone@{l l0 j o so} σ' →
+       IsLimitCone@{l j o so} σ → IsLimitCone@{l j o so} σ' →
        vertex_obj[σ] = vertex_obj[σ']) → False.
 Proof.
   intro U.

@@ -212,9 +212,10 @@ Example modal_monad_is_thin@{u h t} (B : Prop) :
         (modal_functor@{u h} B) (modal_ext B) (modal_mult B) := eq_refl.
 
 (* Its algebras are the j-closed propositions, (B → p) → p. *)
-Definition modal_talgebra_iff@{u h +} (B p : Prop) :
-  @TAlgebra Props@{u h} (modal_functor B) (modal_monad B) p
-    ↔ ((B → p) → p) :=
+(* The universe of the equivalence is declared, as [u0]. *)
+Definition modal_talgebra_iff@{u h u0 +} (B p : Prop) :
+  iffT@{h u0} (@TAlgebra Props@{u h} (modal_functor B) (modal_monad B) p)
+    ((B → p) → p) :=
   (fun a => @t_alg Props@{u h} (modal_functor B) (modal_monad B) p a,
    fun h => @Build_TAlgebra Props@{u h} (modal_functor B) (modal_monad B) p
               h I I).
@@ -242,25 +243,25 @@ Qed.
    [Prod_Functor] each carry a level absent from their own types, pinned
    here to e. *)
 Definition curry_functor@{u h e | h < e +}
-  (CL : @Closed@{u h e} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
-  @Compose@{u u u e h} Props@{u h} Props@{u h} Props@{u h}
-    (@Exp_Functor@{u h e e} Props@{u h} _ CL B)
-    (@Prod_Functor@{u h e e} Props@{u h} _ B).
+  @Compose@{u u u h} Props@{u h} Props@{u h} Props@{u h}
+    (@Exp_Functor Props@{u h} _ CL B)
+    (@Prod_Functor Props@{u h} _ B).
 
 Definition curry_cofunctor@{u h e | h < e +}
-  (CL : @Closed@{u h e} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed@{u h} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
-  @Compose@{u u u e h} Props@{u h} Props@{u h} Props@{u h}
-    (@Prod_Functor@{u h e e} Props@{u h} _ B)
-    (@Exp_Functor@{u h e e} Props@{u h} _ CL B).
+  @Compose@{u u u h} Props@{u h} Props@{u h} Props@{u h}
+    (@Prod_Functor Props@{u h} _ B)
+    (@Exp_Functor Props@{u h} _ CL B).
 
 (* The monad of [Curry_Adjunction B].  The adjunction's last level is
    free in its block and is pinned to h. *)
 Definition curry_monad@{u h e | h < e +} (B : Prop) :
   @Monad Props@{u h} (curry_functor@{u h e} Props_Closed B) :=
   @Adjunction_Monad@{u h u h e h} Props@{u h} Props@{u h} _ _
-    (@Curry_Adjunction@{u h e e h} Props@{u h} _ _ B).
+    (@Curry_Adjunction@{u h e} Props@{u h} _ _ B).
 
 (* Its functor is B ⇒ (− ∧ B), on the nose. *)
 Example curry_monad_fobj@{u h e | h < e +} (B p : Prop) :
@@ -310,8 +311,8 @@ Definition curry_modal_closed_iff@{} (B p : Prop) :
    level. *)
 Definition curry_comonad@{u h e | h < e +} (B : Prop) :
   @Comonad Props@{u h} (curry_cofunctor@{u h e} Props_Closed B) :=
-  @Adjunction_Comonad@{u h u h e h h} Props@{u h} Props@{u h} _ _
-    (@Curry_Adjunction@{u h e e h} Props@{u h} _ _ B).
+  @Adjunction_Comonad@{u h u h e} Props@{u h} Props@{u h} _ _
+    (@Curry_Adjunction@{u h e} Props@{u h} _ _ B).
 
 Example curry_comonad_fobj@{u h e | h < e +} (B p : Prop) :
   fobj[curry_cofunctor@{u h e} Props_Closed B] p = ((B → p) /\ B) := eq_refl.

@@ -642,7 +642,7 @@ Proof.
 Defined.
 
 Definition CMon_EM_equivalence@{+} :
-  @EquivalenceOfCategories@{so so so so so o} CMonOS BagAlg CMon_K.
+  @EquivalenceOfCategories@{so so so so o} CMonOS BagAlg CMon_K.
 Proof.
   unshelve refine
     (@Build_EquivalenceOfCategories _ _ CMon_K EM_to_CMon _ _).
@@ -653,16 +653,16 @@ Defined.
 
 (* Commutative monoids are monadic over Set. *)
 Definition CMon_Forget_Monadic@{+} :
-  @Monadic@{so so so so so o so so} CMonOS Sets@{o so} UCMon.
+  @Monadic@{so so so so so o so} CMonOS Sets@{o so} UCMon.
 Proof.
   exists FreeCMon. exists FreeCMon_adj. exact CMon_EM_equivalence.
 Defined.
 
 (* CMon ≅ Set^Bag in Cat, from the two component isomorphisms. *)
-Definition CMon_EM_iso@{c +} : @Isomorphism Cat@{c so so so o} CMonOS BagAlg.
+Definition CMon_EM_iso@{c +} : @Isomorphism Cat@{c so so o} CMonOS BagAlg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} CMonOS BagAlg CMon_K EM_to_CMon
+    (@Build_Isomorphism Cat@{c so so o} CMonOS BagAlg CMon_K EM_to_CMon
        _ _).
   - exists (fun x => CMon_EM_counit_iso x). intros x y f a. reflexivity.
   - exists (fun M => CMon_EM_unit_iso M). intros M N f a. reflexivity.

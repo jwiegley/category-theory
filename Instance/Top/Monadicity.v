@@ -432,7 +432,7 @@ Example PDiscK_alg@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
 
 Definition PDiscK_forget_strict@{o so s u u0 e a b |
   o < so, o < s, o < u, so <= e, o < b, so <= a, o <= a +} :
-  @equiv _ (@Functor_StrictEq_Setoid@{a a so so b o} PTopCat@{o so}
+  @equiv _ (@Functor_StrictEq_Setoid@{a a so so o} PTopCat@{o so}
               Sets@{o so})
     (EM_Forget _ ◯ PDiscK@{o so s u u0 e}) PForget@{o so}.
 Proof.
@@ -455,7 +455,7 @@ Proof. exact (@t_id _ _ _ _ ν x). Qed.
 Definition EM_PDisc_counit@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
   @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u u0}
-    ◯ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
+    ◯ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0}
     ≈ Id[Sets@{o so}].
 Proof.
@@ -469,7 +469,7 @@ Definition EM_PDisc_unit_iso@{o so s u u0 e |
          PDiscMonad@{o so s u u0}) :
   @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
                   PDiscMonad@{o so s u u0})
-    X (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
+    X (fobj[@EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
               PDiscMonad@{o so s u u0}
              ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
                  PDiscMonad@{o so s u u0}] X).
@@ -488,7 +488,7 @@ Defined.
 Definition EM_PDisc_unit@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   Id[@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
        PDiscMonad@{o so s u u0}]
-    ≈ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
+    ≈ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0}
         ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
             PDiscMonad@{o so s u u0}.
@@ -510,7 +510,7 @@ Definition PDiscK_free_iso@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
                   PDiscMonad@{o so s u u0})
     (fobj[PDiscK@{o so s u u0 e}] X)
-    (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
+    (fobj[@EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
             PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X).
 Proof.
   unshelve econstructor;
@@ -523,7 +523,7 @@ Defined.
 
 Definition PDiscK_free@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PDiscK@{o so s u u0 e}
-    ≈ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
+    ≈ @EM_Free@{so o e} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0} ◯ PForget@{o so}.
 Proof.
   exists PDiscK_free_iso.
@@ -645,7 +645,7 @@ Qed.
 
 Lemma PForget_not_Monadic@{o so m m0 m1 m3 m6 |
   o < so, o < m0, so <= m, so <= m1, so <= m3, m1 <= m, m3 <= m +} :
-  Monadic@{m m0 m1 so m3 o so m6} PForget@{o so} → False.
+  Monadic@{m m0 m1 so m3 o so} PForget@{o so} → False.
 Proof.
   intros [F [A E]].
   pose proof (Equivalence_Full E) as HF.

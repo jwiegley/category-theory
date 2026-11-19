@@ -426,7 +426,8 @@ Definition Sets_exponent_elt (I : Type) (X c : obj[Sets])
   (pi : ∀ i : I, c ~{Sets}~> X) (x : c) : Sets_discrete I ~{Sets}~> X.
 Proof.
   unshelve refine {| morphism := fun i => pi i x |}.
-  intros i j Hij; destruct Hij; reflexivity.
+  (* The respectfulness may already be solved by instance resolution *)
+  all: intros i j Hij; destruct Hij; reflexivity.
 Defined.
 
 Program Definition Sets_exponent_tuple (I : Type) (X c : obj[Sets])

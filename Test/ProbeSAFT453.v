@@ -572,7 +572,7 @@ Example p453_left_obj@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (SAFT_wellpowered U comp cont G WP)] d
     = snd (`1 (Subobject.sub_dom
@@ -591,7 +591,7 @@ Example p453_iff_left_obj@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (snd (SAFT_wellpowered_iff U comp G WP) cont)] d
     = snd (`1 (Subobject.sub_dom
@@ -606,14 +606,14 @@ Example p453_iff_left_obj@{o dobj h so c w s t pk pa +|
 
 Check @Category@{_ _ _}.
 Check @Complete@{_ _ _ _}.
-Check @PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @PreservesImageLimit@{_ _ _ _ _ _ _}.
 Check @Cogenerator@{_ _ _}.
 Check @WellPowered@{_ _ _ _ _}.
 Fail Example p453_n1_obj_is_product@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (SAFT_wellpowered U comp cont G WP)] d
     = snd (`1 (cogen_prod (Comma_Complete cont comp)
@@ -624,7 +624,7 @@ Fail Example p453_n2_obj_empty_class@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (SAFT_wellpowered U comp cont G WP)] d
     = snd (`1 (Subobject.sub_dom
@@ -642,7 +642,7 @@ Example p453_thm2_left_obj@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -661,7 +661,7 @@ Example p453_iff_thm2_obj@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -680,7 +680,7 @@ Fail Example p453_n3_thm2_obj_is_product@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -697,7 +697,7 @@ Definition p453_gaft_route@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   GAFT_from_initials U (SAFT_comma_initial U comp cont G WP).
@@ -707,7 +707,7 @@ Definition p453_thm2_gaft_route@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -718,7 +718,7 @@ Fail Example p453_n4_gaft_route_obj@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) (d : D) :
   fobj[`1 (p453_gaft_route U comp cont G WP)] d
     = snd (`1 (Subobject.sub_dom
@@ -735,7 +735,7 @@ Fail Example p453_n5_thm2_gaft_route_obj@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) (d : D) :
@@ -755,7 +755,7 @@ Example p453_cover_is_gaft@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP
     = GAFT U comp cont
@@ -769,7 +769,7 @@ Definition p453_cover_iso@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   projT1 (SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP)
     ≈ projT1 (SAFT_wellpowered U comp cont G WP) :=
@@ -779,7 +779,7 @@ Fail Example p453_n6_routes_convertible@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   projT1 (SAFT_cover_wp U comp cont G WP)
     = projT1 (SAFT_wellpowered U comp cont G WP) :=
@@ -798,7 +798,7 @@ Fail Example p453_n7_same_product@{o dobj h so dp pk pa +|
     h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{so o h} C) :
   snd (`1 (cogen_prod (Comma_Complete cont comp) (comma_cogenerator U d G)))
     = saft_prod@{o dobj h so dp} U comp G d :=
@@ -812,7 +812,7 @@ Definition p453_small@{o dobj h so c w s t pk pa +|
     h < so, so < o, c < so, w < h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_wellpowered U comp cont G WP.
@@ -824,7 +824,7 @@ Definition p453_small_iff@{o dobj h so c w s t pk pa +|
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U }
-    ↔ @PreservesImageLimit@{o h dobj h pk so pa so} C D U :=
+    ↔ @PreservesImageLimit@{o h dobj h pk pa so} C D U :=
   SAFT_wellpowered_iff U comp G WP.
 
 (* CONTROL: [WellPowered]'s [t] and [PreservesImageLimit]'s auxiliary
@@ -833,7 +833,7 @@ Definition p453_t_below_pa@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, t < pa +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_wellpowered U comp cont G WP.
@@ -842,7 +842,7 @@ Definition p453_pa_below_t@{o dobj h so c w s t pk pa +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, pa < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_wellpowered U comp cont G WP.
@@ -850,14 +850,14 @@ Definition p453_pa_below_t@{o dobj h so c w s t pk pa +|
 (* INSTRUMENT: the binder's constraints are enforced.  [Complete@{so so h
    o}] declares [h] at or below its first slot, so this is refused
    whatever the body. *)
-Check @Category.Construction.Comma.Limit.PreservesImageLimit@{_ _ _ _ _ _ _ _}.
+Check @Category.Construction.Comma.Limit.PreservesImageLimit@{_ _ _ _ _ _ _}.
 Check @Category.Adjunction.SAFT.Cogenerator@{_ _ _}.
 Check @Category.Structure.WellPowered.WellPowered@{_ _ _ _ _}.
 Fail Definition p453_n8_shapes_below_homs@{o dobj h so c w s t pk pa +|
     so < h, c < so, w < h, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @Category.Construction.Comma.Limit.PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @Category.Construction.Comma.Limit.PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : @Category.Adjunction.SAFT.Cogenerator@{c o h} C)
   (WP : @Category.Structure.WellPowered.WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
@@ -869,7 +869,7 @@ Definition p453_thm2_small@{o dobj h so c pk pa q r rd pw k +|
     h < so, so < o, c < so, o < q, h < q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -884,7 +884,7 @@ Definition p453_thm2_small_iff@{o dobj h so c pk pa q r rd pw k +|
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C) :
   { F : D ⟶ C & F ⊣ U }
-    ↔ (@PreservesImageLimit@{o h dobj h pk so pa so} C D U
+    ↔ (@PreservesImageLimit@{o h dobj h pk pa so} C D U
        * PreservesWidePullbacks@{o h dobj h pw q r rd} U) :=
   SAFT_iff U comp G HW.
 
@@ -894,7 +894,7 @@ Definition p453_thm2_q_below_r@{o dobj h so c pk pa q r rd pw k +|
     h <= so, c <= so, o <= q, h <= q, q < r, q < rd +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -905,7 +905,7 @@ Fail Definition p453_n9_class_index_small@{o dobj h so c pk pa q r rd pw k +|
     h < so, so < o, c < so, q < o, h < q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r rd} U) :
@@ -918,7 +918,7 @@ Definition p453_thm2_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r <= r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r2 rd} U) :
@@ -929,7 +929,7 @@ Fail Definition p453_n10_thm2_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r2 rd} U) :
@@ -943,7 +943,7 @@ Definition p453_least_index_at_objects@{o dobj h so c pk pa q r k +|
     h < so, so < o, c < so, o <= q, h < q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C) (d : D) :=
   HW (snd (`1 (cogen_prod (Comma_Complete cont comp)
@@ -956,7 +956,7 @@ Fail Definition p453_n26_least_index_small@{o dobj h so c pk pa q r k +|
     h < so, so < o, c < so, q < o, h < q +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C) (d : D) :=
   HW (snd (`1 (cogen_prod (Comma_Complete cont comp)
@@ -971,7 +971,7 @@ Definition p453_thm2_initial_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r <= r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r2 rd} U) (d : D) :
@@ -991,7 +991,7 @@ Fail Definition p453_n27_initial_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pk so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pk pa so} C D U)
   (G : Cogenerator@{c o h} C)
   (HW : HasSubobjectWidePullbacks@{o h q r k} C)
   (HU : PreservesWidePullbacks@{o h dobj h pw q r2 rd} U) (d : D) :
@@ -1028,7 +1028,7 @@ Definition p453_solution_set_up@{o so +| o < so +} (d : Sets@{o so})
    Structure/WellPowered.v's [wp_trivial], indexed at the objects' [so],
    strictly above the homs [o] ... *)
 Definition p453_sets_wp_trivial@{o so +| o < so +} (d : Sets@{o so}) :
-  WellPoweredAt@{so so so o so} d :=
+  WellPoweredAt@{so so so o} d :=
   wp_trivial d.
 
 (* ... and the cover accepts it too. *)
@@ -1080,7 +1080,7 @@ Definition p453_cover_trivial@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= w, h <= w, o <= s, h <= s, h < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) :=
   saft_cover_at U comp cont G d
     (wp_trivial@{o h w s t} (saft_prod U comp G d)).
@@ -1091,7 +1091,7 @@ Definition p453_cover_wp_trivial_small@{o dobj h dp cp s t pl pa +|
     o <= h, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_cover_wp_at U comp cont G (fun d => wp_trivial (saft_prod U comp G d)).
@@ -1100,7 +1100,7 @@ Fail Definition p453_n14_cover_wp_trivial_large@{o dobj h dp cp s t pl pa +|
     h < o, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_cover_wp_at U comp cont G (fun d => wp_trivial (saft_prod U comp G d)).
@@ -1111,7 +1111,7 @@ Definition p453_gaft_trivial_small@{o dobj h dp cp pl pa +|
     o <= h, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) :
   { F : D ⟶ C & F ⊣ U } :=
   GAFT U comp cont
@@ -1122,7 +1122,7 @@ Fail Definition p453_n28_gaft_trivial_large@{o dobj h dp cp pl pa +|
     h < o, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) :
   { F : D ⟶ C & F ⊣ U } :=
   GAFT U comp cont
@@ -1142,7 +1142,7 @@ Definition p453_large_cog@{c o so +| o < so, o < c +} :
 Definition p453_large_cog_abstract@{c o so w s t pk pa +|
     o < so, o < c, w <= o, so <= s, o <= s, o < t +}
   (comp : @Complete@{c c o so} Sets@{o so})
-  (cont : @PreservesImageLimit@{so o so o pk c pa c} Sets@{o so} Sets@{o so}
+  (cont : @PreservesImageLimit@{so o so o pk pa c} Sets@{o so} Sets@{o so}
             (@Id Sets@{o so}))
   (WP : WellPowered@{so o w s t} Sets@{o so}) :
   { F : Sets@{o so} ⟶ Sets@{o so} & F ⊣ @Id Sets@{o so} } :=
@@ -1210,7 +1210,7 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
     h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
            (saft_sub@{o dobj h so dp cp _} U comp G d c h)) :=
@@ -1222,7 +1222,7 @@ Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
     h <= so, h < dp, h < cp, h < pc, pa < pc +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
            (saft_sub U comp G d c h)) :=
@@ -1264,7 +1264,7 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
+                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
 
 Check @Cocomplete@{_ _ _ _}.
 Check @Fun@{_ _ _ _ _ _}.
@@ -1278,7 +1278,7 @@ Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
+                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
 
 (* CONTROL: the representability corollary with [PreservesImageLimit]'s
    auxiliary [pa] strictly below the objects [su] of [Sets@{h su}]. *)
@@ -1286,7 +1286,7 @@ Definition p453_repr_pa_below_su@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K)
+  (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   Representable@{ra rt su o h} K :=
   continuous_Set_functor_representable K comp cont G WP.
@@ -1298,7 +1298,7 @@ Definition p453_repr_iff_pa_le_su@{o h so c w s t su pl pa ra rt +|
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   Representable@{ra rt su o h} K
-    ↔ @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K :=
+    ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
 Check @Representable@{_ _ _ _ _}.
@@ -1308,7 +1308,7 @@ Fail Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   Representable@{ra rt su o h} K
-    ↔ @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K :=
+    ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
 (** ** N22-N24 (UNIVERSE): wide pullbacks of subobjects from completeness *)
@@ -1435,7 +1435,7 @@ Example p453_repr_obj@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h su h pl so pa so} C Sets@{h su} K)
+  (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @repr_obj C K
     (continuous_Set_functor_representable K comp cont G WP
@@ -1449,9 +1449,9 @@ Example p453_cover_index@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d))
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
   projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _}
             U comp cont G d W c h)
@@ -1464,18 +1464,18 @@ Definition p453_cover_t_below_pa@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= s, h <= s, h < t, t < pa +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :=
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
   saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
 
 Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= s, h <= s, h < t, pa < t +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :=
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
   saft_cover_at@{o dobj h so dp cp w s t pl pa _ _} U comp cont G d W.
 
 (* At one tuple at [Id[Sets]] under [Untruncate], the reshaped covering

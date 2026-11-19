@@ -105,9 +105,9 @@ Definition WellPowered_SubobjectIndex@{o h w s t}
 Definition SAFT_of_WellPowered@{cobj dobj h w s t u +}
   {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h cobj} C)
-  (cont : @PreservesImageLimit@{cobj h dobj h _ h u h} C D U)
+  (cont : @PreservesImageLimit@{cobj h dobj h _ u h} C D U)
   (G : Cogenerator C) (W : WellPowered@{cobj h w s t} C)
-  (cover : SubobjectCover@{_ w h u h dobj cobj h} U comp G
+  (cover : SubobjectCover@{_ w h h dobj cobj h} U comp G
              (WellPowered_SubobjectIndex W)) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT U comp cont G (WellPowered_SubobjectIndex W) cover.

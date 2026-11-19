@@ -164,7 +164,8 @@ Check (Sets_copower_one J).
 
 (* Negative 3: the [Program] variant does not -- its index universe was
    pinned to [Set] by the resolved certificate. *)
-Fail Check (probe_copower_one_from_program J).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (probe_copower_one_from_program J).
 
 End ProgramPin.
 

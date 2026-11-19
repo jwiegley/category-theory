@@ -174,8 +174,10 @@ Generalizable All Variables.
    There is deliberately NO decidability field, unlike
    Instance/Ab/Character/Finite.v, and nothing below decides
    membership. *)
-Record Subgroup (G : GrpObject) := {
-  sub_mem : carrier G → Type;
+(* The universes are declared: [s] for the membership, then those of
+   [GrpObject]. *)
+Record Subgroup@{s p c e | c <= p, e <= p} (G : GrpObject@{p c e}) : Type@{max(s+1,c,e)} := {
+  sub_mem : carrier G → Type@{s};
 
   (* (1) ≈-saturation *)
   sub_resp : ∀ a b : carrier G, a ≈ b → sub_mem a → sub_mem b;
@@ -196,8 +198,10 @@ Arguments sub_inv {G} _ _ _.
 
 (* A normal subgroup adds the fifth fact: closure under conjugation.  The
    five laws are exactly the five that Abelianization.v names. *)
-Record NormalSubgroup (G : GrpObject) := {
-  ns_sub :> Subgroup G;
+(* The universes are declared, as those of [Subgroup]. *)
+Record NormalSubgroup@{s p c e | c <= p, e <= p} (G : GrpObject@{p c e}) :
+  Type@{max(s+1,c,e)} := {
+  ns_sub :> Subgroup@{s p c e} G;
 
   (* (5) normality *)
   ns_conj : ∀ t a : carrier G, sub_mem ns_sub a →
@@ -432,8 +436,11 @@ Next Obligation.
   - intros a b c [Hab] [Hbc]; constructor; now apply (quot_rel_trans N a b).
 Qed.
 
-Program Definition QuotientGrp {G : GrpObject} (N : NormalSubgroup G) :
-  GrpObject := {|
+(* The universes are declared: [pq] and [eq] for the compatibility and the
+   equality of the quotient, then those of [NormalSubgroup]. Inferred, the
+   instances would be algebraic. *)
+Program Definition QuotientGrp@{pq eq s p c e | eq <= pq, c <= pq, c <= p, e <= p +}
+  {G : GrpObject@{p c e}} (N : NormalSubgroup@{s p c e} G) : GrpObject@{pq c eq} := {|
   grp_setoid := quot_setoid N;
   grp_unit := grp_unit G;
   grp_mul := grp_mul G;

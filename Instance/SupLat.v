@@ -875,7 +875,7 @@ Defined.
 
 (* Part (d), as an equivalence of categories with identity components. *)
 Definition SupLat_EM_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
+  @EquivalenceOfCategories@{so so so so o} SupLat@{o so}
     (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so})
     SupLat_to_EM@{o so}.
@@ -895,12 +895,12 @@ Defined.
    [Equivalence_to_Cat_Iso] would make [iso_from_to] the [symmetry] of the
    unit, which is Theory/Functor.v's opaque [Functor_Setoid_obligation_1]. *)
 Definition SupLat_EM_iso@{o so c} :
-  @Isomorphism Cat@{c so so so o} SupLat@{o so}
+  @Isomorphism Cat@{c so so o} SupLat@{o so}
     (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so}).
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} SupLat@{o so}
+    (@Build_Isomorphism Cat@{c so so o} SupLat@{o so}
        (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
           Powerset_Monad@{o so})
        SupLat_to_EM@{o so} EM_to_SupLat@{o so} _ _).

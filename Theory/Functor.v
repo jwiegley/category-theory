@@ -145,14 +145,18 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
 
 #[export] Hint Rewrite @fmap_id : categories.
 
-(* Express agreement on objects by isomorphisms rather than by Leibniz
-   equalities, which would require transporting the arrows. Keep the proof
-   opaque: the setoid takes its relation from the lemma's type, so the
-   proof's universe for rewriting need not be a parameter of the setoid.
-   Both categories have the same hom level, as in the original instance. *)
-Lemma functor_equiv_equivalence@{f r co do h}
-  {C : Category@{co h h}} {D : Category@{do h h}} :
-  Equivalence@{f r} (fun F G : C ⟶ D =>
+(* The universes are declared: [u] for the functors and [u0] for their
+   equality, the two categories sharing their homs [h]. Inferred, [u] would be
+   the least one. *)
+#[export]
+Program Instance Functor_Setoid@{u u0 oC oD h | oC <= u, oC <= u0, oD <= u, h <= u, h <= u0 +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} : Setoid@{u u0} (C ⟶ D) := {
+  (* Note that it doesn't make much sense (with our definition of [Category])
+     to ask that [∀ x : C, F x = G x] and
+     [∀ (x y :C) (f : x ~> y), fmap[F] f ≈ fmap[G] f] because the second
+     condition is hard to work with in the type-system since it needs lots of
+     equality proofs. *)
+  equiv := fun F G =>
     (* Equality of objects in a category is taken to be a natural
        isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
@@ -260,8 +264,12 @@ Notation "Id[ C ]" := (@Id C) (at level 0, format "Id[ C ]") : functor_scope.
 
 (* Composition of functors F ◯ G applies G then F on both objects and
    morphisms. It is associative with Id as unit, making Cat a category. *)
-Program Definition Compose {C D E : Category}
-        (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
+(* The universes are declared, the three categories sharing their homs: those
+   of the objects of [E], [C] and [D], and the homs. Inferred, each category
+   would keep its own universe of homs. *)
+Program Definition Compose@{oE oC oD h | +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} {E : Category@{oE h h}}
+  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
   fmap := fun _ _ f => fmap (fmap f)
 |}.
@@ -607,7 +615,9 @@ Proof.
   destruct p. now trivial.
 Defined.
 
-Program Instance Functor_StrictEq_Setoid {C D : Category} : Setoid (C ⟶ D) := {
+(* The universes are declared as those of [Functor_Setoid]. *)
+Program Instance Functor_StrictEq_Setoid@{u u0 oC oD h | oC <= u, oC <= u0, oD <= u, h <= u, h <= u0 +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} : Setoid@{u u0} (C ⟶ D) := {
     equiv := fun F G =>
       { eq_on_obj : ∀ x : C, F x = G x
                   & ∀ (x y : C) (f : x ~> y),

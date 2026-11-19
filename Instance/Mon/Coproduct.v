@@ -309,12 +309,15 @@ Proof. exact (@hom_eta Sets Sets_Product_Monoidal _ _ _ _ _ (`2 f) ttt). Qed.
 
 (** ** Smart constructors *)
 
-Program Definition mk_mon_obj (S : SetoidObject)
+(* The universes are declared, those of [Sets]: [c] for the carriers, [s]
+   above them. *)
+Program Definition mk_mon_obj@{s c | c < s +} (S : SetoidObject@{c c})
         (one : carrier S) (op : carrier S → carrier S → carrier S)
         (opr : Proper (equiv ==> equiv ==> equiv) op)
         (oassoc : ∀ a b c, op (op a b) c ≈ op a (op b c))
         (ol : ∀ a, op one a ≈ a)
-        (orr : ∀ a, op a one ≈ a) : MonS :=
+        (orr : ∀ a, op a one ≈ a) :
+  @obj (@Mon@{s c s} Sets@{c s} Sets_Product_Monoidal@{s c}) :=
   (S : obj[Sets];
    {| mu  := {| morphism := fun p => op (fst p) (snd p) |}
     ; eta := {| morphism        := fun _ => one

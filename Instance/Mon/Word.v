@@ -447,9 +447,9 @@ Section W0Monad.
 Universes o so.
 
 Local Notation MonOS :=
-  (@Mon@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 Local Notation UMonOS :=
-  (@Mon_Forget@{so o so so} Sets@{o so} Sets_Product_Monoidal@{so o}).
+  (@Mon_Forget@{so o so} Sets@{o so} Sets_Product_Monoidal@{so o}).
 
 Definition W0F@{+} : Sets@{o so} ⟶ Sets@{o so} := UMonOS ◯ FreeMonSets.
 
@@ -733,7 +733,7 @@ Defined.
 (* Awodey Example 10.7 and Riehl Example 5.2.6(iii): K is an equivalence,
    with identity components both ways. *)
 Definition Mon_EM_equivalence@{+} :
-  @EquivalenceOfCategories@{so so so so so o} MonOS W0Alg Mon_K.
+  @EquivalenceOfCategories@{so so so so o} MonOS W0Alg Mon_K.
 Proof.
   unshelve refine
     (@Build_EquivalenceOfCategories _ _ Mon_K EM_to_Mon _ _).
@@ -745,7 +745,7 @@ Defined.
 
 (* Monoids are monadic over Set. *)
 Definition Mon_Forget_Monadic@{+} :
-  @Monadic@{so so so so so o so so} MonOS Sets@{o so} UMonOS.
+  @Monadic@{so so so so so o so} MonOS Sets@{o so} UMonOS.
 Proof.
   exists FreeMonSets.
   exists free_mon_sets_adjunction_hom.
@@ -753,10 +753,10 @@ Proof.
 Defined.
 
 (* Mon ≅ Set^{W₀} in Cat, from the two component isomorphisms. *)
-Definition Mon_EM_iso@{c +} : @Isomorphism Cat@{c so so so o} MonOS W0Alg.
+Definition Mon_EM_iso@{c +} : @Isomorphism Cat@{c so so o} MonOS W0Alg.
 Proof.
   unshelve refine
-    (@Build_Isomorphism Cat@{c so so so o} MonOS W0Alg Mon_K EM_to_Mon _ _).
+    (@Build_Isomorphism Cat@{c so so o} MonOS W0Alg Mon_K EM_to_Mon _ _).
   - exists (fun x => Mon_EM_counit_iso x).
     intros x y f a. reflexivity.
   - exists (fun M => Mon_EM_unit_iso M).

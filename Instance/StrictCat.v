@@ -53,12 +53,16 @@ Generalizable All Variables.
    [Cat]. *)
 
 #[export]
-Instance StrictCat : Category := {
-  obj     := Category;
-  hom     := @Functor;
+(* The universes are declared: [u] for the categories, [u0] for the functors
+   and their equalities, [o] and [h] for the objects and homs of the
+   categories. *)
+Instance StrictCat@{u u0 o h | o < u, h < u, o <= u0, h <= u0 +} :
+  Category@{u u0 u0} := {
+  obj     := Category@{o h h};
+  hom     := @Functor@{o h h o h h};
   homset  := @Functor_StrictEq_Setoid;
   id      := @Id;
-  compose := @Compose;
+  compose := @Compose@{o o o h};
 
   compose_respects := @Compose_respects_stricteq;
   id_left          := @fun_strict_equiv_id_left;

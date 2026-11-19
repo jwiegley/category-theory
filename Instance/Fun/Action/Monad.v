@@ -540,7 +540,7 @@ Proof.
 Defined.
 
 Definition MSet_Forget_Monadic_direct@{o so} (M : MonObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (MSet@{so so o o o o o o} M) Sets@{o so}
+  @Monadic@{so so so so so o so} (MSet@{so so o o o o o o} M) Sets@{o so}
     (MSet_Forget@{o so} M).
 Proof.
   exists (MSet_Free@{o so} M).
@@ -551,7 +551,7 @@ Defined.
 (* G-sets ARE the algebras: an isomorphism in Cat whose [to] leg is the
    comparison functor itself. *)
 Definition EM_MSet_iso@{o so c} (M : MonObject@{o o o}) :
-  @Isomorphism Cat@{c so so so o}
+  @Isomorphism Cat@{c so so o}
     (MSet@{so so o o o o o o} M)
     (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
@@ -834,7 +834,7 @@ Definition MSet_beck_equivalence@{o so} (M : MonObject@{o o o}) :
   beck_monadicity (MSet_adj@{o so} M) (MSet_Forget_creates@{o so} M).
 
 Definition MSet_Forget_Monadic@{o so} (M : MonObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (MSet@{so so o o o o o o} M) Sets@{o so}
+  @Monadic@{so so so so so o so} (MSet@{so so o o o o o o} M) Sets@{o so}
     (MSet_Forget@{o so} M).
 Proof.
   exists (MSet_Free@{o so} M).
@@ -850,7 +850,7 @@ Definition MSet_Forget_reflects@{o so} (M : MonObject@{o o o}) :
 (** ** The two routes are equivalences of the same functor *)
 
 Definition EM_MSet_iso_beck@{o so c} (M : MonObject@{o o o}) :
-  @Isomorphism Cat@{c so so so o}
+  @Isomorphism Cat@{c so so o}
     (MSet@{so so o o o o o o} M)
     (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
@@ -914,11 +914,11 @@ Defined.
    the functor category [Deloop M, Sets] is isomorphic in Cat to the
    Eilenberg–Moore category of G × (−). *)
 Definition Fun_EM_iso@{o so c} (M : MonObject@{o o o}) :
-  @Isomorphism Cat@{c so so so o}
+  @Isomorphism Cat@{c so so o}
     ([Deloop@{o o} M, Sets@{o so}])
     (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
-  @iso_compose@{c so so c} Cat@{c so so so o} _ _ _
+  @iso_compose@{c so so c} Cat@{c so so o} _ _ _
     (EM_MSet_iso@{o so c} M) (MSet_Fun_equiv@{so c o} M).
 
 (** ** Groups *)
@@ -930,7 +930,7 @@ Definition GAct_Monad@{o so}
 
 Definition GSet_Forget_Monadic@{o so}
   (G : Category.Construction.Deloop.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (MSet@{so so o o o o o o} G) Sets@{o so}
+  @Monadic@{so so so so so o so} (MSet@{so so o o o o o o} G) Sets@{o so}
     (MSet_Forget@{o so} G) :=
   MSet_Forget_Monadic@{o so} G.
 
@@ -943,7 +943,7 @@ Definition GAct_Monad_Grp@{o so}
 
 Definition GSet_Forget_Monadic_Grp@{o so}
   (G : Category.Instance.Grp.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so}
+  @Monadic@{so so so so so o so}
     (MSet@{so so o o o o o o} (grp_deloop_monoid@{o o o} G)) Sets@{o so}
     (MSet_Forget@{o so} (grp_deloop_monoid@{o o o} G)) :=
   MSet_Forget_Monadic@{o so} (grp_deloop_monoid@{o o o} G).
@@ -961,7 +961,7 @@ Definition GAct_Monad_GroupObject@{o so} (X : Sets@{o so})
 Definition GSet_Forget_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
   (GO : @GroupObject@{so o so} Sets@{o so} Sets_CartesianMonoidal X) :
-  @Monadic@{so so so so so o so so}
+  @Monadic@{so so so so so o so}
     (MSet@{so so o o o o o o}
        (grp_deloop_monoid@{o o o} (GroupObject_GrpObject X PX GO)))
     Sets@{o so}

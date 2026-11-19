@@ -59,16 +59,17 @@ Monomorphic Constraint v < j.
     tensor, so the failures below are not caused by [StrictCat], [_1] or
     [FunnyTensor] at member level [v]. *)
 Definition probe_tensor_ok :=
-  @Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor.
+  @Build_Monoidal StrictCat@{i v v v} _1 FunnyTensor.
 
 (** ** The reproduction: the unitor field is where [Set] is enforced.
 
     Error: The term "Funny_unit_left@{_ v}" has type "1 □ x ≅ x"
     while it is expected to have type "fobj[FunnyTensor@{..}] (1, x) ≅ x"
     (universe inconsistency: Cannot enforce Set = v). *)
-Check @StrictCat@{_ _ _ _ _}.
+Check @StrictCat@{_ _ _ _}.
 Check @Category@{_ _ _}.
-Fail Check (@Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Build_Monoidal StrictCat@{i v v v} _1 FunnyTensor
               (fun x : Category@{v v v} => @Funny_unit_left x)).
 
 (** ** The compiled instance is pinned: it does not transport to level [v].
@@ -77,7 +78,7 @@ Fail Check (@Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor
     while it is expected to have type "Monoidal@{i v}"
     (universe inconsistency: Cannot enforce Set = v). *)
 Check @Funny_Monoidal@{_}.
-Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v j v v}).
+Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v v v}).
 
 (** ** Positive control: [Funny_Monoidal] is a well-formed [Monoidal] at its
     own universe level.  This pins the two [Fail]s above to the specific
@@ -85,4 +86,4 @@ Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v j v v}).
     identifier: the instance exists and type-checks, it simply does not
     transport up to level [v].  Without this control a [Fail] would pass on
     any error at all. *)
-Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i Set j Set Set}).
+Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i Set Set Set}).

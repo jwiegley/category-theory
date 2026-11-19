@@ -117,9 +117,9 @@ Fail Definition A253_no_object_resize@{o uo | uo < o} (A : Type@{o})
    This is the genuine formal counterpart of Mac Lane's remark, and the reason
    Instance/Cat.v can say self-membership is "a universe inconsistency
    caught by the elaborator rather than a paradox to be excluded by axiom". *)
-Check @Cat@{_ _ _ _ _}.
+Check @Cat@{_ _ _ _}.
 Fail Definition B253_cat_self@{a b c d e}
-  : obj[Cat@{a b c d e}] := Cat@{a b c d e}.
+  : obj[Cat@{a b d e}] := Cat@{a b d e}.
 
 (* (ii) FOR [Sets] IT IS NOT A UNIVERSE INCONSISTENCY AT ALL.  [obj[Sets]] is
    [SetoidObject] -- a carrier type paired with a setoid -- whereas [Sets] is a

@@ -224,7 +224,7 @@ Example BG_theta_EM_hom@{o so | o < so +} (M : MonObject@{o o o})
 Definition BG_theta_EM@{o so c | o < so, o < c, so < c +}
   (M : MonObject@{o o o}) :
   @equiv _
-    (@homset Cat@{c so so so o}
+    (@homset Cat@{c so so o}
        (@EilenbergMoore@{so so o} Sets@{o so}
           (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
        (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)

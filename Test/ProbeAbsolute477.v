@@ -340,40 +340,40 @@ Context (Ju : Category@{jo ch ch}) (Cu : Category@{co ch ch})
 
 (* C11: "take F := Id" at the instance whose target is C's own level. *)
 Definition p477_c11_id_instance
-  (A : AbsoluteLimitCone@{jo co ch co _ _ _ _} N) : IsLimitCone N :=
+  (A : AbsoluteLimitCone@{jo co ch co} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone A.
 
 (* R4 *)
-Check @AbsoluteLimitCone@{_ _ _ _ _ _ _ _}.
+Check @AbsoluteLimitCone@{_ _ _ _}.
 Fail Definition p477_r4_id_instance
-  (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N) : IsLimitCone N :=
+  (A : AbsoluteLimitCone@{jo co ch do} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone A.
 
 (* C22: R4's statement is a theorem through the lift ... *)
 Definition p477_c22_up_instance
-  (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N) : IsLimitCone N :=
+  (A : AbsoluteLimitCone@{jo co ch do} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone_up A.
 
 (* C23: ... and through the downward closure to the [Id] instance. *)
 Definition p477_c23_down_instance
-  (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N) : IsLimitCone N :=
+  (A : AbsoluteLimitCone@{jo co ch do} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone (AbsoluteLimitCone_down A).
 
 (* C24: the colimit twins, the lift ... *)
 Definition p477_c24_coup_instance
-  (A : AbsoluteColimitCocone@{jo co ch do _ _ _ _} Nc) :
+  (A : AbsoluteColimitCocone@{jo co ch do} Nc) :
   IsColimitCocone Nc :=
   AbsoluteColimitCocone_IsColimitCocone_up A.
 
 (* C25: ... and the downward closure. *)
 Definition p477_c25_codown_instance
-  (A : AbsoluteColimitCocone@{jo co ch do _ _ _ _} Nc) :
+  (A : AbsoluteColimitCocone@{jo co ch do} Nc) :
   IsColimitCocone Nc :=
   AbsoluteColimitCocone_IsColimitCocone (AbsoluteColimitCocone_down A).
 
 (* C12: preservation keeps the target level free, given the limit. *)
 Definition p477_c12_preserves (HN : IsLimitCone N)
-  (A : AbsoluteLimitCone@{jo co ch do _ _ _ _} N)
+  (A : AbsoluteLimitCone@{jo co ch do} N)
   (D : Category@{do ch ch}) (F : Cu ⟶ D) : PreservesLimitCone Ku F :=
   AbsoluteLimitCone_preserves HN A D F.
 

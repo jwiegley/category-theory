@@ -78,12 +78,17 @@ Generalizable All Variables.
 
 (** A poset over a setoid carrier: a relation that respects [≈], is reflexive
     and transitive, and is antisymmetric UP TO [≈]. *)
-Record PosetObject := {
-  pos_setoid :> SetoidObject;
+(* The universes are declared: [c] and [e] for the carrier and its equality,
+   [f], [p], [b] and [q] for the compatibility of the order with the equality.
+   Inferred, the latter would be the least ones. *)
+Record PosetObject@{c e f p b q | Set < b, c <= f, c <= p, e <= p, b <= f, q <= p} :
+  Type@{max(Set+1,c+1,e+1,p)} := {
+  pos_setoid :> SetoidObject@{c e};
 
   pos_le : carrier pos_setoid → carrier pos_setoid → Prop;
 
-  pos_le_respects : Proper (equiv ==> equiv ==> iff) pos_le;
+  pos_le_respects :
+    Proper@{f p} (respectful@{c e f p} equiv (respectful@{c e b q} equiv iff)) pos_le;
 
   pos_refl    : ∀ x, pos_le x x;
   pos_trans   : ∀ x y z, pos_le x y → pos_le y z → pos_le x z;
@@ -147,8 +152,12 @@ Qed.
 
 (** ** The category *)
 
-Program Definition Pos : Category := {|
-  obj     := PosetObject;
+(* The universes are declared: [u] for the posets, [c] for their carriers and
+   the monotone maps, the others those of [PosetObject]. Inferred, [u] would be
+   the least one. *)
+Program Definition Pos@{u f p b q c | Set < u, Set < b, c < u, p <= u, b <= f, q <= p,
+    c <= f, c <= p +} : Category@{u c c} := {|
+  obj     := PosetObject@{c c f p b q};
   hom     := MonoHom;
   homset  := @MonoHom_Setoid;
   id      := @mono_hom_id;

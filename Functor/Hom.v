@@ -143,7 +143,11 @@ Next Obligation. now rewrite <- ! comp_assoc. Qed.
    presheaf Hom(-, c) : C^op ⟶ Sets, obtained as the covariant Curried_Hom on
    C^op. This is the contravariant Yoneda embedding C ⟶ [C^op, Sets] used to
    present presheaves. *)
-Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] :=
+(* The universes are declared: [u] and [u0] for the presheaves, [s] for the
+   objects of [Sets], then those of [C]. Inferred, those of the presheaves
+   would be the least ones. *)
+Definition Curried_CoHom@{u u0 s o h | h < s, s <= u, o <= u, o <= u0, h <= u0 +}
+  (C : Category@{o h h}) : C ⟶ @Fun@{o h s h u u0} (C^op) Sets@{h s} :=
   Curried_Hom C^op.
 
 Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.

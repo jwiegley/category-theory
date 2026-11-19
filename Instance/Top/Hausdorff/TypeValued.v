@@ -471,14 +471,14 @@ Theorem GAFT_TopHaus_vacuous@{e h o u u0 u1 u2 u3 u4 u6 +| o < h, h < u1,
     h < u6, u2 < u, u3 < u, u2 <= o, u3 <= o, o <= u, u <= u4, h <= u4,
     u0 <= h, u4 <= u6 +} (E : IEM@{e})
   (comp : @Complete@{h h h u4}
-            (Sub@{h h u u0 u4 h u1} Top@{h o}
+            (Sub@{h h u u0 u4 h} Top@{h o}
                Hausdorff_Subcategory@{h u0 o u u2 u3}))
-  (cont : @PreservesImageLimit@{u4 h h h u6 h u1 h} _ _
-            (Incl@{h h u u0 u4 u1} Top@{h o}
+  (cont : @PreservesImageLimit@{u4 h h h u6 u1 h} _ _
+            (Incl@{h h u u0 u4} Top@{h o}
                Hausdorff_Subcategory@{h u0 o u u2 u3}))
   (sols : ∀ X : Top@{h o},
       SolutionSet@{h h u4 h}
-        (Incl@{h h u u0 u4 u1} Top@{h o}
+        (Incl@{h h u u0 u4} Top@{h o}
            Hausdorff_Subcategory@{h u0 o u u2 u3}) X) :
   False.
 Proof.

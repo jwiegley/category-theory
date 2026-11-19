@@ -182,7 +182,7 @@ Definition closed_galois@{u} {A : Type@{u}} {R : relation A}
 (* t ⊣ i. *)
 Definition closed_adj@{u h s a | h < s +} {A : Type@{u}}
   {R : relation A} {P : PreOrder R} (c : ClosureOperator@{u} P) :=
-  GaloisAdjunction@{u u s a h} P (closed_PreOrder c) (closed_galois c).
+  GaloisAdjunction@{u u s a} P (closed_PreOrder c) (closed_galois c).
 
 (** ** T = i ∘ t, and the induced monad is T *)
 

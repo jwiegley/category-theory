@@ -171,7 +171,8 @@ Check (TwoFun : @Functor Omega@{p392o p392h p392p} FinSet).
 
 (* Negative 1. *)
 Check @Omega@{_ _ _}.
-Fail Check (TwoFunUnann : @Functor Omega@{p392o p392h p392p} FinSet).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (TwoFunUnann : @Functor Omega@{p392o p392h p392p} FinSet).
 
 End P392Binders.
 
@@ -192,7 +193,8 @@ Check (_2^op).
    source and target hom universes, and [Sets]'s hom universe IS its
    carrier universe. *)
 Check @Sets@{_ _}.
-Fail Check ([_2^op, Sets@{p392co p392so}]).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check ([_2^op, Sets@{p392co p392so}]).
 
 (* Discriminating control: with the polymorphic [Omega] in place of
    [_2^op] the same [Sets] instance IS admissible, so [_2] is a

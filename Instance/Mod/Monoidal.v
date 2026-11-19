@@ -1335,9 +1335,11 @@ Check (@ModUnitRight Ru).
 Check (@ModAssoc Ru).
 
 (* The assembly, and the symmetric structure that contains it. *)
-Fail Check (@ModMonoidal Ru).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@ModMonoidal Ru).
 
-Fail Check (@ModSymmetric Ru).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@ModSymmetric Ru).
 
 (* Controls, sharpest form: the very same two constants, applied at ℤ, whose
    three [RingObject] universes may be identified.  So the rejection above is

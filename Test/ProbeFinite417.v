@@ -245,15 +245,18 @@ Section UnivPin.
   Check (FC Parallel Parallel_FiniteCategory DP).
 
   (* N7 UNIVERSE: the bare clone pins the ambient at [Set]. *)
-  Fail Check (EmptyDiagram_bare Cu).
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Check (EmptyDiagram_bare Cu).
 
   (* N8 UNIVERSE: [_2] is a [Category@{u Set Set}], so a limit over it — and
      hence [FC] at it — is refused at this ambient, though the diagram
      itself is accepted. *)
   Context (D2 : _2 ⟶ Cu).
   Check D2.
-  Fail Check (Limit D2).
-  Fail Check (FC _2 Two_FiniteCategory D2).
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Check (Limit D2).
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Check (FC _2 Two_FiniteCategory D2).
 End UnivPin.
 
 Section HomProof.

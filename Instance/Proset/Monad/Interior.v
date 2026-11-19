@@ -551,7 +551,7 @@ Definition adj_interior@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   (Adj : @Adjunction@{b a h s w} _ _ F U) :
   InteriorOperator@{b} PB :=
   interior_of_comonad (F ◯ U)
-    (H := Adjunction_Comonad@{b h a h s h w} Adj).
+    (H := Adjunction_Comonad@{b h a h s} Adj).
 
 Example adj_closure_fun@{a b h s w | h < s +} {A : Type@{a}}
   {B : Type@{b}} {RA : relation A} {RB : relation B} {PA : PreOrder RA}
@@ -569,22 +569,22 @@ Example adj_interior_fun@{a b h s w | h < s +} {A : Type@{a}}
 
 (* At Galois.v's truncated shift (n - k ⊣ m + k) on (ℕ, ≤). *)
 Example shift_closure_fun@{n h s w | h < s +} (k m : nat) :
-  cl_fun (adj_closure@{n n h s w} (nat_shift_adjunction@{n n s w h} k)) m
+  cl_fun (adj_closure@{n n h s w} (nat_shift_adjunction@{n n s h} k)) m
     = ((m - k) + k)%nat := eq_refl.
 
 Example shift_interior_fun@{n h s w | h < s +} (k m : nat) :
-  cl_fun (adj_interior@{n n h s w} (nat_shift_adjunction@{n n s w h} k)) m
+  cl_fun (adj_interior@{n n h s w} (nat_shift_adjunction@{n n s h} k)) m
     = ((m + k) - k)%nat := eq_refl.
 
 (* The closure is Instance/Proset/Monad.v's [max_closure k]... *)
 Lemma shift_closure_is_max@{n h s w | h < s +} (k m : nat) :
-  cl_fun (adj_closure@{n n h s w} (nat_shift_adjunction@{n n s w h} k)) m
+  cl_fun (adj_closure@{n n h s w} (nat_shift_adjunction@{n n s h} k)) m
     = cl_fun (max_closure@{n} k) m.
 Proof. simpl. lia. Qed.
 
 (* ...and the interior is the identity: a degenerate witness. *)
 Lemma shift_interior_is_id@{n h s w | h < s +} (k m : nat) :
-  cl_fun (adj_interior@{n n h s w} (nat_shift_adjunction@{n n s w h} k)) m
+  cl_fun (adj_interior@{n n h s w} (nat_shift_adjunction@{n n s h} k)) m
     = m.
 Proof. simpl. lia. Qed.
 

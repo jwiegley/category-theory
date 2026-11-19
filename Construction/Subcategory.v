@@ -7,7 +7,11 @@ Generalizable All Variables.
 
 Section Subcategory.
 
-Context (C : Category).
+(* The universes are named, to declare those of the constructions below: the
+   objects and homs of [C], then the predicates of [S]. *)
+Universe o h.
+
+Context (C : Category@{o h h}).
 
 (** A subcategory D of a category C. *)
 
@@ -49,10 +53,16 @@ Record Subcategory := {
   sid {x : C} (ox : sobj x) : shom ox ox (@id C x)
 }.
 
-Variable S : Subcategory.
+Universe so sh.
+
+Variable S : Subcategory@{so sh}.
 
 (* These conditions ensure that D is a category in its own right... *)
-Program Definition Sub : Category := {|
+(* The universes are declared: those of the objects and homs of the
+   subcategory, above those of [C] and of the predicates of [S]. Inferred,
+   they would be the least ones, [max(o, so)] and [max(h, sh)]. *)
+Program Definition Sub@{oS hS | o <= oS, so <= oS, h <= hS, sh <= hS +} :
+  Category@{oS hS hS} := {|
   obj     := { x : C & sobj S x };
   hom     := fun x y => { f : `1 x ~> `1 y & shom S `2 x `2 y f };
   homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};
@@ -61,7 +71,8 @@ Program Definition Sub : Category := {|
 |}.
 
 (* ... and the inclusion D ⟶ C is a functor. *)
-Program Instance Incl : Sub ⟶ C := {
+Program Instance Incl@{oS | o <= oS, so <= oS, sh <= h +} :
+  Sub@{oS h} ⟶ C := {
   fobj := fun x => `1 x;
   fmap := fun x y f => `1 f
 }.
@@ -96,7 +107,7 @@ Qed.
    A full subcategory if for any x and y in D, every morphism f : x → y in C
    is also in D... *)
 
-Definition Full : Type :=
+Definition Full@{w | +} : Type@{w} :=
   ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f.
 
 (* ... (that is, the inclusion functor D ⟶ C is full) *)
@@ -166,7 +177,7 @@ Qed.
    argument: Theory/Sheaf/Category.v and Construction/Subcategory/Finite.v
    are both of that shape, and the latter discharges it. *)
 
-Definition ShomRespects : Type :=
+Definition ShomRespects@{w | +} : Type@{w} :=
   ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f g : x ~> y),
     f ≈ g → shom S ox oy f → shom S ox oy g.
 
@@ -191,13 +202,13 @@ Qed.
 (* A replete subcategory if for any x in D and any isomorphism f : x ≅ y in C,
    both y and f are also in D. *)
 
-Definition Replete : Type :=
+Definition Replete@{w | +} : Type@{w} :=
   ∀ (x : C) (ox : sobj S x) (y : C) (f : x ≅ y),
     { oy : sobj S y & shom S ox oy (to f) ∧ shom S oy ox (from f) }.
 
 (* A wide subcategory if every object of C is also an object of D. *)
 
-Definition Wide : Type := ∀ x : C, sobj S x.
+Definition Wide@{w | +} : Type@{w} := ∀ x : C, sobj S x.
 
 End Subcategory.
 

@@ -493,7 +493,7 @@ Context (contK : ContinuousFunctor K).
 Definition ew_Idx : Type@{c} := carrier (K Gen).
 
 Definition ew_CopD : DiscreteCat@{c c c} ew_Idx ⟶ RMod@{o x a p c} R :=
-  DiscreteCat_Functor@{c c c o c c w} (fun _ => Gen).
+  DiscreteCat_Functor@{c c c o c c} (fun _ => Gen).
 
 Definition ew_CC : @Cocomplete@{c c c o} (RMod@{o x a p c} R) :=
   RMod_Cocomplete_via_GAFT@{a c p o x c w0 w1} R.

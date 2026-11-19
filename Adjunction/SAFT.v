@@ -240,8 +240,10 @@ Generalizable All Variables.
    as soon as they agree after every arrow [k : y ~> cog_obj j] into a member of
    the family.  Equivalently the representables [C(-, cog_obj j)] are jointly
    faithful, proved both ways in Structure/Generator/Dual.v (issue #447). *)
-Record Cogenerator {C : Category} := {
-  cog_index : Type;
+(* The universes are declared, the one of the index first, as in the uses of
+   [Cogenerator@{...}]. *)
+Record Cogenerator@{i o h} {C : Category@{o h h}} : Type@{max(i+1,o,h)} := {
+  cog_index : Type@{i};
   cog_obj : cog_index -> C;
   cog_separates : forall (x y : C) (f g : x ~> y),
     (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g
@@ -266,8 +268,10 @@ Arguments cog_separates {C} _ {x y} f g _.
    well-poweredness, which is Structure/WellPowered.v's [WellPowered]; the
    bridge [WellPowered_SubobjectIndex] (Adjunction/SAFT/WellPowered.v) goes
    one way only. *)
-Record SubobjectIndex {C : Category} (x : C) := {
-  sub_index : Type;
+(* The universes are declared, the one of the index first, as in the uses of
+   [SubobjectIndex@{...}]. *)
+Record SubobjectIndex@{i o h} {C : Category@{o h h}} (x : C) : Type@{max(i+1,o,h)} := {
+  sub_index : Type@{i};
   sub_dom : sub_index -> C;
   sub_mono : forall i, sub_dom i ~> x;
   sub_monic : forall i, Monic (sub_mono i)
@@ -328,8 +332,10 @@ Qed.
 Definition cogen_prod_limit {C : Category} (comp : @Complete C)
   (G : Cogenerator C) := comp _ (DiscreteCat_Functor (cog_obj G)).
 
-Definition cogen_prod {C : Category} (comp : @Complete C)
-  (G : Cogenerator C) : C :=
+(* The universes are declared: [i] for the index of the cogenerator, [r] for
+   the limits of [C]. Inferred, [r] would be the least one. *)
+Definition cogen_prod@{i r o h | i <= r, h <= r +} {C : Category@{o h h}}
+  (comp : @Complete@{r i h o} C) (G : Cogenerator@{i o h} C) : C :=
   iprod (cog_obj G) (cogen_prod_limit comp G).
 
 (** ** The canonical map into a power of the cogenerating family *)
@@ -368,8 +374,10 @@ Definition cogen_power_limit {C : Category} (comp : @Complete C)
   (G : Cogenerator C) (c : C) :=
   comp _ (DiscreteCat_Functor (cogen_power_fam G c)).
 
-Definition cogen_power {C : Category} (comp : @Complete C)
-  (G : Cogenerator C) (c : C) : C :=
+(* The universes are declared: [r] for the limits of [C], [i] for the index of
+   the cogenerator. Inferred, [r] would be the least one. *)
+Definition cogen_power@{r o h i | h <= r, i <= r +} {C : Category@{o h h}}
+  (comp : @Complete@{r r h o} C) (G : Cogenerator@{i o h} C) (c : C) : C :=
   iprod (cogen_power_fam G c) (cogen_power_limit comp G c).
 
 (* The family of legs [c ~> cog_obj G j] whose [(j, k)]-component is [k]. *)
@@ -427,9 +435,14 @@ Qed.
    [SubobjectCover_Id_retract] below is the first step of that refutation).
    "A well-powered subobject" is a subobject named by the index [WP], which
    need not be well-powered ([SubobjectIndex]'s correction above). *)
-Definition SubobjectCover {C D : Category} (U : C ⟶ D)
-  (comp : @Complete C) (G : Cogenerator C)
-  (WP : forall x : C, SubobjectIndex x) : Type :=
+(* The universes are declared: [s] for the proposition, [si] and [cg] for the
+   indices of the subobjects and of the cogenerator, [r] for the limits of
+   [C]. Inferred, [s] and [r] would be the least ones. *)
+Definition SubobjectCover@{s si cg r oD oC h |
+    si <= s, cg <= r, oD <= s, oC <= s, h <= s, h <= r +}
+  {C : Category@{oC h h}} {D : Category@{oD h h}} (U : C ⟶ D)
+  (comp : @Complete@{r cg h oC} C) (G : Cogenerator@{cg oC h} C)
+  (WP : forall x : C, SubobjectIndex@{si oC h} x) : Type@{s} :=
   forall (d : D) (c : C) (h : d ~> U c),
     { i : sub_index (WP (cogen_prod comp G)) &
       { s : d ~> U (sub_dom (WP (cogen_prod comp G)) i) &

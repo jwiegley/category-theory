@@ -805,7 +805,8 @@ Section Pi0Restriction.
   Check (pi0 C).
   Check (fun F : C ⟶ D => pi0_fmap F).
 
-  Fail Check (fun (F G : C ⟶ D) => @pi0_fmap_respects C D F G).
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Check (fun (F G : C ⟶ D) => @pi0_fmap_respects C D F G).
   Fail Check (fobj[Pi0] C).
 End Pi0Restriction.
 

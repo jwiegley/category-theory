@@ -480,21 +480,28 @@ End EMReflects.
 
 Section EMStrictlyCreates.
 
-Context {D : Category}.
+(* The universes are named, to declare the one of the limit below *)
+Universe o h jo jh eo.
+
+Context {D : Category@{o h h}}.
 Context (T : D ⟶ D).
 Context `{H : @Monad D T}.
-Context {J : Category}.
-Context (K : J ⟶ EilenbergMoore T).
+Context {J : Category@{jo jh jh}}.
+Context (K : J ⟶ EilenbergMoore@{eo o h} T).
 
-Definition em_strict_lift (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone N) :
+(* The universe [l] of the limit is declared: inferred, it would be the least
+   one. *)
+Definition em_strict_lift@{l | +} (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l jo h o} N) :
   StrictLift K (EM_Forget T) N :=
   @Build_StrictLift J (EilenbergMoore T) D K (EM_Forget T) N
     (em_cone T K (@Build_Limit J D (EM_Forget T ◯ K) N HN))
     eq_refl
     (fun x => reflexivity _).
 
-Definition em_forget_StrictlyCreatesLimit :
-  StrictlyCreatesLimit K (EM_Forget T).
+(* The universes [lC] and [lD] of the limits are declared, as in the uses of
+   [em_forget_StrictlyCreatesLimit@{...}]. *)
+Definition em_forget_StrictlyCreatesLimit@{lC lD | +} :
+  StrictlyCreatesLimit@{lD o lC jo h eo} K (EM_Forget T).
 Proof.
   unshelve refine {| screates := em_strict_lift |}.
   - intros N HN.
@@ -506,7 +513,10 @@ Proof.
                 (fun j => reflexivity _))).
 Defined.
 
-Definition em_forget_CreatesLimit : CreatesLimit K (EM_Forget T) :=
+(* The universes [lD], [lC] and [ci] are declared, as in the uses of
+   [em_forget_CreatesLimit@{...}]. *)
+Definition em_forget_CreatesLimit@{lD lC ci | +} :
+  CreatesLimit@{lD o lC ci jo h eo} K (EM_Forget T) :=
   StrictlyCreatesLimit_CreatesLimit em_forget_StrictlyCreatesLimit.
 
 End EMStrictlyCreates.
@@ -533,9 +543,9 @@ End EMStrictlyCreates.
 Definition em_lift_alg_unique@{o h jo eo e l l0} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
   (K : J ⟶ EilenbergMoore@{eo o h} T)
-  (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N)
-  (s : StrictLift@{e eo jo h o} K (EM_Forget T) N) :
-  { i : vertex_obj[slift_cone s] ≅[EilenbergMoore T]
+  (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l jo h o} N)
+  (s : StrictLift@{eo jo h o} K (EM_Forget T) N) :
+  { i : vertex_obj[slift_cone s] ≅[EilenbergMoore@{eo o h} T]
           em_apex T K (@Build_Limit J D (EM_Forget T ◯ K) N HN)
   & t_alg_hom[to i] ≈ to (slift_iso s) }.
 Proof.

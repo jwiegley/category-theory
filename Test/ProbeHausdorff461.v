@@ -567,7 +567,7 @@ Definition p461_not_complete_above@{e h o u u0 u1 u2 u3 u4 +| o < h,
     h < u1, u2 < u, u3 < u, u2 <= o, u3 <= o, u0 <= h, o <= u, h < u4,
     u <= u4 +} (E : IEM@{e})
   (comp : @Complete@{h h h u4}
-            (Sub@{h h u u0 u4 h u1} Top@{h o}
+            (Sub@{h h u u0 u4 h} Top@{h o}
                Hausdorff_Subcategory@{h u0 o u u2 u3})) : False :=
   TopHaus_not_complete_below_IEM E comp.
 

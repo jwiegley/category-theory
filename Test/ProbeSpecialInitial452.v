@@ -527,7 +527,7 @@ Fail Definition p452_n8_freyd_above@{o h so +| h < so +} {C : Category@{o h h}}
 Definition p452_wif_low@{o h w s t d +| w < h, h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{w o s h t} (cogen_prod@{h d h o h} comp G)) :
+  (W : WellPoweredAt@{w o s h} (cogen_prod@{h h o h} comp G)) :
   WeaklyInitialFamily C :=
   wif_of_cogenerator comp G W.
 
@@ -536,18 +536,18 @@ Definition p452_wif_low@{o h w s t d +| w < h, h < t, h < d, o <= s, h <= s +}
 Definition p452_freyd_wif_at_h@{o h s t d +| h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{h o s h t} (cogen_prod@{h d h o h} comp G)) :
+  (W : WellPoweredAt@{h o s h} (cogen_prod@{h h o h} comp G)) :
   @Initial C :=
   initial_from_weakly_initial_complete comp (Complete_HasEqualizers comp)
     (wif_of_cogenerator comp G W).
 
-Check @WellPoweredAt@{_ _ _ _ _}.
-Check @cogen_prod@{_ _ _ _ _}.
+Check @WellPoweredAt@{_ _ _ _}.
+Check @cogen_prod@{_ _ _ _}.
 Fail Definition p452_n9_freyd_wif_low@{o h w s t d +|
     w < h, h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)
   (G : Cogenerator@{h o h} C)
-  (W : WellPoweredAt@{w o s h t} (cogen_prod@{h d h o h} comp G)) :
+  (W : WellPoweredAt@{w o s h} (cogen_prod@{h h o h} comp G)) :
   @Initial C :=
   initial_from_weakly_initial_complete comp (Complete_HasEqualizers comp)
     (wif_of_cogenerator comp G W).

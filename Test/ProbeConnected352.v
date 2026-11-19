@@ -132,15 +132,15 @@ Context {C : Category@{o hc hc}} {D : Category@{o hd hd}} (F : C ⟶ D).
      The term "@zigzag_fmap C D F" has type
       "∀ x y : obj[C], ZigZag x y → ZigZag (fobj[F] x) (fobj[F] y)"
      while it is expected to have type "Proper (equiv ==> equiv) fobj[F]". *)
-Check @pi0@{_ _ _ _}.
+Check @pi0@{_ _ _}.
 Check @Sets@{_ _}.
 Fail Definition probe_proper_as_field :
-  pi0@{o o o hc} C ~{Sets@{o so}}~> pi0@{o o o hd} D :=
+  pi0@{o o hc} C ~{Sets@{o so}}~> pi0@{o o hd} D :=
   {| morphism := fobj[F]; proper_morphism := @zigzag_fmap C D F |}.
 
 (* CONTROL 3a: the LITERAL rejected term, supplied by a one-step script. *)
 Definition probe_proper_literal :
-  pi0@{o o o hc} C ~{Sets@{o so}}~> pi0@{o o o hd} D.
+  pi0@{o o hc} C ~{Sets@{o so}}~> pi0@{o o hd} D.
 Proof using C D F.
   unshelve refine {| morphism := fobj[F] |}.
   exact (@zigzag_fmap C D F).
@@ -148,7 +148,7 @@ Defined.
 
 (* CONTROL 3b: the eta-expanded form the shipped [pi0_fmap] stores. *)
 Definition probe_proper_by_script :
-  pi0@{o o o hc} C ~{Sets@{o so}}~> pi0@{o o o hd} D.
+  pi0@{o o hc} C ~{Sets@{o so}}~> pi0@{o o hd} D.
 Proof using C D F.
   unshelve refine {| morphism := fobj[F] |}.
   intros x y s; exact (zigzag_fmap F s).
@@ -253,7 +253,8 @@ Check (pi0_proj Cv).
    the expected type shows ALL THREE of C's universes identified.  (Elided
    here as in negative 5: the generated names vary per compilation and are
    not quotable.) *)
-Fail Check (probe_pi0_proj_unann Cv).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (probe_pi0_proj_unann Cv).
 
 End FormabilityObj.
 

@@ -317,7 +317,7 @@ Definition mh_EM_forget_strict@{o h e s a b |
   h < s, o <= e, h <= e, o <= a, h <= a, e <= a, h <= b, e <= b +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @equiv _ (@Functor_StrictEq_Setoid@{a b e o s h} _ C)
+  @equiv _ (@Functor_StrictEq_Setoid@{a b e o h} _ C)
     (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
     (@EM_Forget@{o h e} C T' M').
 Proof.
@@ -333,9 +333,9 @@ Defined.
 Definition mh_free_component@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  fobj[@EM_Free@{o h e s} C T M] x
+  fobj[@EM_Free@{o h e} C T M] x
     ~{ @EilenbergMoore@{e o h} C T M }~>
-  fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x.
+  fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T' M'] x.
 Proof.
   unshelve refine (@Build_TAlgebraHom C T M (T x) (T' x) _ _
                      (mh_transform θ x) _).
@@ -346,8 +346,8 @@ Defined.
 Definition mh_EM_free@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @EM_Free@{o h e s} C T M
-    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'.
+  @EM_Free@{o h e} C T M
+    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T' M'.
 Proof.
   unshelve refine (Build_Transform' (mh_free_component θ) _).
   intros x y f. simpl.
@@ -367,8 +367,8 @@ Example mh_EM_free_forget@{o h e s | h < s, o <= e, h <= e +}
 Lemma mh_EM_free_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  t_alg_hom[@EM_extend@{o h e s} C T M x
-                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x)
+  t_alg_hom[@EM_extend@{o h e} C T M x
+                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e} C T' M'] x)
                  (@ret C T' M' x)]
     ≈ mh_transform θ x.
 Proof.
@@ -485,10 +485,10 @@ Example mh_EM_compose_iso_id@{o h e s | h < s, o <= e, h <= e +}
 Definition Monads_EM@{o h m1 m2 e s u |
   h < s, h < u, e < u, o <= m1, h <= m1, o <= m2, h <= m2, m2 <= e,
   o <= e, h <= e +} (C : Category@{o h h}) :
-  (Monads@{o h m1 m2} C)^op ⟶ Cat@{u e s e h}.
+  (Monads@{o h m1 m2} C)^op ⟶ Cat@{u e e h}.
 Proof.
   unshelve refine
-    (@Build_Functor ((Monads@{o h m1 m2} C)^op) Cat@{u e s e h}
+    (@Build_Functor ((Monads@{o h m1 m2} C)^op) Cat@{u e e h}
        (fun N : { T : C ⟶ C & @Monad C T } =>
           @EilenbergMoore@{e o h} C (projT1 N) (projT2 N))
        (fun N N' (θ : MonadHom@{o h} (projT2 N') (projT2 N)) =>

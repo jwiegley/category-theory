@@ -182,7 +182,8 @@ Proof.
        poly_unit@{so} unit_setoid@{so so}
        Type@{o} (is_setoid PropSetoid@{o so})
        (λ _, poly_unit@{o}) _).
-  intros ? ? ?; split; intros ?; exact ttt.
+  (* The respectfulness may already be solved by instance resolution *)
+  all: intros ? ? ?; split; intros ?; exact ttt.
 Defined.
 
 (* The terminal map: every setoid maps to the singleton. *)
@@ -419,10 +420,10 @@ Definition sets_all_true@{o so sso} (X : SetoidObject@{so so}) :
 
 Theorem lifted_epic_implies_epic@{o so sso} {A B : SetoidObject@{o o}}
   (h : A ~{Sets@{o so}}~> B)
-  (H : @Epic@{sso so so} Sets@{so sso}
+  (H : @Epic@{sso so} Sets@{so sso}
          (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
          (SetoidMorphism_Lift@{o so} h)) :
-  @Epic@{so o o} Sets@{o so} A B h.
+  @Epic@{so o} Sets@{o so} A B h.
 Proof.
   apply (surjective_implies_epic@{so o} h).
   intro b.
@@ -441,8 +442,8 @@ Proof.
 Qed.
 
 Theorem epic_implies_lifted_epic@{o so sso} {A B : SetoidObject@{o o}}
-  (h : A ~{Sets@{o so}}~> B) (H : @Epic@{so o o} Sets@{o so} A B h) :
-  @Epic@{sso so so} Sets@{so sso}
+  (h : A ~{Sets@{o so}}~> B) (H : @Epic@{so o} Sets@{o so} A B h) :
+  @Epic@{sso so} Sets@{so sso}
     (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
     (SetoidMorphism_Lift@{o so} h).
 Proof.

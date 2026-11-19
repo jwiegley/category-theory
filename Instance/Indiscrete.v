@@ -504,7 +504,7 @@ Defined.
    strictly above homs.  The trailing [+] allows the universes
    [Program]'s obligations mint. *)
 Program Definition indisc_adj_iso@{u u0 u1 co ch +}
-  (C : obj[StrictCat@{u u0 u1 co ch}]) (A : obj[Coq]) :
+  (C : obj[StrictCat@{u u0 co ch}]) (A : obj[Coq]) :
   @Isomorphism Sets
     {| carrier := @hom Coq (StrictCat_Objects C) A
      ; is_setoid := @homset Coq (StrictCat_Objects C) A |}

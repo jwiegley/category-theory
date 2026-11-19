@@ -72,7 +72,9 @@ Generalizable All Variables.
    equivalence.  Note that this is `≈`, not `=`: on the library's setoid
    hom-sets that is the right notion, and it is what Instance/Proset.v
    supplies for a proset by declaring the equivalence to be [True]. *)
-Definition Thin (C : Category) : Type :=
+(* The universes are declared, the proposition at its own universe [u]: inferred,
+   it would be at the least one, [max(o, h)]. *)
+Definition Thin@{u o h | o <= u, h <= u} (C : Category@{o h h}) : Type@{u} :=
   ∀ (x y : C) (f g : x ~{C}~> y), f ≈ g.
 
 (* Thinness is self-dual: reversing arrows neither creates nor merges parallel

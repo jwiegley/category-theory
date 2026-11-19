@@ -179,8 +179,11 @@ Proof.
     (fun x : C => x)
     (fun (x y : C) (e : x = y) => rew [fun z : C => x ~{C}~> z] e in id)
     _ _ _).
-  (* [≈] on the source is [eq]; [rew eq_refl in id] is [id] *)
-  - intros x y; proper; destruct X; reflexivity.
+  (* [≈] on the source is [eq]: the [Proper] obligation of the action on
+     morphisms may already be solved by instance resolution
+     ([reflexive_eq_dom_reflexive]), depending on the Rocq version *)
+  all: try (intros x y; proper; destruct X; reflexivity).
+  (* [rew eq_refl in id] is [id] *)
   - intros x; reflexivity.
   - intros x y z H H'; symmetry; apply rew_id_trans.
 Defined.

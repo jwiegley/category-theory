@@ -880,29 +880,36 @@ Check (obj[RMod Ru]).
    moment a ring's additive group is read as the SOURCE of a
    homomorphism of abelian groups.  That is where [coex_group] begins,
    and everything below inherits it. *)
-Fail Check (AbHom (ring_ab Ru) Au).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (AbHom (ring_ab Ru) Au).
 
 (* NEGATIVE 9 (FORMABILITY).  The same wall met the other way round. *)
-Fail Check (ring_ab Ru : obj[Ab]).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (ring_ab Ru : obj[Ab]).
 
 (* NEGATIVE 10 (FORMABILITY).  Hence the scalar action. *)
-Fail Check (coex_act Ru Au).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (coex_act Ru Au).
 
 (* NEGATIVE 11 (FORMABILITY).  Hence the carrier. *)
-Fail Check (coex_group Ru Au).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (coex_group Ru Au).
 
 (* NEGATIVE 12 (FORMABILITY).  A SECOND, INDEPENDENT donor:
    Instance/Mod.v's own [Ring_RMod] is rejected at the very same levels
    with the very same message, and it mentions neither [Ab] nor this
    file.  So the identification would be met here even if the abelian
    side were repaired. *)
-Fail Check (Ring_RMod Ru : obj[RMod Ru]).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Ring_RMod Ru : obj[RMod Ru]).
 
 (* NEGATIVE 13 (FORMABILITY).  Hence the functor. *)
-Fail Check (Coextension Ru).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Coextension Ru).
 
 (* NEGATIVE 14 (FORMABILITY).  And hence the headline. *)
-Fail Check (coex_adjunction Ru).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (coex_adjunction Ru).
 
 End CoexProbeUniverses.
 

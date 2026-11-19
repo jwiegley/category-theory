@@ -138,11 +138,15 @@ Generalizable All Variables.
    [Equivalence_to_Cat_Iso] and [Cat_Iso_to_Equivalence] in
    Theory/Equivalence.v. *)
 
+(* The universes are declared: [u] for the categories, [u0] for the functors
+   and their equalities, [o] and [h] for the objects and homs of the
+   categories. Inferred, [u] would be the least one and the equalities of
+   functors would have their own universe. *)
 #[export]
-Instance Cat : Category := {
-  obj     := Category;
-  hom     := @Functor;
-  homset  := @Functor_Setoid;
+Instance Cat@{u u0 o h | o < u, h < u, o <= u0, h <= u0 +} : Category@{u u0 u0} := {
+  obj     := Category@{o h h};
+  hom     := @Functor@{o h h o h h};
+  homset  := @Functor_Setoid@{u0 u0 o o h};
   id      := @Id;
   compose := @Compose;
 

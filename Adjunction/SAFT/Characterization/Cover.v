@@ -352,7 +352,7 @@ Generalizable All Variables.
 Definition image_family_cone@{o dobj h a pc dq +| h < pc, h < dq +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   {A : Type@{a}} (f : A -> C) (x : D) (pi : ∀ i, x ~> U (f i)) :
-  Cone (@Compose@{dobj a o pc h} _ _ _ U (DiscreteCat_Functor@{a h h o h h dq} f)).
+  Cone (@Compose@{dobj a o h} _ _ _ U (DiscreteCat_Functor@{a h h o h h} f)).
 Proof.
   unshelve econstructor.
   - exact x.
@@ -376,7 +376,7 @@ Definition saft_fam@{o dobj h so +}
 Definition saft_prod_limit@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C) (d : D) :=
-  comp _ (DiscreteCat_Functor@{so h h o h h dp} (saft_fam U G d)).
+  comp _ (DiscreteCat_Functor@{so h h o h h} (saft_fam U G d)).
 
 Definition saft_prod@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -387,7 +387,7 @@ Definition saft_prod@{o dobj h so dp +| h <= so, h < dp +}
 Definition saft_point@{o dobj h so dp pl pa +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) :
   d ~> U (saft_prod@{o dobj h so dp} U comp G d) :=
   unique_obj (cont _ _ (saft_prod_limit@{o dobj h so dp} U comp G d)
@@ -397,7 +397,7 @@ Definition saft_point@{o dobj h so dp pl pa +| h <= so, h < dp +}
 Lemma saft_point_commutes@{o dobj h so dp pl pa +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (p : saft_index U G d) :
   fmap[U] (iprod_proj (saft_fam U G d)
              (saft_prod_limit@{o dobj h so dp} U comp G d) p)
@@ -416,7 +416,7 @@ Definition saft_kappa@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C)
   (d : D) (c : C) (h : d ~> U c) :
-  saft_prod@{o dobj h so dp} U comp G d ~> cogen_power@{cp so o h so} comp G c :=
+  saft_prod@{o dobj h so dp} U comp G d ~> cogen_power@{so o h so} comp G c :=
   unique_obj (iprod_ump (cogen_power_fam G c)
                 (cogen_power_limit@{o h cp so so} comp G c)
                 (saft_prod@{o dobj h so dp} U comp G d)
@@ -427,7 +427,7 @@ Definition saft_kappa@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
 Lemma saft_square@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   fmap[U] (saft_kappa@{o dobj h so dp cp} U comp G d c h)
     ∘ saft_point@{o dobj h so dp pl pa} U comp cont G d
@@ -487,9 +487,9 @@ Definition saft_pb_cone@{o dobj h so dp cp pl pa ro pc sa +|
     h <= so, h < dp, h < cp, h < pc, h < sa +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
-  Cone (@Compose@{dobj ro o pc h} _ _ _ U
+  Cone (@Compose@{dobj ro o h} _ _ _ U
           (Opposite_Functor@{ro h o}
              (@ASpan@{ro o sa h} (C^op) _ _ _
                 (saft_kappa@{o dobj h so dp cp} U comp G d c h)
@@ -529,7 +529,7 @@ Defined.
 Definition saft_lift@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom (saft_sub U comp G d c h)) :=
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa _}
@@ -538,7 +538,7 @@ Definition saft_lift@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
 Lemma saft_lift_commutes@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   fmap[U] (saft_sub_to@{o dobj h so dp cp _} U comp G d c h)
     ∘ saft_lift U comp cont G d c h ≈ h.
@@ -551,7 +551,7 @@ Qed.
 Definition SubobjectCoverAt@{o dobj h so dp w s t +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :
   Type :=
   ∀ (c : C) (h : d ~> U c),
     { i : wp_index W &
@@ -562,9 +562,9 @@ Definition saft_cover_at@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :
   SubobjectCoverAt@{o dobj h so dp w s t _} U comp G d W.
 Proof.
   intros c h.
@@ -585,9 +585,9 @@ Definition saft_solution_set_at@{o dobj h so dp cp w s t pl pa i +|
     h <= so, h < dp, h < cp, w <= i, h <= i +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :
   SolutionSet@{i dobj o h} U d.
 Proof.
   unshelve refine
@@ -605,9 +605,9 @@ Definition SAFT_cover_wp_at@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C)
-  (W : ∀ d : D, WellPoweredAt@{w o s h t} (saft_prod@{o dobj h h dp} U comp G d)) :
+  (W : ∀ d : D, WellPoweredAt@{w o s h} (saft_prod@{o dobj h h dp} U comp G d)) :
   { F : D ⟶ C & F ⊣ U } :=
   GAFT U comp cont
     (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _ _}
@@ -617,7 +617,7 @@ Definition SAFT_cover_wp@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_cover_wp_at@{o dobj h dp cp w s t pl pa _ _} U comp cont G
@@ -631,9 +631,9 @@ Example saft_cover_at_index@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d))
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
   projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _ _}
             U comp cont G d W c h)
@@ -645,9 +645,9 @@ Example saft_solution_set_at_index@{o dobj h so dp cp w s t pl pa i +|
     h <= so, h < dp, h < cp, w <= i, h <= i +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl so pa so} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
-  (W : WellPoweredAt@{w o s h t} (saft_prod@{o dobj h so dp} U comp G d)) :
+  (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :
   sol_index (saft_solution_set_at@{o dobj h so dp cp w s t pl pa i _ _}
                U comp cont G d W)
     = { i : wp_index W & d ~> U (Subobject.sub_dom (wp_to W i)) } := eq_refl.
@@ -658,7 +658,7 @@ Example SAFT_cover_wp_is_GAFT@{o dobj h dp cp w s t pl pa +|
     h < dp, h < cp, w <= h +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{h h h o} C)
-  (cont : @PreservesImageLimit@{o h dobj h pl h pa h} C D U)
+  (cont : @PreservesImageLimit@{o h dobj h pl pa h} C D U)
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   SAFT_cover_wp@{o dobj h dp cp w s t pl pa _ _} U comp cont G WP
     = GAFT U comp cont

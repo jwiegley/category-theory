@@ -137,16 +137,21 @@ Generalizable All Variables.
 
 (* Definition 5.36, clause for clause.  Multiplication is NOT commutative:
    clause (b) is a bare monoid. *)
-Record RigObject := {
-  rig_setoid :> SetoidObject;
+(* The universes are declared: [p] for the compatibility of the operations
+   with the equality, [c] for the carrier and [e] for its equality. Inferred,
+   the first one would be [max(c, e)]. *)
+Record RigObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  rig_setoid :> SetoidObject@{c e};
 
   rig_zero : carrier rig_setoid;
   rig_add  : carrier rig_setoid → carrier rig_setoid → carrier rig_setoid;
   rig_one  : carrier rig_setoid;
   rig_mul  : carrier rig_setoid → carrier rig_setoid → carrier rig_setoid;
 
-  rig_add_respects : Proper (equiv ==> equiv ==> equiv) rig_add;
-  rig_mul_respects : Proper (equiv ==> equiv ==> equiv) rig_mul;
+  rig_add_respects :
+    Proper@{c p} (respectful@{c e c p} equiv (respectful@{c e c e} equiv equiv)) rig_add;
+  rig_mul_respects :
+    Proper@{c p} (respectful@{c e c p} equiv (respectful@{c e c e} equiv equiv)) rig_mul;
 
   (* (a) (0, +) is a commutative monoid *)
   rig_add_assoc : ∀ a b c,
@@ -294,9 +299,9 @@ Program Definition Rig@{u p} : Category@{u p p} := {|
   hom     := RigHom@{p};
   homset  := @RigHom_Setoid@{p};
   id      := @rig_hom_id@{p};
-  compose := @rig_hom_compose@{u p};
+  compose := @rig_hom_compose@{p};
 
-  compose_respects := @rig_hom_compose_respects@{u p}
+  compose_respects := @rig_hom_compose_respects@{p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -567,11 +572,12 @@ Next Obligation. intros [|]; reflexivity. Qed.
 
 (* A ring is a rig with additive inverses — mirroring how
    Structure/Additive.v extends Structure/Preadditive.v with [pneg]. *)
-Record RingObject := {
-  ring_rig :> RigObject;
+(* The universes are declared, as those of [RigObject]. *)
+Record RingObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+  ring_rig :> RigObject@{p c e};
 
   ring_neg : carrier (rig_setoid ring_rig) → carrier (rig_setoid ring_rig);
-  ring_neg_respects : Proper (equiv ==> equiv) ring_neg;
+  ring_neg_respects : Proper@{c p} (respectful@{c e c e} equiv equiv) ring_neg;
   ring_neg_l : ∀ a,
     rig_add ring_rig (ring_neg a) a ≈ rig_zero ring_rig
 }.
@@ -604,9 +610,9 @@ Program Definition Ring@{u p} : Category@{u p p} := {|
   hom     := fun R S => RigHom@{p} R S;
   homset  := fun R S => @RigHom_Setoid@{p} R S;
   id      := fun R => @rig_hom_id@{p} R;
-  compose := fun _ _ _ f g => rig_hom_compose@{u p} f g;
+  compose := fun _ _ _ f g => rig_hom_compose@{p} f g;
 
-  compose_respects := fun _ _ _ => @rig_hom_compose_respects@{u p} _ _ _
+  compose_respects := fun _ _ _ => @rig_hom_compose_respects@{p} _ _ _
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.

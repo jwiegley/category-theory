@@ -481,7 +481,7 @@ Definition two_map@{h} {n m : nat} (f : le_t@{h} n m) : Fin.t 2 -> Fin.t 2 :=
    both categories free.  Test/ProbeFunClosed392.v pins the rejection
    against the annotated form as its control. *)
 Program Definition TwoFun@{o h p u u0 u1 u2 +}
-  : Omega@{o h p} ⟶ FinSet@{u u0 u1 u2} := {|
+  : Omega@{o h p} ⟶ FinSet@{u u0} := {|
   fobj := fun _ => 2%nat;
   fmap := fun _ _ f => two_map f
 |}.
