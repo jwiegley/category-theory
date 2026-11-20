@@ -81,8 +81,8 @@ Generalizable All Variables.
 (* The universes are declared: [c] and [e] for the carrier and its equality,
    [f], [p], [b] and [q] for the compatibility of the order with the equality.
    Inferred, the latter would be the least ones. *)
-Record PosetObject@{c e f p b q | Set < b, c <= f, c <= p, e <= p, b <= f, q <= p} :
-  Type@{max(Set+1,c+1,e+1,p)} := {
+Record PosetObject@{c e f p b q | Set < b, max(c, b) <= f, max(c, e, q) <= p} :
+  Type@{max(c+1, e+1, p)} := {
   pos_setoid :> SetoidObject@{c e};
 
   pos_le : carrier pos_setoid → carrier pos_setoid → Prop;
@@ -155,8 +155,7 @@ Qed.
 (* The universes are declared: [u] for the posets, [c] for their carriers and
    the monotone maps, the others those of [PosetObject]. Inferred, [u] would be
    the least one. *)
-Program Definition Pos@{u f p b q c | Set < u, Set < b, c < u, p <= u, b <= f, q <= p,
-    c <= f, c <= p +} : Category@{u c c} := {|
+Program Definition Pos@{u f p b q c | c < u, Set < b, p <= u, max(b, c) <= f, max(q, c) <= p +} : Category@{u c c} := {|
   obj     := PosetObject@{c c f p b q};
   hom     := MonoHom;
   homset  := @MonoHom_Setoid;

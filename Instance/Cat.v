@@ -143,7 +143,7 @@ Generalizable All Variables.
    categories. Inferred, [u] would be the least one and the equalities of
    functors would have their own universe. *)
 #[export]
-Instance Cat@{u u0 o h | o < u, h < u, o <= u0, h <= u0 +} : Category@{u u0 u0} := {
+Instance Cat@{u u0 o h | max(o, h) < u, max(o, h) <= u0} : Category@{u u0 u0} := {
   obj     := Category@{o h h};
   hom     := @Functor@{o h h o h h};
   homset  := @Functor_Setoid@{u0 u0 o o h};

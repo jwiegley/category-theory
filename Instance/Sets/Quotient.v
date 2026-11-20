@@ -180,7 +180,7 @@ Context (R : crelation (carrier A)).
    i.e. `≈` is contained in R. *)
 (* The universe of the proposition is declared: inferred, it would be the least
    one, the maximum of those of [A] and [R]. *)
-Definition SetoidCoarser@{w | +} : Type@{w} := ∀ x y : carrier A, x ≈ y → R x y.
+Definition SetoidCoarser@{w} : Type@{w} := ∀ x y : carrier A, x ≈ y → R x y.
 
 (* Mac Lane's form: R RESPECTS the carrier's equality, i.e. R may be
    transported along `≈` in either argument.  Stated one-directionally;

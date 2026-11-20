@@ -1287,7 +1287,7 @@ Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
 (* CONTROL: the representability corollary with [PreservesImageLimit]'s
    auxiliary [pa] strictly below the objects [su] of [Sets@{h su}]. *)
 Definition p453_repr_pa_below_su@{o h so c w s t su pl pa +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
+    max(h, c) <= so, w <= h, max(o, h) <= s, h < t, max(h, pa) < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
@@ -1437,7 +1437,7 @@ Fail Definition p453_n29_setsop_gaft_up@{o so +| o < so +} :
 (* The representing object is the left adjoint at the singleton
    ([continuous_Set_functor_representable_obj], restated). *)
 Example p453_repr_obj@{o h so c w s t su pl pa +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
+    max(h, c) <= so, w <= h, max(o, h) <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)

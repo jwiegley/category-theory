@@ -50,7 +50,7 @@ Generalizable All Variables.
    [Structure/Equalizer/Fork.v]. *)
 (* The universes are declared: [a] for the index, [q] for the uniqueness of the
    mediating arrow, then those of [C]. *)
-Record IsIndexedProduct@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {A : Type@{a}}
+Record IsIndexedProduct@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {A : Type@{a}}
   (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) : Type@{max(a,q,o,h)} := {
   (* universal property: every family [pi] into the [f a] factors uniquely
      through the projections *)
@@ -129,7 +129,7 @@ Definition limit_is_indexed_product {C : Category} {A : Type} (f : A → C)
    [Structure/Equalizer/Fork.v]. *)
 (* The universes are declared: those of the indices of the three fields, [q]
    for the uniqueness of the mediating arrows, then those of [C]. *)
-Class HasIndexedProducts@{a a0 a1 q o h | a0 <= a, a1 <= a, a1 <= a0, a1 <= q, h <= q}
+Class HasIndexedProducts@{a a0 a1 q o h | max(a0, a1) <= a, a1 <= a0, max(a1, h) <= q}
   (C : Category@{o h h}) : Type@{max(a+1,a0+1,a1+1,q,o)} := {
   indexed_product {A : Type@{a}} (f : A → C) : C;
   indexed_product_proj {A : Type@{a0}} (f : A → C) (a : A) :

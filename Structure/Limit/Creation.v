@@ -167,7 +167,7 @@ Generalizable All Variables.
 (* The universes are declared, the three categories sharing their homs: [lD]
    and [lC] for the limits in [D] and in [C], [ci] for the isomorphisms of
    cones. Inferred, they would be the least ones. *)
-Class CreatesLimit@{lD oD lC ci oJ h oC | +}
+Class CreatesLimit@{lD oD lC ci oJ h oC}
   {J : Category@{oJ h h}} {C : Category@{oC h h}} {D : Category@{oD h h}}
   (K : J ⟶ C) (F : C ⟶ D) : Type@{max(lD,lC)} := {
   creates_lift (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) : Cone K;
@@ -322,7 +322,7 @@ Arguments slift_legs {J C D K F N} _ _.
 
 (* The universes are declared, the three categories sharing their homs:
    inferred, the isomorphism would have universes of its own. *)
-Definition slift_iso@{oD h oC oJ | +} {J : Category@{oJ h h}} {C : Category@{oC h h}}
+Definition slift_iso@{oD h oC oJ} {J : Category@{oJ h h}} {C : Category@{oC h h}}
   {D : Category@{oD h h}} {K : J ⟶ C} {F : C ⟶ D}
   {N : Cone (F ◯ K)} (L : StrictLift K F N) :
   F (vertex_obj[slift_cone L]) ≅ vertex_obj[N] := obj_eq_iso (slift_eq L).
@@ -351,7 +351,7 @@ Definition self_lift {J C D : Category} {K : J ⟶ C} {F : C ⟶ D}
 (* The universes are declared, the three categories sharing their homs: [lD]
    and [lC] for the limits in [D] and in [C]. Inferred, they would be the least
    ones. *)
-Class StrictlyCreatesLimit@{lD oD lC oJ h oC | +}
+Class StrictlyCreatesLimit@{lD oD lC oJ h oC}
   {J : Category@{oJ h h}} {C : Category@{oC h h}} {D : Category@{oD h h}}
   (K : J ⟶ C) (F : C ⟶ D) : Type@{max(lD,lC)} := {
   screates (N : Cone (F ◯ K)) (HN : IsLimitCone@{lD oJ h oD} N) : StrictLift K F N;

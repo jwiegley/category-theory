@@ -61,7 +61,7 @@ Qed.
    the subcategory and [e] above the homs for the adjunction, the subcategory
    selecting homs at the universe [h] of those of [C]. Inferred, the universes
    of the subcategory would be [max(o, so)]. *)
-Record Reflective@{fu e oS o so h | h < e, o <= fu, o <= oS, so <= fu, so <= oS, h <= fu +}
+Record Reflective@{fu e oS o so h | h < e, max(o, so, h) <= fu, max(o, so) <= oS +}
   {C : Category@{o h h}} (S : Subcategory@{o h so h} C) : Type@{max(fu,oS)} := {
   reflective_full : Construction.Subcategory.Full@{o h so h fu} C S;
   reflector : C ⟶ Sub@{o h so h oS h} C S;
@@ -90,7 +90,7 @@ Definition op_subcategory@{o h so sh} {C : Category@{o h h}} (S : Subcategory@{o
 (* The universes are declared as those of [Reflective], with [w] for the
    proposition. *)
 Definition Coreflective@{w fu e oS so o h |
-    h < e, fu <= w, oS <= w, o <= fu, o <= oS, so <= fu, so <= oS, h <= fu +}
+    h < e, max(fu, oS) <= w, max(o, so, h) <= fu, max(o, so) <= oS +}
   {C : Category@{o h h}} (S : Subcategory@{o h so h} C) : Type@{w} :=
   @Reflective@{fu e oS o so h} (C^op) (op_subcategory S).
 

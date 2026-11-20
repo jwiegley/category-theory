@@ -416,7 +416,7 @@ Require Import Category.Instance.Sets.Cartesian.
 (* The universes are declared, as those of [MonObject]: [u] for the carrier,
    [u0] for its equality and [u1] for the compatibility of the operations with
    it. Inferred, the latter would be [max(u, u0)]. *)
-Record SetoidLattice@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+Record SetoidLattice@{u u0 u1 | max(u, u0) <= u1} : Type@{max(u+1,u0+1,u1)} := {
   sl_setoid :> SetoidObject@{u u0};
 
   sl_bot  : carrier sl_setoid;

@@ -213,7 +213,7 @@ Example modal_monad_is_thin@{u h t} (B : Prop) :
 
 (* Its algebras are the j-closed propositions, (B → p) → p. *)
 (* The universe of the equivalence is declared, as [u0]. *)
-Definition modal_talgebra_iff@{u h u0 +} (B p : Prop) :
+Definition modal_talgebra_iff@{u h u0} (B p : Prop) :
   iffT@{h u0} (@TAlgebra Props@{u h} (modal_functor B) (modal_monad B) p)
     ((B → p) → p) :=
   (fun a => @t_alg Props@{u h} (modal_functor B) (modal_monad B) p a,
@@ -221,7 +221,7 @@ Definition modal_talgebra_iff@{u h u0 +} (B p : Prop) :
               h I I).
 
 Example modal_talgebra_round@{u h p} (B p : Prop) (h : (B → p) → p) :
-  match modal_talgebra_iff@{u h p _} B p with
+  match modal_talgebra_iff@{u h p} B p with
   | (to_closed, of_closed) => to_closed (of_closed h)
   end = h := eq_refl.
 

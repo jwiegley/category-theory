@@ -440,19 +440,19 @@ Defined.
 (** ** 3. The free module on one generator, and evaluation at an element *)
 
 Definition ew_Gen@{a c p o +|
-    Set < o, c < o, p <= a, c <= a, a <= o +}
+    c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} : obj[RMod@{o a p c} R] :=
   @FreeModObject R unit_setoid_object@{c c}.
 
 Definition ew_g0@{a c p o +|
-    Set < o, c < o, p <= a, c <= a, a <= o +}
+    c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} : carrier (cmon_setoid (@ew_Gen@{a c p o} R)) :=
   @fv_gen R unit_setoid_object@{c c} ttt.
 
 (* [m ↦ the homomorphism sending the generator to m]: the free module's own
    extension, so it needs no choice and computes. *)
 Definition ew_ev@{a c p o +|
-    Set < o, c < o, p <= a, c <= a, a <= o +}
+    c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} {M : obj[RMod@{o a p c} R]}
   (m : carrier (cmon_setoid M)) :
   @ew_Gen@{a c p o} R ~{RMod@{o a p c} R}~> M.
@@ -706,7 +706,7 @@ End Covering.
 (** ** 5. Every continuous K : (R-Mod)^op ⟶ Sets is representable *)
 
 Definition RModop_continuous_representable@{a c p o s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s +}
   {R : RingObject@{a c p}} (K : (RMod@{o a p c} R)^op ⟶ Sets@{c s})
   (contK : ContinuousFunctor K) : Representable K :=
   representability_theorem K
@@ -716,7 +716,7 @@ Definition RModop_continuous_representable@{a c p o s +|
 (** ** 6. Watt's theorem, contravariant form, with no hypothesis *)
 
 Definition watts_theorem_unconditional@{a c p o b s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s, c < b +}
   {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
@@ -735,7 +735,7 @@ Defined.
 (* The representing module IS the object the representability theorem
    produces for [Ab_Forget ◯ T]. *)
 Example watts_theorem_unconditional_obj@{a c p o b s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s, c < b +}
   {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
@@ -751,7 +751,7 @@ Example watts_theorem_unconditional_obj@{a c p o b s +|
    Functor/Representable/Additive.v's [CoHomAb_continuous], and the
    module the theorem returns is isomorphic to A. *)
 Definition watts_unconditional_CoHomAb_obj@{a c p o b +|
-    Set < c, c < o, p <= a, c <= a, a <= o, Set < b, c < b +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < b +}
   {R : RingObject@{a c p}} (A : RMod@{o a p c} R) :
   projT1 (watts_theorem_unconditional
             (@CoHomAb _ (RMod_LocallyPropositional R) (RMod_AbEnriched R) A
@@ -771,7 +771,7 @@ Definition watts_unconditional_CoHomAb_obj@{a c p o b +|
 
 (* The set-valued form at the plain hom-functor. *)
 Definition RModop_hom_representable_obj@{a c p o s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s +}
   {R : RingObject@{a c p}} (A : RMod@{o a p c} R) :
   @repr_obj _ _ (RModop_continuous_representable
                    (@HomFrom_at ((RMod@{o a p c} R)^op) A : _ ⟶ Sets@{c s})
@@ -783,7 +783,7 @@ Definition RModop_hom_representable_obj@{a c p o s +|
 
 (* At a concrete ring: ℤ, with its three universes apart. *)
 Definition watts_unconditional_at_Z@{a c p o b +|
-    Set < c, c < o, p <= a, c <= a, a <= o, Set < b, c < b +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < b +}
   (A : RMod@{o a p c} Int_Ring@{c p a}) :
   projT1 (watts_theorem_unconditional
             (@CoHomAb _ (RMod_LocallyPropositional _) (RMod_AbEnriched _) A

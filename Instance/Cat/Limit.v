@@ -428,7 +428,7 @@ End Equalizer.
 (* The universes are declared: [h] and [o] for the homs and objects of the
    categories, [u] and [u0] for those of [StrictCat], [q] for the uniqueness of
    identity proofs. *)
-Definition StrictCat_HasEqualizers@{h u u0 o q | o < u, h < u, o <= u0, h <= u0 +}
+Definition StrictCat_HasEqualizers@{h u u0 o q | max(o, h) < u, max(o, h) <= u0 +}
   (uip : ∀ C : Category@{o h h}, ObjUIP@{o q h} C) :
   HasEqualizers@{u u0} StrictCat@{u u0 o h}.
 Proof.

@@ -79,7 +79,7 @@ Context `{H : @Monad C T}.
     algebra homomorphisms in C^T is equivalence of their underlying arrows,
     all three functor laws hold on the nose. *)
 
-Program Definition EM_Forget@{oE | o <= oE, h <= oE +} : EilenbergMoore@{oE o h} T ⟶ C := {|
+Program Definition EM_Forget@{oE | max(o, h) <= oE +} : EilenbergMoore@{oE o h} T ⟶ C := {|
   fobj := fun a => `1 a;
   fmap := fun _ _ f => t_alg_hom[f]
 |}.
@@ -93,7 +93,7 @@ Next Obligation. reflexivity. Qed.
     homomorphism square for fmap[T] f is the multiplication naturality
     join_fmap_fmap. *)
 
-Program Definition EM_Free@{oE | o <= oE, h <= oE +} : C ⟶ EilenbergMoore@{oE o h} T := {|
+Program Definition EM_Free@{oE | max(o, h) <= oE +} : C ⟶ EilenbergMoore@{oE o h} T := {|
   fobj := fun a => (T a; {| t_alg := @join C T H a |});
   fmap := fun x y f => {| t_alg_hom := fmap[T] f |}
 |}.

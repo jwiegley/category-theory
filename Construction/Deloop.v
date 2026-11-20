@@ -123,7 +123,7 @@ Generalizable All Variables.
 (* The universes are declared: [u] for the carrier, [u0] for its equality and
    [u1] for the compatibility of the operation with it. Inferred, the latter
    would be [max(u, u0)]. *)
-Record MonObject@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+Record MonObject@{u u0 u1 | max(u, u0) <= u1} : Type@{max(u+1,u0+1,u1)} := {
   mon_setoid :> SetoidObject@{u u0};
 
   mon_unit : carrier mon_setoid;
@@ -269,7 +269,7 @@ Example hom_monoid_Deloop_op (M : MonObject) :
    uniqueness of inverses, and is supplied as the instance
    [grp_inv_respects] below. *)
 (* The universes are declared, as those of [MonObject]. *)
-Record GrpObject@{u u0 u1 | u <= u1, u0 <= u1} : Type@{max(u+1,u0+1,u1)} := {
+Record GrpObject@{u u0 u1 | max(u, u0) <= u1} : Type@{max(u+1,u0+1,u1)} := {
   grp_monoid :> MonObject@{u u0 u1};
 
   grp_inv : carrier grp_monoid → carrier grp_monoid;

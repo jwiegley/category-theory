@@ -773,14 +773,14 @@ Definition p454_n3_homzl_ring_apart@{ra rc rp +| rc < ra, rp < ra +}
 (* CONTROL: [RMod_Cogenerator_large] is a cogenerator, indexed at the
    object universe. *)
 Definition p454_large_cog@{a c p o +|
-    Set < o, c < o, p <= a, c <= a, a <= o +}
+    c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) : Cogenerator@{o o c} (RMod@{o a p c} R) :=
   RMod_Cogenerator_large R.
 
 (* CONTROL: [cogen_prod] at [RMod_Complete R] takes a cogenerator indexed
    at the carrier universe. *)
 Definition p454_small_cog_prod@{a c p o +|
-    Set < o, c < o, p <= a, c <= a, a <= o +}
+    c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) (G : Cogenerator@{c o c} (RMod@{o a p c} R)) :
   RMod@{o a p c} R :=
   cogen_prod (RMod_Complete R) G.
@@ -909,7 +909,7 @@ Definition p454_cwp_pin_U@{a c p o x +|
 (* CONTROL: (5) one universe up, with nothing assumed, and at
    [RingObject@{c c c}] with [c < w] alone. *)
 Definition p454_cwp_up@{a c p o w +|
-    Set < o, c < o, p <= a, c <= a, a <= o, c < w, a <= w +}
+    c < o, max(p, c) <= a, a <= o, c < w, a <= w +}
   {R : RingObject@{a c p}} :
   ∀ W : obj[RMod@{o a p c} R],
     @WellPoweredAt@{w o o c} ((RMod@{o a p c} R)^op) W :=
@@ -977,7 +977,7 @@ Definition p454_n11_ring_obj_apart@{a c p o x +|
 (* CONTROL: (2)'s record under a CLOSED universe list: its universes
    are exactly the five named. *)
 Definition p454_wp_record_closed@{a c p o |
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
   (W : obj[RMod@{o a p c} R]) : WellPoweredAt@{c o o c} W :=
   {| wp_index   := PSubmodule W;
@@ -1047,15 +1047,15 @@ Definition p454_n13_cwp_up_closed@{a c p o x w | c < w, a <= w +}
 (** ** N14 (UNIVERSE), former N15 (positive): Instance/Mod/Colimit.v *)
 
 (* CONTROL: the solution set at a [Set] carrier. *)
-Definition p454_sols_at_set@{go ga gp +|
-    Set < go, gp <= ga, ga <= go +}
+Definition p454_sols_at_set@{go ga gp |
+    Set < go, gp <= ga, ga <= go}
   (R : RingObject@{ga Set gp}) (J : Category@{Set Set Set})
   (D : J ⟶ RMod@{go ga gp Set} R) :=
   @Diagonal_RMod_solution_set R J D.
 
 (* CONTROL: the colimit above [Set]. *)
 Definition p454_colim_above_set@{a c p o jo +|
-    Set < c, c < o, p <= a, c <= a, a <= o, jo <= c +}
+    Set < c, c < o, max(p, c) <= a, a <= o, jo <= c +}
   (R : RingObject@{a c p}) (J : Category@{jo c c}) :=
   RMod_colim_via_GAFT R J.
 
@@ -1445,12 +1445,12 @@ Definition p454_unc_coext_2a@{c o b +} (R : RingObject@{c c c})
 (* CONTROL: the theorem at ℤ above [Set], the ring's universes collapsed
    and apart. *)
 Definition p454_unc_Z_ccc@{c o b +|
-    Set < c, c < o, Set < b, c < b +}
+    Set < c, c < o, c < b +}
   (A : RMod@{o c c c} Int_Ring@{c c c}) :=
   watts_unconditional_at_Z A.
 
 Definition p454_unc_Z_apart@{c p a o b +|
-    Set < c, c <= a, p <= a, a <= o, c < o, Set < b, c < b +}
+    Set < c, max(c, p) <= a, a <= o, c < o, c < b +}
   (A : RMod@{o a p c} Int_Ring@{c p a}) :=
   watts_unconditional_at_Z A.
 
@@ -1484,7 +1484,7 @@ Fail Definition p454_n25_unc_at_set@{o x b s +}
 (* CONTROL: RMod's second universe x and the target's s apart, in both
    orders. *)
 Definition p454_unc_x_below_s@{a c p o b s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b+}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s, c < b +}
   {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
@@ -1492,7 +1492,7 @@ Definition p454_unc_x_below_s@{a c p o b s +|
   watts_theorem_unconditional T AF contT.
 
 Definition p454_unc_s_below_x@{a c p o b s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s, Set < b, c < b+}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s, c < b +}
   {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (AF : @AdditiveFunctor _ _ (AbEnriched_op (RMod_AbEnriched R))
           Ab_AbEnriched T)
@@ -1507,7 +1507,7 @@ Example p454_ev_g0@{a c p o x +|
   cmon_map (rm_hom (ew_ev@{a c p o} m)) ew_g0 = m := eq_refl.
 
 Example p454_t_at@{a c p o s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s +}
   {R : RingObject@{a c p}} (K : (RMod@{o a p c} R)^op ⟶ Sets@{c s})
   (M : obj[RMod@{o a p c} R]) (x0 : carrier (K M))
   (m : carrier (cmon_setoid M)) :
@@ -1517,7 +1517,7 @@ Example p454_t_at@{a c p o s +|
 (* CONTROL: the value N26 compares with is an element of the fixed
    coproduct, and the object N27 compares with is a module. *)
 Definition p454_cop_zero@{a c p o s +|
-    Set < c, c < o, p <= a, c <= a, a <= o, c < s +}
+    Set < c, c < o, max(p, c) <= a, a <= o, c < s +}
   {R : RingObject@{a c p}} (K : (RMod@{o a p c} R)^op ⟶ Sets@{c s}) :
   carrier (cmon_setoid (ew_Cop K)) :=
   cmon_zero (ew_Cop K).

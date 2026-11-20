@@ -176,7 +176,7 @@ Generalizable All Variables.
    membership. *)
 (* The universes are declared: [s] for the membership, then those of
    [GrpObject]. *)
-Record Subgroup@{s p c e | c <= p, e <= p} (G : GrpObject@{p c e}) : Type@{max(s+1,c,e)} := {
+Record Subgroup@{s p c e | max(c, e) <= p} (G : GrpObject@{p c e}) : Type@{max(s+1,c,e)} := {
   sub_mem : carrier G → Type@{s};
 
   (* (1) ≈-saturation *)
@@ -199,7 +199,7 @@ Arguments sub_inv {G} _ _ _.
 (* A normal subgroup adds the fifth fact: closure under conjugation.  The
    five laws are exactly the five that Abelianization.v names. *)
 (* The universes are declared, as those of [Subgroup]. *)
-Record NormalSubgroup@{s p c e | c <= p, e <= p} (G : GrpObject@{p c e}) :
+Record NormalSubgroup@{s p c e | max(c, e) <= p} (G : GrpObject@{p c e}) :
   Type@{max(s+1,c,e)} := {
   ns_sub :> Subgroup@{s p c e} G;
 
@@ -439,7 +439,7 @@ Qed.
 (* The universes are declared: [pq] and [eq] for the compatibility and the
    equality of the quotient, then those of [NormalSubgroup]. Inferred, the
    instances would be algebraic. *)
-Program Definition QuotientGrp@{pq eq s p c e | eq <= pq, c <= pq, c <= p, e <= p +}
+Program Definition QuotientGrp@{pq eq s p c e | max(eq, c) <= pq, max(c, e) <= p}
   {G : GrpObject@{p c e}} (N : NormalSubgroup@{s p c e} G) : GrpObject@{pq c eq} := {|
   grp_setoid := quot_setoid N;
   grp_unit := grp_unit G;

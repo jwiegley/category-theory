@@ -32,7 +32,7 @@ Context {x : C}.
 
 (* The universe [u] of the subobjects is declared: inferred, it would be the
    least one. *)
-#[export] Program Instance SubObj_Setoid@{u | o <= u, p <= u +} : Setoid@{u p} (SubObj x) := {
+#[export] Program Instance SubObj_Setoid@{u | max(o, p) <= u +} : Setoid@{u p} (SubObj x) := {
   equiv := fun u v =>
     { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }
 }.

@@ -504,7 +504,7 @@ Generalizable All Variables.
 (** ** Part (a): Monad/Morphism.v *)
 
 (* C1: the right factor of [mh_join] is [nat_hcompose θ θ] at x. *)
-Example p468_c1_hcompose@{o h |+} {C : Category@{o h h}}
+Example p468_c1_hcompose@{o h} {C : Category@{o h h}}
   {T T2 : C ⟶ C} {M : @Monad C T} {M2 : @Monad C T2}
   (θ : MonadHom@{o h} M M2) (x : C) :
   transform[nat_hcompose@{o o o h} (mh_transform θ) (mh_transform θ)] x
@@ -819,7 +819,7 @@ Example p468_c49_em_map@{o h m1 m2 e s u |
 (** ** Monad/Morphism/Monoid.v *)
 
 (* C19: the tensor of [Compose_Monoidal] on (θ, θ), at x. *)
-Example p468_c19_bimap@{o h f | o <= f, h <= f +}
+Example p468_c19_bimap@{o h f | max(o, h) <= f +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
   transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f o h} C))

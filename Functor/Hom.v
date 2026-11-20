@@ -146,7 +146,7 @@ Next Obligation. now rewrite <- ! comp_assoc. Qed.
 (* The universes are declared: [u] and [u0] for the presheaves, [s] for the
    objects of [Sets], then those of [C]. Inferred, those of the presheaves
    would be the least ones. *)
-Definition Curried_CoHom@{u u0 s o h | h < s, s <= u, o <= u, o <= u0, h <= u0 +}
+Definition Curried_CoHom@{u u0 s o h | h < s, max(s, o) <= u, max(o, h) <= u0 +}
   (C : Category@{o h h}) : C ⟶ @Fun@{o h s h u u0} (C^op) Sets@{h s} :=
   Curried_Hom C^op.
 

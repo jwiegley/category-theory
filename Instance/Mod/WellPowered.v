@@ -366,7 +366,7 @@ Arguments psm_plus {R M} _ _ _ _ _.
 Arguments psm_smul {R M} _ _ _ _.
 
 (* A [Prop] submodule read as a [Submodule]: [Prop] is a [Type]. *)
-Definition psm_sub@{a c p o +}
+Definition psm_sub@{a c p o}
   {R : RingObject@{a c p}} {M : obj[RMod@{o a p c} R]} (P : PSubmodule M) :
   Submodule M :=
   {| smod_mem  := fun a => psm_mem P a;
@@ -460,7 +460,7 @@ Defined.
 End Untrunc.
 
 Definition RMod_WellPoweredAt_untruncate@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o a p c} R]) :
   WellPoweredAt@{c o o c} W :=
   {| wp_index   := PSubmodule W;
@@ -497,7 +497,7 @@ Defined.
 
 (* The quotient object a [Prop] submodule names: the projection onto the
    quotient module, epic by Instance/Mod/Quotient.v's [mquot_proj_epic]. *)
-Definition pquot@{a c p o +}
+Definition pquot@{a c p o}
   {R : RingObject@{a c p}} {W : obj[RMod@{o a p c} R]}
   (N : PSubmodule W) : @QuotObj (RMod@{o a p c} R) W :=
   mk_quot (mquot_proj (psm_sub N)) (mquot_proj_epic (psm_sub N)).
@@ -590,7 +590,7 @@ Defined.
 End CoUntrunc.
 
 Definition RMod_CoWellPoweredAt_untruncate@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c}) (W : obj[RMod@{o a p c} R]) :
   @WellPoweredAt@{c o o c} ((RMod@{o a p c} R)^op) W :=
   {| wp_index   := PSubmodule W;
@@ -619,11 +619,11 @@ Proof.
   rewrite (rm_smul_one x m) in H. exact H.
 Qed.
 
-Definition RMod_Generator@{c o +| Set < o, c < o +}
+Definition RMod_Generator@{c o +| c < o +}
   (R : RingObject@{c c c}) : Generator (RMod@{o c c c} R) :=
   @Generator_of_separator (RMod R) (Ring_RMod R) RMod_ring_separates.
 
-Definition RModop_Cogenerator@{c o +| Set < o, c < o +}
+Definition RModop_Cogenerator@{c o +| c < o +}
   (R : RingObject@{c c c}) : Cogenerator ((RMod@{o c c c} R)^op) :=
   cog_of_gen (RMod_Generator R).
 

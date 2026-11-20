@@ -113,7 +113,7 @@ Generalizable All Variables.
 (* The universes are declared, the diagram and the category sharing their
    homs as in the uses of [Limit@{...}]: inferred, each category would keep
    its own universes of homs and of their equalities. *)
-Class Limit@{u u0 u1 u2 | u0 <= u, u1 <= u}
+Class Limit@{u u0 u1 u2 | max(u0, u1) <= u}
   {J : Category@{u0 u1 u1}} {C : Category@{u2 u1 u1}} (F : J ⟶ C) :
   Type@{max(u,u1,u2)} := {
   (* The limit cone (L, φ): the terminal/universal cone over F. *)
@@ -162,6 +162,6 @@ Require Import Category.Functor.Opposite.
    cocones over F (nLab, Wikipedia). *)
 (* The universes are declared as those of [Limit]: inferred, the universe of
    the limits would be set to its lower bound. *)
-Definition Colimit@{u u0 u1 u2 | u0 <= u, u1 <= u}
+Definition Colimit@{u u0 u1 u2 | max(u0, u1) <= u}
   {J : Category@{u0 u1 u1}} {C : Category@{u2 u1 u1}} (F : J ⟶ C) :=
   Limit@{u u0 u1 u2} (F^op).

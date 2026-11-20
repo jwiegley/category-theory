@@ -180,7 +180,7 @@ Generalizable All Variables.
 
 (* The universe [u] of the proposition is declared: inferred, it would be the
    least one. *)
-Definition AbsoluteCoequalizer@{co ch xo xh u | xo < u, xh < u, co <= u, ch <= xh +}
+Definition AbsoluteCoequalizer@{co ch xo xh u | max(xo, xh) < u, co <= u, ch <= xh}
   {C : Category@{co ch ch}} {x y : C} (f g : x ~> y) (q : C) (e : y ~> q) :
   Type@{u} :=
   ∀ (X : Category@{xo xh xh}) (T : C ⟶ X),

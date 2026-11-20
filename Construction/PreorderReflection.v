@@ -127,7 +127,7 @@ Definition Reflect (C : Category) : C ⟶ PreorderReflect C :=
     Theory/Category.v that is exactly "is a preorder". *)
 (* The universes are declared, the proposition at its own universe [u]: inferred,
    it would be at the least one, [max(o, h)]. *)
-Definition Thin@{u o h | o <= u, h <= u} (D : Category@{o h h}) : Type@{u} :=
+Definition Thin@{u o h | max(o, h) <= u} (D : Category@{o h h}) : Type@{u} :=
   ∀ (x y : D) (f g : x ~> y), f ≈ g.
 
 (** [PreorderReflect C] is thin -- [preorder_reflect_thin] repackaged to the

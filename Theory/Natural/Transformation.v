@@ -139,7 +139,7 @@ Defined.
    equality: inferred, it would be [max(o1, h1, h2, p2)], the universe of
    [Transform], and [Fun]'s homs could not live in a universe of their own. *)
 #[export]
-Program Instance Transform_Setoid@{u | o1 <= u, h1 <= u, h2 <= u, p2 <= u +} :
+Program Instance Transform_Setoid@{u | max(o1, h1, h2, p2) <= u} :
   Setoid@{u u} Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.
 Next Obligation.
@@ -223,7 +223,7 @@ Proof. simpl; cat. Qed.
 
 (* The universes are declared, the two categories sharing their homs:
    inferred, the identity would carry those of the proofs of its laws. *)
-Program Definition nat_id@{oC oD h | +} {C : Category@{oC h h}} {D : Category@{oD h h}}
+Program Definition nat_id@{oC oD h} {C : Category@{oC h h}} {D : Category@{oD h h}}
   {F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
@@ -264,7 +264,7 @@ Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativ
 (* The universe [s] of the setoids is declared, and given to them: inferred,
    it would be minimized to [max(oC, h)] (rocq-prover/rocq#22721), and the
    homs of [Fun] could not live in a universe of their own. *)
-Program Definition nat_compose_respects@{oC oD h s | oC <= s, h <= s}
+Program Definition nat_compose_respects@{oC oD h s | max(oC, h) <= s}
         {C : Category@{oC h h}} {D : Category@{oD h h}}
         `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
   Proper (@equiv _ (@Transform_Setoid@{oC h h oD h h s} C D G K) ==>

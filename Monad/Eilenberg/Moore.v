@@ -49,7 +49,7 @@ Generalizable All Variables.
 
 (* The universes are declared: [oE] for the algebras, above the objects [oC]
    and the homs [h] of [C]. Inferred, it would be the least one, [max(oC, h)]. *)
-Program Definition EilenbergMoore@{oE oC h | oC <= oE, h <= oE +}
+Program Definition EilenbergMoore@{oE oC h | max(oC, h) <= oE +}
   {C : Category@{oC h h}} (T : C ⟶ C) `{H : @Monad C T} : Category@{oE h h} := {|
   obj     := ∃ a : C, @TAlgebra C T H a;
   hom     := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y);

@@ -367,7 +367,7 @@ Definition spanning_arrow {x : X} {a : A} (f : x ~> G a) : Type :=
 (* The universes are declared: [s] for the proposition, [i] for the index,
    [qA] and [qX] for the wide pullbacks in [A] and in [X]. Inferred, they would
    be the least ones. *)
-Definition PreservesWidePullbacks@{s i qA qX | +} : Type@{s} :=
+Definition PreservesWidePullbacks@{s i qA qX} : Type@{s} :=
   ∀ (I : Type@{i}) (B : I → A) (z : A) (g : ∀ i, B i ~> z)
     (Hm : ∀ i, Monic (g i)) (P : A) (p : ∀ i, P ~> B i),
     IsWidePullback@{i qA oA hA} g P p →

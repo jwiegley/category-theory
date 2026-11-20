@@ -260,7 +260,7 @@ Generalizable All Variables.
    Theory/Monad.v's [Comonad := @Monad (C^op) (W^op)]. *)
 (* The universe [u] of the quotients is declared: inferred, it would be the
    least one. *)
-Definition QuotObj@{u o h | o <= u, h <= u +} {C : Category@{o h h}} (x : C) : Type@{u} :=
+Definition QuotObj@{u o h | max(o, h) <= u} {C : Category@{o h h}} (x : C) : Type@{u} :=
   @SubObj (C^op) x.
 
 Section QuotientAccessors.

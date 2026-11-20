@@ -333,7 +333,7 @@ Generalizable All Variables.
 
 (* The universes are declared: [i] for the index, [s] for the subobjects.
    Inferred, the latter would be the least one. *)
-Record WellPoweredAt@{i o s h | o <= s, h <= s +} {C : Category@{o h h}} (x : C) :
+Record WellPoweredAt@{i o s h | max(o, h) <= s} {C : Category@{o h h}} (x : C) :
   Type@{max(i+1,o,h)} := {
   wp_index   : Type@{i};
   wp_to      : wp_index → SubObj x;

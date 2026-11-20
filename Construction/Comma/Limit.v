@@ -113,7 +113,7 @@ Definition image_acone {J : Category} {G : J ⟶ C} (L : Limit G) :
 (* The universes are declared: [s] for the proposition, [l] for the limits and
    [oJ] for the objects of their diagrams. Inferred, [s] would be the least
    one. *)
-Definition PreservesImageLimit@{s l oJ | +} : Type@{s} :=
+Definition PreservesImageLimit@{s l oJ} : Type@{s} :=
   ∀ (J : Category@{oJ h h}) (G : J ⟶ C) (L : Limit@{l oJ h oC} G) (N : Cone (U ◯ G)),
     Unique@{hD l hD} (fun φ : vertex_obj[N] ~{D}~> U L =>
       ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x).

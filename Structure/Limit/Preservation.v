@@ -165,7 +165,7 @@ Definition limit_is_alimit `(L : @Limit J C G) : IsALimit G L :=
 
 (* The universes are declared, the diagram and the category sharing their homs
    as for [Limit]: [u] is the universe of the proposition. *)
-Definition IsLimitCone@{u o1 h o2 | o1 <= u, h <= u, o2 <= u +}
+Definition IsLimitCone@{u o1 h o2 | max(o1, h, o2) <= u}
   {J : Category@{o1 h h}} {C : Category@{o2 h h}} {K : J ⟶ C} (N : Cone K) : Type@{u} :=
   ∀ M : Cone K, ∃! u : vertex_obj[M] ~{C}~> vertex_obj[N],
     ∀ x : J, cone_leg N x ∘ u ≈ cone_leg M x.
@@ -196,7 +196,7 @@ Definition limitcone_limit {J C : Category} {K : J ⟶ C} (N : Cone K)
 
 (* The universe [u] of the isomorphisms is declared: inferred, it would be the
    least one. *)
-Definition ConeIso@{u oJ h oC | oJ <= u, h <= u +}
+Definition ConeIso@{u oJ h oC | max(oJ, h) <= u}
   {J : Category@{oJ h h}} {C : Category@{oC h h}} {K : J ⟶ C} (N M : Cone K) : Type@{u} :=
   { i : vertex_obj[N] ≅ vertex_obj[M]
   & ∀ x : J, cone_leg M x ∘ to i ≈ cone_leg N x }.

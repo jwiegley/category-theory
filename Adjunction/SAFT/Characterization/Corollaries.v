@@ -195,7 +195,7 @@ Generalizable All Variables.
 (** ** Mac Lane's Corollary: continuous [Sets]-valued functors are representable *)
 
 Definition continuous_Set_functor_representable@{o h so c w s t su pl pa +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
+    max(h, c) <= so, w <= h, max(o, h) <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
@@ -205,7 +205,7 @@ Definition continuous_Set_functor_representable@{o h so c w s t su pl pa +|
 
 (* The representing object is the left adjoint at the singleton. *)
 Example continuous_Set_functor_representable_obj@{o h so c w s t su pl pa +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
+    max(h, c) <= so, w <= h, max(o, h) <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
@@ -216,7 +216,7 @@ Example continuous_Set_functor_representable_obj@{o h so c w s t su pl pa +|
     = fobj[projT1 (SAFT_wellpowered K comp cont G WP)] SetsOne := eq_refl.
 
 Definition continuous_Set_functor_representable_iff@{o h so c w s t su pl pa +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su +}
+    max(h, c) <= so, w <= h, max(o, h) <= s, h < t, h < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
@@ -246,8 +246,8 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa +|
 (** ** Riehl 4.7.13: the SAFT hypotheses give cocompleteness *)
 
 Definition saft_colim@{o h so c w s t jo fo +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
-    o <= fo, h <= fo+}
+    max(h, c) <= so, max(w, jo) <= h, max(o, h) <= s, h < t,
+    max(o, h) <= fo +}
   (C : Category@{o h h}) (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C)
   (J : Category@{jo h h}) :
@@ -256,8 +256,8 @@ Definition saft_colim@{o h so c w s t jo fo +|
     (Continuous_PreservesImageLimit Diagonal_continuous) G WP.
 
 Definition saft_cocomplete@{o h so c w s t jo fo +|
-    h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
-    o <= fo, h <= fo+}
+    max(h, c) <= so, max(w, jo) <= h, max(o, h) <= s, h < t,
+    max(o, h) <= fo +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @Cocomplete@{h jo h o} C :=

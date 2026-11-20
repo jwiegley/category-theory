@@ -260,7 +260,7 @@ Generalizable All Variables.
 (* The universes are declared: [p] for the compatibility of the operations
    with the equality, [c] for the carrier and [e] for its equality. Inferred,
    the first one would be [max(c, e)]. *)
-Record RgObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+Record RgObject@{p c e | max(c, e) <= p} : Type@{max(p, c+1, e+1)} := {
   rg_ab :> AbObject@{p c e};
 
   rg_mul : carrier (cmon_setoid (ab_cmon rg_ab)) →

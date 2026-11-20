@@ -163,7 +163,7 @@ Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := {
    Theory/Equivalence/Adjoint.v). *)
 (* The universes are declared, the two categories sharing their homs [h]: [u]
    and [u1] for the equalities of the functors on [D] and on [C]. *)
-Class EquivalenceOfCategories@{u u1 oC oD h | oC <= u1, oD <= u, h <= u, h <= u1 +}
+Class EquivalenceOfCategories@{u u1 oC oD h | max(oC, h) <= u1, max(oD, h) <= u}
   {C : Category@{oC h h}} {D : Category@{oD h h}} (F : C ⟶ D) : Type@{max(u,u1)} := {
   quasi_inverse : D ⟶ C;
   equivalence_counit : Compose@{oD oD oC h} F quasi_inverse ≈ Id[D];

@@ -435,7 +435,7 @@ Definition equivalence_connected {C D : Category} (F : C ⟶ D)
    unchanged: this constant introduces no proof content of its own. *)
 (* The universe of the relation is declared, as [p]: inferred, it would be
    [max(o, h)]. *)
-Definition zigzag_Equivalence@{p o h | o <= p, h <= p +} (C : Category@{o h h}) :
+Definition zigzag_Equivalence@{p o h | max(o, h) <= p} (C : Category@{o h h}) :
   Equivalence@{o p} (@ZigZag@{o h} C) :=
   {| Equivalence_Reflexive  := @zz_nil C
    ; Equivalence_Symmetric  := @zigzag_sym C
@@ -471,7 +471,7 @@ Definition ObjSetoid@{o h p q} (C : Category@{o h p}) : SetoidObject@{o q} :=
    UNTOUCHED and only `≈` is coarsened; the two readbacks below record
    that. *)
 (* The universes are declared: [p] for the equality of the quotient. *)
-Definition pi0@{o p h | o <= p, h <= p +} (C : Category@{o h h}) : SetoidObject@{o p} :=
+Definition pi0@{o p h | max(o, h) <= p +} (C : Category@{o h h}) : SetoidObject@{o p} :=
   SetsQuotient (ObjSetoid C) (@ZigZag@{o h} C) (zigzag_Equivalence@{p o h} C).
 
 (* The carrier of π₀ IS the object type, and its equality IS the zig-zag

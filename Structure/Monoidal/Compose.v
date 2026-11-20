@@ -40,7 +40,7 @@ Generalizable All Variables.
    why the associator/unitor and coherence obligations still appear below. *)
 
 (* The universes are declared: [m] for the objects and homs of [C, C]. *)
-Program Definition Compose_Monoidal@{m o h | o <= m, h <= m +} {C : Category@{o h h}} :
+Program Definition Compose_Monoidal@{m o h | max(o, h) <= m +} {C : Category@{o h h}} :
   @Monoidal (@Fun@{o h o h m m} C C) := {|
   tensor :=
     {| fobj := fun p => fst p ◯ snd p

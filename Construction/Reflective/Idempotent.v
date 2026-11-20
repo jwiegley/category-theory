@@ -274,7 +274,7 @@ Proof. simpl; apply fmap_comp. Qed.
 
 (* The universes are declared: [oS] and [hS] for the objects and homs of the
    subcategory, [l] for its predicates. *)
-Definition idem_reflector@{oS hS l | +} :
+Definition idem_reflector@{oS hS l} :
   C ⟶ Sub@{o h h l oS hS} C MLocal_Subcategory@{l} :=
   Build_Functor C (Sub@{o h h l oS hS} C MLocal_Subcategory@{l})
     idem_reflector_fobj

@@ -85,7 +85,7 @@ Qed.
    Construction/Subcategory.v. *)
 (* The universe of the monoids is declared: inferred, it would be the least one,
    [max(o, h)]. *)
-Program Definition Mon@{oM | o <= oM, h <= oM +} : Category@{oM h h} := {|
+Program Definition Mon@{oM | max(o, h) <= oM +} : Category@{oM h h} := {|
   obj     := { x : C & Monoid x };
   hom     := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f };
   homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};

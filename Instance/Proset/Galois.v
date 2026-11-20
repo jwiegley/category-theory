@@ -80,7 +80,7 @@ Generalizable All Variables.
     used as a hypothesis. *)
 (* The universes are declared, the proposition at its own universe [u]: inferred,
    it would be at the least one, [max(o, h)]. *)
-Definition Thin@{u o h | o <= u, h <= u} (C : Category@{o h h}) : Type@{u} :=
+Definition Thin@{u o h | max(o, h) <= u} (C : Category@{o h h}) : Type@{u} :=
   ∀ (x y : C) (f g : x ~> y), f ≈ g.
 
 (** Every [Proset] is thin, by construction: its hom-setoid relates everything. *)

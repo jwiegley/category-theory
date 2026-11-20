@@ -38,7 +38,7 @@ Generalizable All Variables.
 
 (* The universes are declared: inferred, the objects would be at [Set+1] and the
    instance would only have the universe of the homs. *)
-Program Definition Props@{u u0 | Set < u +} : Category@{u u0 u0} := {|
+Program Definition Props@{u u0 | Set < u} : Category@{u u0 u0} := {|
   obj     := Prop;                         (* objects are propositions *)
   hom     := Basics.impl;                  (* P ~> Q is the implication P → Q *)
   (* The hom-setoid is trivial, so any two proofs P → Q are identified: Props

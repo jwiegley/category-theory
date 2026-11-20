@@ -140,7 +140,7 @@ Generalizable All Variables.
 (* The universes are declared: [p] for the compatibility of the operations
    with the equality, [c] for the carrier and [e] for its equality. Inferred,
    the first one would be [max(c, e)]. *)
-Record RigObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+Record RigObject@{p c e | max(c, e) <= p} : Type@{max(p, c+1, e+1)} := {
   rig_setoid :> SetoidObject@{c e};
 
   rig_zero : carrier rig_setoid;
@@ -573,7 +573,7 @@ Next Obligation. intros [|]; reflexivity. Qed.
 (* A ring is a rig with additive inverses — mirroring how
    Structure/Additive.v extends Structure/Preadditive.v with [pneg]. *)
 (* The universes are declared, as those of [RigObject]. *)
-Record RingObject@{p c e | c <= p, e <= p} : Type@{max(Set+1,p,c+1,e+1)} := {
+Record RingObject@{p c e | max(c, e) <= p} : Type@{max(p, c+1, e+1)} := {
   ring_rig :> RigObject@{p c e};
 
   ring_neg : carrier (rig_setoid ring_rig) → carrier (rig_setoid ring_rig);

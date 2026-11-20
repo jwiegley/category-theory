@@ -181,7 +181,7 @@ Generalizable All Variables.
    in this record requires I to be inhabited. *)
 (* The universes are declared, as for [IsIndexedProduct]: [a] for the index,
    [q] for the uniqueness of the mediating arrow, then those of [C]. *)
-Record IsWidePullback@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {I : Type@{a}}
+Record IsWidePullback@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {I : Type@{a}}
   {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) (P : C) (p : ∀ i : I, P ~> A i) :
   Type@{max(q,o,h)} := {
   (* every leg is carried to the common codomain in the same way *)
@@ -203,7 +203,7 @@ Arguments wpull_ump {_ _ _ _ _ _ _} _ {_} _ _.
    wide pullback is CHOSEN here, so consumers read the object off the
    record instead of destructing an existential. *)
 (* The universes are declared, as for [IsWidePullback]. *)
-Record WidePullback@{a q o h | a <= q, h <= q} {C : Category@{o h h}} {I : Type@{a}}
+Record WidePullback@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {I : Type@{a}}
   {A : I → C} {z : C} (f : ∀ i : I, A i ~> z) : Type@{max(q,o,h)} := {
   WPull : C;                             (* the wide pullback object *)
   wide_pullback_proj : ∀ i : I, WPull ~> A i;   (* the projections *)

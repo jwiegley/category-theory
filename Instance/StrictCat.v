@@ -56,7 +56,7 @@ Generalizable All Variables.
 (* The universes are declared: [u] for the categories, [u0] for the functors
    and their equalities, [o] and [h] for the objects and homs of the
    categories. *)
-Instance StrictCat@{u u0 o h | o < u, h < u, o <= u0, h <= u0 +} :
+Instance StrictCat@{u u0 o h | max(o, h) < u, max(o, h) <= u0 +} :
   Category@{u u0 u0} := {
   obj     := Category@{o h h};
   hom     := @Functor@{o h h o h h};

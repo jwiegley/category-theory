@@ -149,7 +149,7 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
    equality, the two categories sharing their homs [h]. Inferred, [u] would be
    the least one. *)
 #[export]
-Program Instance Functor_Setoid@{u u0 oC oD h | oC <= u, oC <= u0, oD <= u, h <= u, h <= u0 +}
+Program Instance Functor_Setoid@{u u0 oC oD h | max(oC, oD, h) <= u, max(oC, h) <= u0}
   {C : Category@{oC h h}} {D : Category@{oD h h}} : Setoid@{u u0} (C ⟶ D) := {
   (* Note that it doesn't make much sense (with our definition of [Category])
      to ask that [∀ x : C, F x = G x] and
@@ -267,7 +267,7 @@ Notation "Id[ C ]" := (@Id C) (at level 0, format "Id[ C ]") : functor_scope.
 (* The universes are declared, the three categories sharing their homs: those
    of the objects of [E], [C] and [D], and the homs. Inferred, each category
    would keep its own universe of homs. *)
-Program Definition Compose@{oE oC oD h | +}
+Program Definition Compose@{oE oC oD h}
   {C : Category@{oC h h}} {D : Category@{oD h h}} {E : Category@{oE h h}}
   (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
@@ -616,7 +616,7 @@ Proof.
 Defined.
 
 (* The universes are declared as those of [Functor_Setoid]. *)
-Program Instance Functor_StrictEq_Setoid@{u u0 oC oD h | oC <= u, oC <= u0, oD <= u, h <= u, h <= u0 +}
+Program Instance Functor_StrictEq_Setoid@{u u0 oC oD h | max(oC, oD, h) <= u, max(oC, h) <= u0 +}
   {C : Category@{oC h h}} {D : Category@{oD h h}} : Setoid@{u u0} (C ⟶ D) := {
     equiv := fun F G =>
       { eq_on_obj : ∀ x : C, F x = G x

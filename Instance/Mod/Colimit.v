@@ -441,7 +441,7 @@ End ModDiagonalSolutionSet.
 (** ** Every colimit of R-modules within the shape discipline *)
 
 Definition RMod_colim_via_GAFT@{a c p o jo +|
-    Set < c, c < o, p <= a, c <= a, a <= o, jo <= c +}
+    Set < c, c < o, max(p, c) <= a, a <= o, jo <= c +}
   (R : RingObject@{a c p}) (J : Category@{jo c c}) :
   { K : [J, RMod@{o a p c} R] ⟶ RMod@{o a p c} R
   & K ⊣ @Diagonal (RMod@{o a p c} R) J } :=
@@ -450,7 +450,7 @@ Definition RMod_colim_via_GAFT@{a c p o jo +|
        (@Diagonal_RMod_solution_set R J).
 
 Definition RMod_Cocomplete_via_GAFT@{a c p o so +|
-    Set < c, c < o, p <= a, c <= a, a <= o, so <= c +}
+    Set < c, c < o, max(p, c) <= a, a <= o, so <= c +}
   (R : RingObject@{a c p}) : @Cocomplete@{c so c o} (RMod@{o a p c} R) :=
   fun J F =>
     Diagonal_left_adjoint_HasColimits (projT2 (RMod_colim_via_GAFT R J)) F.
@@ -458,19 +458,19 @@ Definition RMod_Cocomplete_via_GAFT@{a c p o so +|
 (** ** Coproducts, coequalizers and the initial module *)
 
 Definition RMod_FinitelyCocomplete_via_GAFT@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) : @FinitelyCocomplete (RMod@{o a p c} R) :=
   Cocomplete_FinitelyCocomplete (RMod_Cocomplete_via_GAFT R).
 
 Definition RMod_Cocartesian_via_GAFT@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) : @Cocartesian (RMod@{o a p c} R) :=
   FinitelyComplete_Cartesian
     (FinitelyCocomplete_FinitelyComplete_op
        (RMod_FinitelyCocomplete_via_GAFT R)).
 
 Definition RMod_HasCoequalizers_via_GAFT@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) : HasCoequalizers (RMod@{o a p c} R) :=
   HasCoequalizers_of_HasEqualizers_op
     (FinitelyComplete_HasEqualizers
@@ -478,7 +478,7 @@ Definition RMod_HasCoequalizers_via_GAFT@{a c p o +|
           (RMod_FinitelyCocomplete_via_GAFT R))).
 
 Definition RMod_Initial_via_GAFT@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   (R : RingObject@{a c p}) : @Initial (RMod@{o a p c} R) :=
   FinitelyCocomplete_Initial (RMod_FinitelyCocomplete_via_GAFT R).
 
@@ -487,7 +487,7 @@ Definition RMod_Initial_via_GAFT@{a c p o +|
 (* The initial module the theorem produces is the zero module: the
    identity and the zero homomorphism are two arrows out of it. *)
 Lemma RMod_initial_via_GAFT_trivial@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}}
   (a0 : carrier (cmon_setoid
           (@initial_obj (RMod@{o a p c} R) (RMod_Initial_via_GAFT R)))) :
@@ -499,7 +499,7 @@ Qed.
 (* The left injection of the coproduct is split by the copairing of the
    identity with the zero homomorphism ... *)
 Lemma RMod_inl_via_GAFT_retract@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} (M N : obj[RMod@{o a p c} R]) :
   @merge (RMod R) (RMod_Cocartesian_via_GAFT R) _ _ _ id rmod_hom_zero
     ∘ @inl (RMod R) (RMod_Cocartesian_via_GAFT R) M N ≈ id.
@@ -507,7 +507,7 @@ Proof. exact (@inl_merge (RMod R) (RMod_Cocartesian_via_GAFT R) _ _ _ _ _). Qed.
 
 (* ... and is therefore injective. *)
 Lemma RMod_inl_via_GAFT_injective@{a c p o +|
-    Set < c, c < o, p <= a, c <= a, a <= o +}
+    Set < c, c < o, max(p, c) <= a, a <= o +}
   {R : RingObject@{a c p}} (M N : obj[RMod@{o a p c} R])
   (a0 b0 : carrier (cmon_setoid M)) :
   cmon_map (rm_hom (@inl (RMod R) (RMod_Cocartesian_via_GAFT R) M N)) a0

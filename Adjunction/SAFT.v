@@ -334,7 +334,7 @@ Definition cogen_prod_limit {C : Category} (comp : @Complete C)
 
 (* The universes are declared: [i] for the index of the cogenerator, [r] for
    the limits of [C]. Inferred, [r] would be the least one. *)
-Definition cogen_prod@{i r o h | i <= r, h <= r +} {C : Category@{o h h}}
+Definition cogen_prod@{i r o h | max(i, h) <= r +} {C : Category@{o h h}}
   (comp : @Complete@{r i h o} C) (G : Cogenerator@{i o h} C) : C :=
   iprod (cog_obj G) (cogen_prod_limit comp G).
 
@@ -376,7 +376,7 @@ Definition cogen_power_limit {C : Category} (comp : @Complete C)
 
 (* The universes are declared: [r] for the limits of [C], [i] for the index of
    the cogenerator. Inferred, [r] would be the least one. *)
-Definition cogen_power@{r o h i | h <= r, i <= r +} {C : Category@{o h h}}
+Definition cogen_power@{r o h i | max(h, i) <= r +} {C : Category@{o h h}}
   (comp : @Complete@{r r h o} C) (G : Cogenerator@{i o h} C) (c : C) : C :=
   iprod (cogen_power_fam G c) (cogen_power_limit comp G c).
 
@@ -439,7 +439,7 @@ Qed.
    indices of the subobjects and of the cogenerator, [r] for the limits of
    [C]. Inferred, [s] and [r] would be the least ones. *)
 Definition SubobjectCover@{s si cg r oD oC h |
-    si <= s, cg <= r, oD <= s, oC <= s, h <= s, h <= r +}
+    max(si, oD, oC, h) <= s, max(cg, h) <= r +}
   {C : Category@{oC h h}} {D : Category@{oD h h}} (U : C ⟶ D)
   (comp : @Complete@{r cg h oC} C) (G : Cogenerator@{cg oC h} C)
   (WP : forall x : C, SubobjectIndex@{si oC h} x) : Type@{s} :=
