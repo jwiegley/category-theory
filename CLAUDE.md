@@ -9,15 +9,11 @@ This codebase is a comprehensive formalization of category theory in Coq/Rocq. I
 ### Building the Library
 
 ```bash
-# Build the entire library (default: Rocq 9.1)
-make
+# Build the working tree with the locked Rocq 9.2.0 toolchain
+nix develop --no-update-lock-file --command make
 
-# Build for specific version (if using Nix)
-nix-shell -p coqPackages_9_1.coq --run make
-
-# Build using Nix flake (the default package is category-theory_9_1)
+# Build and check the default package (category-theory_9_2)
 nix build
-# ...or select a version explicitly, e.g. nix build .#category-theory_8_20
 
 # Clean build artifacts
 make clean
@@ -297,9 +293,9 @@ When working with specific concepts, reference:
 
 ## Versioning
 
-Default version: Rocq 9.1 (the `default` package in flake.nix)
-Supported: Coq 8.19-8.20, Rocq 9.0-9.1
-Equations dependency required for some parts (versions matched to Coq)
+The release target is Rocq 9.2.0 with Stdlib 9.1.0 and Equations
+1.3.2+9.2. The development shell and default package use the same locked
+package set. Earlier compiler versions are outside this release target.
 
 ## Testing Individual Theorems
 

@@ -25,10 +25,10 @@ pre-commit:
       run: make -s index-check
     probe-arity:
       glob: "{*.v,_CoqProject,scripts/probe_arity*,scripts/test_probe_arity.py,Makefile,lefthook.yml,flake.nix,flake.lock,CLAUDE.md,doc/PROBE_ARITY.md,.github/workflows/*.yml}"
-      run: make -s probe-arity-check
+      run: nix develop --no-update-lock-file --ignore-environment --command make -s probe-arity-check
     nix-build:
-      glob: "*.{v,nix}"
+      glob: "{*.v,*.nix,flake.lock}"
       run: nix build --no-warn-dirty 2>&1
     nix-check:
-      glob: "*.{v,nix}"
+      glob: "{*.v,*.nix,flake.lock}"
       run: nix flake check --no-warn-dirty 2>&1
