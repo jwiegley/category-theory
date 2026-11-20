@@ -219,19 +219,71 @@ changes from 245 to 139; every other file's count is unchanged. The remaining
 boundary and existing packaged-universe collapse are not redesigned here.
 Earlier compiler results remain historical, and #1412 remains open.
 
+## Fourth batch: composition in CMon on Rocq 9.2.0
+
+In `Instance/CMon.v`, the `compose` field now uses `@cmon_hom_compose`
+without `@{u p}`. `Print CMon` still shows `@cmon_hom_compose@{u p}` in the
+constructed record. Neither the two public slots of `cmon_hom_compose` nor
+the constraint `p < u` has gone away. The `compose_respects` field retains
+`@cmon_hom_compose_respects@{u p}`. In trials against verified copies of
+compiled dependencies, deleting either annotation alone compiled; deleting
+both left an unbound universe in the `compose` field. The latter is an
+elaboration failure, not a mathematical refusal. In particular, the original
+pin paragraph describes a sufficient construction with every field explicit,
+not a proof that each annotation is necessary.
+
+The baseline is merge `d8d0c748d47838518c4cc99b7197975ec5b1aad4`.
+PR #1419's explicit bindings on `CanonicalMap` and the terminal/initial
+point functors are already in this baseline and are unchanged here. The
+release toolchain was Rocq and Corelib 9.2.0, Stdlib 9.1.0 and Equations
+1.3.2+9.2, with matching executable and library identities in the pair.
+Fresh source-only builds compiled all 1177 registered files on each side.
+The sole source difference in the build inputs was the `compose` annotation:
+`Instance/CMon.v` SHA-256 `3fcd7df5095e8ed88a123ee61a1d1b03d37179b74b02ffaed38cf5257a600f28`
+before, `03125daf25678f6ad1adedd5aefaf8c40bc949c1ded83e8dfc48804573f79e5a` after.
+The live non-probe inventory over 1181 tracked `.v` files fell from 15249 to
+15248, with only `Instance/CMon.v` changing (7 to 6).
+
+For all 36 items enumerated from `Print Module` for `Category.Instance.CMon`
+(including generated obligations, records and constructors), the complete
+qualified `About`, `Print` and `Print Assumptions` responses match byte for
+byte; all 36 are closed. The registered build dependencies give 132 direct
+importers and 173 downstream files in total. Across those 173 modules plus
+`Theory/Metacategory/ArrowsOnly.v`, module displays and all three responses
+for each of 10300 enumerated items match without normalization, including
+52 unchanged nonclosed assumption responses. Names come from printed
+`Definition`, `Parameter`, `Record` and `Inductive` headings plus constructors
+from fresh `.glob` files. Qualified `Locate` found no object on either side
+for the 449 additional source names from declaration entries. `ArrowsOnly`
+is included separately because its `.vo` differed outside the import closure:
+its 85 items match by the same criterion; the byte difference is unexplained.
+This comparison is not a claim of identical object-file serialization.
+
+All 588 outer `Fail` commands in the closure (64 files) were replayed in
+source order on verified copies of each build. Complete stdout and stderr
+matched, including refusal payloads; a nested `Fail Fail` is an instrument,
+not a mathematical counterexample. Separate paired controls checked all six
+record projections through `compose_respects` by `eq_refl` and three strict
+universe refusals with adjacent same-constant, same-arity eager controls at
+`Set < cmonCarrier < cmonUpper`. A shortened arity-one instance compiled
+under `Fail` but was rejected by the semantic guard; it is not evidence of a
+universe bound. The configured assumption gate yielded identical output for
+14506 requests. The candidate semantic arity gate freshly built 1177 files,
+with eight protected extractions, zero violations and zero exceptions.
+
 ## Remaining #1412 scope
 
 Continue in reviewable jointly verified batches: resolve full constant identities,
 distinguish genuine identifications from redundant annotations, compare all
 affected declarations/bodies/constraints and actual callers, preserve full refusal
 payloads and eager controls, and run exact Rocq 9.2.0 and the configured gates.
-The retained OGraph references, the CMon application, the remaining GAFT
+The retained OGraph references, the other CMon pins, the remaining GAFT
 references and every other unassessed site remain #1412 work. Hub/signature
 redesign belongs to later issues.
 
 ## Per-file inventory
 
-`Before` is the bound baseline; `After` includes this batch. Unlisted files have
+`Before` is the first-batch baseline `438d83b2`; `After` includes only that batch. Unlisted files have
 zero non-probe reference-syntax sites under the criterion above. Unchanged rows
 mean retained/unassessed, not proven necessary. Changed rows retain the pins above.
 

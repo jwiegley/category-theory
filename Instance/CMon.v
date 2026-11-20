@@ -206,7 +206,7 @@ Program Definition CMon@{u p} : Category@{u p p} := {|
   hom     := CMonHom@{p};
   homset  := @CMonHom_Setoid@{p};
   id      := @cmon_hom_id@{p};
-  compose := @cmon_hom_compose@{u p};
+  compose := @cmon_hom_compose;
 
   compose_respects := @cmon_hom_compose_respects@{u p}
 |}.
