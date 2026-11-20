@@ -3,7 +3,7 @@
 These are partial #1412 batches, not issue closure or core-signature redesign.
 The first-batch baseline is `438d83b2b706d33f1deaad60672c3ed5ed2a6554`
 (including PR #1407); its measurements and per-file table below are historical.
-The second batch has a separate source baseline and release-only evidence.
+The later batches have separate source baselines and release-only evidence.
 Counts concern **live non-probe reference syntax**, not redundant instances or
 public universe-slot savings. Outside this batch, retain every unassessed site.
 
@@ -149,14 +149,85 @@ SupLat/Free/Morphism 2 and SupLat/Examples 28. The earlier table remains the
 first-batch measurement, not a current necessity census. Re-run the displayed
 scanner recipe at each source revision to obtain its registered-file counts.
 
+## Third joint batch: OGraph on Rocq 9.2.0
+
+This batch removes 106 reference annotations together from `Theory/OGraph.v`.
+Its declaration binders, terms apart from those annotations, proof endings,
+instance registrations and probe sources are unchanged. The retained annotations
+still anchor graph, category and proof levels; this batch does not establish that
+every retained annotation is necessary. Nor does it establish individual
+removability, fewer public universe slots or an exclusive constraint donor.
+
+The paired source baseline is merge commit
+`4b19b78129c25cf70044d839490ba5dee75425b3`. Only `Theory/OGraph.v` differs
+between the formal-source snapshots. Its SHA-256 changes from
+`4a6b0e8bf9c01cea74e19e408fc435fec6c6c9046d045a536f9bb4126175b367` to
+`c21eac187f8c82945aa8b2b5058dd51f8bd30986fa38eaf9f98c390e0dbb8eb0`.
+Both sides freshly built all 1177 registered files on released Rocq 9.2.0,
+Stdlib 9.1.0 and Equations 1.3.2+9.2, with executable and library identities
+matched. An earlier seeded unit experiment is not the full-build evidence.
+
+Measurements on the fresh paired builds:
+
+- Complete `Print Module Category.Theory.OGraph` output is byte-identical.
+  With all printing enabled, universes shown and printing depth 1000000, it
+  enumerates 108 `Definition`/`Parameter` headings, three records and their
+  three constructors. Qualified `About`, `Print` and `Print Assumptions`
+  requests cover all 114 items, including `coarse_unit_obligation_1`.
+  The inventory agrees with source declarations and fresh `.glob` metadata.
+  The older `109/109` figure is a historical report, not this inventory.
+  The index's claim of no `Program` is corrected: `coarse_unit` generates the
+  discharged, opaque and closed `coarse_unit_obligation_1`. The header's matching
+  no-`Program`/no-obligations claim is stale; its source-comment correction is
+  deferred to #1416 to preserve this batch's annotation-only source binding.
+- Of those 342 responses, 340 are byte-identical. The two remaining complete
+  `Print` responses differ only by a checked bijection of compiler-declared
+  private universe IDs: `ograph_compose_respects` changes
+  `Category.Theory.OGraph.227` to `.265`; `coarse_respectfulness_entails_UIP`
+  changes `.21528` to `.21872` and `.21529` to `.21873`, with the same module
+  prefix. The substitution preserves every other byte of the bodies and
+  constraint blocks, including the first proof's strict `p <` private-level
+  bound. No whitespace, ordering, public-slot or constraint normalization is
+  used. All 114 assumption responses are closed.
+- The fresh registered-project dependency graph and `.glob` references find
+  no external caller. OGraph contains no existing `Fail` command. The four
+  tracked unregistered files have no lexical reference to the enumerated
+  OGraph names; they were inspected, not compiled as part of the build set.
+- Seven additional positive/refusal pairs preserve the tested bounds on
+  `OGraphHom`, `OGraphHomEquiv`, `OGrph`, `OGrph_Monoidal`, `MonoidOfCat` and
+  `CategoryOfOMonoid`. Every refusal has an adjacent eager check of the same
+  constant and arity. Complete diagnostic streams match byte-for-byte.
+  Eleven `eq_refl` checks cover the five category data projections,
+  composable-pair eta, graph and multiplication round trips, the unit at
+  `eq_refl`, and the natural-number composition and identity computations.
+  These are not whole-category-record equality or functional unit eta.
+- The existing arity checker accepts those controls using fresh direct
+  references and canonical whole-file `About` evidence. It rejects a
+  deliberately shortened negative instance even though its enclosing `Fail`
+  makes the file compile; that arity failure is not universe evidence.
+  The configured semantic gate independently rebuilds 1177 files and reports
+  zero violations and zero exceptions. New comparison and inventory logic
+  has positive and negative tests.
+- All 14506 configured assumption requests, run on verified copies of the
+  paired build products, have identical raw responses. Only `ZX_Cat` lists
+  the three documented Phase parameters. This remains an enumerated audit.
+
+The live non-probe syntax scan above now measures 15355 references before and
+15249 after, across 1181 tracked `.v` files and 1177 registrations. OGraph
+changes from 245 to 139; every other file's count is unchanged. The remaining
+139 are retained, not certified necessary. The monoidal construction, no-UIP
+boundary and existing packaged-universe collapse are not redesigned here.
+Earlier compiler results remain historical, and #1412 remains open.
+
 ## Remaining #1412 scope
 
 Continue in reviewable jointly verified batches: resolve full constant identities,
 distinguish genuine identifications from redundant annotations, compare all
 affected declarations/bodies/constraints and actual callers, preserve full refusal
 payloads and eager controls, and run exact Rocq 9.2.0 and the configured gates.
-OGraph, the CMon application, the remaining GAFT references and every other
-unassessed site remain #1412 work. Hub/signature redesign belongs to later issues.
+The retained OGraph references, the CMon application, the remaining GAFT
+references and every other unassessed site remain #1412 work. Hub/signature
+redesign belongs to later issues.
 
 ## Per-file inventory
 

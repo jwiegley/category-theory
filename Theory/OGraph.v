@@ -285,8 +285,8 @@ Record OGraphHom@{o h p} {O : Type@{o}} (A B : OGraph@{o h p} O)
   oemap : ∀ x y, oedges A x y → oedges B x y;
   oemap_respects : ∀ x y,
     Proper@{h p} (respectful@{h p h p h p}
-                    (@equiv@{h p} _ (oedgeset A x y))
-                    (@equiv@{h p} _ (oedgeset B x y)))
+                    (@equiv _ (oedgeset A x y))
+                    (@equiv _ (oedgeset B x y)))
       (oemap x y)
 }.
 
@@ -296,9 +296,9 @@ Arguments oemap_respects {_ _ _} _ _ _.
 #[export] Existing Instance oemap_respects.
 
 Definition OGraphHomEquiv@{o h p hh} {O : Type@{o}} {A B : OGraph@{o h p} O}
-  (F G : OGraphHom@{o h p} A B) : Type@{hh} :=
+  (F G : OGraphHom A B) : Type@{hh} :=
   ∀ x y (f : oedges A x y),
-    @equiv@{h p} _ (oedgeset B x y) (oemap F x y f) (oemap G x y f).
+    @equiv _ (oedgeset B x y) (oemap F x y f) (oemap G x y f).
 
 Lemma OGraphHomEquiv_Equivalence@{o h p hh} {O : Type@{o}}
   (A B : OGraph@{o h p} O) :
@@ -312,22 +312,22 @@ Proof.
 Qed.
 
 Definition OGraphHom_Setoid@{o h p hh} {O : Type@{o}} (A B : OGraph@{o h p} O)
-  : Setoid@{hh hh} (OGraphHom@{o h p} A B) := {|
+  : Setoid@{hh hh} (OGraphHom A B) := {|
   equiv := @OGraphHomEquiv@{o h p hh} O A B;
-  setoid_equiv := OGraphHomEquiv_Equivalence@{o h p hh} A B
+  setoid_equiv := OGraphHomEquiv_Equivalence A B
 |}.
 
 Definition ograph_id@{o h p} {O : Type@{o}} (A : OGraph@{o h p} O)
-  : OGraphHom@{o h p} A A := {|
+  : OGraphHom A A := {|
   oemap := fun _ _ f => f;
-  oemap_respects := fun x y f g (H : @equiv@{h p} _ (oedgeset A x y) f g) => H
+  oemap_respects := fun x y f g (H : @equiv _ (oedgeset A x y) f g) => H
 |}.
 
 Definition ograph_compose@{o h p} {O : Type@{o}} {A B C : OGraph@{o h p} O}
-  (F : OGraphHom@{o h p} B C) (G : OGraphHom@{o h p} A B)
-  : OGraphHom@{o h p} A C := {|
+  (F : OGraphHom B C) (G : OGraphHom A B)
+  : OGraphHom A C := {|
   oemap := fun x y f => oemap F x y (oemap G x y f);
-  oemap_respects := fun x y f g (H : @equiv@{h p} _ (oedgeset A x y) f g) =>
+  oemap_respects := fun x y f g (H : @equiv _ (oedgeset A x y) f g) =>
     oemap_respects F x y _ _ (oemap_respects G x y _ _ H)
 |}.
 
@@ -337,7 +337,7 @@ Lemma ograph_compose_respects@{o h p hh} {O : Type@{o}}
     (respectful@{hh hh hh hh hh hh} (@OGraphHomEquiv@{o h p hh} O B C)
        (respectful@{hh hh hh hh hh hh} (@OGraphHomEquiv@{o h p hh} O A B)
           (@OGraphHomEquiv@{o h p hh} O A C)))
-    (@ograph_compose@{o h p} O A B C).
+    (@ograph_compose O A B C).
 Proof.
   intros F F' HF G G' HG x y f; simpl.
   rewrite (HG x y f).
@@ -345,18 +345,18 @@ Proof.
 Qed.
 
 Lemma ograph_id_left@{o h p hh} {O : Type@{o}} (A B : OGraph@{o h p} O)
-  (F : OGraphHom@{o h p} A B) :
+  (F : OGraphHom A B) :
   @OGraphHomEquiv@{o h p hh} O A B (ograph_compose (ograph_id B) F) F.
 Proof. now intros x y f. Qed.
 
 Lemma ograph_id_right@{o h p hh} {O : Type@{o}} (A B : OGraph@{o h p} O)
-  (F : OGraphHom@{o h p} A B) :
+  (F : OGraphHom A B) :
   @OGraphHomEquiv@{o h p hh} O A B (ograph_compose F (ograph_id A)) F.
 Proof. now intros x y f. Qed.
 
 Lemma ograph_comp_assoc@{o h p hh} {O : Type@{o}} (A B C D : OGraph@{o h p} O)
-  (F : OGraphHom@{o h p} C D) (G : OGraphHom@{o h p} B C)
-  (H : OGraphHom@{o h p} A B) :
+  (F : OGraphHom C D) (G : OGraphHom B C)
+  (H : OGraphHom A B) :
   @OGraphHomEquiv@{o h p hh} O A D
     (ograph_compose F (ograph_compose G H))
     (ograph_compose (ograph_compose F G) H).
@@ -364,8 +364,8 @@ Proof. now intros x y f. Qed.
 
 Lemma ograph_comp_assoc_sym@{o h p hh} {O : Type@{o}}
   (A B C D : OGraph@{o h p} O)
-  (F : OGraphHom@{o h p} C D) (G : OGraphHom@{o h p} B C)
-  (H : OGraphHom@{o h p} A B) :
+  (F : OGraphHom C D) (G : OGraphHom B C)
+  (H : OGraphHom A B) :
   @OGraphHomEquiv@{o h p hh} O A D
     (ograph_compose (ograph_compose F G) H)
     (ograph_compose F (ograph_compose G H)).
@@ -377,18 +377,18 @@ Proof. now intros x y f. Qed.
    category; see the header. *)
 Definition OGrph@{o h p hh oo} (O : Type@{o}) : Category@{oo hh hh} := {|
   obj     := OGraph@{o h p} O;
-  hom     := fun A B => OGraphHom@{o h p} A B;
-  homset  := @OGraphHom_Setoid@{o h p hh} O;
-  id      := @ograph_id@{o h p} O;
-  compose := @ograph_compose@{o h p} O;
+  hom     := fun A B => OGraphHom A B;
+  homset  := @OGraphHom_Setoid O;
+  id      := @ograph_id O;
+  compose := @ograph_compose O;
 
-  compose_respects := @ograph_compose_respects@{o h p hh} O;
+  compose_respects := @ograph_compose_respects O;
 
-  id_left  := @ograph_id_left@{o h p hh} O;
-  id_right := @ograph_id_right@{o h p hh} O;
+  id_left  := @ograph_id_left O;
+  id_right := @ograph_id_right O;
 
-  comp_assoc     := @ograph_comp_assoc@{o h p hh} O;
-  comp_assoc_sym := @ograph_comp_assoc_sym@{o h p hh} O
+  comp_assoc     := @ograph_comp_assoc O;
+  comp_assoc_sym := @ograph_comp_assoc_sym O
 |}.
 
 (** ** The trivial O-graph *)
@@ -424,15 +424,15 @@ Definition OGraph_unit@{o h p} (O : Type@{o}) : OGraph@{o h p} O := {|
 (** ** The bridge to Quiver *)
 
 Definition QuiverOfOGraph@{o h p} {O : Type@{o}} (A : OGraph@{o h p} O)
-  : Quiver@{o h p} := {|
+  : Quiver := {|
   nodes := O;
   edges := oedges A;
   edgeset := oedgeset A
 |}.
 
 Definition QuiverHomOfOGraphHom@{o h p} {O : Type@{o}} {A B : OGraph@{o h p} O}
-  (F : OGraphHom@{o h p} A B) :
-  QuiverHomomorphism@{o h p o h p} (QuiverOfOGraph A) (QuiverOfOGraph B).
+  (F : OGraphHom A B) :
+  QuiverHomomorphism (QuiverOfOGraph A) (QuiverOfOGraph B).
 Proof.
   unshelve refine (@Build_QuiverHomomorphism
                      (QuiverOfOGraph A) (QuiverOfOGraph B)
@@ -445,8 +445,8 @@ Definition OGrph_Quiver@{o h p hh oo +|+} (O : Type@{o}) :
   OGrph@{o h p hh oo} O ⟶ QuiverCategory.
 Proof.
   unshelve refine (@Build_Functor (OGrph@{o h p hh oo} O) QuiverCategory
-                     (@QuiverOfOGraph@{o h p} O)
-                     (@QuiverHomOfOGraphHom@{o h p} O) _ _ _).
+                     (@QuiverOfOGraph O)
+                     (@QuiverHomOfOGraphHom O) _ _ _).
   - intros A B F G HFG.
     exists (fun _ => eq_refl).
     intros x y f.
@@ -504,13 +504,13 @@ Arguments cright {_ _ _ _ _} _.
 
 Definition cpair@{o h p} {O : Type@{o}} {A B : OGraph@{o h p} O} {x z : O}
   (y : O) (g : oedges A y z) (f : oedges B x y)
-  : Composable@{o h p} A B x z := {|
+  : Composable A B x z := {|
   cmid := y; cleft := g; cright := f
 |}.
 
 (* Record eta, definitionally, thanks to primitive projections. *)
 Example composable_eta@{o h p +|+} {O : Type@{o}} {A B : OGraph@{o h p} O}
-  {x z : O} (u : Composable@{o h p} A B x z)
+  {x z : O} (u : Composable A B x z)
   : cpair (cmid u) (cleft u) (cright u) = u := eq_refl.
 
 (* Two composable pairs are identified when their middle nodes are equal and
@@ -525,17 +525,17 @@ Example composable_eta@{o h p +|+} {O : Type@{o}} {A B : OGraph@{o h p} O}
    where a comparison of two such proofs WOULD have arisen, and what
    discharges it. *)
 Definition CompEquiv@{o h p} {O : Type@{o}} {A B : OGraph@{o h p} O} {x z : O}
-  (u v : Composable@{o h p} A B x z) : Type@{p} :=
+  (u v : Composable A B x z) : Type@{p} :=
   { q : cmid u = cmid v &
-      ((@equiv@{h p} _ (oedgeset A (cmid v) z)
+      ((@equiv _ (oedgeset A (cmid v) z)
           (match q in _ = m return oedges A m z with eq_refl => cleft u end)
           (cleft v)) *
-       (@equiv@{h p} _ (oedgeset B x (cmid v))
+       (@equiv _ (oedgeset B x (cmid v))
           (match q in _ = m return oedges B x m with eq_refl => cright u end)
           (cright v)))%type }.
 
 Lemma CompEquiv_Equivalence@{o h p} {O : Type@{o}} (A B : OGraph@{o h p} O)
-  (x z : O) : Equivalence@{h p} (@CompEquiv@{o h p} O A B x z).
+  (x z : O) : Equivalence@{h p} (@CompEquiv O A B x z).
 Proof.
   constructor.
   - intros u.
@@ -553,30 +553,30 @@ Proof.
 Qed.
 
 Definition Composable_Setoid@{o h p} {O : Type@{o}} (A B : OGraph@{o h p} O)
-  (x z : O) : Setoid@{h p} (Composable@{o h p} A B x z) := {|
-  equiv := @CompEquiv@{o h p} O A B x z;
-  setoid_equiv := CompEquiv_Equivalence@{o h p} A B x z
+  (x z : O) : Setoid@{h p} (Composable A B x z) := {|
+  equiv := @CompEquiv O A B x z;
+  setoid_equiv := CompEquiv_Equivalence A B x z
 |}.
 
 Definition OGraph_prod@{o h p} {O : Type@{o}} (A B : OGraph@{o h p} O)
   : OGraph@{o h p} O := {|
-  oedges := Composable@{o h p} A B;
-  oedgeset := @Composable_Setoid@{o h p} O A B
+  oedges := Composable A B;
+  oedgeset := @Composable_Setoid O A B
 |}.
 
 (* The common special case of [CompEquiv]: same middle node, legs `≈`. *)
 Lemma cpair_equiv@{o h p} {O : Type@{o}} {A B : OGraph@{o h p} O} {x z : O}
   (y : O) (g g' : oedges A y z) (f f' : oedges B x y) :
-  @equiv@{h p} _ (oedgeset A y z) g g' →
-  @equiv@{h p} _ (oedgeset B x y) f f' →
-  @CompEquiv@{o h p} O A B x z (cpair y g f) (cpair y g' f').
+  @equiv _ (oedgeset A y z) g g' →
+  @equiv _ (oedgeset B x y) f f' →
+  @CompEquiv O A B x z (cpair y g f) (cpair y g' f').
 Proof. intros Hg Hf; exists eq_refl; now split. Qed.
 
 (** ** The tensor bifunctor *)
 
 Definition ograph_prod_map@{o h p} {O : Type@{o}} {A A' B B' : OGraph@{o h p} O}
-  (F : OGraphHom@{o h p} A A') (G : OGraphHom@{o h p} B B') :
-  OGraphHom@{o h p} (OGraph_prod A B) (OGraph_prod A' B').
+  (F : OGraphHom A A') (G : OGraphHom B B') :
+  OGraphHom (OGraph_prod A B) (OGraph_prod A' B').
 Proof.
   unshelve refine (@Build_OGraphHom O (OGraph_prod A B) (OGraph_prod A' B')
                      (fun x z u =>
@@ -609,7 +609,7 @@ Defined.
 (** ** The unitors *)
 
 Definition oul_to@{o h p} {O : Type@{o}} (X : OGraph@{o h p} O) :
-  OGraphHom@{o h p} (OGraph_prod (OGraph_unit@{o h p} O) X) X.
+  OGraphHom (OGraph_prod (OGraph_unit O) X) X.
 Proof.
   unshelve refine (@Build_OGraphHom O (OGraph_prod (OGraph_unit O) X) X (fun x z u =>
     match cleft u in _ = m return oedges X x m with eq_refl => cright u end) _).
@@ -622,7 +622,7 @@ Proof.
 Defined.
 
 Definition oul_from@{o h p} {O : Type@{o}} (X : OGraph@{o h p} O) :
-  OGraphHom@{o h p} X (OGraph_prod (OGraph_unit@{o h p} O) X).
+  OGraphHom X (OGraph_prod (OGraph_unit O) X).
 Proof.
   unshelve refine (@Build_OGraphHom O X (OGraph_prod (OGraph_unit O) X)
                      (fun x z f => @cpair O (OGraph_unit O) X x z z eq_refl f) _).
@@ -633,10 +633,10 @@ Defined.
 Definition OGraph_unit_left@{o h p hh oo +|+} {O : Type@{o}}
   (X : OGraph@{o h p} O) :
   @Isomorphism (OGrph@{o h p hh oo} O)
-    (OGraph_prod (OGraph_unit@{o h p} O) X) X.
+    (OGraph_prod (OGraph_unit O) X) X.
 Proof.
   unshelve refine (@Build_Isomorphism (OGrph@{o h p hh oo} O)
-                     (OGraph_prod (OGraph_unit@{o h p} O) X) X
+                     (OGraph_prod (OGraph_unit O) X) X
                      (oul_to X) (oul_from X) _ _).
   - now intros x z f.
   - intros x z u; simpl.
@@ -646,7 +646,7 @@ Proof.
 Defined.
 
 Definition our_to@{o h p} {O : Type@{o}} (X : OGraph@{o h p} O) :
-  OGraphHom@{o h p} (OGraph_prod X (OGraph_unit@{o h p} O)) X.
+  OGraphHom (OGraph_prod X (OGraph_unit O)) X.
 Proof.
   unshelve refine (@Build_OGraphHom O (OGraph_prod X (OGraph_unit O)) X (fun x z u =>
     match cright u in _ = m return oedges X m z → oedges X x z with
@@ -661,7 +661,7 @@ Proof.
 Defined.
 
 Definition our_from@{o h p} {O : Type@{o}} (X : OGraph@{o h p} O) :
-  OGraphHom@{o h p} X (OGraph_prod X (OGraph_unit@{o h p} O)).
+  OGraphHom X (OGraph_prod X (OGraph_unit O)).
 Proof.
   unshelve refine (@Build_OGraphHom O X (OGraph_prod X (OGraph_unit O))
                      (fun x z g => @cpair O X (OGraph_unit O) x z x g eq_refl) _).
@@ -672,10 +672,10 @@ Defined.
 Definition OGraph_unit_right@{o h p hh oo +|+} {O : Type@{o}}
   (X : OGraph@{o h p} O) :
   @Isomorphism (OGrph@{o h p hh oo} O)
-    (OGraph_prod X (OGraph_unit@{o h p} O)) X.
+    (OGraph_prod X (OGraph_unit O)) X.
 Proof.
   unshelve refine (@Build_Isomorphism (OGrph@{o h p hh oo} O)
-                     (OGraph_prod X (OGraph_unit@{o h p} O)) X
+                     (OGraph_prod X (OGraph_unit O)) X
                      (our_to X) (our_from X) _ _).
   - now intros x z g.
   - intros x z u; simpl.
@@ -687,7 +687,7 @@ Defined.
 (** ** The associator *)
 
 Definition oassoc_to@{o h p} {O : Type@{o}} (A B C : OGraph@{o h p} O) :
-  OGraphHom@{o h p} (OGraph_prod (OGraph_prod A B) C)
+  OGraphHom (OGraph_prod (OGraph_prod A B) C)
                     (OGraph_prod A (OGraph_prod B C)).
 Proof.
   unshelve refine (@Build_OGraphHom O (OGraph_prod (OGraph_prod A B) C)
@@ -704,7 +704,7 @@ Proof.
 Defined.
 
 Definition oassoc_from@{o h p} {O : Type@{o}} (A B C : OGraph@{o h p} O) :
-  OGraphHom@{o h p} (OGraph_prod A (OGraph_prod B C))
+  OGraphHom (OGraph_prod A (OGraph_prod B C))
                     (OGraph_prod (OGraph_prod A B) C).
 Proof.
   unshelve refine (@Build_OGraphHom O (OGraph_prod A (OGraph_prod B C))
@@ -741,7 +741,7 @@ Defined.
 (** ** Coherence *)
 
 Lemma ograph_to_unit_left_natural@{o h p hh +|+} {O : Type@{o}}
-  (X Y : OGraph@{o h p} O) (g : OGraphHom@{o h p} X Y) :
+  (X Y : OGraph@{o h p} O) (g : OGraphHom X Y) :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose g (oul_to X))
     (ograph_compose (oul_to Y) (ograph_prod_map (ograph_id _) g)).
@@ -752,14 +752,14 @@ Proof.
 Qed.
 
 Lemma ograph_from_unit_left_natural@{o h p hh +|+} {O : Type@{o}}
-  (X Y : OGraph@{o h p} O) (g : OGraphHom@{o h p} X Y) :
+  (X Y : OGraph@{o h p} O) (g : OGraphHom X Y) :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose (ograph_prod_map (ograph_id _) g) (oul_from X))
     (ograph_compose (oul_from Y) g).
 Proof. intros x z f; simpl; now apply cpair_equiv. Qed.
 
 Lemma ograph_to_unit_right_natural@{o h p hh +|+} {O : Type@{o}}
-  (X Y : OGraph@{o h p} O) (g : OGraphHom@{o h p} X Y) :
+  (X Y : OGraph@{o h p} O) (g : OGraphHom X Y) :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose g (our_to X))
     (ograph_compose (our_to Y) (ograph_prod_map g (ograph_id _))).
@@ -770,7 +770,7 @@ Proof.
 Qed.
 
 Lemma ograph_from_unit_right_natural@{o h p hh +|+} {O : Type@{o}}
-  (X Y : OGraph@{o h p} O) (g : OGraphHom@{o h p} X Y) :
+  (X Y : OGraph@{o h p} O) (g : OGraphHom X Y) :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose (ograph_prod_map g (ograph_id _)) (our_from X))
     (ograph_compose (our_from Y) g).
@@ -778,8 +778,8 @@ Proof. intros x z f; simpl; now apply cpair_equiv. Qed.
 
 Lemma ograph_to_assoc_natural@{o h p hh +|+} {O : Type@{o}}
   (A A' B B' C C' : OGraph@{o h p} O)
-  (g : OGraphHom@{o h p} A A') (h : OGraphHom@{o h p} B B')
-  (i : OGraphHom@{o h p} C C') :
+  (g : OGraphHom A A') (h : OGraphHom B B')
+  (i : OGraphHom C C') :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose (ograph_prod_map g (ograph_prod_map h i)) (oassoc_to A B C))
     (ograph_compose (oassoc_to A' B' C') (ograph_prod_map (ograph_prod_map g h) i)).
@@ -791,8 +791,8 @@ Qed.
 
 Lemma ograph_from_assoc_natural@{o h p hh +|+} {O : Type@{o}}
   (A A' B B' C C' : OGraph@{o h p} O)
-  (g : OGraphHom@{o h p} A A') (h : OGraphHom@{o h p} B B')
-  (i : OGraphHom@{o h p} C C') :
+  (g : OGraphHom A A') (h : OGraphHom B B')
+  (i : OGraphHom C C') :
   @OGraphHomEquiv@{o h p hh} O _ _
     (ograph_compose (ograph_prod_map (ograph_prod_map g h) i) (oassoc_from A B C))
     (ograph_compose (oassoc_from A' B' C') (ograph_prod_map g (ograph_prod_map h i))).
@@ -838,10 +838,10 @@ Definition OGrph_Monoidal@{o h p hh oo +|+} (O : Type@{o}) :
   @Monoidal (OGrph@{o h p hh oo} O).
 Proof.
   unshelve refine (@Build_Monoidal (OGrph@{o h p hh oo} O)
-                     (OGraph_unit@{o h p} O) (OGraph_Tensor@{o h p hh oo} O)
-                     (@OGraph_unit_left@{o h p hh oo} O)
-                     (@OGraph_unit_right@{o h p hh oo} O)
-                     (@OGraph_assoc@{o h p hh oo} O) _ _ _ _ _ _ _ _).
+                     (OGraph_unit O) (OGraph_Tensor O)
+                     (@OGraph_unit_left O)
+                     (@OGraph_unit_right O)
+                     (@OGraph_assoc O) _ _ _ _ _ _ _ _).
   - exact (@ograph_to_unit_left_natural O).
   - exact (@ograph_from_unit_left_natural O).
   - exact (@ograph_to_unit_right_natural O).
@@ -858,16 +858,16 @@ Defined.
 
 Definition OMonoid@{o h p hh oo +|+} {O : Type@{o}} (A : OGraph@{o h p} O)
   : Type@{hh} :=
-  @Monoid (OGrph@{o h p hh oo} O) (OGrph_Monoidal@{o h p hh oo} O) A.
+  @Monoid (OGrph@{o h p hh oo} O) (OGrph_Monoidal O) A.
 
 Definition omul@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
-  (M : OMonoid@{o h p hh oo} A) : OGraphHom@{o h p} (OGraph_prod A A) A :=
-  @mu (OGrph@{o h p hh oo} O) (OGrph_Monoidal@{o h p hh oo} O) A M.
+  (M : OMonoid@{o h p hh oo} A) : OGraphHom (OGraph_prod A A) A :=
+  @mu (OGrph@{o h p hh oo} O) (OGrph_Monoidal O) A M.
 
 Definition ounit@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A)
-  : OGraphHom@{o h p} (OGraph_unit@{o h p} O) A :=
-  @eta (OGrph@{o h p hh oo} O) (OGrph_Monoidal@{o h p hh oo} O) A M.
+  : OGraphHom (OGraph_unit O) A :=
+  @eta (OGrph@{o h p hh oo} O) (OGrph_Monoidal O) A M.
 
 (* The three monoid laws, restated in the pointwise form of [OGraphHomEquiv]
    so that they can be applied to a composable pair.  Each is the class field
@@ -881,27 +881,27 @@ Lemma omonoid_assoc@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
        (ograph_compose (omul M) (ograph_prod_map (ograph_id A) (omul M)))
        (oassoc_to A A A)).
 Proof.
-  exact (@mu_assoc (OGrph@{o h p hh oo} O) (OGrph_Monoidal@{o h p hh oo} O) A M).
+  exact (@mu_assoc (OGrph@{o h p hh oo} O) (OGrph_Monoidal O) A M).
 Qed.
 
 Lemma omonoid_unit_left@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) :
-  @OGraphHomEquiv@{o h p hh} O (OGraph_prod (OGraph_unit@{o h p} O) A) A
+  @OGraphHomEquiv@{o h p hh} O (OGraph_prod (OGraph_unit O) A) A
     (ograph_compose (omul M) (ograph_prod_map (ounit M) (ograph_id A)))
     (oul_to A).
 Proof.
   exact (@mu_unit_left (OGrph@{o h p hh oo} O)
-           (OGrph_Monoidal@{o h p hh oo} O) A M).
+           (OGrph_Monoidal O) A M).
 Qed.
 
 Lemma omonoid_unit_right@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) :
-  @OGraphHomEquiv@{o h p hh} O (OGraph_prod A (OGraph_unit@{o h p} O)) A
+  @OGraphHomEquiv@{o h p hh} O (OGraph_prod A (OGraph_unit O)) A
     (ograph_compose (omul M) (ograph_prod_map (ograph_id A) (ounit M)))
     (our_to A).
 Proof.
   exact (@mu_unit_right (OGrph@{o h p hh oo} O)
-           (OGrph_Monoidal@{o h p hh oo} O) A M).
+           (OGrph_Monoidal O) A M).
 Qed.
 
 (** ** From a category to a monoid in O-Grph *)
@@ -913,7 +913,7 @@ Definition OGraphOfCat@{o h p} (C : Category@{o h p}) : OGraph@{o h p} (obj[C])
 |}.
 
 Definition ocat_mu@{o h p +|+} (C : Category@{o h p}) :
-  OGraphHom@{o h p} (OGraph_prod (OGraphOfCat C) (OGraphOfCat C))
+  OGraphHom (OGraph_prod (OGraphOfCat C) (OGraphOfCat C))
                     (OGraphOfCat C).
 Proof.
   unshelve refine (@Build_OGraphHom obj[C]
@@ -927,7 +927,7 @@ Proof.
 Defined.
 
 Definition ocat_eta@{o h p +|+} (C : Category@{o h p}) :
-  OGraphHom@{o h p} (OGraph_unit@{o h p} (obj[C])) (OGraphOfCat C).
+  OGraphHom (OGraph_unit (obj[C])) (OGraphOfCat C).
 Proof.
   unshelve refine (@Build_OGraphHom obj[C] (OGraph_unit obj[C]) (OGraphOfCat C)
                      (fun x z p =>
@@ -939,10 +939,10 @@ Proof.
 Defined.
 
 Definition MonoidOfCat@{o h p hh oo +|+} (C : Category@{o h p}) :
-  OMonoid@{o h p hh oo} (OGraphOfCat@{o h p} C).
+  OMonoid@{o h p hh oo} (OGraphOfCat C).
 Proof.
   unshelve refine (@Build_Monoid (OGrph@{o h p hh oo} obj[C])
-                     (OGrph_Monoidal@{o h p hh oo} obj[C])
+                     (OGrph_Monoidal obj[C])
                      (OGraphOfCat C) (ocat_mu C) (ocat_eta C) _ _ _).
   - intros x w u; simpl.
     destruct u as [y [z f g] h]; simpl.
@@ -984,11 +984,11 @@ Definition omon_compose@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
 Lemma omon_compose_respects@{o h p hh oo +|+} {O : Type@{o}}
   {A : OGraph@{o h p} O} (M : OMonoid@{o h p hh oo} A) (x y z : O) :
   Proper@{h p} (respectful@{h p h p h p}
-                  (@equiv@{h p} _ (oedgeset A y z))
+                  (@equiv _ (oedgeset A y z))
                   (respectful@{h p h p h p}
-                     (@equiv@{h p} _ (oedgeset A x y))
-                     (@equiv@{h p} _ (oedgeset A x z))))
-    (@omon_compose@{o h p hh oo} O A M x y z).
+                     (@equiv _ (oedgeset A x y))
+                     (@equiv _ (oedgeset A x z))))
+    (@omon_compose O A M x y z).
 Proof.
   intros g g' Hg f f' Hf.
   unfold omon_compose.
@@ -998,14 +998,14 @@ Qed.
 
 Lemma omon_id_left@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) (x y : O) (f : oedges A x y) :
-  @equiv@{h p} _ (oedgeset A x y) (omon_compose M (omon_id M y) f) f.
+  @equiv _ (oedgeset A x y) (omon_compose M (omon_id M y) f) f.
 Proof.
   exact (omonoid_unit_left M x y (@cpair O (OGraph_unit O) A x y y eq_refl f)).
 Qed.
 
 Lemma omon_id_right@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) (x y : O) (f : oedges A x y) :
-  @equiv@{h p} _ (oedgeset A x y) (omon_compose M f (omon_id M x)) f.
+  @equiv _ (oedgeset A x y) (omon_compose M f (omon_id M x)) f.
 Proof.
   exact (omonoid_unit_right M x y (@cpair O A (OGraph_unit O) x y x f eq_refl)).
 Qed.
@@ -1013,7 +1013,7 @@ Qed.
 Lemma omon_comp_assoc@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) (x y z w : O)
   (f : oedges A z w) (g : oedges A y z) (h : oedges A x y) :
-  @equiv@{h p} _ (oedgeset A x w)
+  @equiv _ (oedgeset A x w)
     (omon_compose M f (omon_compose M g h))
     (omon_compose M (omon_compose M f g) h).
 Proof.
@@ -1025,7 +1025,7 @@ Qed.
 Lemma omon_comp_assoc_sym@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
   (M : OMonoid@{o h p hh oo} A) (x y z w : O)
   (f : oedges A z w) (g : oedges A y z) (h : oedges A x y) :
-  @equiv@{h p} _ (oedgeset A x w)
+  @equiv _ (oedgeset A x w)
     (omon_compose M (omon_compose M f g) h)
     (omon_compose M f (omon_compose M g h)).
 Proof. symmetry; apply omon_comp_assoc. Qed.
@@ -1036,7 +1036,7 @@ Definition CategoryOfOMonoid@{o h p hh oo +|+} {O : Type@{o}}
   hom     := oedges A;
   homset  := oedgeset A;
   id      := omon_id M;
-  compose := @omon_compose@{o h p hh oo} O A M;
+  compose := @omon_compose O A M;
 
   compose_respects := omon_compose_respects M;
 
