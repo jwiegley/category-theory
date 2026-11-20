@@ -382,7 +382,7 @@ Qed.
    which is the sharpest statement that the passage is an identification
    and not a resizing. *)
 Definition sols_of_wif@{i cobj dobj h comma +}
-  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
+  {C : Category} {D : Category} (U : C ⟶ D) (d : D)
   (W : WeaklyInitialFamily@{i comma h} (=(d) ↓ U))
   : SolutionSet@{i dobj cobj h} U d.
 Proof.
@@ -439,8 +439,8 @@ Example sols_of_comma_initial_obj {C D : Category} (U : C ⟶ D) (d : D)
          → SolutionSet@{h dobj cobj h} U d → Terminal@{u h}
      (* cobj dobj h u u0 u1 u2 u3 u4 u5 |= h < u4 / u1 <= u *) *)
 Definition comma_initial_of_sols@{cobj dobj h +}
-  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
-  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
+  {C : Category} {D : Category} (U : C ⟶ D) (d : D)
+  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
   (S : SolutionSet@{h dobj cobj h} U d) : @Initial (=(d) ↓ U).
 Proof.
   pose (HCat := @Comma_Complete C D U d cont comp).
@@ -467,8 +467,8 @@ Defined.
            → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u h u0} F U
      (* … |= h < u / u3 <= u1 *) *)
 Definition GAFT_via_comma_initial@{cobj dobj h +}
-  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
-  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
+  {C : Category} {D : Category} (U : C ⟶ D)
+  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
   (sols : ∀ d : D, SolutionSet@{h dobj cobj h} U d) : { F : D ⟶ C & F ⊣ U } :=
   GAFT_from_initials U (fun d => comma_initial_of_sols U d comp cont (sols d)).
 
