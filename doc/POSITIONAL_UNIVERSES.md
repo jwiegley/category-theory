@@ -1,7 +1,9 @@
-# Positional universe instances: #1412 inventory and first batch
+# Positional universe instances: #1412 inventory and reviewed batches
 
-This is a partial #1412 batch, not issue closure or core-signature redesign.
-Baseline: `438d83b2b706d33f1deaad60672c3ed5ed2a6554` (including PR #1407).
+These are partial #1412 batches, not issue closure or core-signature redesign.
+The first-batch baseline is `438d83b2b706d33f1deaad60672c3ed5ed2a6554`
+(including PR #1407); its measurements and per-file table below are historical.
+The second batch has a separate source baseline and release-only evidence.
 Counts concern **live non-probe reference syntax**, not redundant instances or
 public universe-slot savings. Outside this batch, retain every unassessed site.
 
@@ -88,14 +90,73 @@ batch. `Instance/CMon.v` (7) also remains unchanged: removing its
 of its obligations and broad caller closure. Its explanatory pin paragraph stays
 true. Neither `cmon_hom_compose` itself nor any core signature is changed.
 
+## Second joint batch: GAFT on Rocq 9.2.0
+
+The source intervention in `a18ab43efd02ef12892cfd5d5565042e4244b7ad`
+removes eight annotations together from `Adjunction/GAFT.v`: two `Category`
+instances in `sols_of_wif`, and two `Category` instances and one `Complete`
+instance in each of `comma_initial_of_sols` and `GAFT_via_comma_initial`.
+Declaration binders, solution-set indices, terms apart from those instances,
+opacity and probe sources are unchanged. This establishes joint removability,
+not separate removability of each occurrence or a reduction in public slots.
+
+The paired source baseline is `b9e74514ec47221aaca2096865c9a176b0f56235`.
+The candidate differs in this `.v` file alone. Its SHA-256 is
+`1d5be723f1aca323b90aab75e445138a8b3e35ea4bb8985034986df06b5c2188`,
+against baseline `4128f870aaebbf0af6cb23dc61d9203c26a97c7823ab4945ea8c7923df07197d`.
+Both sides freshly built all 1177 registered files with released Rocq 9.2.0,
+Stdlib 9.1.0 and Equations 1.3.2+9.2. The release-toolchain commit
+`4c3a4dc08c49dabd6c79df1d4513148a9223d443` changes build and CI selection,
+not those paired `.v` sources. Earlier compiler results are historical;
+no earlier-version compatibility is asserted by this batch.
+
+Measurements on those paired builds:
+
+- Complete qualified `About`, `Print` and `Print Assumptions` responses for
+  13 selected constants are byte-identical: 39 responses, with no normalization.
+  With `Set Printing All`, `Set Printing Universes` and printing depth 1000000,
+  the targets are the three edited definitions; `SolutionSet`, `sol_index`,
+  `sol_obj`, `sol_arr`, `sol_covers`, `sols_of_wif_index`, `GAFT` and
+  `sols_of_comma_initial` in `Category.Adjunction.GAFT`;
+  `Category.Adjunction.Representability.Sets.representability_theorem`; and
+  `Category.Adjunction.SAFT.Characterization.Corollaries.continuous_Set_functor_representable_at`.
+- The registered-project `coqdep` graph has 44 direct dependent modules and a
+  73-module reverse closure including GAFT. `Print Module` listings match;
+  `About`, `Print` and `Print Assumptions` for the 353 `Definition`/`Parameter`
+  names ending in `_obligation_` followed by digits in those listings give
+  1059 matching responses. This is not every generated declaration. The lexer
+  enumerates 347 `Fail` commands in the closure; their captured refusal
+  diagnostics match without normalization. Equality of diagnostics does not
+  make name or typing failures universe proofs.
+- Projection readbacks use `eq_refl` for the family index, member object and
+  arrow, including transport along an arbitrary equality of indices. They do
+  not identify entire solution-set records. Five positive/negative universe
+  pairs at `h = Set` retain the tested strict upper bounds: slot 8 of
+  `sols_of_wif`, slots 9 and 10 of `comma_initial_of_sols`, and slots 4 and 11
+  of `GAFT_via_comma_initial`, counting their displayed instances from 1.
+  Each pair uses the same constant and full arity, with one strict upper slot
+  lowered to `Set`. These tests do not isolate an exclusive constraint donor.
+- All 14506 configured assumption requests give identical raw responses. Only
+  `ZX_Cat` lists the three Phase parameters. This is the configured audit, not
+  certification of every declaration. Semantic arity and its compiler-backed
+  positive/negative controls pass. The source commit's normal hooks also pass;
+  its semantic check reports 1177 freshly built files and zero violations.
+
+A fresh syntax scan using the inclusion rule above counts 15363 references at
+this baseline and 15355 after the batch, over 1181 tracked `.v` files and 1177
+build registrations. GAFT changes from 22 to 14; OGraph remains 245, CMon 7,
+SupLat/Free/Morphism 2 and SupLat/Examples 28. The earlier table remains the
+first-batch measurement, not a current necessity census. Re-run the displayed
+scanner recipe at each source revision to obtain its registered-file counts.
+
 ## Remaining #1412 scope
 
 Continue in reviewable jointly verified batches: resolve full constant identities,
 distinguish genuine identifications from redundant annotations, compare all
 affected declarations/bodies/constraints and actual callers, preserve full refusal
-payloads and eager controls, and run the supported matrix and gates. The other
-historical candidates, CMon application and every other unassessed site remain
-#1412 work. Hub/signature redesign belongs to later issues.
+payloads and eager controls, and run exact Rocq 9.2.0 and the configured gates.
+OGraph, the CMon application, the remaining GAFT references and every other
+unassessed site remain #1412 work. Hub/signature redesign belongs to later issues.
 
 ## Per-file inventory
 
