@@ -347,7 +347,7 @@ Next Obligation.
 Qed.
 
 Program Definition ival_incl@{o} :
-  SetoidMorphism@{o o o} IvalSetoid@{o} RLine_setoid@{o} := {|
+  SetoidMorphism@{o o} IvalSetoid@{o} RLine_setoid@{o} := {|
   morphism := fun a => proj1_sig a
 |}.
 Next Obligation. intros a b H; exact H. Qed.
@@ -1073,7 +1073,7 @@ Proof.
 Qed.
 
 Program Definition line_scale@{o} (x : CReal) :
-  SetoidMorphism@{o o o} RLine_setoid@{o} RLine_setoid@{o} := {|
+  SetoidMorphism@{o o} RLine_setoid@{o} RLine_setoid@{o} := {|
   morphism := fun r => CReal_mult r x
 |}.
 Next Obligation. intros x r s H; simpl in *. rewrite H. reflexivity. Qed.
@@ -1111,7 +1111,7 @@ Proof.
 Qed.
 
 Program Definition ival_scale_map@{o} (a : IvalSetoid@{o}) :
-  SetoidMorphism@{o o o} IvalSetoid@{o} IvalSetoid@{o} := {|
+  SetoidMorphism@{o o} IvalSetoid@{o} IvalSetoid@{o} := {|
   morphism := fun t =>
     exist _ (CReal_mult (proj1_sig t) (proj1_sig a))
       (ival_mult_pred _ _ (proj2_sig t) (proj2_sig a))

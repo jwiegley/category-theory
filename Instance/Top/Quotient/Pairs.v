@@ -483,7 +483,7 @@ Definition pquot_carrier@{o} (X : PairTop@{o}) : SetoidObject@{o o} := {|
 |}.
 
 Definition pquot_some@{o} (X : PairTop@{o}) :
-  SetoidMorphism@{o o o} (top_carrier (pair_space X)) (pquot_carrier X) :=
+  SetoidMorphism@{o o} (top_carrier (pair_space X)) (pquot_carrier X) :=
   @Build_SetoidMorphism _ (is_setoid (top_carrier (pair_space X))) _
     (pquot_setoid X) (@Some _)
     (fun x y (e : x ≈ y) => (inl e : pquot_rel X (Some x) (Some y))).
@@ -505,7 +505,7 @@ Definition pquot_in@{h o | o < h +} (X : PairTop@{o}) :
 
 Definition pquot_fmap_map@{h o | o < h +} {X Y : PairTop@{o}}
   (f : X ~{Top_pairs@{h o}}~> Y) :
-  SetoidMorphism@{o o o} (pquot_carrier X) (pquot_carrier Y).
+  SetoidMorphism@{o o} (pquot_carrier X) (pquot_carrier Y).
 Proof.
   unshelve notypeclasses refine
     (@Build_SetoidMorphism _ (pquot_setoid X) _ (pquot_setoid Y)
@@ -571,7 +571,7 @@ Defined.
 (* Extend a map of pairs by sending the new point to the basepoint. *)
 Definition pquot_from_map@{h o | o < h +} (X : PairTop@{o})
   (Y : PointedTop@{o}) (g : X ~{Top_pairs@{h o}}~> point_pair Y) :
-  SetoidMorphism@{o o o} (pquot_carrier X) (top_carrier (ptop_space Y)).
+  SetoidMorphism@{o o} (pquot_carrier X) (top_carrier (ptop_space Y)).
 Proof.
   unshelve notypeclasses refine
     (@Build_SetoidMorphism _ (pquot_setoid X) _
@@ -713,7 +713,7 @@ Definition pair_sub_space@{o} (X : PairTop@{o}) : TopSpace@{o} :=
   Discrete_Top (pair_sub_setoid X).
 
 Definition pair_sub_incl_map@{o} (X : PairTop@{o}) :
-  SetoidMorphism@{o o o} (pair_sub_setoid X) (top_carrier (pair_space X)) :=
+  SetoidMorphism@{o o} (pair_sub_setoid X) (top_carrier (pair_space X)) :=
   @Build_SetoidMorphism _ (is_setoid (pair_sub_setoid X)) _
     (is_setoid (top_carrier (pair_space X))) (@projT1 _ _)
     (fun a b (e : projT1 a ≈ projT1 b) => e).
@@ -738,7 +738,7 @@ Context (X : PairTop@{o}) {Q : Top@{h o}}
   (q1 : pair_space X ~{Top@{h o}}~> Q) (q2 : Point_Top@{o} ~{Top@{h o}}~> Q)
   (Hq : q1 ∘ pair_sub_incl X ≈ q2 ∘ top_one (pair_sub_space X)).
 
-Definition pquot_po_map : SetoidMorphism@{o o o} (pquot_carrier X) Q.
+Definition pquot_po_map : SetoidMorphism@{o o} (pquot_carrier X) Q.
 Proof using X Q q1 q2 Hq.
   unshelve notypeclasses refine
     (@Build_SetoidMorphism _ (pquot_setoid X) _ (is_setoid (top_carrier Q))
@@ -992,7 +992,7 @@ Proof. exact (fun f => f). Qed.
 
 (* ... and is X with a disjoint point added, X₊ = X + 1. *)
 Definition pquot_empty_sum_to@{o} (X : TopSpace@{o}) :
-  SetoidMorphism@{o o o} (pquot_carrier (empty_pair X))
+  SetoidMorphism@{o o} (pquot_carrier (empty_pair X))
     (sum_carrier X Point_Top@{o}).
 Proof.
   unshelve notypeclasses refine
@@ -1010,7 +1010,7 @@ Proof.
 Defined.
 
 Definition pquot_empty_sum_from@{o} (X : TopSpace@{o}) :
-  SetoidMorphism@{o o o} (sum_carrier X Point_Top@{o})
+  SetoidMorphism@{o o} (sum_carrier X Point_Top@{o})
     (pquot_carrier (empty_pair X)).
 Proof.
   unshelve notypeclasses refine

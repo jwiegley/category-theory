@@ -700,7 +700,7 @@ Record p466_SupLatObjectL@{o} := {
     p466_sll_le x y → p466_sll_le y x →
     @equiv _ (is_setoid p466_sll_set) x y;
   p466_sll_sup :
-    SetoidMorphism@{o o o} (Powerset_Prop_obj@{o} p466_sll_set) p466_sll_set;
+    SetoidMorphism@{o o} (Powerset_Prop_obj@{o} p466_sll_set) p466_sll_set;
   p466_sll_sup_ub (S : carrier (Powerset_Prop_obj@{o} p466_sll_set)) x :
     S x → p466_sll_le x (p466_sll_sup S);
   p466_sll_sup_least (S : carrier (Powerset_Prop_obj@{o} p466_sll_set)) y :
@@ -785,8 +785,8 @@ Proof.
 Defined.
 
 Definition p466_varA_alg@{o} (A : SupLatObject@{o}) :
-  SetoidMorphism@{o o o} (Powerset_Prop_obj@{o} (sl_set A)) (sl_set A) :=
-  @Build_SetoidMorphism@{o o o} _ _ _ _ (fun S => sl_sup A S)
+  SetoidMorphism@{o o} (Powerset_Prop_obj@{o} (sl_set A)) (sl_set A) :=
+  @Build_SetoidMorphism@{o o} _ _ _ _ (fun S => sl_sup A S)
     (p466_sup_respects@{o} A).
 
 (* Control: the functions agree. *)

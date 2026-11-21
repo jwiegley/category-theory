@@ -347,7 +347,7 @@ Section Final.
 Universes o i.
 
 Context (S : SetoidObject@{o o}) (Ix : Type@{i}) (X : Ix → PTop@{o})
-        (f : ∀ k : Ix, SetoidMorphism@{o o o} (X k) S).
+        (f : ∀ k : Ix, SetoidMorphism@{o o} (X k) S).
 
 (* A predicate on [S] is open when it respects the equality of [S] and its
    preimage along every [f k] is open. *)
@@ -431,7 +431,7 @@ Example pfinal_leg_map (k : Ix) : pmap (pfinal_leg k) = f k := eq_refl.
 (* The universal property, over ARBITRARY spaces [Z] mapping out: a setoid
    map out of [S] is continuous from the final topology exactly when its
    composite with every [f k] is continuous. *)
-Lemma pfinal_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o o} S Z) :
+Lemma pfinal_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o} S Z) :
   @PCont PFinal Z g <->
   (∀ k, @PCont (X k) Z (setoid_morphism_compose@{o o o} g (f k))).
 Proof.
@@ -444,12 +444,12 @@ Proof.
 Qed.
 
 (* The book's form of it: the map out of the final topology. *)
-Definition pfinal_desc (Z : PTop@{o}) (g : SetoidMorphism@{o o o} S Z)
+Definition pfinal_desc (Z : PTop@{o}) (g : SetoidMorphism@{o o} S Z)
   (Hg : ∀ k, @PCont (X k) Z (setoid_morphism_compose@{o o o} g (f k))) :
   PMor@{o} PFinal Z :=
   @Build_PMor PFinal Z g (proj2 (pfinal_universal Z g) Hg).
 
-Example pfinal_desc_map (Z : PTop@{o}) (g : SetoidMorphism@{o o o} S Z)
+Example pfinal_desc_map (Z : PTop@{o}) (g : SetoidMorphism@{o o} S Z)
   (Hg : ∀ k, @PCont (X k) Z (setoid_morphism_compose@{o o o} g (f k))) :
   pmap (pfinal_desc Z g Hg) = g := eq_refl.
 
@@ -469,7 +469,7 @@ End Final.
    [PQuot X T q] and the final topology of the single map [q] have the
    same opens. *)
 Lemma pfinal_one_map_PQuot@{o +} (X : PTop@{o}) (T : SetoidObject@{o o})
-  (q : SetoidMorphism@{o o o} X T) (V : T → Prop) :
+  (q : SetoidMorphism@{o o} X T) (V : T → Prop) :
   POpen (PQuot X T q) V
   <-> POpen (PFinal T Datatypes.unit (fun _ => X) (fun _ => q)) V.
 Proof.
@@ -776,7 +776,7 @@ Example PIndiscrete_open (U : S → Prop) :
 (* Every setoid map into an indiscrete space is continuous: the preimage of
    a uniform predicate is constant up to [<->], and constants are open
    (Instance/Top/Prop.v's [popen_const]). *)
-Lemma pindisc_cont (X : PTop@{o}) (f : SetoidMorphism@{o o o} X S) :
+Lemma pindisc_cont (X : PTop@{o}) (f : SetoidMorphism@{o o} X S) :
   @PCont X PIndiscrete f.
 Proof.
   intros U HU. apply (popen_respects X (fun _ => ex (fun x => U (f x)))).
@@ -786,10 +786,10 @@ Proof.
   - apply popen_const.
 Qed.
 
-Definition pindisc_mor (X : PTop@{o}) (f : SetoidMorphism@{o o o} X S) :
+Definition pindisc_mor (X : PTop@{o}) (f : SetoidMorphism@{o o} X S) :
   PMor@{o} X PIndiscrete := @Build_PMor X PIndiscrete f (pindisc_cont X f).
 
-Example pindisc_mor_map (X : PTop@{o}) (f : SetoidMorphism@{o o o} X S) :
+Example pindisc_mor_map (X : PTop@{o}) (f : SetoidMorphism@{o o} X S) :
   pmap (pindisc_mor X f) = f := eq_refl.
 
 End Indiscrete.

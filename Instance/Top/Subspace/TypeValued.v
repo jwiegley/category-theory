@@ -159,7 +159,7 @@ Generalizable All Variables.
 
 (* Continuity depends on the map only up to pointwise [≈]. *)
 Lemma tcont_respects@{o +} {X Y : TopSpace@{o}}
-  (f g : SetoidMorphism@{o o o} (top_carrier X) (top_carrier Y)) :
+  (f g : SetoidMorphism@{o o} (top_carrier X) (top_carrier Y)) :
   (∀ x, f x ≈ g x) → Continuous X Y f → Continuous X Y g.
 Proof.
   intros Hfg Hf U HU.
@@ -176,7 +176,7 @@ Section TopQuotient.
 Universe o.
 
 Context (X : TopSpace@{o}) (T : SetoidObject@{o o})
-        (q : SetoidMorphism@{o o o} (top_carrier X) T).
+        (q : SetoidMorphism@{o o} (top_carrier X) T).
 
 (* It fits at [o]: it only APPLIES [IsOpen X]. *)
 Definition tquot_open (V : T → Type@{o}) : Type@{o} :=
@@ -236,7 +236,7 @@ Definition tquot_proj : ContinuousMorphism X TQuot :=
 
 (* The universal property, over ARBITRARY spaces [Z] mapping out. *)
 Lemma tquot_universal (Z : TopSpace@{o})
-  (k : SetoidMorphism@{o o o} T (top_carrier Z)) :
+  (k : SetoidMorphism@{o o} T (top_carrier Z)) :
   Continuous TQuot Z k ↔ Continuous X Z (setoid_morphism_compose k q).
 Proof.
   split.
@@ -250,7 +250,7 @@ Qed.
 (* The book's form: a continuous [f : X → Z] whose underlying function
    factors as [k ∘ q] has [k] continuous out of the quotient. *)
 Definition tquot_desc (Z : TopSpace@{o}) (f : ContinuousMorphism X Z)
-  (k : SetoidMorphism@{o o o} T (top_carrier Z))
+  (k : SetoidMorphism@{o o} T (top_carrier Z))
   (Hfk : ∀ x, continuous_map f x ≈ k (q x)) : ContinuousMorphism TQuot Z :=
   @Build_ContinuousMorphism TQuot Z k
     (snd (tquot_universal Z k)
@@ -258,7 +258,7 @@ Definition tquot_desc (Z : TopSpace@{o}) (f : ContinuousMorphism X Z)
           Hfk (continuity f))).
 
 Example tquot_desc_map (Z : TopSpace@{o}) (f : ContinuousMorphism X Z)
-  (k : SetoidMorphism@{o o o} T (top_carrier Z))
+  (k : SetoidMorphism@{o o} T (top_carrier Z))
   (Hfk : ∀ x, continuous_map f x ≈ k (q x)) :
   continuous_map (tquot_desc Z f k Hfk) = k := eq_refl.
 
@@ -272,7 +272,7 @@ Universes o o1.
 Constraint o < o1.
 
 Context (X : TopSpace@{o}) (S : SetoidObject@{o o})
-        (h : SetoidMorphism@{o o o} S (top_carrier X)).
+        (h : SetoidMorphism@{o o} S (top_carrier X)).
 
 (* Mac Lane's predicate, verbatim: V is open when it is the preimage along
    [h] of an open of X.  It quantifies over the opens of X, so it is valued
@@ -342,12 +342,12 @@ Qed.
 
 (* Continuity into the subspace, for a setoid map from a space. *)
 Definition tsub_continuous (Z : TopSpace@{o})
-  (g : SetoidMorphism@{o o o} (top_carrier Z) S) : Type@{o1} :=
+  (g : SetoidMorphism@{o o} (top_carrier Z) S) : Type@{o1} :=
   ∀ V : S → Type@{o}, tsub_open V → IsOpen Z (fun z => V (g z)).
 
 (* The universal property, over ARBITRARY spaces [Z] mapping in. *)
 Lemma tsub_universal (Z : TopSpace@{o})
-  (g : SetoidMorphism@{o o o} (top_carrier Z) S) :
+  (g : SetoidMorphism@{o o} (top_carrier Z) S) :
   tsub_continuous Z g ↔ Continuous Z X (setoid_morphism_compose h g).
 Proof.
   split.
@@ -362,7 +362,7 @@ Qed.
 (* The book's form: a continuous [f : Z → X] whose underlying function
    factors as [h ∘ g] has [g] continuous into the subspace. *)
 Definition tsub_lift (Z : TopSpace@{o}) (f : ContinuousMorphism Z X)
-  (g : SetoidMorphism@{o o o} (top_carrier Z) S)
+  (g : SetoidMorphism@{o o} (top_carrier Z) S)
   (Hfg : ∀ z, continuous_map f z ≈ h (g z)) : tsub_continuous Z g :=
   snd (tsub_universal Z g)
     (tcont_respects (continuous_map f) (setoid_morphism_compose h g)
@@ -530,13 +530,13 @@ Constraint o < o1.
 Constraint o < h.
 
 Context (X : TopSpace@{o}) (S : SetoidObject@{o o})
-        (h : SetoidMorphism@{o o o} S (top_carrier X)).
+        (h : SetoidMorphism@{o o} S (top_carrier X)).
 
 (* Maps over [X] from [(Z, f)] into the (unpackaged) subspace on [(S, h)]:
    setoid maps into [S], continuous into the subspace, over [X]. *)
 Definition tsub_hom (Z : TopSpace@{o}) (f : ContinuousMorphism@{h o} Z X) :
   Type@{o1} :=
-  { g : SetoidMorphism@{o o o} (top_carrier Z) S &
+  { g : SetoidMorphism@{o o} (top_carrier Z) S &
     (tsub_continuous X S h Z g ∧ (∀ z, continuous_map f z ≈ h (g z)))%type }.
 
 Program Definition tsub_hom_setoid (Z : TopSpace@{o})

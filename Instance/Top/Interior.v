@@ -161,7 +161,7 @@ Proof.
 Qed.
 
 Definition pinterior@{o} (X : PTop@{o}) (S : PSub X) : PSub X :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (pt_carrier X)) (is_setoid (pt_carrier X))
     Prop (is_setoid Powerset_Prop_truth@{o}) (pint_fun X S)
     (pint_proper X S).
@@ -232,7 +232,7 @@ Definition pint_coalgebra_iff_open@{o h p} (X : PTop@{o}) (S : PSub X) :
 (* Non-vacuity: {true} in the indiscrete two-point space is not open, so
    not a coalgebra. *)
 Definition true_sub@{o} : PSub PTwoIndisc@{o} :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (pt_carrier PTwoIndisc@{o})) (is_setoid (pt_carrier PTwoIndisc))
     Prop (is_setoid Powerset_Prop_truth@{o}) (fun b => b = true)
     (fun x y (Hxy : x = y) =>
@@ -272,7 +272,7 @@ Proof.
 Qed.
 
 Definition pclosure@{o} (X : PTop@{o}) (S : PSub X) : PSub X :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (pt_carrier X)) (is_setoid (pt_carrier X))
     Prop (is_setoid Powerset_Prop_truth@{o}) (pcl_fun X S)
     (pcl_proper X S).
@@ -358,7 +358,7 @@ Definition pcl_closed_of_talgebra@{o h} (lem : ∀ P : Prop, P \/ ~ P)
    {true} ∪ q of the indiscrete two-point space, closed exactly when
    ¬¬q. *)
 Definition true_or_sub@{o} (q : Prop) : PSub PTwoIndisc@{o} :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (pt_carrier PTwoIndisc@{o})) (is_setoid (pt_carrier PTwoIndisc))
     Prop (is_setoid Powerset_Prop_truth@{o}) (fun b => b = true \/ q)
     (fun x y (Hxy : x = y) =>
@@ -415,7 +415,7 @@ Proof.
 Qed.
 
 Definition pcomp@{o} (X : PTop@{o}) (S : PSub X) : PSub X :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (pt_carrier X)) (is_setoid (pt_carrier X))
     Prop (is_setoid Powerset_Prop_truth@{o}) (fun x => ~ S x)
     (pcomp_proper X S).

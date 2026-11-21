@@ -1279,14 +1279,14 @@ Qed.
    glues the even points of the sequence to one point, which the limit
    point cannot be separated from. *)
 Definition glue_f_set :
-  @SetoidMorphism@{o o o} _ (is_setoid pnat_setoid@{o}) _
+  @SetoidMorphism@{o o} _ (is_setoid pnat_setoid@{o}) _
     (is_setoid (pt_carrier PConv@{o})) :=
   @Build_SetoidMorphism _ (is_setoid pnat_setoid@{o}) _
     (is_setoid (pt_carrier PConv@{o})) (fun n : nat => Some (n + n))
     (fun a b (e : a = b) => f_equal (fun n : nat => Some (n + n)) e).
 
 Definition glue_g_set :
-  @SetoidMorphism@{o o o} _ (is_setoid pnat_setoid@{o}) _
+  @SetoidMorphism@{o o} _ (is_setoid pnat_setoid@{o}) _
     (is_setoid (pt_carrier PConv@{o})) :=
   @Build_SetoidMorphism _ (is_setoid pnat_setoid@{o}) _
     (is_setoid (pt_carrier PConv@{o})) (fun n : nat => Some (S (S (n + n))))

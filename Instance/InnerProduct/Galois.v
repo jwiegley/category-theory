@@ -273,7 +273,7 @@ Context (P : PerpRel@{o} X).
 Definition perp_set (S : carrier (Powerset_Prop_obj@{o} X)) :
   carrier (Powerset_Prop_obj@{o} X).
 Proof using P.
-  unshelve refine (@Build_SetoidMorphism@{o o o}
+  unshelve refine (@Build_SetoidMorphism@{o o}
     (carrier X) (is_setoid X) Prop (is_setoid Powerset_Prop_truth@{o})
     (fun x => ∀ s, S s → perp P s x) _).
   intros x y Hxy; split; intros H s Hs.
@@ -529,7 +529,7 @@ Example zz_perp_is_dot : perp ZZPerp = zdot := eq_refl.
 Definition zz_sub@{wo} (p : Z * Z → Prop) :
   carrier (Powerset_Prop_obj@{wo} zz_setoid@{wo}).
 Proof.
-  unshelve refine (@Build_SetoidMorphism@{wo wo wo}
+  unshelve refine (@Build_SetoidMorphism@{wo wo}
     (Z * Z)%type (is_setoid zz_setoid@{wo})
     Prop (is_setoid Powerset_Prop_truth@{wo}) p _).
   intros x y Hxy; simpl in Hxy; subst; split; exact (fun h => h).

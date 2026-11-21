@@ -398,21 +398,21 @@ Fail Definition p459_hwc_at_hom@{o h | o < h +} :
 (* CONTROL: the relation under a closed constraint list that declares
    [i <= o]. *)
 Definition p459_rel_bounded@{i o | i <= o} {I : Type@{i}}
-  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
+  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} := wcoeq_rel@{i o} fs.
 
 (* N2 *)
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Check @wcoeq_rel@{_ _}.
 Fail Definition p459_rel_unbounded@{i o |} {I : Type@{i}}
-  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
+  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} := wcoeq_rel@{i o} fs.
 
 (* CONTROL: [wcoeq_rel] declared afresh under the closed binder with the
    bound, and without its glue constructor under the binder without it. *)
 Inductive p459_wrel@{i o | i <= o} {I : Type@{i}} {A B : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) : B → B → Type@{o} :=
+  (fs : I → SetoidMorphism@{o o} A B) : B → B → Type@{o} :=
   | p459_wbase : ∀ b1 b2 : B, b1 ≈ b2 → p459_wrel b1 b2
   | p459_wglue : ∀ (i j : I) (a : A), p459_wrel (fs i a) (fs j a)
   | p459_wsym : ∀ b1 b2 : B, p459_wrel b1 b2 → p459_wrel b2 b1
@@ -420,7 +420,7 @@ Inductive p459_wrel@{i o | i <= o} {I : Type@{i}} {A B : SetoidObject@{o o}}
       p459_wrel b1 b2 → p459_wrel b2 b3 → p459_wrel b1 b3.
 
 Inductive p459_wrel_noglue@{i o |} {I : Type@{i}}
-  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
+  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} :=
   | p459_nbase : ∀ b1 b2 : B, b1 ≈ b2 → p459_wrel_noglue b1 b2
   | p459_nsym : ∀ b1 b2 : B, p459_wrel_noglue b1 b2 → p459_wrel_noglue b2 b1
@@ -430,9 +430,9 @@ Inductive p459_wrel_noglue@{i o |} {I : Type@{i}}
 
 (* N3 *)
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Fail Inductive p459_wrel_unbounded@{i o |} {I : Type@{i}}
-  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o o} A B) :
+  {A B : SetoidObject@{o o}} (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} :=
   | p459_ubase : ∀ b1 b2 : B, b1 ≈ b2 → p459_wrel_unbounded b1 b2
   | p459_uglue : ∀ (i j : I) (a : A), p459_wrel_unbounded (fs i a) (fs j a)
@@ -444,12 +444,12 @@ Fail Inductive p459_wrel_unbounded@{i o |} {I : Type@{i}}
 
 (* CONTROL: the relation with its index at the points' universe. *)
 Definition p459_rel_at_points@{o h | o < h +} (I : Type@{o})
-  (A B : SetoidObject@{o o}) (fs : I → SetoidMorphism@{o o o} A B) :
+  (A B : SetoidObject@{o o}) (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} := wcoeq_rel fs.
 
 (* N4 *)
 Fail Definition p459_rel_at_hom@{o h | o < h +} (I : Type@{h})
-  (A B : SetoidObject@{o o}) (fs : I → SetoidMorphism@{o o o} A B) :
+  (A B : SetoidObject@{o o}) (fs : I → SetoidMorphism@{o o} A B) :
   B → B → Type@{o} := wcoeq_rel fs.
 
 (** ** Instance/Top/Quotient.v: Construction 5 and W-c *)

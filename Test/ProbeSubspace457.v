@@ -855,23 +855,23 @@ Record p457_PTopIdx@{o} := {
 (* The index of the subspace's union witness under (a): (index, open)
    pairs whose open witnesses the member. *)
 Definition p457_idx_witness_index@{o +} (X : p457_PTopIdx@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S X) (I : Type@{o})
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S X) (I : Type@{o})
   (V : I → S → Prop) :=
   { p : (I * (X → Prop))%type &
     (p457_PIOpen X (snd p) /\ ∀ s, V (fst p) s <-> snd p (h s)) }.
 
 (* CONTROL: above [Set] it is a union index. *)
 Definition p457_idx_union_above@{o | Set < o +} (X : p457_PTopIdx@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S X)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S X)
   (I : Type@{o}) (V : I → S → Prop) :=
   p457_piopen_union X (p457_idx_witness_index X S h I V).
 
 (* N8 *)
 Check @p457_PTopIdx@{_}.
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Fail Definition p457_idx_union_at_set (X : p457_PTopIdx@{Set})
-  (S : SetoidObject@{Set Set}) (h : SetoidMorphism@{Set Set Set} S X)
+  (S : SetoidObject@{Set Set}) (h : SetoidMorphism@{Set Set} S X)
   (I : Set) (V : I → S → Prop) :=
   p457_piopen_union X (p457_idx_witness_index X S h I V).
 
@@ -900,7 +900,7 @@ Fail Definition p457_idx_to_family_at_set (X : p457_PTopIdx@{Set})
 (* CONTROL: under the chosen design (b) the subspace is formed at [Set],
    and (a) follows at every index universe. *)
 Definition p457_psub_at_set (X : PTop@{Set}) (S : SetoidObject@{Set Set})
-  (h : SetoidMorphism@{Set Set Set} S X) : PTop@{Set} := PSub X S h.
+  (h : SetoidMorphism@{Set Set} S X) : PTop@{Set} := PSub X S h.
 
 Definition p457_union_indexed@{o i} (X : PTop@{o}) (I : Type@{i})
   (U : I → pt_carrier X → Prop) :
@@ -928,11 +928,11 @@ Definition p457_pdisc_axioms@{o} (S : SetoidObject@{o o}) :=
           (conj (pdisc_open_whole S) (pdisc_open_inter S)))).
 
 Definition p457_pdisc_cont@{o} (S : SetoidObject@{o o}) (Y : PTop@{o})
-  (f : SetoidMorphism@{o o o} S Y) : @PCont (PDiscrete S) Y f :=
+  (f : SetoidMorphism@{o o} S Y) : @PCont (PDiscrete S) Y f :=
   pdisc_cont S Y f.
 
 Example p457_pdisc_mor_map@{o} (S : SetoidObject@{o o}) (Y : PTop@{o})
-  (f : SetoidMorphism@{o o o} S Y) : pmap (pdisc_mor S Y f) = f := eq_refl.
+  (f : SetoidMorphism@{o o} S Y) : pmap (pdisc_mor S Y f) = f := eq_refl.
 
 Example p457_pconst_at@{o} (S : SetoidObject@{o o}) (Y : PTop@{o}) (y : Y)
   (s : S) : pconst S Y y s = y := eq_refl.
@@ -953,19 +953,19 @@ Definition p457_pbool_points_distinct@{o} :
 (* CONTROL: the book's opens verbatim, the universal properties over
    ARBITRARY spaces, and Exercise 7.32's definition, restated. *)
 Example p457_psub_open@{o} (X : PTop@{o}) (S : SetoidObject@{o o})
-  (h : SetoidMorphism@{o o o} S X) (V : S → Prop) :
+  (h : SetoidMorphism@{o o} S X) (V : S → Prop) :
   POpen (PSub X S h) V
   = ex (fun U : X → Prop => POpen X U /\ ∀ s, V s <-> U (h s)) := eq_refl.
 
 Definition p457_psub_universal@{o +} (X : PTop@{o}) (S : SetoidObject@{o o})
-  (h : SetoidMorphism@{o o o} S X) (Z : PTop@{o})
-  (g : SetoidMorphism@{o o o} Z S) :
+  (h : SetoidMorphism@{o o} S X) (Z : PTop@{o})
+  (g : SetoidMorphism@{o o} Z S) :
   @PCont Z (PSub X S h) g <-> @PCont Z X (setoid_morphism_compose h g) :=
   psub_universal X S h Z g.
 
 Definition p457_pquot_universal@{o +} (X : PTop@{o}) (T : SetoidObject@{o o})
-  (q : SetoidMorphism@{o o o} X T) (Z : PTop@{o})
-  (k : SetoidMorphism@{o o o} T Z) :
+  (q : SetoidMorphism@{o o} X T) (Z : PTop@{o})
+  (k : SetoidMorphism@{o o} T Z) :
   @PCont (PQuot X T q) Z k <-> @PCont X Z (setoid_morphism_compose k q) :=
   pquot_universal X T q Z k.
 
@@ -1224,12 +1224,12 @@ Definition p457_pbool_coequalizer_points@{o so +| o < so +} (b : bool) :
 (* CONTROL: the book's predicate is formed one universe up, as
    [tsub_open], and its body is accepted there. *)
 Definition p457_tsub_open@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o1} :=
   tsub_open X S h V.
 
 Definition p457_tsub_open_body@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o1} :=
   { U : top_carrier X → Type@{o} &
     (IsOpen X U ∧ (∀ s : S, V s ↔ U (h s)))%type }.
@@ -1237,28 +1237,28 @@ Definition p457_tsub_open_body@{o o1 +| o < o1 +} (X : TopSpace@{o})
 (* N13 *)
 Check @TopSpace@{_}.
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Fail Definition p457_tsub_open_at_o@{o +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o} :=
   { U : top_carrier X → Type@{o} &
     (IsOpen X U ∧ (∀ s : S, V s ↔ U (h s)))%type }.
 
 (* CONTROL: the quotient is a space at the points' universe. *)
 Definition p457_tquot@{o +} (X : TopSpace@{o}) (T : SetoidObject@{o o})
-  (q : SetoidMorphism@{o o o} (top_carrier X) T) : TopSpace@{o} :=
+  (q : SetoidMorphism@{o o} (top_carrier X) T) : TopSpace@{o} :=
   TQuot X T q.
 
 (* CONTROL: the five axioms of the unpackaged subspace, and the same
    record literal at the quotient's opens, packaged at [o]. *)
 Definition p457_tsub_axioms@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X)) :=
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X)) :=
   (tsub_open_respects@{o o1} X S h, tsub_open_proper@{o o1} X S h,
    tsub_open_union@{o o1} X S h, tsub_open_whole@{o o1} X S h,
    tsub_open_inter@{o o1} X S h).
 
 Definition p457_tquot_package@{o +} (X : TopSpace@{o})
-  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o o} (top_carrier X) T) :
+  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o} (top_carrier X) T) :
   TopSpace@{o} := {|
   top_carrier   := T;
   IsOpen        := tquot_open X T q;
@@ -1271,7 +1271,7 @@ Definition p457_tquot_package@{o +} (X : TopSpace@{o})
 (* N14 *)
 Check @tsub_open@{_ _}.
 Fail Definition p457_tsub_package@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X)) :
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X)) :
   TopSpace@{o} := {|
   top_carrier   := S;
   IsOpen        := tsub_open@{o o1} X S h;
@@ -1283,15 +1283,15 @@ Fail Definition p457_tsub_package@{o o1 +| o < o1 +} (X : TopSpace@{o})
 
 (* CONTROL: the universal properties over ARBITRARY spaces, restated. *)
 Definition p457_tsub_universal@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S) :
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} (top_carrier Z) S) :
   tsub_continuous@{o o1} X S h Z g
     ↔ Continuous Z X (setoid_morphism_compose h g) :=
   tsub_universal X S h Z g.
 
 Definition p457_tquot_universal@{o +} (X : TopSpace@{o})
-  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o o} (top_carrier X) T)
-  (Z : TopSpace@{o}) (k : SetoidMorphism@{o o o} T (top_carrier Z)) :
+  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o} (top_carrier X) T)
+  (Z : TopSpace@{o}) (k : SetoidMorphism@{o o} T (top_carrier Z)) :
   Continuous (TQuot X T q) Z k
     ↔ Continuous X Z (setoid_morphism_compose k q) :=
   tquot_universal X T q Z k.
@@ -1436,13 +1436,13 @@ Fail Definition p457_tquot_unit_opaque@{o h so +| o < h, o < so +}
    lies in V.  Instance/Sets/Powerset.v's [Powerset_squash] is the
    truncation. *)
 Definition p457_sq_box@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) (s : S) : Type@{o1} :=
   { U : top_carrier X → Type@{o} &
     (IsOpen X U ∧ U (h s) ∧ (∀ t : S, U (h t) → V t))%type }.
 
 Definition p457_sq_open@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o} :=
   ((∀ s t : S, s ≈ t → V s → V t)
    ∧ (∀ s : S, V s → Powerset_squash@{o1} (p457_sq_box@{o o1} X S h V s)))%type.
@@ -1458,7 +1458,7 @@ Proof. intros a b Q k; exact (a Q (fun x => b Q (fun y => k (x, y)))). Qed.
 
 (* CONTROL: it IS a space at the points' universe. *)
 Definition p457_sq_subspace@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X)) :
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X)) :
   TopSpace@{o}.
 Proof.
   unshelve refine {| top_carrier := S; IsOpen := p457_sq_open@{o o1} X S h |}.
@@ -1498,7 +1498,7 @@ Defined.
 (* CONTROL: [h] is continuous out of it, and the "only if" half of the
    universal property holds. *)
 Lemma p457_sq_h_cont@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X)) :
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X)) :
   Continuous (p457_sq_subspace@{o o1} X S h) X h.
 Proof.
   intros U HU; split.
@@ -1510,8 +1510,8 @@ Proof.
 Qed.
 
 Lemma p457_sq_only_if@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S) :
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} (top_carrier Z) S) :
   Continuous Z (p457_sq_subspace@{o o1} X S h) g →
   Continuous Z X (setoid_morphism_compose h g).
 Proof. intros Hg U HU. exact (Hg _ (p457_sq_h_cont X S h U HU)). Qed.
@@ -1519,7 +1519,7 @@ Proof. intros Hg U HU. exact (Hg _ (p457_sq_h_cont X S h U HU)). Qed.
 (* CONTROL: its opens include the book's, [tsub_open], for predicates
    respecting the points' equality. *)
 Lemma p457_sq_global_to_local@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) :
   (∀ s t : S, s ≈ t → V s → V t) →
   tsub_open@{o o1} X S h V → p457_sq_open@{o o1} X S h V.
@@ -1532,8 +1532,8 @@ Qed.
 
 (* CONTROL: the squashed box eliminates into a proposition. *)
 Definition p457_sq_elim_prop@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} (top_carrier Z) S)
   (V : S → Type@{o}) (HV : p457_sq_open@{o o1} X S h V)
   (z0 : top_carrier Z) (v : V (g z0)) :=
   (snd HV (g z0) v) True.
@@ -1541,11 +1541,11 @@ Definition p457_sq_elim_prop@{o o1 +| o < o1 +} (X : TopSpace@{o})
 (* N20 *)
 Check @TopSpace@{_}.
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Check @p457_sq_open@{_ _}.
 Fail Definition p457_sq_elim_open@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} (top_carrier Z) S)
   (V : S → Type@{o}) (HV : p457_sq_open@{o o1} X S h V)
   (z0 : top_carrier Z) (v : V (g z0)) :=
   (snd HV (g z0) v) (IsOpen Z (fun z => V (g z))).
@@ -1557,14 +1557,14 @@ Definition p457_union_by_points@{o +} (Z : TopSpace@{o}) :=
 (* N21 *)
 Check @p457_sq_box@{_ _}.
 Fail Definition p457_sq_union_by_boxes@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} (top_carrier Z) S)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} (top_carrier Z) S)
   (V : S → Type@{o}) (z0 : top_carrier Z) :=
   @open_union Z (p457_sq_box@{o o1} X S h V (g z0)).
 
 (* N22 *)
 Fail Definition p457_sq_local_to_global@{o o1 +| o < o1 +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) (HV : p457_sq_open@{o o1} X S h V) (s0 : S)
   (v : V s0) :=
   (snd HV s0 v)
@@ -1576,7 +1576,7 @@ Fail Definition p457_sq_local_to_global@{o o1 +| o < o1 +} (X : TopSpace@{o})
 (* Instance/Top/Kolmogorov.v's small-opens idea: quantifying over opens
    valued at [s < o] puts the predicate at [o] ... *)
 Definition p457_small_sub_open@{s o +| s < o +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) : Type@{o} :=
   { U : top_carrier X → Type@{s} &
     (IsOpen X U ∧ (∀ s0 : S, V s0 ↔ U (h s0)))%type }.
@@ -1585,7 +1585,7 @@ Definition p457_small_sub_open@{s o +| s < o +} (X : TopSpace@{o})
    [s < o]), the union of [s]-valued witnesses over an index at [s] is
    [s]-valued ... *)
 Definition p457_small_union_at_s@{s o +| s < o +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) (HV : p457_small_sub_open@{s o} X S h V)
   (I : Type@{s}) (U : I → top_carrier X → Type@{s}) :
   top_carrier X → Type@{s} :=
@@ -1595,7 +1595,7 @@ Definition p457_small_union_at_s@{s o +| s < o +} (X : TopSpace@{o})
 (* N23 *)
 Check @p457_small_sub_open@{_ _}.
 Fail Definition p457_small_union_at_o@{s o +| s < o +} (X : TopSpace@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S (top_carrier X))
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S (top_carrier X))
   (V : S → Type@{o}) (HV : p457_small_sub_open@{s o} X S h V)
   (I : Type@{o}) (U : I → top_carrier X → Type@{s}) :
   top_carrier X → Type@{s} :=
@@ -1618,22 +1618,22 @@ Record p457_Top2@{o o1} := {
 
 (* CONTROL: it hosts the book's subspace predicate ... *)
 Definition p457_sub2_open@{o o1 +| o < o1 +} (X : p457_Top2@{o o1})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S X)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S X)
   (V : S → Type@{o}) : Type@{o1} :=
   { U : X → Type@{o} &
     (p457_IsOpen2 X U ∧ (∀ s : S, V s ↔ U (h s)))%type }.
 
 (* ... and its continuity is a type one universe up ... *)
 Definition p457_cont2@{o o1 +| o < o1 +} (X Y : p457_Top2@{o o1})
-  (f : SetoidMorphism@{o o o} X Y) : Type@{o1} :=
+  (f : SetoidMorphism@{o o} X Y) : Type@{o1} :=
   ∀ U : Y → Type@{o}, p457_IsOpen2 Y U → p457_IsOpen2 X (fun x => U (f x)).
 
 (* ... not at the points' universe. *)
 (* N24 *)
 Check @p457_Top2@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Fail Definition p457_cont2_at_o@{o o1 +| o < o1 +} (X Y : p457_Top2@{o o1})
-  (f : SetoidMorphism@{o o o} X Y) : Type@{o} :=
+  (f : SetoidMorphism@{o o} X Y) : Type@{o} :=
   ∀ U : Y → Type@{o}, p457_IsOpen2 Y U → p457_IsOpen2 X (fun x => U (f x)).
 
 (** ** Guard block *)

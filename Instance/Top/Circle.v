@@ -527,7 +527,7 @@ Definition PRLine@{o} : PTop@{o} := {|
 (** ** Multiplication by a positive integer, continuous on the line *)
 
 Program Definition line_mul@{o} (p : positive) :
-  SetoidMorphism@{o o o} RLine_setoid@{o} RLine_setoid@{o} := {|
+  SetoidMorphism@{o o} RLine_setoid@{o} RLine_setoid@{o} := {|
   morphism := fun x => CReal_mult (posR p) x
 |}.
 Next Obligation. intros p x y H; simpl in *. rewrite H. reflexivity. Qed.
@@ -597,14 +597,14 @@ Definition Circle_setoid@{o} : SetoidObject@{o o} :=
 
 (* The quotient map: the identity on representatives. *)
 Program Definition circ_q@{o} :
-  SetoidMorphism@{o o o} RLine_setoid@{o} Circle_setoid@{o} := {|
+  SetoidMorphism@{o o} RLine_setoid@{o} Circle_setoid@{o} := {|
   morphism := fun x => x
 |}.
 Next Obligation. intros x y H. exact (circ_eq_of_creal x y H). Qed.
 
 (* The p-fold map on points, shared by both circles below. *)
 Program Definition circ_mul@{o} (p : positive) :
-  SetoidMorphism@{o o o} Circle_setoid@{o} Circle_setoid@{o} := {|
+  SetoidMorphism@{o o} Circle_setoid@{o} Circle_setoid@{o} := {|
   morphism := fun x => CReal_mult (posR p) x
 |}.
 Next Obligation.

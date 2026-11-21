@@ -643,7 +643,7 @@ Qed.
 
 (* A continuous map sends components into components. *)
 Definition comp_setoid_map@{o} {X Y : PTop@{o}} (f : PMor@{o} X Y) :
-  SetoidMorphism@{o o o} (CompSet X) (CompSet Y).
+  SetoidMorphism@{o o} (CompSet X) (CompSet Y).
 Proof.
   refine {| morphism := fun x => pmap f x |}.
   intros x x' H; exact (comp_rel_map f x x' H).
@@ -754,7 +754,7 @@ Qed.
    continuous into the discrete space: the components are open.  Local
    connectedness is used once, at the whole space. *)
 Lemma comp_cont@{o} (X : PTop@{o}) (LC : PLocConn X) (S : SetoidObject@{o o})
-  (h : SetoidMorphism@{o o o} (CompSet X) S) :
+  (h : SetoidMorphism@{o o} (CompSet X) S) :
   @PCont X (PDiscrete S)
     {| morphism := fun x => h x;
        proper_morphism := fun x y e =>
@@ -856,7 +856,7 @@ Example components_unit_points@{o so | o < so +} (X : Lconn@{o so})
    there from this file, names, binders and proofs unchanged. *)
 
 Definition squash_id@{o} (Q : Type@{o}) :
-  SetoidMorphism@{o o o} PTwoIndisc@{o} (SquashSetoid Q).
+  SetoidMorphism@{o o} PTwoIndisc@{o} (SquashSetoid Q).
 Proof.
   refine {| morphism := fun b : bool => b |}.
   intros x y e; simpl in e; subst; left; reflexivity.
@@ -1103,14 +1103,14 @@ Definition zig_g_fun@{} (z : zig_pt) : bool :=
   match z with zig_c => true | _ => false end.
 
 Definition zig_f_set@{o} :
-  SetoidMorphism@{o o o} zig_setoid@{o} bool_setoid_object@{o o}.
+  SetoidMorphism@{o o} zig_setoid@{o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := fun _ : zig_pt => false |}.
   intros x y _; reflexivity.
 Defined.
 
 Definition zig_g_set@{o} :
-  SetoidMorphism@{o o o} zig_setoid@{o} bool_setoid_object@{o o}.
+  SetoidMorphism@{o o} zig_setoid@{o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := zig_g_fun |}.
   intros x y e; simpl in e; subst; reflexivity.
@@ -1126,7 +1126,7 @@ Definition zig_g_map@{o} : PMor@{o} PZig@{o} PTwoIndisc@{o} :=
 Definition zig_e_fun@{} (b : bool) : zig_pt := if b then zig_a else zig_b.
 
 Definition zig_e_set@{o} :
-  SetoidMorphism@{o o o} bool_setoid_object@{o o} zig_setoid@{o}.
+  SetoidMorphism@{o o} bool_setoid_object@{o o} zig_setoid@{o}.
 Proof.
   refine {| morphism := zig_e_fun |}.
   intros x y e; simpl in e; subst; reflexivity.
@@ -1337,7 +1337,7 @@ Definition LEmpty@{o so | o < so +} : Lconn@{o so} :=
   LDisc@{o so} Concrete.empty_setoid_object@{o o}.
 
 Definition swap_set@{o} :
-  SetoidMorphism@{o o o} bool_setoid_object@{o o} bool_setoid_object@{o o}.
+  SetoidMorphism@{o o} bool_setoid_object@{o o} bool_setoid_object@{o o}.
 Proof.
   refine {| morphism := negb |}.
   intros x y e; simpl in e; subst; reflexivity.
@@ -1347,7 +1347,7 @@ Definition swap_map@{o} : PMor@{o} PTwoIndisc@{o} PTwoIndisc@{o} :=
   pindisc_mor bool_setoid_object@{o o} PTwoIndisc@{o} swap_set@{o}.
 
 Definition empty_set_map@{o} :
-  SetoidMorphism@{o o o} Concrete.empty_setoid_object@{o o} PTwoIndisc@{o}.
+  SetoidMorphism@{o o} Concrete.empty_setoid_object@{o o} PTwoIndisc@{o}.
 Proof.
   refine {| morphism := fun x : False => match x with end |}.
   intros x; destruct x.

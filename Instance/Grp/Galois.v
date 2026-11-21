@@ -562,7 +562,7 @@ Definition fixes (s : carrier (grp_setoid G))
 Definition stab (X : carrier (Powerset_Prop_obj@{o} (act_setoid A))) :
   carrier (Powerset_Prop_obj@{o} (grp_setoid G)).
 Proof using A G.
-  unshelve refine (@Build_SetoidMorphism@{o o o}
+  unshelve refine (@Build_SetoidMorphism@{o o}
     (carrier (grp_setoid G)) (is_setoid (grp_setoid G))
     Prop (is_setoid Powerset_Prop_truth@{o})
     (fun s => ∀ x, X x → fixes s x) _).
@@ -576,7 +576,7 @@ Defined.
 Definition fixed (S : carrier (Powerset_Prop_obj@{o} (grp_setoid G))) :
   carrier (Powerset_Prop_obj@{o} (act_setoid A)).
 Proof using A G.
-  unshelve refine (@Build_SetoidMorphism@{o o o}
+  unshelve refine (@Build_SetoidMorphism@{o o}
     (carrier (act_setoid A)) (is_setoid (act_setoid A))
     Prop (is_setoid Powerset_Prop_truth@{o})
     (fun x => ∀ s, S s → fixes s x) _).
@@ -978,7 +978,7 @@ Example galois_z2_act_moves : act GalZ2Act true true = false := eq_refl.
 Definition galois_sub@{wo} (p : bool → Prop) :
   carrier (Powerset_Prop_obj@{wo} galois_two@{wo}).
 Proof.
-  unshelve refine (@Build_SetoidMorphism@{wo wo wo}
+  unshelve refine (@Build_SetoidMorphism@{wo wo}
     bool (is_setoid galois_two@{wo})
     Prop (is_setoid Powerset_Prop_truth@{wo}) p _).
   intros x y Hxy; simpl in Hxy; subst; split; exact (fun h => h).

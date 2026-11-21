@@ -335,7 +335,7 @@ Section Subspace.
 Universe o.
 
 Context (X : PTop@{o}) (S : SetoidObject@{o o})
-        (h : SetoidMorphism@{o o o} S X).
+        (h : SetoidMorphism@{o o} S X).
 
 (* Mac Lane's predicate: V is open when it is the preimage along [h] of an
    open of X. *)
@@ -428,7 +428,7 @@ Definition psub_incl : PMor@{o} PSub X :=
 (* The universal property, over ARBITRARY spaces [Z] mapping in: a setoid
    map into the subspace is continuous exactly when its composite with [h]
    is. *)
-Lemma psub_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o o} Z S) :
+Lemma psub_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o} Z S) :
   @PCont Z PSub g <-> @PCont Z X (setoid_morphism_compose h g).
 Proof.
   split.
@@ -442,18 +442,18 @@ Qed.
 (* The book's form: a continuous [f : Z → X] whose underlying function
    factors as [h ∘ g] has [g] continuous into the subspace. *)
 Definition psub_lift (Z : PTop@{o}) (f : PMor@{o} Z X)
-  (g : SetoidMorphism@{o o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
+  (g : SetoidMorphism@{o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
   PMor@{o} Z PSub :=
   @Build_PMor Z PSub g
     (proj2 (psub_universal Z g)
        (pcont_respects (pmap f) (setoid_morphism_compose h g) Hfg (pcont f))).
 
 Example psub_lift_map (Z : PTop@{o}) (f : PMor@{o} Z X)
-  (g : SetoidMorphism@{o o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
+  (g : SetoidMorphism@{o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
   pmap (psub_lift Z f g Hfg) = g := eq_refl.
 
 Lemma psub_lift_comm (Z : PTop@{o}) (f : PMor@{o} Z X)
-  (g : SetoidMorphism@{o o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
+  (g : SetoidMorphism@{o o} Z S) (Hfg : ∀ z, pmap f z ≈ h (g z)) :
   ∀ z, pmap (pcompose psub_incl (psub_lift Z f g Hfg)) z ≈ pmap f z.
 Proof. intro z; symmetry; exact (Hfg z). Qed.
 
@@ -479,7 +479,7 @@ Next Obligation.
   - intros a b c H1 H2; transitivity (proj1_sig b); assumption.
 Qed.
 
-Program Definition ex732_incl : SetoidMorphism@{o o o} ex732_Y X := {|
+Program Definition ex732_incl : SetoidMorphism@{o o} ex732_Y X := {|
   morphism := fun a => proj1_sig a
 |}.
 Next Obligation. intros a b H; exact H. Qed.
@@ -536,7 +536,7 @@ Section Quotient.
 Universe o.
 
 Context (X : PTop@{o}) (T : SetoidObject@{o o})
-        (q : SetoidMorphism@{o o o} X T).
+        (q : SetoidMorphism@{o o} X T).
 
 (* Mac Lane's predicate, V open when its preimage along [q] is, together
    with the setoid bookkeeping: V respects the equality of [T]. *)
@@ -614,7 +614,7 @@ Definition pquot_proj : PMor@{o} X PQuot :=
 (* The universal property, over ARBITRARY spaces [Z] mapping out: a setoid
    map out of the quotient is continuous exactly when its composite with
    [q] is. *)
-Lemma pquot_universal (Z : PTop@{o}) (k : SetoidMorphism@{o o o} T Z) :
+Lemma pquot_universal (Z : PTop@{o}) (k : SetoidMorphism@{o o} T Z) :
   @PCont PQuot Z k <-> @PCont X Z (setoid_morphism_compose k q).
 Proof.
   split.
@@ -628,18 +628,18 @@ Qed.
 (* The book's form: a continuous [f : X → Z] whose underlying function
    factors as [k ∘ q] has [k] continuous out of the quotient. *)
 Definition pquot_desc (Z : PTop@{o}) (f : PMor@{o} X Z)
-  (k : SetoidMorphism@{o o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
+  (k : SetoidMorphism@{o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
   PMor@{o} PQuot Z :=
   @Build_PMor PQuot Z k
     (proj2 (pquot_universal Z k)
        (pcont_respects (pmap f) (setoid_morphism_compose k q) Hfk (pcont f))).
 
 Example pquot_desc_map (Z : PTop@{o}) (f : PMor@{o} X Z)
-  (k : SetoidMorphism@{o o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
+  (k : SetoidMorphism@{o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
   pmap (pquot_desc Z f k Hfk) = k := eq_refl.
 
 Lemma pquot_desc_comm (Z : PTop@{o}) (f : PMor@{o} X Z)
-  (k : SetoidMorphism@{o o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
+  (k : SetoidMorphism@{o o} T Z) (Hfk : ∀ x, pmap f x ≈ k (q x)) :
   ∀ x, pmap (pcompose (pquot_desc Z f k Hfk) pquot_proj) x ≈ pmap f x.
 Proof. intro x; symmetry; exact (Hfk x). Qed.
 

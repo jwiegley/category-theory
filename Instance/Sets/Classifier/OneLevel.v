@@ -242,7 +242,7 @@ Generalizable All Variables.
    value be probed by a subobject of 1, which is how section (D) runs. *)
 
 Definition sets_in_image@{o} {u x : SetoidObject@{o o}}
-  (m : SetoidMorphism@{o o o} u x) (b : carrier x) : Type@{o} :=
+  (m : SetoidMorphism@{o o} u x) (b : carrier x) : Type@{o} :=
   ∃ a : carrier u, @equiv _ (is_setoid x) (m a) b.
 
 Definition triv_rel@{o} (P : Type@{o}) : crelation@{o o} P :=
@@ -261,7 +261,7 @@ Definition subone_incl@{o so} (P : Type@{o}) :
     ~{Sets@{o so}}~> (@terminal_obj Sets@{o so} Sets_Terminal@{so o}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o} P (is_setoid (SubOne@{o} P))
+    (@Build_SetoidMorphism@{o o} P (is_setoid (SubOne@{o} P))
        _ (is_setoid (@terminal_obj Sets@{o so} Sets_Terminal@{so o}))
        (fun _ => ttt) _).
   intros ? ? ?; reflexivity.
@@ -339,7 +339,7 @@ Definition subone_pt@{o so} {x : SetoidObject@{o o}} (b : carrier x) :
   (@terminal_obj Sets@{o so} Sets_Terminal@{so o}) ~{Sets@{o so}}~> x.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        _ (is_setoid (@terminal_obj Sets@{o so} Sets_Terminal@{so o}))
        (carrier x) (is_setoid x) (fun _ => b) _).
   intros ? ? ?; reflexivity.
@@ -364,7 +364,7 @@ Definition sce_truth@{o so} (S : SmallClassifierExt@{o}) :
     ~{Sets@{o so}}~> sce_Om@{o} S.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        _ (is_setoid (@terminal_obj Sets@{o so} Sets_Terminal@{so o}))
        (carrier (sce_Om@{o} S)) (is_setoid (sce_Om@{o} S))
        (fun _ => sce_t@{o} S) _).
@@ -376,7 +376,7 @@ Definition sce_char@{o so} (S : SmallClassifierExt@{o})
   (M : @Monic Sets@{o so} u x m) : x ~{Sets@{o so}}~> sce_Om@{o} S.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier x) (is_setoid x)
        (carrier (sce_Om@{o} S)) (is_setoid (sce_Om@{o} S))
        (fun b => sce_w@{o} S (sets_in_image@{o} m b)) _).
@@ -412,7 +412,7 @@ Proof.
       specialize (Hq z); simpl in Hq. exact Hq. }
     unshelve refine {| unique_obj := _ |}.
     + unshelve refine
-        (@Build_SetoidMorphism@{o o o}
+        (@Build_SetoidMorphism@{o o}
            (carrier Q) (is_setoid Q) (carrier u) (is_setoid u)
            (fun z => projT1 (Him z)) _).
       intros z z' Hzz'.
@@ -475,10 +475,10 @@ Lemma subone_respects@{o so} (P Q : Type@{o}) (f : P -> Q) (g : Q -> P) :
 Proof.
   unshelve refine (existT _ _ _).
   - unshelve refine {| to := _ ; from := _ |}.
-    + unshelve refine (@Build_SetoidMorphism@{o o o} P
+    + unshelve refine (@Build_SetoidMorphism@{o o} P
         (is_setoid (SubOne@{o} P))
         Q (is_setoid (SubOne@{o} Q)) f _). intros ? ? ?; exact ttt.
-    + unshelve refine (@Build_SetoidMorphism@{o o o} Q
+    + unshelve refine (@Build_SetoidMorphism@{o o} Q
         (is_setoid (SubOne@{o} Q))
         P (is_setoid (SubOne@{o} P)) g _). intros ? ? ?; exact ttt.
     + intro z; exact ttt.
@@ -548,7 +548,7 @@ Proof.
     { intro z; specialize (Hq z); simpl in Hq.
       destruct (q2 z); exact Hq. }
     unshelve refine {| unique_obj := _ |}.
-    + unshelve refine (@Build_SetoidMorphism@{o o o}
+    + unshelve refine (@Build_SetoidMorphism@{o o}
         (carrier Q) (is_setoid Q) _ (is_setoid (SubOne@{o} _)) Hz _).
       intros ? ? ?; exact ttt.
     + split; intro z; simpl; destruct (q1 z); try destruct (q2 z); reflexivity.
@@ -686,7 +686,7 @@ Definition dec_truth@{o so} :
     ~{Sets@{o so}}~> BoolSetoid@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        _ (is_setoid (@terminal_obj Sets@{o so} Sets_Terminal@{so o}))
        poly_bool@{o} (is_setoid BoolSetoid@{o})
        (fun _ => ptrue@{o}) _).
@@ -698,7 +698,7 @@ Definition char_of_dec@{o so} {u x : SetoidObject@{o o}}
   (d : SetsDec@{o so} m) : x ~{Sets@{o so}}~> BoolSetoid@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier x) (is_setoid x)
        poly_bool@{o} (is_setoid BoolSetoid@{o})
        (fun b => match d b with inl _ => ptrue | inr _ => pfalse end) _).
@@ -762,7 +762,7 @@ Proof.
       by (intro z; exact (char_of_dec_true_inv@{o so} m M d (q1 z) (Hq z))).
     unshelve refine {| unique_obj := _ |}.
     + unshelve refine
-        (@Build_SetoidMorphism@{o o o}
+        (@Build_SetoidMorphism@{o o}
            (carrier Q) (is_setoid Q) (carrier u) (is_setoid u)
            (fun z => projT1 (Him z)) _).
       intros z z' Hzz'.
@@ -869,7 +869,7 @@ Definition sets_squash_mor@{o so sso} :
   PropSetoid@{o so} ~{Sets@{so sso}}~> Setoid_Lift@{o so} Powerset_Omega@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{so so so}
+    (@Build_SetoidMorphism@{so so}
        Type@{o} (is_setoid PropSetoid@{o so})
        (carrier Powerset_Omega@{o})
        (Setoid_Lift_instance@{o so} (is_setoid Powerset_Omega@{o}))
@@ -986,7 +986,7 @@ Definition dec_false@{o so} :
     ~{Sets@{o so}}~> BoolSetoid@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        _ (is_setoid (@terminal_obj Sets@{o so} Sets_Terminal@{so o}))
        poly_bool@{o} (is_setoid BoolSetoid@{o})
        (fun _ => pfalse@{o}) _).

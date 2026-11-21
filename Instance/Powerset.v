@@ -515,7 +515,7 @@ Definition subset_inter {Idx : Type}
   carrier (Powerset_Prop_obj@{o} X).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier X) (is_setoid X) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ x, ∀ i : Idx, S i x) _).
   intros x y Hxy; split; intros H i.
@@ -533,7 +533,7 @@ Definition subset_union {Idx : Type}
   carrier (Powerset_Prop_obj@{o} X).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier X) (is_setoid X) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ x, ex (fun i : Idx => S i x)) _).
   intros x y Hxy; split; intros Hi; destruct Hi as [i Hi]; exists i.

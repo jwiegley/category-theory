@@ -713,11 +713,11 @@ Fail Check probe458_absent_name.
 (* CONTROL: [PInit]'s index universe is free, under the CLOSED binder
    [@{o i}]; its opens read back at [eq_refl]. *)
 Definition p458_pinit@{o i} (S : SetoidObject@{o o}) (I : Type@{i})
-  (X : I → PTop@{o}) (t : ∀ k : I, SetoidMorphism@{o o o} S (X k)) :
+  (X : I → PTop@{o}) (t : ∀ k : I, SetoidMorphism@{o o} S (X k)) :
   PTop@{o} := PInit S I X t.
 
 Example p458_pinit_open@{o i} (S : SetoidObject@{o o}) (I : Type@{i})
-  (X : I → PTop@{o}) (t : ∀ k : I, SetoidMorphism@{o o o} S (X k))
+  (X : I → PTop@{o}) (t : ∀ k : I, SetoidMorphism@{o o} S (X k))
   (V : S → Prop) :
   POpen (PInit S I X t) V = pinit_open S I X t V := eq_refl.
 
@@ -725,14 +725,14 @@ Example p458_pinit_open@{o i} (S : SetoidObject@{o o}) (I : Type@{i})
    the one-map case, the subspace topology, restated. *)
 Definition p458_pinit_universal@{o i +} (S : SetoidObject@{o o})
   (I : Type@{i}) (X : I → PTop@{o})
-  (t : ∀ k : I, SetoidMorphism@{o o o} S (X k)) (Z : PTop@{o})
-  (g : SetoidMorphism@{o o o} Z S) :
+  (t : ∀ k : I, SetoidMorphism@{o o} S (X k)) (Z : PTop@{o})
+  (g : SetoidMorphism@{o o} Z S) :
   @PCont Z (PInit S I X t) g <->
   (∀ k, @PCont Z (X k) (setoid_morphism_compose@{o o o} (t k) g)) :=
   pinit_universal S I X t Z g.
 
 Definition p458_pinit_one_psub@{o +} (X : PTop@{o})
-  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o o} S X)
+  (S : SetoidObject@{o o}) (h : SetoidMorphism@{o o} S X)
   (V : S → Prop) :
   POpen (PInit S Datatypes.unit (fun _ => X) (fun _ => h)) V
   <-> POpen (PSub X S h) V :=
@@ -1012,11 +1012,11 @@ Definition p458_products_via_cone_comma@{i o so +| i <= o, o < so +} :
 (* CONTROL: [PFinal]'s index universe is free, under the CLOSED binder
    [@{o i}]; its opens read back at [eq_refl]. *)
 Definition p458_pfinal@{o i} (S : SetoidObject@{o o}) (Ix : Type@{i})
-  (X : Ix → PTop@{o}) (f : ∀ k : Ix, SetoidMorphism@{o o o} (X k) S) :
+  (X : Ix → PTop@{o}) (f : ∀ k : Ix, SetoidMorphism@{o o} (X k) S) :
   PTop@{o} := PFinal S Ix X f.
 
 Example p458_pfinal_open@{o i} (S : SetoidObject@{o o}) (Ix : Type@{i})
-  (X : Ix → PTop@{o}) (f : ∀ k : Ix, SetoidMorphism@{o o o} (X k) S)
+  (X : Ix → PTop@{o}) (f : ∀ k : Ix, SetoidMorphism@{o o} (X k) S)
   (V : S → Prop) :
   POpen (PFinal S Ix X f) V
   = ((∀ s t : S, s ≈ t → V s → V t) /\
@@ -1026,14 +1026,14 @@ Example p458_pfinal_open@{o i} (S : SetoidObject@{o o}) (Ix : Type@{i})
    and the one-map case, the quotient topology, restated. *)
 Definition p458_pfinal_universal@{o i +} (S : SetoidObject@{o o})
   (Ix : Type@{i}) (X : Ix → PTop@{o})
-  (f : ∀ k : Ix, SetoidMorphism@{o o o} (X k) S) (Z : PTop@{o})
-  (g : SetoidMorphism@{o o o} S Z) :
+  (f : ∀ k : Ix, SetoidMorphism@{o o} (X k) S) (Z : PTop@{o})
+  (g : SetoidMorphism@{o o} S Z) :
   @PCont (PFinal S Ix X f) Z g <->
   (∀ k, @PCont (X k) Z (setoid_morphism_compose@{o o o} g (f k))) :=
   pfinal_universal S Ix X f Z g.
 
 Definition p458_pfinal_one_pquot@{o +} (X : PTop@{o})
-  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o o} X T)
+  (T : SetoidObject@{o o}) (q : SetoidMorphism@{o o} X T)
   (V : T → Prop) :
   POpen (PQuot X T q) V
   <-> POpen (PFinal T Datatypes.unit (fun _ => X) (fun _ => q)) V :=

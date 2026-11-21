@@ -299,13 +299,13 @@ Proof. exact (popen_const X False). Qed.
 (* Continuity: the preimage of every open is open.  It is a proposition, so
    a continuous map is a setoid map with a proof attached, at the level of
    the points. *)
-Definition PCont@{o} {X Y : PTop@{o}} (f : SetoidMorphism@{o o o} X Y) :
+Definition PCont@{o} {X Y : PTop@{o}} (f : SetoidMorphism@{o o} X Y) :
   Prop :=
   ∀ U : Y → Prop, POpen Y U → POpen X (fun x => U (f x)).
 
 (* Continuity depends on the map only up to pointwise [≈]: every open
    respects the codomain's equality. *)
-Lemma pcont_respects@{o} {X Y : PTop@{o}} (f g : SetoidMorphism@{o o o} X Y) :
+Lemma pcont_respects@{o} {X Y : PTop@{o}} (f g : SetoidMorphism@{o o} X Y) :
   (∀ x, f x ≈ g x) → PCont f → PCont g.
 Proof.
   intros Hfg Hf U HU.
@@ -316,7 +316,7 @@ Proof.
 Qed.
 
 Record PMor@{o} (X Y : PTop@{o}) : Type@{o} := {
-  pmap :> SetoidMorphism@{o o o} X Y;
+  pmap :> SetoidMorphism@{o o} X Y;
   pcont : PCont pmap
 }.
 
@@ -449,23 +449,23 @@ Example PDiscrete_open@{o} (S : SetoidObject@{o o}) (U : S → Prop) :
    an open respects the domain's equality because the map and the open
    do. *)
 Lemma pdisc_cont@{o} (S : SetoidObject@{o o}) (Y : PTop@{o})
-  (f : SetoidMorphism@{o o o} S Y) : @PCont (PDiscrete S) Y f.
+  (f : SetoidMorphism@{o o} S Y) : @PCont (PDiscrete S) Y f.
 Proof.
   intros U HU x y Hxy u.
   exact (popen_proper Y U HU (f x) (f y) (proper_morphism f x y Hxy) u).
 Qed.
 
 Definition pdisc_mor@{o} (S : SetoidObject@{o o}) (Y : PTop@{o})
-  (f : SetoidMorphism@{o o o} S Y) : PMor@{o} (PDiscrete S) Y :=
+  (f : SetoidMorphism@{o o} S Y) : PMor@{o} (PDiscrete S) Y :=
   @Build_PMor (PDiscrete S) Y f (pdisc_cont S Y f).
 
 Example pdisc_mor_map@{o} (S : SetoidObject@{o o}) (Y : PTop@{o})
-  (f : SetoidMorphism@{o o o} S Y) : pmap (pdisc_mor S Y f) = f := eq_refl.
+  (f : SetoidMorphism@{o o} S Y) : pmap (pdisc_mor S Y f) = f := eq_refl.
 
 (* The constant map at a point [y] of a space, as a setoid map from any
    setoid. *)
 Definition pconst@{o} (S : SetoidObject@{o o}) (Y : PTop@{o}) (y : Y) :
-  SetoidMorphism@{o o o} S Y :=
+  SetoidMorphism@{o o} S Y :=
   {| morphism := fun _ => y; proper_morphism := fun _ _ _ => reflexivity y |}.
 
 (* The one-point space and the two-point discrete space, on
