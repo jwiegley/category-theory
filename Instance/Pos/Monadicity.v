@@ -380,7 +380,7 @@ Example Pos_Forget_factor_map@{c so po p0 p1 p2 p3 s |
 Definition Pos_Forget_factor@{c so po p0 p1 p2 p3 s a b |
   c < so, c < s, c < b, po <= a, po <= b, c <= a, so <= a, c < po, Set < p2,
   p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
-  @equiv _ (@Functor_Setoid@{a b po s so c} Pos@{po p0 p1 p2 p3 c} Sets@{c so})
+  @equiv _ (@Functor_Setoid@{a b po so c} Pos@{po p0 p1 p2 p3 c} Sets@{c so})
     (PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3})
     Pos_Forget@{po so p0 p2 p1 p3 c} :=
   PropSets_lift_Incl@{po c so s a b} Pos_Forget@{po so p0 p2 p1 p3 c}
@@ -601,7 +601,7 @@ Defined.
    at [PropSets]. *)
 Definition PropSets_EM_Id_equivalence@{c so s e | c < so, c < s, so <= e +} :
   EquivalenceOfCategories
-    (@EM_Forget@{so c s e} PropSets@{c so} Id[PropSets@{c so}]
+    (@EM_Forget@{so c e} PropSets@{c so} Id[PropSets@{c so}]
        (IdMonad@{so c} PropSets@{c so})) :=
   IdMonad_EM_equivalence@{so c s e} PropSets@{c so}.
 

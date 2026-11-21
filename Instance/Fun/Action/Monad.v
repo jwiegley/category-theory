@@ -442,7 +442,7 @@ Example ActMonad_join_fun@{o so} (M : MonObject@{o o o})
 
 (* Mac Lane: a T-algebra h : G × X → X is an action, g · x := h (g, x). *)
 Definition EM_act@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   MSetoidAction@{o o o o o o o o} M.
 Proof.
@@ -455,12 +455,12 @@ Proof.
 Defined.
 
 Definition EM_to_MSet@{o so} (M : MonObject@{o o o}) :
-  @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M) (ActMonad@{o so} M)
+  @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M) (ActMonad@{o so} M)
     ⟶ MSet@{so so o o o o o o} M.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+       (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M))
        (MSet@{so so o o o o o o} M)
        (fun x => @EM_act M x)
@@ -493,17 +493,17 @@ Proof.
 Defined.
 
 Definition MSet_unit_iso@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   @Isomorphism
-    (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+    (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M))
     (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M] x) x.
 Proof.
   destruct x as [X α].
   unshelve refine
     (@Build_Isomorphism
-       (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+       (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M))
        (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M] (X; α))
        (X; α)
@@ -549,7 +549,7 @@ Defined.
 Definition EM_MSet_iso@{o so c} (M : MonObject@{o o o}) :
   @Isomorphism Cat@{c so so so o}
     (MSet@{so so o o o o o o} M)
-    (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+    (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
   Equivalence_to_Cat_Iso (MSet_comparison_equivalence@{o so} M).
 
@@ -561,7 +561,7 @@ Example EM_MSet_iso_from@{o so c} (M : MonObject@{o o o}) :
   from (EM_MSet_iso@{o so c} M) = EM_to_MSet@{o so} M := eq_refl.
 
 Example EM_act_is_action@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) (g : carrier M) (a : carrier (`1 x)) :
   act (EM_act@{o so} x) g a = t_alg[`2 x] (g, a) := eq_refl.
 
@@ -848,7 +848,7 @@ Definition MSet_Forget_reflects@{o so} (M : MonObject@{o o o}) :
 Definition EM_MSet_iso_beck@{o so c} (M : MonObject@{o o o}) :
   @Isomorphism Cat@{c so so so o}
     (MSet@{so so o o o o o o} M)
-    (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+    (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
   Equivalence_to_Cat_Iso (MSet_beck_equivalence@{o so} M).
 
@@ -862,19 +862,19 @@ Example beck_direct_to@{o so c} (M : MonObject@{o o o}) :
 (* Beck's quasi-inverse keeps the carrier and acts through η: its action
    at g is the structure map at (g u, z). *)
 Example beck_carrier@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   act_setoid (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x)
   = `1 x := eq_refl.
 
 Example beck_act@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) (g : carrier M) (z : carrier (`1 x)) :
   act (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x) g z
   = t_alg[`2 x] (mon_op g mon_unit, z) := eq_refl.
 
 Definition beck_vs_direct_iso@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   @Isomorphism (MSet@{so so o o o o o o} M)
     (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x)
@@ -912,7 +912,7 @@ Defined.
 Definition Fun_EM_iso@{o so c} (M : MonObject@{o o o}) :
   @Isomorphism Cat@{c so so so o}
     ([Deloop@{o o} M, Sets@{o so}])
-    (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+    (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
        (ActMonad@{o so} M)) :=
   @iso_compose@{c so so c} Cat@{c so so so o} _ _ _
     (EM_MSet_iso@{o so c} M) (MSet_Fun_equiv@{so c o} M).

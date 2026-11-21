@@ -47,6 +47,8 @@ Generalizable All Variables.
    (T a, μ_a) of Moore/Adjunction.v — would not be recognized as objects of
    this category. *)
 
+Section EMProofs.
+Local Obligation Tactic := idtac.
 Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {|
   obj     := ∃ a : C, @TAlgebra C T H a;
   hom     := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y);
@@ -54,11 +56,21 @@ Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category :=
   id      := fun _ => {| t_alg_hom := id |};
   compose := fun _ _ _ f g => {| t_alg_hom := t_alg_hom[f] ∘ t_alg_hom[g] |}
 |}.
+Next Obligation. intros; equivalence. Qed.
 Next Obligation.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  rewrite <- t_alg_hom_commutes.
-  rewrite <- !comp_assoc.
-  rewrite <- t_alg_hom_commutes.
-  reflexivity.
+  intros. etransitivity; [apply id_left |]. symmetry.
+  etransitivity; [apply compose_respects; [reflexivity | apply fmap_id] | apply id_right].
 Qed.
+Next Obligation.
+  intros. etransitivity; [apply comp_assoc_sym |].
+  etransitivity; [apply compose_respects; [reflexivity | apply t_alg_hom_commutes] |].
+  etransitivity; [apply comp_assoc |].
+  etransitivity; [apply compose_respects; [apply t_alg_hom_commutes | reflexivity] |].
+  etransitivity; [apply comp_assoc_sym |]. apply compose_respects; [reflexivity | symmetry; apply fmap_comp].
+Qed.
+Next Obligation. intros; repeat intro; apply compose_respects; assumption. Qed.
+Next Obligation. intros; apply id_left. Qed.
+Next Obligation. intros; apply id_right. Qed.
+Next Obligation. intros; apply comp_assoc. Qed.
+Next Obligation. intros; apply comp_assoc_sym. Qed.
+End EMProofs.

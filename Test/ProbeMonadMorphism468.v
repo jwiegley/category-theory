@@ -516,7 +516,7 @@ Example p468_c2_equiv@{o h m1 m2 u |
   (C : Category@{o h h}) (N N2 : Monads@{o h m1 m2} C)
   (θ φ : N ~{Monads@{o h m1 m2} C}~> N2) :
   @equiv _ (@homset (Monads@{o h m1 m2} C) N N2) θ φ
-    = @equiv _ (@homset (@Fun@{o h o h m1 m2 u} C C) (projT1 N) (projT1 N2))
+    = @equiv _ (@homset (@Fun@{o h o h m1 m2} C C) (projT1 N) (projT1 N2))
         (mh_transform θ) (mh_transform φ) := eq_refl.
 
 (* C3: the identity of [Monads C] has components [id]. *)
@@ -529,7 +529,7 @@ Example p468_c3_id_components@{o h m1 m2 |
 Example p468_c4_fun_id@{o h m1 m2 u |
   h < u, o <= m1, h <= m1, o <= m2, h <= m2 +}
   (C : Category@{o h h}) (T : C ⟶ C) (x : C) :
-  transform[@id (@Fun@{o h o h m1 m2 u} C C) T] x = fmap[T] id := eq_refl.
+  transform[@id (@Fun@{o h o h m1 m2} C C) T] x = fmap[T] id := eq_refl.
 
 (* C46: [Monads_Forget] is the first projection on objects. *)
 Example p468_c46_mforget_obj@{o h m1 m2 u |
@@ -547,13 +547,13 @@ Example p468_c47_mforget_map@{o h m1 m2 u |
 Check @Category@{_ _ _}.
 Check @Monads@{_ _ _ _}.
 Check @Monads_Forget@{_ _ _ _ _}.
-Check @Fun@{_ _ _ _ _ _ _}.
+Check @Fun@{_ _ _ _ _ _}.
 Fail Example p468_r6_forget_id@{o h m1 m2 u |
   h < u, o <= m1, h <= m1, o <= m2, h <= m2 +}
   (C : Category@{o h h}) (N : Monads@{o h m1 m2} C) (x : C) :
   transform[fmap[Monads_Forget@{o h m1 m2 u} C]
               (@id (Monads@{o h m1 m2} C) N)] x
-    = transform[@id (@Fun@{o h o h m1 m2 u} C C) (projT1 N)] x := eq_refl.
+    = transform[@id (@Fun@{o h o h m1 m2} C C) (projT1 N)] x := eq_refl.
 
 (* C37: the composition law of [Monads_Forget] at a component. *)
 Example p468_c37_forget_comp@{o h m1 m2 u |
@@ -582,7 +582,7 @@ Fail Example p468_r18_forget_comp@{o h m1 m2 u |
 Definition p468_c5_book_type@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :=
-  @EM_Free@{o h s e} C T M ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T2 M2.
+  @EM_Free@{o h e s} C T M ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T2 M2.
 
 (* C6: [mh_EM_free θ] inhabits it. *)
 Definition p468_c6_free_type@{o h e s | h < s, o <= e, h <= e +}
@@ -597,7 +597,7 @@ Check @mh_EM@{_ _ _ _}.
 Fail Definition p468_r1_issue_direction@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :=
-  @EM_Free@{o h s e} C T2 M2 ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T M.
+  @EM_Free@{o h e s} C T2 M2 ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T M.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Part (b): G^T ∘ θ* = G^{T'} *)
@@ -606,84 +606,84 @@ Fail Definition p468_r1_issue_direction@{o h e s | h < s, o <= e, h <= e +}
 Example p468_c7_forget_obj@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T2 M2) :
-  fobj[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] X
-    = fobj[@EM_Forget@{o h s e} C T2 M2] X := eq_refl.
+  (X : @EilenbergMoore@{e o h} C T2 M2) :
+  fobj[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] X
+    = fobj[@EM_Forget@{o h e} C T2 M2] X := eq_refl.
 
 (* C8: on objects, as a function. *)
 Example p468_c8_forget_obj_fun@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  (fun X => fobj[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] X)
-    = (fun X => fobj[@EM_Forget@{o h s e} C T2 M2] X) := eq_refl.
+  (fun X => fobj[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] X)
+    = (fun X => fobj[@EM_Forget@{o h e} C T2 M2] X) := eq_refl.
 
 (* C9: on arrows. *)
 Example p468_c9_forget_map@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2)
-  (X Y : @EilenbergMoore@{e o s h} C T2 M2) (f : X ~> Y) :
-  fmap[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] f
-    = fmap[@EM_Forget@{o h s e} C T2 M2] f := eq_refl.
+  (X Y : @EilenbergMoore@{e o h} C T2 M2) (f : X ~> Y) :
+  fmap[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] f
+    = fmap[@EM_Forget@{o h e} C T2 M2] f := eq_refl.
 
 (* C10: the [fobj] fields of the two functors. *)
 Example p468_c10_fobj_field@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @fobj _ _ (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    = @fobj _ _ (@EM_Forget@{o h s e} C T2 M2) := eq_refl.
+  @fobj _ _ (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    = @fobj _ _ (@EM_Forget@{o h e} C T2 M2) := eq_refl.
 
 (* C11: the [fmap] fields of the two functors. *)
 Example p468_c11_fmap_field@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @fmap _ _ (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    = @fmap _ _ (@EM_Forget@{o h s e} C T2 M2) := eq_refl.
+  @fmap _ _ (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    = @fmap _ _ (@EM_Forget@{o h e} C T2 M2) := eq_refl.
 
 (* C12: the object equation of [mh_EM_forget_strict] IS [eq_refl]. *)
 Example p468_c12_strict_obj@{o h e s a b |
   h < s, o <= e, h <= e, o <= a, h <= a, e <= a, h <= b, e <= b +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T2 M2) :
+  (X : @EilenbergMoore@{e o h} C T2 M2) :
   projT1 (mh_EM_forget_strict@{o h e s a b} θ) X = eq_refl := eq_refl.
 
 (* C41: both legs of the isomorphisms of [mh_EM_forget] are identities. *)
 Example p468_c41_forget_iso@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T2 M2) :
+  (X : @EilenbergMoore@{e o h} C T2 M2) :
   (to (projT1 (mh_EM_forget@{o h e s} θ) X),
    from (projT1 (mh_EM_forget@{o h e s} θ) X))
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
 
 (* R2 *)
-Check @EM_Forget@{_ _ _ _}.
+Check @EM_Forget@{_ _ _}.
 Fail Example p468_r2_forget_eq@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ
-    = @EM_Forget@{o h s e} C T2 M2 := eq_refl.
+  @EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ
+    = @EM_Forget@{o h e} C T2 M2 := eq_refl.
 
 (* R2a *)
 Fail Example p468_r2a_fmap_respects@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @fmap_respects _ _ (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    = @fmap_respects _ _ (@EM_Forget@{o h s e} C T2 M2) := eq_refl.
+  @fmap_respects _ _ (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    = @fmap_respects _ _ (@EM_Forget@{o h e} C T2 M2) := eq_refl.
 
 (* R2b *)
 Fail Example p468_r2b_fmap_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @fmap_id _ _ (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    = @fmap_id _ _ (@EM_Forget@{o h s e} C T2 M2) := eq_refl.
+  @fmap_id _ _ (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    = @fmap_id _ _ (@EM_Forget@{o h e} C T2 M2) := eq_refl.
 
 (* R2c *)
 Fail Example p468_r2c_fmap_comp@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
-  @fmap_comp _ _ (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    = @fmap_comp _ _ (@EM_Forget@{o h s e} C T2 M2) := eq_refl.
+  @fmap_comp _ _ (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    = @fmap_comp _ _ (@EM_Forget@{o h e} C T2 M2) := eq_refl.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Part (b): F^T ⇝ θ* ∘ F^{T'} *)
@@ -700,7 +700,7 @@ Example p468_c18_transpose_arrow@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
   t_alg_hom[@EM_extend@{o h e s} C T M x
-                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T2 M2] x)
+                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T2 M2] x)
                  (@ret C T2 M2 x)]
     = (@join C T2 M2 x ∘ mh_transform θ (T2 x)) ∘ fmap[T] (@ret C T2 M2 x)
   := eq_refl.
@@ -711,7 +711,7 @@ Fail Example p468_r5_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
   t_alg_hom[@EM_extend@{o h e s} C T M x
-                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T2 M2] x)
+                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T2 M2] x)
                  (@ret C T2 M2 x)]
     = mh_transform θ x := eq_refl.
 
@@ -722,28 +722,28 @@ Fail Example p468_r5_transpose@{o h e s | h < s, o <= e, h <= e +}
 Example p468_c63_alg@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T2 M2) :
+  (X : @EilenbergMoore@{e o h} C T2 M2) :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{o h e s} θ] X))
     = @t_alg _ _ _ _ (`2 X) ∘ mh_transform θ (`1 X) := eq_refl.
 
 (* C14: (id)* keeps the carrier. *)
 Example p468_c14_id_carrier@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
-  (X : @EilenbergMoore@{e o s h} C T M) :
+  (X : @EilenbergMoore@{e o h} C T M) :
   `1 (fobj[mh_EM@{o h e s} (mh_id M)] X) = `1 X := eq_refl.
 
 (* C15: (id)* writes h ∘ id. *)
 Example p468_c15_id_alg@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
-  (X : @EilenbergMoore@{e o s h} C T M) :
+  (X : @EilenbergMoore@{e o h} C T M) :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{o h e s} (mh_id M)] X))
     = @t_alg _ _ _ _ (`2 X) ∘ id := eq_refl.
 
 (* R3 *)
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Fail Example p468_r3_id_obj@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
-  (X : @EilenbergMoore@{e o s h} C T M) :
+  (X : @EilenbergMoore@{e o h} C T M) :
   fobj[mh_EM@{o h e s} (mh_id M)] X = X := eq_refl.
 
 (* C16: (φ ∘ θ)* writes h ∘ (φ ∘ θ). *)
@@ -751,7 +751,7 @@ Example p468_c16_comp_alg@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 T3 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} {M3 : @Monad C T3}
   (φ : MonadHom@{o h} M2 M3) (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T3 M3) :
+  (X : @EilenbergMoore@{e o h} C T3 M3) :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{o h e s} (mh_compose φ θ)] X))
     = @t_alg _ _ _ _ (`2 X) ∘ (mh_transform φ (`1 X) ∘ mh_transform θ (`1 X))
   := eq_refl.
@@ -761,7 +761,7 @@ Example p468_c17_comp_hom@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 T3 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} {M3 : @Monad C T3}
   (φ : MonadHom@{o h} M2 M3) (θ : MonadHom@{o h} M M2)
-  (X Y : @EilenbergMoore@{e o s h} C T3 M3) (f : X ~> Y) :
+  (X Y : @EilenbergMoore@{e o h} C T3 M3) (f : X ~> Y) :
   t_alg_hom[fmap[mh_EM@{o h e s} (mh_compose φ θ)] f]
     = t_alg_hom[fmap[mh_EM@{o h e s} θ ◯ mh_EM@{o h e s} φ] f] := eq_refl.
 
@@ -770,7 +770,7 @@ Fail Example p468_r4_comp_obj@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 T3 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} {M3 : @Monad C T3}
   (φ : MonadHom@{o h} M2 M3) (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T3 M3) :
+  (X : @EilenbergMoore@{e o h} C T3 M3) :
   fobj[mh_EM@{o h e s} (mh_compose φ θ)] X
     = fobj[mh_EM@{o h e s} θ ◯ mh_EM@{o h e s} φ] X := eq_refl.
 
@@ -778,7 +778,7 @@ Fail Example p468_r4_comp_obj@{o h e s | h < s, o <= e, h <= e +}
    [id]. *)
 Example p468_c42_id_iso@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
-  (X : @EilenbergMoore@{e o s h} C T M) :
+  (X : @EilenbergMoore@{e o h} C T M) :
   (t_alg_hom[to (projT1 (@mh_EM_id@{o h e s} C T M) X)],
    t_alg_hom[from (projT1 (@mh_EM_id@{o h e s} C T M) X)])
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
@@ -788,7 +788,7 @@ Example p468_c43_comp_iso@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 T3 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} {M3 : @Monad C T3}
   (φ : MonadHom@{o h} M2 M3) (θ : MonadHom@{o h} M M2)
-  (X : @EilenbergMoore@{e o s h} C T3 M3) :
+  (X : @EilenbergMoore@{e o h} C T3 M3) :
   (t_alg_hom[to (projT1 (mh_EM_compose@{o h e s} φ θ) X)],
    t_alg_hom[from (projT1 (mh_EM_compose@{o h e s} φ θ) X)])
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
@@ -798,7 +798,7 @@ Example p468_c44_respects_iso@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ θ2 : MonadHom@{o h} M M2)
   (E : ∀ x, mh_transform θ x ≈ mh_transform θ2 x)
-  (X : @EilenbergMoore@{e o s h} C T2 M2) :
+  (X : @EilenbergMoore@{e o h} C T2 M2) :
   (t_alg_hom[to (projT1 (mh_EM_respects@{o h e s} θ θ2 E) X)],
    t_alg_hom[from (projT1 (mh_EM_respects@{o h e s} θ θ2 E) X)])
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
@@ -808,7 +808,7 @@ Example p468_c48_em_obj@{o h m1 m2 e s u |
   h < s, h < u, e < u, o <= m1, h <= m1, o <= m2, h <= m2, m2 <= e,
   o <= e, h <= e +} (C : Category@{o h h}) (N : Monads@{o h m1 m2} C) :
   fobj[Monads_EM@{o h m1 m2 e s u} C] N
-    = @EilenbergMoore@{e o s h} C (projT1 N) (projT2 N) := eq_refl.
+    = @EilenbergMoore@{e o h} C (projT1 N) (projT2 N) := eq_refl.
 
 (* C49: and a morphism θ to θ*. *)
 Example p468_c49_em_map@{o h m1 m2 e s u |
@@ -824,7 +824,7 @@ Example p468_c49_em_map@{o h m1 m2 e s u |
 Example p468_c19_bimap@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) (x : C) :
-  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{s f o h} C))
+  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
               _ _ _ _ (mh_transform θ) (mh_transform θ)] x
     = mh_transform θ (T2 x) ∘ fmap[T] (mh_transform θ x) := eq_refl.
 
@@ -837,11 +837,11 @@ Example p468_c20_hom_mu_type@{o h f s q |
     (∀ x : C, mh_transform θ x ∘ @join C T M x
                 ≈ @join C T2 M2 x
                     ∘ (mh_transform θ (T2 x) ∘ fmap[T] (mh_transform θ x)))
-    (@compose (@Fun@{o h o h f f s} C C) _ _ _
+    (@compose (@Fun@{o h o h f f} C C) _ _ _
        (mh_transform θ) (@mu _ _ _ (monad_monoid@{o h f s} M))
-     ≈ @compose (@Fun@{o h o h f f s} C C) _ _ _
+     ≈ @compose (@Fun@{o h o h f f} C C) _ _ _
          (@mu _ _ _ (monad_monoid@{o h f s} M2))
-         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{s f o h} C))
+         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
             _ _ _ _ (mh_transform θ) (mh_transform θ)))
   := eq_refl.
 
@@ -851,7 +851,7 @@ Example p468_c52_hom_eta_type@{o h f s q |
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : MonadHom@{o h} M M2) :
   @eq Type@{q} (∀ x : C, mh_transform θ x ∘ @ret C T M x ≈ @ret C T2 M2 x)
-  (@compose (@Fun@{o h o h f f s} C C) _ _ _
+  (@compose (@Fun@{o h o h f f} C C) _ _ _
        (mh_transform θ) (@eta _ _ _ (monad_monoid@{o h f s} M))
      ≈ @eta _ _ _ (monad_monoid@{o h f s} M2)) := eq_refl.
 
@@ -866,7 +866,7 @@ Example p468_c38_hom_mu_term@{o h f s | h < s, o <= f, h <= f +}
 Example p468_c39_mh_join_term@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : T ⟹ T2)
-  (H : @MonoidHom (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
          T T2 (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M2) θ)
   (x : C) :
   @mh_join _ _ _ _ _ (monoidhom_mh@{o h f s} θ H) x
@@ -876,7 +876,7 @@ Example p468_c39_mh_join_term@{o h f s | h < s, o <= f, h <= f +}
 Example p468_c53_mh_transform@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T2 : C ⟶ C}
   {M : @Monad C T} {M2 : @Monad C T2} (θ : T ⟹ T2)
-  (H : @MonoidHom (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
          T T2 (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M2) θ) :
   mh_transform (monoidhom_mh@{o h f s} θ H) = θ := eq_refl.
 
@@ -909,8 +909,8 @@ Example p468_c21_mon_id_left@{o h m1 f s mo t |
 Example p468_c22_mon_id_right@{o h m1 f s mo t |
   h < s, f < t, o <= m1, h <= m1, o <= f, h <= f, f <= mo +}
   (C : Category@{o h h}) (N : Monads@{o h m1 f} C) (x : C) :
-  transform[projT1 (@id (@Mon@{f f mo t} (@Fun@{o h o h f f s} C C)
-                          (@Compose_Monoidal@{s f o h} C))
+  transform[projT1 (@id (@Mon@{f f mo t} (@Fun@{o h o h f f} C C)
+                          (@Compose_Monoidal@{f s o h} C))
                        (fobj[Monads_Mon@{o h m1 f f s mo t} C] N))] x
     = fmap[projT1 N] (@id C x) := eq_refl.
 
@@ -923,8 +923,8 @@ Fail Example p468_r7_mon_id@{o h m1 f s mo t |
   (C : Category@{o h h}) (N : Monads@{o h m1 f} C) (x : C) :
   transform[projT1 (fmap[Monads_Mon@{o h m1 f f s mo t} C]
                        (@id (Monads@{o h m1 f} C) N))] x
-    = transform[projT1 (@id (@Mon@{f f mo t} (@Fun@{o h o h f f s} C C)
-                               (@Compose_Monoidal@{s f o h} C))
+    = transform[projT1 (@id (@Mon@{f f mo t} (@Fun@{o h o h f f} C C)
+                               (@Compose_Monoidal@{f s o h} C))
                           (fobj[Monads_Mon@{o h m1 f f s mo t} C] N))] x
   := eq_refl.
 
@@ -968,7 +968,7 @@ Fail Example p468_r8_monad_round@{o h f s | h < s, o <= f, h <= f +}
 (* C25: μ and η of the monoid round trip are N's, at x. *)
 Example p468_c25_monoid_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T)
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T)
   (x : C) :
   (transform[@mu _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x,
    transform[@eta _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x)
@@ -977,7 +977,7 @@ Example p468_c25_monoid_round@{o h f s | h < s, o <= f, h <= f +}
 (* R9 *)
 Fail Example p468_r9_monoid_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T) :
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T) :
   monad_monoid@{o h f s} (monoid_monad@{o h f s} N) = N := eq_refl.
 
 (* ------------------------------------------------------------------------ *)
@@ -1042,13 +1042,13 @@ Example p468_c59_bg_inv_component@{o so | o < so +} (M : MonObject@{o o o})
 
 (* C28: θ* keeps the carrier. *)
 Example p468_c28_bg_carrier@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   `1 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x) = `1 x := eq_refl.
 
 (* C29: θ* keeps the structure map as a function. *)
 Example p468_c29_bg_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   (fun p => @t_alg _ _ _ _
               (`2 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x)) p)
@@ -1056,7 +1056,7 @@ Example p468_c29_bg_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
 
 (* C30: θ* keeps underlying arrows. *)
 Example p468_c30_bg_hom@{o so | o < so +} (M : MonObject@{o o o})
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so}
            (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
   (f : x ~> y) :
   t_alg_hom[fmap[mh_EM@{so o so so} (BG_theta@{o so} M)] f]
@@ -1064,14 +1064,14 @@ Example p468_c30_bg_hom@{o so | o < so +} (M : MonObject@{o o o})
 
 (* C31: BG.v's [BG_Act_EM] keeps the structure map as a setoid morphism. *)
 Example p468_c31_bg_orig_alg@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   @t_alg _ _ _ _ (`2 (fobj[BG_Act_EM@{o so} M] x)) = @t_alg _ _ _ _ (`2 x)
   := eq_refl.
 
 (* C32: θ*'s structure map IS h ∘ id in Sets. *)
 Example p468_c32_bg_alg_compose@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x))
     = @compose Sets@{o so} _ _ _ (@t_alg _ _ _ _ (`2 x))
@@ -1079,7 +1079,7 @@ Example p468_c32_bg_alg_compose@{o so | o < so +} (M : MonObject@{o o o})
 
 (* R12 *)
 Example p468_r12_bg_alg@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x))
     = @t_alg _ _ _ _ (`2 x) := eq_refl.
@@ -1093,14 +1093,14 @@ Check @BGMonad@{_ _}.
 Check @BG_theta@{_ _}.
 Check @BG_Act_EM@{_ _}.
 Fail Example p468_r13_bg_obj@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x = fobj[BG_Act_EM@{o so} M] x
   := eq_refl.
 
 (* C33: [Act_BG_EM] against BG.v's [Act_BG_alg], as functions. *)
 Example p468_c33_actbg_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   (fun p => @t_alg _ _ _ _ (`2 (fobj[Act_BG_EM@{o so} M] x)) p)
     = (fun p => @t_alg _ _ _ _ (Act_BG_alg@{o so} M (`1 x) (`2 x)) p)
@@ -1108,13 +1108,13 @@ Example p468_c33_actbg_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
 
 (* C60: [Act_BG_EM] keeps the carrier. *)
 Example p468_c60_actbg_carrier@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   `1 (fobj[Act_BG_EM@{o so} M] x) = `1 x := eq_refl.
 
 (* R14 *)
 Example p468_r14_actbg_alg@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   @t_alg _ _ _ _ (`2 (fobj[Act_BG_EM@{o so} M] x))
     = @t_alg _ _ _ _ (Act_BG_alg@{o so} M (`1 x) (`2 x)) := eq_refl.
@@ -1136,7 +1136,7 @@ Example p468_c45_sl_inv_component@{o so | Set < o, o < so +}
 
 (* C34: θ*'s structure map against [SL_induced_repack]'s, as functions. *)
 Example p468_c34_sl_alg_fun@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   (fun S => @t_alg _ _ _ _ (`2 (fobj[SL_EM_theta@{o so}] x)) S)
     = (fun S => @t_alg _ _ _ _ (SL_induced_repack@{o so} (`2 x)) S)
@@ -1144,20 +1144,20 @@ Example p468_c34_sl_alg_fun@{o so | Set < o, o < so +}
 
 (* R15 *)
 Example p468_r15_sl_alg@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   @t_alg _ _ _ _ (`2 (fobj[SL_EM_theta@{o so}] x))
     = @t_alg _ _ _ _ (SL_induced_repack@{o so} (`2 x)) := eq_refl.
 
 (* C62: θ* keeps the carrier. *)
 Example p468_c62_sl_carrier@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   `1 (fobj[SL_EM_theta@{o so}] x) = `1 x := eq_refl.
 
 (* C35: the carrier, the order and the supremum as a function. *)
 Example p468_c35_sl_parts@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   (sl_set (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x),
    sl_le (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x),
@@ -1168,7 +1168,7 @@ Example p468_c35_sl_parts@{o so | Set < o, o < so +}
 
 (* C36: the underlying map of arrows. *)
 Example p468_c36_sl_map@{o so | Set < o, o < so +}
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so}
            (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
   (f : x ~> y) :
   slh_map (fmap[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] f)
@@ -1176,7 +1176,7 @@ Example p468_c36_sl_map@{o so | Set < o, o < so +}
 
 (* R16 *)
 Example p468_r16_sl_sup@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   sl_sup (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x)
     = sl_sup (fobj[EM_induced_to_SupLat@{o so}] x) := eq_refl.
@@ -1189,7 +1189,7 @@ Check @EM_to_SupLat@{_ _}.
 Check @SL_EM_theta@{_ _}.
 Check @EM_induced_to_SupLat@{_ _}.
 Fail Example p468_r17_sl_obj@{o so | Set < o, o < so +}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x
     = fobj[EM_induced_to_SupLat@{o so}] x := eq_refl.
@@ -1311,14 +1311,14 @@ Require Import Category.Theory.Algebra.Monoid.Product.
 Example p468_c40_monoid_route@{o h f s + | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) (x : C) :
   (transform[@mu _ _ _
-     (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{s f o h} C) T
+     (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{f s o h} C) T
         (snd (@Monoid_Monad C T) M))] x,
    transform[@eta _ _ _
-     (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{s f o h} C) T
+     (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{f s o h} C) T
         (snd (@Monoid_Monad C T) M))] x,
    @ret C T (fst (@Monoid_Monad C T)
-     (@MonoidObject_of_Monoid _ (@Compose_Monoidal@{s f o h} C) T
-        (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{s f o h} C) T
+     (@MonoidObject_of_Monoid _ (@Compose_Monoidal@{f s o h} C) T
+        (@Monoid_of_MonoidObject _ (@Compose_Monoidal@{f s o h} C) T
            (snd (@Monoid_Monad C T) M)))) x)
     = (transform[@mu _ _ _ (monad_monoid@{o h f s} M)] x,
        transform[@eta _ _ _ (monad_monoid@{o h f s} M)] x,

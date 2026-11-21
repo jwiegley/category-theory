@@ -416,13 +416,13 @@ Proof.
 Defined.
 
 Definition EM_induced_to_SupLat@{o so} :
-  @EilenbergMoore@{so so so o} Sets@{o so}
+  @EilenbergMoore@{so so o} Sets@{o so}
     (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}
     ⟶ SupLat@{o so}.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{so so so o} Sets@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so}
           (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
        SupLat@{o so}
        (fun x => TAlgebra_SupLat@{o so} (SL_induced_repack@{o so} (projT2 x)))
@@ -441,16 +441,16 @@ Defined.
 (* The algebra round trip through the comparison, with the identity as its
    component. *)
 Definition SL_comparison_counit_iso@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   @Isomorphism
-    (@EilenbergMoore@{so so so o} Sets@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so}
        (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
     (fobj[EM_Comparison SL_adj@{o so} ◯ EM_induced_to_SupLat@{o so}] x) x.
 Proof.
   unshelve refine
     (@Build_Isomorphism
-       (@EilenbergMoore@{so so so o} Sets@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so}
           (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
        (fobj[EM_Comparison SL_adj@{o so} ◯ EM_induced_to_SupLat@{o so}] x) x
        (@Build_TAlgebraHom Sets@{o so} (SL_Forget@{o so} ◯ SL_Free@{o so})
@@ -505,7 +505,7 @@ Defined.
    ways. *)
 Definition SL_comparison_equivalence@{o so} :
   @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
-    (@EilenbergMoore@{so so so o} Sets@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so}
        (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
     (EM_Comparison SL_adj@{o so}).
 Proof.
@@ -530,14 +530,14 @@ Defined.
 (* The components of both natural isomorphisms are identities, at a
    variable object. *)
 Example SL_comparison_counit_component@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   t_alg_hom[to (projT1 (@equivalence_counit _ _ _
                            SL_comparison_equivalence@{o so}) x)]
     = @setoid_morphism_id@{o o o} (projT1 x) := eq_refl.
 
 Example SL_comparison_counit_component_from@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   t_alg_hom[from (projT1 (@equivalence_counit _ _ _
                              SL_comparison_equivalence@{o so}) x)]

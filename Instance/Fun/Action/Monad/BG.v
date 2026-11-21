@@ -228,7 +228,7 @@ Generalizable All Variables.
    first carried by Instance/Sets.v's [Sets], and o < c, so < c, first
    carried by Instance/Cat.v's [Cat@{c so so so o}].  There is no equation
    and no [Set].  The hom level of the functor category is not free, and
-   [SetBG M] writes it out as [Fun@{o o so o so o so}], hom level o, the
+   [SetBG M] writes it out as [Fun@{o o so o so o}], hom level o, the
    instance Instance/Fun/Action.v's [MSet_to] and [MSet_from] and
    Instance/Fun/Eval.v's [Eval] already use.  It is forced.
    Instance/Fun.v's block puts that level at or above the index category's
@@ -279,7 +279,7 @@ Generalizable All Variables.
 
 (* The functor category [Deloop M, Sets], hom level o (see UNIVERSES). *)
 Definition SetBG@{o so} (M : MonObject@{o o o}) : Category@{so o o} :=
-  @Fun@{o o so o so o so} (Deloop@{o o} M) Sets@{o so}.
+  @Fun@{o o so o so o} (Deloop@{o o} M) Sets@{o so}.
 
 (* Riehl's U: evaluation at the one object of BM. *)
 Definition U_BG@{o so} (M : MonObject@{o o o}) :
@@ -539,7 +539,7 @@ Definition BGMonad@{o so} (M : MonObject@{o o o}) :
    comparison functor itself. *)
 Definition BG_EM_iso@{o so c} (M : MonObject@{o o o}) :
   @Isomorphism Cat@{c so so so o} (SetBG@{o so} M)
-    (@EilenbergMoore@{so so so o} Sets@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so}
        (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :=
   Equivalence_to_Cat_Iso (BG_beck_equivalence@{o so} M).
 
@@ -640,16 +640,16 @@ Defined.
 (* Mac Lane's θ*, for the identity-component isomorphism [BG_T_ActF]:
    the identity on carriers, structure maps and arrows. *)
 Definition BG_Act_EM@{o so} (M : MonObject@{o o o}) :
-  @EilenbergMoore@{so so so o} Sets@{o so} (U_BG@{o so} M ◯ F_BG@{o so} M)
+  @EilenbergMoore@{so so o} Sets@{o so} (U_BG@{o so} M ◯ F_BG@{o so} M)
     (BGMonad@{o so} M)
-  ⟶ @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  ⟶ @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
       (ActMonad@{o so} M).
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{so so so o} Sets@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so}
           (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
-       (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+       (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M))
        (fun x => (`1 x; BG_Act_alg M (`1 x) (`2 x)))
        (fun x y f =>
@@ -663,25 +663,25 @@ Proof.
 Defined.
 
 Example BG_Act_EM_carrier@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   `1 (fobj[BG_Act_EM@{o so} M] x) = `1 x := eq_refl.
 
 Example BG_Act_EM_alg@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   @t_alg _ _ _ _ (`2 (fobj[BG_Act_EM@{o so} M] x)) = @t_alg _ _ _ _ (`2 x) :=
   eq_refl.
 
 (* Mac Lane's G^T ∘ θ* = G^T', on the nose in both data fields. *)
 Example BG_Act_EM_forget_obj@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   fobj[@EM_Forget _ _ (ActMonad@{o so} M) ◯ BG_Act_EM@{o so} M] x
   = fobj[@EM_Forget _ _ (BGMonad@{o so} M)] x := eq_refl.
 
 Example BG_Act_EM_forget_map@{o so} (M : MonObject@{o o o})
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so}
            (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
   (f : x ~> y) :
   fmap[@EM_Forget _ _ (ActMonad@{o so} M) ◯ BG_Act_EM@{o so} M] f
@@ -716,7 +716,7 @@ Example tie_alg_fun@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
 Definition tie@{o so c} (M : MonObject@{o o o}) :
   @equiv _
     (@homset Cat@{c so so so o} (SetBG@{o so} M)
-       (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+       (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M)))
     (BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M))
     (to (Fun_EM_iso@{o so c} M)).

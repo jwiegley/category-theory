@@ -94,10 +94,10 @@ Generalizable All Variables.
    (the other three), as #468 measured for its own readbacks.  The
    Eilenberg-Moore constants bind [@{o h s e}] with h < s, o <= e and
    h <= e, plus the bounds o <= Projections.u0 and h <= Projections.u1
-   of the sigma projections, whence the [+]: exactly the block of
-   [EilenbergMoore@{e o s h}], their first carrier.  [Compose] and
-   [Functor_Setoid] take s for their own strict level, so no constant
-   here adds a level.  No [Set] and no equation occur.
+   of the sigma projections, whence the [+]. Before #1413 the carrier
+   itself took s. On Rocq 9.2.0 it is [EilenbergMoore@{e o h}]; neither
+   it nor [Functor_Setoid] needs the extra level, but [Compose] still does.
+   The explicit binders here retain h < s.
 
    NOT DELIVERED.  The identity monad is the initial object of [Monads C]
    (Monad/Morphism.v): the unit of any monad is the unique morphism of
@@ -141,8 +141,8 @@ Qed.
 
 Definition IdMonad_EM_counit@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h}) :
-  @EM_Forget@{o h s e} C Id[C] (IdMonad@{o h} C)
-    ◯ @EM_Free@{o h s e} C Id[C] (IdMonad@{o h} C) ≈ Id[C].
+  @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C)
+    ◯ @EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C) ≈ Id[C].
 Proof.
   exists (fun x => iso_id).
   intros x y f; simpl.
@@ -152,10 +152,10 @@ Defined.
 
 Definition IdMonad_EM_unit_iso@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h})
-  (X : @EilenbergMoore@{e o s h} C Id[C] (IdMonad@{o h} C)) :
-  @Isomorphism (@EilenbergMoore@{e o s h} C Id[C] (IdMonad@{o h} C))
-    X (fobj[@EM_Free@{o h s e} C Id[C] (IdMonad@{o h} C)
-             ◯ @EM_Forget@{o h s e} C Id[C] (IdMonad@{o h} C)] X).
+  (X : @EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)) :
+  @Isomorphism (@EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C))
+    X (fobj[@EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C)
+             ◯ @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C)] X).
 Proof.
   unshelve econstructor.
   - unshelve refine (@Build_TAlgebraHom C Id[C] (IdMonad@{o h} C)
@@ -175,16 +175,16 @@ Defined.
 
 Example IdMonad_EM_unit_iso_id@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h})
-  (X : @EilenbergMoore@{e o s h} C Id[C] (IdMonad@{o h} C)) :
+  (X : @EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)) :
   (t_alg_hom[to (IdMonad_EM_unit_iso@{o h s e} C X)],
    t_alg_hom[from (IdMonad_EM_unit_iso@{o h s e} C X)]) = (id, id)
   := eq_refl.
 
 Definition IdMonad_EM_unit@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h}) :
-  Id[@EilenbergMoore@{e o s h} C Id[C] (IdMonad@{o h} C)]
-    ≈ @EM_Free@{o h s e} C Id[C] (IdMonad@{o h} C)
-        ◯ @EM_Forget@{o h s e} C Id[C] (IdMonad@{o h} C).
+  Id[@EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)]
+    ≈ @EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C)
+        ◯ @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C).
 Proof.
   exists (IdMonad_EM_unit_iso C).
   intros X Y f; simpl.
@@ -194,6 +194,6 @@ Defined.
 
 Definition IdMonad_EM_equivalence@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h}) :
-  EquivalenceOfCategories (@EM_Forget@{o h s e} C Id[C] (IdMonad@{o h} C)) :=
+  EquivalenceOfCategories (@EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C)) :=
   @Build_EquivalenceOfCategories _ _ _ _
     (IdMonad_EM_counit@{o h s e} C) (IdMonad_EM_unit@{o h s e} C).

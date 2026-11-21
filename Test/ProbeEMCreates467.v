@@ -131,90 +131,90 @@ Generalizable All Variables.
 
 Example p467_c1_apex@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
   EM_Forget T
-    (vertex_obj[slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN)])
+    (vertex_obj[slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN)])
     = vertex_obj[N] := eq_refl.
 
 Example p467_c2_legs@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) (j : J) :
   fmap[EM_Forget T]
-    (cone_leg (slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN)) j)
+    (cone_leg (slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN)) j)
     = cone_leg N j := eq_refl.
 
 Example p467_c2_legs_class@{o h jo eo e l l0 c c0} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) (j : J) :
   fmap[EM_Forget T]
     (cone_leg (slift_cone (@screates _ _ _ _ _
-       (em_forget_StrictlyCreatesLimit@{o h jo h eo e l l0 c c0} T K) N HN)) j)
+       (em_forget_StrictlyCreatesLimit@{o h jo h eo l l0 c c0} T K) N HN)) j)
     = cone_leg N j := eq_refl.
 
 Example p467_c3_leg_family@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
   (fun j => fmap[EM_Forget T]
-     (cone_leg (slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN))
+     (cone_leg (slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN))
         j))
     = (fun j => cone_leg N j) := eq_refl.
 
 Example p467_c4_slift_eq@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
-  slift_eq (em_strict_lift@{o h jo h eo e l l0 s} T K N HN) = eq_refl
+  slift_eq (em_strict_lift@{o h jo h eo l l0 s} T K N HN) = eq_refl
   := eq_refl.
 
 Example p467_c5_structure@{o h jo eo e l} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
-  (L : Limit@{l jo h o} (EM_Forget T ◯ K)) :
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
+  (L : Limit@{l jo h o} (Compose@{o jo eo e h} (EM_Forget T) K)) :
   t_alg[`2 (em_apex T K L)]
     = limit_med (limit_is_alimit L) (em_act_cone T K L) := eq_refl.
 
 Example p467_c6_iso_id@{o h jo eo e l l0 c c0} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
   to `1 (@creates_lift_over _ _ _ _ _
-           (em_forget_CreatesLimit@{o h jo h eo e l l0 c c0} T K) N HN)
+           (em_forget_CreatesLimit@{o h jo h eo l l0 c c0} T K) N HN)
     = id := eq_refl.
 
 Example p467_c7_created_legs@{o h jo eo e l} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
-  (L : Limit@{l jo h o} (EM_Forget T ◯ K)) (j : J) :
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
+  (L : Limit@{l jo h o} (Compose@{o jo eo e h} (EM_Forget T) K)) (j : J) :
   limit_leg (em_created T K L) j = em_leg T K L j := eq_refl.
 
 Example p467_c8_record_but_coherence@{o h jo eo e l l0 s}
   {D : Category@{o h h}} (T : D ⟶ D) `{H : @Monad D T}
-  {J : Category@{jo h h}} (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  {J : Category@{jo h h}} (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
   @Build_Cone J D (EM_Forget T ◯ K)
     (vertex_obj[FCone (EM_Forget T)
-       (slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN))])
+       (slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN))])
     (@Build_ACone J D _ (EM_Forget T ◯ K)
        (fun j => cone_leg (FCone (EM_Forget T)
-          (slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN))) j)
+          (slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN))) j)
        (@cone_coherence _ _ _ _ (@coneFrom _ _ _ N)))
     = N := eq_refl.
 
 (* R1 *)
 Check @Category@{_ _ _}.
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Check @IsLimitCone@{_ _ _ _ _}.
-Check @em_strict_lift@{_ _ _ _ _ _ _ _ _}.
+Check @em_strict_lift@{_ _ _ _ _ _ _ _}.
 Fail Example p467_r1_fcone@{o h jo eo e l l0 s} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N) :
   FCone (EM_Forget T)
-    (slift_cone (em_strict_lift@{o h jo h eo e l l0 s} T K N HN)) = N
+    (slift_cone (em_strict_lift@{o h jo h eo l l0 s} T K N HN)) = N
   := eq_refl.
 
 (** ** The counterexample *)

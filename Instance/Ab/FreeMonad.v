@@ -229,7 +229,7 @@ Qed.
 (** ** The comparison functor Ab → Set^{ℤ[−]} *)
 
 Definition ZMAlg@{+} : Category@{so c c} :=
-  @EilenbergMoore@{so so so c} Sets@{c so} FreeAbF FreeAbMonad.
+  @EilenbergMoore@{so so c} Sets@{c so} FreeAbF FreeAbMonad.
 
 Definition Ab_K@{+} : Ab ⟶ ZMAlg := EM_Comparison free_ab_adjunction_hom.
 

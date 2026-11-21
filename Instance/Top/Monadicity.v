@@ -280,7 +280,7 @@ Generalizable All Variables.
        [PDiscK_alg], [PDiscKI_not_Full] and [PDiscKI_not_Equivalence]
        among them:
        so <= e, the objects of [Sets] below those of
-       [EilenbergMoore@{e so s o}].  [PDiscK_forget_strict] adds [a] and
+       [EilenbergMoore@{e so o}].  [PDiscK_forget_strict] adds [a] and
        [b], the levels of [Functor_StrictEq_Setoid] (o < b its own strict
        bound), with that setoid's transport caps (Logic.transport,
        Logic.transport_r, eq_rect, eq_rect_r and eq_sym_involutive, in
@@ -406,7 +406,7 @@ Defined.
 
 Definition PDiscK@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PTopCat@{o so} ⟶
-    @EilenbergMoore@{e so s o} Sets@{o so} PDiscT@{o so s}
+    @EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
       PDiscMonad@{o so s u u0} :=
   EM_Comparison PDisc_PForget@{o so u u0}.
 
@@ -450,8 +450,8 @@ Proof. exact (@t_id _ _ _ _ ν x). Qed.
 
 Definition EM_PDisc_counit@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
-  @EM_Forget@{so o s e} Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u u0}
-    ◯ @EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+  @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s} PDiscMonad@{o so s u u0}
+    ◯ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0}
     ≈ Id[Sets@{o so}].
 Proof.
@@ -461,13 +461,13 @@ Defined.
 
 Definition EM_PDisc_unit_iso@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +}
-  (X : @EilenbergMoore@{e so s o} Sets@{o so} PDiscT@{o so s}
+  (X : @EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
          PDiscMonad@{o so s u u0}) :
-  @Isomorphism (@EilenbergMoore@{e so s o} Sets@{o so} PDiscT@{o so s}
+  @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
                   PDiscMonad@{o so s u u0})
-    X (fobj[@EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    X (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
               PDiscMonad@{o so s u u0}
-             ◯ @EM_Forget@{so o s e} Sets@{o so} PDiscT@{o so s}
+             ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
                  PDiscMonad@{o so s u u0}] X).
 Proof.
   unshelve econstructor.
@@ -482,11 +482,11 @@ Proof.
 Defined.
 
 Definition EM_PDisc_unit@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
-  Id[@EilenbergMoore@{e so s o} Sets@{o so} PDiscT@{o so s}
+  Id[@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
        PDiscMonad@{o so s u u0}]
-    ≈ @EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    ≈ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0}
-        ◯ @EM_Forget@{so o s e} Sets@{o so} PDiscT@{o so s}
+        ◯ @EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
             PDiscMonad@{o so s u u0}.
 Proof.
   exists EM_PDisc_unit_iso.
@@ -496,17 +496,17 @@ Defined.
 Definition EM_PDisc_equivalence@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
   EquivalenceOfCategories
-    (@EM_Forget@{so o s e} Sets@{o so} PDiscT@{o so s}
+    (@EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
        PDiscMonad@{o so s u u0}) :=
   @Build_EquivalenceOfCategories _ _ _ _
     EM_PDisc_counit@{o so s u u0 e} EM_PDisc_unit@{o so s u u0 e}.
 
 Definition PDiscK_free_iso@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   (X : PTopCat@{o so}) :
-  @Isomorphism (@EilenbergMoore@{e so s o} Sets@{o so} PDiscT@{o so s}
+  @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
                   PDiscMonad@{o so s u u0})
     (fobj[PDiscK@{o so s u u0 e}] X)
-    (fobj[@EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
             PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X).
 Proof.
   unshelve econstructor;
@@ -519,7 +519,7 @@ Defined.
 
 Definition PDiscK_free@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PDiscK@{o so s u u0 e}
-    ≈ @EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    ≈ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
         PDiscMonad@{o so s u u0} ◯ PForget@{o so}.
 Proof.
   exists PDiscK_free_iso.
@@ -530,7 +530,7 @@ Defined.
    morphism of monads [id_disc_hom]. *)
 Definition PDiscKI@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PTopCat@{o so} ⟶
-    @EilenbergMoore@{e so s o} Sets@{o so} Id[Sets@{o so}]
+    @EilenbergMoore@{e so o} Sets@{o so} Id[Sets@{o so}]
       (IdMonad@{so o} Sets@{o so}) :=
   mh_EM@{so o e s} id_disc_hom@{o so s u u0} ◯ PDiscK@{o so s u u0 e}.
 

@@ -162,10 +162,9 @@ Generalizable All Variables.
 
    UNIVERSES, read off [About].  Every bridge constant binds [@{o h f s}]
    with h < s, o <= f and h <= f, and takes [C, C] at
-   [Fun@{o h o h f f s}]: object and hom level both f, because
-   [Compose_Monoidal@{u u0 u1 u2}] is a [Monoidal@{u0 u0}], a monoidal
-   structure on a category whose object and hom levels are one level;
-   h < s is [Fun]'s own strict level ([u0 < u5] in its block).  The stdlib
+   [Fun@{o h o h f f}]: object and hom level both f. On Rocq 9.2.0
+   [Compose_Monoidal@{f s o h}] supplies the monoidal structure;
+   s remains strictly above h, but is no longer a slot of [Fun]. The stdlib
    caps o, h, f <= projections.u0/u1 and h <= prod_rect.u0/u1/u2 are
    [Compose_Monoidal]'s, which its block states; a binder cannot name
    them, whence the trailing [+].  [mh_join_is_hom_mu] and
@@ -197,7 +196,7 @@ Generalizable All Variables.
 
 Definition monad_monoid@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) :
-  @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T :=
+  @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T :=
   Category.Theory.Algebra.Monoid.Product.Monoid_of_MonoidObject
     (snd (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T) M).
 
@@ -213,7 +212,7 @@ Example monad_monoid_eta@{o h f s | h < s, o <= f, h <= f +}
 
 Definition monoid_monad@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T) :
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T) :
   @Monad C T :=
   fst (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T)
     (Category.Theory.Algebra.Monoid.Product.MonoidObject_of_Monoid N).
@@ -232,14 +231,14 @@ Example monoid_monad_join@{o h f s | h < s, o <= f, h <= f +}
 
 Example monad_monoid_mu_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T)
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T)
   (x : C) :
   transform[@mu _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x
     = transform[@mu _ _ _ N] x := eq_refl.
 
 Example monad_monoid_eta_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) T)
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T)
   (x : C) :
   transform[@eta _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x
     = transform[@eta _ _ _ N] x := eq_refl.
@@ -251,7 +250,7 @@ Example monad_monoid_eta_round@{o h f s | h < s, o <= f, h <= f +}
 Example mh_bimap_component@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{s f o h} C))
+  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
               _ _ _ _ (mh_transform θ) (mh_transform θ)] x
     = mh_transform θ (T' x) ∘ fmap[T] (mh_transform θ x) := eq_refl.
 
@@ -266,11 +265,11 @@ Example mh_join_is_hom_mu@{o h f s q |
     (∀ x : C, mh_transform θ x ∘ @join C T M x
                 ≈ @join C T' M' x
                     ∘ (mh_transform θ (T' x) ∘ fmap[T] (mh_transform θ x)))
-    (@compose (@Fun@{o h o h f f s} C C) _ _ _
+    (@compose (@Fun@{o h o h f f} C C) _ _ _
        (mh_transform θ) (@mu _ _ _ (monad_monoid@{o h f s} M))
-     ≈ @compose (@Fun@{o h o h f f s} C C) _ _ _
+     ≈ @compose (@Fun@{o h o h f f} C C) _ _ _
          (@mu _ _ _ (monad_monoid@{o h f s} M'))
-         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{s f o h} C))
+         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
             _ _ _ _ (mh_transform θ) (mh_transform θ))) := eq_refl.
 
 Example mh_ret_is_hom_eta@{o h f s q |
@@ -278,14 +277,14 @@ Example mh_ret_is_hom_eta@{o h f s q |
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
   @eq Type@{q} (∀ x : C, mh_transform θ x ∘ @ret C T M x ≈ @ret C T' M' x)
-  (@compose (@Fun@{o h o h f f s} C C) _ _ _
+  (@compose (@Fun@{o h o h f f} C C) _ _ _
        (mh_transform θ) (@eta _ _ _ (monad_monoid@{o h f s} M))
      ≈ @eta _ _ _ (monad_monoid@{o h f s} M')) := eq_refl.
 
 Definition mh_monoidhom@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @MonoidHom (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C)
+  @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
     T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M')
     (mh_transform θ).
 Proof.
@@ -297,7 +296,7 @@ Defined.
 Definition monoidhom_mh@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : T ⟹ T')
-  (H : @MonoidHom (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
          T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M') θ) :
   MonadHom@{o h} M M'.
 Proof.
@@ -309,7 +308,7 @@ Defined.
 Example monoidhom_mh_transform@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : T ⟹ T')
-  (H : @MonoidHom (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
          T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M') θ) :
   mh_transform (monoidhom_mh@{o h f s} θ H) = θ := eq_refl.
 
@@ -320,13 +319,13 @@ Definition Monads_Mon@{o h m1 m2 f s mo t |
   o <= f, h <= f, f <= mo +}
   (C : Category@{o h h}) :
   Monads@{o h m1 m2} C
-    ⟶ @Mon@{f f mo t} (@Fun@{o h o h f f s} C C)
-        (@Compose_Monoidal@{s f o h} C).
+    ⟶ @Mon@{f f mo t} (@Fun@{o h o h f f} C C)
+        (@Compose_Monoidal@{f s o h} C).
 Proof.
   unshelve refine
     (@Build_Functor (Monads@{o h m1 m2} C)
-       (@Mon@{f f mo t} (@Fun@{o h o h f f s} C C)
-          (@Compose_Monoidal@{s f o h} C))
+       (@Mon@{f f mo t} (@Fun@{o h o h f f} C C)
+          (@Compose_Monoidal@{f s o h} C))
        (fun N : { T : C ⟶ C & @Monad C T } =>
           (projT1 N; monad_monoid@{o h f s} (projT2 N)))
        (fun N N' (θ : MonadHom@{o h} (projT2 N) (projT2 N')) =>

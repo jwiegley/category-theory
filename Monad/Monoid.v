@@ -51,8 +51,8 @@ Definition Endofunctors `(C : Category) := ([C, C]).
    after, on Rocq 9.1.1). *)
 Definition monoidobject_monad@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {M : C ⟶ C}
-  (m : @MonoidObject (@Fun@{o h o h f f s} C C)
-         (@Compose_Monoidal@{s f o h} C) M) :
+  (m : @MonoidObject (@Fun@{o h o h f f} C C)
+         (@Compose_Monoidal@{f s o h} C) M) :
   @Monad C M.
 Proof.
   unshelve refine (@Build_Monad C M
@@ -98,10 +98,10 @@ Defined.
 
 Definition monad_monoidobject@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {M : C ⟶ C} (T : @Monad C M) :
-  @MonoidObject (@Fun@{o h o h f f s} C C) (@Compose_Monoidal@{s f o h} C) M.
+  @MonoidObject (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) M.
 Proof.
-  unshelve refine (@Build_MonoidObject (@Fun@{o h o h f f s} C C)
-     (@Compose_Monoidal@{s f o h} C) M _ _ _ _ _).
+  unshelve refine (@Build_MonoidObject (@Fun@{o h o h f f} C C)
+     (@Compose_Monoidal@{f s o h} C) M _ _ _ _ _).
   - exact (Build_Transform'@{o h h o h h} (F := Id) (G := M)
              (fun x => @ret C M T x)
              (fun x y g => symmetry (fmap_ret g))).
@@ -144,6 +144,6 @@ Defined.
 
 Definition Monoid_Monad@{o h s f | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {M : C ⟶ C} :
-  @MonoidObject (Endofunctors C) (@Compose_Monoidal@{s f o h} C) M
+  @MonoidObject (Endofunctors C) (@Compose_Monoidal@{f s o h} C) M
     ↔ @Monad C M :=
   (@monoidobject_monad@{o h f s} C M, @monad_monoidobject@{o h f s} C M).

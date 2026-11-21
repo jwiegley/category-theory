@@ -522,7 +522,7 @@ Example p469_c8_id_join@{o h | +} (C : Category@{o h h}) (x : C) :
 (* C9: both legs of the unit isomorphism at an algebra are [id]. *)
 Example p469_c9_em_unit_legs@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h})
-  (X : @EilenbergMoore@{e o s h} C Id[C] (IdMonad@{o h} C)) :
+  (X : @EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)) :
   (@t_alg_hom _ _ _ _ _ _ _ (to (IdMonad_EM_unit_iso@{o h s e} C X)),
    @t_alg_hom _ _ _ _ _ _ _ (from (IdMonad_EM_unit_iso@{o h s e} C X)))
     = (@id C (`1 X), @id C (`1 X)) := eq_refl.
@@ -719,9 +719,9 @@ Example p469_c39_K_free_parts@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} (X : PTopCat@{o so}) :
   (`1 (fobj[PDiscK@{o so s u u0 e}] X),
    t_alg[`2 (fobj[PDiscK@{o so s u u0 e}] X)])
-    = (`1 (fobj[@EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    = (`1 (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
                  PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X),
-       t_alg[`2 (fobj[@EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+       t_alg[`2 (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
                        PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X)])
   := eq_refl.
 
@@ -731,7 +731,7 @@ Check @EM_Free@{_ _ _ _}.
 Fail Example p469_r14_K_free_obj@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} (X : PTopCat@{o so}) :
   fobj[PDiscK@{o so s u u0 e}] X
-    = fobj[@EM_Free@{so o s e} Sets@{o so} PDiscT@{o so s}
+    = fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
              PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X := eq_refl.
 
 (* C21: KI after the forgetful functor is PForget on objects and arrows. *)

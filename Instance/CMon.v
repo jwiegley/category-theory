@@ -166,13 +166,13 @@ Program Definition cmon_hom_compose {M N P : CMonObject}
 Next Obligation.
   intros M N P f g; simpl.
   unfold Basics.compose.
-  rewrite (cmon_map_zero g).
+  etransitivity; [apply proper_morphism, (cmon_map_zero g) |].
   apply (cmon_map_zero f).
 Qed.
 Next Obligation.
   intros M N P f g a b; simpl.
   unfold Basics.compose.
-  rewrite (cmon_map_plus g).
+  etransitivity; [apply proper_morphism, (cmon_map_plus g) |].
   apply (cmon_map_plus f).
 Qed.
 
@@ -198,9 +198,9 @@ Qed.
    Originally the category type and every field instance were explicit, giving
    [CMon@{u p} : Category@{u p p}] with the single new bound [Set < u]
    under [Unset Universe Minimization ToSet].  The current record infers the
-   instances for [obj], [hom], [homset], [id] and [compose].  Removing either
-   remaining instance, on [Category] or [compose_respects], from this record
-   left an unbound universe on released Rocq 9.2.0. *)
+   instances for [obj], [hom], [homset], [id] and [compose]. In #1412,
+   removing either remaining instance left an unbound universe on Rocq
+   9.2.0. The proof of composition now needs only [p], not [u p]. *)
 Program Definition CMon@{u p} : Category@{u p p} := {|
   obj     := CMonObject;
   hom     := CMonHom;
@@ -208,7 +208,7 @@ Program Definition CMon@{u p} : Category@{u p p} := {|
   id      := @cmon_hom_id;
   compose := @cmon_hom_compose;
 
-  compose_respects := @cmon_hom_compose_respects@{u p}
+  compose_respects := @cmon_hom_compose_respects@{p}
 |}.
 Next Obligation.
   intros x y f a; simpl.

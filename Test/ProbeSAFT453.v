@@ -377,7 +377,7 @@
     and the diagonal alone with them above ([p453_diag_alone]); N19, the
     Corollary there:
       The term "Diagonal J" has type "@Functor@{o h h <1> <2> <2>} C
-      (@Fun@{jo h o h <1> <2> <3>} J C)" while it is expected to have type
+      (@Fun@{jo h o h <1> <2>} J C)" while it is expected to have type
       "@Functor@{<4> <5> <5> <6> <5> <5>} ?C ?D" (universe inconsistency:
       Cannot enforce <2> = h because h < <7> <= <2>).
     [Fun J C]'s homs sit at or above [J]'s objects, and the theorem shares
@@ -1263,11 +1263,11 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
   @Cocomplete@{cr jo h o} C :=
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
-                        : { L : @Fun@{jo h o h fo h fa} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
+                        : { L : @Fun@{jo h o h fo h} J C ⟶ C
+                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
 
 Check @Cocomplete@{_ _ _ _}.
-Check @Fun@{_ _ _ _ _ _ _}.
+Check @Fun@{_ _ _ _ _ _}.
 Check @Diagonal@{_ _ _ _ _ _}.
 Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
@@ -1277,8 +1277,8 @@ Fail Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
   @Cocomplete@{cr jo h o} C :=
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
-                        : { L : @Fun@{jo h o h fo h fa} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
+                        : { L : @Fun@{jo h o h fo h} J C ⟶ C
+                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
 
 (* CONTROL: the representability corollary with [PreservesImageLimit]'s
    auxiliary [pa] strictly below the objects [su] of [Sets@{h su}]. *)

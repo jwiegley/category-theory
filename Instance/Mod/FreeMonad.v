@@ -560,7 +560,7 @@ Example TR_direct_iso_component@{+} (X : Sets@{c so}) :
 (** ** Part (c): the algebras of T_R are the R-modules *)
 
 Definition TRAlg@{+} : Category@{so c c} :=
-  @EilenbergMoore@{so so so c} Sets@{c so} FreeModF FreeModMonad.
+  @EilenbergMoore@{so so c} Sets@{c so} FreeModF FreeModMonad.
 
 (* The comparison functor K : R-Mod → Set^{T_R}. *)
 Definition RMod_K@{+} : RMod R ⟶ TRAlg :=

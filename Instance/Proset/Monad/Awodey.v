@@ -116,9 +116,9 @@ Generalizable All Variables.
    [closed_adj@{u h s a}]: unpinned, the adjunction took fresh levels and
    the declared [h] occurred nowhere in the statement (measured by a check
    of every instance level against the printed type).  The composites add
-   Theory/Functor.v's [Compose] bound ([u3 < u2]) and the ≈ its
-   [Functor_Setoid] bound; each is unified into one strict level per
-   constant.  [closed_adj] and [closed_induced_is_c] also carry the
+   Theory/Functor.v's [Compose] bound ([u3 < u2]). In the original
+   measurement ≈ also carried a strict bound from [Functor_Setoid]; since
+   #1413 the setoid no longer introduces it. [closed_adj] and [closed_induced_is_c] also carry the
    stdlib caps [h <= compose.u0, compose.u1, compose.u2, ID.u0], first
    carried by [Sets] ([Sets@{o so}] has them at its level o) through
    [Adjunction].  No level occurs only in a body, and no constant carries

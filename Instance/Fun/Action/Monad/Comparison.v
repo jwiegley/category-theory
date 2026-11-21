@@ -276,7 +276,7 @@ Defined.
 (* K, the comparison functor after σ*. *)
 Definition K_swap@{o so} :
   MSet@{so so o o o o o o} LZ@{o}
-    ⟶ @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} LZ@{o})
+    ⟶ @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
           (ActMonad@{o so} LZ@{o}) :=
   EM_Comparison (MSet_adj@{o so} LZ@{o}) ◯ Swap_MSet@{o so}.
 
@@ -294,7 +294,7 @@ Example K_forget_components@{o so}
 
 Definition KF_to@{o so} (X : SetoidObject@{o o}) :
   fobj[K_swap@{o so} ◯ MSet_Free@{o so} LZ@{o}] X
-    ~{@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} LZ@{o})
+    ~{@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
         (ActMonad@{o so} LZ@{o})}~>
   fobj[EM_Free (ActF@{o so} LZ@{o})] X.
 Proof.
@@ -307,7 +307,7 @@ Defined.
 
 Definition KF_from@{o so} (X : SetoidObject@{o o}) :
   fobj[EM_Free (ActF@{o so} LZ@{o})] X
-    ~{@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} LZ@{o})
+    ~{@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
         (ActMonad@{o so} LZ@{o})}~>
   fobj[K_swap@{o so} ◯ MSet_Free@{o so} LZ@{o}] X.
 Proof.
@@ -319,7 +319,7 @@ Proof.
 Defined.
 
 Definition KF_iso@{o so} (X : SetoidObject@{o o}) :
-  @Isomorphism (@EilenbergMoore@{so so so o} Sets@{o so}
+  @Isomorphism (@EilenbergMoore@{so so o} Sets@{o so}
                   (ActF@{o so} LZ@{o}) (ActMonad@{o so} LZ@{o}))
     (fobj[K_swap@{o so} ◯ MSet_Free@{o so} LZ@{o}] X)
     (fobj[EM_Free (ActF@{o so} LZ@{o})] X).
@@ -379,7 +379,7 @@ Qed.
 (* The issue's reading of Awodey's clause, refuted. *)
 Theorem bare_awodey_refuted@{o so} :
   ¬ (∀ K' : MSet@{so so o o o o o o} LZ@{o}
-              ⟶ @EilenbergMoore@{so so so o} Sets@{o so}
+              ⟶ @EilenbergMoore@{so so o} Sets@{o so}
                     (ActF@{o so} LZ@{o}) (ActMonad@{o so} LZ@{o}),
        EM_Forget (ActF@{o so} LZ@{o}) ◯ K' ≈ MSet_Forget@{o so} LZ@{o} →
        K' ◯ MSet_Free@{o so} LZ@{o} ≈ EM_Free (ActF@{o so} LZ@{o}) →

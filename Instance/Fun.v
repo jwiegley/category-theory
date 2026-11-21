@@ -124,6 +124,7 @@ Context {D : Category}.
    instantiated in Instance/Fun/Cartesian.v (binary products) and in
    Instance/Fun/Terminal.v (the terminal object and indexed products). *)
 
+Local Obligation Tactic := idtac.
 Program Definition Fun : Category := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
   hom     := @Transform C D;        (* morphisms are natural transformations *)
@@ -132,6 +133,15 @@ Program Definition Fun : Category := {|
 
   compose_respects := @nat_compose_respects C D
 |}.
+
+Next Obligation.
+  intros x y f z; simpl. etransitivity; [apply compose_respects; [apply fmap_id | reflexivity] | apply id_left].
+Qed.
+Next Obligation.
+  intros x y f z; simpl. etransitivity; [apply compose_respects; [reflexivity | apply fmap_id] | apply id_right].
+Qed.
+Next Obligation. intros; intro; apply comp_assoc. Qed.
+Next Obligation. intros; intro; apply comp_assoc_sym. Qed.
 
 End Fun.
 
