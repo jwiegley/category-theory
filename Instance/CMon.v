@@ -191,21 +191,21 @@ Qed.
         arrows: unit- and operation-preserving setoid maps
       identity: the identity setoid map
    composition: composition of setoid maps *)
-(* The universes are pinned by hand.  [CMonObject]'s sort is
-   [Type@{max(Set+1,s,o+1,p+1)}] once [cmon_prop] is a field -- the [Set+1] is
-   the sort of [Prop] and enters through [PropEquiv] -- and left to itself the
-   elaborator will not identify the record's own sort variable [s] with the
-   category's object universe, so [CMon] acquires a third, redundant universe
-   and every `CMon@{u o}` annotation in the tree is refused for arity.  Naming
-   [Category@{u p p}] and every field's instance keeps the arity at two,
-   exactly as before the field landed; measured after the change,
-   [CMon@{u p} : Category@{u p p}] with the single new constraint [Set < u],
-   which [Unset Universe Minimization ToSet] (Lib.v) makes harmless. *)
+(* With [cmon_prop], [CMonObject] lives in [Type@{max(Set+1,s,o+1,p+1)}]:
+   [PropEquiv] contributes [Set+1], the sort of [Prop].  Left to itself the
+   elaborator does not identify [s] with the category's object universe;
+   [CMon] then has three universes and its two-slot callers fail for arity.
+   Originally the category type and every field instance were explicit, giving
+   [CMon@{u p} : Category@{u p p}] with the single new bound [Set < u]
+   under [Unset Universe Minimization ToSet].  The current record infers the
+   instances for [obj], [hom], [homset], [id] and [compose].  Removing either
+   remaining instance, on [Category] or [compose_respects], from this record
+   left an unbound universe on released Rocq 9.2.0. *)
 Program Definition CMon@{u p} : Category@{u p p} := {|
-  obj     := CMonObject@{p p p};
-  hom     := CMonHom@{p};
-  homset  := @CMonHom_Setoid@{p};
-  id      := @cmon_hom_id@{p};
+  obj     := CMonObject;
+  hom     := CMonHom;
+  homset  := @CMonHom_Setoid;
+  id      := @cmon_hom_id;
   compose := @cmon_hom_compose;
 
   compose_respects := @cmon_hom_compose_respects@{u p}
