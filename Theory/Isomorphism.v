@@ -152,10 +152,15 @@ Instance IsIsoToIso {x y : C} (f : x ~> y) ( _ : IsIsomorphism f) : Isomorphism 
   |}.
 
 (* Reflexivity of ≅: the identity is an isomorphism. *)
+Section ProofFields.
+Local Obligation Tactic := idtac.
 #[export] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
   from := id
 }.
+Next Obligation. intros; apply id_left. Qed.
+Next Obligation. intros; apply id_left. Qed.
+End ProofFields.
 
 (* Symmetry of ≅: the inverse of an isomorphism is an isomorphism,
    obtained by swapping `to` and `from` and the two inverse laws. *)

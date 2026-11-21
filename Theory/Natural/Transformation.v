@@ -217,9 +217,18 @@ Proof. simpl; cat. Qed.
 (* The identity natural transformation `id_F : F ⟹ F`. Its component at `X` is
    `id_{F X}`, written here as `fmap[F] id` (equal to `id` by `fmap_id`). *)
 
+Section ProofFields.
+Local Obligation Tactic := idtac.
 Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
+Next Obligation.
+  intros. etransitivity; [apply compose_respects; [reflexivity | apply fmap_id] |].
+  etransitivity; [apply id_right |]. symmetry.
+  etransitivity; [apply compose_respects; [apply fmap_id | reflexivity] | apply id_left].
+Qed.
+Next Obligation. intros; symmetry; apply nat_id_obligation_1. Qed.
+End ProofFields.
 
 #[export] Hint Unfold nat_id : core.
 
@@ -228,22 +237,20 @@ Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
    `(f ∙ g)_X = f_X ∘ g_X`. This is the composition of the functor category
    `[C, D]`. *)
 
+Section ProofFields.
+Local Obligation Tactic := idtac.
 Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
   transform := λ X, transform[f] X ∘ transform[g] X
 |}.
 Next Obligation.
-  rewrite comp_assoc.
-  rewrite naturality.
-  rewrite <- comp_assoc.
-  rewrite naturality.
-  rewrite comp_assoc.
-  reflexivity.
+  intros. etransitivity; [apply comp_assoc |].
+  etransitivity; [apply compose_respects; [apply naturality | reflexivity] |].
+  etransitivity; [apply comp_assoc_sym |].
+  etransitivity; [apply compose_respects; [reflexivity | apply naturality] | apply comp_assoc].
 Qed.
-Next Obligation.
-  symmetry.
-  now apply nat_compose_obligation_1.
-Qed.
+Next Obligation. intros; symmetry; apply nat_compose_obligation_1. Qed.
+End ProofFields.
 
 #[export] Hint Unfold nat_compose : core.
 

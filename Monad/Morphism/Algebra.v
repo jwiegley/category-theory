@@ -151,13 +151,12 @@ Generalizable All Variables.
 
    UNIVERSES, read off [About].  [mh_algebra] and [talg_same] are [@{o h}]
    with the constraint list closed and empty.  θ*, its readbacks and its
-   laws bind [@{o h e s}] with h < s, o <= e and h <= e: exactly the block
-   of [EilenbergMoore@{e o s h}], the first carrier, which states h < s
-   (its hom level strictly below its third universe) and the bounds
-   o <= Projections.u0 and h <= Projections.u1 of the sigma projections
-   that a binder cannot name, whence the trailing [+].  [Compose] and
-   [Functor_Setoid], each with a strict level of its own, take s for it,
-   so [mh_EM_forget] and the laws add no level; turning them from [Qed]
+   laws bind [@{o h e s}] with h < s, o <= e and h <= e. Before #1413
+   the carrier itself took s. On Rocq 9.2.0 it is [EilenbergMoore@{e o h}],
+   with the bounds o <= Projections.u0 and h <= Projections.u1 of the
+   sigma projections, whence the trailing [+]. [Compose] still has a
+   strict level, [Functor_Setoid] no longer does. In the original comparison,
+   turning the laws from [Qed]
    into [Defined] left their blocks as they were (compared by script,
    [About] before and after).  The four [_iso_id] readbacks add only the
    caps h <= Projections.u0 and e <= Projections.u0/u1 of the [projT1]
@@ -221,11 +220,11 @@ Defined.
 Definition mh_EM@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @EilenbergMoore@{e o s h} C T' M' ⟶ @EilenbergMoore@{e o s h} C T M.
+  @EilenbergMoore@{e o h} C T' M' ⟶ @EilenbergMoore@{e o h} C T M.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{e o s h} C T' M') (@EilenbergMoore@{e o s h} C T M)
+       (@EilenbergMoore@{e o h} C T' M') (@EilenbergMoore@{e o h} C T M)
        (fun X => (`1 X; mh_algebra θ (`2 X)))
        (fun X Y f =>
           @Build_TAlgebraHom C T M (`1 X) (`1 Y)
@@ -248,20 +247,20 @@ Defined.
 Example mh_EM_carrier@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X : @EilenbergMoore@{e o s h} C T' M') :
+  (X : @EilenbergMoore@{e o h} C T' M') :
   `1 (fobj[mh_EM@{o h e s} θ] X) = `1 X := eq_refl.
 
 Example mh_EM_alg@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X : @EilenbergMoore@{e o s h} C T' M') :
+  (X : @EilenbergMoore@{e o h} C T' M') :
   @t_alg _ _ _ _ (`2 (fobj[mh_EM@{o h e s} θ] X))
     = @t_alg _ _ _ _ (`2 X) ∘ mh_transform θ (`1 X) := eq_refl.
 
 Example mh_EM_hom@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X Y : @EilenbergMoore@{e o s h} C T' M') (f : X ~> Y) :
+  (X Y : @EilenbergMoore@{e o h} C T' M') (f : X ~> Y) :
   t_alg_hom[fmap[mh_EM@{o h e s} θ] f] = t_alg_hom[f] := eq_refl.
 
 (** ** G^T ∘ θ* = G^{T'} *)
@@ -271,30 +270,30 @@ Example mh_EM_hom@{o h e s | h < s, o <= e, h <= e +}
 Example mh_EM_forget_obj@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X : @EilenbergMoore@{e o s h} C T' M') :
-  fobj[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] X
-    = fobj[@EM_Forget@{o h s e} C T' M'] X := eq_refl.
+  (X : @EilenbergMoore@{e o h} C T' M') :
+  fobj[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] X
+    = fobj[@EM_Forget@{o h e} C T' M'] X := eq_refl.
 
 Example mh_EM_forget_obj_fun@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  (fun X => fobj[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] X)
-    = (fun X => fobj[@EM_Forget@{o h s e} C T' M'] X) := eq_refl.
+  (fun X => fobj[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] X)
+    = (fun X => fobj[@EM_Forget@{o h e} C T' M'] X) := eq_refl.
 
 Example mh_EM_forget_map@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X Y : @EilenbergMoore@{e o s h} C T' M') (f : X ~> Y) :
-  fmap[@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ] f
-    = fmap[@EM_Forget@{o h s e} C T' M'] f := eq_refl.
+  (X Y : @EilenbergMoore@{e o h} C T' M') (f : X ~> Y) :
+  fmap[@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ] f
+    = fmap[@EM_Forget@{o h e} C T' M'] f := eq_refl.
 
 (* At Cat's ≈, with identity isomorphisms. *)
 
 Theorem mh_EM_forget@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ
-    ≈ @EM_Forget@{o h s e} C T' M'.
+  @EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ
+    ≈ @EM_Forget@{o h e} C T' M'.
 Proof.
   exists (fun X => iso_id).
   intros X Y f; cbn.
@@ -308,7 +307,7 @@ Defined.
 Example mh_EM_forget_iso_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M')
-  (X : @EilenbergMoore@{e o s h} C T' M') :
+  (X : @EilenbergMoore@{e o h} C T' M') :
   (to (projT1 (mh_EM_forget@{o h e s} θ) X),
    from (projT1 (mh_EM_forget@{o h e s} θ) X)) = (id, id) := eq_refl.
 
@@ -319,8 +318,8 @@ Definition mh_EM_forget_strict@{o h e s a b |
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
   @equiv _ (@Functor_StrictEq_Setoid@{a b e o s h} _ C)
-    (@EM_Forget@{o h s e} C T M ◯ mh_EM@{o h e s} θ)
-    (@EM_Forget@{o h s e} C T' M').
+    (@EM_Forget@{o h e} C T M ◯ mh_EM@{o h e s} θ)
+    (@EM_Forget@{o h e} C T' M').
 Proof.
   exists (fun X => eq_refl).
   intros X Y f. reflexivity.
@@ -334,9 +333,9 @@ Defined.
 Definition mh_free_component@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  fobj[@EM_Free@{o h s e} C T M] x
-    ~{ @EilenbergMoore@{e o s h} C T M }~>
-  fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T' M'] x.
+  fobj[@EM_Free@{o h e s} C T M] x
+    ~{ @EilenbergMoore@{e o h} C T M }~>
+  fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x.
 Proof.
   unshelve refine (@Build_TAlgebraHom C T M (T x) (T' x) _ _
                      (mh_transform θ x) _).
@@ -347,8 +346,8 @@ Defined.
 Definition mh_EM_free@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @EM_Free@{o h s e} C T M
-    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T' M'.
+  @EM_Free@{o h e s} C T M
+    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'.
 Proof.
   unshelve refine (Build_Transform' (mh_free_component θ) _).
   intros x y f. simpl.
@@ -360,7 +359,7 @@ Defined.
 Example mh_EM_free_forget@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  fmap[@EM_Forget@{o h s e} C T M] (transform[mh_EM_free@{o h e s} θ] x)
+  fmap[@EM_Forget@{o h e} C T M] (transform[mh_EM_free@{o h e s} θ] x)
     = mh_transform θ x := eq_refl.
 
 (* The component is the transpose of η'_x along F^T ⊣ G^T. *)
@@ -369,7 +368,7 @@ Lemma mh_EM_free_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
   t_alg_hom[@EM_extend@{o h e s} C T M x
-                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h s e} C T' M'] x)
+                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x)
                  (@ret C T' M' x)]
     ≈ mh_transform θ x.
 Proof.
@@ -423,7 +422,7 @@ Defined.
 
 Lemma mh_EM_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T} :
-  mh_EM@{o h e s} (mh_id M) ≈ @Id (@EilenbergMoore@{e o s h} C T M).
+  mh_EM@{o h e s} (mh_id M) ≈ @Id (@EilenbergMoore@{e o h} C T M).
 Proof.
   unshelve eexists.
   - intros X.
@@ -460,14 +459,14 @@ Example mh_EM_respects_iso_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ θ' : MonadHom@{o h} M M')
   (E : ∀ x, mh_transform θ x ≈ mh_transform θ' x)
-  (X : @EilenbergMoore@{e o s h} C T' M') :
+  (X : @EilenbergMoore@{e o h} C T' M') :
   (t_alg_hom[to (projT1 (mh_EM_respects@{o h e s} θ θ' E) X)],
    t_alg_hom[from (projT1 (mh_EM_respects@{o h e s} θ θ' E) X)])
     = (id, id) := eq_refl.
 
 Example mh_EM_id_iso_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T : C ⟶ C} {M : @Monad C T}
-  (X : @EilenbergMoore@{e o s h} C T M) :
+  (X : @EilenbergMoore@{e o h} C T M) :
   (t_alg_hom[to (projT1 (@mh_EM_id@{o h e s} C T M) X)],
    t_alg_hom[from (projT1 (@mh_EM_id@{o h e s} C T M) X)]) = (id, id)
   := eq_refl.
@@ -476,7 +475,7 @@ Example mh_EM_compose_iso_id@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' T'' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} {M'' : @Monad C T''}
   (φ : MonadHom@{o h} M' M'') (θ : MonadHom@{o h} M M')
-  (X : @EilenbergMoore@{e o s h} C T'' M'') :
+  (X : @EilenbergMoore@{e o h} C T'' M'') :
   (t_alg_hom[to (projT1 (mh_EM_compose@{o h e s} φ θ) X)],
    t_alg_hom[from (projT1 (mh_EM_compose@{o h e s} φ θ) X)]) = (id, id)
   := eq_refl.
@@ -491,7 +490,7 @@ Proof.
   unshelve refine
     (@Build_Functor ((Monads@{o h m1 m2} C)^op) Cat@{u e s e h}
        (fun N : { T : C ⟶ C & @Monad C T } =>
-          @EilenbergMoore@{e o s h} C (projT1 N) (projT2 N))
+          @EilenbergMoore@{e o h} C (projT1 N) (projT2 N))
        (fun N N' (θ : MonadHom@{o h} (projT2 N') (projT2 N)) =>
           mh_EM@{o h e s} θ) _ _ _).
   - intros N N' θ θ' E. exact (mh_EM_respects θ θ' E).
@@ -503,7 +502,7 @@ Example Monads_EM_obj@{o h m1 m2 e s u |
   h < s, h < u, e < u, o <= m1, h <= m1, o <= m2, h <= m2, m2 <= e,
   o <= e, h <= e +} (C : Category@{o h h}) (N : Monads@{o h m1 m2} C) :
   fobj[Monads_EM@{o h m1 m2 e s u} C] N
-    = @EilenbergMoore@{e o s h} C (projT1 N) (projT2 N) := eq_refl.
+    = @EilenbergMoore@{e o h} C (projT1 N) (projT2 N) := eq_refl.
 
 Example Monads_EM_map@{o h m1 m2 e s u |
   h < s, h < u, e < u, o <= m1, h <= m1, o <= m2, h <= m2, m2 <= e,

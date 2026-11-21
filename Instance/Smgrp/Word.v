@@ -249,7 +249,7 @@ Generalizable All Variables.
    so < c (Instance/Cat.v's [Cat@{c so so so o}]; [Smgrp_EM_iso] is
    [Isomorphism@{c so so}]).  Everything else binds @{o so} with the one
    constraint o < so besides caps: [WordMonad : Monad@{so o} WordF],
-   [WordAlg := EilenbergMoore@{so so so o}] (a [Category@{so o o}]),
+   [WordAlg := EilenbergMoore@{so so o}] (a [Category@{so o o}]),
    [Smgrp_EM_equivalence : EquivalenceOfCategories@{so so so so so o}]
    and [Sg_Forget_Monadic : Monadic@{so so so so so o so so}], the
    instances of Instance/SupLat/Free.v's [SL_Forget_Monadic]; [WSystem]
@@ -463,7 +463,7 @@ Example WordMonad_direct_join@{o so} (X : SetoidObject@{o o}) :
 
 (* The category of W-algebras in Set: [WordAlg] is Set^W. *)
 Definition WordAlg@{o so} : Category@{so o o} :=
-  @EilenbergMoore@{so so so o} Sets@{o so} WordF@{o so} WordMonad@{o so}.
+  @EilenbergMoore@{so so o} Sets@{o so} WordF@{o so} WordMonad@{o so}.
 
 (* One operation ν_{n+1} : S^{n+1} → S for each n, respecting ≈.  The
    heterogeneous form of the respect law costs nothing, since [tup_eq] is

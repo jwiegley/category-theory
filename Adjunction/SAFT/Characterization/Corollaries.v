@@ -251,8 +251,8 @@ Definition saft_colim@{o h so c w s t jo fo fa +|
   (C : Category@{o h h}) (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C)
   (J : Category@{jo h h}) :
-  { L : @Fun@{jo h o h fo h fa} J C ⟶ C & L ⊣ @Diagonal@{fo h fa jo o h} C J } :=
-  SAFT_wellpowered (@Diagonal@{fo h fa jo o h} C J) comp
+  { L : @Fun@{jo h o h fo h} J C ⟶ C & L ⊣ @Diagonal@{fo h jo o fa h} C J } :=
+  SAFT_wellpowered (@Diagonal@{fo h jo o fa h} C J) comp
     (Continuous_PreservesImageLimit Diagonal_continuous) G WP.
 
 Definition saft_cocomplete@{o h so c w s t jo fo fa +|
@@ -263,8 +263,8 @@ Definition saft_cocomplete@{o h so c w s t jo fo fa +|
   @Cocomplete@{h jo h o} C :=
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
-                        : { L : @Fun@{jo h o h fo h fa} J C ⟶ C
-                          & L ⊣ @Diagonal@{fo h fa jo o h} C J })) F.
+                        : { L : @Fun@{jo h o h fo h} J C ⟶ C
+                          & L ⊣ @Diagonal@{fo h jo o fa h} C J })) F.
 
 (** ** The two routes to the left adjoint agree up to isomorphism *)
 

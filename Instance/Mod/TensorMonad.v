@@ -359,14 +359,14 @@ Example TensorMonad_join_Z@{o x} (a : Z) :
 (* An algebra (A, h) acts by r · m := h (r ⊗ m).  Riehl's "ℤ-bilinear
    map (r, a) ↦ r·a" is h composed with the universal bilinear map. *)
 Definition em_smul@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   carrier (`1 X) :=
   cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m).
 
 Lemma em_smul_respects@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   Proper (equiv ==> equiv ==> equiv) (em_smul@{a c p o x} X).
 Proof.
@@ -377,7 +377,7 @@ Qed.
 
 (* Additivity in m and in r: h is additive and ⊗ is bilinear. *)
 Lemma em_smul_distr_l@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m n : carrier (`1 X)) :
   em_smul X r (cmon_plus (`1 X) m n)
@@ -394,7 +394,7 @@ Proof.
 Qed.
 
 Lemma em_smul_distr_r@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r s : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   em_smul X (rig_add (ring_rig R) r s) m
@@ -413,7 +413,7 @@ Qed.
 (* Mac Lane's μ-law of the algebra, read at r ⊗ (s ⊗ m), is associativity
    of the action; [t_action] states it with the two sides exchanged. *)
 Lemma em_smul_assoc@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r s : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   em_smul X (rig_mul (ring_rig R) r s) m ≈ em_smul X r (em_smul X s m).
@@ -426,14 +426,14 @@ Qed.
 
 (* The η-law of the algebra is 1 · m ≈ m. *)
 Lemma em_smul_one@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (m : carrier (`1 X)) :
   em_smul X (rig_one (ring_rig R)) m ≈ m.
 Proof. exact (@t_id _ _ _ _ (`2 X) m). Qed.
 
 Definition EM_mod@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   obj[RMod@{o x a p c} R] :=
   @Build_RModObject R (`1 X) (em_smul X) (em_smul_respects X)
@@ -441,9 +441,9 @@ Definition EM_mod@{a c p o x} {R : RingObject@{a c p}}
     (em_smul_one X).
 
 Definition EM_mod_hom@{a c p o x} {R : RingObject@{a c p}}
-  {X Y : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  {X Y : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
            (TensorMonad@{a c p o x} R)}
-  (f : X ~{@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (f : X ~{@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
              (TensorMonad@{a c p o x} R)}~> Y) :
   EM_mod X ~{RMod@{o x a p c} R}~> EM_mod Y :=
   @Build_RModHom R (EM_mod X) (EM_mod Y) t_alg_hom[f]
@@ -451,12 +451,12 @@ Definition EM_mod_hom@{a c p o x} {R : RingObject@{a c p}}
                   (@ts_gen (ring_ab R) (`1 X) r m)).
 
 Definition EM_to_RMod@{a c p o x} (R : RingObject@{a c p}) :
-  @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
     (TensorMonad@{a c p o x} R) ⟶ RMod@{o x a p c} R.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
           (TensorMonad@{a c p o x} R))
        (RMod@{o x a p c} R) (fun X => EM_mod X) (fun X Y f => EM_mod_hom f)
        _ _ _).
@@ -467,7 +467,7 @@ Defined.
 
 (* The action of [EM_mod X] IS h on generators, by definition. *)
 Example EM_mod_smul@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul (EM_mod X) r m
@@ -503,17 +503,17 @@ Defined.
    [tensor_hom_ext], the uniqueness half of the tensor's universal
    property. *)
 Definition RMod_unit_iso@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   @Isomorphism
-    (@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
        (TensorMonad@{a c p o x} R))
     (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
           ◯ EM_to_RMod@{a c p o x} R] X) X.
 Proof.
   unshelve refine
     (@Build_Isomorphism
-       (@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+       (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
           (TensorMonad@{a c p o x} R))
        (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
              ◯ EM_to_RMod@{a c p o x} R] X) X
@@ -565,7 +565,7 @@ Defined.
 Definition EM_RMod_iso@{a c p o x k} (R : RingObject@{a c p}) :
   @Isomorphism Cat@{k o x o c}
     (RMod@{o x a p c} R)
-    (@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
        (TensorMonad@{a c p o x} R)) :=
   Equivalence_to_Cat_Iso (RMod_comparison_equivalence@{a c p o x} R).
 
@@ -906,7 +906,7 @@ Defined.
 Definition EM_RMod_iso_beck@{a c p o x k} (R : RingObject@{a c p}) :
   @Isomorphism Cat@{k o x o c}
     (RMod@{o x a p c} R)
-    (@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+    (@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
        (TensorMonad@{a c p o x} R)) :=
   Equivalence_to_Cat_Iso (RMod_beck_equivalence@{a c p o x} R).
 
@@ -924,13 +924,13 @@ Example rmod_beck_direct_to@{a c p o x k} (R : RingObject@{a c p}) :
    r · m = h ((r · 1) ⊗ m).  It is ≈ to [EM_to_RMod], by [rig_mul_one_r]
    in the scalar slot. *)
 Example rmod_beck_carrier@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   rm_ab (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
   = `1 X := eq_refl.
 
 Example rmod_beck_act@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)
@@ -940,7 +940,7 @@ Example rmod_beck_act@{a c p o x} {R : RingObject@{a c p}}
          (rig_mul (ring_rig R) r (rig_one (ring_rig R))) m) := eq_refl.
 
 Definition rmod_beck_vs_direct_iso@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   @Isomorphism (RMod@{o x a p c} R)
     (fobj[@quasi_inverse _ _ _ (RMod_beck_equivalence@{a c p o x} R)] X)

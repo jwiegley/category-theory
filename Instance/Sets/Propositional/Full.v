@@ -187,7 +187,8 @@ Generalizable All Variables.
    [PropSets_lift@{co ch o so}] adds ch <= o from its functor argument;
    its readbacks pass through [Compose], which forces ch = o by typing
    and adds its strict level s (o < s); [PropSets_lift_Incl] adds a and
-   b, the levels of [Functor_Setoid] (o < b its own strict bound).
+   b, the levels of [Functor_Setoid]. The declared o < b remains here;
+   after #1413 it is not required by [Functor_Setoid] itself.
    [PropSets_trunc_Incl] adds a, the free level of the [Adjunction]
    record that [Build_Adjunction'] leaves.  No block has an equation, and
    [Set] occurs only as [Set < so], which o < so implies.  Since #1349
@@ -296,7 +297,7 @@ Definition PropSets_lift_Incl@{co o so s a b |
   o < so, o < s, o < b, co <= a, co <= b, o <= a, so <= a +}
   {C : Category@{co o o}} (F : C ⟶ Sets@{o so})
   (P : ∀ c : C, PropEquivObj@{so o o} (F c)) :
-  @equiv _ (@Functor_Setoid@{a b co s so o} C Sets@{o so})
+  @equiv _ (@Functor_Setoid@{a b co so o} C Sets@{o so})
     (PropSets_Incl@{o so} ◯ PropSets_lift@{co o o so} F P) F.
 Proof.
   exists (fun c => iso_id). intros x y f a. simpl. reflexivity.

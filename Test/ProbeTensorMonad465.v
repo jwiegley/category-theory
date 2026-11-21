@@ -500,7 +500,7 @@ Fail Example p465_N6_rt_one@{a c p o x} (R : RingObject@{a c p})
 (* CONTROL: the round trip on its carrier, its structure map on each
    generator r ⊗ m, and at every formal sum up to ≈. *)
 Example p465_ctl_rt2_carrier@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   `1 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
         ◯ EM_to_RMod@{a c p o x} R] X)
@@ -508,7 +508,7 @@ Example p465_ctl_rt2_carrier@{a c p o x} (R : RingObject@{a c p})
   := eq_refl.
 
 Example p465_ctl_rt2_gen@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
@@ -518,7 +518,7 @@ Example p465_ctl_rt2_gen@{a c p o x} (R : RingObject@{a c p})
   := eq_refl.
 
 Example p465_ctl_rt2_equiv@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (s : carrier (AbTensor (ring_ab R) (`1 X))) :
   cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
@@ -527,10 +527,10 @@ Example p465_ctl_rt2_equiv@{a c p o x} (R : RingObject@{a c p})
   ltac:(refine (tensor_hom_ext _ _ _ s); intros r m; reflexivity).
 
 (* N7 *)
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Check @TensorF@{_ _ _ _ _}.
 Fail Example p465_N7_rt2_fun@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   (fun s =>
      cmon_map
@@ -541,7 +541,7 @@ Fail Example p465_N7_rt2_fun@{a c p o x} (R : RingObject@{a c p})
 
 (* N8 *)
 Fail Example p465_N8_rt2_sum@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (s : carrier (AbTensor (ring_ab R) (`1 X))) :
   cmon_map (t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
@@ -551,7 +551,7 @@ Fail Example p465_N8_rt2_sum@{a c p o x} (R : RingObject@{a c p})
 
 (* N9 *)
 Fail Example p465_N9_rt2_obj@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)) :
   fobj[EM_Comparison (zext_adjunction@{a c p o o x a a} R)
         ◯ EM_to_RMod@{a c p o x} R] X
@@ -571,7 +571,7 @@ Fail Example p465_N10_rt_functor@{a c p o x} (R : RingObject@{a c p}) :
 Fail Example p465_N11_rt2_functor@{a c p o x} (R : RingObject@{a c p}) :
   EM_Comparison (zext_adjunction@{a c p o o x a a} R)
     ◯ EM_to_RMod@{a c p o x} R
-  = Id[@EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  = Id[@EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R)]
   := eq_refl.
 
@@ -673,7 +673,7 @@ Fail Example p465_N12d_add_r@{a c p o x} (R : RingObject@{a c p})
 (* CONTROL: Beck's quasi-inverse acts through η; over ℤ at the scalar 3
    it IS h (3 ⊗ m). *)
 Example p465_ctl_beck_act@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul
@@ -685,7 +685,7 @@ Example p465_ctl_beck_act@{a c p o x} (R : RingObject@{a c p})
   := eq_refl.
 
 Example p465_ctl_beck_act_Z@{o x}
-  (X : @EilenbergMoore@{o o x Set} Ab@{o Set}
+  (X : @EilenbergMoore@{o o Set} Ab@{o Set}
          (TensorF@{Set Set Set o x} Int_Ring)
          (TensorMonad@{Set Set Set o x} Int_Ring))
   (m : carrier (`1 X)) :
@@ -698,7 +698,7 @@ Example p465_ctl_beck_act_Z@{o x}
 (* N13Z *)
 Check @RMod_beck_equivalence@{_ _ _ _ _}.
 Fail Example p465_N13Z_beck_act_var@{o x}
-  (X : @EilenbergMoore@{o o x Set} Ab@{o Set}
+  (X : @EilenbergMoore@{o o Set} Ab@{o Set}
          (TensorF@{Set Set Set o x} Int_Ring)
          (TensorMonad@{Set Set Set o x} Int_Ring))
   (z : Z) (m : carrier (`1 X)) :
@@ -710,7 +710,7 @@ Fail Example p465_N13Z_beck_act_var@{o x}
 
 (* N13 *)
 Fail Example p465_N13_beck_act_strict@{a c p o x} (R : RingObject@{a c p})
-  (X : @EilenbergMoore@{o o x c} Ab@{o c} (TensorF@{a c p o x} R)
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
          (TensorMonad@{a c p o x} R))
   (r : carrier (rig_setoid (ring_rig R))) (m : carrier (`1 X)) :
   rm_smul

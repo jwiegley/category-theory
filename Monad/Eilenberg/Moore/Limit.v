@@ -532,7 +532,7 @@ End EMStrictlyCreates.
 
 Definition em_lift_alg_unique@{o h jo eo e l l0} {D : Category@{o h h}}
   (T : D ⟶ D) `{H : @Monad D T} {J : Category@{jo h h}}
-  (K : J ⟶ EilenbergMoore@{eo o e h} T)
+  (K : J ⟶ EilenbergMoore@{eo o h} T)
   (N : Cone (EM_Forget T ◯ K)) (HN : IsLimitCone@{l l0 jo h o} N)
   (s : StrictLift@{e eo jo h o} K (EM_Forget T) N) :
   { i : vertex_obj[slift_cone s] ≅[EilenbergMoore T]

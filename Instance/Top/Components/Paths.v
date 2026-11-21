@@ -452,7 +452,7 @@ Qed.
    transformations at [o], the levels of [Sets@{o so}] itself. *)
 Definition ParSets@{o so p f | o < so, p <= o, o < f +} :
   Category@{so o o} :=
-  @Fun@{p o so o so o f} Parallel@{p o} Sets@{o so}.
+  @Fun@{p o so o so o} Parallel@{p o} Sets@{o so}.
 
 Program Definition PPathPair@{o so p f | o < so, p <= o, o < f +} :
   PTopCat@{o so} ⟶ ParSets@{o so p f} := {|

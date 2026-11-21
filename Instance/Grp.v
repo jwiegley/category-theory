@@ -616,8 +616,8 @@ Qed.
    [Grp_Zero@{u p} : ZeroObject@{u p} Grp@{u p}], whose constraint blocks
    are [Grp@{u p}]'s own ([Set < u], [p < u] and stdlib bounds on [p])
    plus the bound [p <= Logic_lemmas.equality.u0] that [unit_setoid]
-   brings; the instance [iso_id@{u p p u}] reuses [Grp]'s object universe
-   for the one extra level [iso_id] asks for.  The source bodies are
+   brings. Before #1413 [iso_id@{u p p u}] reused [Grp]'s object universe
+   for its proof level; the current instance is [iso_id@{u p p}]. In #450 the source bodies were
    unchanged apart from those annotations; the elaborated terms are not
    quite: [Print] under [Set Printing All], before and after #450, shows
    [Grp_trivial]'s reflexivity witnesses as [eq_Reflexive] before and as
@@ -707,7 +707,7 @@ Definition Grp_Initial@{u p} : @Initial Grp@{u p} :=
    isomorphism of Structure/ZeroObject.v is the identity. *)
 #[export] Instance Grp_Zero@{u p} : ZeroObject Grp@{u p} :=
   @Build_ZeroObject Grp@{u p} Grp_Terminal@{u p} Grp_Initial@{u p}
-    iso_id@{u p p u}.
+    iso_id@{u p p}.
 
 (** ** Binary direct products *)
 

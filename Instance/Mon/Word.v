@@ -652,7 +652,7 @@ Qed.
 (** ** The Eilenberg–Moore category of W₀ is Mon *)
 
 Definition W0Alg@{+} : Category@{so o o} :=
-  @EilenbergMoore@{so so so o} Sets@{o so} W0F W0.
+  @EilenbergMoore@{so so o} Sets@{o so} W0F W0.
 
 Definition EM_mon_map@{+} {x y : W0Alg} (f : x ~{W0Alg}~> y) :
   alg_monoid (projT2 x) ~{MonOS}~> alg_monoid (projT2 y).

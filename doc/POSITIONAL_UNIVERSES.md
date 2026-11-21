@@ -314,6 +314,51 @@ The retained OGraph references, the remaining GAFT
 references and every other unassessed site remain #1412 work. Hub/signature
 redesign belongs to later issues.
 
+## Core proof obligations (#1413, Rocq 9.2.0)
+
+Unlike the #1412 reference-syntax changes, these edits change the declarations
+being referenced. The table compares qualified `About` outputs against
+`38d70c67` using released Rocq/Corelib 9.2.0, Stdlib 9.1.0 and Equations
+1.3.2+9.2. Positions are one-based: delete the indicated slot and keep the
+order of the others. This rule applies to the named declarations, not to every
+constant that mentions one of them.
+
+| Declaration | Public slots before → after | Delete |
+|---|---:|---:|
+| `Functor_Setoid` | 6 → 5 | 4 |
+| `iso_id` | 4 → 3 | 4 |
+| `nat_id` | 4 → 3 | 3 |
+| `nat_compose` | 4 → 3 | 2 |
+| `Fun` | 7 → 6 | 7 |
+| `EilenbergMoore` | 4 → 3 | 3 |
+| `cmon_hom_compose` | 2 → 1 | 1 |
+
+`Functor_Setoid` still compares functors by a family of isomorphisms with
+its naturality equation. Its opaque lemma fixes the common hom level of the
+two categories. The other six changes use category laws or respectfulness
+directly in opaque obligations instead of going through generalized rewriting.
+In each of the seven public contexts the removed level was an upper endpoint
+of a strict inequality; projecting it away leaves the constraints among the
+surviving levels unchanged. `CMon` remains `Category@{u p p}`; its explicit
+`compose_respects` field now takes `@cmon_hom_compose_respects@{p}`.
+
+Absence from the printed type did not suffice elsewhere. An isolated
+four-slot `Compose` made `p453_n18_lift_at_pc` typecheck: its opaque law no
+longer distinguished `pc` from `pa` by conversion. A four-slot `RMod` made
+`p454_n7_wp_up_fifth_slot` typecheck despite `x < w`. Keep the five slots of
+both constants, the five of `Cat` and the seven of `rmod_hom_compose`. The
+separate #1419 larger-universe bindings remain in place.
+
+Callers may reorder without changing arity: `Compose_Monoidal` exchanges
+its first two slots; `EM_Free` exchanges its last two. A comparison of
+parsed reference instances in the baseline and candidate `.v` sources,
+with compiled reference identities and the arity gate's protected extractions,
+accounts for 349 changed existing reference instances and 13 additional
+pins. It does not count declaration binders as migrated references. Earlier
+index entries for #464, #468 and #469 describe their original measurements:
+the six-slot `Fun` and three-slot `EilenbergMoore` above supersede their
+printed instances, not their mathematical results.
+
 ## Per-file inventory
 
 `Before` is the first-batch baseline `438d83b2`; `After` includes only that batch. Unlisted files have

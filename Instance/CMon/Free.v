@@ -431,7 +431,7 @@ Example Bag_join@{+} (X : obj[Sets@{o so}]) (ll : list (list X)) :
 
 (* The Eilenberg–Moore category of the multiset monad. *)
 Definition BagAlg@{+} : Category@{so o o} :=
-  @EilenbergMoore@{so so so o} Sets@{o so} BagF BagMonad.
+  @EilenbergMoore@{so so o} Sets@{o so} BagF BagMonad.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Every algebra is a commutative monoid, on a set *)

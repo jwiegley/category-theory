@@ -295,7 +295,7 @@ Qed.
 (** ** An algebra is a ring *)
 
 Definition RngAlg@{+} : Category@{u p p} :=
-  @EilenbergMoore@{u u u p} Ab@{u p} TF TM.
+  @EilenbergMoore@{u u p} Ab@{u p} TF TM.
 
 Section Alg.
 

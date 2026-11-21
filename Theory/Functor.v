@@ -145,21 +145,20 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
 
 #[export] Hint Rewrite @fmap_id : categories.
 
-#[export]
-Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
-  (* Note that it doesn't make much sense (with our definition of [Category])
-     to ask that [∀ x : C, F x = G x] and
-     [∀ (x y :C) (f : x ~> y), fmap[F] f ≈ fmap[G] f] because the second
-     condition is hard to work with in the type-system since it needs lots of
-     equality proofs. *)
-  equiv := fun F G =>
+(* Express agreement on objects by isomorphisms rather than by Leibniz
+   equalities, which would require transporting the arrows. Keep the proof
+   opaque: the setoid takes its relation from the lemma's type, so the
+   proof's universe for rewriting need not be a parameter of the setoid.
+   Both categories have the same hom level, as in the original instance. *)
+Lemma functor_equiv_equivalence@{f r co do h}
+  {C : Category@{co h h}} {D : Category@{do h h}} :
+  Equivalence@{f r} (fun F G : C ⟶ D =>
     (* Equality of objects in a category is taken to be a natural
        isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
     & ∀ (x y : C) (f : x ~> y),
-        fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }
-}.
-Next Obligation.
+        fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }).
+Proof.
   equivalence.
   - isomorphism.
     + exact (from (x0 x1)).
@@ -191,6 +190,11 @@ Next Obligation.
     rewrite <- e.
     apply e0.
 Qed.
+
+#[export] Instance Functor_Setoid@{f r co do h}
+  {C : Category@{co h h}} {D : Category@{do h h}} : Setoid@{f r} (C ⟶ D) := {
+  setoid_equiv := @functor_equiv_equivalence C D
+}.
 
 Lemma fun_equiv_to_fmap {C D : Category} {F G : C ⟶ D} (eqv : F ≈ G) :
   ∀ (x y : C) (f : x ~> y),

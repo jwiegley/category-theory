@@ -298,7 +298,7 @@
     N18 (UNIVERSE).  [MSet_from] after [MSet_Free] into the raised
     category, refused by [Compose]'s one hom universe:
       The term "MSet_from M" has type "@Functor@{so o o so so so}
-      (MSet@{so so o o o o o o} M) (@Fun@{o o so o so so so} (Deloop@{o
+      (MSet@{so so o o o o o o} M) (@Fun@{o o so o so so} (Deloop@{o
       o} M) Sets@{o so})" while it is expected to have type
       "@Functor@{<1> <2> <2> <3> <2> <2>} ?D ?E" (universe inconsistency:
       Cannot enforce so = o because o < so).
@@ -510,36 +510,36 @@ Fail Example p464_rt_functor@{o so} {M : MonObject@{o o o}} :
 (* CONTROL: the carrier, the structure map at each pair, and the
    structure map as the function p ↦ h (fst p, snd p), on the nose. *)
 Example p464_rt2_carrier@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   `1 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M] x)
   = `1 x := eq_refl.
 
 Example p464_rt2_pointwise@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) (g : carrier M) (a : carrier (`1 x)) :
   t_alg[`2 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M] x)]
     (g, a) = t_alg[`2 x] (g, a) := eq_refl.
 
 Example p464_rt2_eta@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   (fun p => t_alg[`2 (fobj[EM_Comparison (MSet_adj@{o so} M)
                           ◯ EM_to_MSet@{o so} M] x)] p)
   = (fun p => t_alg[`2 x] (fst p, snd p)) := eq_refl.
 
 (* N6 *)
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Check @Sets@{_ _}.
 Check @ActF@{_ _}.
 Fail Example p464_rt2_functor@{o so} {M : MonObject@{o o o}} :
   EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M
-  = Id[@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  = Id[@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)] := eq_refl.
 
 (* N7 *)
 Fail Example p464_rt2_fun@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   (fun p => t_alg[`2 (fobj[EM_Comparison (MSet_adj@{o so} M)
                           ◯ EM_to_MSet@{o so} M] x)] p)
@@ -547,7 +547,7 @@ Fail Example p464_rt2_fun@{o so} {M : MonObject@{o o o}}
 
 (* N8 *)
 Fail Example p464_rt2_obj@{o so} {M : MonObject@{o o o}}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   fobj[EM_Comparison (MSet_adj@{o so} M) ◯ EM_to_MSet@{o so} M] x = x :=
   eq_refl.
@@ -556,13 +556,13 @@ Fail Example p464_rt2_obj@{o so} {M : MonObject@{o o o}}
 
 (* CONTROL: Beck's quasi-inverse keeps the carrier and acts through η. *)
 Example p464_beck_carrier@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   act_setoid (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x)
   = `1 x := eq_refl.
 
 Example p464_beck_act@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) (g : carrier M) (z : carrier (`1 x)) :
   act (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x) g z
   = t_alg[`2 x] (mon_op g mon_unit, z) := eq_refl.
@@ -575,7 +575,7 @@ Fail Example p464_beck_qi@{o so} (M : MonObject@{o o o}) :
 
 (* N10 *)
 Fail Example p464_beck_act_strict@{o so} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) (g : carrier M) (z : carrier (`1 x)) :
   act (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x) g z
   = t_alg[`2 x] (g, z) := eq_refl.
@@ -699,7 +699,7 @@ Fail Example p464_bg_U_is_composite@{o so} (M : MonObject@{o o o}) :
 (* The functor category of BG.v with its hom level raised from o to so;
    Instance/Fun.v's block allows any hom level at least o. *)
 Definition p464_SetBG_h@{o so} (M : MonObject@{o o o}) : Category@{so so so} :=
-  @Fun@{o o so o so so so} (Deloop@{o o} M) Sets@{o so}.
+  @Fun@{o o so o so so} (Deloop@{o o} M) Sets@{o so}.
 
 (* CONTROL: functors into the raised category are formable, and
    Instance/Fun/Action.v's [MSet_from] lands there; [MSet_Free] alone. *)

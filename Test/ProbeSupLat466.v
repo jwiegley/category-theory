@@ -623,13 +623,13 @@ Fail Example p466_rt_hom@{o so} (A B : SupLatObject@{o})
 (* Controls: the carrier and the structure map, at [eq_refl], at a
    variable object and at a named algebra. *)
 Example p466_rt2_carrier@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   projT1 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x) = projT1 x
   := eq_refl.
 
 Example p466_rt2_alg@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg[projT2 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x)]
     = t_alg[projT2 x] := eq_refl.
@@ -640,28 +640,28 @@ Example p466_alg_rt_data@{o so} {X : SetoidObject@{o o}}
   := eq_refl.
 
 Example p466_rt2_hom@{o so}
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
            Powerset_Monad@{o so}) (f : x ~> y) :
   t_alg_hom[fmap[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] f]
     = t_alg_hom[f] := eq_refl.
 
 (* N3 *)
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Fail Example p466_rt2_obj@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x = x := eq_refl.
 
 (* N4 *)
 Fail Example p466_rt2_t_id@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   @t_id _ _ _ _ (projT2 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x))
     = @t_id _ _ _ _ (projT2 x) := eq_refl.
 
 (* N4b *)
 Fail Example p466_rt2_t_action@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   @t_action _ _ _ _
       (projT2 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x))
@@ -670,7 +670,7 @@ Fail Example p466_rt2_t_action@{o so}
 (* N5 *)
 Fail Example p466_rt2_functor@{o so} :
   SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}
-    = Id[@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+    = Id[@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
            Powerset_Monad@{o so}] := eq_refl.
 
 (* N7 *)
@@ -747,12 +747,12 @@ Example p466_L_obj_rt@{o so} {X : SetoidObject@{o o}}
 (* N8 *)
 Check @p466_L_TAlgebra@{_ _}.
 Check @p466_TAlgebra_L@{_ _}.
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Check @Sets@{_ _}.
 Check @Powerset_Prop@{_ _}.
 Check @Powerset_Monad@{_ _}.
 Fail Example p466_L_var_rt@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   existT (fun Y => @TAlgebra Sets@{o so} Powerset_Prop@{o so}
                      Powerset_Monad@{o so} Y)
@@ -919,7 +919,7 @@ Fail Definition p466_ind_monad@{o so} :
 
 (* Controls: identity components at a variable object, and the carrier. *)
 Example p466_cmp_counit_component@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   t_alg_hom[to (projT1 (@equivalence_counit _ _ _
                            SL_comparison_equivalence@{o so}) x)]
@@ -937,10 +937,10 @@ Example p466_cmp_carrier@{o so} (A : SupLatObject@{o}) :
 (* F5 *)
 Check @SL_adj@{_ _}.
 Check @EM_induced_to_SupLat@{_ _}.
-Check @EilenbergMoore@{_ _ _ _}.
+Check @EilenbergMoore@{_ _ _}.
 Fail Example p466_cmp_composite@{o so} :
   EM_Comparison SL_adj@{o so} ◯ EM_induced_to_SupLat@{o so}
-  = Id[@EilenbergMoore@{so so so o} Sets@{o so}
+  = Id[@EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}] := eq_refl.
 
 (* F5b *)
@@ -957,7 +957,7 @@ Fail Example p466_cmp_obj@{o so} (A : SupLatObject@{o}) :
 
 (* F6b *)
 Fail Example p466_cmp_obj_b@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
   fobj[EM_Comparison SL_adj@{o so} ◯ EM_induced_to_SupLat@{o so}] x = x
   := eq_refl.

@@ -197,13 +197,13 @@ Defined.
 (** ** θ* against #464's [BG_Act_EM] *)
 
 Example BG_theta_EM_carrier@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   `1 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x)
     = `1 (fobj[BG_Act_EM@{o so} M] x) := eq_refl.
 
 Example BG_theta_EM_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so}
          (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M)) :
   (fun p => @t_alg _ _ _ _
               (`2 (fobj[mh_EM@{so o so so} (BG_theta@{o so} M)] x)) p)
@@ -211,7 +211,7 @@ Example BG_theta_EM_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
   := eq_refl.
 
 Example BG_theta_EM_hom@{o so | o < so +} (M : MonObject@{o o o})
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so}
            (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
   (f : x ~> y) :
   t_alg_hom[fmap[mh_EM@{so o so so} (BG_theta@{o so} M)] f]
@@ -221,9 +221,9 @@ Definition BG_theta_EM@{o so c | o < so, o < c, so < c +}
   (M : MonObject@{o o o}) :
   @equiv _
     (@homset Cat@{c so so so o}
-       (@EilenbergMoore@{so so so o} Sets@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so}
           (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M))
-       (@EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+       (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M)))
     (mh_EM@{so o so so} (BG_theta@{o so} M)) (BG_Act_EM@{o so} M).
 Proof.
@@ -244,18 +244,18 @@ Defined.
 (** ** θ⁻¹* assembles #464's [Act_BG_alg] into a functor *)
 
 Definition Act_BG_EM@{o so | o < so +} (M : MonObject@{o o o}) :
-  @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M) (ActMonad@{o so} M)
-  ⟶ @EilenbergMoore@{so so so o} Sets@{o so}
+  @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M) (ActMonad@{o so} M)
+  ⟶ @EilenbergMoore@{so so o} Sets@{o so}
       (U_BG@{o so} M ◯ F_BG@{o so} M) (BGMonad@{o so} M) :=
   mh_EM@{so o so so} (BG_theta_inv@{o so} M).
 
 Example Act_BG_EM_carrier@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   `1 (fobj[Act_BG_EM@{o so} M] x) = `1 x := eq_refl.
 
 Example Act_BG_EM_alg_fun@{o so | o < so +} (M : MonObject@{o o o})
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} (ActF@{o so} M)
+  (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
   (fun p => @t_alg _ _ _ _ (`2 (fobj[Act_BG_EM@{o so} M] x)) p)
     = (fun p => @t_alg _ _ _ _ (Act_BG_alg@{o so} M (`1 x) (`2 x)) p)

@@ -151,9 +151,9 @@ Generalizable All Variables.
    o <= Projections.u0/u1 and h <= Projections.u0/u1, the universes of
    the sigma projections, which its [hom] applies to the objects.  A
    binder cannot name those, so its constraint list ends with [+].
-   [Monads_equiv_is_Fun_equiv], [Monads_Forget] and the constants after
-   it add u with h < u, the strict level of [Fun], whose own block states
-   it ([u0 < u5]); [C, C] is taken at [Fun@{o h o h m1 m2 u}], the levels
+   [Monads_equiv_is_Fun_equiv] and [Monads_Forget] keep their declared u
+   with h < u. Before #1413 this was also required by [Fun]; the target
+   now takes [Fun@{o h o h m1 m2}], at the object and hom levels
    of [Monads C].  No [Set] and no equation occur.
 
    REQUIRE COST.  Only [Monads_equiv_is_Fun_equiv], [Monads_Forget], its
@@ -326,17 +326,17 @@ Example Monads_equiv_is_Fun_equiv@{o h m1 m2 u |
   (C : Category@{o h h}) (N N' : Monads@{o h m1 m2} C)
   (θ φ : N ~{Monads@{o h m1 m2} C}~> N') :
   @equiv _ (@homset (Monads@{o h m1 m2} C) N N') θ φ
-    = @equiv _ (@homset (@Fun@{o h o h m1 m2 u} C C) (projT1 N) (projT1 N'))
+    = @equiv _ (@homset (@Fun@{o h o h m1 m2} C C) (projT1 N) (projT1 N'))
         (mh_transform θ) (mh_transform φ) := eq_refl.
 
 (** ** The forgetful functor into [C, C] *)
 
 Definition Monads_Forget@{o h m1 m2 u |
   h < u, o <= m1, h <= m1, o <= m2, h <= m2 +} (C : Category@{o h h}) :
-  Monads@{o h m1 m2} C ⟶ @Fun@{o h o h m1 m2 u} C C.
+  Monads@{o h m1 m2} C ⟶ @Fun@{o h o h m1 m2} C C.
 Proof.
   unshelve refine
-    (@Build_Functor (Monads@{o h m1 m2} C) (@Fun@{o h o h m1 m2 u} C C)
+    (@Build_Functor (Monads@{o h m1 m2} C) (@Fun@{o h o h m1 m2} C C)
        (fun N : { T : C ⟶ C & @Monad C T } => projT1 N)
        (fun N N' θ => mh_transform θ) _ _ _).
   - intros N N' θ θ' E. exact E.

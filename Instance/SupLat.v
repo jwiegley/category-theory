@@ -773,12 +773,12 @@ Qed.
 (** ** (d): the category of 𝒫-algebras is the category of semilattices *)
 
 Definition EM_to_SupLat@{o so} :
-  @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
     Powerset_Monad@{o so} ⟶ SupLat@{o so}.
 Proof.
   unshelve refine
     (@Build_Functor
-       (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
           Powerset_Monad@{o so})
        SupLat@{o so}
        (fun x => TAlgebra_SupLat@{o so} (projT2 x))
@@ -796,12 +796,12 @@ Defined.
 
 Definition SupLat_to_EM@{o so} :
   SupLat@{o so} ⟶
-  @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
     Powerset_Monad@{o so}.
 Proof.
   unshelve refine
     (@Build_Functor SupLat@{o so}
-       (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
           Powerset_Monad@{o so})
        (fun A => existT _ (sl_set A) (SupLat_TAlgebra@{o so} A))
        (fun A B f =>
@@ -817,16 +817,16 @@ Defined.
 
 (* The algebra round trip, with the identity as its component. *)
 Definition SupLat_EM_counit_iso@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   @Isomorphism
-    (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so})
     (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x) x.
 Proof.
   unshelve refine
     (@Build_Isomorphism
-       (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
           Powerset_Monad@{o so})
        (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x) x
        (@Build_TAlgebraHom Sets@{o so} Powerset_Prop@{o so}
@@ -872,7 +872,7 @@ Defined.
 (* Part (d), as an equivalence of categories with identity components. *)
 Definition SupLat_EM_equivalence@{o so} :
   @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
-    (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so})
     SupLat_to_EM@{o so}.
 Proof.
@@ -892,12 +892,12 @@ Defined.
    unit, which is Theory/Functor.v's opaque [Functor_Setoid_obligation_1]. *)
 Definition SupLat_EM_iso@{o so c} :
   @Isomorphism Cat@{c so so so o} SupLat@{o so}
-    (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+    (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so}).
 Proof.
   unshelve refine
     (@Build_Isomorphism Cat@{c so so so o} SupLat@{o so}
-       (@EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+       (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
           Powerset_Monad@{o so})
        SupLat_to_EM@{o so} EM_to_SupLat@{o so} _ _).
   - exists (fun x => SupLat_EM_counit_iso@{o so} x).
@@ -919,17 +919,17 @@ Example SupLat_EM_iso_from@{o so c} :
 (* (b): the carrier is X, sup S = h S as a setoid map, and the order is
    Mac Lane's h {x, y} ≈ y, squashed. *)
 Example EM_to_SupLat_carrier@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   sl_set (fobj[EM_to_SupLat@{o so}] x) = projT1 x := eq_refl.
 
 Example EM_to_SupLat_sup@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   sl_sup (fobj[EM_to_SupLat@{o so}] x) = t_alg[projT2 x] := eq_refl.
 
 Example EM_to_SupLat_le@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) (a b : carrier (projT1 x)) :
   sl_le (fobj[EM_to_SupLat@{o so}] x) a b
     = Powerset_squash@{o}
@@ -945,7 +945,7 @@ Example SupLat_to_EM_alg@{o so} (A : SupLatObject@{o}) :
 
 (* The morphisms are carried unchanged. *)
 Example EM_to_SupLat_map@{o so}
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
            Powerset_Monad@{o so}) (f : x ~> y) :
   slh_map (fmap[EM_to_SupLat@{o so}] f) = t_alg_hom[f] := eq_refl.
 
@@ -955,13 +955,13 @@ Example SupLat_to_EM_map@{o so} (A B : SupLatObject@{o})
 
 (* The round trips on data. *)
 Example SupLat_EM_rt_carrier@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   projT1 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x) = projT1 x
   := eq_refl.
 
 Example SupLat_EM_rt_alg@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg[projT2 (fobj[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] x)]
     = t_alg[projT2 x] := eq_refl.
@@ -980,14 +980,14 @@ Example SupLat_EM_rt_hom@{o so} (A B : SupLatObject@{o})
   := eq_refl.
 
 Example SupLat_EM_rt_alg_hom@{o so}
-  (x y : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x y : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
            Powerset_Monad@{o so}) (f : x ~> y) :
   t_alg_hom[fmap[SupLat_to_EM@{o so} ◯ EM_to_SupLat@{o so}] f]
     = t_alg_hom[f] := eq_refl.
 
 (* The components of the equivalence's counit and unit are identities. *)
 Example SupLat_EM_counit_component@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg_hom[to (projT1 (@equivalence_counit _ _ _
                            SupLat_EM_equivalence@{o so}) x)]
@@ -999,7 +999,7 @@ Example SupLat_EM_unit_component@{o so} (A : SupLatObject@{o}) :
     = @setoid_morphism_id@{o o o} (sl_set A) := eq_refl.
 
 Example SupLat_EM_counit_component_from@{o so}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg_hom[from (projT1 (@equivalence_counit _ _ _
                              SupLat_EM_equivalence@{o so}) x)]
@@ -1012,7 +1012,7 @@ Example SupLat_EM_unit_component_from@{o so} (A : SupLatObject@{o}) :
 
 (* So are those of both natural isomorphisms of the isomorphism in Cat. *)
 Example SupLat_EM_iso_to_from_component@{o so c}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg_hom[to (projT1 (iso_to_from SupLat_EM_iso@{o so c}) x)]
     = @setoid_morphism_id@{o o o} (projT1 x) := eq_refl.
@@ -1022,7 +1022,7 @@ Example SupLat_EM_iso_from_to_component@{o so c} (A : SupLatObject@{o}) :
     = @setoid_morphism_id@{o o o} (sl_set A) := eq_refl.
 
 Example SupLat_EM_iso_to_from_component_from@{o so c}
-  (x : @EilenbergMoore@{so so so o} Sets@{o so} Powerset_Prop@{o so}
+  (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
   t_alg_hom[from (projT1 (iso_to_from SupLat_EM_iso@{o so c}) x)]
     = @setoid_morphism_id@{o o o} (projT1 x) := eq_refl.

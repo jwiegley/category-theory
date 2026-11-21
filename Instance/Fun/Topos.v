@@ -477,26 +477,26 @@ Open Scope category_scope.
 Example psh_op_invol (C : Category) : (C^op)^op = C := eq_refl.
 
 Definition Presheaf_Topos@{o h so} (C : Category@{o h h})
-  (UT : Untruncate@{h}) : ElementaryTopos ([C^op, Sets@{h so}]) := {|
+  (UT : Untruncate@{h}) : ElementaryTopos@{so so h} ([C^op, Sets@{h so}]) := {|
   topos_terminal   := Functor_Category_Terminal Sets_Terminal;
   topos_cartesian  := Functor_Category_Cartesian (C^op) Sets Sets_Cartesian;
-  topos_pullbacks  := Fun_HasPullbacks Sets_HasPullbacks;
+  topos_pullbacks  := Fun_HasPullbacks@{so h o so h so} Sets_HasPullbacks;
   topos_closed     := Functor_Category_Closed C;
   topos_classifier := Fun_Classifier UT
 |}.
 
 Definition Presheaf_Topos_IEM@{o h so} (C : Category@{o h h})
-  (Em : IEM@{h}) : ElementaryTopos ([C^op, Sets@{h so}]) :=
+  (Em : IEM@{h}) : ElementaryTopos@{so so h} ([C^op, Sets@{h so}]) :=
   Presheaf_Topos@{o h so} C (untruncate_of_IEM Em).
 
 (* Seven Sketches §7.3 footnote 5: "The category of functors C → Set is
    also a topos: use C^op as the defining site." *)
 Definition Copresheaf_Topos@{o h so} (C : Category@{o h h})
-  (UT : Untruncate@{h}) : ElementaryTopos ([C, Sets@{h so}]) :=
+  (UT : Untruncate@{h}) : ElementaryTopos@{so so h} ([C, Sets@{h so}]) :=
   Presheaf_Topos@{o h so} (C^op) UT.
 
 Definition Copresheaf_Topos_IEM@{o h so} (C : Category@{o h h})
-  (Em : IEM@{h}) : ElementaryTopos ([C, Sets@{h so}]) :=
+  (Em : IEM@{h}) : ElementaryTopos@{so so h} ([C, Sets@{h so}]) :=
   Copresheaf_Topos@{o h so} C (untruncate_of_IEM Em).
 
 (** ** (B) The five fields, and the two derived objects, read back *)

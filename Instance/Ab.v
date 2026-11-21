@@ -219,14 +219,14 @@ Program Definition Ab@{u p} : Category@{u p p} := {|
   hom     := AbHom@{p};
   homset  := fun A B => @CMonHom_Setoid@{p} A B;
   id      := fun A => @cmon_hom_id@{p} A;
-  compose := fun A B C f g => @cmon_hom_compose@{u p} A B C f g;
+  compose := fun A B C f g => @cmon_hom_compose@{p} A B C f g;
 
   (* [compose_respects] is inherited from [CMon] literally.  The remaining four
      laws are NOT: they are [Program] obligations, discharged afresh by the
      file-global [Obligation Tactic] (Lib/Tactics.v's [cat_simpl]).  What is
      true is that no new mathematical content is needed -- [Ab]'s homs,
      identities and composition ARE [CMon]'s -- not that nothing is reproved. *)
-  compose_respects := fun A B C => @cmon_hom_compose_respects@{u p} A B C
+  compose_respects := fun A B C => @cmon_hom_compose_respects@{p} A B C
 |}.
 
 (** The forgetful functor to [Sets], through the underlying setoid. *)
