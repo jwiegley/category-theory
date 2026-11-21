@@ -271,13 +271,46 @@ universe bound. The configured assumption gate yielded identical output for
 14506 requests. The candidate semantic arity gate freshly built 1177 files,
 with eight protected extractions, zero violations and zero exceptions.
 
+## Fifth batch: inferred CMon fields on Rocq 9.2.0
+
+Starting at merge `5a8549ce2aa2e0c5a3302cf60409945fa60c34ae`, remove the
+reference instances on `obj`, `hom`, `homset` and `id` together. The explicit
+category type and the `compose_respects` instance remain. In separate trials
+against verified copies of compiled dependencies, removing either remaining
+instance from that four-field candidate left an unbound universe. This is a
+limit of deletion in this record expression, not a theorem about alternative
+ascriptions. `CMon@{u p} : Category@{u p p}` and `p < u` are unchanged.
+
+Fresh source-only builds on the fourth batch's release toolchain compiled
+all 1177 registered files on each side. Only `Instance/CMon.v` differed in
+the build inputs. The live non-probe inventory over 1181 tracked `.v` files
+falls from 15248 to 15244, entirely in `Instance/CMon.v` (6 to 2).
+
+The full CMon module display and qualified `About`, `Print` and `Print
+Assumptions` responses for the same 36 items as in the fourth batch match
+byte-for-byte; all 36 are closed. The registered reverse dependency closure
+contains CMon and 173 downstream modules. This time no `.vo` outside that
+closure differed. Module displays and all three responses for 10215 items
+in those downstream modules match by the fourth batch's enumeration and
+comparison criteria. This includes 52 unchanged nonclosed assumption results;
+qualified `Locate` found no object for 447 additional source names on either
+side. No global axiom-freedom or serialization guarantee follows.
+
+On verified build copies, all 588 outer `Fail` commands in 64 affected files
+had identical paired diagnostic streams. Six `eq_refl` projection checks
+and the three strict-bound refusals with same-arity eager twins passed; the
+semantic guard rejected the deliberately shortened instance. Configured
+assumption output for 14506 requests matched. The candidate semantic arity
+gate freshly built 1177 products, with eight protected extractions, zero
+violations and zero exceptions.
+
 ## Remaining #1412 scope
 
 Continue in reviewable jointly verified batches: resolve full constant identities,
 distinguish genuine identifications from redundant annotations, compare all
 affected declarations/bodies/constraints and actual callers, preserve full refusal
 payloads and eager controls, and run exact Rocq 9.2.0 and the configured gates.
-The retained OGraph references, the other CMon pins, the remaining GAFT
+The retained OGraph references, the remaining GAFT
 references and every other unassessed site remain #1412 work. Hub/signature
 redesign belongs to later issues.
 
