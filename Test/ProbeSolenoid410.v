@@ -317,14 +317,14 @@ Definition p410_circle_lift@{h o hs | o < h, h < hs +} :
 (* CONTROL: both Type-valued forms of the initial topology of a
    nat-indexed family, one universe above the points. *)
 Definition p410_init_family_up@{o o1 | o < o1 +} (S : SetoidObject@{o o})
-  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o o} S (X n))
+  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o} S (X n))
   (V : S → Type@{o}) : Type@{o1} :=
   ∀ T : (S → Type@{o}) → Type@{o},
     (∀ n (U : X n → Type@{o}), IsOpen (X n) U → T (fun s => U (t n s))) →
     T V.
 
 Definition p410_init_union_up@{o o1 | o < o1 +} (S : SetoidObject@{o o})
-  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o o} S (X n))
+  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o} S (X n))
   (V : S → Type@{o}) : Type@{o1} :=
   ∀ s, V s → { n : nat & { U : X n → Type@{o} &
      (IsOpen (X n) U * U (t n s) * ∀ s', U (t n s') → V s')%type } }.
@@ -332,9 +332,9 @@ Definition p410_init_union_up@{o o1 | o < o1 +} (S : SetoidObject@{o o})
 (* N2 *)
 Check @SetoidObject@{_ _}.
 Check @TopSpace@{_}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Fail Definition p410_init_family@{o} (S : SetoidObject@{o o})
-  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o o} S (X n))
+  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o} S (X n))
   (V : S → Type@{o}) : Type@{o} :=
   ∀ T : (S → Type@{o}) → Type@{o},
     (∀ n (U : X n → Type@{o}), IsOpen (X n) U → T (fun s => U (t n s))) →
@@ -342,7 +342,7 @@ Fail Definition p410_init_family@{o} (S : SetoidObject@{o o})
 
 (* N3 *)
 Fail Definition p410_init_union@{o} (S : SetoidObject@{o o})
-  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o o} S (X n))
+  (X : nat → TopSpace@{o}) (t : ∀ n, SetoidMorphism@{o o} S (X n))
   (V : S → Type@{o}) : Type@{o} :=
   ∀ s, V s → { n : nat & { U : X n → Type@{o} &
      (IsOpen (X n) U * U (t n s) * ∀ s', U (t n s') → V s')%type } }.
@@ -356,7 +356,7 @@ Definition p410_limit@{s o so h r | o < so, o < h +} (p : positive) :
   Limit@{r s h h} (CircleTower@{s h o} p) := solenoid_limit@{s o so h r} p.
 
 Definition p410_universal@{s o so h + | o < so, o < h +} (p : positive)
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} Z (SolPoints@{s o so} p)) :
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} Z (SolPoints@{s o so} p)) :
   Continuous@{h o} Z (Solenoid@{s o so} p) g ↔
   (∀ j, Continuous@{h o} Z Circle@{o}
           (setoid_morphism_compose (sol_pr p j) g)) :=
@@ -541,7 +541,7 @@ Definition p410_tarc_space@{o} (y : CReal) : TopSpace@{o} := TArc@{o} y.
 
 Definition p410_csub_universal@{h o | o < h +}
   (P : Circle_setoid@{o} → Type@{o}) (Z : TopSpace@{o})
-  (g : SetoidMorphism@{o o o} Z (csub_setoid@{o} P)) :
+  (g : SetoidMorphism@{o o} Z (csub_setoid@{o} P)) :
   Continuous@{h o} Z (CSub@{o} P) g ↔
   Continuous@{h o} Z Circle@{o} (setoid_morphism_compose (csub_incl_map P) g)
   := csub_universal P Z g.

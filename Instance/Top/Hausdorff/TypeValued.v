@@ -235,7 +235,7 @@ Definition tsep_setoid : SetoidObject@{o o} :=
                                        tsepeq_sym tsepeq_trans |} |}.
 
 Definition tsep_q :
-  @SetoidMorphism@{o o o} _ (is_setoid (top_carrier X)) _
+  @SetoidMorphism@{o o} _ (is_setoid (top_carrier X)) _
     (is_setoid tsep_setoid) :=
   @Build_SetoidMorphism _ (is_setoid (top_carrier X)) _ (is_setoid tsep_setoid)
     (fun x => x) tsepeq_of_equiv.
@@ -294,7 +294,7 @@ Proof using L HH.
 Qed.
 
 Definition tsep_med_setoid :
-  @SetoidMorphism@{o o o} _ (is_setoid tsep_setoid) _
+  @SetoidMorphism@{o o} _ (is_setoid tsep_setoid) _
     (is_setoid (top_carrier H)) :=
   @Build_SetoidMorphism _ (is_setoid tsep_setoid) _ (is_setoid (top_carrier H))
     (fun a => continuous_map f a) tsep_med_resp.

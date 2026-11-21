@@ -651,12 +651,12 @@ Definition gal_l_preserves_lub {A B : Type}
    Respectfulness in [y] transports [f x ≈ y'] back to [f x ≈ y] through
    symmetry and transitivity. *)
 Definition Powerset_Prop_dual@{o} {X Y : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} X Y)
+  (f : SetoidMorphism@{o o} X Y)
   (S : carrier (Powerset_Prop_obj@{o} X)) :
   carrier (Powerset_Prop_obj@{o} Y).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier Y) (is_setoid Y) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ y, ∀ x : carrier X,
                @Category.Lib.Setoid.equiv _ (is_setoid Y) (f x) y → S x) _).
@@ -920,7 +920,7 @@ Definition proj_exists@{o so} {U V : SetoidObject@{o o}}
   carrier (Powerset_Prop_obj@{o} U).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier U) (is_setoid U) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ x, ex (fun y : carrier V => S (x, y))) _).
   intros x x' Hxx'; split; intros Hy; destruct Hy as [y Hy]; exists y.
@@ -936,7 +936,7 @@ Definition proj_forall@{o so} {U V : SetoidObject@{o o}}
   carrier (Powerset_Prop_obj@{o} U).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier U) (is_setoid U) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ x, ∀ y : carrier V, S (x, y)) _).
   intros x x' Hxx'; split; intros H y.
@@ -1117,7 +1117,7 @@ Definition cyl_reindex@{o so} {U U' : SetoidObject@{o o}}
   ProdSetoid@{o so} U' V ~{Sets@{o so}}~> ProdSetoid@{o so} U V.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier (ProdSetoid@{o so} U' V)) (is_setoid (ProdSetoid@{o so} U' V))
        (carrier (ProdSetoid@{o so} U V)) (is_setoid (ProdSetoid@{o so} U V))
        (λ z, (g (fst z), snd z)) _).
@@ -1203,7 +1203,7 @@ End BeckChevalley.
    Both readings are equalities of TYPES and of [Prop]s. *)
 Example predicates_are_subsets@{o} (X : SetoidObject@{o o}) :
   carrier (Powerset_Prop_obj@{o} X)
-    = SetoidMorphism@{o o o} X Powerset_Prop_truth@{o} := eq_refl.
+    = SetoidMorphism@{o o} X Powerset_Prop_truth@{o} := eq_refl.
 
 Example pointwise_is_subset_le@{o} {X : SetoidObject@{o o}}
   (S T : carrier (Powerset_Prop_obj@{o} X)) :
@@ -1280,7 +1280,7 @@ Program Definition subsets_one_to_Props :
 Program Definition Props_to_subsets_one :
   Props@{o u} ⟶ Subsets@{o u} quant_one@{o so} := {|
   fobj := fun P =>
-    @Build_SetoidMorphism@{o o o}
+    @Build_SetoidMorphism@{o o}
       (carrier quant_one@{o so}) (is_setoid quant_one@{o so})
       Prop (is_setoid Powerset_Prop_truth@{o}) (λ _, P)
       (fun _ _ _ => conj (fun p : P => p) (fun p : P => p));
@@ -1503,7 +1503,7 @@ Constraint o < so.
 Definition diag_subset : carrier (Powerset_Prop_obj@{o} quant_sq@{o so}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier quant_sq@{o so}) (is_setoid quant_sq@{o so})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ z, fst z = snd z) _).
@@ -1516,7 +1516,7 @@ Defined.
 Definition row0_subset : carrier (Powerset_Prop_obj@{o} quant_sq@{o so}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier quant_sq@{o so}) (is_setoid quant_sq@{o so})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ z, fst z = Fin.F1) _).

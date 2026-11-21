@@ -245,7 +245,7 @@ Generalizable All Variables.
 (* The relation a family of setoid maps generates: the wide analogue of
    Instance/Sets/Coequalizer.v's [coeq_rel]. *)
 Inductive wcoeq_rel@{i o} {I : Type@{i}} {A B : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) : B → B → Type@{o} :=
+  (fs : I → SetoidMorphism@{o o} A B) : B → B → Type@{o} :=
   | wcq_base  : ∀ b1 b2 : B, b1 ≈ b2 → wcoeq_rel b1 b2
   | wcq_glue  : ∀ (i j : I) (a : A), wcoeq_rel (fs i a) (fs j a)
   | wcq_sym   : ∀ b1 b2 : B, wcoeq_rel b1 b2 → wcoeq_rel b2 b1
@@ -253,7 +253,7 @@ Inductive wcoeq_rel@{i o} {I : Type@{i}} {A B : SetoidObject@{o o}}
       wcoeq_rel b1 b2 → wcoeq_rel b2 b3 → wcoeq_rel b1 b3.
 
 Lemma wcoeq_rel_Equivalence@{i o} {I : Type@{i}} {A B : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) : Equivalence (wcoeq_rel@{i o} fs).
+  (fs : I → SetoidMorphism@{o o} A B) : Equivalence (wcoeq_rel@{i o} fs).
 Proof.
   constructor.
   - intro b; apply wcq_base; reflexivity.
@@ -263,21 +263,21 @@ Qed.
 
 (* The quotient setoid: the points of [B] under the generated relation. *)
 Definition WSetsCoeq@{i o} {I : Type@{i}} {A B : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) : SetoidObject@{o o} := {|
+  (fs : I → SetoidMorphism@{o o} A B) : SetoidObject@{o o} := {|
   carrier := carrier B;
   is_setoid := {| equiv := wcoeq_rel@{i o} fs;
                   setoid_equiv := wcoeq_rel_Equivalence@{i o} fs |}
 |}.
 
 Definition wsets_coeq_proj@{i o} {I : Type@{i}} {A B : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) :
-  SetoidMorphism@{o o o} B (WSetsCoeq@{i o} fs) :=
+  (fs : I → SetoidMorphism@{o o} A B) :
+  SetoidMorphism@{o o} B (WSetsCoeq@{i o} fs) :=
   @Build_SetoidMorphism _ (is_setoid B) _ (is_setoid (WSetsCoeq@{i o} fs))
     (fun b => b) (fun b1 b2 (e : b1 ≈ b2) => wcq_base fs b1 b2 e).
 
 (* A map absorbing the family respects the generated relation. *)
 Lemma wcoeq_rel_of_cofork@{i o} {I : Type@{i}} {A B Z : SetoidObject@{o o}}
-  (fs : I → SetoidMorphism@{o o o} A B) (k : SetoidMorphism@{o o o} B Z)
+  (fs : I → SetoidMorphism@{o o} A B) (k : SetoidMorphism@{o o} B Z)
   (Hk : ∀ i j a, k (fs i a) ≈ k (fs j a)) :
   ∀ b1 b2, wcoeq_rel@{i o} fs b1 b2 → k b1 ≈ k b2.
 Proof.
@@ -306,7 +306,7 @@ Proof. intro a; simpl. exact (wcq_glue _ i j a). Qed.
 
 Definition twcoeq_med {z : Top@{h o}} (k : y ~{Top@{h o}}~> z)
   (Hk : ∀ i j : I, k ∘ fs i ≈ k ∘ fs j) :
-  SetoidMorphism@{o o o} (WSetsCoeq@{i o} (fun i => continuous_map (fs i)))
+  SetoidMorphism@{o o} (WSetsCoeq@{i o} (fun i => continuous_map (fs i)))
     (top_carrier z) :=
   @Build_SetoidMorphism _
     (is_setoid (WSetsCoeq@{i o} (fun i => continuous_map (fs i))))
@@ -390,7 +390,7 @@ Definition collapse_carrier@{o} (X : TopSpace@{o}) (I : Type@{o})
 (* The instances are named: the collapsed carrier has the same underlying
    type as [X], and resolution would otherwise pick [X]'s equality. *)
 Definition collapse_q@{o} (X : TopSpace@{o}) (I : Type@{o}) (p : I → X) :
-  SetoidMorphism@{o o o} (top_carrier X) (collapse_carrier X I p) :=
+  SetoidMorphism@{o o} (top_carrier X) (collapse_carrier X I p) :=
   @Build_SetoidMorphism _ (is_setoid (top_carrier X)) _ (collapse_setoid X I p)
     (fun x => x) (fun x x' (e : x ≈ x') => (inl e : collapse_rel X I p x x')).
 
@@ -441,7 +441,7 @@ Qed.
 Definition collapse_med@{o h | o < h +} (X : TopSpace@{o}) (I : Type@{o})
   (p : I → X) {Z : Top@{h o}} (k : X ~{Top@{h o}}~> Z)
   (Hk : ∀ i j : I, k ∘ collapse_family X I p i ≈ k ∘ collapse_family X I p j) :
-  SetoidMorphism@{o o o} (collapse_carrier X I p) (top_carrier Z) :=
+  SetoidMorphism@{o o} (collapse_carrier X I p) (top_carrier Z) :=
   @Build_SetoidMorphism _ (collapse_setoid X I p) _ (is_setoid (top_carrier Z))
     (continuous_map k) (collapse_med_proper X I p k Hk).
 

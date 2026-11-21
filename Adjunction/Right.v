@@ -696,15 +696,15 @@ Proof. split; reflexivity. Qed.
 (* ---------------- Mac Lane's own example: the power set ------------ *)
 
 Definition aor_pflip@{o} {a x : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} a (Powerset_Prop_obj@{o} x)) :
-  SetoidMorphism@{o o o} x (Powerset_Prop_obj@{o} a).
+  (f : SetoidMorphism@{o o} a (Powerset_Prop_obj@{o} x)) :
+  SetoidMorphism@{o o} x (Powerset_Prop_obj@{o} a).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier x) (is_setoid x)
        (carrier (Powerset_Prop_obj@{o} a))
        (is_setoid (Powerset_Prop_obj@{o} a))
-       (fun e => @Build_SetoidMorphism@{o o o}
+       (fun e => @Build_SetoidMorphism@{o o}
                    (carrier a) (is_setoid a) Prop
                    (is_setoid Powerset_Prop_truth@{o})
                    (fun v => f v e) _) _).
@@ -741,17 +741,17 @@ Definition aor_SetsEmpty@{o} : SetoidObject@{o o} :=
   {| carrier := False ; is_setoid := False_Setoid@{o} |}.
 
 Definition aor_const_true@{o} (Z : SetoidObject@{o o}) :
-  SetoidMorphism@{o o o} Z Powerset_Prop_truth@{o}.
+  SetoidMorphism@{o o} Z Powerset_Prop_truth@{o}.
 Proof.
-  unshelve refine (@Build_SetoidMorphism@{o o o} (carrier Z) (is_setoid Z)
+  unshelve refine (@Build_SetoidMorphism@{o o} (carrier Z) (is_setoid Z)
     Prop (is_setoid Powerset_Prop_truth@{o}) (fun _ => True) _).
   intros z z' _; split; intro; exact I.
 Defined.
 
 Definition aor_const_false@{o} (Z : SetoidObject@{o o}) :
-  SetoidMorphism@{o o o} Z Powerset_Prop_truth@{o}.
+  SetoidMorphism@{o o} Z Powerset_Prop_truth@{o}.
 Proof.
-  unshelve refine (@Build_SetoidMorphism@{o o o} (carrier Z) (is_setoid Z)
+  unshelve refine (@Build_SetoidMorphism@{o o} (carrier Z) (is_setoid Z)
     Prop (is_setoid Powerset_Prop_truth@{o}) (fun _ => False) _).
   intros z z' _; split; intro K; destruct K.
 Defined.

@@ -383,7 +383,7 @@ Definition sep_setoid : SetoidObject@{o o} :=
                                        sepeq_sym sepeq_trans |} |}.
 
 Definition sep_q :
-  @SetoidMorphism@{o o o} _ (is_setoid (pt_carrier X)) _
+  @SetoidMorphism@{o o} _ (is_setoid (pt_carrier X)) _
     (is_setoid sep_setoid) :=
   @Build_SetoidMorphism _ (is_setoid (pt_carrier X)) _ (is_setoid sep_setoid)
     (fun x => x) sepeq_of_equiv.
@@ -442,7 +442,7 @@ Proof using L HH.
 Qed.
 
 Definition sepquot_med_setoid :
-  @SetoidMorphism@{o o o} _ (is_setoid sep_setoid) _
+  @SetoidMorphism@{o o} _ (is_setoid sep_setoid) _
     (is_setoid (pt_carrier H)) :=
   @Build_SetoidMorphism _ (is_setoid sep_setoid) _ (is_setoid (pt_carrier H))
     (fun a => pmap f a) sepquot_med_resp.

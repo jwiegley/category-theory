@@ -236,7 +236,7 @@ Definition Powerset_Prop_pair@{o} {X : SetoidObject@{o o}}
   (x y : carrier X) : carrier (Powerset_Prop_obj@{o} X).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier X) (is_setoid X) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ z, Powerset_squash@{o} (@equiv _ (is_setoid X) x z)
              \/ Powerset_squash@{o} (@equiv _ (is_setoid X) y z)) _).
@@ -296,7 +296,7 @@ Definition Powerset_Prop_least_family@{o} {X : SetoidObject@{o o}}
   carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X)).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier (Powerset_Prop_obj@{o} X))
        (is_setoid (Powerset_Prop_obj@{o} X))
        Prop (is_setoid Powerset_Prop_truth@{o})
@@ -333,7 +333,7 @@ Record SupLatObject@{o} := {
     sl_le x y → sl_le x' y';
   sl_antisym x y :
     sl_le x y → sl_le y x → @equiv _ (is_setoid sl_set) x y;
-  sl_sup : SetoidMorphism@{o o o} (Powerset_Prop_obj@{o} sl_set) sl_set;
+  sl_sup : SetoidMorphism@{o o} (Powerset_Prop_obj@{o} sl_set) sl_set;
   sl_sup_ub (S : carrier (Powerset_Prop_obj@{o} sl_set)) x :
     S x → sl_le x (sl_sup S);
   sl_sup_least (S : carrier (Powerset_Prop_obj@{o} sl_set)) y :
@@ -343,7 +343,7 @@ Record SupLatObject@{o} := {
 (* A morphism preserves sups; monotonicity is derived below
    ([SupLatHom_monotone]). *)
 Record SupLatHom@{o} (A B : SupLatObject@{o}) := {
-  slh_map : SetoidMorphism@{o o o} (sl_set A) (sl_set B);
+  slh_map : SetoidMorphism@{o o} (sl_set A) (sl_set B);
   slh_sup (S : carrier (Powerset_Prop_obj@{o} (sl_set A))) :
     @equiv _ (is_setoid (sl_set B))
       (slh_map (sl_sup A S))
@@ -358,7 +358,7 @@ Definition SupLatHom_Setoid@{o} (A B : SupLatObject@{o}) :
 Proof.
   unshelve refine
     (@Build_Setoid@{o o} (SupLatHom@{o} A B)
-       (λ f g, @equiv _ (@SetoidMorphism_Setoid@{o o o} (sl_set A) (sl_set B))
+       (λ f g, @equiv _ (@SetoidMorphism_Setoid@{o o} (sl_set A) (sl_set B))
                  (slh_map f) (slh_map g)) _).
   constructor.
   - intros f; reflexivity.

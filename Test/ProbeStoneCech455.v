@@ -677,7 +677,7 @@ Record p455_TopP@{o} := {
 }.
 
 Definition p455_ContHom@{o} (X Y : p455_TopP@{o}) : Type@{o} :=
-  { f : SetoidMorphism@{o o o} X Y &
+  { f : SetoidMorphism@{o o} X Y &
     ∀ U : Y → Prop, p455_POpen Y U → p455_POpen X (fun x => U (f x)) }.
 
 (* CONTROL: the tree's continuous maps one universe up. *)

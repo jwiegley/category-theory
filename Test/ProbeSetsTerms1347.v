@@ -59,20 +59,20 @@ Generalizable All Variables.
 
 (* C1 *)
 Example p1347_c1_id_right@{o h p} (x y : SetoidObject@{o p})
-  (f : SetoidMorphism@{o h p} x y) :
+  (f : SetoidMorphism@{o p} x y) :
   setoid_morphism_compose@{o h p} f (@setoid_morphism_id@{o h p} x) = f
   := eq_refl.
 
 (* C2 *)
 Example p1347_c2_id_left@{o h p} (x y : SetoidObject@{o p})
-  (f : SetoidMorphism@{o h p} x y) :
+  (f : SetoidMorphism@{o p} x y) :
   setoid_morphism_compose@{o h p} (@setoid_morphism_id@{o h p} y) f = f
   := eq_refl.
 
 (* C3 *)
 Example p1347_c3_assoc@{o h p} (w x y z : SetoidObject@{o p})
-  (f : SetoidMorphism@{o h p} w x) (g : SetoidMorphism@{o h p} x y)
-  (h : SetoidMorphism@{o h p} y z) :
+  (f : SetoidMorphism@{o p} w x) (g : SetoidMorphism@{o p} x y)
+  (h : SetoidMorphism@{o p} y z) :
   setoid_morphism_compose@{o h p} h (setoid_morphism_compose@{o h p} g f)
     = setoid_morphism_compose@{o h p} (setoid_morphism_compose@{o h p} h g) f
   := eq_refl.
@@ -103,7 +103,7 @@ Example p1347_c7_id_field@{o h p} (x : SetoidObject@{o p}) (a b : x)
 
 (* C8 *)
 Example p1347_c8_compose_field@{o h p} (x y z : SetoidObject@{o p})
-  (g : SetoidMorphism@{o h p} y z) (f : SetoidMorphism@{o h p} x y)
+  (g : SetoidMorphism@{o p} y z) (f : SetoidMorphism@{o p} x y)
   (a b : x) (H : a ≈ b) :
   proper_morphism (setoid_morphism_compose@{o h p} g f) a b H
     = proper_morphism g _ _ (proper_morphism f a b H) := eq_refl.
@@ -112,10 +112,10 @@ Example p1347_c8_compose_field@{o h p} (x y z : SetoidObject@{o p})
 
 (* The instrument *)
 Check @SetoidObject@{_ _}.
-Check @SetoidMorphism@{_ _ _}.
+Check @SetoidMorphism@{_ _}.
 Check @setoid_morphism_id@{_ _ _}.
 Fail Example p1347_instrument@{o h p} (x : SetoidObject@{o p})
-  (f : SetoidMorphism@{o h p} x x) :
+  (f : SetoidMorphism@{o p} x x) :
   @setoid_morphism_id@{o h p} x = f := eq_refl.
 
 (** ** Guard *)

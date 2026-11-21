@@ -195,7 +195,7 @@ Definition sub_image_map {u v : @SubObj Sets@{o so} A}
   sub_dom (sub_image u) ~{Sets@{o so}}~> sub_dom (sub_image v).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o} _ _ _ _
+    (@Build_SetoidMorphism@{o o} _ _ _ _
        (fun p => existT _ (`1 p)
                    (existT _ (k (`1 (`2 p))) (sub_image_witness k Hk p)))
        _).
@@ -293,7 +293,7 @@ Definition sub_transpose_from_map (u : @SubObj Sets@{o so} A)
   sub_dom (sub_image f u) ~{Sets@{o so}}~> sub_dom v.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o} _ _ _ _
+    (@Build_SetoidMorphism@{o o} _ _ _ _
        (fun p => pullback_snd f (sub_mono v) (pullback f (sub_mono v))
                    (k (`1 (`2 p)))) _).
   intros p q Hpq.

@@ -714,7 +714,7 @@ Example sol_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
 
 Program Definition zp_to_fibre_map@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  SetoidMorphism@{o o o} (cmon_setoid (ZpAb@{s o so} p))
+  SetoidMorphism@{o o} (cmon_setoid (ZpAb@{s o so} p))
     (cmon_setoid (SolFibre@{s u o so r} p)) := {|
   morphism := fun f => (zp_string@{s o so} p Hp f; zp_coord_base p f)
 |}.
@@ -801,7 +801,7 @@ Defined.
 
 Program Definition fibre_to_zp_map@{s u o so r | o < u, o < so +}
   (p : positive) :
-  SetoidMorphism@{o o o} (cmon_setoid (SolFibre@{s u o so r} p))
+  SetoidMorphism@{o o} (cmon_setoid (SolFibre@{s u o so r} p))
     (cmon_setoid (ZpAb@{s o so} p)) := {|
   morphism := fibre_to_zp_pt@{s u o so r} p
 |}.
@@ -1146,7 +1146,7 @@ Definition SheetSpace@{o} (p : positive) (y : CReal) (k : Z) : PTop@{o} :=
   ex732_Sub PCircle@{o} (in_sheet@{o} p y k).
 
 Program Definition pwrap_sheet_map@{o} (p : positive) (y : CReal) (k : Z) :
-  SetoidMorphism@{o o o} (ex732_Y PCircle@{o} (in_sheet@{o} p y k))
+  SetoidMorphism@{o o} (ex732_Y PCircle@{o} (in_sheet@{o} p y k))
                          (ex732_Y PCircle@{o} (in_arc@{o} y)) := {|
   morphism := fun a => exist _ (CReal_mult (posR p) (proj1_sig a))
                          (proj1 (proj2_sig a))
@@ -1175,7 +1175,7 @@ Definition pwrap_sheet@{o so | o < so +} (p : positive) (y : CReal)
 
 Program Definition sheet_lift_map@{o} (p : positive) (y : CReal) (k : Z)
   (Hk : (0 <= k < Zpos p)%Z) :
-  SetoidMorphism@{o o o} (ex732_Y PCircle@{o} (in_arc@{o} y))
+  SetoidMorphism@{o o} (ex732_Y PCircle@{o} (in_arc@{o} y))
                          (ex732_Y PCircle@{o} (in_sheet@{o} p y k)) := {|
   morphism := fun a => exist _ (sheet_lift p y k (proj1_sig a))
                          (sheet_lift_in p y k Hk _ (proj2_sig a))
@@ -1373,7 +1373,7 @@ Definition CSub@{o} (P : Circle_setoid@{o} → Type@{o}) : TopSpace@{o} := {|
 |}.
 
 Program Definition csub_incl_map@{o} (P : Circle_setoid@{o} → Type@{o}) :
-  SetoidMorphism@{o o o} (csub_setoid@{o} P) Circle_setoid@{o} := {|
+  SetoidMorphism@{o o} (csub_setoid@{o} P) Circle_setoid@{o} := {|
   morphism := fun a => projT1 a
 |}.
 Next Obligation. intros P a b H. exact H. Qed.
@@ -1395,7 +1395,7 @@ Definition csub_incl@{h o | o < h +} (P : Circle_setoid@{o} → Type@{o}) :
    is.  The preimage of an open is the union, over its points, of the
    preimages of the open interiors [cint] of the circle's balls. *)
 Lemma csub_lift_cont@{h o | o < h +} (P : Circle_setoid@{o} → Type@{o})
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} Z (csub_setoid@{o} P))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} Z (csub_setoid@{o} P))
   (Hg : Continuous@{h o} Z Circle@{o}
           (setoid_morphism_compose (csub_incl_map P) g)) :
   Continuous@{h o} Z (CSub@{o} P) g.
@@ -1419,7 +1419,7 @@ Qed.
 (* The universal property of the subspace topology, over ANY space
    mapping in. *)
 Theorem csub_universal@{h o | o < h +} (P : Circle_setoid@{o} → Type@{o})
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} Z (csub_setoid@{o} P)) :
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} Z (csub_setoid@{o} P)) :
   Continuous@{h o} Z (CSub@{o} P) g ↔
   Continuous@{h o} Z Circle@{o} (setoid_morphism_compose (csub_incl_map P) g).
 Proof.
@@ -1552,7 +1552,7 @@ Definition TSheet@{o} (p : positive) (y : CReal) (k : Z) : TopSpace@{o} :=
   CSub@{o} (tsheet@{o} p y k).
 
 Program Definition wrap_sheet_map@{o} (p : positive) (y : CReal) (k : Z) :
-  SetoidMorphism@{o o o} (csub_setoid@{o} (tsheet@{o} p y k))
+  SetoidMorphism@{o o} (csub_setoid@{o} (tsheet@{o} p y k))
                          (csub_setoid@{o} (tarc@{o} y)) := {|
   morphism := fun a => (CReal_mult (posR p) (projT1 a); fst (projT2 a))
 |}.
@@ -1591,7 +1591,7 @@ Qed.
 
 Program Definition tsheet_lift_map@{o} (p : positive) (y : CReal) (k : Z)
   (Hk : (0 <= k < Zpos p)%Z) :
-  SetoidMorphism@{o o o} (csub_setoid@{o} (tarc@{o} y))
+  SetoidMorphism@{o o} (csub_setoid@{o} (tarc@{o} y))
                          (csub_setoid@{o} (tsheet@{o} p y k)) := {|
   morphism := fun a => (sheet_lift p y k (projT1 a);
                         tsheet_lift_in p y k Hk _ (projT2 a))

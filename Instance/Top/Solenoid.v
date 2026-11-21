@@ -408,7 +408,7 @@ Definition SolPoints@{s o so | o < so +} (p : positive) : SetoidObject@{o o} :=
   inverse_limit@{o s o so so o} (UCircleTower@{s o so} p).
 
 Definition sol_pr@{s o so | o < so +} (p : positive) (n : nat) :
-  SetoidMorphism@{o o o} (SolPoints@{s o so} p) Circle_setoid@{o} :=
+  SetoidMorphism@{o o} (SolPoints@{s o so} p) Circle_setoid@{o} :=
   tower_proj@{s o so o} (UCircleTower@{s o so} p) n.
 
 (* Mac Lane's matching condition, read back: p x_(n+1) = x_n on the
@@ -518,7 +518,7 @@ Qed.
    solenoid's points is continuous as soon as every composite with a
    projection is. *)
 Lemma sol_lift_cont@{s o so h + | o < so, o < h +} (p : positive)
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} Z (SolPoints@{s o so} p))
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} Z (SolPoints@{s o so} p))
   (Hg : ∀ j, Continuous@{h o} Z Circle@{o}
                (setoid_morphism_compose (sol_pr p j) g)) :
   Continuous@{h o} Z (Solenoid@{s o so} p) g.
@@ -546,7 +546,7 @@ Qed.
 (* The universal property of the solenoid's topology, over ANY space
    mapping in. *)
 Theorem solenoid_universal@{s o so h + | o < so, o < h +} (p : positive)
-  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o o} Z (SolPoints@{s o so} p)) :
+  (Z : TopSpace@{o}) (g : SetoidMorphism@{o o} Z (SolPoints@{s o so} p)) :
   Continuous@{h o} Z (Solenoid@{s o so} p) g ↔
   (∀ j, Continuous@{h o} Z Circle@{o}
           (setoid_morphism_compose (sol_pr p j) g)).
@@ -588,7 +588,7 @@ Definition sol_cone@{s o so h | o < so, o < h +} (p : positive) :
 (* The mediator out of a competing cone: its legs, bundled at a point. *)
 Program Definition sol_med_map@{s o so h | o < so, o < h +} (p : positive)
   (N : Cone (CircleTower@{s h o} p)) :
-  SetoidMorphism@{o o o} (vertex_obj[N]) (SolPoints@{s o so} p) := {|
+  SetoidMorphism@{o o} (vertex_obj[N]) (SolPoints@{s o so} p) := {|
   morphism := fun z =>
     (fun n => continuous_map (@vertex_map _ _ _ _ (@coneFrom _ _ _ N) n) z;
      fun n => @cone_coherence _ _ _ _ (@coneFrom _ _ _ N) (S n) n
@@ -655,7 +655,7 @@ Qed.
 Program Definition sol_forget_med@{s o so h hs | o < so, o < h, h < hs +}
   (p : positive)
   (M : Cone (Top_Forget@{o h hs} ◯ CircleTower@{s h o} p)) :
-  SetoidMorphism@{h h h} (vertex_obj[M])
+  SetoidMorphism@{h h} (vertex_obj[M])
     (Setoid_Lift@{o h} (SolPoints@{s o so} p)) := {|
   morphism := fun a =>
     (fun n => @vertex_map _ _ _ _ (@coneFrom _ _ _ M) n a;
@@ -701,7 +701,7 @@ Example PTop_solenoid_leg_map@{s o so + | o < so +} (p : positive) (n : nat) :
 
 (* The universal property, over arbitrary spaces mapping in. *)
 Lemma PTop_solenoid_universal@{s o so + | o < so +} (p : positive)
-  (Z : PTop@{o}) (g : SetoidMorphism@{o o o} Z (PSolenoid@{s o so _} p)) :
+  (Z : PTop@{o}) (g : SetoidMorphism@{o o} Z (PSolenoid@{s o so _} p)) :
   @PCont Z (PSolenoid p) g <->
   (∀ n, @PCont Z PCircle
           (setoid_morphism_compose (pmap (psol_leg p n)) g)).
@@ -836,7 +836,7 @@ Lemma one_compat@{u} (c : CReal) : circ_eq@{u} (CReal_mult (posR 1) c) c.
 Proof. apply circ_eq_of_creal. exact (CReal_mult_1_l c). Qed.
 
 Program Definition const_string_map@{s o so | o < so +} :
-  SetoidMorphism@{o o o} Circle_setoid@{o} (SolPoints@{s o so} 1) := {|
+  SetoidMorphism@{o o} Circle_setoid@{o} (SolPoints@{s o so} 1) := {|
   morphism := fun c => (fun _ => c; fun n => one_compat c)
 |}.
 Next Obligation. intros c c' H n. exact H. Qed.
@@ -875,7 +875,7 @@ Defined.
 
 (* The same identification in [PTopCat]. *)
 Program Definition pconst_string_map@{s o so r | o < so +} :
-  SetoidMorphism@{o o o} Circle_setoid@{o}
+  SetoidMorphism@{o o} Circle_setoid@{o}
     (pt_carrier (PSolenoid@{s o so r} 1)) := {|
   morphism := fun c => (fun _ => c; fun n => one_compat c)
 |}.

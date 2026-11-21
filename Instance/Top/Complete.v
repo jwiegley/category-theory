@@ -340,7 +340,7 @@ Section Initial.
 Universes o i.
 
 Context (S : SetoidObject@{o o}) (I : Type@{i}) (X : I → PTop@{o})
-        (t : ∀ k : I, SetoidMorphism@{o o o} S (X k)).
+        (t : ∀ k : I, SetoidMorphism@{o o} S (X k)).
 
 (* The subbasic opens: preimages along some [t k] of an open of [X k]. *)
 Definition pinit_sub (V : S → Prop) : Prop :=
@@ -431,7 +431,7 @@ Example pinit_leg_map (k : I) : pmap (pinit_leg k) = t k := eq_refl.
 (* The universal property over ARBITRARY spaces mapping in: a setoid map
    into [S] is continuous into the initial topology iff every composite
    with a [t k] is continuous. *)
-Lemma pinit_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o o} Z S) :
+Lemma pinit_universal (Z : PTop@{o}) (g : SetoidMorphism@{o o} Z S) :
   @PCont Z PInit g <->
   (∀ k, @PCont Z (X k) (setoid_morphism_compose@{o o o} (t k) g)).
 Proof.
@@ -463,12 +463,12 @@ Proof.
       * exact (Hk k U HU).
 Qed.
 
-Definition pinit_lift (Z : PTop@{o}) (g : SetoidMorphism@{o o o} Z S)
+Definition pinit_lift (Z : PTop@{o}) (g : SetoidMorphism@{o o} Z S)
   (Hk : ∀ k, @PCont Z (X k) (setoid_morphism_compose@{o o o} (t k) g)) :
   PMor@{o} Z PInit :=
   @Build_PMor Z PInit g (proj2 (pinit_universal Z g) Hk).
 
-Example pinit_lift_map (Z : PTop@{o}) (g : SetoidMorphism@{o o o} Z S)
+Example pinit_lift_map (Z : PTop@{o}) (g : SetoidMorphism@{o o} Z S)
   (Hk : ∀ k, @PCont Z (X k) (setoid_morphism_compose@{o o o} (t k) g)) :
   pmap (pinit_lift Z g Hk) = g := eq_refl.
 
@@ -489,7 +489,7 @@ End Initial.
 (* One map: the initial topology along a single [h] is Instance/Top/
    Subspace.v's subspace topology [PSub], opens for opens. *)
 Lemma PInit_one_PSub@{o +} (X : PTop@{o}) (S : SetoidObject@{o o})
-  (h : SetoidMorphism@{o o o} S X) (V : S → Prop) :
+  (h : SetoidMorphism@{o o} S X) (V : S → Prop) :
   POpen (PInit S Datatypes.unit (fun _ => X) (fun _ => h)) V <-> POpen (PSub X S h) V.
 Proof.
   split.
@@ -676,7 +676,7 @@ Context (A : Type@{i}) (X : A → PTop@{o}).
 Definition PProd_carrier : SetoidObject@{o o} :=
   Sets_iprod_obj@{i o o o o} (fun a => pt_carrier (X a)).
 
-Definition pprod_leg (a : A) : SetoidMorphism@{o o o} PProd_carrier (X a).
+Definition pprod_leg (a : A) : SetoidMorphism@{o o} PProd_carrier (X a).
 Proof.
   unshelve refine {| morphism := fun x : PProd_carrier => x a |}.
   intros x y e. exact (e a).
@@ -688,7 +688,7 @@ Definition pproj (a : A) : PMor@{o} PProd (X a) :=
   pinit_leg PProd_carrier A X pprod_leg a.
 
 Definition pprod_tuple (Z : PTop@{o}) (f : ∀ a, PMor@{o} Z (X a)) :
-  SetoidMorphism@{o o o} Z PProd_carrier.
+  SetoidMorphism@{o o} Z PProd_carrier.
 Proof.
   unshelve refine {| morphism := fun z a => pmap (f a) z |}.
   intros z z' e a. exact (proper_morphism (pmap (f a)) z z' e).
@@ -898,13 +898,13 @@ Definition PPair_carrier : SetoidObject@{o o} :=
   {| carrier := (pt_carrier X1 * pt_carrier X2)%type;
      is_setoid := prod_setoid |}.
 
-Definition ppair_fst : SetoidMorphism@{o o o} PPair_carrier X1.
+Definition ppair_fst : SetoidMorphism@{o o} PPair_carrier X1.
 Proof.
   unshelve econstructor; [exact (fun q : PPair_carrier => fst q)|].
   intros q q' e. exact (fst e).
 Defined.
 
-Definition ppair_snd : SetoidMorphism@{o o o} PPair_carrier X2.
+Definition ppair_snd : SetoidMorphism@{o o} PPair_carrier X2.
 Proof.
   unshelve econstructor; [exact (fun q : PPair_carrier => snd q)|].
   intros q q' e. exact (snd e).
@@ -912,7 +912,7 @@ Defined.
 
 Definition ppair_fam (b : bool) : PTop@{o} := if b then X1 else X2.
 
-Definition ppair_leg (b : bool) : SetoidMorphism@{o o o} PPair_carrier (ppair_fam b) :=
+Definition ppair_leg (b : bool) : SetoidMorphism@{o o} PPair_carrier (ppair_fam b) :=
   match b with true => ppair_fst | false => ppair_snd end.
 
 Definition PPair : PTop@{o} := PInit PPair_carrier bool ppair_fam ppair_leg.
@@ -1000,7 +1000,7 @@ Definition ppair_exr : PMor@{o} PPair X2 :=
   pinit_leg PPair_carrier bool ppair_fam ppair_leg false.
 
 Definition ppair_fork_map (Z : PTop@{o}) (f : PMor@{o} Z X1) (g : PMor@{o} Z X2) :
-  SetoidMorphism@{o o o} Z PPair_carrier.
+  SetoidMorphism@{o o} Z PPair_carrier.
 Proof.
   unshelve refine {| morphism := fun z => (pmap f z, pmap g z) |}.
   intros z z' e. split.
@@ -1219,7 +1219,7 @@ Qed.
 Definition pconv_ind (n : nat) (z : option nat) : bool :=
   match z with None => false | Some m => Nat.eqb m n end.
 
-Definition pconv_ind_map (n : nat) : SetoidMorphism@{o o o} pconv_setoid PBool@{o}.
+Definition pconv_ind_map (n : nat) : SetoidMorphism@{o o} pconv_setoid PBool@{o}.
 Proof.
   unshelve econstructor; [exact (pconv_ind n)|].
   intros x y e. simpl in e. subst y. reflexivity.

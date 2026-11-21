@@ -266,7 +266,7 @@ Proof. intro a; simpl. exact (cq_glue _ _ a). Qed.
    pair generates (Instance/Sets/Coequalizer.v's [coeq_rel_of_cofork]). *)
 Definition tcoeq_med {z : Top@{h o}} (k : y ~{Top@{h o}}~> z)
   (Hk : k ∘ f ≈ k ∘ g) :
-  SetoidMorphism@{o o o} (SetsCoeq (continuous_map f) (continuous_map g))
+  SetoidMorphism@{o o} (SetsCoeq (continuous_map f) (continuous_map g))
     (top_carrier z) :=
   @Build_SetoidMorphism _
     (is_setoid (SetsCoeq (continuous_map f) (continuous_map g))) _

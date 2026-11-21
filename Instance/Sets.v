@@ -128,10 +128,10 @@ Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
 
 (* A setoid map: a function on carriers together with a proof that it respects
    the two equivalences. This is the morphism part of [Sets]. *)
-Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
+Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;                  (* the underlying function on carriers *)
   proper_morphism :>                  (* it sends `≈`-related inputs to `≈`-related outputs *)
-    Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
+    Proper@{o p} (respectful@{o p o p o p} equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 
@@ -141,16 +141,16 @@ Arguments morphism {_ _ _ _ _} _.
 (* Extensional equality of setoid maps: two maps are equivalent when they
    agree pointwise, judged up to the codomain's `≈`. This is the hom-setoid's
    underlying relation; [funext] is not needed because we compare up to `≈`. *)
-Definition SetoidMorphism_equiv@{o h p} {x y : SetoidObject@{o p}} :
-  crelation@{h p} (SetoidMorphism@{o h p} x y) :=
+Definition SetoidMorphism_equiv@{o h p | o = h +} {x y : SetoidObject@{o p}} :
+  crelation@{h p} (SetoidMorphism@{o p} x y) :=
   fun f g => ∀ x, @equiv@{o p} _ y (f x) (g x).
 
 Arguments SetoidMorphism_equiv {x y} _ _ /.
 
 #[export]
-Program Instance SetoidMorphism_Setoid@{o h p} {x y : SetoidObject@{o p}} :
-  Setoid@{h p} (SetoidMorphism@{o h p} x y) := {|
-  equiv := SetoidMorphism_equiv@{o h p};
+Program Instance SetoidMorphism_Setoid@{o p} {x y : SetoidObject@{o p}} :
+  Setoid@{o p} (SetoidMorphism@{o p} x y) := {|
+  equiv := SetoidMorphism_equiv@{o o p};
 |}.
 Next Obligation.
   constructor; repeat intro.
@@ -173,17 +173,17 @@ Qed.
    (Test/ProbeSetsTerms1347.v).  The universe blocks are unchanged by
    [About]: their caps come from [Datatypes.id] (ID.u0) and
    [Basics.compose] (compose.u0 to compose.u2), not from the fields. *)
-Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} :
-  SetoidMorphism@{o h p} x x := {|
+Definition setoid_morphism_id@{o h p | o = h +} {x : SetoidObject@{o p}} :
+  SetoidMorphism@{o p} x x := {|
   morphism := Datatypes.id;
   proper_morphism := fun _ _ H => H
 |}.
 
 #[export] Hint Unfold setoid_morphism_id : core.
 
-Definition setoid_morphism_compose@{o h p} {x y z : SetoidObject@{o p}}
-        (g : SetoidMorphism@{o h p} y z)
-        (f : SetoidMorphism@{o h p} x y) : SetoidMorphism@{o h p} x z := {|
+Definition setoid_morphism_compose@{o h p | o = h +} {x y z : SetoidObject@{o p}}
+        (g : SetoidMorphism@{o p} y z)
+        (f : SetoidMorphism@{o p} x y) : SetoidMorphism@{o p} x z := {|
   morphism := Basics.compose g f;
   proper_morphism := fun a b H =>
     proper_morphism g _ _ (proper_morphism f a b H)
@@ -211,8 +211,8 @@ Qed.
  *)
 Program Definition Sets@{o so} : Category@{so o o} := {|
   obj     := SetoidObject@{o o} : Type@{so};
-  hom     := λ x y, SetoidMorphism@{o o o} x y : Type@{o};
-  homset  := @SetoidMorphism_Setoid@{o o o};
+  hom     := λ x y, SetoidMorphism@{o o} x y : Type@{o};
+  homset  := @SetoidMorphism_Setoid@{o o};
   id      := @setoid_morphism_id@{o o o};
   compose := @setoid_morphism_compose@{o o o};
 

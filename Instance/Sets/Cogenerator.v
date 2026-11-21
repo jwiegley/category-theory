@@ -257,7 +257,7 @@ Definition sets_bool_char@{o so +| o < so +} {Y : SetoidObject@{o o}}
   (E : IEM@{o}) (y0 : carrier Y) : Y ~{Sets@{o so}}~> BoolSetoid@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier Y) (is_setoid Y) poly_bool@{o} (is_setoid BoolSetoid@{o})
        (fun b => match E (@equiv _ (is_setoid Y) y0 b) with
                  | Datatypes.inl _ => ptrue@{o}

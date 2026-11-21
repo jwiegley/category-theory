@@ -132,9 +132,9 @@ Definition Setoid_Lift@{o so} (X : SetoidObject@{o o}) : SetoidObject@{so so} :=
 (* A setoid morphism between level-o setoids re-typechecks between their
    lifts: carrier function and respectfulness are reused verbatim. *)
 Definition SetoidMorphism_Lift@{o so} {X Y : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} X Y) :
-  SetoidMorphism@{so so so} (Setoid_Lift@{o so} X) (Setoid_Lift@{o so} Y) :=
-  @Build_SetoidMorphism@{so so so}
+  (f : SetoidMorphism@{o o} X Y) :
+  SetoidMorphism@{so so} (Setoid_Lift@{o so} X) (Setoid_Lift@{o so} Y) :=
+  @Build_SetoidMorphism@{so so}
     (carrier X) (Setoid_Lift_instance@{o so} (is_setoid X))
     (carrier Y) (Setoid_Lift_instance@{o so} (is_setoid Y))
     (λ a, f a)
@@ -175,10 +175,10 @@ Definition PropSetoid@{o so} : SetoidObject@{so so} :=
 (* The point true : 1 ~> Ω, selecting the (canonically) inhabited truth
    value [poly_unit].  Any inhabited type would do, up to iffT. *)
 Definition sets_true@{o so} :
-  SetoidMorphism@{so so so} unit_setoid_object@{so so} PropSetoid@{o so}.
+  SetoidMorphism@{so so} unit_setoid_object@{so so} PropSetoid@{o so}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{so so so}
+    (@Build_SetoidMorphism@{so so}
        poly_unit@{so} unit_setoid@{so so}
        Type@{o} (is_setoid PropSetoid@{o so})
        (λ _, poly_unit@{o}) _).
@@ -187,8 +187,8 @@ Defined.
 
 (* The terminal map: every setoid maps to the singleton. *)
 Definition sets_to_unit@{so} {X : SetoidObject@{so so}} :
-  SetoidMorphism@{so so so} X unit_setoid_object@{so so} :=
-  @Build_SetoidMorphism@{so so so}
+  SetoidMorphism@{so so} X unit_setoid_object@{so so} :=
+  @Build_SetoidMorphism@{so so}
     (carrier X) (is_setoid X)
     poly_unit@{so} unit_setoid@{so so}
     (λ _, ttt) (λ _ _ _, eq_refl).
@@ -204,10 +204,10 @@ Definition sets_to_unit@{so} {X : SetoidObject@{so so}} :
    theorems below. *)
 Definition char_setoid@{o so} {A B : SetoidObject@{o o}}
   (m : A ~{Sets@{o so}}~> B) :
-  SetoidMorphism@{so so so} (Setoid_Lift@{o so} B) PropSetoid@{o so}.
+  SetoidMorphism@{so so} (Setoid_Lift@{o so} B) PropSetoid@{o so}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{so so so}
+    (@Build_SetoidMorphism@{so so}
        (carrier B) (Setoid_Lift_instance@{o so} (is_setoid B))
        Type@{o} (is_setoid PropSetoid@{o so})
        (λ b, ∃ a : carrier A, @equiv _ (is_setoid B) (m a) b) _).
@@ -260,9 +260,9 @@ Proof.
     (* Each x : Q comes with the truth of "q1 x is in the image of m";
        extracting its witness defines the mediator.  Monicity makes the
        extraction respect ≈. *)
-    given (u : SetoidMorphism@{so so so} Q (Setoid_Lift@{o so} A)). {
+    given (u : SetoidMorphism@{so so} Q (Setoid_Lift@{o so} A)). {
       unshelve refine
-        (@Build_SetoidMorphism@{so so so}
+        (@Build_SetoidMorphism@{so so}
            (carrier Q) (is_setoid Q)
            (carrier A) (Setoid_Lift_instance@{o so} (is_setoid A))
            (λ x, `1 (snd (Hq x) ttt)) _).
@@ -325,7 +325,7 @@ Proof.
     }
     given (q1 : Q ~{Sets@{so sso}}~> Setoid_Lift@{o so} B). {
       unshelve refine
-        (@Build_SetoidMorphism@{so so so}
+        (@Build_SetoidMorphism@{so so}
            (carrier Q) (is_setoid Q)
            (carrier B) (Setoid_Lift_instance@{o so} (is_setoid B))
            (λ p, `1 p) (λ p q Hpq, Hpq)).

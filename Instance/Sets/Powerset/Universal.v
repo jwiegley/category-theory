@@ -173,12 +173,12 @@ Generalizable All Variables.
    [f].  Respectfulness is the two respectfulnesses composed. *)
 
 Definition Powerset_Prop_preimage@{o} {X Y : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} Y X)
+  (f : SetoidMorphism@{o o} Y X)
   (T : carrier (Powerset_Prop_obj@{o} X)) :
   carrier (Powerset_Prop_obj@{o} Y).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier Y) (is_setoid Y) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ y, T (f y)) _).
   intros y y' Hyy'.
@@ -188,11 +188,11 @@ Defined.
 
 (* Taking inverse images is itself a setoid map on subsets. *)
 Definition Powerset_Prop_comap@{o} {X Y : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} Y X) :
-  SetoidMorphism@{o o o} (Powerset_Prop_obj@{o} X) (Powerset_Prop_obj@{o} Y).
+  (f : SetoidMorphism@{o o} Y X) :
+  SetoidMorphism@{o o} (Powerset_Prop_obj@{o} X) (Powerset_Prop_obj@{o} Y).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier (Powerset_Prop_obj@{o} X)) (is_setoid (Powerset_Prop_obj@{o} X))
        (carrier (Powerset_Prop_obj@{o} Y)) (is_setoid (Powerset_Prop_obj@{o} Y))
        (λ T, Powerset_Prop_preimage@{o} f T) _).
@@ -200,7 +200,7 @@ Proof.
 Defined.
 
 Lemma Powerset_Prop_comap_respects@{o} {X Y : SetoidObject@{o o}}
-  (f g : SetoidMorphism@{o o o} Y X) (H : f ≈ g) :
+  (f g : SetoidMorphism@{o o} Y X) (H : f ≈ g) :
   Powerset_Prop_comap@{o} f ≈ Powerset_Prop_comap@{o} g.
 Proof.
   intros T y; split; intro Ht.
@@ -227,7 +227,7 @@ Lemma Powerset_Prop_comap_id@{o} {X : SetoidObject@{o o}} :
 Proof. intros T x; split; intro Ht; exact Ht. Qed.
 
 Lemma Powerset_Prop_comap_comp@{o} {X Y Z : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} Z Y) (g : SetoidMorphism@{o o o} Y X) :
+  (f : SetoidMorphism@{o o} Z Y) (g : SetoidMorphism@{o o} Y X) :
   Powerset_Prop_comap@{o} (@setoid_morphism_compose@{o o o} Z Y X g f)
     ≈ @setoid_morphism_compose@{o o o}
         (Powerset_Prop_obj@{o} X) (Powerset_Prop_obj@{o} Y)
@@ -305,7 +305,7 @@ Definition Powerset_holds@{o} :
   carrier (Powerset_Prop_obj@{o} Powerset_Omega@{o}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        Prop (is_setoid Powerset_Omega@{o})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ P : Prop, P) _).
@@ -578,7 +578,7 @@ Definition powerset_fin3@{o} : SetoidObject@{o o} :=
 Definition powerset_sub01@{o} : carrier (Powerset_Prop_obj@{o} powerset_fin3@{o}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (Fin.t 3) (is_setoid powerset_fin3@{o})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ i : Fin.t 3, i = Fin.F1 \/ i = Fin.FS Fin.F1) _).
@@ -588,7 +588,7 @@ Defined.
 Definition powerset_sub0@{o} : carrier (Powerset_Prop_obj@{o} powerset_fin3@{o}).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (Fin.t 3) (is_setoid powerset_fin3@{o})
        Prop (is_setoid Powerset_Prop_truth@{o})
        (λ i : Fin.t 3, i = Fin.F1) _).
@@ -645,7 +645,7 @@ Definition powerset_fin2@{o} : SetoidObject@{o o} :=
 Definition powerset_const0@{o so} : powerset_fin2@{o} ~{Sets@{o so}}~> powerset_fin2@{o}.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (Fin.t 2) (is_setoid powerset_fin2@{o})
        (Fin.t 2) (is_setoid powerset_fin2@{o})
        (λ _, Fin.F1) _).
@@ -752,7 +752,7 @@ Definition Powerset_subset_incl@{o so} {A : SetoidObject@{o o}}
   Powerset_subset_setoid@{o} S ~{Sets@{o so}}~> A.
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        { a : carrier A & S a } (is_setoid (Powerset_subset_setoid@{o} S))
        (carrier A) (is_setoid A)
        (λ p, projT1 p) _).
@@ -780,7 +780,7 @@ Definition Powerset_subset_of_subobject@{o so} {A : SetoidObject@{o o}}
   (u : @SubObj Sets@{o so} A) : carrier (Powerset_Prop_obj@{o} A).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier A) (is_setoid A) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ a, Powerset_squash@{o}
                (∃ p : carrier (sub_dom u),

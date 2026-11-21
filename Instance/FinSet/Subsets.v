@@ -317,7 +317,7 @@ Definition finpow_to_subset@{o +} (n : nat) (S : Fin.t (finpow n)) :
   carrier (Powerset_Prop_obj@{o} (Powerset_Prop_fin_object@{o} n)).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (Fin.t n) (is_setoid (Powerset_Prop_fin_object@{o} n))
        Prop (is_setoid Powerset_Prop_truth@{o})
        (fun i => finpow_mem S i = true) _).

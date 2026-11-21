@@ -149,7 +149,7 @@ Definition Powerset_union_pred@{o} {X : SetoidObject@{o o}}
   carrier (Powerset_Prop_obj@{o} X).
 Proof.
   unshelve refine
-    (@Build_SetoidMorphism@{o o o}
+    (@Build_SetoidMorphism@{o o}
        (carrier X) (is_setoid X) Prop (is_setoid Powerset_Prop_truth@{o})
        (λ x, ex (fun S : carrier (Powerset_Prop_obj@{o} X) => SS S /\ S x))
        _).
@@ -171,9 +171,9 @@ Qed.
 
 (* μ_X : P(P X) → P X as an arrow of [Sets]. *)
 Definition Powerset_union@{o} {X : SetoidObject@{o o}} :
-  SetoidMorphism@{o o o} (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))
+  SetoidMorphism@{o o} (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))
                          (Powerset_Prop_obj@{o} X) :=
-  @Build_SetoidMorphism@{o o o}
+  @Build_SetoidMorphism@{o o}
     (carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X)))
     (is_setoid (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X)))
     (carrier (Powerset_Prop_obj@{o} X)) (is_setoid (Powerset_Prop_obj@{o} X))
@@ -232,7 +232,7 @@ Qed.
 (* Naturality of μ, proved directly: the union of the images is the image
    of the union. *)
 Lemma Powerset_union_natural@{o} {X Y : SetoidObject@{o o}}
-  (f : SetoidMorphism@{o o o} X Y)
+  (f : SetoidMorphism@{o o} X Y)
   (SS : carrier (Powerset_Prop_obj@{o} (Powerset_Prop_obj@{o} X))) :
   Powerset_union_pred@{o} (Powerset_Prop_image@{o} (Powerset_Prop_map@{o} f) SS)
     ≈ Powerset_Prop_image@{o} f (Powerset_union_pred@{o} SS).

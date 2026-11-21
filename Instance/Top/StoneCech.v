@@ -523,7 +523,7 @@ Definition sc_fin_unit@{o h +} (X : SetoidObject@{o o}) (FX : FinEnum X) :
 (* A map out of the lifted setoid, read back at the points' universe. *)
 Definition sc_unlift@{o h +} (X : SetoidObject@{o o}) {d : CompHaus}
   (f : Setoid_Lift@{o h} X ~{Sets}~> CompHaus_Forget d) :
-  SetoidMorphism@{o o o} X (top_carrier (`1 d)) :=
+  SetoidMorphism@{o o} X (top_carrier (`1 d)) :=
   @Build_SetoidMorphism (carrier X) (is_setoid X)
     (carrier (top_carrier (`1 d))) (is_setoid (top_carrier (`1 d)))
     (fun x => f x) (fun a b e => proper_morphism f a b e).
