@@ -349,24 +349,15 @@ Notation "'lim←' F" := (inverse_limit F)
    before this file NOTHING in the tree consumed it ([rg -l Cochain]
    returned that file alone).  It is a tower, so it has an inverse limit.
 
-   A DONOR UNIVERSE PIN, MEASURED AND DISCLOSED.  [Cochain] is declared
-   without universe annotations and minimizes to
-
-     Cochain@{u u0} : forall {C : Category@{u0 Set Set}},
-       Terminal@{u0 Set} -> C ⟶ C -> Omega@{u Set Set}^op ⟶ C
-
-   -- C's hom AND proof universes pinned to the literal [Set] -- where
-   [Chain@{u u0 u1}], one line above it, leaves its TARGET category FREE
-   ([C : Category@{u u0 u0}]) where [Cochain] pins it.  Read that
-   precisely: [Chain] is NOT free of [Set] -- its own printed type carries
-   [Omega@{u1 Set Set}] -- so BOTH constants pin [Omega]'s hom and proof to
-   [Set], and what separates them is the TARGET alone.  [Omega@{o h p}]
-   itself is free in all three.  So the consumer below is
-   confined to [Sets@{Set su}], setoids whose CARRIER lives in [Set]; the
-   general section (A)-(D) above carries no [Set] at all
-   ([tower_obj@{u u0 u1 u2 u3 u4} : Omega@{u u0 u0}^op ⟶ Sets@{u0 u1} ->
-   obj[Sets@{u4 u2}]]).  The pin is the donor's, is NOT repaired here, and
-   is NOT claimed unavoidable. *)
+   The original formulation of [Chain] used Corelib's equality-domain
+   reflexivity hint to prove [fmap_respects]. Both [Chain] and [Cochain]
+   then used [Omega] at hom/proof level [Set], and [Cochain] also forced
+   its target to that level. #1399 removes those pins by substituting the
+   equal paths directly. The hom and proof levels of [Cochain]'s target
+   still coincide and have upper bounds; see [doc/RESIDUAL_CORELIB.md].
+   The explicit [Sets@{Set su}] annotations below retain this section's
+   original small-carrier statements; the general [inverse_limit] above
+   does not require this specialization. *)
 
 Definition cochain_inverse_limit@{su +}
   (G : Sets@{Set su} ⟶ Sets@{Set su}) : obj[Sets@{Set su}] :=

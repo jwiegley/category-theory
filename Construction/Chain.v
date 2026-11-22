@@ -63,7 +63,10 @@ Qed.
 
 Program Definition Chain : Omega ⟶ C := {|
   fobj := chain_obj;
-  fmap := fun _ _ p => chain_hom p
+  fmap := fun _ _ p => chain_hom p;
+  (* Omega's hom relation is equality. Substitute the equal path rather
+     than asking typeclass search to choose the domain-relation universe. *)
+  fmap_respects := fun _ _ => ltac:(intros ? ? []; apply Equivalence_Reflexive)
 |}.
 (* fmap_respects: strict-equality hom-setoid; fmap_id: chain_hom of the
    reflexivity proof is [id] definitionally; fmap_comp: chain_hom_trans. *)

@@ -29,12 +29,9 @@ Open Scope category_scope.
    copy of the WHOLE file and compiling that copy alone, then reading the
    error in full -- a preamble-plus-command scratch drops the enclosing
    [Section]'s [Context] and its local universe declarations and then
-   refuses for a reason unrelated to the claim.  The four negatives are of
-   THREE kinds, told apart by the error TEXT and not by label:
-
-     CONVERSION  ends "cannot unify", no universe clause  (1, 2)
-     TYPING      a plain has-type mismatch, neither of those  (3)
-     FORMABILITY ends "universe inconsistency: Cannot enforce ..."  (4)
+   refuses for a reason unrelated to the claim. The remaining negatives
+   distinguish conversion (1, 2) from a typing mismatch (3). The former
+   universe inconsistency (4) now has a positive witness after #1399.
 
    Every constant a negative names is also named by a passing command
    outside every [Fail], so a rename breaks the probe rather than turning
@@ -92,23 +89,21 @@ Fail Definition neg_wrong_variance (X : obj[Sets]) : obj[Sets] :=
    it is exactly the constant tower of the library file's section (G). *)
 Check (fun X : obj[Sets] => inverse_limit (Diagonal (Omega^op) X)).
 
-(** ** (4) FORMABILITY: [Cochain]'s [Set] pin, and it is the donor's *)
+(** ** (4) FORMABILITY: both chains above [Set] *)
 
 Section CochainPin.
 
 Universes co ch.
 Constraint Set < ch.
 
-(* [Cochain@{u u0}] is declared over [C : Category@{u0 Set Set}] -- hom AND
-   proof pinned to the literal [Set] -- so it is refused at a [Sets] whose
-   hom-and-proof level is declared strictly above [Set]. *)
+(* Former stripped refusal: the [Cochain] donor forced [ch = Set].
+   Keep exactly that application as a positive control after #1399. *)
 Check @Sets@{_ _}.
-Fail Definition neg_cochain_above_Set
+Definition cochain_above_Set
   (G : Sets@{ch co} ⟶ Sets@{ch co}) : Omega^op ⟶ Sets@{ch co} := Cochain G.
 
-(* Controls accepted at those very levels: the category itself, a functor
-   both ways, [Omega], and -- the discriminating one -- [Chain], declared
-   one line above [Cochain] in the same file and FREE of any [Set]. *)
+(* The category, both functor categories, the index and the forward
+   chain can still be formed at these levels. *)
 Check Sets@{ch co}.
 Check (Sets@{ch co} ⟶ Sets@{ch co}).
 Check Omega@{ch co co}.
