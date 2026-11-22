@@ -96,21 +96,15 @@ Generalizable All Variables.
    is FREE: it keeps [Sets_Cocomplete]'s own [ud <= uo], so [Omega]'s
    objects sit at or below [Sets]' carrier universe and nothing is pinned.
 
-     Sets_Chain_Colimit@{u} :
-       ∀ F : Functor@{u Set Set u Set Set},
-         Colimit@{Set Set Set u} (Chain F)
-       (* u |= Set < False_rect.u0   Set < u *)
+     Sets_Chain_Colimit@{h o} :
+       ∀ F : Sets@{h o} ⟶ Sets@{h o}, Colimit (Chain F)
 
-   is PINNED: it is a statement about [Sets@{Set u}], setoids whose
-   carriers live in [Set].  The cause is measured and is not this file's.
-   [Chain@{u u0 u1}] (Construction/Chain.v) has result type
-   [Functor@{u1 Set Set u u0 u0}] -- it fixes [Omega]'s hom and proof
-   universes at [Set] -- and [Cocomplete]'s own shape forces the diagram
-   category's hom universe to coincide with [Sets]' carrier universe, so
-   the [Set] travels across.  [Sets_Initial@{u u0}], the other donor
-   [Chain] consumes, is free and is NOT the cause.  The pin belongs to
-   Construction/Chain.v, is NOT repaired here, and is NOT claimed
-   unavoidable.
+   instead identifies [Omega]'s object, hom and proof levels with [h].
+   Before #1399 this consumer inherited the literal [Set] from [Chain]'s
+   equality-domain proof. [About Sets_Chain_Colimit] now gives [h < o]
+   and [h < False_rect.u0], with upper bounds on [h] from equality,
+   composition, elimination and projections. [Sets_chain_carrier] has
+   the same context. Neither needs [h = Set]; neither is unrestricted.
 
    NON-VACUITY: THE OTHER HALF, AT THE ω-SHAPE
 

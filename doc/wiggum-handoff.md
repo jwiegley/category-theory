@@ -127,7 +127,9 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   AdamekData fallback (bridge withheld, ledger 17, documented in header +
   commit); the C@{cobj Set Set} universe constraint is INTRINSIC (Chain pins
   Omega hom/prop to Set, Limit unifies shape+target — verified empirically,
-  not a weakening). PORTABILITY HARVEST DONE: 8.19 + 8.20 keep-going builds
+  not a weakening). Correction (#1399): this described the donor at the time,
+  not an intrinsic constraint. The current Chain proof lifts the Omega pin;
+  Adamek's explicit small-hom section context remains. PORTABILITY HARVEST DONE: 8.19 + 8.20 keep-going builds
   both rc=0, all 10 Phase-7 .vo present under both; it caught ONE real bug —
   Instance/Omega.v's le_t_trans_* lemmas had an over-specified @{u} binder
   that breaks on 8.19/8.20 ("unbound universes"), fixed by inferred binders

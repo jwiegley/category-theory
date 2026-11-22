@@ -64,11 +64,10 @@ Fixpoint le_S_shift@{u} {m n} (p : le_t@{u} m n) : le_t@{u} (S m) (S n) :=
 
 Section Adamek.
 
-(* [Colimit]/[IsALimit] force the diagram category and the target to share
-   their hom/prop universe, and [Chain] pins [Omega]'s hom/prop to [Set]
-   (Instance/Omega.v, Construction/Chain.v).  The target [C] therefore carries
-   its hom/prop at [Set]; the object level [cobj] stays polymorphic, so every
-   result below is universe-polymorphic in the size of the objects. *)
+(* [Colimit]/[IsALimit] share the diagram and target hom/proof level.
+   Before #1399 [Chain] fixed the diagram level at [Set]. The donor no
+   longer does so, but this section explicitly retains the small-hom
+   statement. Only [cobj], the target object level, varies here. *)
 Universe cobj.
 Context {C : Category@{cobj Set Set}}.
 Context `{HI : @Initial C}.
