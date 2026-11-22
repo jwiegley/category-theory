@@ -995,6 +995,7 @@ Test/Issue139.v
 Test/Issue213.v
 Test/Issue1371.v
 Test/Issue1396.v
+Test/Issue1404.v
 Test/ProbeFunnyPoly.v
 Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
