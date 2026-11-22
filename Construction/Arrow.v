@@ -104,9 +104,10 @@ Generalizable All Variables.
    Mathematics", CUP 1999; nLab, display map).  The [2, C] equivalence
    of the header is proven in Theory/Shapes.v as
    [Two_Fun_Arrow : [_2, C] ≅[Cat] Arrow C], over the walking arrow [_2]
-   of Instance/Two.v, for [C : Category@{o Set Set}] -- a restriction that
-   side genuinely forces, since Instance/Fun.v's [Fun] identifies the hom
-   universes of source and target while [_2]'s homs live in [Set].  Read its strength precisely: [≅[Cat]] here is an
+   of Instance/Two.v, for [C : Category@{o Set Set}]. This restriction
+   belongs to the current presentation: [Fun] shares both categories'
+   hom level and takes each proof level equal to it, while [_2]'s declared
+   hom level is [Set]. It is not a mathematical necessity. [≅[Cat]] here is an
    EQUIVALENCE of categories, since Instance/Cat.v identifies functors up
    to natural isomorphism.  One of the two round trips is strict --
    [Arrow_Fun_Arrow_strict] there says the composite
@@ -124,9 +125,9 @@ Generalizable All Variables.
    transformation materialized as a functor, naturality supplying the
    squares), and the bijection [Arrow_classification] as a setoid
    isomorphism in Sets; unlike the [_2] comparison it carries no
-   Set-level universe pin (the library's ambient h = p constraint
-   from [Functor] still applies), never leaving the comma
-   presentation. *)
+   Set-level universe pin. Its inferred arguments [C] and [B] share a
+   hom/proof level. This is not an ambient equality required by [Functor]:
+   its six-parameter context allows [h1 <= p1] and [h2 <= p2]. *)
 
 Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).
 

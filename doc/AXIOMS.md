@@ -517,8 +517,9 @@ lines were REMOVED and the removal is not a shrinkage of coverage:
 exist, `bs_eq` having become a `Prop` inductive, which generates
 `_ind` and `_sind` only — both of those were already gated two lines
 away, and the recipe carries an in-recipe note saying why, keyed to the phrase "bs_eq_rect and bs_eq_rec were gated here". The
-target stopped compiling until those two lines went, which is worth
-knowing because neither CI nor lefthook runs it.
+target stopped compiling until those two lines went. Correction (#1416):
+`make check` includes `print-assumptions`, as does the default Nix package's
+`checkPhase`, reached by CI and the lefthook `nix-check` command.
 
 This (re-)builds the library and prints the assumption set of the
 following specific definitions:
@@ -558,8 +559,11 @@ each reported "Closed under the global context":
   were retargeted onto solution sets indexed by the `Prop`-valued
   congruences on the relevant term model
   (`Grp_Forget_solution_set_prop`, `Rng_Forget_Ab_solution_set_prop`,
-  `Rng_Forget_solution_set_prop`), which presuppose no adjunction; the
-  circular ones are kept beside them as removal candidates.  Each new
+  `Rng_Forget_solution_set_prop`), which presuppose no adjunction.
+  Correction (#1416): the three `*_solution_set_from_adjunction` witnesses
+  are retained inputs to the corresponding `*_via_GAFT_from_adjunction`
+  comparisons in `Instance/Grp/FreeAFT.v` and `Instance/Rng/AFT.v`, not
+  pending cleanup. Each new
   constant of that work reports "Closed under the global context", and
   so does every application built on it, so axiom-freedom and
   existence now coincide at these three instances.  The same PR adds

@@ -78,16 +78,13 @@ Objects are matched up to **`ObjEq`**, a level-polymorphic identity type
 declared in `Theory/Size.v` — *not* stdlib `=`. Homs are matched up to a
 **setoid isomorphism** (both directions respect `≈`).
 
-Neither choice is stylistic. Morphisms cannot use `=` because CLAUDE.md forbids
-it on them. Objects cannot use it either, and for a separate and more brutal
-reason that applies to **both** halves: stdlib `eq` is pinned to a global
-universe on Coq 8.19/8.20, so mentioning it inside a definition carrying an
-explicit universe-constraint clause yields `Universe constraints are not implied
-by the ones declared: o <= eq.u0`, which a binder has no syntax to discharge.
-Objects carry no setoid in this library, so with `=` unavailable they need
-*some* identity type, and a level-polymorphic predicate needs a
-level-polymorphic one — hence `ObjEq`, following the `poly_unit@{u}` idiom of
-`Lib/Setoid.v`.
+Morphisms are compared by their hom-setoid relation. Objects have no such
+relation, and `ObjEq` supplies an identity type at the object's universe.
+Correction (#1416): on released Rocq 9.2.0 the binder
+`@{u | u <= eq.u0}` **can** name the global equality bound. A reflexive
+Leibniz equality at `A : Type@{u}` with that clause retains the bound;
+`ObjEq` at the same `A` needs none. Nameability and absence of a bound
+are different properties.
 
 ### def5 — classes
 

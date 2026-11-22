@@ -68,24 +68,12 @@ Generalizable All Variables.
 
 (** ** A level-polymorphic identity type for objects *)
 
-(** Objects carry no setoid in this library, so an object bijection has to be
-    stated with an identity type.  Stdlib [eq] cannot be used HERE, and the
-    reason is a genuine portability constraint rather than a preference: on
-    Coq 8.19 and 8.20 [eq] is pinned to a global universe, so mentioning it
-    inside a definition that DECLARES its own universe binder yields
-    "Universe constraints are not implied by the ones declared: o <= eq.u0",
-    which a binder has no syntax to discharge.  Rocq 9.1 made [eq] polymorphic
-    and accepts the same text, so this breaks only on the older toolchains --
-    exactly the kind of divergence the three-version build exists to catch.
-
-    Two details, since both are easy to state too broadly.  First, the trigger
-    is not merely declaring a universe binder: [Definition d@{u} (A : Type@{u})
-    (x : A) : x = x := eq_refl] SUCCEEDS on 8.19 and 8.20.  What breaks is a
-    binder carrying an explicit constraint clause -- both [@{u | }] and
-    [@{u v | u <= v}] are rejected.  Second, [ObjEq] is used in the two
-    [arrow_quiver_*] lemmas below as well, which carry no binder at all; it is
-    used there for uniformity with the [ArrowQuiver] fields they are about, not
-    from necessity.
+(** Objects carry no setoid here. On released Rocq 9.2.0 the universe of
+    [eq] is nameable: [Definition d@{u | u <= eq.u0} (A : Type@{u})
+    (x : A) : x = x := eq_refl.] is accepted, but retains that upper
+    bound. [ObjEq] keeps the object-identity witness at its own level
+    without a global equality bound. The [arrow_quiver_*] lemmas use it
+    for consistency with the [ArrowQuiver] fields.
 
     [ObjEq] follows the [poly_unit@{u}] idiom at Lib/Setoid.v. *)
 Inductive ObjEq@{u} {A : Type@{u}} : A → A → Type@{u} :=

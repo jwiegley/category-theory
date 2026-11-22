@@ -11,8 +11,8 @@
     control establishing the same equation holds at [≈], so the
     negatives are about conversion and not about the mathematics.
 
-    The import list mirrors the target's in full; a short prefix is what
-    makes a probe pass vacuously, and a vacuity check cannot detect it. *)
+    The import list mirrors the target's. An omitted import can turn an
+    intended type error into a missing-name error; inspect the stripped refusal. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -135,12 +135,10 @@ Check (Du ⟶ Cu).
 (* NEGATIVE 5 (FORMABILITY) — donor (ii).  Merely wanting a functor in
    the OTHER direction, with no adjunction anywhere: [Functor] forces
    source-hom below target-hom, so having both directions forces
-   equality.  Written WITHOUT an explicit universe instance on purpose:
-   [Functor]'s instance arity differs between Rocq 9.1 and the 8.x
-   line, so a [Functor@{...}] spelling could make this [Fail] succeed
-   on an ARITY error rather than the universe inconsistency — passing
-   vacuously on two of the three supported toolchains, which no vacuity
-   check would detect. *)
+   equality. On Rocq 9.2.0 [Functor] has six universe parameters.
+   The notation tests the direction constraint without a positional
+   instance. The semantic arity guard checks explicit instances; it
+   does not certify the cause of an arbitrary [Fail]. *)
 Fail Check (Cu ⟶ Du).
 
 (* NEGATIVE 6 (FORMABILITY) — donor (iii).  [Adjunction] itself. *)
