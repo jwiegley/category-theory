@@ -35,7 +35,14 @@ Inductive Ty : Set :=
   | TyPair  : Ty → Ty → Ty       (* product type: categorical product   *)
   | TyArrow : Ty → Ty → Ty.      (* arrow type:   exponential / hom      *)
 
-Derive NoConfusion NoConfusionHom Subterm EqDec for Ty.
+(* Ty lives in Set and its no-confusion relations return Prop. Minimize
+   these derivations' internal levels before downstream decisions copy
+   them. Leave Subterm, EqDec and their clients universe-polymorphic
+   under the usual library settings (see doc/LAMBDA_UNIVERSES.md). *)
+Set Universe Minimization ToSet.
+Derive NoConfusion NoConfusionHom for Ty.
+Unset Universe Minimization ToSet.
+Derive Subterm EqDec for Ty.
 
 End Ty.
 
