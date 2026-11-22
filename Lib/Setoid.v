@@ -39,6 +39,26 @@ Class Setoid A := {
    wherever generalized rewriting expects one. *)
 Coercion setoid_equiv : Setoid >-> Equivalence.
 
+(* Rewriting both arguments of [equiv] needs only one direction: transport
+   the new goal back to the old one, or an old hypothesis to the new one.
+   Using [iffT] instead introduces a product eliminator into the proof.
+   Priority 5 keeps the one-sided transport preferred on Rocq 9.2.0. *)
+#[export] Instance equiv_flip_arrow_Proper {A : Type} {S : Setoid A} :
+  Proper (equiv ==> equiv ==> flip arrow) (@equiv A S) | 5.
+Proof.
+  intros x x' Hx y y' Hy H.
+  transitivity x'; [exact Hx |].
+  transitivity y'; [exact H | symmetry; exact Hy].
+Defined.
+
+#[export] Instance equiv_arrow_Proper {A : Type} {S : Setoid A} :
+  Proper (equiv ==> equiv ==> arrow) (@equiv A S) | 5.
+Proof.
+  intros x x' Hx y y' Hy H.
+  transitivity x; [symmetry; exact Hx |].
+  transitivity y; [exact H | exact Hy].
+Defined.
+
 Notation "f ≈ g" := (equiv f g) (at level 79) : category_theory_scope.
 
 (* Coq's [eq] is an equivalence relation; this is a universe-polymorphic
