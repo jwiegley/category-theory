@@ -359,6 +359,27 @@ index entries for #464, #468 and #469 describe their original measurements:
 the six-slot `Fun` and three-slot `EilenbergMoore` above supersede their
 printed instances, not their mathematical results.
 
+## Adjunction binders (#1414, Rocq 9.2.0)
+
+Against `c1dd3027`, the qualified `About` contexts for the three records
+identify the hom and proof levels of both categories. Keep the two object
+levels independent. The common hom level `h` satisfies `h < so`; existing
+upper bounds from `Basics.compose` and `ID` remain. For positional clients,
+select these positions from the old instance, in this order (one-based):
+
+| Declaration | Old → new slots | Select |
+|---|---:|---|
+| `Adjunction`, `Build_Adjunction`, `adj` | 11 → 5 | 1, 4, 2, 9, 11 |
+| `Build_Adjunction'`, `unit`, `counit` | 8 → 5 | 1, 4, 2, 7, 8 |
+| `AdjointOnTheRight`, `AdjointOnTheLeft` | 10 → 4 | 1, 4, 2, 8 |
+
+The ordinary record's last level `sp` occurs in no constraint. Dropping
+it nevertheless makes two record instances convertible that were not
+convertible before (`adj_distinct_sp`). The contravariant records had no
+such free level. In `Ex3a_left_literal` no position disappears: its fifth
+and sixth positions exchange roles. `p458_ex3a_literal_above_set` keeps both strict inequalities
+and exchanges the two arguments to that constant, not its own binders.
+
 ## Per-file inventory
 
 `Before` is the first-batch baseline `438d83b2`; `After` includes only that batch. Unlisted files have

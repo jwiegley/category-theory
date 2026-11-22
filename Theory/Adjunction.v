@@ -120,20 +120,22 @@ Generalizable All Variables.
 
 Section Adjunction.
 
-Universes o1 h1 p1 o2 h2 p2.
-Context {C : Category@{o1 h1 p1}}.
-Context {D : Category@{o2 h2 p2}}.
+Universes co do h.
+Context {C : Category@{co h h}} {D : Category@{do h h}}.
 Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
 Reserved Notation "⌊ f ⌋".
 Reserved Notation "⌈ f ⌉".
 
-(* o3 p3 are universes larger than either C or D. *)
-Class Adjunction@{o3 p3 so sh sp} := {
+(* The two hom-setoids share carrier and proof level h. Their category
+   Sets@{h so} requires h < so, not a bound on the object levels co and do.
+   sp occurs in no bound, but instances at distinct sp are not convertible;
+   see the conversion control in Test/ProbeCollapse459.v. *)
+Class Adjunction@{so sp} := {
   (* adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y *)
   adj {x y} :
-    @Isomorphism@{so sh p3} Sets@{o3 so}
+    @Isomorphism Sets@{h so}
       {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
       {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |}
     where "⌊ f ⌋" := (to   adj f)

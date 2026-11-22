@@ -867,7 +867,7 @@ Defined.
    left free, is pinned to the one of [Sets], as Instance/Smgrp.v and
    Instance/Mon/Free.v pin theirs. *)
 Definition free_module_adjunction_hom@{a c p so +} (R : RingObject@{a c p}) :
-  @Adjunction@{_ c c so c c c c so c so} (RMod R) Sets@{c so}
+  @Adjunction@{_ so c so so} (RMod R) Sets@{c so}
     (FreeMod R) (RMod_Forget R).
 Proof.
   unshelve refine
@@ -891,14 +891,14 @@ Example free_module_hom_unit@{a c p so +} (R : RingObject@{a c p})
   @Category.Theory.Adjunction.unit _ _ _ _ (free_module_adjunction_hom R) X
     = @Category.Theory.Adjunction.unit _ _ _ _
         (free_module_adjunction R
-           : @Adjunction@{_ c c so c c c c so c so} _ _ _ _) X
+           : @Adjunction@{_ so c so so} _ _ _ _) X
   := eq_refl.
 
 Example free_module_hom_to@{a c p so +} (R : RingObject@{a c p})
   (X : Sets@{c so}) (W : RMod R) (g : FreeMod R X ~{RMod R}~> W) :
   to (@adj _ _ _ _ (free_module_adjunction_hom R) X W) g
     = to (@adj _ _ _ _ (free_module_adjunction R
-                          : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+                          : @Adjunction@{_ so c so so} _ _ _ _)
             X W) g := eq_refl.
 
 (** ** Every element is a finite linear combination of basis vectors

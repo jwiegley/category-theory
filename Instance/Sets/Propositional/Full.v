@@ -385,10 +385,10 @@ Next Obligation. intros S X g x; reflexivity. Qed.
 Next Obligation. intros S X k x; reflexivity. Qed.
 
 Definition PropSets_trunc_Incl@{o so a | o < so +} :
-  @Adjunction@{so o o so o o o o so o a} PropSets@{o so} Sets@{o so}
+  @Adjunction@{so so o so a} PropSets@{o so} Sets@{o so}
     PropSets_trunc@{o so} PropSets_Incl@{o so}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{so o o so o o a so} _ _
+  unshelve refine (@Build_Adjunction'@{so so o a so} _ _
                      PropSets_trunc@{o so} PropSets_Incl@{o so}
                      PropSets_trunc_iso@{o so} _ _).
   - intros x y z f g t; simpl. reflexivity.

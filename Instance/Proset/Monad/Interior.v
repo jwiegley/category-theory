@@ -538,7 +538,7 @@ Definition adj_closure@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   {RA : relation A} {RB : relation B} {PA : PreOrder RA}
   {PB : PreOrder RB} {F : Proset@{a h} PA ⟶ Proset@{b h} PB}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
-  (Adj : @Adjunction@{b h h a h h h h s h w} _ _ F U) :
+  (Adj : @Adjunction@{b a h s w} _ _ F U) :
   ClosureOperator@{a} PA :=
   closure_of_monad (U ◯ F) (MM := Adjunction_Monad@{b h a h s w} Adj).
 
@@ -548,7 +548,7 @@ Definition adj_interior@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   {RA : relation A} {RB : relation B} {PA : PreOrder RA}
   {PB : PreOrder RB} {F : Proset@{a h} PA ⟶ Proset@{b h} PB}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
-  (Adj : @Adjunction@{b h h a h h h h s h w} _ _ F U) :
+  (Adj : @Adjunction@{b a h s w} _ _ F U) :
   InteriorOperator@{b} PB :=
   interior_of_comonad (F ◯ U)
     (H := Adjunction_Comonad@{b h a h s h w} Adj).
@@ -557,14 +557,14 @@ Example adj_closure_fun@{a b h s w | h < s +} {A : Type@{a}}
   {B : Type@{b}} {RA : relation A} {RB : relation B} {PA : PreOrder RA}
   {PB : PreOrder RB} {F : Proset@{a h} PA ⟶ Proset@{b h} PB}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
-  (Adj : @Adjunction@{b h h a h h h h s h w} _ _ F U) (x : A) :
+  (Adj : @Adjunction@{b a h s w} _ _ F U) (x : A) :
   cl_fun (adj_closure Adj) x = U (F x) := eq_refl.
 
 Example adj_interior_fun@{a b h s w | h < s +} {A : Type@{a}}
   {B : Type@{b}} {RA : relation A} {RB : relation B} {PA : PreOrder RA}
   {PB : PreOrder RB} {F : Proset@{a h} PA ⟶ Proset@{b h} PB}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
-  (Adj : @Adjunction@{b h h a h h h h s h w} _ _ F U) (y : B) :
+  (Adj : @Adjunction@{b a h s w} _ _ F U) (y : B) :
   cl_fun (adj_interior Adj) y = F (U y) := eq_refl.
 
 (* At Galois.v's truncated shift (n - k ⊣ m + k) on (ℕ, ≤). *)

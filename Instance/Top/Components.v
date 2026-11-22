@@ -798,7 +798,7 @@ Next Obligation. intros X S g x; simpl; reflexivity. Qed.
 Next Obligation. intros X S h x; simpl; reflexivity. Qed.
 
 Definition components_left_adjoint_discrete@{o so | o < so +} :
-  @Adjunction@{so o o so o o o o so o so} PSets@{o so} Lconn@{o so}
+  @Adjunction@{so so o so so} PSets@{o so} Lconn@{o so}
     components_functor@{o so} PSetsDisc@{o so}.
 Proof.
   unshelve eapply (@Build_Adjunction' _ _ components_functor PSetsDisc
@@ -1016,7 +1016,7 @@ Next Obligation. intros U X S h x; simpl; reflexivity. Qed.
    [Untruncate]. *)
 Definition components_left_adjoint_discrete_Sets@{o so | o < so +}
   (U : Untruncate@{o}) :
-  @Adjunction@{so o o so o o o o so o so} Sets@{o so} Lconn@{o so}
+  @Adjunction@{so so o so so} Sets@{o so} Lconn@{o so}
     components_functor_Sets@{o so} LDisc@{o so}.
 Proof.
   unshelve eapply (@Build_Adjunction' _ _ components_functor_Sets LDisc
@@ -1319,10 +1319,10 @@ Qed.
 
 Theorem discrete_left_adjoint_no_left_adjoint@{o so ua ub +| o < so +}
   (C : Lconn@{o so} ⟶ PSets@{o so})
-  (A : @Adjunction@{so o o so o o o o ua o _} PSets@{o so} Lconn@{o so}
+  (A : @Adjunction@{so so o ua _} PSets@{o so} Lconn@{o so}
          C PSetsDisc@{o so})
   (L : PSets@{o so} ⟶ Lconn@{o so})
-  (B : @Adjunction@{so o o so o o o o ub o _} Lconn@{o so} PSets@{o so}
+  (B : @Adjunction@{so so o ub _} Lconn@{o so} PSets@{o so}
          L C) : False.
 Proof.
   exact (not_PreservesEqualizers_no_left_adjoint _ _ _ _

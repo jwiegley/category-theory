@@ -920,7 +920,7 @@ Proof.
 Defined.
 
 Definition free_rng_ab_adjunction_hom@{u p +} :
-  @Adjunction@{u p p u p p p p u p u} Rng@{u p} Ab@{u p}
+  @Adjunction@{u u p u u} Rng@{u p} Ab@{u p}
     FreeRngAb Rng_Forget_Ab.
 Proof.
   unshelve refine

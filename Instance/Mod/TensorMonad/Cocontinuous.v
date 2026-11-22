@@ -231,7 +231,7 @@ Generalizable All Variables.
    coextension, composed. *)
 
 Definition TensorF_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o x} R)
     (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R) :=
   Adjunction_Compose (zext_adjunction@{c c c o o x c c} R)
@@ -294,7 +294,7 @@ Qed.
 (** ** The square of the monad is a left adjoint *)
 
 Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o x} R ◯ TensorF@{c c c o x} R)
     ((RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)
        ◯ (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)) :=

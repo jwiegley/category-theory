@@ -470,10 +470,10 @@ Next Obligation. intros X P k x; reflexivity. Qed.
 
 Definition PosDiscP_PosPForget@{c so po p0 p1 p2 p3 a |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
-  @Adjunction@{po c c so c c c c so c a} Pos@{po p0 p1 p2 p3 c} PropSets@{c so}
+  @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} PropSets@{c so}
     PosDiscP@{c so po p0 p1 p2 p3} PosPForget@{c so po p0 p1 p2 p3}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po c c so c c a so} _ _
+  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
                      PosDiscP@{c so po p0 p1 p2 p3}
                      PosPForget@{c so po p0 p1 p2 p3}
                      posdiscP_iso@{c so po p0 p1 p2 p3} _ _).
@@ -694,10 +694,10 @@ Next Obligation. intros S P k x; reflexivity. Qed.
 
 Definition PosDisc_Pos_Forget@{c so po p0 p1 p2 p3 a |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
-  @Adjunction@{po c c so c c c c so c a} Pos@{po p0 p1 p2 p3 c} Sets@{c so}
+  @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} Sets@{c so}
     PosDisc@{c so po p0 p1 p2 p3} Pos_Forget@{po so p0 p2 p1 p3 c}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po c c so c c a so} _ _
+  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
                      PosDisc@{c so po p0 p1 p2 p3}
                      Pos_Forget@{po so p0 p2 p1 p3 c}
                      posdisc_iso@{c so po p0 p1 p2 p3} _ _).
@@ -964,7 +964,7 @@ Lemma any_adj_to_Id_trunc@{c so po p0 p1 p2 p3 s a |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0,
   c <= p1 +}
   (F : Sets@{c so} ⟶ Pos@{po p0 p1 p2 p3 c})
-  (A : @Adjunction@{po c c so c c c c so c a} Pos@{po p0 p1 p2 p3 c}
+  (A : @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c}
          Sets@{c so} F Pos_Forget@{po so p0 p2 p1 p3 c})
   (θ : MonadHom@{so c}
          (@Adjunction_Induced_Monad@{po c so c so a s} _ _ _ _ A)

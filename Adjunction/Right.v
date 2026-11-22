@@ -207,23 +207,15 @@ Generalizable All Variables.
    [Adjunction_from_Transform]; that attribution is withdrawn, the
    discriminating experiment having been run.
 
-   UNIVERSES, measured off BOTH the binder AND the constraint block,
-   because in this file the trap fires in BOTH directions.  The CLASSES
-   are declared with explicit [Universes o1 h1 p1 o2 h2 p2] binders, in
-   the style of Theory/Adjunction.v itself, so their binders DISPLAY free
-   (Category@{o1 h1 p1} and Category@{o2 h2 p2}) and the identifications
-   are visible in the block: h1 = p1, h1 = h2, h1 = p2, h2 = p2, plus
-   h1 = o3 = sh = sp and h1 < so for the [Sets] levels.  That block is
-   the same content [Adjunction] itself carries, so annotating buys
-   PRESENTATION, not strength -- an unannotated variant was compiled out
-   of tree and minimizes the very same identifications into the binder
-   instead.  BOTH OBJECT UNIVERSES o1 AND o2 ARE FREE: no constraint
-   mentions either, not even a bound.  The DERIVED constants go the other
-   way and a reader must not stop at their blocks --
-   [Adjunction_of_AdjointOnTheRight@{u u0 u1 u2 u3}] has a block of five
-   BOUNDS with NO equation while its BINDER reads Category@{u1 u3 u3} and
-   Category@{u2 u3 u3}; likewise [right_does_not_imply_left], whose block
-   carries no equation at all.
+   UNIVERSES.  Read both the category arguments and the constraints in
+   [About AdjointOnTheRight] and [About AdjointOnTheLeft]. Both records
+   take [A : Category@{ao h h}] and [X : Category@{xo h h}]: the hom and
+   proof levels coincide, while the object levels are independent. The
+   hom-setoids are objects of [Sets@{h so}], with [h < so]. Before #1414
+   both classes expressed the same identifications by equations among ten
+   binders. Unlike ordinary [Adjunction], neither had an independent [sp]:
+   its old [sp] was the proof level of the displayed isomorphism, equal to
+   [h]. The following probes isolate the sources of these identifications.
 
    The identifications are the DONORS', and each is probed rather than
    attributed, with siblings tested first.  For hom = proof there are TWO
@@ -333,15 +325,14 @@ Example hom_op_is_hom (A : Category) (a b : A) :
 
 Section AdjointOnTheRight.
 
-Universes o1 h1 p1 o2 h2 p2.
-Context {A : Category@{o1 h1 p1}}.
-Context {X : Category@{o2 h2 p2}}.
+Universes ao xo h.
+Context {A : Category@{ao h h}} {X : Category@{xo h h}}.
 Context (S : (A^op) ⟶ X).
 Context (T : (X^op) ⟶ A).
 
-Class AdjointOnTheRight@{o3 so sh sp} := {
+Class AdjointOnTheRight@{so} := {
   aor {a x} :
-    @Isomorphism@{so sh sp} Sets@{o3 so}
+    @Isomorphism Sets@{h so}
       {| carrier := @hom A a (T x); is_setoid := @homset A a (T x) |}
       {| carrier := @hom X x (S a); is_setoid := @homset X x (S a) |};
 
@@ -356,9 +347,9 @@ Class AdjointOnTheRight@{o3 so sh sp} := {
     from aor (p ∘ k) ≈ fmap[T] k ∘ from aor p
 }.
 
-Class AdjointOnTheLeft@{o3 so sh sp} := {
+Class AdjointOnTheLeft@{so} := {
   aol {x a} :
-    @Isomorphism@{so sh sp} Sets@{o3 so}
+    @Isomorphism Sets@{h so}
       {| carrier := @hom A (T x) a; is_setoid := @homset A (T x) a |}
       {| carrier := @hom X (S a) x; is_setoid := @homset X (S a) x |};
 

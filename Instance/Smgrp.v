@@ -701,7 +701,7 @@ Defined.
 
 (* The free semigroup: F ⊣ G, ⟨F, G, η, ε⟩ : Set ⇀ Smgrp. *)
 Definition Sg_adj@{o so} :
-  @Adjunction@{so o o so o o o o so o so} SmgrpSets@{o so} Sets@{o so}
+  @Adjunction@{so so o so so} SmgrpSets@{o so} Sets@{o so}
     Sg_Free@{o so} Sg_Forget@{o so}.
 Proof.
   unshelve refine
