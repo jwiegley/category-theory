@@ -373,7 +373,7 @@ Defined.
 
 (* Riehl's adjunction, literally: F ⊣ U on Set^BM. *)
 Definition BG_adj@{o so} (M : MonObject@{o o o}) :
-  @Adjunction@{so o o so o o o o so o so} (SetBG@{o so} M) Sets@{o so}
+  @Adjunction@{so so o so so} (SetBG@{o so} M) Sets@{o so}
     (F_BG@{o so} M) (U_BG@{o so} M).
 Proof.
   unshelve refine

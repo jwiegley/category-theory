@@ -394,7 +394,7 @@ Defined.
 
 (* FreeCMon ⊣ CMon_Forget, in hom-set form, so that the counit computes. *)
 Definition FreeCMon_adj@{+} :
-  @Adjunction@{so o o so o o o o so o so} CMonOS Sets@{o so} FreeCMon UCMon.
+  @Adjunction@{so so o so so} CMonOS Sets@{o so} FreeCMon UCMon.
 Proof.
   unshelve refine
     (@Build_Adjunction' CMonOS Sets@{o so} FreeCMon UCMon

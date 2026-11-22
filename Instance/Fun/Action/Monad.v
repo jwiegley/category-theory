@@ -385,7 +385,7 @@ Defined.
 
 (* Riehl's left adjoint X ↦ G × X, over any monoid. *)
 Definition MSet_adj@{o so} (M : MonObject@{o o o}) :
-  @Adjunction@{so o o so o o o o so o so} (MSet@{so so o o o o o o} M)
+  @Adjunction@{so so o so so} (MSet@{so so o o o o o o} M)
     Sets@{o so} (MSet_Free@{o so} M) (MSet_Forget@{o so} M).
 Proof.
   unshelve refine

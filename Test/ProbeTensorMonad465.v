@@ -1043,7 +1043,7 @@ Fail Example p465c_C7c_fmap_comp@{a c p o x} (R : RingObject@{a c p}) :
 
 (* CONTROL: the tensor–hom adjunction at [RingObject@{c c c}]. *)
 Definition p465c_ctl_ring_ccc@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o x} R)
     (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R) :=
   Adjunction_Compose (zext_adjunction@{c c c o o x c c} R)
@@ -1054,21 +1054,21 @@ Definition p465c_ctl_ring_ccc@{c o x} (R : RingObject@{c c c}) :
    a = p. *)
 Definition p465c_ctl_ring_open@{a c p o x | Set < o, c < o, c < x +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o x} R)
     (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
   Adjunction_Compose (zext_adjunction@{a c p o o x a a} R)
     (coex_adjunction@{a c p o x c} R).
 
 (* C8 *)
-Check @Adjunction@{_ _ _ _ _ _ _ _ _ _ _}.
+Check @Adjunction@{_ _ _ _ _}.
 Check @coex_adjunction@{_ _ _ _ _ _}.
 Check @Category.Instance.Mod.BaseChange.zext_adjunction@{_ _ _ _ _ _ _ _}.
 Check @Category.Instance.Mod.Coextension.coex_adjunction@{_ _ _ _ _ _}.
 Fail Definition p465c_C8_carrier_below@{a c p o x |
     Set < o, c < o, c < x, c < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o x} R)
     (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
   Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)
@@ -1078,7 +1078,7 @@ Fail Definition p465c_C8_carrier_below@{a c p o x |
 Fail Definition p465c_C8a_proof_below@{a c p o x |
     Set < o, c < o, c < x, p < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o x} R)
     (RMod_Forget_Ab@{x o o a p c} R ◯ Coextension@{a c p o x} R) :=
   Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p o o x a a} R)

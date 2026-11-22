@@ -326,7 +326,7 @@ Defined.
 
 (* The free complete semilattice: F ⊣ U, in the hom-set form. *)
 Definition SL_adj@{o so} :
-  @Adjunction@{so o o so o o o o so o so} SupLat@{o so} Sets@{o so}
+  @Adjunction@{so so o so so} SupLat@{o so} Sets@{o so}
     SL_Free@{o so} SL_Forget@{o so}.
 Proof.
   unshelve refine

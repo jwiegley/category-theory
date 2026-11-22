@@ -228,7 +228,7 @@
     and A := (= true)).
 
     Controls of the adjunction.  [pairs_quotient_adjunction] at its
-    explicit record instance [Adjunction@{h h h h h h h h u h v}]
+    explicit record instance [Adjunction@{h h h u v}]
     ([p459_adjunction]); unit and counit at [eq_refl]
     ([p459_unit_eval], [p459_counit_some], [p459_counit_none]); its
     hom-set isomorphism IS [pairs_quotient_iso] at [eq_refl]
@@ -714,7 +714,7 @@ Definition p459_unsat_rel_not_transitive :
    counit read back at [eq_refl], and its hom-set isomorphism IS
    [pairs_quotient_iso] at [eq_refl]. *)
 Definition p459_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
   pairs_quotient_adjunction@{h o u v}.
 
@@ -754,7 +754,7 @@ Fail Example p459_hom_eq@{h o | o < h +} (X : PairTop@{o})
 (* CONTROL: the [Build_Adjunction'] term of the target at the explicit
    record instance. *)
 Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
   @Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o} PairQuotient@{h o}
     PointPair@{h o} pairs_quotient_iso@{h o u}
@@ -1128,3 +1128,20 @@ Check pquot_wide_coequalizer_colimit_quotient.
 Check pquot_wide_legs.
 Check pquot_wide_legs_coherence.
 Check pquot_wide_ump.
+
+(* #1414: sp does not occur in the constraints of Adjunction, but the
+   record remembers it under conversion. Check both instances eagerly;
+   their only difference is sp. *)
+Section AdjunctionConversion.
+  Universes co do h so low high.
+  Constraint h < so. Constraint low < high.
+  Context {C : Category@{co h h}} {D : Category@{do h h}}.
+  Context (F : D ⟶ C) (U : C ⟶ D).
+  Check @Adjunction@{co do h so low}.
+  Check @Adjunction@{co do h so high}.
+  Local Definition adj_low := @Adjunction@{co do h so low} C D F U.
+  Local Definition adj_high := @Adjunction@{co do h so high} C D F U.
+  Example adj_low_self : adj_low = adj_low := eq_refl.
+  Example adj_high_self : adj_high = adj_high := eq_refl.
+  Fail Example adj_distinct_sp : adj_low = adj_high := eq_refl.
+End AdjunctionConversion.

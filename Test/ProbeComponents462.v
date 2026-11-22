@@ -460,13 +460,13 @@ Definition p462_comp_respect@{o} (X : PTop@{o}) (S : SetoidObject@{o o})
    true, and [Untruncate] gives one. *)
 Definition p462_unsquash@{o so ua ub | o < so, o < ua +}
   (C' : Lconn@{o so} ⟶ Sets@{o so})
-  (A : @Adjunction@{so o o so o o o o ua o ub} Sets@{o so} Lconn@{o so}
+  (A : @Adjunction@{so so o ua ub} Sets@{o so} Lconn@{o so}
          C' LDisc@{o so}) : inhabited Untruncate@{o} :=
   components_on_all_Sets_Untruncate C' A.
 
 Definition p462_unsquash_principle@{o so ua ub | o < so, o < ua +}
   (C' : Lconn@{o so} ⟶ Sets@{o so})
-  (A : @Adjunction@{so o o so o o o o ua o ub} Sets@{o so} Lconn@{o so}
+  (A : @Adjunction@{so so o ua ub} Sets@{o so} Lconn@{o so}
          C' LDisc@{o so}) : inhabited (∀ Q : Type@{o}, inhabited Q → Q) :=
   components_on_all_Sets_unsquashes C' A.
 
@@ -581,29 +581,29 @@ Definition p462_zig_not_preserved@{o so | o < so +} :
 (* CONTROL: the refutations, restated. *)
 Definition p462_no_left_adjoint@{o so u u0 | o < so, o < u +}
   (L : PSets@{o so} ⟶ Lconn@{o so})
-  (B : @Adjunction@{so o o so o o o o u o u0} Lconn@{o so} PSets@{o so}
+  (B : @Adjunction@{so so o u u0} Lconn@{o so} PSets@{o so}
          L components_functor@{o so}) : False :=
   components_no_left_adjoint L B.
 
 Definition p462_any_left_adjoint@{o so ua ub u u0 +| o < so, o < ua,
     o < ub +}
   (C : Lconn@{o so} ⟶ PSets@{o so})
-  (A : @Adjunction@{so o o so o o o o ua o u} PSets@{o so} Lconn@{o so}
+  (A : @Adjunction@{so so o ua u} PSets@{o so} Lconn@{o so}
          C PSetsDisc@{o so})
   (L : PSets@{o so} ⟶ Lconn@{o so})
-  (B : @Adjunction@{so o o so o o o o ub o u0} Lconn@{o so} PSets@{o so}
+  (B : @Adjunction@{so so o ub u0} Lconn@{o so} PSets@{o so}
          L C) : False :=
   discrete_left_adjoint_no_left_adjoint C A L B.
 
 Definition p462_no_left_on_PTop@{o so u u0 | o < so, o < u +}
   (C' : PTopCat@{o so} ⟶ PSets@{o so})
-  (A : @Adjunction@{so o o so o o o o u o u0} PSets@{o so} PTopCat@{o so}
+  (A : @Adjunction@{so so o u u0} PSets@{o so} PTopCat@{o so}
          C' PSetsDiscTop@{o so}) : False :=
   discrete_no_left_adjoint_on_PTop C' A.
 
 Definition p462_PDisc_no_left@{o so u u0 | o < so, o < u +}
   (C' : PTopCat@{o so} ⟶ Sets@{o so})
-  (A : @Adjunction@{so o o so o o o o u o u0} Sets@{o so} PTopCat@{o so}
+  (A : @Adjunction@{so so o u u0} Sets@{o so} PTopCat@{o so}
          C' PDisc@{o so}) : False :=
   PDisc_no_left_adjoint C' A.
 

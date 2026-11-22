@@ -1330,7 +1330,7 @@ Definition p458_ex3a_literal_refuted :
 Definition p458_ex3a_literal_above_set@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 |
   Set < u, Set < u0, Set < u1, Set < u2, Set < u3, Set < u4, Set < u5,
   Set < u6, Set < u7, Set < u8, Set < u9, u8 < u5, u9 < u2 +} :
-  Ex3a_left_literal@{u u5 u0 u1 u2 u9 u3 u4 u6 u8 u7} ex3_G1@{u7 u4 u8}
+  Ex3a_left_literal@{u u5 u0 u1 u9 u2 u3 u4 u6 u8 u7} ex3_G1@{u7 u4 u8}
     ex3_T0@{u6 u8 u7 u5} → False :=
   ex3a_left_adjoint_literal_refuted@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9}.
 

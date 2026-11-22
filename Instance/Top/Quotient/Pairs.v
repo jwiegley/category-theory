@@ -278,9 +278,9 @@ Generalizable All Variables.
        [Isomorphism] in [Sets@{h u}], whose objects, the hom-setoids at
        [h], sit at [u].  [pairs_quotient_adjunction@{h o u v}]: the same
        two bounds, and [v] in no constraint.  [v] is [Adjunction]'s own
-       binder [sp] of [Adjunction@{o1 h1 p1 o2 h2 p2 o3 p3 so sh sp}],
+       binder [sp] of [Adjunction@{co do h so sp}],
        which occurs in no constraint of that record's About block.  The
-       statement is written [Adjunction@{h h h h h h h h u h v}]: the same
+       statement is written [Adjunction@{h h h u v}]: the same
        [Build_Adjunction'] term stated through the notation [⊣] under the
        closed binder, [v] named in it, is refused at the statement,
        "Universe <1> (...) is unbound" (Test/ProbeCollapse459.v's N13),
@@ -622,7 +622,7 @@ Qed.
 
 (* Construction 6: ⟨X, A⟩ ↦ X/A is left adjoint to Y ↦ ⟨Y, *⟩. *)
 Definition pairs_quotient_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o}.
 Proof.
   unshelve eapply (@Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o}

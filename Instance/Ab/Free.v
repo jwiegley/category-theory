@@ -885,7 +885,7 @@ Defined.
    left free, is pinned to the one of [Sets], as Instance/Mod/Free.v pins
    its own hom-set form. *)
 Definition free_ab_adjunction_hom@{c so +} :
-  @Adjunction@{_ c c so c c c c so c so} Ab Sets@{c so} FreeAb Ab_Forget.
+  @Adjunction@{_ so c so so} Ab Sets@{c so} FreeAb Ab_Forget.
 Proof.
   unshelve refine
     (@Build_Adjunction' Ab Sets FreeAb Ab_Forget free_ab_hom_iso _ _).
@@ -904,7 +904,7 @@ Example free_ab_hom_counit@{c so +} (A : Ab) (t : FATerm (Ab_Forget A)) :
 Example free_ab_hom_unit@{c so +} (X : Sets@{c so}) :
   @Category.Theory.Adjunction.unit _ _ _ _ free_ab_adjunction_hom X
     = @Category.Theory.Adjunction.unit _ _ _ _
-        (free_ab_adjunction : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+        (free_ab_adjunction : @Adjunction@{_ so c so so} _ _ _ _)
         X
   := eq_refl.
 
@@ -912,7 +912,7 @@ Example free_ab_hom_to@{c so +} (X : Sets@{c so}) (A : Ab)
   (g : FreeAb X ~{Ab}~> A) :
   to (@adj _ _ _ _ free_ab_adjunction_hom X A) g
     = to (@adj _ _ _ _ (free_ab_adjunction
-                          : @Adjunction@{_ c c so c c c c so c so} _ _ _ _)
+                          : @Adjunction@{_ so c so so} _ _ _ _)
             X A) g := eq_refl.
 
 

@@ -758,7 +758,7 @@ Proof.
 Defined.
 
 Definition free_mon_sets_adjunction_hom@{o so +} :
-  @Adjunction@{so o o so o o o o so o so} MonS Sets@{o so}
+  @Adjunction@{so so o so so} MonS Sets@{o so}
     FreeMonSets UMonS.
 Proof.
   unshelve refine
