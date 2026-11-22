@@ -221,8 +221,11 @@ Definition Build_Category'
 
 Example Build_Category'_Coq : Category.
 Proof.
-  unshelve refine (Build_Category' (@Basics.arrow)
-                                   (@Datatypes.id) (@Basics.compose));
+  (* Function terms, as in Instance/Coq.v. Using Basics.arrow,
+     Datatypes.id and Basics.compose here equates their global universes
+     and prevents joint use with Identity_IsMonad (Test/Issue1396.v). *)
+  unshelve refine (Build_Category' (fun A B => A -> B) (fun _ x => x)
+                                   (fun _ _ _ g f x => g (f x)));
   intros; try reflexivity.
   - refine {| equiv := fun f g => ∀ x, f x = g x |}.
     equivalence.

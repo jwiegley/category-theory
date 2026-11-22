@@ -33,9 +33,10 @@ Generalizable All Variables.
    predicate "this [ret]/[bind] arises from such a lawful categorical monad",
    and [Identity_IsMonad], [arrow_IsMonad] and [Compose_IsMonad] establish
    lawfulness of the identity, reader and composite monad instances by
-   exhibiting that structure.  As in the rest of the applied layer, these
-   discharge against Coq's [Type] category and so rest on the pre-existing
-   [functional_extensionality_dep] axiom (not an additional assumption). *)
+   exhibiting that structure. [Print Assumptions] distinguishes them:
+   [Identity_IsMonad] is closed; [arrow_IsMonad] and [Compose_IsMonad]
+   inherit [functional_extensionality_dep]. A universe named for that
+   axiom in a constraint is not itself an assumption. *)
 
 Definition EndoMonad_Monad
   `(H : EndoFunctor F)
