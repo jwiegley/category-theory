@@ -90,14 +90,23 @@ Generalizable All Variables.
    constraint-block difference runs the other way: the DONOR carries two
    extra stdlib bounds ([u0 <= eq.u0], [u0 <= Logic_lemmas.equality.u0])
    from the power's discrete diagram, which the wide form drops.
+   CORRECTION (Rocq 9.3.0 migration): [About] on both theorems says
+   otherwise.  On 9.2.0 the two blocks agree under the renaming of
+   [initial_from_weakly_initial]'s [lim idx obj h u] to this theorem's
+   [u0 u1 u2 u3 u], [eq.u0] and [Logic_lemmas.equality.u0] included.  On
+   9.3.0 [eq.u0] is in neither; the index level carries
+   [eq_rew_r_dep.u0] and the hom level [eq_sym.u0] and
+   [eq_rew_r_dep.u1] in both, and the donor alone carries one more,
+   [h <= eq_rew_r_dep.u0].
 
    NOT DELIVERED.  No [HasWideEqualizers] instance, so this theorem has no
    in-tree application and is a conditional exactly as its donor is; in
    particular [Adjunction/GAFT.v] is NOT rerouted through it.  No wide
    analogue of [Structure/Limit/Product.v]'s indexed products (the product
    [P] is still an ordinary discrete-diagram limit).  No claim that the two
-   theorems have the same universe constraints — they do not, and the
-   difference is the donor's two extra bounds described above. *)
+   theorems have the same universe constraints on every release: by the
+   CORRECTION above they agree up to renaming on Rocq 9.2.0, and on 9.3.0
+   the donor carries one bound more. *)
 
 (* A weakly initial family, a product of it, and a supply of wide
    equalizers yield a genuine initial object.

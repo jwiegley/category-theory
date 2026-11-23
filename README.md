@@ -4,8 +4,8 @@ This development encodes category theory in Coq, with the primary aim being to
 allow representation and manipulation of categorical terms, as well
 realization of those terms in various target categories.
 
-- Supported versions: [Coq](https://github.com/coq/coq/) 8.19 through 8.20 and [Rocq](https://github.com/coq/coq/) 9.0 through 9.1.
-- Some parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations) 1.2.4 through 1.3.1.
+- Supported version: [Rocq](https://github.com/rocq-prover/rocq) 9.3.0, with Stdlib 9.2.0.
+- Some parts depend on [Equations](https://github.com/mattam82/Coq-Equations) 1.3.2+9.3.
 
 ## Building
 
@@ -13,10 +13,7 @@ The easiest way to build is with [Nix](https://nixos.org/):
 
     nix build
 
-This builds against Rocq 9.1 by default. For other versions:
-
-    nix build .#category-theory_8_20
-    nix build .#category-theory_9_0
+This builds against Rocq 9.3.0, the one supported version.
 
 To enter a development shell with all dependencies:
 

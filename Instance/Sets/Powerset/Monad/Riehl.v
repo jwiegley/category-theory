@@ -99,6 +99,10 @@ Generalizable All Variables.
    RelationClasses.Defs.u0, Relation_Definition.u0 and Projections.u0 at
    its setoid level o; and the bounds on Set and JMeq unconditionally.
    [join_natural_routes_agree] carries the union of the two.
+   CORRECTION (Rocq 9.3.0 migration): on 9.3.0 the cap written eq.u0
+   above is eq_rew_r_dep.u0, on [join_natural_via_LAPC] and on
+   [direct_image_preserves_joins_via_LAPC] alike; the other bounds
+   named here are unchanged (by [About] on both releases).
    [Powerset_union_IsLUB] states [IsLUB] at [IsLUB@{o o Set Set Set}]:
    the bound is a pair of propositions, and with its level at o instead,
    [join_natural_via_image] gained o <= projections.u0 (measured).

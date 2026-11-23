@@ -2,7 +2,7 @@
   description = "An axiom-free formalization of category theory in Coq for personal study and practical work";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/26.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -10,9 +10,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        release = assert pkgs.coqPackages_9_2.coq.version == "9.2.0"; pkgs.coqPackages_9_2;
-        inherit (release) coq equations;
-        stdlib = pkgs.rocqPackages_9_2.stdlib;
+        release = assert pkgs.rocqPackages_9_3.coq.version == "9.3.0"; pkgs.rocqPackages_9_3;
+        inherit (release) coq equations stdlib;
         category-theory = pkgs.stdenv.mkDerivation rec {
           name = "coq${coq.coq-version}-category-theory-${version}";
           version = "1.0";
@@ -57,9 +56,9 @@
 
       in rec {
         packages = rec {
-          category-theory_9_2 = category-theory;
+          category-theory_9_3 = category-theory;
 
-          default = category-theory_9_2;
+          default = category-theory_9_3;
         };
 
         devShells = {

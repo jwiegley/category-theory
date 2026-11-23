@@ -96,6 +96,14 @@ Generalizable All Variables.
    [h <= eq_ind.u0], [h <= Logic_lemmas.equality.u0], [h <= eq_ind_r.u0],
    [h <= p]) where this carries three.  The object universe is [Set] because
    [ParObj] is, exactly as in the donor.
+   CORRECTION (Rocq 9.3.0 migration): measured by [About] on 9.3.0,
+   [WideParallel] carries four constraints, [i <= eq_sym.u0],
+   [i <= Logic_lemmas.equality.u0], [i <= eq_ind_r.u0] and [i <= p], and
+   [DiscreteCat] five, [o <= eq_rew_r_dep.u0],
+   [o <= Logic_lemmas.equality.u0], [h <= eq_sym.u0],
+   [h <= Logic_lemmas.equality.u0] and [h <= p].  On 9.2.0 they were
+   also four and five, with [eq.u0] where 9.3.0 has [eq_sym.u0] and
+   [eq_rew_r_dep.u0]; the counts of three and six above match neither.
 
      AWide@{i k o h p} : ... → WideParallel@{i k} I ⟶ C   with, among others,
        i <= h

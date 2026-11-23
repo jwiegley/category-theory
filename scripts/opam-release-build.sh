@@ -5,7 +5,7 @@ umask 077
 export OPAMYES=1 OPAMJOBS=4
 # Keep the image's repository snapshots: do not update to a moving dev set.
 opam install --deps-only .
-for spec in rocq-core:9.2.0 rocq-runtime:9.2.0 coq:9.2.0 rocq-stdlib:9.1.0 rocq-equations:1.3.2+9.2; do
+for spec in rocq-core:9.3.0 rocq-runtime:9.3.0 coq:9.3.0 rocq-stdlib:9.2.0 rocq-equations:1.3.2+9.3; do
   pkg=${spec%:*}
   version=$(opam list --installed --short --columns=version "$pkg")
   printf '%s: %s\n' "$pkg" "$version"

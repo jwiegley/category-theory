@@ -202,7 +202,11 @@ Generalizable All Variables.
        JMeq.u1], [EqdepFacts.eq_sigT_sig_eq.u2] and [eq_rect_r.u1] bounds
        through [DiscreteCat_Functor'] (Comparison.v's header attributes them
        to its Program auxiliary), plus [eq.u0], [eq_ind.u0],
-       [Logic_lemmas.equality.u0] on the shape levels.
+       [Logic_lemmas.equality.u0] on the shape levels.  CORRECTION (Rocq
+       9.3.0 migration): on 9.3.0 these seven carry [JMeq.u0 <= JMeq.u1],
+       [eq_rect_r.u1], [eq_rew_r_dep.u0], [eq_rew_r_dep.u1], [eq_sym.u0]
+       and [Logic_lemmas.equality.u0], and none names [eq.u0],
+       [eq_ind.u0] or [EqdepFacts.eq_sigT_sig_eq.u2] (by [About]).
      - [small_complete_is_thin@{u u0 u1 u2 u3} : ∀ {C : Category@{u2 u3 u3}},
        ArrowIndex@{u0 u2 u3} C → Complete@{u u0 u3 u2} → DecHom@{u1 u2 u3} C
        → Thin@{u1 u2 u3} C] with [u0 <= u] (the index level sits below the
