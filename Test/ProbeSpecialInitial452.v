@@ -583,11 +583,11 @@ Fail Definition p452_n10_small_at_sets@{o so +| o < so +} (E : IEM@{o}) :
 Definition p452_iff_setoid@{l m p +| l < m, l <= p +} :
   Setoid@{m p} Type@{l}.
 Proof.
-  refine (@Build_Setoid Type@{l} (fun P Q : Type@{l} => iffT P Q) _).
-  constructor.
-  - intro P; split; intro x; exact x.
-  - intros P Q [a b]; split; assumption.
-  - intros P Q R [a b] [c d]; split; intro x; auto.
+  refine (@Build_Setoid Type@{l} (fun P Q : Type@{l} => iffT P Q)
+    ltac:(constructor;
+      [ intro P; split; intro x; exact x
+      | intros P Q [a b]; split; assumption
+      | intros P Q R [a b] [c d]; split; intro x; auto ])).
 Defined.
 
 (* CONTROL: one level down, it IS an object of [Sets@{o so}]. *)
