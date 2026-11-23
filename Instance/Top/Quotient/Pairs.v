@@ -413,7 +413,7 @@ Definition point_pair@{o} (Y : PointedTop@{o}) : PairTop@{o} :=
     (fun x y e h => transitivity (symmetry e) h).
 
 Definition point_pair_map@{h o | o < h +} {X Y : PointedTop@{o}}
-  (p : X ~{Top_pointed@{h o}}~> Y) :
+  (p : X ~{Top_pointed@{h o _}}~> Y) :
   point_pair X ~{Top_pairs@{h o}}~> point_pair Y.
 Proof.
   refine (@Build_PairMap@{h o} (point_pair X) (point_pair Y) (ptop_map p) _).
@@ -425,7 +425,7 @@ Defined.
 
 (* Y ↦ ⟨Y, *⟩. *)
 Program Definition PointPair@{h o | o < h +} :
-  Top_pointed@{h o} ⟶ Top_pairs@{h o} := {|
+  Top_pointed@{h o _} ⟶ Top_pairs@{h o} := {|
   fobj := point_pair@{o};
   fmap := @point_pair_map@{h o}
 |}.
@@ -533,14 +533,14 @@ Qed.
 
 Definition pquot_fmap@{h o | o < h +} {X Y : PairTop@{o}}
   (f : X ~{Top_pairs@{h o}}~> Y) :
-  pquot_pointed X ~{Top_pointed@{h o}}~> pquot_pointed Y :=
-  @Build_PointedMap@{o} (pquot_pointed X) (pquot_pointed Y)
+  pquot_pointed X ~{Top_pointed@{h o _}}~> pquot_pointed Y :=
+  @Build_PointedMap@{o _} (pquot_pointed X) (pquot_pointed Y)
     (@Build_ContinuousMorphism@{h o} (pquot_space X) (pquot_space Y)
        (pquot_fmap_map f) (pquot_fmap_cont f))
     ttt.
 
 Program Definition PairQuotient@{h o | o < h +} :
-  Top_pairs@{h o} ⟶ Top_pointed@{h o} := {|
+  Top_pairs@{h o} ⟶ Top_pointed@{h o _} := {|
   fobj := pquot_pointed@{o};
   fmap := @pquot_fmap@{h o}
 |}.
@@ -556,7 +556,7 @@ Qed.
 
 (* Restrict a based map out of X/A along [Some]. *)
 Definition pquot_to@{h o | o < h +} (X : PairTop@{o}) (Y : PointedTop@{o})
-  (p : pquot_pointed X ~{Top_pointed@{h o}}~> Y) :
+  (p : pquot_pointed X ~{Top_pointed@{h o _}}~> Y) :
   X ~{Top_pairs@{h o}}~> point_pair Y.
 Proof.
   refine (@Build_PairMap@{h o} X (point_pair Y)
@@ -593,8 +593,8 @@ Defined.
 
 Definition pquot_from@{h o | o < h +} (X : PairTop@{o}) (Y : PointedTop@{o})
   (g : X ~{Top_pairs@{h o}}~> point_pair Y) :
-  pquot_pointed X ~{Top_pointed@{h o}}~> Y :=
-  @Build_PointedMap@{o} (pquot_pointed X) Y
+  pquot_pointed X ~{Top_pointed@{h o _}}~> Y :=
+  @Build_PointedMap@{o _} (pquot_pointed X) Y
     (tquot_desc (pair_space X) (pquot_carrier X) (pquot_some X)
        (ptop_space Y) (pair_map g) (pquot_from_map X Y g)
        (fun x => reflexivity _))
@@ -603,8 +603,8 @@ Definition pquot_from@{h o | o < h +} (X : PairTop@{o}) (Y : PointedTop@{o})
 Program Definition pairs_quotient_iso@{h o u | o < h, h < u +}
   (X : PairTop@{o}) (Y : PointedTop@{o}) :
   @Isomorphism Sets@{h u}
-    {| carrier := @hom Top_pointed@{h o} (PairQuotient@{h o} X) Y;
-       is_setoid := @homset Top_pointed@{h o} (PairQuotient@{h o} X) Y |}
+    {| carrier := @hom Top_pointed@{h o _} (PairQuotient@{h o} X) Y;
+       is_setoid := @homset Top_pointed@{h o _} (PairQuotient@{h o} X) Y |}
     {| carrier := @hom Top_pairs@{h o} X (PointPair@{h o} Y);
        is_setoid := @homset Top_pairs@{h o} X (PointPair@{h o} Y) |} := {|
   to   := {| morphism := pquot_to@{h o} X Y |};
@@ -622,10 +622,10 @@ Qed.
 
 (* Construction 6: ⟨X, A⟩ ↦ X/A is left adjoint to Y ↦ ⟨Y, *⟩. *)
 Definition pairs_quotient_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o}.
 Proof.
-  unshelve eapply (@Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o}
+  unshelve eapply (@Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o}
                      PairQuotient@{h o} PointPair@{h o}
                      pairs_quotient_iso@{h o u}).
   - intros X Y Z f g x; reflexivity.
@@ -652,7 +652,7 @@ Example pquot_space_open@{o} (X : PairTop@{o})
   := eq_refl.
 
 Example pquot_to_eval@{h o | o < h +} (X : PairTop@{o}) (Y : PointedTop@{o})
-  (p : pquot_pointed X ~{Top_pointed@{h o}}~> Y)
+  (p : pquot_pointed X ~{Top_pointed@{h o _}}~> Y)
   (x : carrier (top_carrier (pair_space X))) :
   continuous_map (pair_map (pquot_to X Y p)) x
     = continuous_map (ptop_map p) (Some x) := eq_refl.
@@ -967,13 +967,13 @@ Definition collapse_pointed@{o} (X : PairTop@{o})
    A, and [None] goes back to [projT1 a0] itself. *)
 Definition pquot_collapse_iso_pointed@{o h u | o < h, h < u +}
   (X : PairTop@{o}) (a0 : collapse_sub_points (pair_space X) (pair_sub X)) :
-  collapse_pointed X a0 ≅[Top_pointed@{h o}] fobj[PairQuotient@{h o}] X :=
-  @Build_Isomorphism Top_pointed@{h o} (collapse_pointed X a0)
+  collapse_pointed X a0 ≅[Top_pointed@{h o _}] fobj[PairQuotient@{h o}] X :=
+  @Build_Isomorphism Top_pointed@{h o _} (collapse_pointed X a0)
     (fobj[PairQuotient@{h o}] X)
-    (@Build_PointedMap@{o} (collapse_pointed X a0)
+    (@Build_PointedMap@{o _} (collapse_pointed X a0)
        (fobj[PairQuotient@{h o}] X) (to (pquot_collapse_iso@{o h u} X a0))
        (projT2 a0))
-    (@Build_PointedMap@{o} (fobj[PairQuotient@{h o}] X)
+    (@Build_PointedMap@{o _} (fobj[PairQuotient@{h o}] X)
        (collapse_pointed X a0) (from (pquot_collapse_iso@{o h u} X a0))
        (inl (reflexivity (projT1 a0))))
     (iso_to_from (pquot_collapse_iso@{o h u} X a0))

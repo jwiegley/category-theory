@@ -680,19 +680,19 @@ Fail Example p464_bg_join_fun@{o so} (M : MonObject@{o o o})
 (* CONTROL: evaluation against [MSet_to] followed by [MSet_Forget], in
    both data fields. *)
 Example p464_bg_U_obj@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
-  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] P :=
+  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{o o _ _} M] P :=
   eq_refl.
 
 Example p464_bg_U_map@{o so} (M : MonObject@{o o o}) (P Q : SetBG@{o so} M)
   (η : P ~{SetBG@{o so} M}~> Q) :
-  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] η :=
+  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{o o _ _} M] η :=
   eq_refl.
 
 (* N16 *)
 Check @MSet_Forget@{_ _}.
-Check @MSet_to@{_ _}.
+Check @MSet_to@{_ _ _ _}.
 Fail Example p464_bg_U_is_composite@{o so} (M : MonObject@{o o o}) :
-  U_BG@{o so} M = MSet_Forget@{o so} M ◯ MSet_to@{o o} M := eq_refl.
+  U_BG@{o so} M = MSet_Forget@{o so} M ◯ MSet_to@{o o _ _} M := eq_refl.
 
 (** ** Instance/Fun/Action/Monad/BG.v: the hom level of Set^BG *)
 
@@ -708,7 +708,7 @@ Definition p464_bg_up@{o so} (M : MonObject@{o o o}) : Type@{so} :=
 
 Definition p464_bg_from_h@{o so} (M : MonObject@{o o o}) :
   MSet@{o o o o o} M ⟶ p464_SetBG_h@{o so} M :=
-  MSet_from@{o o} M.
+  MSet_from@{o o _} M.
 
 Definition p464_bg_free@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ MSet@{o o o o o} M := MSet_Free@{o so} M.
@@ -720,12 +720,12 @@ Fail Definition p464_bg_down_h@{o so} (M : MonObject@{o o o}) : Type@{so} :=
   p464_SetBG_h@{o so} M ⟶ Sets@{o so}.
 
 (* N18 *)
-Check @MSet_from@{_ _}.
+Check @MSet_from@{_ _ _}.
 Check @MSet_Free@{_ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ p464_SetBG_h@{o so} M :=
-  MSet_from@{o o} M ◯ MSet_Free@{o so} M.
+  MSet_from@{o o _} M ◯ MSet_Free@{o so} M.
 
 (** ** Instance/Fun/Action/Monad/BG.v: the tie *)
 
@@ -735,7 +735,7 @@ Definition p464_bg_F_h@{o so} (M : MonObject@{o o o}) :
    functions. *)
 Example p464_fun_em_to@{o so c} (M : MonObject@{o o o}) :
   to (Fun_EM_iso@{o so c} M)
-  = EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o} M := eq_refl.
+  = EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o _ _} M := eq_refl.
 
 Example p464_tie_carrier@{o so c} (M : MonObject@{o o o})
   (P : SetBG@{o so} M) :

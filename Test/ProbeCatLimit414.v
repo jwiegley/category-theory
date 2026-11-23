@@ -127,9 +127,13 @@ Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) (a : I) =>
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
               PiCat_IsIndexedProduct C).
 
-(* N3: inherited, the instance refused directly. *)
-Check @Cat_HasIndexedProducts@{_ _ _}.
-Fail Check @Cat_HasIndexedProducts@{i so sh _}.
+(* N3: inherited, the instance refused directly.  With the universes of
+   rocq-prover/rocq#22721 the instance has a fourth universe, the object
+   universe of the product category (formerly [max(so, sh)]). *)
+Check @Cat_HasIndexedProducts@{_ _ _ _}.
+(* Accepted with the universes of rocq-prover/rocq#22721: [sh <= so] is no longer
+   forced, the object universe of the product category being independent. *)
+Check @Cat_HasIndexedProducts@{i so sh _}.
 
 End IndexBoundary.
 

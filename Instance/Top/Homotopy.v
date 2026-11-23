@@ -529,8 +529,11 @@ Record PointedTop := {
   ptop_pt : carrier (top_carrier ptop_space)
 }.
 
-Record PointedMap (X Y : PointedTop) := {
-  ptop_map :> ptop_space X ~{Top}~> ptop_space Y;
+(* The hom universe [h] of [Top] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Record PointedMap@{o h} (X Y : PointedTop@{o}) := {
+  ptop_map :> ptop_space X ~{Top@{h o}}~> ptop_space Y;
   ptop_preserves : ptop_map (ptop_pt X) ≈ ptop_pt Y
 }.
 
@@ -592,14 +595,17 @@ Qed.
         arrows: based continuous maps   (f (pt X) ≈ pt Y)
       identity: the identity map
    composition: composition of continuous maps *)
-Program Definition Top_pointed : Category := {|
-  obj     := PointedTop;
-  hom     := PointedMap;
-  homset  := @PointedMap_Setoid;
-  id      := @ptop_id;
-  compose := @ptop_compose;
+(* The hom universe [k] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Program Definition Top_pointed@{h o k} : Category@{o+1 k h} := {|
+  obj     := PointedTop@{o};
+  hom     := PointedMap@{o o+1};
+  homset  := @PointedMap_Setoid@{k h o};
+  id      := @ptop_id@{o o+1};
+  compose := @ptop_compose@{o+1 o};
 
-  compose_respects := @ptop_compose_respects
+  compose_respects := @ptop_compose_respects@{k h k h k h o}
 |}.
 
 (** ** Based homotopy *)

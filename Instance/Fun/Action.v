@@ -179,8 +179,12 @@ Qed.
 (* Reading an action and its equivariant maps off a functor: the
    morphism action takes a transformation to its single component,
    whose naturality at g IS equivariance. *)
-Program Definition MSet_to (M : MonObject) :
-  [Deloop M, Sets] ⟶ MSet M := {|
+(* The object universe [s] of [Sets] and the universe [m] of [MSet] are their own
+   universes with the universes of rocq-prover/rocq#22721: they were [o+1] and
+   [max(d, o)], algebraic universes in invariant positions, which the minimization
+   no longer chooses. *)
+Program Definition MSet_to@{d o s m} (M : MonObject@{o o o}) :
+  [Deloop@{d o} M, Sets@{o s}] ⟶ MSet@{o m m o o} M := {|
   fobj := fun F => action_of_functor F;
   fmap := fun F G η =>
     {| equiv_map := transform[η] ttt |}
@@ -202,8 +206,11 @@ Qed.
 
 (* Materializing an equivariant map as the constant transformation
    family; naturality is equivariance. *)
-Program Definition MSet_from (M : MonObject) :
-  MSet M ⟶ [Deloop M, Sets] := {|
+(* The object universe [s] of [Sets] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Program Definition MSet_from@{o d s} (M : MonObject@{o o o}) :
+  MSet@{o o o o o} M ⟶ [Deloop@{d o} M, Sets@{o s}] := {|
   fobj := fun A => functor_of_action A;
   fmap := fun A B h =>
     {| transform := fun _ => equiv_map h |}
@@ -232,9 +239,12 @@ Qed.
 
 (* The functor-side round trip, with a transparent component family
    (the in-tree [action_functor_round] is opaque). *)
-Program Definition MSet_round_iso {M : MonObject} (F : Deloop M ⟶ Sets) :
-  @Isomorphism ([Deloop M, Sets])
-    (functor_of_action (action_of_functor F)) F := {|
+(* The object universe [s] of [Sets] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Program Definition MSet_round_iso@{d o s} {M : MonObject@{o o o}} (F : Deloop@{d o} M ⟶ Sets@{o s}) :
+  @Isomorphism ([Deloop@{d o} M, Sets@{o s}])
+    (functor_of_action@{o o d} (action_of_functor@{o o d} F)) F := {|
   to   := {| transform := fun x =>
     match x return (functor_of_action (action_of_functor F) x ~{Sets}~> F x)
     with ttt => {| morphism := fun p => p |} end |};

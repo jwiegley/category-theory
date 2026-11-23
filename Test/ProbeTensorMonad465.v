@@ -613,11 +613,11 @@ Definition p465_tm_bilin@{a c p o} (R : RingObject@{a c p})
     (AbTensor (ring_ab R) B)
     (fun g h => @ts_gen (ring_ab R) B
                   (cmon_map (@cmon_hom_id (ring_ab R)) g) (cmon_map f h))
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{_ c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{_ c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{_ c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f).
 
 (* CONTROL (the cause of N12): [tensor_map] at 1 ⊗ f IS the mediator of
@@ -626,7 +626,7 @@ Definition p465_tm_bilin@{a c p o} (R : RingObject@{a c p})
 Example p465_ctl_n12_record@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
   tensor_map (@cmon_hom_id (ring_ab R)) f
-  = tensor_ump@{c c c c} (p465_tm_bilin R f) := eq_refl.
+  = tensor_ump@{c c c c _} (p465_tm_bilin R f) := eq_refl.
 
 Example p465_ctl_n12_maps@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :

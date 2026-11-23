@@ -643,7 +643,10 @@ Next Obligation.
   exact (proper_morphism (cmon_map g) _ _ (rm_smul_one M m)).
 Qed.
 
-Definition coex_adjunction : RMod_Forget_Ab R ⊣ Coextension.
+(* With the universes of rocq-prover/rocq#22721, the universes of the proof that
+   the minimization would set to an algebraic universe in an invariant position
+   are kept unless the declaration is closed. *)
+Definition coex_adjunction@{x} : RMod_Forget_Ab R ⊣ Coextension.
 Proof.
   unshelve eapply (@Build_Adjunction' Ab (RMod R) (RMod_Forget_Ab R)
                      Coextension coex_adj).

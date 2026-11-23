@@ -1115,13 +1115,15 @@ Definition p455_n13_saft_incl_above@{s c h +| h < c +}
   { F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } :=
   SAFT_wellpowered CompHaus_Incl comp cont G CompHaus_WellPowered.
 
-Fail Definition p455_n14_saft_incl_below@{s c h +| c < h +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n14_saft_incl_below@{s c h +| c < h +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus) :
   { F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } :=
   SAFT_wellpowered CompHaus_Incl comp cont G CompHaus_WellPowered.
 
-Fail Definition p455_n19_saft_wp_below@{s c h +| c < h +}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition p455_n19_saft_wp_below@{s c h +| c < h +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus)
   (WP : WellPowered CompHaus) :

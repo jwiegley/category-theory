@@ -1165,7 +1165,7 @@ Definition p457_ppoint_maps_differ@{o so | o < so +} :
    the subspace construction at [PBool] there, and exactly [true] lies in
    it. *)
 Example p457_pbool_equalizer_obj@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _}
+  `1 PBool_equalizer@{o so _ _ _ _}
     = PSub PBool
         (`1 (@equalizer _ (@HasEqualizers_of_HasPullbacks_Terminal Sets
                              Sets_Terminal Sets_HasPullbacks)
@@ -1176,7 +1176,7 @@ Example p457_pbool_equalizer_obj@{o so +| o < so +} :
                    (pconst bool_setoid_object PBool true)))) := eq_refl.
 
 Example p457_pbool_equalizer_rari@{o so +| o < so +} :
-  `1 PBool_equalizer@{o so _ _ _}
+  `1 PBool_equalizer@{o so _ _ _ _}
     = `1 (rari_right PBool_subspace_RARI@{o so _}
             (`1 (@equalizer _ (@HasEqualizers_of_HasPullbacks_Terminal Sets
                                  Sets_Terminal Sets_HasPullbacks)
@@ -1189,8 +1189,8 @@ Example p457_pbool_equalizer_rari@{o so +| o < so +} :
   eq_refl.
 
 Definition p457_pbool_equalizer_points@{o so +| o < so +} (b : bool) :
-  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _}) =>
-        pmap (`1 (`2 PBool_equalizer@{o so _ _ _})) e = b)
+  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _ _}) =>
+        pmap (`1 (`2 PBool_equalizer@{o so _ _ _ _})) e = b)
   <-> b = true :=
   PBool_equalizer_points b.
 
@@ -1199,7 +1199,7 @@ Definition p457_pbool_equalizer_points@{o so +| o < so +} (b : bool) :
    quotient construction at [PBool] there, and every point is identified
    with [true] in it. *)
 Example p457_pbool_coequalizer_obj@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _}
+  `1 PBool_coequalizer@{o so _ _ _ _}
     = PQuot PBool
         (SetsCoeq (pconst unit_setoid_object PBool false)
                   (pconst unit_setoid_object PBool true))
@@ -1207,7 +1207,7 @@ Example p457_pbool_coequalizer_obj@{o so +| o < so +} :
                         (pconst unit_setoid_object PBool true)) := eq_refl.
 
 Example p457_pbool_coequalizer_lari@{o so +| o < so +} :
-  `1 PBool_coequalizer@{o so _ _ _}
+  `1 PBool_coequalizer@{o so _ _ _ _}
     = `1 (lari_left PBool_quotient_LARI@{o so _}
             (SetsCoeq (pconst unit_setoid_object PBool false)
                       (pconst unit_setoid_object PBool true);
@@ -1216,7 +1216,7 @@ Example p457_pbool_coequalizer_lari@{o so +| o < so +} :
   := eq_refl.
 
 Definition p457_pbool_coequalizer_points@{o so +| o < so +} (b : bool) :
-  @equiv _ (`1 PBool_coequalizer@{o so _ _ _}) b true :=
+  @equiv _ (`1 PBool_coequalizer@{o so _ _ _ _}) b true :=
   PBool_coequalizer_points b.
 
 (** ** Instance/Top/Subspace/TypeValued.v: the subspace predicate *)

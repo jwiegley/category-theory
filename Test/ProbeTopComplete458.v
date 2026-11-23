@@ -1334,12 +1334,13 @@ Definition p458_ex3a_literal_refuted :
    of its eleven universes strictly above [Set]. *)
 (* With the universes of rocq-prover/rocq#22721 the refutation has six
    universes, the last two occurring in its type only through their maximum,
-   the last universe of [Ex3a_left_literal]: they are taken equal. *)
+   the last universe of [Ex3a_left_literal]: they are taken equal.  They are
+   now a single universe, and the refutation has five. *)
 Definition p458_ex3a_literal_above_set@{u4 u6 u7 u8 w |
   Set < u4, Set < u6, Set < u7, Set < u8, Set < w +} :
   Ex3a_left_literal@{u6 u7 u4 u8 w} ex3_G1@{u8 u7 u4}
     ex3_T0@{u6 u8 u7} → False :=
-  ex3a_left_adjoint_literal_refuted@{u8 u7 u4 u6 w w}.
+  ex3a_left_adjoint_literal_refuted@{u8 u7 u4 u6 w}.
 
 Definition p458_ex3a_counterexample :
   Ex3a_left_refuting_data ex3_G1 ex3_T0 := ex3a_left_counterexample.

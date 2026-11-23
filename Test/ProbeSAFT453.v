@@ -1267,11 +1267,11 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{o jo h} C J })) F.
+                          & L ⊣ @Diagonal@{o jo h _} C J })) F.
 
 Check @Cocomplete@{_ _ _ _}.
 Check @Fun@{_ _ _ _ _ _}.
-Check @Diagonal@{_ _ _}.
+Check @Diagonal@{_ _ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
@@ -1282,7 +1282,7 @@ Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{o jo h} C J })) F.
+                          & L ⊣ @Diagonal@{o jo h _} C J })) F.
 
 (* CONTROL: the representability corollary with [PreservesImageLimit]'s
    auxiliary [pa] strictly below the objects [su] of [Sets@{h su}]. *)
@@ -1292,7 +1292,7 @@ Definition p453_repr_pa_below_su@{o h so c w s t su pl pa +|
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{o h} K :=
+  Representable@{o h _} K :=
   continuous_Set_functor_representable K comp cont G WP.
 
 (* CONTROL: its biconditional with [pa] declared at or below [su]. *)
@@ -1301,18 +1301,18 @@ Definition p453_repr_iff_pa_le_su@{o h so c w s t su pl pa ra rt +|
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{o h} K
+  Representable@{o h _} K
     ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
-Check @Representable@{_ _}.
+Check @Representable@{_ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{o h} K
+  Representable@{o h _} K
     ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K :=
   continuous_Set_functor_representable_iff K comp G WP.
 
@@ -1444,7 +1444,7 @@ Example p453_repr_obj@{o h so c w s t su pl pa +|
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @repr_obj C K
     (continuous_Set_functor_representable K comp cont G WP
-       : Representable@{o h} K)
+       : Representable@{o h _} K)
     = fobj[projT1 (SAFT_wellpowered K comp cont G WP)] SetsOne :=
   eq_refl.
 

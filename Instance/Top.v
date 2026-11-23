@@ -983,14 +983,24 @@ Qed.
    continuous map, so closure under identity and composition is trivial —
    the same shape as [Sheaves_sub] in Theory/Sheaf/Category.v and
    [Models_sub] in Theory/Lawvere/Model.v. *)
-Definition Hausdorff_Subcategory : Subcategory Top :=
-  @Build_Subcategory Top
-    (fun X : Top => IsHausdorff X)
+(* The hom universe [t] of [Top] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Definition Hausdorff_Subcategory@{x o p q t} :
+  Subcategory@{t t max(o,p+1,q+1) x} Top@{t o} :=
+  @Build_Subcategory@{t t max(o,p+1,q+1) x} Top@{t o}
+    (fun X : Top@{t o} => IsHausdorff@{max(o,p+1,q+1) p q o} X)
     (fun _ _ _ _ _ => True)
     (fun _ _ _ _ _ _ _ _ _ _ => I)
     (fun _ _ => I).
 
-Definition HausdorffSpaces : Category := Sub Top Hausdorff_Subcategory.
+(* The hom universe [t] of [Top] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses.  The [+] admits the
+   constraints on the global universes of the standard library. *)
+Definition HausdorffSpaces@{hh o p q t | t <= hh, p <= o +} : Category :=
+  Sub@{t t max(o,p+1,q+1) Set max(t,o,p+1,q+1) hh} Top@{t o}
+    Hausdorff_Subcategory@{Set o p q t}.
 
 Lemma Hausdorff_Full :
   Category.Construction.Subcategory.Full Top Hausdorff_Subcategory.

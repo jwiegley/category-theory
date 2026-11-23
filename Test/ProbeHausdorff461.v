@@ -568,7 +568,7 @@ Definition p461_not_complete_above@{e h o u u0 u1 u2 u3 u4 +| o < h,
     u <= u4 +} (E : IEM@{e})
   (comp : @Complete@{h h h u4}
             (Sub@{h h u u0 u4 h} Top@{h o}
-               Hausdorff_Subcategory@{u0 o u2 u3})) : False :=
+               Hausdorff_Subcategory@{u0 o u2 u3 _})) : False :=
   TopHaus_not_complete_below_IEM E comp.
 
 (* CONTROL: the two-point discrete space is Hausdorff with its separating

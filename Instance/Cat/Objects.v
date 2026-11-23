@@ -441,7 +441,10 @@ Program Definition StrictCat_Objects : StrictCat ⟶ Coq := {|
    object component is supplied by the hypothesis (respectively by
    [eq_refl]) and the coherence field vanishes once the discrete
    morphism -- an equality proof -- is destructed. *)
-Program Definition StrictCat_Disc : Coq ⟶ StrictCat := {|
+(* The hom universe [h] of [StrictCat] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [max(f, b)], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Program Definition StrictCat_Disc@{f b h} : Coq@{f+1 f} ⟶ StrictCat@{max(f+1,b+1) h f b} := {|
   fobj := fun A => DiscreteCat A;
   fmap := fun A B (f : A ~{Coq}~> B) => disc_ext (C := DiscreteCat B) f
 |}.
@@ -859,7 +862,7 @@ End StrictCatHomsBelow.
 Section AdjunctionUniversesSeparated.
   Universes b f.
   Constraint b < f.
-  Check (StrictCat_Disc@{f b} ⊣ StrictCat_Objects@{f b f}).
+  Check (StrictCat_Disc@{f b _} ⊣ StrictCat_Objects@{f b f}).
 End AdjunctionUniversesSeparated.
 
 (** ** §9. The objects functor genuinely forgets *)

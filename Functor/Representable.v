@@ -48,7 +48,10 @@ Generalizable All Variables.
    when it is naturally isomorphic to the contravariant hom-functor Hom(–,A)
    for some object A of C." *)
 
-Class Representable `(F : C ⟶ Sets) := {
+(* The object universe [s] of [Sets] is its own universe with the universes of
+   rocq-prover/rocq#22721: it was [h+1], an algebraic universe in an invariant
+   position, which the minimization no longer chooses. *)
+Class Representable@{o h s} {C : Category@{o h h}} (F : C ⟶ Sets@{h s}) := {
   repr_obj : C;                          (* the representing object A *)
   represented : [Hom repr_obj,─] ≅ F     (* natural iso Φ : Hom(A, ─) ⟹ F *)
 }.

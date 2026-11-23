@@ -29,8 +29,13 @@ Generalizable All Variables.
    J-complete iff Δ has a right adjoint); for the binary case this is the
    familiar (-) + (-) ⊣ Δ ⊣ (-) × (-). *)
 
+(* The hom universe [t] of the functor category is its own universe with the
+   universes of rocq-prover/rocq#22721: it was [max(jo, h)], an algebraic
+   universe in an invariant position, which the minimization no longer chooses. *)
 #[export]
-Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
+Program Instance Diagonal@{o jo h t | jo <= t, h <= t}
+  {C : Category@{o h h}} (J : Category@{jo h h}) :
+  C ⟶ @Fun@{jo h o h max(o,jo,h) t} J C := {
   fobj := fun x =>
     {| fobj := fun _ => x
      ; fmap := fun _ _ _ => id[x] |};

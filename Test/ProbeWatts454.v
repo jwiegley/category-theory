@@ -1121,7 +1121,7 @@ Definition p454_sets_ccc@{c o a pk pa +}
   (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Ab_Forget ◯ T) :=
+  Representable@{o c _} (Ab_Forget ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1136,7 +1136,7 @@ Definition p454_sets_apart_free@{a c p o b pk pa +}
   (contT : @PreservesImageLimit@{o c b c pk pa c}
              ((RMod@{o a p c} R)^op) Ab@{b c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Ab_Forget@{b pa c} ◯ T) :=
+  Representable@{o c _} (Ab_Forget@{b pa c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1157,7 +1157,7 @@ Definition p454_ex3_apart@{a c p o x b g pk pa ra rt +| c < a, p < a +}
   watts_ex3 T AF contT G U.
 
 Check @PreservesImageLimit@{_ _ _ _ _ _ _}.
-Check @Representable@{_ _}.
+Check @Representable@{_ _ _}.
 Check @Category.Instance.Ab.Ab_Forget@{_ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p454_n17_sets_apart@{a c p o x b pk pa ra rt +| c < a +}
@@ -1165,7 +1165,7 @@ Definition p454_n17_sets_apart@{a c p o x b pk pa ra rt +| c < a +}
   (contT : @PreservesImageLimit@{o c b c pk pa c}
              ((RMod@{o a p c} R)^op) Ab@{b c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Category.Instance.Ab.Ab_Forget@{b pa c} ◯ T) :=
+  Representable@{o c _} (Category.Instance.Ab.Ab_Forget@{b pa c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1191,7 +1191,7 @@ Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
   (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
+  Representable@{o c _} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1206,7 +1206,7 @@ Definition p454_n29_sets_level_below_pa@{c o x a s pk pa ra rt +|
   (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
+  Representable@{o c _} (Category.Instance.Ab.Ab_Forget@{a s c} ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -1351,7 +1351,7 @@ Example p454_watts_obj@{c o a pk pa +}
   (U : Untruncate@{c}) :
   projT1 (watts_theorem T AF contT U)
     = @repr_obj _ _ (watts_theorem_sets T contT U
-                      : Representable@{o c} (Ab_Forget ◯ T)) :=
+                      : Representable@{o c _} (Ab_Forget ◯ T)) :=
   eq_refl.
 
 Example p454_ex3_qz_cog@{r o +}

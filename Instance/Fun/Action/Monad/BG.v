@@ -294,17 +294,17 @@ Definition U_BG@{o so} (M : MonObject@{o o o}) :
    M-set M × X. *)
 Definition F_BG@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ SetBG@{o so} M :=
-  MSet_from@{o o} M ◯ MSet_Free@{o so} M.
+  MSet_from@{o o _} M ◯ MSet_Free@{o so} M.
 
 (* Evaluation is [MSet_to] followed by forgetting the action, in both data
    fields. *)
 Example U_BG_obj@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
-  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] P :=
+  fobj[U_BG@{o so} M] P = fobj[MSet_Forget@{o so} M ◯ MSet_to@{o o _ _} M] P :=
   eq_refl.
 
 Example U_BG_map@{o so} (M : MonObject@{o o o}) (P Q : SetBG@{o so} M)
   (η : P ~{SetBG@{o so} M}~> Q) :
-  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{o o} M] η :=
+  fmap[U_BG@{o so} M] η = fmap[MSet_Forget@{o so} M ◯ MSet_to@{o o _ _} M] η :=
   eq_refl.
 
 (** ** The free/forgetful adjunction *)
@@ -328,8 +328,8 @@ Definition BG_extend@{o so} {M : MonObject@{o o o}}
   {X : SetoidObject@{o o}} {P : SetBG@{o so} M}
   (ψ : X ~{Sets@{o so}}~> fobj[U_BG@{o so} M] P) :
   fobj[F_BG@{o so} M] X ~{SetBG@{o so} M}~> P :=
-  to (MSet_round_iso@{o o} P)
-    ∘ fmap[MSet_from@{o o} M]
+  to (MSet_round_iso@{o o _} P)
+    ∘ fmap[MSet_from@{o o _} M]
         (@MSet_extend@{o so} M X (action_of_functor@{o o o} P) ψ).
 
 Definition BG_adj_iso@{o so} (M : MonObject@{o o o})
@@ -396,14 +396,14 @@ Definition MSet_to_reflects_coeq@{o so} {M : MonObject@{o o o}}
   {P Q R : SetBG@{o so} M}
   (p q : P ~{SetBG@{o so} M}~> Q) (e : Q ~{SetBG@{o so} M}~> R)
   (E : @IsCoequalizer (MSet@{o o o o o} M) _ _
-         (fmap[MSet_to@{o o} M] p) (fmap[MSet_to@{o o} M] q)
-         (fobj[MSet_to@{o o} M] R) (fmap[MSet_to@{o o} M] e)) :
+         (fmap[MSet_to@{o o _ _} M] p) (fmap[MSet_to@{o o _ _} M] q)
+         (fobj[MSet_to@{o o _ _} M] R) (fmap[MSet_to@{o o _ _} M] e)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q R e.
 Proof.
   unshelve refine (@Build_IsCoequalizer _ _ _ _ _ _ _ _ _).
   - intros [] y. exact (cofork E y).
   - intros W h Hh.
-    pose (D := coeq_desc E (fmap[MSet_to@{o o} M] h) (fun y => Hh ttt y)).
+    pose (D := coeq_desc E (fmap[MSet_to@{o o _ _} M] h) (fun y => Hh ttt y)).
     unshelve eapply Build_Unique.
     + unshelve refine (@Build_Transform _ _ _ _ _ _ _).
       * intros []. exact (equiv_map (unique_obj D)).
@@ -411,7 +411,7 @@ Proof.
       * intros [] [] g z; simpl. exact (equivar (unique_obj D) g z).
     + intros [] y. exact (unique_property D y).
     + intros v Hv [] z.
-      exact (uniqueness D (fmap[MSet_to@{o o} M] v) (fun y => Hv ttt y) z).
+      exact (uniqueness D (fmap[MSet_to@{o o _ _} M] v) (fun y => Hv ttt y) z).
 Defined.
 
 (* The coequalizing transformation onto the created functor: component e,
@@ -422,18 +422,18 @@ Definition BGCreatedE@{o so} {M : MonObject@{o o o}} {P Q : SetBG@{o so} M}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   Q ~{SetBG@{o so} M}~>
-    fobj[MSet_from@{o o} M]
-      (CreatedAct@{o so} (fmap[MSet_to@{o o} M] p)
-         (fmap[MSet_to@{o o} M] q) S).
+    fobj[MSet_from@{o o _} M]
+      (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
+         (fmap[MSet_to@{o o _ _} M] q) S).
 Proof.
   unshelve refine (@Build_Transform _ _ _ _ _ _ _).
   - intros []. exact (scoeq_e S).
   - intros [] [] g y; simpl. symmetry.
-    exact (equivar (CreatedE@{o so} (fmap[MSet_to@{o o} M] p)
-                      (fmap[MSet_to@{o o} M] q) S) g y).
+    exact (equivar (CreatedE@{o so} (fmap[MSet_to@{o o _ _} M] p)
+                      (fmap[MSet_to@{o o _ _} M] q) S) g y).
   - intros [] [] g y; simpl.
-    exact (equivar (CreatedE@{o so} (fmap[MSet_to@{o o} M] p)
-                      (fmap[MSet_to@{o o} M] q) S) g y).
+    exact (equivar (CreatedE@{o so} (fmap[MSet_to@{o o _ _} M] p)
+                      (fmap[MSet_to@{o o _ _} M] q) S) g y).
 Defined.
 
 (* [CreatedE_is_coeq], moved along [MSet_action_round_iso] and read back
@@ -443,19 +443,19 @@ Definition BGCreatedE_is_coeq@{o so} {M : MonObject@{o o o}}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q
-    (fobj[MSet_from@{o o} M]
-       (CreatedAct@{o so} (fmap[MSet_to@{o o} M] p)
-          (fmap[MSet_to@{o o} M] q) S))
+    (fobj[MSet_from@{o o _} M]
+       (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
+          (fmap[MSet_to@{o o _ _} M] q) S))
     (BGCreatedE@{o so} p q S).
 Proof.
   apply MSet_to_reflects_coeq.
   refine (coequalizer_along_iso _ _ _
-            (CreatedE_is_coeq@{o so} (fmap[MSet_to@{o o} M] p)
-               (fmap[MSet_to@{o o} M] q) S)
+            (CreatedE_is_coeq@{o so} (fmap[MSet_to@{o o _ _} M] p)
+               (fmap[MSet_to@{o o _ _} M] q) S)
             (MSet_action_round_iso
-               (CreatedAct@{o so} (fmap[MSet_to@{o o} M] p)
-                  (fmap[MSet_to@{o o} M] q) S))
-            (fmap[MSet_to@{o o} M] (BGCreatedE@{o so} p q S)) _).
+               (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
+                  (fmap[MSet_to@{o o _ _} M] q) S))
+            (fmap[MSet_to@{o o _ _} M] (BGCreatedE@{o so} p q S)) _).
   intros y. reflexivity.
 Defined.
 
@@ -464,9 +464,9 @@ Definition U_BG_creates@{o so} (M : MonObject@{o o o}) :
 Proof.
   unshelve refine (@Build_CreatesUSplitCoequalizers _ _ _ _ _).
   - intros P Q p q S.
-    exists (fobj[MSet_from@{o o} M]
-              (CreatedAct@{o so} (fmap[MSet_to@{o o} M] p)
-                 (fmap[MSet_to@{o o} M] q) S)).
+    exists (fobj[MSet_from@{o o _} M]
+              (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
+                 (fmap[MSet_to@{o o _ _} M] q) S)).
     exists (BGCreatedE@{o so} p q S).
     split.
     + exact (BGCreatedE_is_coeq@{o so} p q S).
@@ -474,9 +474,9 @@ Proof.
       intros y; simpl. reflexivity.
   - intros P Q p q S R e He i Hi.
     apply MSet_to_reflects_coeq.
-    refine (Reflected_is_coeq@{o so} (fmap[MSet_to@{o o} M] p)
-              (fmap[MSet_to@{o o} M] q) S (fobj[MSet_to@{o o} M] R)
-              (fmap[MSet_to@{o o} M] e) _ i Hi).
+    refine (Reflected_is_coeq@{o so} (fmap[MSet_to@{o o _ _} M] p)
+              (fmap[MSet_to@{o o _ _} M] q) S (fobj[MSet_to@{o o _ _} M] R)
+              (fmap[MSet_to@{o o _ _} M] e) _ i Hi).
     intros y. exact (He ttt y).
 Defined.
 
@@ -696,7 +696,7 @@ Example BG_Act_EM_forget_map@{o so} (M : MonObject@{o o o})
    [Fun_EM_iso]. *)
 Example tie_carrier@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
   `1 (fobj[BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M)] P)
-  = `1 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o} M] P) :=
+  = `1 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o _ _} M] P) :=
   eq_refl.
 
 Example tie_alg@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M)
@@ -705,7 +705,7 @@ Example tie_alg@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M)
     (`2 (fobj[BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M)] P))
     (g, z)
   = @t_alg _ _ _ _
-      (`2 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o} M] P))
+      (`2 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o _ _} M] P))
       (g, z) := eq_refl.
 
 (* The same, as a function of the pair. *)
@@ -713,7 +713,7 @@ Example tie_alg_fun@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
   (fun p => @t_alg _ _ _ _
      (`2 (fobj[BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M)] P)) p)
   = (fun p => @t_alg _ _ _ _
-       (`2 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o} M] P))
+       (`2 (fobj[EM_Comparison (MSet_adj@{o so} M) ◯ MSet_to@{o o _ _} M] P))
        p) := eq_refl.
 
 (* The tie as a functor, in Cat, with identity components. *)

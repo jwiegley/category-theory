@@ -615,10 +615,10 @@ Definition p459_top_pairs@{h o | o < h +} : Category@{h h h} :=
   Top_pairs@{h o}.
 
 Definition p459_point_pair_functor@{h o | o < h +} :
-  Top_pointed@{h o} ⟶ Top_pairs@{h o} := PointPair@{h o}.
+  Top_pointed@{h o _} ⟶ Top_pairs@{h o} := PointPair@{h o}.
 
 Definition p459_quotient_functor@{h o | o < h +} :
-  Top_pairs@{h o} ⟶ Top_pointed@{h o} := PairQuotient@{h o}.
+  Top_pairs@{h o} ⟶ Top_pointed@{h o _} := PairQuotient@{h o}.
 
 (* CONTROL: ⟨Y, *⟩'s subset is the Type-valued predicate y ≈ y0, at
    [eq_refl]. *)
@@ -718,7 +718,7 @@ Definition p459_unsat_rel_not_transitive :
    counit read back at [eq_refl], and its hom-set isomorphism IS
    [pairs_quotient_iso] at [eq_refl]. *)
 Definition p459_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
   pairs_quotient_adjunction@{h o u v}.
 
@@ -746,21 +746,21 @@ Example p459_adj_is@{h o u v | o < h, h < u +} (X : PairTop@{o})
 
 (* N12 *)
 Check @PairTop@{_}.
-Check @Top_pointed@{_ _}.
+Check @Top_pointed@{_ _ _}.
 Check @PairQuotient@{_ _}.
 Check @Top_pairs@{_ _}.
 Check @PointPair@{_ _}.
 Fail Example p459_hom_eq@{h o | o < h +} (X : PairTop@{o})
   (Y : PointedTop@{o}) :
-  @hom Top_pointed@{h o} (PairQuotient@{h o} X) Y
+  @hom Top_pointed@{h o _} (PairQuotient@{h o} X) Y
     = @hom Top_pairs@{h o} X (PointPair@{h o} Y) := eq_refl.
 
 (* CONTROL: the [Build_Adjunction'] term of the target at the explicit
    record instance. *)
 Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h u v} Top_pointed@{h o} Top_pairs@{h o}
+  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
-  @Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o} PairQuotient@{h o}
+  @Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o} PairQuotient@{h o}
     PointPair@{h o} pairs_quotient_iso@{h o u}
     ltac:(intros X Y Z f g x; reflexivity)
     ltac:(intros X Y Z f g x; reflexivity).
@@ -770,7 +770,7 @@ Check @pairs_quotient_iso@{_ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p459_adjunction_built_notation@{h o u v | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
-  @Build_Adjunction' Top_pointed@{h o} Top_pairs@{h o} PairQuotient@{h o}
+  @Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o} PairQuotient@{h o}
     PointPair@{h o} pairs_quotient_iso@{h o u}
     ltac:(intros X Y Z f g x; reflexivity)
     ltac:(intros X Y Z f g x; reflexivity).
@@ -895,7 +895,7 @@ Definition p459_pquot_collapse_iso_no_u@{o h | o < h +}
 
 Definition p459_pquot_collapse_iso_pointed@{o h u | o < h, h < u +}
   (X : PairTop@{o}) (a0 : collapse_sub_points (pair_space X) (pair_sub X)) :
-  collapse_pointed X a0 ≅[Top_pointed@{h o}] fobj[PairQuotient@{h o}] X :=
+  collapse_pointed X a0 ≅[Top_pointed@{h o _}] fobj[PairQuotient@{h o}] X :=
   pquot_collapse_iso_pointed@{o h u} X a0.
 
 Example p459_collapse_pointed_pt@{o} (X : PairTop@{o})
@@ -959,7 +959,7 @@ Definition p459_no_assignment@{o h i | o < h, o <= i +}
   no_pointed_elementary_coequalizers@{o h i} L.
 
 Definition p459_no_functor@{o h i | o < h, o <= i +}
-  (L : Top_pairs@{h o} ⟶ Top_pointed@{h o}) :
+  (L : Top_pairs@{h o} ⟶ Top_pointed@{h o _}) :
   (∀ X : PairTop@{o}, ∃ e : pair_space X ~{Top@{h o}}~> ptop_space (L X),
      IsWideCoequalizer@{i h h} (C := Top@{h o})
        (collapse_sub_family (pair_space X) (pair_sub X)) (ptop_space (L X)) e)

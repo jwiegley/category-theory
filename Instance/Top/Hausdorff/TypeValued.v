@@ -405,17 +405,17 @@ Proof. intros x y nxy. destruct x, y. destruct (nxy (reflexivity _)). Qed.
    and [o] those of [Top]; [t] the predicate [IsHausdorff]; [p], [q] its
    separating opens; [s], [a] auxiliaries of the subcategory. *)
 Definition TopHaus_Bool@{c hh h t s a o p q +} :
-  HausdorffSpaces@{hh o p q} :=
+  HausdorffSpaces@{hh o p q _} :=
   (Bool_Discrete@{o}; tophaus_bool_hausdorff@{t p q o}).
 
 Definition TopHaus_Point@{c hh h t s a o p q +} :
-  HausdorffSpaces@{hh o p q} :=
+  HausdorffSpaces@{hh o p q _} :=
   (Point_Top@{o}; tophaus_point_hausdorff@{t p q o}).
 
 Definition tophaus_pt_bool@{c hh h t s a o p q +} (b : bool) :
-  TopHaus_Point@{c hh h t s a o p q}
-    ~{HausdorffSpaces@{hh o p q}}~>
-  TopHaus_Bool@{c hh h t s a o p q} :=
+  TopHaus_Point@{c hh h t s a o p q _}
+    ~{HausdorffSpaces@{hh o p q _}}~>
+  TopHaus_Bool@{c hh h t s a o p q _} :=
   (top_point Bool_Discrete@{o} b; I).
 
 (* #455's arrow index of [Top], restricted to the Hausdorff spaces. *)
@@ -430,8 +430,8 @@ Definition TopHaus_ArrowIndex_of_Top@{s h o c +}
 (* Freyd's argument: a complete category with an arrow index is thin, and
    the two points of [Bool_Discrete] are two arrows out of the point. *)
 Theorem TopHaus_not_complete@{r s c hh h t sh a o p q +}
-  (AI : ArrowIndex@{s c hh} HausdorffSpaces@{hh o p q})
-  (comp : @Complete@{r s hh c} HausdorffSpaces@{hh o p q}) :
+  (AI : ArrowIndex@{s c hh} HausdorffSpaces@{hh o p q _})
+  (comp : @Complete@{r s hh c} HausdorffSpaces@{hh o p q _}) :
   False.
 Proof.
   exact (freyd_no_separated_pair AI (tophaus_pt_bool true)
@@ -443,7 +443,7 @@ Qed.
 
 Theorem TopHaus_not_complete_below_IEM@{e r s c h t sh a o p q +| o < h,
     o < s, h <= c +} (E : IEM@{e})
-  (comp : @Complete@{r s h c} HausdorffSpaces@{h o p q}) :
+  (comp : @Complete@{r s h c} HausdorffSpaces@{h o p q _}) :
   False.
 Proof.
   exact (TopHaus_not_complete
@@ -472,14 +472,14 @@ Theorem GAFT_TopHaus_vacuous@{e h o u u0 u1 u2 u3 u4 u6 +| o < h, h < u1,
     u0 <= h, u4 <= u6 +} (E : IEM@{e})
   (comp : @Complete@{h h h u4}
             (Sub@{h h u u0 u4 h} Top@{h o}
-               Hausdorff_Subcategory@{u0 o u2 u3}))
+               Hausdorff_Subcategory@{u0 o u2 u3 _}))
   (cont : @PreservesImageLimit@{u4 h h h u6 u1 h} _ _
             (Incl@{h h u u0 u4} Top@{h o}
-               Hausdorff_Subcategory@{u0 o u2 u3}))
+               Hausdorff_Subcategory@{u0 o u2 u3 _}))
   (sols : ∀ X : Top@{h o},
       SolutionSet@{h h u4 h}
         (Incl@{h h u u0 u4} Top@{h o}
-           Hausdorff_Subcategory@{u0 o u2 u3}) X) :
+           Hausdorff_Subcategory@{u0 o u2 u3 _}) X) :
   False.
 Proof.
   pose proof (GAFT_TopHaus@{h o h u0 u1 u2 u3} comp cont sols) as _.

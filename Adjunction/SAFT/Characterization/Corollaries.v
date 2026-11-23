@@ -200,7 +200,7 @@ Definition continuous_Set_functor_representable@{o h so c w s t su pl pa +|
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{o h} K :=
+  Representable@{o h _} K :=
   representable_of_left_adjoint K (projT2 (SAFT_wellpowered K comp cont G WP)).
 
 (* The representing object is the left adjoint at the singleton. *)
@@ -212,7 +212,7 @@ Example continuous_Set_functor_representable_obj@{o h so c w s t su pl pa +|
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
   @repr_obj C K
     (continuous_Set_functor_representable K comp cont G WP
-       : Representable@{o h} K)
+       : Representable@{o h _} K)
     = fobj[projT1 (SAFT_wellpowered K comp cont G WP)] SetsOne := eq_refl.
 
 Definition continuous_Set_functor_representable_iff@{o h so c w s t su pl pa +|
@@ -220,7 +220,7 @@ Definition continuous_Set_functor_representable_iff@{o h so c w s t su pl pa +|
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C) :
-  Representable@{o h} K
+  Representable@{o h _} K
     ↔ @PreservesImageLimit@{o h su h pl pa so} C Sets@{h su} K.
 Proof.
   split.
@@ -237,7 +237,7 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa +|
   (cont : @PreservesImageLimit@{o h su h pl pa h} C Sets@{h su} K)
   (G : Cogenerator@{h o h} C)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o su h h dp} K comp G SetsOne)) :
-  Representable@{o h} K :=
+  Representable@{o h _} K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont
        (saft_solution_set_at@{o su h h dp cp w s t pl pa h}
@@ -251,8 +251,8 @@ Definition saft_colim@{o h so c w s t jo fo +|
   (C : Category@{o h h}) (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) (WP : WellPowered@{o h w s t} C)
   (J : Category@{jo h h}) :
-  { L : @Fun@{jo h o h fo h} J C ⟶ C & L ⊣ @Diagonal@{o jo h} C J } :=
-  SAFT_wellpowered (@Diagonal@{o jo h} C J) comp
+  { L : @Fun@{jo h o h fo h} J C ⟶ C & L ⊣ @Diagonal@{o jo h _} C J } :=
+  SAFT_wellpowered (@Diagonal@{o jo h _} C J) comp
     (Continuous_PreservesImageLimit Diagonal_continuous) G WP.
 
 Definition saft_cocomplete@{o h so c w s t jo fo +|
@@ -264,7 +264,7 @@ Definition saft_cocomplete@{o h so c w s t jo fo +|
   fun J F => Diagonal_left_adjoint_HasColimits
                (projT2 (saft_colim C comp G WP J
                         : { L : @Fun@{jo h o h fo h} J C ⟶ C
-                          & L ⊣ @Diagonal@{o jo h} C J })) F.
+                          & L ⊣ @Diagonal@{o jo h _} C J })) F.
 
 (** ** The two routes to the left adjoint agree up to isomorphism *)
 

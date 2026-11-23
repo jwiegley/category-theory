@@ -648,7 +648,7 @@ Definition watts_theorem_sets@{c o a pk pa +}
   (contT : @PreservesImageLimit@{o c a c pk pa c}
              ((RMod@{o c c c} R)^op) Ab@{a c} T)
   (U : Untruncate@{c}) :
-  Representable@{o c} (Ab_Forget ◯ T) :=
+  Representable@{o c _} (Ab_Forget ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T)
     (Complete_op_of_Cocomplete (RMod_Cocomplete_via_GAFT R))
     (Continuous_PreservesImageLimit
@@ -683,7 +683,7 @@ Definition watts_theorem@{c o a pk pa +}
     (LocallyPropositional_op (RMod_LocallyPropositional R))
     (AbEnriched_op (RMod_AbEnriched R)) T AF
     (watts_theorem_sets T contT U
-       : Representable@{o c} (Ab_Forget ◯ T)).
+       : Representable@{o c _} (Ab_Forget ◯ T)).
 
 (* The representing object IS the SAFT representation's. *)
 Example watts_theorem_obj@{c o a pk pa +}
@@ -695,7 +695,7 @@ Example watts_theorem_obj@{c o a pk pa +}
   (U : Untruncate@{c}) :
   projT1 (watts_theorem T AF contT U)
     = @repr_obj _ _ (watts_theorem_sets T contT U
-                      : Representable@{o c} (Ab_Forget ◯ T)) :=
+                      : Representable@{o c _} (Ab_Forget ◯ T)) :=
   eq_refl.
 
 (* ...and each component of the Ab-level isomorphism is the Sets-level
@@ -711,7 +711,7 @@ Example watts_theorem_to_at@{c o a pk pa +}
   (f : M ~{RMod@{o c c c} R}~> projT1 (watts_theorem T AF contT U)) :
   cmon_map (transform[to (projT2 (watts_theorem T AF contT U))] M) f
     = transform[to (@represented _ _ (watts_theorem_sets T contT U
-                      : Representable@{o c} (Ab_Forget ◯ T)))] M f :=
+                      : Representable@{o c _} (Ab_Forget ◯ T)))] M f :=
   eq_refl.
 
 (** ** 3. Exercise 3, the covariant form *)
@@ -723,7 +723,7 @@ Definition watts_ex3_sets@{a c p o b g pk pa +}
              (RMod@{o a p c} R) Ab@{b c} T)
   (G : Cogenerator@{g o c} (RMod@{o a p c} R))
   (U : Untruncate@{c}) :
-  Representable@{o c} (Ab_Forget ◯ T) :=
+  Representable@{o c _} (Ab_Forget ◯ T) :=
   continuous_Set_functor_representable (Ab_Forget ◯ T) (RMod_Complete R)
     (Continuous_PreservesImageLimit
        (continuous_compose (PreservesImageLimit_Continuous contT)
@@ -743,7 +743,7 @@ Definition watts_ex3@{a c p o b g pk pa +}
       (HomAb (RMod_AbEnriched R) A) T } :=
   watt_ab_repr (RMod_AbEnriched R) T AF
     (watts_ex3_sets T contT G U
-       : Representable@{o c} (Ab_Forget ◯ T)).
+       : Representable@{o c _} (Ab_Forget ◯ T)).
 
 (* Exercise 3 as the book words it: "Use Exercise 2(b)".  The premises
    [HI] and [HC] are Exercise 2(b)'s "Q/Z ... is known to be an injective
@@ -865,7 +865,7 @@ Definition watts_theorem_coext@{c o b +} (R : RingObject@{c c c})
    and g together with 1 · r ≈ r. *)
 Definition coext_representable@{c o b +} (R : RingObject@{c c c})
   (A : AbObject@{c c c}) :
-  Representable@{o c}
+  Representable@{o c _}
     (@Compose _ Ab@{b c} _ Ab_Forget
        (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c})).
 Proof.
@@ -960,7 +960,7 @@ Definition watts_theorem_Fz@{c o a pk pa +}
           (Adjunction_Compose free_ab_adjunction
              (projT2 (watts_theorem_adjoint T contT U))))
        (watts_theorem_sets T contT U
-          : Representable@{o c} (Ab_Forget ◯ T))).
+          : Representable@{o c _} (Ab_Forget ◯ T))).
 
 (** ** 6. What the unconditional theorem subsumes *)
 

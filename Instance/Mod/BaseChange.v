@@ -633,7 +633,10 @@ Next Obligation.
                 (rig_mul_one_r (ring_rig R) s) (reflexivity a))).
 Qed.
 
-Definition zext_adjunction : ZExt ⊣ RMod_Forget_Ab R.
+(* With the universes of rocq-prover/rocq#22721, the universes of the proof that
+   the minimization would set to an algebraic universe in an invariant position
+   are kept unless the declaration is closed. *)
+Definition zext_adjunction@{u} : ZExt ⊣ RMod_Forget_Ab R.
 Proof.
   unshelve eapply (@Build_Adjunction' (RMod R) Ab ZExt
                      (RMod_Forget_Ab R) zext_adj).

@@ -498,7 +498,7 @@ Definition ew_CopD : DiscreteCat@{c c c} ew_Idx ⟶ RMod@{o a p c} R :=
   DiscreteCat_Functor@{c c c o c c} (fun _ => Gen).
 
 Definition ew_CC : @Cocomplete@{c c c o} (RMod@{o a p c} R) :=
-  RMod_Cocomplete_via_GAFT@{a c p o c} R.
+  RMod_Cocomplete_via_GAFT@{a c p o c _} R.
 
 Definition ew_CopL : Colimit ew_CopD := ew_CC _ ew_CopD.
 
