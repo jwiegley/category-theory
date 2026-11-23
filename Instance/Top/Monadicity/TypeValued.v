@@ -81,6 +81,10 @@ Generalizable All Variables.
    full (h < m0, h and so below m, h below m1 and m3, so below m3, m1
    and m3 below m), with o < h and h < so from [Top_Forget@{o h so}].
    No [Set] and no equation occur.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 3 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 3
+   did before.
 
    NOT DELIVERED.  The induced monad and the comparison functor over
    [Top] (unformable, above); any left adjoint of [Top_Forget], or a

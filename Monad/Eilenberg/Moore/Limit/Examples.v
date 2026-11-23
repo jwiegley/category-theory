@@ -126,6 +126,10 @@ Definition created_terminal :
    [ID] from Instance/Sets.v, [eq_ind], [eq_ind_r] and
    [Logic_lemmas.equality] from [_1] (Instance/One.v), and the sigma
    projections' from [EilenbergMoore].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 23 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 16
+   did before.
 
    Three constructions are written the long way, each for a measured
    reason.  The monad is [IdSM], built here with every field given,

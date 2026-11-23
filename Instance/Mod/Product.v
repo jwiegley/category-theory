@@ -79,7 +79,11 @@ Generalizable All Variables.
     tree for the eleven names (`grep -rlw --include='*.v'`; the first
     draft's [prod_setoid] became [modprod_setoid] because
     Lib/Datatypes.v owns [prod_setoid]).  The `make print-assumptions`
-    gate carries the eleven heads. *)
+    gate carries the eleven heads.
+    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+    and composite, and by [About] on Rocq 9.3.0 none of the 11 constants of
+    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 4
+    did before. *)
 
 #[local] Obligation Tactic := idtac.
 

@@ -227,6 +227,10 @@ Generalizable All Variables.
    points and homs of [PTopCat@{o so}], [so] its objects, [s] and [r] a
    shape's objects and its limit, stdlib caps ([o <= compose.u0] and the
    like) left out.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 103 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 39
+   did before.
      - [PInit@{o i}], empty block: the index universe [i] is free.
        [PProd@{i o}] and [PBoxTop@{i o}]: [i <= o].
        [PInit_one_PSub@{o u}]: empty block.

@@ -328,6 +328,11 @@ Qed.
        (* u u0 u1 |= u0 < u1, u0 <= compose.u{0,1,2},
                      u0 <= Projections.u{0,1}, u0 <= ID.u0 *)
 
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 21 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 18
+   did before.
+
    and three things follow.
 
    FIRST, THERE IS NO [u <= u0].  The presheaf places no ordering between

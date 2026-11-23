@@ -88,6 +88,10 @@ Generalizable All Variables.
    UNIVERSES, measured with [About] under [Set Printing Universes], the
    stdlib-global bounds ([Projections], [compose], [eq_rect_r], [ID])
    dropped:
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 24 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 24
+   did before.
 
      SVariety_Complete@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9} :
        ∀ {S : UA.OpSignature@{u0 u1}} (E : UA.EqSignature@{u2 u3 u u u0 u1} S),

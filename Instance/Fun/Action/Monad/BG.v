@@ -248,6 +248,10 @@ Generalizable All Variables.
    is refused ("Cannot enforce so = o because o < so").  The stdlib caps
    are the donors':
    - compose and ID from [Sets];
+     CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+     and composite, and by [About] on Rocq 9.3.0 none of the 46 constants of
+     this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+     46 did before.
    - prod_rect and projections from [MSet_Free]'s product carrier;
    - Logic_lemmas.equality and so <= projections from
      [Build_Adjunction'];

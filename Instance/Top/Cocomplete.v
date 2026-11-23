@@ -222,6 +222,10 @@ Generalizable All Variables.
 
    UNIVERSES, read by [About] under [Set Printing Universes], stdlib caps
    ([o <= compose.u0] and the like) left out except where one is strict.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 71 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 44
+   did before.
      - [PFinal@{o i}] and [PIndiscrete@{o}]: empty blocks.  The final
        topology's index universe [i] is free; so is the shape universe of
        the recipe.

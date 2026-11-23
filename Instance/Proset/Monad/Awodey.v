@@ -125,6 +125,10 @@ Generalizable All Variables.
    [Set].  Both copies of [Thin] are loaded here (Structure/Thin.v through
    Instance/Proset/Monad.v, and Instance/Proset/Galois.v directly); this
    file names neither.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 14 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 2
+   did before.
 
    NOT DELIVERED.  No comparison between [ClosedElt c] and the M-local
    subcategory of the other route beyond both being reflective with the

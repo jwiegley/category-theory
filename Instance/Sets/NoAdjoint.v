@@ -172,6 +172,10 @@ Generalizable All Variables.
    revision listed the two Sets structures among them).  The lists name
    the stdlib caps; every block also carries the tree's own [Basics.
    compose], [projections] and [ID] levels, not repeated here.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 15 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 13
+   did before.
 
    COUNTS AND CONVENTIONS.
      - 15 [.glob] declaration heads here (11 [def], 4 [prf]) plus the 4

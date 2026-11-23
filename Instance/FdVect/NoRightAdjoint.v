@@ -167,6 +167,10 @@ Generalizable All Variables.
     [LineDiagram] (inherited from [DiscreteCat_Functor']; the shape's hom
     is [eq]), and Specif's `Projections` at [CoordSpanProper] (a sigma
     type).
+    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+    and composite, and by [About] on Rocq 9.3.0 none of the 41 constants of
+    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+    41 did before.
 
     MEASURED.  41 `.glob` heads (34 `def`, 7 `prf`) and 17 [Program]
     obligations (8 closed by hand under [Obligation Tactic := idtac] for

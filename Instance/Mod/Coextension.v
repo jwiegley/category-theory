@@ -235,6 +235,10 @@
    anything here, so the identification would still be met if the
    abelian side were repaired.  Neither is claimed unavoidable; no
    re-annotation was attempted.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 11 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 10
+   did before.
 
    PRIOR ART, AND WHAT IT DOES AND DOES NOT SHARE WITH THIS FILE.
 

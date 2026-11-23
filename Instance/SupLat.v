@@ -217,6 +217,10 @@ Generalizable All Variables.
    strict bound [o < Projections.u0] (implied by o < so and so <=
    Projections.u0); it was removed and the bound is gone.  There is no
    equation.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 73 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 48
+   did before.
 
    NOT DELIVERED.  The strict identity of the two categories, for the
    reasons above.  The free complete semilattice, the adjunction behind the

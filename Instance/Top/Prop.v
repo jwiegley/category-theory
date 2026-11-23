@@ -170,6 +170,12 @@ Generalizable All Variables.
      - [PTopCat@{o so} : Category@{so o o}], block [Set < so], [o < so]
        and those four caps: [Sets@{o so}]'s block plus [Set < so], which
        [o < so] implies and which records [PTop]'s sort.
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 47
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 12 did before.  [pid] and [pcompose]
+       have empty blocks, and [PTopCat] and [PForget] (the next item)
+       the block [Set < so], [o < so].
      - [PForget@{o so} : PTopCat@{o so} ⟶ Sets@{o so}], the same block;
        [PForget_Faithful@{o so} : Faithful@{so o so} PForget@{o so}].
      - [PDiscrete@{o} : SetoidObject@{o o} → PTop@{o}], empty block, as

@@ -331,6 +331,10 @@ Generalizable All Variables.
    [SquashSetoid]'s [squash_rel] carries there, which their [+] covers
    (by [About] in overlays of master with this change and of this tree,
    which agree).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 75 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 69
+   did before.
 
    NOT DELIVERED.  The Eilenberg-Moore category of [MPos] is not shown
    equivalent to [PropSets]: it would follow from [MPos_trunc_iso],

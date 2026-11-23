@@ -236,6 +236,10 @@ Generalizable All Variables.
        [pquot_desc] carry only the three [o <= compose.u*] caps of
        Instance/Sets.v's [setoid_morphism_compose].  [PSub] and [PQuot]
        are accepted at [PTop@{Set}] (scratch).
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 85
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 52 did before.
      - [ex732_Y@{o}] and the constants built on it carry [o <=
        Subset_projections.u0], the stdlib cap of [proj1_sig].
      - The sliced constants take [@{o so u}] (and one more universe for

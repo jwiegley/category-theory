@@ -131,6 +131,11 @@ Generalizable All Variables.
        level of [Top]), the [setoid_morphism_compose] caps, and the
        pair-projection caps [o <= projections.u0] and
        [o <= projections.u1].
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 the block of
+       [tsub_universal] is [o < o1], [o < u] and the two pair-projection
+       caps; none of the 43 constants of this file in the assumptions
+       audit names [compose.u0]-[u2] or [ID.u0], and 21 did before.
        [tsub_hom@{o o1 h u}] and [tsub_adj@{o o1 h u u0}] relate the
        subspace's universe [o1] and the hom universe [h] of the given map
        not at all; [tsub_adj] is an [Isomorphism@{u0 o1 o1}], in

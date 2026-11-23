@@ -102,6 +102,10 @@ Generalizable All Variables.
    first carried by [Sets] through [Adjunction] ([Sets@{o so}] has them
    at its level o).  In the duals the type level of FixedPoints.v's
    [IdempotentComonad] is unified with [d].  No constant carries [Set].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 8 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 4
+   did before.
 
    NOT DELIVERED.  The three facts are not packaged as one isomorphism
    of monads; the tree has no record of monad morphisms to package them

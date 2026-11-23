@@ -364,7 +364,9 @@ printed instances, not their mathematical results.
 Against `c1dd3027`, the qualified `About` contexts for the three records
 identify the hom and proof levels of both categories. Keep the two object
 levels independent. The common hom level `h` satisfies `h < so`; existing
-upper bounds from `Basics.compose` and `ID` remain. For positional clients,
+upper bounds from `Basics.compose` and `ID` remain (correction, 2026-11-23:
+they went when `Sets` took `fun` terms for its identity and composite; by
+`About` on Rocq 9.3.0 `Adjunction` has `h < so` alone). For positional clients,
 select these positions from the old instance, in this order (one-based):
 
 | Declaration | Old → new slots | Select |

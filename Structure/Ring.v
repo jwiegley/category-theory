@@ -202,6 +202,10 @@ Generalizable All Variables.
    to Set-sized carriers.  This is the minimization hazard
    Instance/Sets/Products.v and the #300 erratum record, met
    again.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 11 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 2
+   did before.
 
    NON-VACUITY, proved rather than gestured at.  [Nat_ISemiring] and
    [Int_IRing] are the internal semiring and ring on the naturals and the

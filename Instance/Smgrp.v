@@ -171,6 +171,10 @@ Generalizable All Variables.
    and Set < u, a bound and not an equation.  Otherwise no [Set] and no
    equation, on Rocq 9.1.1, Coq 8.19.2 and 8.20.1 alike (compared by
    script; the caps' names differ by version).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 63 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 40
+   did before.
 
    NOT DELIVERED.  The free semigroup on a set as a quotient of lists or
    under Leibniz equality; the free semigroup functor's preservation of

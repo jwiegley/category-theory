@@ -269,6 +269,10 @@ Generalizable All Variables.
    eq_ind, whose first carrier is the [rewrite] in [no_pindisc_to_bool])
    left out.  [Set] occurs only as [Set < so], implied by [o < so], and no
    block carries an equation.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 44 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 44
+   did before.
      - [PDiscT@{o so s}]: o < s is [Compose]'s own strict bound (hom level
        below its auxiliary level) at [PForget ◯ PDisc].  The level is named
        [s] and is the same [s] as the Eilenberg-Moore level below:

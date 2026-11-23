@@ -192,6 +192,10 @@ Generalizable All Variables.
     caps ([JMeq], [eq], [Logic_lemmas.equality], [Projections],
     [projections], [Basics.compose], [ID]) all arrive with the GAFT and
     [Sets] donors; none is introduced here.
+    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+    and composite, and by [About] on Rocq 9.3.0 none of the 38 constants of
+    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+    38 did before.
 
     MEASURED.  38 `.glob` heads (32 `def`, 1 `prf`, 4 `proj`, 1 `rec`) and
     14 [Program] obligations (6 of [homafter_one_iso], discharged by its
@@ -293,6 +297,11 @@ Context (K : C ⟶ Sets).
      ∀ {C : Category@{u u0 u0}}, (C ⟶ Sets@{u0 u1}) → Type@{max(u,u0,i+1)}
      (* u u0 u1 i |= u0 < u1 / u0 <= ID.u0 *)
 
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 38 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 38
+   did before.
+
    [representability_theorem] below is where [i] is pinned, to the ambient
    hom universe, exactly as in [GAFT]: see its own binders. *)
 Record ElementSolutionSet@{i} := {
@@ -319,6 +328,11 @@ Record ElementSolutionSet@{i} := {
        … ElementSolutionSet@{u u0 u1 i} K
          → SolutionSet@{i u1 u u0} K SetsOne
      (* u u0 u1 i u2 u3 u4 |= u0 < u1 / u3 <= ID.u0 *)
+
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 38 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 38
+   did before.
 
    -- [i] on the nose in this direction, the index universe reappearing
    verbatim in [SolutionSet]'s first slot; and

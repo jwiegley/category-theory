@@ -120,6 +120,10 @@ Generalizable All Variables.
    [Powerset_Prop_Monad_statement]'s own universes, and adds [so <= u]
    and [o <= u], the bounds of that statement's type.  There is no
    equation and no further strict bound.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 18 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 11
+   did before.
 
    NOT DELIVERED.  The Kleisli category of this monad (the category of
    sets and relations) is not identified.  The nearest construction in

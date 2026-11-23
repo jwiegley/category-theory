@@ -264,6 +264,10 @@ Generalizable All Variables.
      [slice_proj_left_adjoint_iff_terminal@{u u0 u1 u2 u3 u4 u5}] and
      [coslice_proj_right_adjoint_iff_initial]: [u0 < u1] plus twenty
      bounds.
+     CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+     and composite, and by [About] on Rocq 9.3.0 none of the 27 constants of
+     this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+     15 did before.
 
    What stays FREE is the OBJECT universe: [u] occurs in no equation, only
    in bounds, in every one of the eight.  And no [Set] occurs in any

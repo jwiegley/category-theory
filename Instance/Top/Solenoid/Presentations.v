@@ -330,6 +330,10 @@ Generalizable All Variables.
        ([GroupSolenoid]), [projections] ([CircleTower_points]) and
        [Subset_projections] ([ArcSpace]); on [h], the [Top_Forget] caps
        of [CircleTower_points] and [space_step_fn].
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 134
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 58 did before.
      - [zp_coord_respects@{s o so +}], [pwrap_evenly_covered@{o +}] and
        [wrap_evenly_covered@{o +}] have extensible universe lists: Coq
        8.19.2 and 8.20.1 refuse their closed lists ("unbound"); [About]

@@ -199,6 +199,10 @@ Generalizable All Variables.
    8.20.1 the first four carry o <= sum.u1 and the last two
    c <= inhabited.u0, as they did in their former files (by [About] in
    overlays of the trees before and after).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 31 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 22
+   did before.
 
    NOT DELIVERED.  The forgetful functors of the algebraic categories are
    not factored through [PropSets].  No equivalence between [PropSets] and

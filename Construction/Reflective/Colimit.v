@@ -126,6 +126,10 @@ Generalizable All Variables.
     ambient object level — no annotation was needed.  The stdlib caps
     `Basics.compose`, `ID` and Specif's `Projections` are on every head,
     arriving with [radj] from [Reflective] and [Sub].
+    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+    and composite, and by [About] on Rocq 9.3.0 none of the 20 constants of
+    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+    20 did before.
 
     MEASURED.  20 `.glob` heads (16 `def`, 4 `prf`), no [Program]
     obligations, all 20 "Closed under the global context", zero `Axioms:`

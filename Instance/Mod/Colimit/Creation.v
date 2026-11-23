@@ -273,6 +273,10 @@ Generalizable All Variables.
    (the sigma projections) on Structure/Limit/Preservation.v's
    cone-isomorphism calculus ([coneiso_from]), through
    [creates_colimit_lift].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 30 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 30
+   did before.
 
    NOT DELIVERED.  Riehl's own proof: this file does not go through the monad,
    and her Theorem 5.6.5(ii) is not in the tree (issue #1008; the sibling's

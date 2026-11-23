@@ -240,6 +240,10 @@ Generalizable All Variables.
       [Components_Disc_Adjunction@{u u0 u1}] all carry [u0 < u] -- which is
       [Sets]' own -- together with bounds against [compose], [projections] and
       [ID], and nothing else.
+      CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+      and composite, and by [About] on Rocq 9.3.0 none of the 3 constants of
+      this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+      3 did before.
 
       TWO BLOCKS ARE LITERALLY EMPTY, AND FOR ONCE THAT IS NOT A TRAP:
       [disc_setoid_iso@{u u0}] and [zigzag_setoid_contract@{u u0}] have

@@ -258,6 +258,10 @@ Generalizable All Variables.
    eq_rect_r, Logic_lemmas.equality, nat_rect, False_rect, prod_rect).
    No [Set] and no equation, on Rocq 9.1.1, Coq 8.19.2 and 8.20.1 alike
    (binders and constraints between bound levels compared by script).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 105 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 96
+   did before.
 
    NOT DELIVERED.  The section's exercises (#471 to #474: W₀ on Mon,
    R-modules, the polynomial rings, rings over Ab).  A strict identity of

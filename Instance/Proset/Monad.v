@@ -200,6 +200,10 @@ Generalizable All Variables.
    Instance/Proset/Order.v also requires, and Instance/Proset/Galois.v
    for [NatSucc]) and writes [Order.proset_thin], the one typed by
    Structure/Thin.v's [Thin].  No constant carries [Set].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 36 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 1
+   did before.
 
    NOT DELIVERED.  Only [Proset] here: nothing over a setoid-valued
    order, no category of closure operators, and no functoriality in P.

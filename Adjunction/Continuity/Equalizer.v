@@ -101,6 +101,10 @@ Generalizable All Variables.
    Both binders are written [@{co do h +}], so the adjunction's universes
    stay free and the refutation applies to adjunctions at every universe
    instance.  [Set] occurs in neither block.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 neither block has the four
+   caps: the first is [h < u0], [co <= u], [do <= u], [h <= u] and the
+   second [h < u].
 
    NOT DELIVERED.  The dual, left adjoints preserve coequalizers in the
    elementary form: the tree has no elementary coequalizer-preservation

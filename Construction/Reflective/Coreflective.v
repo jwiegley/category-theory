@@ -109,6 +109,10 @@
     universes in its type (a block equation counting its two sides as
     one) or an identification the copy lacks, and one,
     [coreflector_op_adj], has one free level more.
+    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+    and composite, and by [About] on Rocq 9.3.0 none of the 15 constants of
+    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+    14 did before.
 
     NOT DELIVERED.
       - Construction/Reflective.v is unchanged: [Coreflective] stays

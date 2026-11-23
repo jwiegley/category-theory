@@ -260,6 +260,10 @@ Generalizable All Variables.
    three strict constraints are the module carrier level below the levels
    of the categories it is stated in, the same shape Instance/Mod/
    Product.v records for its own four constants stated inside [RMod R].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 62 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 62
+   did before.
 
    EXACTLY ONE FURTHER IDENTIFICATION APPEARS, and it enters at one named
    place.  THIRTY-THREE constants additionally carry [u = u2] (and

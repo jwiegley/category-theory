@@ -292,6 +292,10 @@ Generalizable All Variables.
    claimed unavoidable: no re-annotated variant of any donor was
    attempted.  There is no `Set` in any binder or any block.  The four
    rejections are shipped as FORMABILITY negatives below.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 12 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 12
+   did before.
 
    AXIOMS AND COUNT.  50/50 constants closed under the global context.
    The 50 are the 42 source-declared names plus the EIGHT [Program]

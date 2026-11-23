@@ -337,6 +337,10 @@
    [PreservesImageLimit@{o c b c pk c pa c}] names its sort [pk] and its
    auxiliary slot [pa]; its shape slots are c.  [Representable@{ra rt pa
    o c}] names Representable's two own universes [ra rt].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 27 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 27
+   did before.
 
      watts_theorem@{c o x a pk pa ra rt +} :
        ∀ {R : RingObject@{c c c}} (T : (RMod@{o x c c c} R)^op ⟶ Ab@{a c}),

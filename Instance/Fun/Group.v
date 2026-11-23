@@ -157,7 +157,10 @@ Generalizable All Variables.
    is [Sets]' own strictness) plus the bounds [bh <= bp], [bh <= o],
    [bp <= o] and four donor bounds ([o <= Basics.compose.u0/u1/u2],
    [o <= ID.u0]) -- EIGHT entries in all, not the four an earlier
-   revision of this sentence listed as though exhaustive.  What matters
+   revision of this sentence listed as though exhaustive.  CORRECTION
+   (2026-11-23): [Sets] now takes [fun] terms for its identity and
+   composite, and by [About] on Rocq 9.3.0 the four donor bounds are
+   gone from both blocks, leaving four entries.  What matters
    is unchanged and is the point: there is NO equation anywhere in
    either record's block, and [bo] is entirely unconstrained.  Every
    constant of the file that BINDS a [B] is over
@@ -183,6 +186,12 @@ Generalizable All Variables.
        (∀ b, PropEquiv@{u0 u0} (is_setoid (fobj b))) →
        PointwiseGroup@{u u0 u0 u0 u1} T → obj → GrpObject@{u0 u0 u0}
      (* u0 < u1, plus the four donor bounds *)
+
+   CORRECTION (2026-11-23): by [About] on Rocq 9.3.0, with [Sets]'
+   identity and composite as [fun] terms, the block of
+   [pointwise_GrpObject] is [u0 < u1] alone, that of
+   [PointwiseGrpFunctor] is [Set < u2], [u0 < u1], [u0 < u2], and the
+   two records' blocks have four entries, not eight.
 
    and [PointwiseGrpFunctor@{u u0 u1 u2}] likewise, its block gaining
    [Set < u2] -- a strict LOWER bound and not an identification, which
