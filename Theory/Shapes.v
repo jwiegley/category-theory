@@ -157,12 +157,12 @@ Generalizable All Variables.
    BUILD the functors at any universe, but the round-trip theorems apply
    only at the restricted profile.
 
-   FOR THE [_2] SIDE THE RESTRICTION IS FORCED, and that much was tested:
-   Instance/Fun.v's [Fun] carries the constraint [u0 = u2], identifying the
-   hom universes of source and target, and Instance/Two.v's [_2] is
-   [Category@{u Set Set}] because [TwoHom] lands in [Set], so writing
-   [[_2, C]] with [C : Category@{o h p}] is rejected with "Cannot enforce
-   Set = h".
+   FOR THE CURRENT [_2] PRESENTATION the restriction follows from [Fun]'s
+   shared source/target hom level ([u0 = u2] on Rocq 9.2.0) and the
+   declared [_2 : Category@{u Set Set}]. The latter is not a consequence
+   of the type of [TwoHom] alone: #1399's annotated construction accepted
+   larger levels without changing [TwoHom]. The current declarations reject
+   [[_2, C]] at an independently larger hom level.
 
    FOR THE [_1] SIDE IT IS NOT FORCED, contrary to what the first commit
    claimed.  That commit said an annotated variant had been tried and was

@@ -279,11 +279,12 @@ Generalizable All Variables.
       accepts.  A positive control at [Category@{cu cu cu}] shows the
       accepted class is inhabited and is not empty.
 
-      One further identification is inherent rather than inherited and
-      is named: the objects of [Sets@{o so}] are [SetoidObject@{o o}],
-      carrier and relation at one level, so every category in the image
-      of [Cat_Disc] has its objects and its homs at that same level.
-      That is [Sets]' own declaration, not this file's.
+      [Sets@{o so}] explicitly chooses [SetoidObject@{o o}], although
+      [SetoidObject@{o p}] itself permits separate levels. [Cat_Disc]
+      maps such an object to the discrete category whose objects are its
+      carrier and whose homs are its relation. The shared level here is
+      a consequence of this presentation, not an intrinsic property of
+      discrete categories.
 
       NO [Set] APPEARS IN ANY CONSTRAINT BLOCK OR BINDER OF THIS FILE
       -- but that is the result of a repair, not of luck, and the

@@ -204,20 +204,16 @@ Generalizable All Variables.
      universe must sit at or below the edge universe for the product to be an
      O-graph again.  It propagates to everything monoidal.
 
-   - [OGrph@{o h p hh oo} : Type@{o} → Category@{oo hh hh}].  The hom and
-     proof universes of the category of O-graphs are IDENTIFIED, and the
-     cause is [Structure/Monoidal.v]: its class is [Monoidal@{u u0} :
-     Category@{u u0 u0} → Type], i.e. every monoidal category in this library
-     has its hom and proof levels equal.  It is a statement about O-Grph
-     itself and not about which categories can be read as O-graphs:
+   - [OGrph@{o h p hh oo} : Type@{o} → Category@{oo hh hh}]. Its own
+     result annotation shares hom and proof levels. This fits [Monoidal],
+     whose category parameter also shares them; the later instance does
+     not impose that annotation retroactively. In the opposite direction,
      [OGraphOfCat@{o h p} : ∀ C : Category@{o h p}, OGraph@{o h p} obj[C]]
      takes an ARBITRARY category, carrying only [Category]'s own [h <= p].
 
    - [MonoidOfCat@{o h p hh oo u} : ∀ C : Category@{o h p}, OMonoid
-     (OGraphOfCat C)] and [CategoryOfOMonoid] carry further constraints (14
-     in [MonoidOfCat]'s clause, most of them the [<=] bookkeeping of the
-     records they mention), of which the one that RESTRICTS the input is
-     [o <= h], inherited from the product: reading a
+     (OGraphOfCat C)] and [CategoryOfOMonoid] have additional bounds.
+     In particular [o <= h] comes from the product: reading a
      category as a MONOID (as opposed to merely as a graph) puts its objects
      inside its arrows, so its object universe must sit at or below its hom
      universe.  [Category@{o h p}] does not itself demand this, so the
@@ -229,33 +225,26 @@ Generalizable All Variables.
      the edge universe and its proofs at the edge setoids' proof universe.
      No level is raised.
 
-   - [OGraph_unit] and everything downstream carry [h <= equality.u0], a
-     bound against the GLOBAL universe of the standard library's [eq], which
-     is what the trivial O-graph's arrows are.  [Theory/Size.v] declines
-     stdlib [=] in favour of its own level-polymorphic [ObjEq] for related
-     reasons; nothing here needs that extra generality, and the library's own
-     [Quiver] comparison likewise uses stdlib [=] on nodes.
+   - [About OGraph_unit] on released Rocq 9.2.0 gives two global bounds,
+     [h <= eq.u0] and [h <= Logic_lemmas.equality.u0]. They also occur
+     in [OGrph_Monoidal], [MonoidOfCat] and [CategoryOfOMonoid]. The
+     unit graph uses ordinary node equality; [ObjEq] in Theory/Size.v
+     instead supplies a level-polymorphic identity without the [eq] cap.
 
    - [category_is_monoid_in_OGrph@{o h p hh oo co ch cp u}] keeps the two
      HALVES' universes apart -- the monoid half quantifies over
      [OGraph@{o h p}], the category half over [Category@{co ch cp}], and the
-     o-family and co-family are genuinely distinct -- at the cost of an
-     explicit universe binder on the theorem.  That separation is ALL the
-     binder buys, and the constraint clause says so (audit-corrected; it is
-     quoted here because it contradicts what one would guess):
+     two object levels are not equated. Within each half, the printed
+     constraint block still contains
 
          h = o    p = o    hh = o    ch = co    cp = co
 
-     i.e. WITHIN each half minimisation still collapses everything to one
-     level, because the round-trip Examples and [ORebuild_to]/[ORebuild_from]
-     below do not carry the explicit binders the definitions above do.  The
-     packaged theorem is therefore DEGENERATE in its universes; the general
-     result is in the tree, but it lives in the components
-     ([MonoidOfCat@{o h p hh oo u}], [CategoryOfOMonoid@{o h p hh oo}]),
-     which carry only [o <= h] and [h <= p] and no equalities.  Applying the
-     binder discipline to the round-trip Examples would repair the packaging;
-     that is not done here and is recorded as a known gap rather than a
-     claim.
+     in addition to bounds on other levels, including [oo]. Do not read
+     these equalities off the number of positional instances in the
+     source. #1412 removed redundant instances without changing this
+     context. [MonoidOfCat] and [CategoryOfOMonoid] do not require these
+     equalities; the more general statements live in the components. No
+     generalization of the packaged theorem is claimed.
 
    AXIOMS.  Every named constant of this file, and every constant the three
    records generate, reports "Closed under the global context" under [Print
