@@ -222,7 +222,14 @@ Generalizable All Variables.
        (first carrier [ObjCat], from [DiscreteCat]'s equality homs) and, all
        but [ObjCat], also [jh <= eq_rect_r.u1], [jh <=
        EqdepFacts.eq_sigT_sig_eq.u2] and [JMeq.u0 <= JMeq.u1] (first carrier
-       [DiscInc], from [DiscreteCat_Functor']'s [match] on an equality).  The
+       [DiscInc], from [DiscreteCat_Functor']'s [match] on an equality).
+       CORRECTION (Rocq 9.3.0 migration): on 9.3.0 the same 21 carry
+       [jo <= eq_rew_r_dep.u0], [jo <= Logic_lemmas.equality.u0],
+       [jh <= eq_sym.u0] and [jh <= Logic_lemmas.equality.u0], and all
+       but [ObjCat] also [jh <= eq_rect_r.u1], [jh <= eq_rew_r_dep.u1]
+       and [JMeq.u0 <= JMeq.u1]; none names [eq.u0], [eq_ind.u0],
+       [eq_ind_r.u0] or [EqdepFacts.eq_sigT_sig_eq.u2] (by [About] on the
+       34 constants of this file in the assumptions audit).  The
        13 constants of PointwiseReflect and JointCreation carry none.  Ten
        constants ([creation_apex], [creation_leg],
        [discrete_inclusion_creates_limits], [Fun_Eval_JointlyCreateLimit],

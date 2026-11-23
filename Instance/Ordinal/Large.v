@@ -238,7 +238,10 @@ Generalizable All Variables.
        additionally carries, from [Proset_op_Complete_of_all_joins],
        [JMeq.JMeq.u0 <= JMeq.JMeq.u1], [u <= eq.u0],
        [u <= Logic_lemmas.equality.u0] and several
-       [projections]/[Projections] bounds.  An earlier revision added "and
+       [projections]/[Projections] bounds.  CORRECTION (Rocq 9.3.0
+       migration): on 9.3.0 it names no [eq.u0]; the bounds on
+       equality are [eq_rew_r_dep.u0], [eq_rew_r_dep.u1], [eq_sym.u0]
+       and [eq_rect_r.u1] with [Logic_lemmas.equality.u0] (by [About]).  An earlier revision added "and
        four [Set < ...] bounds"; measured after the PR "algebraic carriers
        are sets" (2026-09-17) there are NONE -- zero word-bounded [Set]
        anywhere in that constant's block, the strict bounds now being

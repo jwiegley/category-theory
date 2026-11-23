@@ -30,7 +30,7 @@ jobs:
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-      - name: Build (Rocq 9.2.0)
+      - name: Build (Rocq 9.3.0)
         run: nix build --print-build-logs
 
   timing:

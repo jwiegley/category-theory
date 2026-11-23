@@ -9,10 +9,10 @@ This codebase is a comprehensive formalization of category theory in Coq/Rocq. I
 ### Building the Library
 
 ```bash
-# Build the working tree with the locked Rocq 9.2.0 toolchain
+# Build the working tree with the locked Rocq 9.3.0 toolchain
 nix develop --no-update-lock-file --command make
 
-# Build and check the default package (category-theory_9_2)
+# Build and check the default package (category-theory_9_3)
 nix build
 
 # Clean build artifacts
@@ -293,9 +293,16 @@ When working with specific concepts, reference:
 
 ## Versioning
 
-The release target is Rocq 9.2.0 with Stdlib 9.1.0 and Equations
-1.3.2+9.2. The development shell and default package use the same locked
+The release target is Rocq 9.3.0 with Stdlib 9.2.0 and Equations
+1.3.2+9.3. The development shell and default package use the same locked
 package set. Earlier compiler versions are outside this release target.
+The target was 9.2.0 (Stdlib 9.1.0, Equations 1.3.2+9.2) until 2026-11-23;
+a readback, count or diagnostic recorded before that date and not marked
+otherwise was measured on 9.2.0 or earlier. On 9.3.0 `About` separates
+binders from constraints with `|` where 9.2.0 printed `|=`, and none of the
+14,506 declarations of the `make print-assumptions` list has `eq.u0` in its
+context: their bounds on equality name `eq_sym.u0` and
+`eq_rew_r_dep.u0`/`.u1` instead.
 
 ## Testing Individual Theorems
 

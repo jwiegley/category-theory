@@ -2,7 +2,7 @@
 # Run in the locked development shell or in the pinned opam switch.
 set -eu -o pipefail
 umask 077
-# The upstream banner for 9.2.0 may print only 9.2. Bind PATH to the
+# The upstream banner for 9.3.0 may print only 9.3. Bind PATH to the
 # exact package checked by the flake assertion or the opam caller first.
 expected_bin=${1:-${CATEGORY_ROCQ_BIN:?expected compiler bin directory required}}
 for program in rocq coqc coqtop coq_makefile; do
@@ -15,7 +15,7 @@ for program in rocq coqc coqtop coq_makefile; do
 done
 version=$(rocq c -print-version)
 printf 'Rocq and OCaml versions: %s\n' "$version"
-case ${version%% *} in 9.2|9.2.0) ;; *) exit 1 ;; esac
+case ${version%% *} in 9.3|9.3.0) ;; *) exit 1 ;; esac
 ocamlfind query rocq-equations.plugin
 work=$(mktemp -d)
 cd "$work"

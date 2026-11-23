@@ -22,7 +22,7 @@ jobs:
         run: make index-check
 
   build:
-    name: Rocq 9.2.0 opam build and install
+    name: Rocq 9.3.0 opam build and install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
       - name: Build checkout in the released Linux switch
         env:
-          IMAGE: rocq/rocq-prover@sha256:33926fb3757b2b560c3844157bd64173a26b6d338a256be1ae5eec8df2019025
+          IMAGE: rocq/rocq-prover@sha256:97a68f230e785726c3bab4ba17e1d416fdd630de4af4548eb49b08712f29af93
         run: |
           git archive HEAD | docker run --rm -i --platform linux/amd64 "$IMAGE" bash -ec '
             src=$(mktemp -d); cd "$src"; tar xf -

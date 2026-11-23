@@ -15,9 +15,9 @@ practical work.
 build: [make "-j%{jobs}%"]
 install: [make "install"]
 depends: [
-  "coq" {= "9.2.0"}
-  "rocq-stdlib" {= "9.1.0"}
-  "rocq-equations" {= "1.3.2+9.2"}
+  "coq" {= "9.3.0"}
+  "rocq-stdlib" {= "9.2.0"}
+  "rocq-equations" {= "1.3.2+9.3"}
 ]
 
 url {

@@ -230,6 +230,7 @@ Generalizable All Variables.
      in [OGrph_Monoidal], [MonoidOfCat] and [CategoryOfOMonoid]. The
      unit graph uses ordinary node equality; [ObjEq] in Theory/Size.v
      instead supplies a level-polymorphic identity without the [eq] cap.
+     On 9.3.0 the first of the two is [h <= eq_sym.u0], in all four.
 
    - [category_is_monoid_in_OGrph@{o h p hh oo co ch cp u}] keeps the two
      HALVES' universes apart -- the monoid half quantifies over
