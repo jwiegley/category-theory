@@ -172,10 +172,16 @@ Qed.
    unit laws and associativity hold of these two constants at [eq_refl]
    (Test/ProbeSetsTerms1347.v).  The universe blocks are unchanged by
    [About]: their caps come from [Datatypes.id] (ID.u0) and
-   [Basics.compose] (compose.u0 to compose.u2), not from the fields. *)
+   [Basics.compose] (compose.u0 to compose.u2), not from the fields.
+   CORRECTION (2026-11-23): the two underlying functions are now written
+   as [fun] terms, since those two constants are monomorphic in the
+   standard library and put their universes above every carrier.  By
+   [About] on Rocq 9.3.0 neither constant, nor [Sets], has a bound on a
+   global universe any more, and the [eq_refl] laws of
+   Test/ProbeSetsTerms1347.v still hold. *)
 Definition setoid_morphism_id@{o h p | o = h +} {x : SetoidObject@{o p}} :
   SetoidMorphism@{o p} x x := {|
-  morphism := Datatypes.id;
+  morphism := fun a => a;
   proper_morphism := fun _ _ H => H
 |}.
 
@@ -184,7 +190,7 @@ Definition setoid_morphism_id@{o h p | o = h +} {x : SetoidObject@{o p}} :
 Definition setoid_morphism_compose@{o h p | o = h +} {x y z : SetoidObject@{o p}}
         (g : SetoidMorphism@{o p} y z)
         (f : SetoidMorphism@{o p} x y) : SetoidMorphism@{o p} x z := {|
-  morphism := Basics.compose g f;
+  morphism := fun a => g (f a);
   proper_morphism := fun a b H =>
     proper_morphism g _ _ (proper_morphism f a b H)
 |}.

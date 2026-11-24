@@ -86,6 +86,10 @@ Generalizable All Variables.
    [p < h] "the single constraint"; there are five lines.  The substance is
    unaffected: nothing here narrows the shape, and the identification is
    polymorphic in the carrier universe [p].)
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 16 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 9
+   did before.
 
    The two-element WITNESSES do pin, and only they:
    [sets_pick_true_not_pushout_square@{u}] displays

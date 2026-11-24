@@ -203,6 +203,10 @@ Generalizable All Variables.
        [projections.u0] and [.u1] (Instance/Top/Subspace/TypeValued.v's
        [TQuot]) on [o] in 11 blocks and on [h] in 3 ([wrap], [wrap_map],
        [wrap_one]).
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 85
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 8 did before.
 
    DELIVERED ELSEWHERE.  Instance/Top/Solenoid/Presentations.v builds
    the circle as an abelian group ([CircleGroup], on [circ_PropEquiv],

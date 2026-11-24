@@ -126,6 +126,10 @@ Generalizable All Variables.
    o < Projections.u0, as it did to [BG_Act_EM] (BG.v's header); the proof
    has none, and the bound is gone (measured both ways).  No [Set] and no
    equation occur.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 12 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 12
+   did before.
 
    NOT DELIVERED.  BG.v is not rewired onto θ*: its readback
    [BG_Act_EM_alg] would be refused, as above.  The isomorphism in Cat

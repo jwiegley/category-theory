@@ -271,6 +271,10 @@ Generalizable All Variables.
    (the sigma projections) on Monad/Eilenberg/Moore.v's [EilenbergMoore].
    The creation readbacks apply Corelib's [projT1], [projT2] and, in
    [rmod_created_iso], [snd] in their own statements.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 50 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 49
+   did before.
 
    NOT DELIVERED.  Mac Lane's "exactly" as an isomorphism on the nose: the
    whole-object round trips are refused at [eq_refl] (above).  No Kleisli

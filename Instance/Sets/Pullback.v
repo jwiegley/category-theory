@@ -264,6 +264,10 @@ Generalizable All Variables.
    five stdlib donor bounds and no identification -- because they are over
    [eq_Setoid] (Lib/Setoid.v), which is universe-polymorphic, rather
    than by resolving [eq_equivalence] at an unannotated binder.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 9 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 8
+   did before.
 
    ZERO AXIOMS.  All 103 constants of this file report "Closed under the
    global context".  Enumerated as the 95 names the [.glob] records under

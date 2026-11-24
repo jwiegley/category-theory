@@ -119,6 +119,10 @@
    its fully qualified name, has no " = " in its constraint block; each
    is "Closed under the global context".  The sections below declare
    [Universes] and the top-level constants carry explicit binders.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 35 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 33
+   did before.
 
    NON-VACUITY.  [watt_ab_iso_HomAb] instantiates the upgrade at
    T := [HomAb AC A0] with its own [HomAb_representable], and

@@ -231,6 +231,10 @@ Generalizable All Variables.
    overlays, each of the seventy-five names binds the same number of
    levels as on Rocq 9.1.1, with no equation and no [Set] (compared by
    [About], by script).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 75 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 75
+   did before.
 
    NOT DELIVERED.  The strict reading (above).  Awodey's clause without
    [cmp_monad], which is false: Instance/Fun/Action/Monad/Comparison.v

@@ -183,6 +183,10 @@ Generalizable All Variables.
    [SetoidObject@{Set Set}], which would have confined every [Sets] result
    to Set-sized carriers.  Same minimization hazard as
    Instance/Sets/Products.v and the #300 erratum.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 9 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 1
+   did before.
 
    NON-VACUITY, proved rather than gestured at.  [Bool_Lattice] is the
    two-element bounded lattice (disjunction with bottom [false],

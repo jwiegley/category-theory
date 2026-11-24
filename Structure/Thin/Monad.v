@@ -120,6 +120,10 @@ Generalizable All Variables.
    destructuring adds nothing.  No constant carries [Set].  [Thin] is
    declared twice in the tree (here in Structure/Thin.v, and again in
    Instance/Proset/Galois.v); this file imports only the first.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 14 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 1
+   did before.
 
    NOT DELIVERED.  No thin-category statement for a category whose hom
    and proof universes differ, since [Thin] cannot express one.  No

@@ -147,6 +147,13 @@ Generalizable All Variables.
      (* o so |= o < so, o <= compose.u0/u1/u2, o <= Projections.u0/u1,
                 o <= ID.u0 *)
 
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 48 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 43
+   did before.  The block of [Sets_HasWidePullbacks] is now [o < so],
+   [o <= Projections.u0/u1], and "the same block" below, of
+   [Sets_HasImages], is to be read without the four caps as well.
+
    The INDEX universe of the class is instantiated at [o], the universe of
    the CARRIERS of objects of [Sets] -- the same place
    Instance/Sets/Products.v's header shows [Sets_HasIndexedProducts]

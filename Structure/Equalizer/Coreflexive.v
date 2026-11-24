@@ -187,6 +187,10 @@ Generalizable All Variables.
        [Sets_Complete_via_Manes] additionally by [eq_ind.u0], [eq_ind_r.u0]
        and [Logic_lemmas.equality.u0] (the donor [Sets_Complete] carries none
        of the last three).
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 48
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 10 did before.
 
    COUNTS AND CONVENTIONS.
      - 48 constants (34 [def], 7 [prf], 1 [inst], 4 [proj], 2 [rec] in the

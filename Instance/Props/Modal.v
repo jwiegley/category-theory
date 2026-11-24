@@ -154,6 +154,10 @@ Generalizable All Variables.
    Instance/Proset/Order.v, and Instance/Proset/Galois.v, through
    Instance/Proset/Monad.v; measured by [Locate]) and names neither: the
    witness is the term [fun _ _ _ _ => I].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 30 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 10
+   did before.
 
    NOT DELIVERED.  No Lawvere-Tierney topology or nucleus (B ⇒ −
    preserves meets, which is not stated); no other modality (Awodey's ⋄);

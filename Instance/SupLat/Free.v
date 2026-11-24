@@ -171,6 +171,10 @@ Generalizable All Variables.
    [Adjunction@{so o o so o o o o so o so}] and the witness
    [Monadic@{so so so so so o so so}], the pins of #464.  There is no
    equation and no strict bound beyond [Set < o] and [o < so].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 26 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 25
+   did before.
 
    NOT DELIVERED.  Beck's route to monadicity (Monad/Monadicity/Beck.v's
    [beck_monadicity]) is not taken.  No functor between the

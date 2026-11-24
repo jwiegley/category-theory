@@ -206,6 +206,12 @@ Example iprod_pequiv_is_pointwise {A : Type} (F : A -> SetoidObject)
      (* u u0 u1 u2 |= u2 < u0, u1 <= u, u2 <= u, plus Projections and
         compose bounds *)
 
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 the block is [u2 < u0],
+   [u1 <= u], [u2 <= u], [u <= Projections.u0] and
+   [u <= Projections.u1]: the three compose bounds and [u2 <= ID.u0],
+   which the block also had, are gone.
+
    -- the limit's carrier universe [u] is bounded below by the SHAPE's object
    universe [u1] as well as by the components, which is the size constraint the
    solution-set argument runs into elsewhere. *)

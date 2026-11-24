@@ -218,6 +218,10 @@ Generalizable All Variables.
    [zext_adjunction] and [coex_adjunction]; and Projections (the sigma
    projections) on Monad/Eilenberg/Moore.v's [EilenbergMoore], through
    [EM_Forget], on the comparison constants.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 14 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 14
+   did before.
 
    NOT DELIVERED, FURTHER.  No cocontinuity of R ⊗ (−) at a general ring, by
    this or any other route.  No naturality of the bijection is restated beyond

@@ -215,6 +215,10 @@ Generalizable All Variables.
    [split] in [beck_vs_direct_iso]'s proof added the strict bound
    [o < Projections.u0] (already implied by o < so and
    so <= Projections.u0); it was removed and the bound is gone.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 58 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 56
+   did before.
 
    NOT DELIVERED.  Mac Lane's strict monadicity, the comparison functor
    an isomorphism on the nose: the whole-object round trips are refused

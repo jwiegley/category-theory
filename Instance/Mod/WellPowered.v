@@ -208,6 +208,10 @@ Generalizable All Variables.
    was not attempted.  [Int_Ring] meets the restriction: [About] reads
    [Int_Ring@{o p q} : RingObject@{q o p}] with only [o <= q] and
    [p <= q], so [Int_Ring@{c c c}] is expressible.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 36 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 29
+   did before.
 
    ** STRENGTHS
 
@@ -235,6 +239,10 @@ Generalizable All Variables.
    [p <= a], [a <= o].  Every top-level binder names the ring's, RMod's
    and the index universes; several constants read back further
    universes, the co-well-powered ones among them (below).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 36 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 29
+   did before.
 
      RMod_WellPoweredAt_up@{a c p o x w} :
        ∀ {R : RingObject@{a c p}} (W : obj[RMod@{o x a p c} R]),

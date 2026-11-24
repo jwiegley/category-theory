@@ -293,6 +293,10 @@ Generalizable All Variables.
    Instance/Top/Components.v's [swap_set] carries in its own block (nine
    blocks, [PPi0_PBool_iso]'s first obligation among them, which has it
    from its own proof).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 98 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 49
+   did before.
 
    NOT DELIVERED.
      - The comparison π₀ → C from path components to Mac Lane's

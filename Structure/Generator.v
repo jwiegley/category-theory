@@ -207,6 +207,10 @@ Generalizable All Variables.
    [u0 <= eq_rect_r.u1] and [u2 <= eq_rect_r.u0], the price of the
    [rewrite] on the index equation.  [gen_separates_contra] has an
    EMPTY block.  No constant in this file is pinned to [Set].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 25 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 5
+   did before.
 
    NOT DELIVERED.  No example in this file: the witnesses live in
    Instance/Sets/Generator.v, Instance/Grp/Generator.v and

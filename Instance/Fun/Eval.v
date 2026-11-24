@@ -136,6 +136,11 @@ Generalizable All Variables.
      - The satellite's [Cat]-routed constants collapse to one universe
        (item (2)) and carry [Basics.compose], [eq_rect] and [prod_rect]
        bounds; see its header.
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the
+       satellite's 6 audited constants names [compose.u0]-[u2] or
+       [ID.u0]; all 6 did before.  The [eq_rect] and [prod_rect] bounds
+       remain.
 
    COUNTS AND CONVENTIONS.
      - 34 constants closed under the global context: 17 [.glob] declaration

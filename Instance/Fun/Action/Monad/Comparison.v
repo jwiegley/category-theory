@@ -160,6 +160,10 @@ Generalizable All Variables.
    Coq 8.19.2 and 8.20.1 in source overlays, each of the forty-two names
    binds the same number of levels as on Rocq 9.1.1, with no equation and
    no [Set] (compared by [About], by script).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 42 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 34
+   did before.
 
    NOT DELIVERED.  Mac Lane's reading with an equality in both places, as
    an equation of functors in Coq: #475's strict uniqueness for the

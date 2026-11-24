@@ -212,6 +212,10 @@ Generalizable All Variables.
    With [About] under [Set Printing Universes], the stdlib-global bounds
    ([Projections], [compose], [eq_ind], [prod_rect], [JMeq], [Fin.case0],
    [VectorDef] and the like) dropped:
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 73 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 32
+   did before.
 
      VCongIdx : … (E : UA.EqSignature@{u1 u2 u3 u4 u u0} S)
                   {J : Category@{u5 u6 u6}}, J ⟶ SVariety E → Type@{u16}

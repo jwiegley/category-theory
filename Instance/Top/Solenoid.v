@@ -113,6 +113,12 @@ Generalizable All Variables.
    [@{s h o | o < h}] is refused, "Universes ... are unbound"
    (Test/ProbeSolenoid410.v's N6), and accepted with an extensible list
    (its [p410_tower_step]).
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 [tower_step] no longer has
+   [Sets]' four caps ([compose.u0]-[u2] and [ID.u0], all on [u0]).  It
+   still binds five universes, and its block keeps [u0 < u1] and the
+   bounds of [u0] and [u3] by [eq_sym.u0], [Logic_lemmas.equality.u0]
+   and [eq_ind_r.u0].
 
    THE SOLENOID IN THE TYPE-VALUED [Top], the issue's category and its
    pinned name: [solenoid_limit p : Limit (CircleTower p)].  The generic
@@ -265,6 +271,10 @@ Generalizable All Variables.
        [Projections] ([tower_obj], through [SolPoints]); [False_rect] and
        [nat_rect], first carried by [open_bounded_inter]; [prod_rect]
        ([PForget_PreservesLimitCone]'s own block).
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 72
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 56 did before.
      - [open_bounded_inter] and [sol_lift_cont] have extensible universe
        lists: Coq 8.19.2 and 8.20.1 refuse their closed lists
        ("unbound"), while [About] under 8.19.2 reads back the same

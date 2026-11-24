@@ -54,6 +54,10 @@ Generalizable All Variables.
    [Basics.compose], [eq_rect] and [prod_rect] bounds; no word-bounded
    [Set], no [JMeq]/[EqdepFacts]/[eq_rect_r].  This is measured by [About],
    not by a refutation: the route typechecks.
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 6 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 6
+   did before.
 
    COUNTS.  6 constants (5 [def], 1 [prf]); one [Qed]; closure 33 files
    excluding self (Instance/Cat/Exponential.v costs 8 at the margin,

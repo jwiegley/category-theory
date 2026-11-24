@@ -147,6 +147,10 @@ Generalizable All Variables.
        Instance/Top/Subspace.v's [pquot_desc] carries in its own block.
        [SepPremise@{o} : Type@{max(Set+1,o+1)}], the sort of a family of
        Prop-valued predicates on [Type@{o}].
+       CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its
+       identity and composite, and by [About] on Rocq 9.3.0 none of the 105
+       constants of this file in the assumptions audit names
+       [compose.u0]-[u2] or [ID.u0]; 30 did before.
      - The named spaces and their lemmas: [@{o}] with the one stdlib cap
        [o <= Logic_lemmas.equality.u0], [eq_Setoid]'s own.
      - [PFullSub], [PFullSub_Full], [PSepSub]: [@{o so}] with [o < so]

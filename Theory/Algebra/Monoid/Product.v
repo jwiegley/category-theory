@@ -291,6 +291,10 @@ Generalizable All Variables.
      are satisfied by [u2 := u0].  Still no [Set] and no identification; the
      extra entries in that block ([Basics.compose], [eq_ind], [ID]) are
      Instance/Sets.v's, not this file's.
+     CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+     and composite, and by [About] on Rocq 9.3.0 none of the 18 constants of
+     this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0];
+     2 did before.
 
    NOT DELIVERED, with reasons.
 

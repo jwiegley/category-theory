@@ -109,6 +109,10 @@ Generalizable All Variables.
    an audit measured as short by those inherited bounds).  Every
    constant here binds its category as [Category@{_ u0 u0}], the hom
    level identified with the proof level, and none is pinned to [Set].
+   CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
+   and composite, and by [About] on Rocq 9.3.0 none of the 8 constants of
+   this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 2
+   did before.
 
    NOT DELIVERED.  No cogenerating example: this file exhibits no
    [Cogenerator] of any concrete category, and SAFT.v's consumers all
