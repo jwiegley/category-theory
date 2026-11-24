@@ -313,7 +313,8 @@ Definition Fun_Pullback : @Pullback ([C, D]) F G H alpha beta
 
 End FunPullback.
 
-Definition Fun_HasPullbacks {C D : Category} (HP : @HasPullbacks D) :
+Definition Fun_HasPullbacks@{u u0 u1 u2 u3 u4 | u3 < u4, u1 <= u, u1 <= u0, u2 <= u, u3 <= u, u3 <= u0}
+  {C : Category@{u1 u3 u3}} {D : Category@{u2 u3 u3}} (HP : @HasPullbacks D) :
   @HasPullbacks ([C, D]) :=
   {| pullback := fun F G H alpha beta => Fun_Pullback HP alpha beta |}.
 
