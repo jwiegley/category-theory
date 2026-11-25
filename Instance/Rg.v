@@ -397,12 +397,12 @@ Qed.
    `Rg@{u o}` annotations in this file for arity. *)
 Program Definition Rg@{u p} : Category@{u p p} := {|
   obj     := RgObject@{p p p};
-  hom     := RgHom@{p};
-  homset  := @RgHom_Setoid@{p};
-  id      := @rg_hom_id@{p};
-  compose := @rg_hom_compose@{p};
+  hom     := RgHom@{p p p p};
+  homset  := @RgHom_Setoid@{_ _ p p};
+  id      := @rg_hom_id@{p p};
+  compose := @rg_hom_compose@{_ _ _ _ p p};
 
-  compose_respects := @rg_hom_compose_respects@{p}
+  compose_respects := @rg_hom_compose_respects@{_ _ _ _ p p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.

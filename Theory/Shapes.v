@@ -141,43 +141,29 @@ Generalizable All Variables.
 
    THE CONSTRUCTIONS are free: [Point], [Walk], [One_Eval] and
    [Functor_of_Pair] all take [C : Category@{o h h}].  [Functor_of_Pair]
-   produces a functor out of [_3@{u Set Set}] -- the same source profile
+   produces a functor out of [_3] with its objects in [Set] and its homs
+   at the universe of its instance -- the same source profile
    Instance/Ordinal.v's own [Functor_of_Steps] and [Functor_of_Triple]
-   already carry.
+   carry.
 
-   THE THEOREMS ABOUT THEM ARE NOT.  Fifteen constants are stated for
-   [C : Category@{o Set Set}], not the five the first commit named: besides
-   [One_Const], [One_Fun_iso], [Arrow_of_Fun], [Fun_of_Arrow] and
-   [Two_Fun_Arrow], the pinned set includes [point_of_Point],
-   [Point_point_of_strict], [Point_point_of], [Point_equiv_iso],
-   [Point_point_of_iso], [Walk_arrow_of_strict], [Walk_arrow_of],
-   [Arrow_Fun_Arrow_strict], [Walk_arrow_of_iso] and
-   [Functor_of_Pair_of_Functor].  Three of those are the substantive round
-   trips, so it is wrong to say the correspondences are unpinned: you may
-   BUILD the functors at any universe, but the round-trip theorems apply
-   only at the restricted profile.
+   SO ARE THE THEOREMS ABOUT THEM, since the universes of
+   rocq-prover/rocq#22721.  The fifteen constants the previous revision of
+   this paragraph recorded as stated for [C : Category@{o Set Set}] --
+   [One_Const], [One_Fun_iso], [Arrow_of_Fun], [Fun_of_Arrow],
+   [Two_Fun_Arrow], [point_of_Point], [Point_point_of_strict],
+   [Point_point_of], [Point_equiv_iso], [Point_point_of_iso],
+   [Walk_arrow_of_strict], [Walk_arrow_of], [Arrow_Fun_Arrow_strict],
+   [Walk_arrow_of_iso] and [Functor_of_Pair_of_Functor] -- all take
+   [C : Category@{o h h}], measured by [About]: Instance/Two.v's [_2] has
+   its homs at a universe of its instance rather than in [Set], so the
+   constraint of Instance/Fun.v's [Fun] identifying the hom universes of
+   source and target no longer forces those of [C] into [Set].  The
+   previous revision's account of the [_1] side, an annotated variant over
+   [Category@{u u u}] kept out for uniformity with the [_2] side, is
+   superseded with it.
 
-   FOR THE CURRENT [_2] PRESENTATION the restriction follows from [Fun]'s
-   shared source/target hom level ([u0 = u2] on Rocq 9.2.0) and the
-   declared [_2 : Category@{u Set Set}]. The latter is not a consequence
-   of the type of [TwoHom] alone: #1399's annotated construction accepted
-   larger levels without changing [TwoHom]. The current declarations reject
-   [[_2, C]] at an independently larger hom level.
-
-   FOR THE [_1] SIDE IT IS NOT FORCED, contrary to what the first commit
-   claimed.  That commit said an annotated variant had been tried and was
-   rejected at [One_Const]; the audit built one that compiles end to end,
-   including the strict round trip, over [Category@{u u u}] with
-   [Set < u].  Note the trade rather than the strict improvement: that
-   variant identifies the object and hom universes where this file's form
-   identifies the hom universe with [Set], so neither statement subsumes
-   the other.  The [Set] form is kept here because it is what the [_2]
-   side forces and matching the two keeps the file uniform -- a deliberate
-   choice, now stated as one instead of as an obstruction.
-
-   The restriction does not empty the statements: [Two_Fun_Arrow_at_three]
-   and [One_Fun_iso_at_three] instantiate both at the three-object
-   ordinal.
+   [Two_Fun_Arrow_at_three] and [One_Fun_iso_at_three] instantiate both
+   correspondences at the three-object ordinal.
 
    INSTANTIATIONS.  The three Seven Sketches items are the three concrete
    exercises of the correspondences.  Example 3.36 draws functors from the

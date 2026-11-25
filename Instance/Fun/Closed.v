@@ -481,7 +481,7 @@ Definition two_map@{h} {n m : nat} (f : le_t@{h} n m) : Fin.t 2 -> Fin.t 2 :=
    both categories free.  Test/ProbeFunClosed392.v pins the rejection
    against the annotated form as its control. *)
 Program Definition TwoFun@{o h p u u0 u1 u2 +}
-  : Omega@{o h p} ⟶ FinSet@{u u0} := {|
+  : Omega@{o h p} ⟶ FinSet@{u0 u} := {|
   fobj := fun _ => 2%nat;
   fmap := fun _ _ f => two_map f
 |}.
@@ -502,7 +502,7 @@ Proof. unfold alpha_fam; destruct (Nat.eq_dec n (S k)); reflexivity. Qed.
    both sides reduce to [Fin.F1], because every component of
    [alpha_fam k] preserves [Fin.F1]. *)
 Program Definition Alpha@{o h p u u0 u1 u2 +} (k : nat)
-  : TwoFun@{o h p u u0 u1 u2} ⟹ TwoFun@{o h p u u0 u1 u2} := {|
+  : TwoFun@{o h p u0 u u1 u2} ⟹ TwoFun@{o h p u0 u u1 u2} := {|
   transform := fun n => alpha_fam k n
 |}.
 Next Obligation.

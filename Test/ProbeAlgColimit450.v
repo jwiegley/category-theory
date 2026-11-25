@@ -42,7 +42,12 @@
 
     KINDS.  Fifteen refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N2-N7,
-    N13) and CONVERSION (N1, N8-N12, N14).
+    N13) and CONVERSION (N1, N8-N12, N14).  (CORRECTION: that count was
+    measured before rocq-prover/rocq#22721; with its universes N6, among
+    others, is accepted and no longer a refutation.)  CORRECTION
+    (rocq-prover/rocq#22721): the others are N2 and N13; twelve lines open
+    with the refutation keyword (grep -c '^Fail' of this file), UNIVERSE
+    being N3-N5 and N7.
 
     N1 (CONVERSION).  The coproduct the adjoint functor theorem produces is
     a different object, not Instance/Grp/Pushout.v's words free product
@@ -64,6 +69,10 @@
     identifies a shape's hom universe with the carrier, and the carrier
     sits strictly above [Set].  The controls are [DiscreteCat bool] and
     [DiscreteCat (Fin.t 2)], whose hom universes are free.
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N2 is the state
+    before rocq-prover/rocq#22721; with its universes
+    [Grp_colim_via_GAFT Two_Discrete] is accepted and N2 is no longer a
+    refutation.
 
     N3 (UNIVERSE).  Under [Constraint jh < p], the functor category
     [[Jlow, Grp@{u p}]] for Jlow : Category@{jo jh jh} is refused at its
@@ -118,7 +127,10 @@
     [Grp_canonical_presentation] and [Grp_riehl_e_not_monic] are accepted,
     and so is Pushout.v's [Grp_Cocartesian] at N7's very type;
     [Grp_free_product_is_coequalizer] itself is accepted at [Z2@{p}] under
-    [Set < p].
+    [Set < p].  CORRECTION (rocq-prover/rocq#22721): N6 as quoted is the
+    state before rocq-prover/rocq#22721; with its universes
+    [Grp_free_product_is_coequalizer Z2@{Set} Z2@{Set}] is accepted and
+    N6 is no longer a refutation.  N7 is still refused.
 
     N8-N11 (CONVERSION).  Instance/Grp/Colimit/Presentation.v says each
     letter-level fact ([Grp_riehl_l_inl], [Grp_riehl_r_inl],
@@ -173,7 +185,11 @@
     and is accepted only because #450 lifted Instance/Grp.v's zero object
     off [Set].  N13 is expected to turn over if ℤ's pin is ever lifted the
     same way, and Instance/Rng/Colimit.v's header would then need a
-    correction.
+    correction.  CORRECTION (rocq-prover/rocq#22721): that refusal of N13
+    is the state before rocq-prover/rocq#22721; with its universes
+    [initial_unique Rng_Initial_via_GAFT Rng_Initial_Z] is accepted and
+    N13 is no longer a refutation, while the control still states
+    [Rng_Initial_Z] at [Rng@{Set}].
 
     N14 (CONVERSION).  Theory/Subobject/Disjoint.v's STRENGTHS: the meet
     of the two coproduct injections is the bottom subobject up to `≈`, not
@@ -411,13 +427,16 @@ Check (Grp_coproduct_agrees :
 Fail Example p450_n1_aft_coprod_is_words (G H : Grp) :
   @Coprod Grp Grp_Cocartesian_via_GAFT G H = Grp_free_product G H := eq_refl.
 
-(** ** N2 (UNIVERSE): [Two_Discrete] is refused as a shape *)
+(** ** N2 (UNIVERSE): [Two_Discrete] is refused as a shape (accepted
+    since the universes of rocq-prover/rocq#22721) *)
 
 (* CONTROLS: a discrete two-object shape whose homs are free. *)
 Definition p450_grp_colim_bool := Grp_colim_via_GAFT (DiscreteCat bool).
 Definition p450_grp_colim_fin2 := Grp_colim_via_GAFT (DiscreteCat (Fin.t 2)).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N2, now accepted: previously refused with "Cannot enforce Set = <anon>
+   because Set < <anon>"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p450_n2_grp_two_discrete := Grp_colim_via_GAFT Two_Discrete.
 
 (** ** N3 (UNIVERSE): shape homs below the carrier, refused at [J, Grp] *)
@@ -472,7 +491,8 @@ Fail Definition p450_n5_rng_colim_at_set := Rng_colim_via_GAFT J.
 End SetCarrier.
 
 (** ** N6, N7 (UNIVERSE): the AFT side at [Set] carriers; Riehl's side and
-    the words side are accepted there *)
+    the words side are accepted there (and N6 itself since the universes
+    of rocq-prover/rocq#22721) *)
 
 (* CONTROLS, transplanted from the Riehl verification's scratch probe with
    this file's full import list: every statement that does not mention
@@ -491,7 +511,10 @@ Definition p450_aft_above_set@{u p + | Set < p, p < u +} :=
   Grp_free_product_is_coequalizer Z2@{p} Z2@{p}.
 
 Check @Z2@{_}.
-Fail Definition p450_n6_aft_at_set :=
+(* N6, now accepted: previously refused with "Cannot enforce Set = <anon>
+   because Set < <anon>"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Definition p450_n6_aft_at_set :=
   Grp_free_product_is_coequalizer Z2@{Set} Z2@{Set}.
 
 (* CONTROL: the words coproduct at a [Set] carrier. *)
@@ -600,7 +623,8 @@ Fail Example p450_n12_riehl_obj_is_aft_obj (G H : Grp) :
   @Coprod Grp Grp_Cocartesian_via_riehl G H
     = @Coprod Grp Grp_Cocartesian_via_GAFT G H := eq_refl.
 
-(** ** N13 (UNIVERSE): the ring ℤ stays at [Set]; the trivial group moved *)
+(** ** N13 (UNIVERSE): the ring ℤ stays at [Set]; the trivial group moved
+    (N13 accepted since the universes of rocq-prover/rocq#22721) *)
 
 (* CONTROL: the comparison #450 made possible for groups. *)
 Definition p450_grp_initial_comparison :=
@@ -609,7 +633,9 @@ Definition p450_grp_initial_comparison :=
 (* CONTROL: ℤ is initial at [Set] carriers. *)
 Check (Rng_Initial_Z : @Initial Rng@{Set}).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N13, now accepted: previously refused with "Cannot enforce Set = <anon>
+   because Set < <anon>"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p450_n13_rng_initial_comparison :=
   initial_unique Rng_Initial_via_GAFT Rng_Initial_Z.
 

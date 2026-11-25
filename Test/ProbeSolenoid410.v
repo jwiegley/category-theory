@@ -516,7 +516,7 @@ Definition p410_Zp_iso@{s u o so r | o < u, o < so +} (p : positive)
 Example p410_zp_one@{s u o so r | o < u, o < so +} (p : positive)
   (Hp : (1 < p)%positive) :
   `1 (projT1 (cmon_map (zp_to_fibre@{s u o so r} p Hp)
-                (rig_one (Zp@{o o} ZComm@{o o} (Zpos p)))))
+                (rig_one (Zp@{o o} ZComm (Zpos p)))))
   = `1 (unit_string@{s o so} p) := eq_refl.
 
 (** ** Instance/Top/Solenoid/Presentations.v: the covering *)

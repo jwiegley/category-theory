@@ -294,8 +294,10 @@ End Violation.
 (* The packaged negative half, in its STRONG form: no isomorphism
    ℚ¹ ≅ (ℚ¹)* satisfies even the single point (e₁, e₁) of the
    pointwise naturality square at the automorphism 2·(−). *)
-Theorem sigma_not_natural
-        (s0 : @Isomorphism (FdVect Q_Field) Q1 (DualFdObj Q_Field Q1)) :
+(* The universe [f] of the field is declared: [DualFdObj] depends on it, and the functorial
+   statements below see [Q_Field] at the universe [FdVect] and [DualFd] require *)
+Theorem sigma_not_natural@{f +}
+        (s0 : @Isomorphism (FdVect Q_Field@{Set f}) Q1 (DualFdObj Q_Field@{Set f} Q1)) :
   cmon_map (rm_hom (cmon_map (rm_hom (to s0))
                       (cmon_map (rm_hom (qscale 2)) e1))) e1
     ≈ cmon_map (rm_hom (cmon_map (rm_hom (to s0)) e1))

@@ -156,21 +156,21 @@ Open Scope category_scope.
       the unit, which does compute.
 
     UNIVERSES.  Read off the constraint blocks (with [Set Printing
-    Universes]), [ExtendScalars] and [extend_restrict_adjunction] both
-    IDENTIFY all six universes of the two rings: u = u0 = u1 = u2 = u3 =
-    u4.  That is the DONOR's doing and not this file's, and it was
-    measured rather than guessed: [obj[Rng]] rejects
-    [RingObject@{ra ra rc}] under [Constraint ra < rc] with "Cannot
-    enforce rc = ra", while [RingObject@{ra rb rc}] with [ra < rb] is
-    perfectly formable on its own — so it is the CATEGORY [Rng], not the
-    record [RingObject], that collapses them, and any statement about a
-    morphism of [Rng] inherits the collapse.  That measurement is NOT
-    guarded by a [Fail] in this file: pinning it would require writing a
-    universe instance on [RingObject], whose arity is a portability
-    hazard across the supported Coq/Rocq versions, and the cost of a
-    guard that silently stops discriminating is higher than the cost of
-    saying plainly that this one is measured.  Every concrete ring in
-    tree satisfies the collapse, so no witness is affected.
+    Universes]), [ExtendScalars] and [extend_restrict_adjunction] put the
+    modules over both rings at the carrier universe [u] of [R]: the
+    functor is [Functor@{max(u+1,u0) u u max(u+1,u2) u u}], and the
+    carrier universe [u1] of [S] is only bounded, [u1 ≤ u].  An earlier
+    revision of this paragraph recorded the identification of all six
+    universes of the two rings, attributed to the category [Rng], whose
+    objects then rejected a [RingObject] with distinct carrier and proof
+    universes; with the universes of rocq-prover/rocq#22721 [obj[Rng]]
+    accepts one by cumulativity, and the identification is gone.  The
+    tensor products of the [OneModule] section have their relation
+    universe declared ([t]), so that the opaque statements about them do
+    not each put it in [Set].  None of this is guarded by a [Fail] in this
+    file: pinning it would require writing a universe instance on
+    [RingObject], whose arity is a portability hazard across the
+    supported Coq/Rocq versions.
 
     NOT DELIVERED, and none of it is claimed.
 
@@ -277,15 +277,21 @@ Section OneModule.
 
 Context (M : RMod R).
 
+(* The universe [t] of the relation of the tensor product, a [Prop] relation which fits in any
+   universe, is declared, so that all the statements below see the same [TensorMod ExtBase M]:
+   the opaque ones would otherwise each take it in [Set] *)
+Universe t.
+Local Notation TM := (TensorMod@{_ _ _ _ _ _ t} ExtBase M).
+
 (** The elementary tensor x (x) m, with the two module arguments named
     so that [mt_gen]'s implicit arguments are determined. *)
 Definition ext_gen (x : carrier (rig_setoid (ring_rig S)))
   (m : carrier (cmon_setoid M))
-  : carrier (cmon_setoid (TensorMod ExtBase M)) := @mt_gen R ExtBase M x m.
+  : carrier (cmon_setoid (TM)) := @mt_gen R ExtBase M x m.
 
 (** The scaling bilinear map. *)
 Program Definition ext_scale (s : carrier (rig_setoid (ring_rig S)))
-  : RBilinear ExtBase M (TensorMod ExtBase M) := {|
+  : RBilinear ExtBase M (TM) := {|
   rbl_map := fun x m => mt_gen (rig_mul (ring_rig S) s x) m
 |}.
 Next Obligation.
@@ -319,16 +325,16 @@ Next Obligation.
 Qed.
 
 Definition ext_act (s : carrier (rig_setoid (ring_rig S)))
-  : TensorMod ExtBase M ~{RMod R}~> TensorMod ExtBase M :=
+  : TM ~{RMod R}~> TM :=
   tensor_med (ext_scale s).
 
 Definition ext_smul (s : carrier (rig_setoid (ring_rig S)))
-  (t : carrier (cmon_setoid (TensorMod ExtBase M)))
-  : carrier (cmon_setoid (TensorMod ExtBase M)) :=
+  (t : carrier (cmon_setoid (TM)))
+  : carrier (cmon_setoid (TM)) :=
   tensor_med_fun (ext_scale s) t.
 
 Example ext_smul_is_act (s : carrier (rig_setoid (ring_rig S)))
-  (t : carrier (cmon_setoid (TensorMod ExtBase M))) :
+  (t : carrier (cmon_setoid (TM))) :
   ext_smul s t = cmon_map (rm_hom (ext_act s)) t := eq_refl.
 
 Example ext_smul_gen (s x : carrier (rig_setoid (ring_rig S)))
@@ -338,7 +344,7 @@ Example ext_smul_gen (s x : carrier (rig_setoid (ring_rig S)))
 (** Respectfulness of the action in the SCALAR argument is the one clause
     that is not free: it is [tensor_hom_ext] between two mediators. *)
 Lemma ext_smul_scalar (s s' : carrier (rig_setoid (ring_rig S)))
-  (Hs : s ≈ s') (t : carrier (cmon_setoid (TensorMod ExtBase M))) :
+  (Hs : s ≈ s') (t : carrier (cmon_setoid (TM))) :
   ext_smul s t ≈ ext_smul s' t.
 Proof.
   refine (tensor_hom_ext (ext_act s) (ext_act s') _ t).
@@ -357,7 +363,7 @@ Qed.
 (** The extension of scalars: the same abelian group as the tensor
     product over R, with S acting on the left-hand factor. *)
 Program Definition ExtendObj : RModObject S := {|
-  rm_ab   := rm_ab (TensorMod ExtBase M);
+  rm_ab   := rm_ab (TM);
   rm_smul := ext_smul
 |}.
 Next Obligation. exact ext_smul_respects. Qed.
@@ -382,7 +388,7 @@ Qed.
 Next Obligation.
   intros t.
   refine (tensor_hom_ext (ext_act (rig_one (ring_rig S)))
-            (@rmod_hom_id R (TensorMod ExtBase M)) _ t).
+            (@rmod_hom_id R (TM)) _ t).
   intros x m; simpl.
   apply mte_gen; [ | reflexivity ].
   apply (rig_mul_one_l (ring_rig S)).
@@ -397,25 +403,25 @@ Qed.
     time — through phi (r r') ≈ phi (r' r), which centrality supplies and
     which is FALSE for a general phi. *)
 Lemma extend_restrict_action (r : carrier (rig_setoid (ring_rig R)))
-  (t : carrier (cmon_setoid (TensorMod ExtBase M))) :
-  rm_smul (TensorMod ExtBase M) r t ≈ ext_smul (rig_map phi r) t.
+  (t : carrier (cmon_setoid (TM))) :
+  rm_smul (TM) r t ≈ ext_smul (rig_map phi r) t.
 Proof.
   revert r.
   induction t as [ x m | | t1 IH1 t2 IH2 | t1 IH1 | r' t1 IH1 ]; intro r.
   - exact (mte_act_l r x m).
-  - exact (rm_smul_zero_r (TensorMod ExtBase M) r).
-  - transitivity (cmon_plus (TensorMod ExtBase M)
-                    (rm_smul (TensorMod ExtBase M) r t1)
-                    (rm_smul (TensorMod ExtBase M) r t2)).
+  - exact (rm_smul_zero_r (TM) r).
+  - transitivity (cmon_plus (TM)
+                    (rm_smul (TM) r t1)
+                    (rm_smul (TM) r t2)).
     + apply rm_smul_distr_l.
-    + exact (cmon_plus_respects (TensorMod ExtBase M) _ _ (IH1 r) _ _ (IH2 r)).
-  - transitivity (ab_neg (TensorMod ExtBase M)
-                    (rm_smul (TensorMod ExtBase M) r t1)).
+    + exact (cmon_plus_respects (TM) _ _ (IH1 r) _ _ (IH2 r)).
+  - transitivity (ab_neg (TM)
+                    (rm_smul (TM) r t1)).
     + apply rm_smul_neg_r.
-    + exact (ab_neg_respects (TensorMod ExtBase M) _ _ (IH1 r)).
+    + exact (ab_neg_respects (TM) _ _ (IH1 r)).
   - rewrite (rm_map_smul (ext_act (rig_map phi r)) r' t1).
     rewrite <- (IH1 r).
-    rewrite <- !(rm_smul_assoc (TensorMod ExtBase M)).
+    rewrite <- !(rm_smul_assoc (TM)).
     transitivity (ext_smul (rig_map phi (rig_mul (ring_rig R) r r')) t1);
       [ apply IH1 | ].
     transitivity (ext_smul (rig_map phi (rig_mul (ring_rig R) r' r)) t1).
@@ -475,7 +481,7 @@ Qed.
     R-module structure to the restriction of the S-module structure.  Its
     one obligation IS [extend_restrict_action]. *)
 Program Definition ext_restrict_id
-  : TensorMod ExtBase M ~{RMod R}~> RestrictObj phi ExtendObj := {|
+  : TM ~{RMod R}~> RestrictObj phi ExtendObj := {|
   rm_hom := {| cmon_map := {| morphism := fun t => t |} |}
 |}.
 Next Obligation.
@@ -536,7 +542,7 @@ Next Obligation.
   apply rm_smul_respects; [ symmetry; apply Hc | reflexivity ].
 Qed.
 
-Definition ext_med_R : TensorMod ExtBase M ~{RMod R}~> RestrictObj phi N :=
+Definition ext_med_R : TM ~{RMod R}~> RestrictObj phi N :=
   tensor_med ext_bil.
 
 (** Left multiplication by s, as a map of the restricted R-modules: the
@@ -598,7 +604,7 @@ Proof. exact (rm_smul_one N (cmon_map (rm_hom g) m)). Qed.
 (** An S-linear map out of the extension IS an R-linear map out of the
     tensor product, by [extend_restrict_action]. *)
 Program Definition ext_forget (h : ExtendObj ~{RMod S}~> N)
-  : TensorMod ExtBase M ~{RMod R}~> RestrictObj phi N := {|
+  : TM ~{RMod R}~> RestrictObj phi N := {|
   rm_hom := rm_hom h
 |}.
 Next Obligation.
@@ -610,7 +616,7 @@ Qed.
 Lemma extend_med_unique (h : ExtendObj ~{RMod S}~> N)
   (Hh : ∀ m, cmon_map (rm_hom h) (ext_gen (rig_one (ring_rig S)) m)
                ≈ cmon_map (rm_hom g) m)
-  (t : carrier (cmon_setoid (TensorMod ExtBase M))) :
+  (t : carrier (cmon_setoid (TM))) :
   cmon_map (rm_hom h) t ≈ cmon_map (rm_hom extend_med) t.
 Proof.
   refine (tensor_hom_ext (ext_forget h) ext_med_R _ t).

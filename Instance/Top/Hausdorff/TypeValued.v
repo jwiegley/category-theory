@@ -482,6 +482,6 @@ Theorem GAFT_TopHaus_vacuous@{e h o u u0 u1 u2 u3 u4 u6 +| o < h, h < u1,
            Hausdorff_Subcategory@{u0 o u2 u3 _}) X) :
   False.
 Proof.
-  pose proof (GAFT_TopHaus@{h o h u0 u1 u2 u3} comp cont sols) as _.
+  pose proof (GAFT_TopHaus@{h o h h u2 u3} comp cont sols) as _.
   exact (TopHaus_not_complete_below_IEM E comp).
 Qed.

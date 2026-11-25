@@ -100,7 +100,12 @@ End ProbeBiproduct.
     the levels are declared so that D's hom sits STRICTLY BELOW C's,
     which satisfies the bound [bh <= ah] while violating the equation,
     and then each donor is rejected ON ITS OWN while the cited control
-    is accepted at those very levels. *)
+    is accepted at those very levels.
+
+    CORRECTION (rocq-prover/rocq#22721): donor (i), NEGATIVE 4
+    ([AdditiveFunctor]), is accepted with the universes of
+    rocq-prover/rocq#22721 and is no longer a [Fail] command; donors
+    (ii) and (iii), NEGATIVES 5 and 6, are still rejected on their own. *)
 
 Section ProbeUniverseDonors.
 
@@ -123,11 +128,12 @@ Check (@fmap_padd_of_preserved_coproduct Cu Du ZCu ZDu PCu PDu Gu).
 Check (fun (x y : Cu) => x ~{Cu}~> y).
 Check (fun (x y : Du) => x ~{Du}~> y).
 
-(* NEGATIVE 4 (FORMABILITY) — donor (i).  [AdditiveFunctor] alone, with
-   ONE functor in the command and no adjunction anywhere: its binder
-   reuses a single level for both categories while its own constraint
-   block is empty. *)
-Fail Check (@AdditiveFunctor Du Cu ADu ACu Gu).
+(* NEGATIVE 4 (FORMABILITY) — donor (i), now accepted.  [AdditiveFunctor]
+   alone, with ONE functor in the command and no adjunction anywhere: its
+   binder reused a single level for both categories while its own
+   constraint block was empty.  Previously refused with a universe
+   inconsistency; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@AdditiveFunctor Du Cu ADu ACu Gu).
 
 (* CONTROL: the functor we HAVE, D ⟶ C, is formable at these levels. *)
 Check (Du ⟶ Cu).

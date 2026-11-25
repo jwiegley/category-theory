@@ -63,8 +63,8 @@ Generalizable All Variables.
 
 Definition FinSet_WellPowered@{o h s t u v +|
     Set < u, h < t, o <= s, h <= s +} :
-  WellPowered@{o h h s t} FinSet@{o h} :=
-  Classifier_WellPowered FinSet@{o h}.
+  WellPowered@{o h h s t} FinSet@{h o} :=
+  Classifier_WellPowered FinSet@{h o}.
 
 (* The index at [n]: the characteristic functions of the subsets of n. *)
 Example FinSet_wp_index (n : FinSet) :

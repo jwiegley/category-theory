@@ -33,6 +33,10 @@
         Construction/Free/Quiver/Examples.v's header records -- and is
         repairable upstream with explicit binders.  It is not inherent
         content, and nothing here claims it is unavoidable.
+        CORRECTION: with the universes of rocq-prover/rocq#22721
+        [Diagram G C] is accepted under [Constraint uh < up] as well, and
+        Negative 2 is kept without [Fail]; only the CONVERSION negative
+        is still refused.
 
     NOT PINNED HERE, and said plainly: the target also measures that the
     three WHOLE-RECORD round trips are refuted at [eq_refl] (the records
@@ -84,9 +88,12 @@ Check (@FreeOnQuiver G).
 
 End PathNegative.
 
-(** ** Negative 2 (FORMABILITY, universe): Diagram identifies hom and proof
+(** ** Negative 2 (FORMABILITY, universe), now accepted: Diagram
+       identified hom and proof
 
-    Different KIND from Negative 1. *)
+    Different KIND from Negative 1.  Previously refused with "universe
+    inconsistency: Cannot enforce up = uh because uh < up"; accepted
+    since the universes of rocq-prover/rocq#22721. *)
 
 Section HomProofApart.
 
@@ -107,13 +114,14 @@ Check (ACone c F).
 (* Control (c): THE ONE THAT ACTUALLY LOCALIZES.  [Diagram] is BY
    DEFINITION [QuiverHomomorphism G (QuiverOfCat C)], so ruling out the
    quiver and the cone does not rule out the homomorphism -- the obvious
-   alternative culprit.  It IS formable here, so the identification is
+   alternative culprit.  It IS formable here, so the identification was
    [Diagram]'s own.  An earlier revision of this file claimed the two
    controls above "localize" the cause; they do not, and this one does. *)
 Check (QuiverHomomorphism G (QuiverOfCat C)).
 
-(* The negative. *)
-Fail Check (Diagram G C).
+(* The former negative: refused with a universe inconsistency before;
+   accepted with the universes of rocq-prover/rocq#22721. *)
+Check (Diagram G C).
 
 End HomProofApart.
 

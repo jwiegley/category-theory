@@ -29,10 +29,6 @@ Unset Transparent Obligations.
      reflexivity   x ≈ x
      symmetry      x ≈ y  ->  y ≈ x
      transitivity  x ≈ y  ->  y ≈ z  ->  x ≈ z *)
-(* Not cumulative: two setoids on the same carrier are compared at the same
-   universes, so that the universe of an equivalence relation built for a
-   hom-setoid is the one of the category (as without cumulative inductives) *)
-#[universes(cumulative=no)]
 Class Setoid A := {
   equiv : crelation A;                  (* the equivalence ≈ on A *)
   setoid_equiv : Equivalence equiv      (* refl/symm/trans laws for ≈ *)

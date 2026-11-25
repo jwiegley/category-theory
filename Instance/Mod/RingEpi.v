@@ -187,11 +187,13 @@ Open Scope category_scope.
    keeps one auxiliary universe, [u0] in [AbEndRing@{u p u0}] with
    [p < u0]: its body instantiates Structure/AbCategory.v's
    [Ab_Preadditive@{u u0 p}], whose own [About] prints the same bound.
-   [TMod_Reflective_in_RMod] carries ten universes; its record is
-   [Reflective@{u u5 u u6 u p p}] over
-   [extend_restrict_adjunction@{p p p p p p u u0 u1 u2 u3 u4}], all six
-   ring universes of Instance/Mod/Extension.v's adjunction being [p]:
-   the collapse that file's header measures for [Rng], nothing new.
+   [TMod_Reflective_in_RMod] carries three universes; its record is
+   [Reflective@{p+1 p+1 p+1 p+1 p p}] over
+   [extend_restrict_adjunction@{p p p p p u u0}], the five ring universes
+   of Instance/Mod/Extension.v's adjunction being [p] because both rings
+   are objects of [Rng@{p}] here.  (An earlier revision of this
+   paragraph recorded ten universes and attributed the [p]s to a collapse
+   of [Rng], which the universes of rocq-prover/rocq#22721 removed.)
    The ℤ → ℚ constants live at [Set], since Instance/Rng.v's [ZtoQ]
    maps [Int_Ring@{Set Set Set}] to [Q_Ring@{Set Set Set}]; every
    constant that mentions [Q_Ring] (these, [ZtoQ_inverts],

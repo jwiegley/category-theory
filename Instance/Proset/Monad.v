@@ -447,7 +447,7 @@ Example poset_closure_of_monad@{u h} {A : Type@{u}} {R : relation A}
 
 (* Monotone and extensive, yet not a monad: join at 0 would be 2 ≤ 1. *)
 Theorem succ_not_monad@{u h} :
-  @Monad (Proset@{u h} Nat.le_preorder) NatSucc@{u h u} → False.
+  @Monad (Proset@{u h} Nat.le_preorder) NatSucc → False.
 Proof.
   intro MM.
   pose proof (@join _ NatSucc MM 0%nat) as H.

@@ -84,11 +84,10 @@ Generalizable All Variables.
 
     WHAT IS NOT DELIVERED.  No presentation of this shape by generators
     and relations (see above), hence no free-versus-presented arrow
-    count for it — the count below is of [_2 ∏ _3] directly.  The
-    CONVERSE half is pinned at [C : Category@{co Set Set}], inherited
-    from [Functor_of_Pair] and [Cyl_functor]; the measurement and the
-    reason are stated at the [Converse] section below, the forward half
-    carries no pin, and Test/ProbeSquare.v guards both sides.  No
+    count for it — the count below is of [_2 ∏ _3] directly.  Both
+    halves are stated for an arbitrary [C], the CONVERSE one at
+    [C : Category@{co h h}] (see the [Converse] section below), and
+    Test/ProbeSquare.v guards both sides.  No
     uniqueness clause for [RectFunctor]: [Cyl_functor_unique]
     ([Construction/Cylinder.v]) supplies uniqueness on the cylinder, but
     transporting it across [Swap] and across the row-functor
@@ -364,26 +363,24 @@ Proof.
   exact (paste_squares _ _ _ _ _ _ _ (crc_left R) (crc_right R)).
 Qed.
 
-(** UNIVERSES, measured.  The construction below is pinned at
-    [C : Category@{co Set Set}] — the target's hom and proof universes at
-    [Set] — and the pin is inherited, not introduced here.
-    [Theory/Shapes.v]'s [Functor_of_Pair] produces a functor out of
-    [_3@{u Set Set}] (that file's header records the same profile for
-    [Instance/Ordinal.v]'s own [Functor_of_Steps] and
-    [Functor_of_Triple]), and [Construction/Cylinder.v]'s [Cyl_functor]
-    identifies the hom and proof universes of its two categories, so
-    [Set] propagates from the row functors to the target.  The FORWARD
-    direction — the [Diagram] section above, which is where all the
-    commutativity content lives — carries no such pin and is stated for
-    an arbitrary [C].  Lifting this one would mean rebuilding the
-    cylinder's classifying functor by hand over [_2 ∏ _3]; that is not
-    done here, and nothing above depends on it. *)
+(** UNIVERSES, measured.  The construction below is stated at
+    [C : Category@{co h h}].  [Theory/Shapes.v]'s [Functor_of_Pair]
+    produces a functor out of [_3] whose objects are in [Set] and whose
+    homs are at the universe of its instance, and
+    [Construction/Cylinder.v]'s [Cyl_functor] identifies the hom and
+    proof universes of its two categories, so the target's are those of
+    the row functors.  An earlier revision of this comment recorded the
+    construction pinned at [C : Category@{co Set Set}], when the homs of
+    [_3] were in [Set]; that pin is gone with the universes of
+    rocq-prover/rocq#22721. *)
 
 Section Converse.
 
-Universe co.
+(* The homs of [C] are at any universe [h]: those of the shapes are at the universe of their
+   instances *)
+Universes co h.
 
-Context {C : Category@{co Set Set}}.
+Context {C : Category@{co h h}}.
 Context (R : CommutingRectangle C).
 
 (** The two rows, as functors out of [_3] — [Theory/Shapes.v]'s

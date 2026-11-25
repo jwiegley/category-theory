@@ -29,7 +29,11 @@ Generalizable All Variables.
 
     Negatives are grouped BY KIND and the groups are kept lexically
     apart.  Each was stripped of its [Fail] once and the resulting error
-    read, and the kind recorded here is the kind that actually fired. *)
+    read, and the kind recorded here is the kind that actually fired.
+    CORRECTION (rocq-prover/rocq#22721): the FORMABILITY negative is
+    accepted with the universes of rocq-prover/rocq#22721 and is no longer
+    a [Fail] command; the two CONVERSION negatives remain, beside the
+    instrument (three lines matching grep -c '^ *Fail'). *)
 
 (** ** Positive controls
 
@@ -102,7 +106,11 @@ Fail Definition probe_ascribe_mon_at_ab
     negative and it would be wrong to say the negative fires on it.  Its
     real work is on the POSITIVE control, which without it would not say
     "elaborates strictly above [Set]".  The control rules out the
-    ascription shape, which is all a control can rule out. *)
+    ascription shape, which is all a control can rule out.  CORRECTION
+    (rocq-prover/rocq#22721): the universe inconsistency described here
+    is the state before rocq-prover/rocq#22721; with its universes the
+    command below is accepted at [puh] and is no longer a [Fail]
+    command. *)
 
 Section ProbeMonRouteSetPin.
 
@@ -112,7 +120,10 @@ Constraint Set < puh.
 Check (Rng_Forget_Ab : Rng@{puh} ⟶ Ab).
 
 Check @Rng@{_}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY negative, now accepted: [Rng_Forget_Mon] at a ring whose
+   homs live strictly above [Set].  Previously refused with "Cannot
+   enforce Set = puh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Rng_Forget_Mon : Rng@{puh} ⟶ MonSets).
 
 End ProbeMonRouteSetPin.

@@ -170,12 +170,12 @@ Program Instance Sieve_Setoid {C : Category} (c : C) : Setoid (Sieve c) := {|
 |}.
 Next Obligation.
   intros C c.
-  constructor; repeat intro.
-  - split; auto.
-  - split; apply X.
-  - split; intro H.
-    + apply X0, X, H.
-    + apply X, X0, H.
+  constructor.
+  - intros S d f; split; auto.
+  - intros S T HST d f; split; apply HST.
+  - intros S T U HST HTU d f; split; intro Hf.
+    + apply HTU, HST, Hf.
+    + apply HST, HTU, Hf.
 Qed.
 
 (* Awodey's Ω(C), as an object of [Sets]. *)

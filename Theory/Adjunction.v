@@ -131,7 +131,9 @@ Reserved Notation "⌈ f ⌉".
 (* The two hom-setoids share carrier and proof level h. Their category
    Sets@{h so} requires h < so, not a bound on the object levels co and do.
    sp occurs in no bound, but instances at distinct sp are not convertible;
-   see the conversion control in Test/ProbeCollapse459.v. *)
+   see the conversion control in Test/ProbeCollapse459.v.  CORRECTION
+   (rocq-prover/rocq#22721): with its universes sp is irrelevant, and
+   instances at distinct sp convert, as that control now checks. *)
 Class Adjunction@{so sp} := {
   (* adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y *)
   adj {x y} :

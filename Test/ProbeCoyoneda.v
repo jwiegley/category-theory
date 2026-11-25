@@ -51,7 +51,12 @@ Generalizable All Variables.
 
    CORRECTION (#1380): the positive count covers controls 1–12 below.  The
    added bare arity [Check]s for [Category] and [Sets] are two further
-   positive commands, not included in that numbered inventory. *)
+   positive commands, not included in that numbered inventory.
+
+   CORRECTION (rocq-prover/rocq#22721): formability negative 8 is accepted
+   with the universes of that Rocq change and is kept without [Fail],
+   marked at its command; 7 conversion and 2 formability negatives remain,
+   nine [Fail] commands (grep -c '^Fail' of this file). *)
 
 (** ** Group 1 (CONVERSION): the nat/cone round trips *)
 
@@ -182,7 +187,9 @@ End DeltaConversion.
 (* Kan.v's header states that both sides of the isomorphism force D's OBJECT
    universe to sit at or below D's HOM universe, and that the restriction
    enters at the PACKAGING rather than at the passages.  Both halves of that
-   claim are pinned here. *)
+   claim are pinned here.  CORRECTION (rocq-prover/rocq#22721): the cone
+   presheaf half is not any more, negative 8 being accepted since the
+   universes of that Rocq change; negatives 9 and 10 still refuse. *)
 
 Section ObjectsAboveHoms.
 
@@ -190,9 +197,11 @@ Universes uo uh us.
 Constraint uh < uo.
 Constraint uh < us.
 
-(* NEGATIVE 8 (FORMABILITY).  The cone presheaf is not formable when D's
-   objects sit strictly above its homs.  Stripped error: "universe
-   inconsistency: Cannot enforce uh = _ because uh < uo <= _". *)
+(* NEGATIVE 8 (FORMABILITY), now accepted.  The cone presheaf was not
+   formable when D's objects sit strictly above its homs.  Previously
+   refused; stripped error: "universe inconsistency: Cannot enforce
+   uh = _ because uh < uo <= _".  Accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check @Category@{_ _ _}.
 Check @Sets@{_ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
@@ -214,7 +223,8 @@ Fail Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
    negatives 8-10 in exactly which constant is named, so the refusal is
    attributable to the packaging (the presheaf and the setoid of
    transformations) and not to [Elements], to [Sets], or to the section's
-   constraints being unsatisfiable. *)
+   constraints being unsatisfiable.  (Negative 8 is accepted since the
+   universes of rocq-prover/rocq#22721; the contrast holds for 9 and 10.) *)
 Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) (a : D)
            (tau : K ⟹ [Hom a,─]) => kan_cone_of_nat K tau).
 

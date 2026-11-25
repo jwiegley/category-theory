@@ -925,7 +925,7 @@ Example SupLat_EM_iso_from@{o so c} :
 Example EM_to_SupLat_carrier@{o so}
   (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
          Powerset_Monad@{o so}) :
-  sl_set (fobj[EM_to_SupLat@{o so}] x) = projT1 x := eq_refl.
+  sl_set@{o} (fobj[EM_to_SupLat@{o so}] x) = projT1 x := eq_refl.
 
 Example EM_to_SupLat_sup@{o so}
   (x : @EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
@@ -971,7 +971,7 @@ Example SupLat_EM_rt_alg@{o so}
     = t_alg[projT2 x] := eq_refl.
 
 Example SupLat_EM_rt_set@{o so} (A : SupLatObject@{o}) :
-  sl_set (fobj[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] A) = sl_set A
+  sl_set@{o} (fobj[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] A) = sl_set A
   := eq_refl.
 
 Example SupLat_EM_rt_sup@{o so} (A : SupLatObject@{o}) :

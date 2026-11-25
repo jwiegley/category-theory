@@ -263,6 +263,11 @@ Generalizable All Variables.
       is neither [Cat], nor [pi0], nor the arrow action, but the single
       lemma [pi0_fmap_respects] (Theory/Connected/Components.v),
       which is declared over [Category@{u0 u0 u0}].
+      CORRECTION: that was measured before the universes of
+      rocq-prover/rocq#22721.  With them both formerly rejected commands,
+      [pi0_fmap_respects] and [fobj[Pi0] C], are accepted at that C and
+      are kept in §8 without [Fail], so the restriction is no longer
+      observed there.
 
       THAT IDENTIFICATION IS MINIMIZATION AND NOT CONTENT, AND THE CLAIM
       IS GUARDED RATHER THAN ASSERTED.  §8's last section restates that
@@ -327,7 +332,9 @@ Generalizable All Variables.
       Six [Fail] probes of TWO KINDS kept lexically apart -- four
       CONVERSION in §4 and §7, reporting "cannot unify" with no universe
       clause, and two FORMABILITY in §8, reporting "universe
-      inconsistency: Cannot enforce ch = co because ch < co" -- each
+      inconsistency: Cannot enforce ch = co because ch < co" (CORRECTION:
+      both FORMABILITY probes are accepted since the universes of
+      rocq-prover/rocq#22721, leaving four [Fail] probes) -- each
       stripped once and its kind read off the whole error message,
       beside an instrument check, six [Check] controls in §8, five
       [Example] controls beside the §4 negatives, and the two §2
@@ -345,7 +352,9 @@ Generalizable All Variables.
       The three section-local [Constraint] declarations were each tested
       by DELETION and they behave differently.  §8's first is
       LOAD-BEARING: without it [ch] unifies with [co] and both negatives
-      succeed, so the file stops compiling.  §8's third pair is
+      succeed, so the file stops compiling (so measured while the two
+      were [Fail] probes, before rocq-prover/rocq#22721; both now succeed
+      with it as well).  §8's third pair is
       meaning-giving rather than load-bearing: the restated lemma
       elaborates without them, but then the levels could collapse and
       the command would demonstrate nothing.  Stated so that a later
@@ -631,8 +640,8 @@ Example pi0_counit_iso_from (A : Sets) (a : carrier A) :
    its three objects, while [RoofHom RNeg RPos] is EMPTY
    ([RNeg_RPos_absurd], Instance/Roof.v), so [Roof] itself does not.
    That gap is what both refutations below exploit. *)
-Program Definition roof_pt@{o h p ru rh} (r : Roof@{ru rh}) :
-  _1@{o h p} ⟶ Roof@{ru rh} :=
+Program Definition roof_pt@{o h p ru rh} (r : Roof@{ru rh _}) :
+  _1@{o h p} ⟶ Roof@{ru rh _} :=
   {| fobj := fun _ => r ; fmap := fun _ _ _ => id[r] |}.
 
 Example roof_objs_distinct : RNeg <> RPos.
@@ -775,7 +784,9 @@ Fail Example disc_is_DiscreteCat (A : Sets) :
    the whole error message -- four CONVERSION failures in §4 and §7,
    reporting "cannot unify" with no universe clause, and two FORMABILITY
    failures here, reporting "universe inconsistency: Cannot enforce ...".
-   The two kinds are kept lexically apart. *)
+   The two kinds are kept lexically apart.  CORRECTION: the two
+   FORMABILITY probes here are accepted since the universes of
+   rocq-prover/rocq#22721 and are kept without [Fail]. *)
 Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
 (* Section-local [Universes]/[Constraint] declarations do not leak; the
@@ -784,7 +795,8 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
    FIRST, the restriction and its attribution.  The [Constraint] here is
    LOAD-BEARING and that was measured by deletion: without it [ch]
-   unifies with [co] and both negatives succeed.
+   unifies with [co] and both negatives succeed (measured while they were
+   refused, before rocq-prover/rocq#22721).
 
    The three controls run down the chain and each removes one candidate
    culprit.  [C : obj[Cat]] shows the ambient category of categories is
@@ -792,10 +804,12 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
    objects.  [pi0 C] shows the object map is innocent.  [pi0_fmap] at
    that same C shows the arrow map is innocent.  What is left is
    [pi0_fmap_respects] (Theory/Connected/Components.v), declared over
-   [Category@{u0 u0 u0}], and it is rejected -- as is [fobj[Pi0] C] with
-   it, on the same message.  So [Pi0], and hence every constant of this
-   file that mentions it, accepts only categories whose object, hom and
-   proof universes COINCIDE. *)
+   [Category@{u0 u0 u0}], and it was rejected -- as was [fobj[Pi0] C]
+   with it, on the same message.  So [Pi0], and hence every constant of
+   this file that mentions it, accepted only categories whose object, hom
+   and proof universes COINCIDE.  CORRECTION: both commands are accepted
+   with the universes of rocq-prover/rocq#22721, so at this C the
+   restriction is no longer observed. *)
 Section Pi0Restriction.
   Universes co ch.
   Constraint ch < co.
@@ -805,9 +819,14 @@ Section Pi0Restriction.
   Check (pi0 C).
   Check (fun F : C ⟶ D => pi0_fmap F).
 
-  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  (* [pi0_fmap_respects] at this C, now accepted: previously refused with
+     "Cannot enforce ch = co because ch < co"; accepted since the universes
+     of rocq-prover/rocq#22721. *)
   Check (fun (F G : C ⟶ D) => @pi0_fmap_respects C D F G).
-  Fail Check (fobj[Pi0] C).
+  (* Formerly refused with "Cannot enforce ch = co because ch < co", like
+     the command above; accepted with the universes of
+     rocq-prover/rocq#22721. *)
+  Check (fobj[Pi0] C).
 End Pi0Restriction.
 
 (* SECOND, the accepted class is inhabited: at a category with all three

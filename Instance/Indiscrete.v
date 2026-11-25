@@ -867,15 +867,14 @@ Proof. discriminate. Qed.
    strictly above [b].  Measured, not asserted. *)
 
 (* With the universes of rocq-prover/rocq#22721 [adjoint_string] has four
-   universes, the middles being [StrictCat_Objects@{u2 u2 u2}] and
-   [StrictCat_Objects@{u1 u1 u1}]: the objects and the homs of the inner
-   categories are identified, as in [Disc_Objects_Adjunction], so only the
-   identification of the two middles is checked below, above [Set]; the first
-   two universes are those of the proofs of the adjunctions. *)
+   universes, the middles being [StrictCat_Objects@{u2 u u2}] and
+   [StrictCat_Objects@{u0 u1 u0}]: the first and last universes of each inner
+   category are identified, as in [Disc_Objects_Adjunction], so only the
+   identification of the two middles is checked below, above [Set]. *)
 Section SharedMiddle.
 Universes b.
 Constraint Set < b.
-Check adjoint_string@{_ _ b b}.
+Check adjoint_string@{b b b b}.
 End SharedMiddle.
 
 Definition ind_bool_connected : Connected (Indiscrete bool) :=

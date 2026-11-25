@@ -380,8 +380,10 @@ Qed.
 Theorem Top_not_complete_IEM@{e r s h o +} (E : IEM@{e})
   (comp : @Complete@{r s h h} Top@{h o}) : False.
 Proof.
+  (* The arrows of [Top] are indexed at the shape universe [s]: the hom universe of [Top@{h o}] is
+     irrelevant, its homs live with the points in [o] *)
   exact (Top_not_complete
-           (canonical_ArrowIndex (ObjDecEq_of_IEM E Top)) comp).
+           (canonical_ArrowIndex (ObjDecEq_of_IEM E Top@{s o})) comp).
 Qed.
 
 (** * Above the hom universe: an arrow index transported from [Top] *)
@@ -583,7 +585,7 @@ Definition YP_CH@{o +} (P : Prop) : CompHaus :=
   Discrete_CH (sc_YP P : SetoidObject@{o o}) (sc_yp_FinEnum P).
 
 Definition sc_yp_const@{o +} (P : Prop) : YP_CH P ~{CompHaus}~> YP_CH P :=
-  (Build_ContinuousMorphism (Discrete_Top@{o o} (sc_YP P))
+  (Build_ContinuousMorphism (Discrete_Top@{o o o} (sc_YP P))
      (Discrete_Top (sc_YP P))
      (const_morphism (sc_YP P) (sc_YP P) true)
      (fun U _ => open_const (Discrete_Top (sc_YP P)) (U true)); I).

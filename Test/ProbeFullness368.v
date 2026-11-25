@@ -31,7 +31,10 @@ Generalizable All Variables.
 
      - FORMABILITY (4): universe rejections localising the two
        identifications the target's headlines carry.  Error text ends in
-       `universe inconsistency: Cannot enforce ...`.
+       `universe inconsistency: Cannot enforce ...`.  CORRECTION:
+       negatives 1-3 are accepted since the universes of
+       rocq-prover/rocq#22721 and are kept without [Fail]; only
+       negative 4 is still refused.
      - TYPING (2): the whiskered transformations cannot be ascribed at the
        type the target's isomorphism is stated at.  Error text is a plain
        `has type ... while it is expected to have type ...` with no
@@ -64,10 +67,12 @@ Fail Check probe368_no_such_constant_anywhere.
    identification is introduced by the target; both are inherited, and
    neither is claimed unavoidable.
 
-   Negatives 1 and 2 localise hom = proof: [Section] and [Monic] are each
-   rejected ALONE at levels declared strictly apart, while a hom and an
-   identity at those very levels are accepted.  [Retraction] is rejected
-   too and is shown as a third rejection in the same section.  Note that
+   Negatives 1 and 2 localised hom = proof: [Section] and [Monic] were
+   each rejected ALONE at levels declared strictly apart, while a hom and
+   an identity at those very levels are accepted.  [Retraction] was
+   rejected too and is shown as a third probe in the same section.
+   CORRECTION: all three are accepted since the universes of
+   rocq-prover/rocq#22721, so they no longer localise the equation.  Note that
    [Functor] is NOT a donor for this equation -- see the positive control
    in section [P_hom_proof_control] -- so "the functor vocabulary" would
    be the wrong attribution. *)
@@ -85,14 +90,20 @@ Context (f : x ~{Cu}~> y).
 Check (@id Cu x).
 Check f.
 
-(* Negative 1 (FORMABILITY). *)
-Fail Check (@Section Cu x y f).
+(* Negative 1 (FORMABILITY), now accepted: previously refused with a
+   universe inconsistency (`Cannot enforce ...`); accepted with the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Section Cu x y f).
 
-(* Negative 2 (FORMABILITY). *)
-Fail Check (@Monic Cu x y f).
+(* Negative 2 (FORMABILITY), now accepted: previously refused with a
+   universe inconsistency (`Cannot enforce ...`); accepted with the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Monic Cu x y f).
 
-(* Negative 3 (FORMABILITY): same cause, third donor. *)
-Fail Check (@Retraction Cu x y f).
+(* Negative 3 (FORMABILITY), now accepted: previously refused for the
+   same cause, a third donor; accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Retraction Cu x y f).
 
 End P_hom_proof.
 
@@ -105,7 +116,8 @@ Context (Cu : Category@{co ch cp}).
 Context (Du : Category@{do dh dp}).
 
 (* [Functor] does NOT force hom = proof: this is accepted at exactly the
-   levels where [Section], [Monic] and [Retraction] are rejected. *)
+   levels where [Section], [Monic] and [Retraction] were rejected (they
+   are accepted there too since rocq-prover/rocq#22721). *)
 Check (Du ⟶ Cu).
 
 End P_hom_proof_control.

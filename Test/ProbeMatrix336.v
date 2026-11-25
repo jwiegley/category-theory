@@ -23,7 +23,14 @@
     confirmed by reading the error TAIL, not by observing that it failed.
     The import list is the target's own; a shortened one would let these
     pass vacuously.  The measured rename-simulation score is at the end,
-    over the constants the NEGATIVES name and no others. *)
+    over the constants the NEGATIVES name and no others.
+
+    CORRECTION (rocq-prover/rocq#22721): negative 3 is accepted with the
+    universes of rocq-prover/rocq#22721 and is no longer a [Fail]
+    command: the unannotated body is now applicable at
+    [Constraint uh < up], so this probe no longer shows the annotation
+    load-bearing.  The FORMABILITY paragraph above records the state
+    before that change. *)
 
 Require Import Coq.Vectors.Fin.
 Require Import Coq.Logic.Eqdep_dec.
@@ -106,8 +113,10 @@ Check @Fin.eq_dec.
     A DIFFERENT KIND from 1-2.  [mat_entry] as SHIPPED is annotated
     [@{uo uh up uj uk}] with constraint block [uh <= up], keeping the
     category's hom and proof universes APART.  Written WITHOUT binders
-    the same body minimizes to [Category@{uo uh uh}], and is then
-    rejected where the annotated form is accepted. *)
+    the same body minimized to [Category@{uo uh uh}], and was then
+    rejected where the annotated form is accepted.  CORRECTION: with the
+    universes of rocq-prover/rocq#22721 the unannotated form is accepted
+    too (see the negative below). *)
 
 Section UniverseMinimization.
 
@@ -127,16 +136,19 @@ Check (fun (J K : Type) (g : J → C) (fm : K → C)
            (proj : ∀ k, p ~{C}~> fm k) (u : q ~{C}~> p) (j : J) (k : K) =>
          @mat_entry C J K g fm q p inj proj u j k).
 
-(* The negative: the same body with the binders dropped.  Written as an
-   unannotated local definition, elaboration minimizes its category to
-   [Category@{uo uh uh}] and it cannot be applied to C. *)
+(* The former negative: the same body with the binders dropped.  Written
+   as an unannotated local definition, elaboration minimized its category
+   to [Category@{uo uh uh}] and it could not be applied to C. *)
 Definition mat_entry_unannotated {D : Category}
   {J K : Type} {g : J → D} {fm : K → D} {q p : D}
   (inj : ∀ j, g j ~{D}~> q) (proj : ∀ k, p ~{D}~> fm k)
   (u : q ~{D}~> p) (j : J) (k : K) : g j ~{D}~> fm k :=
   proj k ∘ u ∘ inj j.
 
-Fail Check (fun (J K : Type) (g : J → C) (fm : K → C)
+(* Negative 3, now accepted: previously refused at that setting with a
+   universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun (J K : Type) (g : J → C) (fm : K → C)
                 (q p : C) (inj : ∀ j, g j ~{C}~> q)
                 (proj : ∀ k, p ~{C}~> fm k) (u : q ~{C}~> p) (j : J) (k : K) =>
               @mat_entry_unannotated C J K g fm q p inj proj u j k).
@@ -210,7 +222,9 @@ Example ab_inr_Monic (x y : Ab) : Monic (@inr Ab Ab_Cocartesian x y) :=
       Negative 2: [binary_can], [can_comparison]
       Negative 3: [mat_entry_unannotated] (declared HERE, so a rename of
                   it is not a tree edit and is excluded), with [mat_entry]
-                  named by its own positive control
+                  named by its own positive control (accepted since the
+                  universes of rocq-prover/rocq#22721, so no longer a
+                  [Fail])
 
     That is THREE renameable tree constants: [kron], [binary_can],
     [can_comparison].  The denominator is NOT padded with control-only

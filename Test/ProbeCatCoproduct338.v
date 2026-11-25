@@ -21,6 +21,9 @@
         and is then rejected under `Constraint uh < up` where the
         annotated form is accepted.  A target cannot pin this, since
         stating it needs a section that declares levels strictly apart.
+        CORRECTION: since the universes of rocq-prover/rocq#22721 the
+        unannotated body is accepted there too, so Negative 1 is no
+        longer a negative and no longer shows the binders load-bearing.
         Negative 2 localizes the ONE identification the UMP-level results
         do carry (`C : Category@{a b b}`) to its donor: `Functor_Setoid`
         is rejected at separated levels while the functor TYPE `C ⟶ D`
@@ -88,7 +91,10 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
     ALL BOUNDS -- `ui <= us`, `uo <= us`, `oh <= op`, the last being
     `Class Category`'s own `h <= p`.  Written WITHOUT binders the same
     body minimizes to a shape that identifies the summands' hom and proof
-    universes.  The control and the negative differ in nothing else. *)
+    universes.  The control and the negative differ in nothing else.
+    CORRECTION: that minimization and the rejection below were measured
+    before the universes of rocq-prover/rocq#22721; since them the
+    unannotated form is accepted at separated levels as well. *)
 
 Section BinderBoundary.
 
@@ -108,9 +114,11 @@ Check (fun (I : Type) (C : I -> Category@{uo uh up}) (i : I) =>
 Definition sigma_obj_unann {I : Type} (C : I -> Category) : Type :=
   ∃ i : I, C i.
 
-(* NEGATIVE 1. *)
+(* NEGATIVE 1, no longer a negative. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (I : Type) (C : I -> Category@{uo uh up}) =>
+(* Previously refused with a universe inconsistency under [Constraint
+   uh < up]; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (fun (I : Type) (C : I -> Category@{uo uh up}) =>
               sigma_obj_unann C).
 
 End BinderBoundary.
@@ -256,7 +264,8 @@ Check @sigma_poly_unit_dec.
     [SigmaCat_inj] and Negative 2 with [homset], all three of which
     occur only in that section's positive CONTROLS:
 
-      Negative 1 names [Type], [Category], [sigma_obj_unann]
+      Negative 1 names [Type], [Category], [sigma_obj_unann] (no
+                        longer a [Fail] since rocq-prover/rocq#22721)
       Negative 2 names [Category], [Functor_Setoid]
       Negative 3 names [Category], [obj], [SigmaCat], [BoolFam],
                         [eq_refl]

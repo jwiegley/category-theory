@@ -41,7 +41,10 @@
 
     KINDS.  Six refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), CONVERSION (N1, N2)
-    and UNIVERSE (N3, N4, N5).
+    and UNIVERSE (N3, N4, N5).  CORRECTION (rocq-prover/rocq#22721): N3
+    is accepted with the universes of that Rocq change and is kept without
+    the refutation keyword, marked at its command; five lines open with
+    it (grep -c '^Fail' of this file), UNIVERSE being N4 and N5.
 
     AN INSTRUMENT TRAP, MET AND AVOIDED.  N3 was first written inside the
     [Section] whose [Context] declares [E].  Stripped there, it was refused
@@ -81,7 +84,11 @@
     The controls are [DiscreteCat bool] and [DiscreteCat (Fin.t 2)].
     This is the shape discipline the target's header states -- a shape's
     homs AT the carrier universe -- and the reason its coproduct comes
-    through Structure/Limit/Finite.v's bridges.
+    through Structure/Limit/Finite.v's bridges.  CORRECTION
+    (rocq-prover/rocq#22721): that refusal of N3 is the state before
+    rocq-prover/rocq#22721; with its universes
+    [SVariety_colim_via_GAFT E Two_Discrete] is accepted and N3 is no
+    longer a refutation.
 
     N4 (UNIVERSE).  At J : Category@{Set Set Set}, the control
     [Diagonal_SVariety_solution_set E D] ELABORATES, and [About] reads its
@@ -303,7 +310,8 @@ Check (leibniz_coequalizers_iff_quotients :
 Check (CommMagma_Cocartesian : @Cocartesian (SVariety CommEq)).
 Check (CommMagma_coequalizers : HasCoequalizers (SVariety CommEq)).
 
-(** ** N3 (UNIVERSE): [Two_Discrete] is refused as a shape
+(** ** N3 (UNIVERSE): [Two_Discrete] is refused as a shape (accepted
+    since the universes of rocq-prover/rocq#22721)
 
     Stated at the top level with its own binders, not in the section
     above: there [E]'s carrier universe would be a section universe, and
@@ -316,7 +324,9 @@ Definition p450v_colim_bool {S : UA.OpSignature} (E : UA.EqSignature S) :=
 Definition p450v_colim_fin2 {S : UA.OpSignature} (E : UA.EqSignature S) :=
   SVariety_colim_via_GAFT E (DiscreteCat (Fin.t 2)).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N3, now accepted: previously refused with "Cannot enforce Set = <anon>
+   because Set < <anon>"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p450v_n3_two_discrete {S : UA.OpSignature}
   (E : UA.EqSignature S) := SVariety_colim_via_GAFT E Two_Discrete.
 

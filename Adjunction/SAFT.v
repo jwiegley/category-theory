@@ -526,7 +526,7 @@ Defined.
        → ∀ (G : Cogenerator@{h cobj h} C)
            (WP : ∀ x : obj[C], SubobjectIndex@{u3 cobj h} x),
          SubobjectCover@{u2 u3 h u h dobj cobj h} U comp G WP
-         → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u h u0} F U
+         → ∃ F : D ⟶ C, Adjunction@{cobj dobj h u u0} F U
      (* cobj dobj h u u0 u1 u2 u3 |= h < u / u3 <= h *)
 
    Compare [SAFT_solution_set] above, which takes [Complete@{u3 u1 h cobj}]

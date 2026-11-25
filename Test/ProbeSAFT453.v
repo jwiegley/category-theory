@@ -15,8 +15,13 @@
     N20 and N21 pin as refusals three equations first measured as readbacks
     ([About] printing "r = r2", "h = cr" and "su = pa"), and N17 is the
     refusal a scout measured on an unannotated prototype of its own,
-    restated at an unannotated wrapper of the library constant.  The
-    positive controls restate the files' claims independently.
+    restated at an unannotated wrapper of the library constant.
+    CORRECTION (rocq-prover/rocq#22721): N10, N17, N20, N21 and N27 were
+    refused only before rocq-prover/rocq#22721; with its universes each
+    of those five commands is accepted and is no longer a [Fail] command,
+    so the refusals the paragraphs below quote for them are the earlier
+    state.  The positive controls restate the files' claims
+    independently.
 
     THE IMPORT LIST, measured by comparing [Require] lines.  First
     Adjunction/SAFT/Characterization.v's twenty-two lines verbatim and in
@@ -110,12 +115,24 @@
     N6 and N18 remain conversion refusals, not positional-arity errors.
     No positive-wrapper, binder-instrument or constant census is repeated
     by this stripped-error measurement.
+    CORRECTION (rocq-prover/rocq#22721): this audit, the stripped copies
+    and the binder instruments above predate rocq-prover/rocq#22721.  With
+    its universes N10, N17, N20, N21 and N27 are accepted and have lost
+    their [Fail]; twenty-five [Fail] commands remain (grep -c '^Fail' of
+    this file).  The cross-version error comparisons were not
+    re-measured.
 
     KINDS.  Thirty refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), CONVERSION (N1-N7,
     N18), TYPING (N21), BINDER (N8, whose error is a universe inconsistency
     raised by its own binder, as its binder instrument shows) and UNIVERSE
     (N9-N17, N19, N20, N22-N29): one, eight, one, one and nineteen.
+    CORRECTION (rocq-prover/rocq#22721): twenty-five refutations now,
+    counted the same way: NAME-ABSENCE (the instrument), CONVERSION
+    (N1-N7, N18), BINDER (N8) and UNIVERSE (N9, N11-N16, N19, N22-N26,
+    N28, N29), one, eight, one and fifteen.  N10, N17, N20, N27 (UNIVERSE)
+    and N21 (TYPING) are accepted with the universes of
+    rocq-prover/rocq#22721 and are no longer refutations.
 
     LABELS.  The pins carry the N-numbers of this file; the #453 reviews and
     builders asked for them under other names, recorded here so that the
@@ -250,6 +267,10 @@
     application of [SAFT_thm2] naming the two apart (the shape of N10's
     control), and the first review fold from [SAFT_thm2_initial]'s restated
     body (the shape of N27's).
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N10 and N27
+    quoted above are the state before rocq-prover/rocq#22721; with its
+    universes both are accepted at [r < r2] and are no longer [Fail]
+    commands.
 
     ** Well-poweredness one universe up, at the pin
 
@@ -352,6 +373,10 @@
     A scout measured this refusal on an unannotated prototype of its own
     through [GAFT]; the wrapper here is a different constant, with the same
     kind and the same cause.
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes N17 is accepted and is no
+    longer a [Fail] command.  The [About] readback of [p453_unannotated]
+    quoted above was not re-measured.
 
     ** The cover's lift and the corollaries
 
@@ -391,6 +416,9 @@
       G WP J : ∃ L : ([J, C]) ⟶ C, L ⊣ Diagonal J)) F" has type "Colimit@{h
       jo h o} F" while it is expected to have type "Colimit@{cr jo h o} F"
       (universe inconsistency: Cannot enforce h = cr because h < cr).
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes N20 is accepted and is no
+    longer a [Fail] command.
 
     N21 (TYPING).  [continuous_Set_functor_representable_iff] carries [su =
     pa] ([About]), [su] the objects of [Sets@{h su}], and
@@ -408,7 +436,9 @@
     cone's [Compose] universe, [su] against [pa] (measured in a scratch file
     carrying the four targets' import list); so this is the same
     identification as N18's, and N21 is not reported as a universe
-    inconsistency.
+    inconsistency.  CORRECTION (rocq-prover/rocq#22721): that refusal is
+    the state before rocq-prover/rocq#22721; with its universes N21 is
+    accepted and is no longer a [Fail] command.  N18 is still refused.
 
     ** Wide pullbacks of subobjects from completeness
 
@@ -759,7 +789,7 @@ Example p453_cover_is_gaft@{o dobj h dp cp w s t pl pa +|
   (G : Cogenerator@{h o h} C) (WP : WellPowered@{o h w s t} C) :
   SAFT_cover_wp@{o dobj h dp cp w s t pl pa _} U comp cont G WP
     = GAFT U comp cont
-        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h}
+        (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _}
                     U comp cont G d
                     (WP (saft_prod@{o dobj h h dp} U comp G d))) :=
   eq_refl.
@@ -925,7 +955,10 @@ Definition p453_thm2_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
   { F : D ⟶ C & F ⊣ U } :=
   SAFT_thm2 U comp cont G HW HU.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N10, now accepted: [SAFT_thm2] with [HU]'s C-side wide-pullback
+   universe [r2] declared strictly above [HW]'s [r].  Previously refused
+   at [HU] with "Cannot enforce r = r2 because r < r2"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Definition p453_n10_thm2_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -988,7 +1021,10 @@ Definition p453_thm2_initial_r_le@{o dobj h so c pk pa q r r2 rd pw k +|
        (HU _ _ _ _ (fun k => Subobject.sub_is_monic (`1 k)) _ _
           (wide_pullback_is_pullback (HW _ _ (fun k => `1 k))))).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N27, now accepted: [SAFT_thm2_initial]'s body restated at [r < r2].
+   Previously refused at [wide_pullback_is_pullback] with "Cannot enforce
+   r = r2 because r < r2"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p453_n27_initial_r_apart@{o dobj h so c pk pa q r r2 rd pw k +|
     h <= so, c <= so, o <= q, h <= q, r < r2 +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -1196,7 +1232,9 @@ Definition p453_unannotated_hom_index@{j o +| j < o +} :
 
 Check @Indiscrete@{_ _ _}.
 Check @Indiscrete_WellPowered@{_ _ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N17, now accepted: the unannotated wrapper at the index [Set].
+   Previously refused with "Cannot enforce Set = j"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p453_n17_unannotated_set_index@{j o +| j < o +} :
   { F : Indiscrete@{o j j} Type@{j} ⟶ Indiscrete@{o j j} Type@{j}
     & F ⊣ @Id (Indiscrete@{o j j} Type@{j}) } :=
@@ -1216,7 +1254,7 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
-           (saft_sub@{o dobj h so dp cp} U comp G d c h)) :=
+           (saft_sub@{o dobj h so dp cp _} U comp G d c h)) :=
   unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pa}
                             U comp cont G d c h)).
 
@@ -1272,7 +1310,10 @@ Definition p453_cocomplete_cr_le@{o h so c w s t jo fo fa cr +|
 Check @Cocomplete@{_ _ _ _}.
 Check @Fun@{_ _ _ _ _ _}.
 Check @Diagonal@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N20, now accepted: [saft_cocomplete]'s body with the colimit-datum
+   universe [cr] strictly above the homs.  Previously refused with
+   "Cannot enforce h = cr because h < cr"; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Definition p453_n20_cocomplete_cr_above@{o h so c w s t jo fo fa cr +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, jo <= h,
     o <= fo, h <= fo, h < fa, h < cr, jo <= cr +}
@@ -1306,7 +1347,9 @@ Definition p453_repr_iff_pa_le_su@{o h so c w s t su pl pa ra rt +|
   continuous_Set_functor_representable_iff K comp G WP.
 
 Check @Representable@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N21, now accepted: the biconditional at [pa < su].  Previously refused
+   as a type mismatch in [PreservesImageLimit]'s seventh universe alone;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p453_n21_repr_iff_pa_below_su@{o h so c w s t su pl pa ra rt +|
     h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < su, pa < su +}
   {C : Category@{o h h}} (K : C ⟶ Sets@{h su})
@@ -1458,9 +1501,9 @@ Example p453_cover_index@{o dobj h so dp cp w s t pl pa +|
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
-  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa}
+  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _}
             U comp cont G d W c h)
-    = wp_from W (saft_sub@{o dobj h so dp cp} U comp G d c h) :=
+    = wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h) :=
   eq_refl.
 
 (* The cover with the well-powering's [t] and [PreservesImageLimit]'s
@@ -1472,7 +1515,7 @@ Definition p453_cover_t_below_pa@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa _} U comp cont G d W.
 
 Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
     h <= so, h < dp, h < cp, o <= s, h <= s, h < t, pa < t +}
@@ -1481,7 +1524,7 @@ Definition p453_cover_pa_below_t@{o dobj h so dp cp w s t pl pa +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :=
-  saft_cover_at@{o dobj h so dp cp w s t pl pa} U comp cont G d W.
+  saft_cover_at@{o dobj h so dp cp w s t pl pa _} U comp cont G d W.
 
 (* At one tuple at [Id[Sets]] under [Untruncate], the reshaped covering
    datum holds at every object and the old one is refuted. *)

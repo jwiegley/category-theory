@@ -9,7 +9,10 @@
     corrections in Adjunction/SpanningArrow.v and Instance/Variety/
     Spanning.v.  Every negative restates a refusal one of those headers
     quotes or describes, and the positive controls restate their claims
-    independently.
+    independently.  CORRECTION (rocq-prover/rocq#22721): N10 was refused
+    only before rocq-prover/rocq#22721; with its universes it is accepted
+    and is no longer a [Fail] command, so the refusal quoted for it below
+    is the earlier state.
 
     THE IMPORT LIST, measured by comparing [Require] lines.  First
     Structure/WellPowered.v's twenty-one lines verbatim and in order; then
@@ -67,12 +70,17 @@
     N10, N14, N20, N21) print there as type mismatches whose two sides
     differ only in their universe instances, with no universe-inconsistency
     clause, and N9 prints as "Case analysis on sort Type is not allowed for
-    inductive definition ex.".
+    inductive definition ex.".  CORRECTION (rocq-prover/rocq#22721): these
+    stripped copies predate rocq-prover/rocq#22721, with whose universes
+    N10 is accepted; they were not re-measured.
 
     KINDS.  Twenty-three refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1-N8,
     N10, N11, N14-N16, N19-N21), TYPING (N9, N17, N18), CONVERSION (N12,
-    N13) and INSTANCE (N22).
+    N13) and INSTANCE (N22).  CORRECTION (rocq-prover/rocq#22721): N10 is
+    accepted with the universes of rocq-prover/rocq#22721, so the
+    refutations are twenty-two (grep -c '^Fail' of this file), UNIVERSE
+    being N1-N8, N11, N14-N16 and N19-N21.
 
     ** The pin
 
@@ -196,6 +204,10 @@
     same application at [Complete@{h Set h o}], which is accepted, so the
     shape-object slot is exactly what N10 meets.  The second control is the
     route taken, [Complete_HasWidePullbacks comp] at the regime.
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes [comp (WideParallel J)] is
+    accepted at [Complete@{h h h o}] with [Set < h], and N10 is no longer a
+    [Fail] command.
 
     N11 (UNIVERSE).  [complete_wide_pullback]'s index must lie at or below
     [Complete]'s shape-object universe; at [J : Type@{o}], applied with the
@@ -695,7 +707,9 @@ Definition p451_wide_pullbacks_regime@{o h +| Set < h, h < o +}
 
 Check @Category@{_ _ _}.
 Check @Complete@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N10, now accepted: [comp (WideParallel J)] at [Complete@{h h h o}]
+   with [Set < h].  Previously refused with "Cannot enforce Set = h";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p451_n10_wideparallel_regime@{o h +| Set < h, h < o +}
   (C : Category@{o h h}) (comp : @Complete@{h h h o} C) (J : Type@{h}) :=
   comp (WideParallel J).
@@ -954,7 +968,7 @@ Fail Definition p451_n21_span_sets (GP : PreservesWidePullbacks (@Id Sets))
 
 (* FinSet, unconditionally at the pin, with its index read back. *)
 Definition p451_finset_wp@{o h s t u v +| Set < u, h < t, o <= s, h <= s +} :
-  WellPowered@{o h h s t} FinSet@{o h} := FinSet_WellPowered.
+  WellPowered@{o h h s t} FinSet@{h o} := FinSet_WellPowered.
 
 Example p451_finset_index (n : FinSet) :
   wp_index (FinSet_WellPowered n) = (Fin.t n → Fin.t 2) := eq_refl.

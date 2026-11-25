@@ -43,6 +43,9 @@
     R1, the colimit predicate against the limit predicate of the
     opposites, with every statement well typed; UNIVERSE, R2,
     [ReflectsIsos] over a target whose hom level is strictly above C's.
+    CORRECTION: R2 is accepted since the universes of
+    rocq-prover/rocq#22721, so two refutation lines remain (the
+    instrument and R1); R2 keeps its label.
 
     THE REFUSALS, with the parenthetical each stripped copy prints.
       The instrument (NAME-ABSENCE): The reference p481_absent_name was
@@ -50,7 +53,8 @@
       R1, the opposite (control C3): (cannot unify
         "Cone (F^op ◯ K^op)" and "Cone (F ◯ K)^op")
       R2, the hom level of Exercise 3 (controls C6, C7; C19): (universe
-        inconsistency: Cannot enforce dh = ch because ch < dh)
+        inconsistency: Cannot enforce dh = ch because ch < dh), before
+        rocq-prover/rocq#22721; accepted since.
 
     CONTROLS.  C1 reads Mac Lane's definition off [ReflectsColimitCocone]
     at [eq_refl]; C2 reads Exercise 1 at cone level as the reflection
@@ -70,9 +74,11 @@
     over every diagram of parallel-pair shape as the per-pair theorem at
     the restriction of its hypothesis.
     C18 to C20 are the twin of R2: [ReflectsIsos]'s declaration copied
-    with its binders written out (C18) is formable over the target R2 is
+    with its binders written out (C18) is formable over the target R2 was
     refused at (C19) and gives the class itself at one hom level (C20),
-    so R2's tie is the class's unannotated binders, not conservativity.
+    so R2's tie was the class's unannotated binders, not conservativity
+    (R2 itself is accepted since the universes of
+    rocq-prover/rocq#22721).
     C21 is the left adjoint's preservation of coequalizers in one line.
     C22 applies Exercise 3 at the identity on [Sets], whose three
     hypotheses hold together.  C23 to C29 read the forms over a class of
@@ -271,9 +277,11 @@ Definition p481_c7_preserves_above@{co ch do dh + | ch < dh +}
   {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D) : Type :=
   PreservesCoequalizers F.
 
-(* R2 *)
+(* R2, no longer a refutation. *)
 Check @Category@{_ _ _}.
-Fail Definition p481_r2_conservative_above@{co ch do dh + | ch < dh +}
+(* Previously refused with "Cannot enforce dh = ch because ch < dh";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Definition p481_r2_conservative_above@{co ch do dh + | ch < dh +}
   {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D) : Type :=
   ReflectsIsos F.
 
@@ -285,7 +293,7 @@ Class p481_c18_ReflectsIsos@{co ch do dh +}
     IsIsomorphism (fmap[F] f) → IsIsomorphism f
 }.
 
-(* C19: ... is formable over the target R2 is refused at ... *)
+(* C19: ... is formable over the target R2 was refused at ... *)
 Definition p481_c19_conservative_above@{co ch do dh + | ch < dh +}
   {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D) : Type :=
   p481_c18_ReflectsIsos F.

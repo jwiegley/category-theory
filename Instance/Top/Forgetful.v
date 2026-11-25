@@ -171,7 +171,7 @@ Proof. constructor; intros x y f g H p; exact (H p). Qed.
 
 Program Definition Top_Discrete@{o h so | o < h, o < so +} :
   Sets@{o so} ⟶ Top@{h o} := {|
-  fobj := fun A : SetoidObject@{o o} => Discrete_Top@{o o} A;
+  fobj := fun A : SetoidObject@{o o} => Discrete_Top@{o o o} A;
   fmap := fun A B f => {|
     continuous_map := f;
     continuity := out_of_discrete_continuous A (Discrete_Top B) f
@@ -209,26 +209,32 @@ Next Obligation. intros A Y f p; reflexivity. Qed.
    inverse transpose.  Where the classical square would say
    [fmap[Top_Forget] f] the statement uses the stripped map
    [continuous_map f] — see the header. *)
-Lemma discrete_adj_nat_l (A A' : SetoidObject) (Y : TopSpace)
-  (f : Top_Discrete A ~{Top}~> Y) (g : A' ~{Sets}~> A) :
-  to (discrete_adj A' Y) (f ∘[Top] fmap[Top_Discrete] g)
+(* Their universes are declared, those of [Top_Discrete]: inferred, the
+   instances of [Top_Discrete] and of [Top] in a statement are not identified,
+   and the composites are refused. *)
+Lemma discrete_adj_nat_l@{o h so | o < h, o < so +} (A A' : SetoidObject@{o o})
+  (Y : TopSpace) (f : Top_Discrete@{o h so} A ~{Top@{h o}}~> Y)
+  (g : A' ~{Sets@{o so}}~> A) :
+  to (discrete_adj A' Y) (f ∘[Top] fmap[Top_Discrete@{o h so}] g)
     ≈ to (discrete_adj A Y) f ∘[Sets] g.
 Proof. intro p; reflexivity. Qed.
 
-Lemma discrete_adj_nat_r (A : SetoidObject) (Y Z : TopSpace)
-  (f : Y ~{Top}~> Z) (g : Top_Discrete A ~{Top}~> Y) :
+Lemma discrete_adj_nat_r@{o h so | o < h, o < so +} (A : SetoidObject@{o o})
+  (Y Z : TopSpace) (f : Y ~{Top@{h o}}~> Z)
+  (g : Top_Discrete@{o h so} A ~{Top@{h o}}~> Y) :
   to (discrete_adj A Z) (f ∘[Top] g)
     ≈ continuous_map f ∘[Sets] to (discrete_adj A Y) g.
 Proof. intro p; reflexivity. Qed.
 
-Lemma discrete_adj_inv_nat_l (A A' : SetoidObject) (Y : TopSpace)
-  (f : A ~{Sets}~> top_carrier Y) (g : A' ~{Sets}~> A) :
+Lemma discrete_adj_inv_nat_l@{o h so | o < h, o < so +}
+  (A A' : SetoidObject@{o o}) (Y : TopSpace)
+  (f : A ~{Sets@{o so}}~> top_carrier Y) (g : A' ~{Sets@{o so}}~> A) :
   from (discrete_adj A' Y) (f ∘[Sets] g)
-    ≈ from (discrete_adj A Y) f ∘[Top] fmap[Top_Discrete] g.
+    ≈ from (discrete_adj A Y) f ∘[Top] fmap[Top_Discrete@{o h so}] g.
 Proof. intro p; reflexivity. Qed.
 
-Lemma discrete_adj_inv_nat_r (A : SetoidObject) (Y Z : TopSpace)
-  (f : Y ~{Top}~> Z) (g : A ~{Sets}~> top_carrier Y) :
+Lemma discrete_adj_inv_nat_r@{o h so | o < h, o < so +} (A : SetoidObject@{o o})
+  (Y Z : TopSpace) (f : Y ~{Top@{h o}}~> Z) (g : A ~{Sets@{o so}}~> top_carrier Y) :
   from (discrete_adj A Z) (continuous_map f ∘[Sets] g)
     ≈ f ∘[Top] from (discrete_adj A Y) g.
 Proof. intro p; reflexivity. Qed.
@@ -237,7 +243,7 @@ Proof. intro p; reflexivity. Qed.
 
 Program Definition Top_Indiscrete@{o h so | o < h, o < so +} :
   Sets@{o so} ⟶ Top@{h o} := {|
-  fobj := fun A : SetoidObject@{o o} => Indiscrete_Top@{o o} A;
+  fobj := fun A : SetoidObject@{o o} => Indiscrete_Top@{o o o} A;
   fmap := fun A B f => {|
     continuous_map := f;
     continuity := into_indiscrete_continuous (Indiscrete_Top A) B f
@@ -275,21 +281,26 @@ Lemma indiscrete_adj_nat_l (X X' : TopSpace) (B : SetoidObject)
     ≈ to (indiscrete_adj X B) g ∘[Top] f.
 Proof. intro p; reflexivity. Qed.
 
-Lemma indiscrete_adj_nat_r (X : TopSpace) (B B' : SetoidObject)
-  (g' : B ~{Sets}~> B') (g : top_carrier X ~{Sets}~> B) :
+(* The universes of the three lemmas mentioning [Top_Indiscrete] are declared,
+   those of [Top_Indiscrete], as for the discrete side. *)
+Lemma indiscrete_adj_nat_r@{o h so | o < h, o < so +} (X : TopSpace)
+  (B B' : SetoidObject@{o o}) (g' : B ~{Sets@{o so}}~> B')
+  (g : top_carrier X ~{Sets@{o so}}~> B) :
   to (indiscrete_adj X B') (g' ∘[Sets] g)
-    ≈ fmap[Top_Indiscrete] g' ∘[Top] to (indiscrete_adj X B) g.
+    ≈ fmap[Top_Indiscrete@{o h so}] g' ∘[Top] to (indiscrete_adj X B) g.
 Proof. intro p; reflexivity. Qed.
 
-Lemma indiscrete_adj_inv_nat_l (X X' : TopSpace) (B : SetoidObject)
-  (f : X ~{Top}~> Top_Indiscrete B) (g : X' ~{Top}~> X) :
+Lemma indiscrete_adj_inv_nat_l@{o h so | o < h, o < so +} (X X' : TopSpace)
+  (B : SetoidObject@{o o}) (f : X ~{Top@{h o}}~> Top_Indiscrete@{o h so} B)
+  (g : X' ~{Top@{h o}}~> X) :
   from (indiscrete_adj X' B) (f ∘[Top] g)
     ≈ from (indiscrete_adj X B) f ∘[Sets] continuous_map g.
 Proof. intro p; reflexivity. Qed.
 
-Lemma indiscrete_adj_inv_nat_r (X : TopSpace) (B B' : SetoidObject)
-  (g' : B ~{Sets}~> B') (f : X ~{Top}~> Top_Indiscrete B) :
-  from (indiscrete_adj X B') (fmap[Top_Indiscrete] g' ∘[Top] f)
+Lemma indiscrete_adj_inv_nat_r@{o h so | o < h, o < so +} (X : TopSpace)
+  (B B' : SetoidObject@{o o}) (g' : B ~{Sets@{o so}}~> B')
+  (f : X ~{Top@{h o}}~> Top_Indiscrete@{o h so} B) :
+  from (indiscrete_adj X B') (fmap[Top_Indiscrete@{o h so}] g' ∘[Top] f)
     ≈ g' ∘[Sets] from (indiscrete_adj X B) f.
 Proof. intro p; reflexivity. Qed.
 
@@ -474,7 +485,7 @@ Defined.
    objects definitionally, and the only arrows are identities.) *)
 Program Definition indiscrete_pair_diagram@{o h so | o < h, o < so +} :
   DiscreteCat@{h h h} bool ⟶ Top@{h o} := {|
-  fobj := fun _ : bool => Indiscrete_Top@{o o} unit_setoid_object@{o o};
+  fobj := fun _ : bool => Indiscrete_Top@{o o o} unit_setoid_object@{o o};
   fmap := fun _ _ _ => top_id
 |}.
 (* With the universes of rocq-prover/rocq#22721 the [Proper] obligation of the

@@ -190,6 +190,12 @@
    and its paragraph CONTROLS 5, 7 AND 8, WHICH USED TO BE NEGATIVES,
    records where the equation went: the PR "algebraic carriers are sets"
    (2026-09-17) moved Instance/Ab/Tensor.v's [ts_eq] to [Prop].
+   CORRECTION (rocq-prover/rocq#22721): the refusal of
+   [Ring_RMod Ru : obj[RMod Ru]] recorded above is the state before
+   rocq-prover/rocq#22721; with its universes it is accepted at the
+   separation of [ZExtProbeUniverses] as well, and its probe, negative 6,
+   is no longer a [Fail].  The [About] readbacks of this paragraph were
+   not re-measured under that change.
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
    Instance/Ab/Free.v said the tree "has only the forgetful
@@ -249,7 +255,13 @@
    CONVERSION, one TYPING, four FORMABILITY — each beside an APPLIED
    positive control, plus one scope-free instrument check.  Each was
    stripped and compiled alone and its WHOLE error read; see the probe
-   section at the end of the file for the classification.
+   section at the end of the file for the classification.  CORRECTION
+   (rocq-prover/rocq#22721): five [Fail] commands remain (grep -c '^Fail'
+   of this file), negatives 1-4 and the instrument check.  Negatives 5, 7
+   and 8 became controls after the PR "algebraic carriers are sets"
+   (2026-09-17), as the probe section records, and negative 6 is accepted
+   since the universes of rocq-prover/rocq#22721, so no FORMABILITY
+   negative remains.
 
    WHAT IS NOT DELIVERED.
 
@@ -734,7 +746,10 @@ Proof. exact zext_int_gens_distinct. Qed.
     end in [cannot unify] (CONVERSION), negative 3 is a plain type
     mismatch with no [cannot unify] and no universe clause (TYPING), and
     negatives 5-8 end in [universe inconsistency: Cannot enforce rc = ra]
-    (FORMABILITY). *)
+    (FORMABILITY).  CORRECTION (rocq-prover/rocq#22721): negatives 5, 7 and
+    8 are controls now (see the paragraph CONTROLS 5, 7 AND 8 below), and
+    negative 6 is accepted since the universes of rocq-prover/rocq#22721;
+    the FORMABILITY classification is the state before. *)
 
 Section ZExtProbeStrength.
 
@@ -821,16 +836,20 @@ Check (Ring_RMod Ru).
    so [tensor_med_respects] no longer inducts on a [Type]-valued relation into
    a [Type]-valued goal and the identification that induction forced is gone.
    Negative 6 below still fires, which is the instrument check that the
-   section still constrains anything at all.  The ring's auxiliary universe is
+   section still constrains anything at all.  CORRECTION
+   (rocq-prover/rocq#22721): negative 6 is accepted since the universes of
+   that Rocq change, so no command of this section is refused any more.
+   The ring's auxiliary universe is
    also now the FIRST argument of [RingObject] rather than the third, which is
    why the binder reads `RingObject@{rc ra rb}`. *)
 Check (ZExtObj Ru Au : obj[RMod Ru]).
 
-(* NEGATIVE 6 (FORMABILITY).  The surviving donor, and it is not this file's.
-   Instance/Mod.v's OWN [Ring_RMod] is rejected at these levels while the
-   bare [Check (Ring_RMod Ru)] control above is accepted, so what the
-   ascription to [obj[RMod Ru]] forces is inherited. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 6 (FORMABILITY), now accepted.  The surviving donor, and it
+   is not this file's.  Instance/Mod.v's OWN [Ring_RMod] was rejected at
+   these levels while the bare [Check (Ring_RMod Ru)] control above is
+   accepted, so what the ascription to [obj[RMod Ru]] forced was
+   inherited.  Previously refused with a universe inconsistency; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Check (Ring_RMod Ru : obj[RMod Ru]).
 
 Check (ZExt Ru).

@@ -40,7 +40,12 @@ Generalizable All Variables.
     explicitly typed sides, or a [Check] of a proposition), never an
     ascription of a term to a type where a coercion -- Coq's
     [reverse_coercion] in particular -- could silently repair the
-    mismatch and turn the guard into a false pass. *)
+    mismatch and turn the guard into a false pass.
+
+    CORRECTION (rocq-prover/rocq#22721): three FORMABILITY negatives,
+    the [StrictCat] isomorphism and [ffi_implies_ri] of section 7 and
+    [Point] of section 8, are accepted with the universes of that Rocq
+    change and are kept without [Fail], each marked at its command. *)
 
 (** ** Instrument check: [Fail] itself must be able to fail. *)
 
@@ -259,7 +264,11 @@ End UniverseProbe.
     [LeftAdjointLeftInverse] alone leaves both object universes free.  The
     controls below are exactly that contrast: at object levels declared
     apart, the functor type and clause (a) are accepted while the
-    [StrictCat] isomorphism and (b) => (c) are rejected. *)
+    [StrictCat] isomorphism and (b) => (c) are rejected.
+    CORRECTION (rocq-prover/rocq#22721): those two rejections are the
+    state before rocq-prover/rocq#22721; with its universes the
+    [StrictCat] isomorphism and (b) => (c) are accepted at the object
+    levels declared apart below, and are no longer [Fail] commands. *)
 
 Section StrictCatObjectProbe.
 
@@ -275,9 +284,14 @@ Check (Bu ⟶ Cu2).
 Check (LeftAdjointLeftInverse Gu2).
 Check (@LeftAdjointFFInjective Bu Cu2 Gu2).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY, now accepted: the [StrictCat] isomorphism at object
+   levels declared apart.  Previously rejected with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (@Isomorphism StrictCat Bu Cu2).
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY, now accepted: (b) => (c) at object levels declared
+   apart.  Previously rejected with a universe inconsistency; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Check (@ffi_implies_ri Bu Cu2 Gu2).
 
 End StrictCatObjectProbe.
@@ -290,7 +304,10 @@ End StrictCatObjectProbe.
     declared strictly above [Set], [Point] is not formable while [PointAt]
     is.  The rejection is the donor's minimization, not a restriction on
     the terminal category itself ([_1@{o h p}] has all three levels free);
-    it is NOT claimed unavoidable. *)
+    it is NOT claimed unavoidable.  CORRECTION (rocq-prover/rocq#22721):
+    that rejection is the state before rocq-prover/rocq#22721; with its
+    universes [Point] is formable there too, and the probe below is no
+    longer a [Fail] command. *)
 
 Section PointProbe.
 
@@ -305,7 +322,10 @@ Check (PointAt (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 Check (@terminal_LALI).
 
 Check @_1@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY, now accepted: [Point] over a category whose homs are
+   declared strictly above [Set].  Previously rejected with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Point (C:=Cu) c : _1@{po ph ph} ⟶ Cu).
 
 End PointProbe.

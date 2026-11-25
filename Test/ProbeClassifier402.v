@@ -50,7 +50,11 @@ Generalizable All Variables.
    name.  Rename simulation: each of the eight TARGET constants a negative
    names was renamed in a scratch copy of the target that shadows the
    worktree module, and all 8/8 broke this file at a [Check] control line,
-   never inside a refutation command. *)
+   never inside a refutation command.
+
+   CORRECTION: NEGATIVE 1 is accepted since the universes of
+   rocq-prover/rocq#22721, so 8 negatives remain (5 FORMABILITY); the
+   counts above were measured before. *)
 
 (* ------------------------------------------------------------------------ *)
 (** ** Instrument check *)
@@ -116,14 +120,18 @@ Check (fun (x y : SetoidObject@{o o}) (f : y ~{Sets@{o so}}~> x)
   @char_reindex Sets@{o so} Sets_Terminal@{so o} Sets_HasPullbacks@{o}
     HS x y f s).
 
-(* NEGATIVE 1 (FORMABILITY).  The classification theorem builds a
-   [SetoidObject] whose carrier is [SubObj x], which forces objects ≤
-   homs; [Sets@{o so} : Category@{so o o}] has o < so.  Stripped:
-     universe inconsistency: Cannot enforce so = _ because _ <= _ < so *)
+(* NEGATIVE 1 (FORMABILITY), no longer a negative.  The reason recorded
+   for its refusal: the classification theorem builds a [SetoidObject]
+   whose carrier is [SubObj x], which forced objects ≤ homs, while
+   [Sets@{o so} : Category@{so o o}] has o < so.  Stripped, it reported:
+     universe inconsistency: Cannot enforce so = _ because _ <= _ < so
+   It is accepted at these levels since the universes of
+   rocq-prover/rocq#22721. *)
 Check @Sets@{_ _}.
 Check @Sets_Terminal@{_ _}.
 Check @Sets_HasPullbacks@{_}.
-Fail Check (@classifier_classifies Sets@{o so} Sets_Terminal@{so o}
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@classifier_classifies Sets@{o so} Sets_Terminal@{so o}
               Sets_HasPullbacks@{o} HS).
 
 (* NEGATIVE 2 (FORMABILITY).  Awodey's naturality clause, same wall, same

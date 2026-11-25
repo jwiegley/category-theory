@@ -96,6 +96,10 @@ Open Scope category_scope.
                    target's annotated [EmptyDiagram], [empty_cone],
                    [FinitelyComplete_Terminal] and the biconditional are all
                    accepted there — the pin the annotation lifts.
+                   CORRECTION (rocq-prover/rocq#22721): that refusal is
+                   the state before rocq-prover/rocq#22721; with its
+                   universes the bare clone is accepted there too and N7
+                   is no longer a [Fail] command.
      N8  UNIVERSE  At that ambient a limit over [_2] ([Category@{u Set
                    Set}]) is refused ("Cannot enforce Set = ch") and so is
                    [FC _2 Two_FiniteCategory D2], firing at the [_2]
@@ -103,6 +107,11 @@ Open Scope category_scope.
                    [FC] at [Roof^op] and at [Parallel] — the free shapes —
                    is accepted: why the converse reads pullbacks at
                    [Roof^op] and the terminal object at [DiscreteCat False].
+                   CORRECTION (rocq-prover/rocq#22721): both refusals of
+                   N8 are the state before rocq-prover/rocq#22721; with
+                   its universes the limit over [_2] and [FC] at [_2] are
+                   accepted at that ambient and are no longer [Fail]
+                   commands.
      N9  UNIVERSE  At a shape whose hom is declared strictly below its
                    proof universe, [x ~> y] and [id[x]] are accepted while
                    [ArrowIx] (FromProducts.v) is refused ALONE ("Cannot
@@ -111,6 +120,11 @@ Open Scope category_scope.
                    hom = proof identification in the record's binder; the
                    inherited refusal fires at an already-refused argument
                    and does not measure the record on its own.
+                   CORRECTION (rocq-prover/rocq#22721): both refusals of
+                   N9 are the state before rocq-prover/rocq#22721; with
+                   its universes [ArrowIx] and [FiniteCategory] are
+                   accepted at that shape and are no longer [Fail]
+                   commands.
      N10 CONVERSION  The terminal object recovered at [FinSet] from the
                    empty finite limit BY THE PULLBACK ROUTE (the witness
                    [FinSet_FinitelyComplete_pb]; the native route of
@@ -215,7 +229,9 @@ End NotComplete.
 (** ** C: universes *)
 
 (* A bare clone of [EmptyDiagram]: the target's explicit binders are what
-   keep the ambient category free of the literal [Set]. *)
+   keep the ambient category free of the literal [Set].  CORRECTION
+   (rocq-prover/rocq#22721): with the universes of rocq-prover/rocq#22721
+   the bare clone is accepted at an ambient above [Set] as well (N7). *)
 Definition EmptyDiagram_bare (C : Category) : EmptyShape ⟶ C.
 Proof.
   unshelve refine (@Build_Functor EmptyShape C
@@ -244,18 +260,22 @@ Section UnivPin.
   Context (DP : Parallel ⟶ Cu).
   Check (FC Parallel Parallel_FiniteCategory DP).
 
-  (* N7 UNIVERSE: the bare clone pins the ambient at [Set]. *)
-  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  (* N7 UNIVERSE, now accepted: the bare clone at an ambient whose homs
+     sit strictly above [Set].  Previously refused with "Cannot enforce
+     Set = ch"; accepted since the universes of rocq-prover/rocq#22721. *)
   Check (EmptyDiagram_bare Cu).
 
-  (* N8 UNIVERSE: [_2] is a [Category@{u Set Set}], so a limit over it — and
-     hence [FC] at it — is refused at this ambient, though the diagram
-     itself is accepted. *)
+  (* N8 UNIVERSE, now accepted: [_2] is a [Category@{u Set Set}], and a
+     limit over it, and hence [FC] at it, was refused at this ambient,
+     though the diagram itself is accepted. *)
   Context (D2 : _2 ⟶ Cu).
   Check D2.
-  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  (* N8, the limit over [_2]: previously refused with "Cannot enforce
+     Set = ch"; accepted since the universes of rocq-prover/rocq#22721. *)
   Check (Limit D2).
-  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  (* N8, [FC] at [_2]: previously refused at the [_2] argument with the
+     same message; accepted since the universes of
+     rocq-prover/rocq#22721. *)
   Check (FC _2 Two_FiniteCategory D2).
 End UnivPin.
 
@@ -266,10 +286,15 @@ Section HomProof.
   Context (x y : Jv) (f : x ~> y).
   Check f.
   Check (id[x]).
-  (* N9 UNIVERSE: [FiniteCategory] identifies the shape's hom and proof
-     universes (through [ArrowIx]; measured). *)
-  Fail Check (@ArrowIx Jv).
-  Fail Check (FiniteCategory Jv).
+  (* N9 UNIVERSE, now accepted: [FiniteCategory] identified the shape's
+     hom and proof universes (through [ArrowIx]; measured).  [ArrowIx]
+     was previously refused alone with "Cannot enforce jp = jh"; accepted
+     since the universes of rocq-prover/rocq#22721. *)
+  Check (@ArrowIx Jv).
+  (* N9, [FiniteCategory]: previously refused at the same argument with
+     the same message; accepted since the universes of
+     rocq-prover/rocq#22721. *)
+  Check (FiniteCategory Jv).
 End HomProof.
 
 (** ** D: witnesses *)

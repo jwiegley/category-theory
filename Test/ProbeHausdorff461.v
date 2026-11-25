@@ -580,10 +580,10 @@ Definition p461_bool_opens_below@{t p q o +| p < t, q < t, p < o, q < o,
 (* N11 *)
 Check @SetoidObject@{_ _}.
 Check @IsHausdorff@{_ _ _ _}.
-Check @Discrete_Top@{_ _}.
+Check @Discrete_Top@{_ _ _}.
 Fail Definition p461_disc_opens_below@{t p q o +| p < t, q < t, p < o,
     q < o, o <= t +} (A : SetoidObject@{o o}) :
-  IsHausdorff@{t p q o} (Discrete_Top@{o o} A) := Discrete_Hausdorff A.
+  IsHausdorff@{t p q o} (Discrete_Top@{o o o} A) := Discrete_Hausdorff A.
 
 (** ** Guard: every constant of the three targets *)
 

@@ -95,7 +95,7 @@ Definition PropEquivObj@{s o p | Set < s, max(o, p) <= s} (X : SetoidObject@{o p
 
      hom_PropEquiv@{u} :
        ∀ {x y : SetoidObject@{u u}},
-       PropEquiv@{u u} y → PropEquiv@{u u} SetoidMorphism_Setoid@{u u u}
+       PropEquiv@{u u} y → PropEquiv@{u u} SetoidMorphism_Setoid@{u u}
      (* u |=  *)
 
    -- ONE universe, with no constraint at all: the transport neither raises

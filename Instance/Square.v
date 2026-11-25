@@ -978,7 +978,9 @@ Proof.
   exact square_commutes.
 Qed.
 
-Definition CommutingSquareOfFunctor (F : Square ⟶ C) : CommutingSquare C := {|
+(* The universes of the shape are declared, so that any functor out of [Square] is accepted *)
+Definition CommutingSquareOfFunctor@{a b c d +} (F : Square@{a b c d} ⟶ C) :
+  CommutingSquare C := {|
   csq_a := fobj[F] Sq_A;
   csq_b := fobj[F] Sq_B;
   csq_c := fobj[F] Sq_C;

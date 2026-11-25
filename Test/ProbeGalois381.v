@@ -38,6 +38,10 @@
                    here.  (CORRECTION, #450: Negative 8 is a CONTROL
                    since #450 wrote out [Z2]'s universes in place; see
                    its section.  Seven negatives are six since.)
+                   (CORRECTION, rocq-prover/rocq#22721: Negatives 6
+                   and 7 are accepted with the universes of that Rocq
+                   change and are kept without [Fail]; four negatives
+                   remain.)
 
     Every constant a negative names also appears in a command OUTSIDE any
     [Fail], donors included -- a guard that names a constant only inside
@@ -218,8 +222,8 @@ Fail Check (eq_refl : Proset@{po Set} (stab_PreOrder_G Gp)
 End AntitoneIsNotCovariant.
 
 (* ------------------------------------------------------------------------ *)
-(** ** Negatives 6 and 7 (FORMABILITY): [Subsets] identifies the two
-       universes of the setoid it is handed *)
+(** ** Negatives 6 and 7 (FORMABILITY), now accepted: [Subsets]
+       identified the two universes of the setoid it is handed *)
 
 (* Instance/Powerset.v declares [Subsets (X : SetoidObject@{o o})], so
    forming the power set of a group's carrier IDENTIFIES that group's
@@ -232,8 +236,14 @@ End AntitoneIsNotCovariant.
    the one the target meets first), [subset_le] and [subset_le_preorder]
    are rejected at these very levels too (measured out of tree; only
    [Subsets] is pinned here).  The controls show that naming the group's
-   setoid, and the group's homs, is fine at levels declared apart: what is
-   rejected is the power set, and the same for the action. *)
+   setoid, and the group's homs, is fine at levels declared apart: what
+   was rejected was the power set, and the same for the action.
+
+   CORRECTION: both probes, Negatives 6 and 7, were refused with
+   "Cannot enforce qh = qo because qo < qh"; they are accepted since the
+   universes of rocq-prover/rocq#22721 and are kept without [Fail].  The
+   out-of-tree measurement of the other three donors predates that
+   change. *)
 
 Section SubsetsIdentifies.
 
@@ -251,9 +261,14 @@ Check (act_setoid Aq).
 Check (carrier (grp_setoid Gq)).
 Check (grp_mon@{qo qh} Gq).
 
-Fail Check (Subsets (grp_setoid Gq)).
+(* Negative 6, now accepted (previously "Cannot enforce qh = qo because
+   qo < qh"): accepted with the universes of rocq-prover/rocq#22721. *)
+Check (Subsets (grp_setoid Gq)).
 
-Fail Check (Subsets (act_setoid Aq)).
+(* Negative 7, now accepted (previously the same universe
+   inconsistency): accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (Subsets (act_setoid Aq)).
 
 End SubsetsIdentifies.
 

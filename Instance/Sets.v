@@ -131,7 +131,7 @@ Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
 Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;                  (* the underlying function on carriers *)
   proper_morphism :>                  (* it sends `≈`-related inputs to `≈`-related outputs *)
-    Proper@{h p} (respectful@{h p h p} equiv equiv) morphism
+    Proper@{o p} (respectful@{o p o p} equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 
@@ -540,7 +540,7 @@ End CokernelPair.
    surjections.  Both directions, at one universe. *)
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
-  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
+  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p p} h.
 Proof.
   split.
   - intros HA.
@@ -558,11 +558,11 @@ Defined.
 
 (* The two halves under their own names, for callers that want just one. *)
 Definition surjective_implies_epic@{h p} {A B : SetoidObject@{p p}}
-  (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p} h :=
+  (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p p} h :=
   fst (surjectivity_is_epic@{h p} h).
 
 Definition epic_implies_surjective@{h p} {A B : SetoidObject@{p p}}
-  (h : A ~{Sets}~> B) : Epic@{h p} h → (∀ b, ∃ a, h a ≈ b)%type :=
+  (h : A ~{Sets}~> B) : Epic@{h p p} h → (∀ b, ∃ a, h a ≈ b)%type :=
   snd (surjectivity_is_epic@{h p} h).
 
 (* Sets is balanced: a map that is both monic and epic is an isomorphism.
@@ -571,7 +571,7 @@ Definition epic_implies_surjective@{h p} {A B : SetoidObject@{p p}}
    appeal to choice, the preimages having been data all along. *)
 Definition Sets_balanced@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets@{p h}}~> B)
-  (Hm : @Monic Sets@{p h} A B h) (He : @Epic@{h p} Sets@{p h} A B h) :
+  (Hm : @Monic Sets@{p h} A B h) (He : @Epic@{h p p} Sets@{p h} A B h) :
   @IsIsomorphism Sets@{p h} A B h :=
   bijective_is_iso h
     {| inj := λ x y, snd (injectivity_is_monic h) Hm x y |}

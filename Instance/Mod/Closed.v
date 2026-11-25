@@ -236,6 +236,12 @@
      [tensor_med], [mt_fmap], [hm_curry];
      REJECTED there — [ModSymmetric], [RMod_SymMonClosed].
 
+   CORRECTION (rocq-prover/rocq#22721): with the universes of
+   rocq-prover/rocq#22721 [ModSymmetric] and [RMod_SymMonClosed] are
+   accepted there too (NEGATIVES 9 and 10 of the probe section, no longer
+   under [Fail]), so nothing in that list is rejected any more; the
+   binder and block quoted above are not re-measured.
+
    AN EARLIER REVISION of those two lines put [tensor_med] (the donor,
    Instance/Mod/Tensor.v), [mt_fmap] and [hm_curry] on the REJECTED
    side, and concluded "So [tensor_med] is A donor, rejected ALONE with
@@ -247,7 +253,9 @@
    that induction forced is gone.  What survives is that the headline
    [RMod_SymMonClosed] still carries it, through [ModSymmetric]; the
    remaining donor is therefore upstream of this file, in
-   Instance/Mod/Monoidal.v.  Nothing was repaired deliberately -- the
+   Instance/Mod/Monoidal.v (CORRECTION (rocq-prover/rocq#22721): with its
+   universes both are accepted at the declared separation, NEGATIVES 9
+   and 10 of the probe section).  Nothing was repaired deliberately -- the
    improvement is a side effect -- and the position of the ring's three
    universes also moved: the record's auxiliary level is now the FIRST
    argument rather than the third, which is why the binder reads
@@ -270,7 +278,11 @@
    which violates FIRST=SECOND while leaving FIRST=THIRD alone —
    [hm_curry], [HomMod], [exp_iso_Mod] and [ump_exponents_Mod] all
    elaborate, while [ModMonoidal], [ModSymmetric] and the headline
-   [RMod_SymMonClosed] are all rejected.  Read the constraint BLOCK
+   [RMod_SymMonClosed] were all rejected.  CORRECTION: that was measured
+   before the universes of rocq-prover/rocq#22721; with them those three
+   are accepted under that constraint too (NEGATIVES 11-13 of the probe
+   section below), so the probe section no longer separates them from
+   the four above.  Read the constraint BLOCK
    flattened when checking this: [Print] wraps it, and the equations that
    matter here sit past the first line.  Nothing is repaired and nothing
    is claimed unavoidable.
@@ -1018,7 +1030,15 @@ Example Zsmc_exp :
     FORMABILITY eight end in a universe inconsistency naming the levels
     the probe section declared — `Cannot enforce rc = ra because
     ra < rc` for the five that test FIRST=THIRD, and `Cannot enforce
-    rb = ra because rb < ra` for the three that test FIRST=SECOND. *)
+    rb = ra because rb < ra` for the three that test FIRST=SECOND.
+    CORRECTION: those three, NEGATIVES 11-13, are accepted since the
+    universes of rocq-prover/rocq#22721 and are kept without [Fail].
+    CORRECTION (rocq-prover/rocq#22721): so are NEGATIVES 9 and 10, two of
+    the five that tested FIRST=THIRD (the other three, 6-8, had already
+    become controls); this file now carries six [Fail] commands (by
+    [grep -c '^Fail']), the instrument check and the TYPING and
+    CONVERSION negatives 1-5, and the pair totals above are not
+    re-measured. *)
 
 (* INSTRUMENT CHECK — scope-free, guards that [Fail] is doing anything. *)
 Fail Example mod_closed_instrument : (true = false) := eq_refl.
@@ -1117,7 +1137,10 @@ End ProbeConversion.
     Test/Probe files that claimed otherwise are corrected there — so the
     probes live here rather than in a separate file.  All five controls
     are APPLIED, at the very levels where the five negatives are
-    rejected. *)
+    rejected.  CORRECTION (rocq-prover/rocq#22721): of those five, 6-8
+    had become controls, and 9 and 10 are accepted since the universes
+    of rocq-prover/rocq#22721; no negative of this section is rejected
+    any more. *)
 
 Section ProbeUniverses.
 
@@ -1147,25 +1170,30 @@ Check (@ihom_post Ru Rcu V W W).
    the move of [mt_eq] to [Prop]: [tensor_med_respects] no longer inducts on a
    [Type]-valued relation into a [Type]-valued goal but runs through [pequiv],
    and the identification the old proof forced is gone.  Negatives 9 and 10
-   below still fire, which is the instrument check that the section still
-   constrains anything at all. *)
+   below still fired, which was the instrument check that the section still
+   constrained anything at all.  CORRECTION (rocq-prover/rocq#22721): they
+   are accepted since the universes of rocq-prover/rocq#22721, so that
+   check is gone too. *)
 Check (@tensor_med Ru V W).
 Check (@mt_fmap Ru V W).
 Check (@hm_curry Ru Rcu V W W).
 
-(* NEGATIVE 9.  Instance/Mod/Monoidal.v's symmetric structure.  The ring
-   is given EXPLICITLY: written `ModSymmetric Rcu` this probe is a FALSE
-   GUARD — it still fails, but on an unresolved implicit (`?R`) with a
-   plain type mismatch and no universe clause at all, so it would say
-   nothing about the constraint.  Compare the trap
-   Structure/Limit/Product/Finite.v records. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 9, now accepted.  Instance/Mod/Monoidal.v's symmetric
+   structure.  The ring is given EXPLICITLY: written `ModSymmetric Rcu`
+   this probe was a FALSE GUARD — it failed, but on an unresolved implicit
+   (`?R`) with a plain type mismatch and no universe clause at all, so it
+   said nothing about the constraint.  Compare the trap
+   Structure/Limit/Product/Finite.v records.  Previously refused with
+   `Cannot enforce rc = ra because ra < rc`; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Check (@ModSymmetric Ru Rcu).
 
-(* NEGATIVE 10.  And therefore the headline.  Note the binder/block trap:
-   `RMod_SymMonClosed@{u u0}`'s constraint block carries no equation at
-   all, and only the binder `R : RingObject@{u0 u0 u0}` reveals this. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 10, now accepted.  The headline.  Note the binder/block trap
+   as measured before rocq-prover/rocq#22721: `RMod_SymMonClosed@{u u0}`'s
+   constraint block carried no equation at all, and only the binder
+   `R : RingObject@{u0 u0 u0}` revealed the identification.  Previously
+   refused with `Cannot enforce rc = ra because ra < rc`; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Check (RMod_SymMonClosed Ru Rcu).
 
 End ProbeUniverses.
@@ -1178,7 +1206,10 @@ End ProbeUniverses.
     Instance/Mod/Monoidal.v's [ModMonoidal] rather than to anything
     declared here.  Without this section that attribution would be
     measured and unguarded, and nothing in the build would notice an
-    upstream annotation changing it. *)
+    upstream annotation changing it.  CORRECTION: since the universes of
+    rocq-prover/rocq#22721 the section's three former negatives (11-13)
+    are accepted, so the FIRST=SECOND identification they guarded is no
+    longer forced at them. *)
 
 Section ProbeMiddleUniverse.
 
@@ -1198,16 +1229,22 @@ Check (HomMod Ru Rcu V W).
 Check (@exp_iso_Mod Ru Rcu).
 Check (@ump_exponents_Mod Ru Rcu).
 
-(* NEGATIVE 11.  The donor: Instance/Mod/Monoidal.v's packaged monoidal
-   structure, which identifies the first two where none of its own
-   components does. *)
-Fail Check (@ModMonoidal Ru Rcu).
+(* NEGATIVE 11, now accepted.  The donor: Instance/Mod/Monoidal.v's
+   packaged monoidal structure, which identified the first two where none
+   of its own components does, and was refused with `Cannot enforce
+   rb = ra because rb < ra`.  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@ModMonoidal Ru Rcu).
 
-(* NEGATIVE 12.  Inherited by the symmetric packaging. *)
-Fail Check (@ModSymmetric Ru Rcu).
+(* NEGATIVE 12, now accepted.  Previously inherited by the symmetric
+   packaging and refused with the same universe inconsistency.  Accepted
+   with the universes of rocq-prover/rocq#22721. *)
+Check (@ModSymmetric Ru Rcu).
 
-(* NEGATIVE 13.  And hence by the headline — whose own constraint block
-   is still empty, the equation living in the binder alone. *)
-Fail Check (@RMod_SymMonClosed Ru Rcu).
+(* NEGATIVE 13, now accepted.  Previously refused, the identification
+   being inherited by the headline — whose own constraint block was
+   empty, the equation living in the binder alone.  Accepted with the
+   universes of rocq-prover/rocq#22721. *)
+Check (@RMod_SymMonClosed Ru Rcu).
 
 End ProbeMiddleUniverse.

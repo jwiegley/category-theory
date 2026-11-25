@@ -8,6 +8,10 @@
     measured on #452 by its scouts, builders or review; N7, a peel of N6,
     and N14, the theorem beside N13's product, are this file's own.  The
     positive controls restate the files' claims independently.
+    CORRECTION (rocq-prover/rocq#22721): with the universes of that Rocq
+    change N2, N3, N8 and N9 are accepted and are kept without [Fail],
+    each marked at its command; the refusals this header quotes for them
+    are those measured before it.
 
     THE IMPORT LIST, measured by comparing [Require] lines.  First
     Adjunction/SAFT/InitialObject.v's twenty-one lines verbatim and in
@@ -60,7 +64,12 @@
 
     KINDS.  Nineteen refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), CONVERSION (N1,
-    N17, N18) and UNIVERSE (N2-N16).
+    N17, N18) and UNIVERSE (N2-N16).  CORRECTION (rocq-prover/rocq#22721):
+    N2, N3, N8 and N9 are accepted since the universes of
+    rocq-prover/rocq#22721 and are no longer refutations; fifteen lines
+    open with [Fail] (grep -c '^Fail' of this file), UNIVERSE being N4-N7
+    and N10-N16.  The measurements on Coq 8.19.2 and 8.20.1 of the
+    DISCIPLINE paragraph are those made before that change.
 
     LABELS.  Three pins also carry the names under which #452's review
     asked for them, and the target headers cite each by that label, its
@@ -89,6 +98,9 @@
       The term "G" has type "Cogenerator@{c o h} C" while it is expected
       to have type "Cogenerator@{so o h} C" (universe inconsistency:
       Cannot enforce c = so because c < so).
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N2 is the
+    state before rocq-prover/rocq#22721; with its universes N2 is accepted
+    and is no longer a [Fail] command.
     The controls: [cogen_prod] at [c = so] ([p452_prod_at_so]), and
     [cogen_power], whose shape is a Σ over the index, at the same [c < so]
     ([p452_power_low_index]).
@@ -103,6 +115,11 @@
     [cogen_prod] at the same [so < r] ([p452_prod_high_datum]).  N2 and N3
     are why Adjunction/SAFT/InitialObject.v's statements take
     [Complete@{so so h o}] and [Cogenerator@{so o h}].
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N2 and N3 are
+    accepted and are no longer [Fail] commands, so the two collapses this
+    paragraph and the next cite are those measured before that change
+    (not re-measured on the target statements).
 
     ** Small hom-sets
 
@@ -169,6 +186,9 @@
     same statement and body there ([p452_freyd_at_h]).  Any two initial
     objects are isomorphic, so N8 bounds the route through that constant,
     not the comparison as such.
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N8 is the
+    state before rocq-prover/rocq#22721; with its universes N8 is accepted
+    and is no longer a [Fail] command.
 
     N9 (UNIVERSE).  Freyd's construction fed [wif_of_cogenerator] with its
     index [w] strictly below the homs:
@@ -179,6 +199,9 @@
     The controls: [wif_of_cogenerator] alone at [w < h] ([p452_wif_low]),
     and the same body at [w = h] ([p452_freyd_wif_at_h], which is
     [freyd_of_cogenerator]'s body).
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N9 is the
+    state before rocq-prover/rocq#22721; with its universes N9 is accepted
+    and is no longer a [Fail] command.
 
     ** [Sets] and [Sets^op]
 
@@ -234,7 +257,8 @@
     [Cogenerator@{c so o} Sets@{o so}] under [o < c, o < so], stdlib
     bounds aside).  Its index, the type of all objects, sits strictly
     above [Sets_Complete]'s shape universe [o], where [cogen_prod] needs
-    it (N2's collapse).  N13, its product at [Sets_Complete]:
+    it (N2's collapse, measured before rocq-prover/rocq#22721, with whose
+    universes N2 is accepted).  N13, its product at [Sets_Complete]:
       The term "Sets_Cogenerator_large" has type "Cogenerator@{c so o}
       Sets@{o so}" while it is expected to have type "Cogenerator@{o so o}
       Sets@{o so}" (universe inconsistency: Cannot enforce c = o because
@@ -360,7 +384,7 @@ Fail Check probe452_absent_name.
 Example p452_obj@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   @initial_obj C (special_initial_object comp G w Hw) = Subobject.sub_dom w :=
   eq_refl.
 
@@ -368,7 +392,7 @@ Example p452_obj@{o h so q +| h <= so, o <= q, h <= q +}
 Example p452_zero@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w)
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w)
   (c : C) :
   @zero C (special_initial_object comp G w Hw) c
     = cogen_pullback_to comp G c
@@ -379,18 +403,18 @@ Example p452_zero@{o h so q +| h <= so, o <= q, h <= q +}
 Definition p452_is_initial@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   IsInitialObj (Subobject.sub_dom w) :=
   special_initial_IsInitialObj comp G w Hw.
 
 Check @Category@{_ _ _}.
 Check @Complete@{_ _ _ _}.
 Check @Cogenerator@{_ _ _}.
-Check @IsIntersection@{_ _ _}.
+Check @IsIntersection@{_ _ _ _}.
 Fail Example p452_n1_obj_is_product@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   @initial_obj C (special_initial_object comp G w Hw) = cogen_prod comp G :=
   eq_refl.
 
@@ -408,7 +432,10 @@ Definition p452_power_low_index@{o h so c +| h <= so, c < so +}
   (G : Cogenerator@{c o h} C) (x : C) : C :=
   cogen_power comp G x.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N2 (UNIVERSE), now accepted: [cogen_prod] with the family indexed
+   strictly below the shape universe, [c < so].  Previously refused with
+   "Cannot enforce c = so because c < so"; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Definition p452_n2_prod_low_index@{o h so c +| h <= so, c < so +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{c o h} C) : C :=
@@ -426,7 +453,10 @@ Definition p452_prod_high_datum@{o h r so +| h <= so, so < r +}
   (G : Cogenerator@{so o h} C) : C :=
   cogen_prod comp G.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N3 (UNIVERSE), now accepted: [cogen_power] with the limit datum
+   above the shape universe, [so < r].  Previously refused with "Cannot
+   enforce r = so because so < r"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p452_n3_power_high_datum@{o h r so +| h <= so, so < r +}
   {C : Category@{o h h}} (comp : @Complete@{r so h o} C)
   (G : Cogenerator@{so o h} C) (x : C) : C :=
@@ -514,7 +544,9 @@ Definition p452_freyd_at_h@{o h +} {C : Category@{o h h}}
          (wif_of_weakly_initial (special_weakly_initial comp G w Hw))) :=
   initial_unique _ _.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N8 (UNIVERSE), now accepted: [special_vs_freyd]'s statement at
+   [h < so].  Previously refused with "Cannot enforce h = so because
+   h < so"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p452_n8_freyd_above@{o h so +| h < so +} {C : Category@{o h h}}
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C)
   (w : SubObj (cogen_prod comp G))
@@ -546,7 +578,10 @@ Definition p452_freyd_wif_at_h@{o h s t d +| h < t, h < d, o <= s, h <= s +}
 
 Check @WellPoweredAt@{_ _ _ _}.
 Check @cogen_prod@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N9 (UNIVERSE), now accepted: Freyd's construction fed
+   [wif_of_cogenerator] with its index [w] strictly below the homs.
+   Previously refused with "Cannot enforce w = h because w < h"; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Definition p452_n9_freyd_wif_low@{o h w s t d +|
     w < h, h < t, h < d, o <= s, h <= s +}
   {C : Category@{o h h}} (comp : @Complete@{h h h o} C)

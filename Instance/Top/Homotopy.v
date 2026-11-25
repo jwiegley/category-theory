@@ -601,11 +601,11 @@ Qed.
 Program Definition Top_pointed@{h o k} : Category@{o+1 k h} := {|
   obj     := PointedTop@{o};
   hom     := PointedMap@{o o+1};
-  homset  := @PointedMap_Setoid@{k h o};
+  homset  := @PointedMap_Setoid@{o};
   id      := @ptop_id@{o o+1};
   compose := @ptop_compose@{o+1 o};
 
-  compose_respects := @ptop_compose_respects@{k h k h k h o}
+  compose_respects := @ptop_compose_respects@{o}
 |}.
 
 (** ** Based homotopy *)

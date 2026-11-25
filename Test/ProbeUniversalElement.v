@@ -61,7 +61,13 @@
     instantiates at exactly the category the Yoneda route cannot reach.
     NOTE the scope — this is a restriction on the DONOR
     ([Structure/UniversalProperty.v], measured), not one introduced by
-    issue #303, and nothing here shows it is unavoidable. *)
+    issue #303, and nothing here shows it is unavoidable.
+    CORRECTION: since the universes of rocq-prover/rocq#22721,
+    [universal_element_representation] at [Endos] and [Yoneda_Lemma] at
+    [Endos^op] are ACCEPTED (both were refused with a universe
+    inconsistency); the Yoneda-composed accessor
+    [universal_element_of_representation] is still refused there, so the
+    restriction of (5) is now pinned by that probe alone. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -203,12 +209,14 @@ Check (nat_Elements_Initial : @Initial (Elements Endos_Forget)).
 Check (fun (C : Category@{Set Set Set}) (F : C^op ⟶ Sets) (c : C) =>
          representability_by_yoneda C F c).
 
-(** Negative: neither can be instantiated at [Endos].  These are UNIVERSE
-    INCONSISTENCIES, not unification failures.  Stripped, each reports
-    that [Endos] (resp. [Endos^op]) "has type Category@{a b b} while it is
-    expected to have type Category@{c c c}", followed by "universe
-    inconsistency: Cannot enforce a = b" -- i.e. the donor's identification
-    of the object and hom universes is exactly what is refused.  [@] is used
+(** Formerly negative, now accepted: both can be instantiated at [Endos]
+    since the universes of rocq-prover/rocq#22721.  Previously neither
+    could, by UNIVERSE INCONSISTENCIES, not unification failures: stripped,
+    each reported that [Endos] (resp. [Endos^op]) "has type Category@{a b
+    b} while it is expected to have type Category@{c c c}", followed by
+    "universe inconsistency: Cannot enforce a = b" -- i.e. the donor's
+    identification of the object and hom universes was exactly what was
+    refused.  [@] is used
     throughout so that no implicit argument can make a command fail for an
     unrelated reason; the instrument itself was checked separately, and
     note that a naive exhibit such as [Fail Check (@eq_refl nat 0 : 0 = 0)]
@@ -216,13 +224,16 @@ Check (fun (C : Category@{Set Set Set}) (F : C^op ⟶ Sets) (c : C) =>
     command fails with "No interpretation for number 0" and the [Fail]
     passes for the wrong reason. *)
 
-Fail Check (fun c : Endos =>
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun c : Endos =>
               @universal_element_representation Endos Endos_Forget c).
 
-Fail Check (fun c : Endos => @Yoneda_Lemma (Endos^op) Endos_Forget c).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun c : Endos => @Yoneda_Lemma (Endos^op) Endos_Forget c).
 
-(** ... and so the Yoneda-composed accessor cannot produce the witness that
-    the direct one does.  (Stripped: the same universe inconsistency.) *)
+(** ... and the Yoneda-composed accessor still cannot produce the witness
+    that the direct one does.  (Stripped: the same universe inconsistency
+    as the two commands above had before rocq-prover/rocq#22721.) *)
 
 Fail Check (@universal_element_of_representation Endos Endos_Forget NatSucc
               (@represented Endos Endos_Forget nat_succ_Representable)).

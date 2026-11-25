@@ -154,7 +154,11 @@ Generalizable All Variables.
         that module at all.
 
     (2) TWO DONOR UNIVERSE DEFECTS WERE MET AND ROUTED AROUND, both
-    guarded by [Fail] probes at the foot of this file.
+    guarded by [Fail] probes at the foot of this file.  (CORRECTION
+    (rocq-prover/rocq#22721): with the universes of that Rocq change both
+    probes are accepted and are no longer [Fail]s; see "Measured
+    boundaries, pinned" below.  The [About] readbacks quoted here were
+    measured before that change and are not re-measured.)
 
       - Instance/Rng.v's [rng_from_Z] reports, under
         [Set Printing Universes],
@@ -202,7 +206,10 @@ Generalizable All Variables.
     [RgObject@{ao ah ap}] is formable and [rg_mul] is usable at those
     levels, while [(R : obj[Rg])] is rejected with "Cannot enforce
     ah = ao because ao < ah".  Pinned as the first probe below.  Nothing
-    here adds to it and Instance/Rg.v is not edited.
+    here adds to it and Instance/Rg.v is not edited.  (CORRECTION
+    (rocq-prover/rocq#22721): that rejection is the state before
+    rocq-prover/rocq#22721; with its universes [(R : obj[Rg])] is
+    accepted at those levels, and the probe is no longer a [Fail].)
 
     (5) [unitalization_adjunction@{u u0 … u13}] carries NO universe
     EQUATION anywhere in its constraint block — every entry is [<] or
@@ -361,7 +368,12 @@ Generalizable All Variables.
     commands — two [Fail Example] conversion probes and two [Fail Check]
     formability probes — every other match being header prose.  An
     earlier draft of this paragraph said four, having counted the
-    commands and overlooked both the [-i] and the prose.  No TODO or
+    commands and overlooked both the [-i] and the prose.  (CORRECTION
+    (rocq-prover/rocq#22721): the [Fail Check] on [(R : obj[Rg])] in
+    [ProbeRgObjects] is accepted since the universes of
+    rocq-prover/rocq#22721 and is no longer a [Fail], and so is the
+    [Fail Check] applying [rng_from_Z] in [ProbeDonorPin]; these counts were
+    measured before that change and are not re-measured.)  No TODO or
     FIXME marker is added, and no deferral note of the fourth kind the
     pattern looks for appears anywhere below this header.  *)
 
@@ -1120,6 +1132,8 @@ Example dorroh_TwoZ_extend_one :
     why [dorroh_insert] reads [∀ R : RgObject@{u2 u2 u2}] while [Dorroh]
     itself stays free at [RgObject@{u u0 u1}].  Stripped, the error is
     "universe inconsistency: Cannot enforce ah = ao because ao < ah".
+    CORRECTION: that was the state before rocq-prover/rocq#22721; with
+    its universes the probe is accepted and no longer a [Fail].
 
     (2) Instance/Rng.v's [rng_from_Z] is pinned at [RingObject@{Set
     Set Set}], so it cannot be applied to [Dorroh R] for an [R] whose hom
@@ -1128,7 +1142,9 @@ Example dorroh_TwoZ_extend_one :
     discriminate between the two donors rather than merely reporting that
     something about [Dorroh R] is large.  Stripped, the error is
     "Cannot enforce Set = bh".  This is the measurement behind
-    [rig_hom_preserves_zring] above.
+    [rig_hom_preserves_zring] above.  CORRECTION: that was the state
+    before rocq-prover/rocq#22721; with its universes the probe is
+    accepted and no longer a [Fail].
 
     NOT PINNED, and said so rather than dressed up: the [dorroh_zhom]
     minimization quoted earlier is a fact about DEFINING a constant, and
@@ -1149,7 +1165,10 @@ Constraint ao < ah.
 Check (RgObject@{ap ao ah} : Type).
 Check (fun (R : RgObject@{ap ao ah}) (a b : carrier R) => rg_mul R a b).
 Check @RgObject@{_ _ _}.
-Fail Check (fun R : RgObject@{ap ao ah} => (R : obj[Rg])).
+(* Boundary (1), now accepted: previously refused with "Cannot enforce
+   ah = ao because ao < ah"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun R : RgObject@{ap ao ah} => (R : obj[Rg])).
 
 End ProbeRgObjects.
 
@@ -1160,7 +1179,8 @@ Constraint Set < bh.
 Check (fun R : RgObject@{bp bo bh} => Dorroh R).
 Check (fun R : RgObject@{bp bo bh} => zring (Dorroh R)).
 Check @RgObject@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Boundary (2), now accepted: previously refused with "Cannot enforce
+   Set = bh"; accepted since the universes of rocq-prover/rocq#22721. *)
 Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
 
 End ProbeDonorPin.

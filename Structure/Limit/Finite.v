@@ -677,7 +677,7 @@ Definition finitely_cocomplete_of_pushouts_initial {C : Category}
 Definition EmptyShape@{o h} : Category@{o h h} := DiscreteCat@{o h h} False.
 
 Definition EmptyShape_FiniteCategory@{o h u +} :
-  FiniteCategory@{o h u} EmptyShape@{o h} := {|
+  FiniteCategory@{o h h u} EmptyShape@{o h} := {|
   fc_size  := 0;
   fc_arr   := fin0_rect (fun _ => @ArrowIx EmptyShape@{o h});
   fc_cover := fun x => False_rect _ x

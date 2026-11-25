@@ -50,7 +50,13 @@
     Every negative is paired with a positive control naming its own
     constants.  The measured rename-simulation score is at the end, over
     the constants the NEGATIVES name and no others, with `Require` lines
-    preserved. *)
+    preserved.
+
+    CORRECTION (rocq-prover/rocq#22721): the above records the state
+    before rocq-prover/rocq#22721.  With its universes all three
+    negatives are accepted under `Constraint uh < up` and are no longer
+    `Fail` commands, so none of `Cartesian`, `Terminal` and `Monoidal`
+    is now measured to identify hom with proof at the declared levels. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -71,11 +77,13 @@ Generalizable All Variables.
 
 Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
-(** ** Negatives 1-3 (FORMABILITY): three INDEPENDENT donors identify hom
-       with proof
+(** ** Negatives 1-3 (FORMABILITY): three INDEPENDENT donors that
+       identified hom with proof
 
-    Each is rejected under `Constraint uh < up` while the control shows a
-    hom-set of such a category is perfectly formable at those levels. *)
+    Each was rejected under `Constraint uh < up` while the control shows a
+    hom-set of such a category is perfectly formable at those levels.
+    CORRECTION: all three are accepted since the universes of
+    rocq-prover/rocq#22721. *)
 
 Section Donors.
 
@@ -93,12 +101,16 @@ Check @Terminal.
 Check @MonoidObject.
 Check @Monoidal.
 
-(* NEGATIVE 1. *)
+(* NEGATIVE 1, now accepted: [Cartesian]. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
+(* Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
-(* NEGATIVE 2. *)
-Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
+(* NEGATIVE 2, now accepted: [Terminal].  Previously refused with a
+   universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Terminal C).
 
 (* NEGATIVE 3.  The donor is [Monoidal], NOT [MonoidObject].  An earlier
    revision of this file wrote the negative as
@@ -115,8 +127,11 @@ Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
                             Monoidal@{u u0} -> obj[C] -> Type@{u0}],
    whose [Monoidal] argument pins [C] before any field is consulted.  So
    whether [MonoidObject] contributes an identification OF ITS OWN is
-   UNKNOWN -- not refuted, and not measured anywhere in this commit. *)
-Fail Check (fun (C : Category@{uo uh up}) => @Monoidal C).
+   UNKNOWN -- not refuted, and not measured anywhere in this commit.
+   CORRECTION: this negative was refused with a universe inconsistency;
+   it is accepted since the universes of rocq-prover/rocq#22721, so
+   [@Monoidal C] is no longer rejected at these levels. *)
+Check (fun (C : Category@{uo uh up}) => @Monoidal C).
 
 End Donors.
 
@@ -201,4 +216,8 @@ Check @Bool_Semilattice.
     file against an instrument-checked baseline -- with the `Require`
     lines PRESERVED, since three of these four share a name with a module
     and renaming those lines would break the copy on a missing module
-    rather than on the guard, reading as a pass. *)
+    rather than on the guard, reading as a pass.
+
+    CORRECTION: the score was measured when the three negatives were
+    `Fail` commands.  They are accepted since the universes of
+    rocq-prover/rocq#22721, so a rename now breaks them directly. *)

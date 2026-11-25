@@ -43,8 +43,10 @@ Generalizable All Variables.
      TYPING       (negative 3) reports `has type ... while it is expected
                   to have type ...` with NO `cannot unify` clause and no
                   universe clause
-     FORMABILITY  (negatives 4 and 5) ends in
-                  `(universe inconsistency: Cannot enforce ...)`
+     FORMABILITY  (negatives 4 and 5) ended in
+                  `(universe inconsistency: Cannot enforce ...)`;
+                  CORRECTION: both are accepted since the universes of
+                  rocq-prover/rocq#22721 and are kept without [Fail]
 
    Each negative below was stripped of its [Fail] and its whole error read,
    not merely its tail; the distinguishing phrase is quoted at each. *)
@@ -175,7 +177,9 @@ Check @pi0_fmap_at.
 
    No explicit universe instance is written inside either [Fail]: a [Fail]
    carrying one can pass for an arity reason on another Coq version, which
-   would make the guard vacuous without anything noticing. *)
+   would make the guard vacuous without anything noticing.  CORRECTION
+   (rocq-prover/rocq#22721): both negatives are accepted since the
+   universes of rocq-prover/rocq#22721 and are no longer under [Fail]. *)
 
 (* An unannotated clone of [zigzag_fmap]. *)
 Fixpoint probe_zigzag_fmap_unann {C D : Category} (F : C ⟶ D) {x y : C}
@@ -213,7 +217,8 @@ Context (Fu : Cu ⟶ Du) (a b : Cu) (s : ZigZag a b).
 
 (* CONTROLS: the two categories, the functor and the chain are all
    formable with the hom universes declared STRICTLY apart, so the
-   negative below cannot be firing merely on the section's levels. *)
+   former negative below could not be firing merely on the section's
+   levels. *)
 Check Cu.
 Check Du.
 Check Fu.
@@ -222,13 +227,14 @@ Check s.
 (* CONTROL 5: the SHIPPED, annotated [zigzag_fmap] applies across them. *)
 Check (zigzag_fmap Fu s).
 
-(* NEGATIVE 5.  Stripped, this reports:
+(* NEGATIVE 5, now accepted.  Previously refused; stripped, it reported:
      The term "Fu" has type "@Functor@{uo uhc uhc uo uhd uhd} Cu Du"
      while it is expected to have type "@Functor@{...} ?C ?D"
      (universe inconsistency: Cannot enforce uhd = uhc because uhc < uhd).
-   The expected type shows the two hom universes IDENTIFIED — which is the
-   minimization the target's binders undo. *)
-Fail Check (probe_zigzag_fmap_unann Fu s).
+   The expected type showed the two hom universes IDENTIFIED — which is
+   the minimization the target's binders undo.  Accepted with the
+   universes of rocq-prover/rocq#22721. *)
+Check (probe_zigzag_fmap_unann Fu s).
 
 End FormabilityHom.
 
@@ -245,15 +251,15 @@ Check (obj[Cv]).
    the discriminating half: same body, only the binders differ. *)
 Check (pi0_proj Cv).
 
-(* NEGATIVE 4.  Stripped, this reports:
+(* NEGATIVE 4, now accepted.  Previously refused; stripped, it reported:
      The term "Cv" has type "Category@{vo vh vh}"
      while it is expected to have type "Category@{...}"
      (universe inconsistency: Cannot enforce vh = vo because vh < vo).
-   The three elided levels are one and the same freshly generated level, so
-   the expected type shows ALL THREE of C's universes identified.  (Elided
-   here as in negative 5: the generated names vary per compilation and are
-   not quotable.) *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+   The three elided levels were one and the same freshly generated level,
+   so the expected type showed ALL THREE of C's universes identified.
+   (Elided here as in negative 5: the generated names varied per
+   compilation and were not quotable.)  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
 Check (probe_pi0_proj_unann Cv).
 
 End FormabilityObj.

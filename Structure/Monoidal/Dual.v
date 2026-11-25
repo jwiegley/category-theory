@@ -296,6 +296,10 @@ Generalizable All Variables.
    and composite, and by [About] on Rocq 9.3.0 none of the 12 constants of
    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 12
    did before.
+   CORRECTION (rocq-prover/rocq#22721):
+   since the universes of rocq-prover/rocq#22721 the monoidal chain
+   ([Monoidal], [SymmetricMonoidal], [SymMonClosed]) is ACCEPTED at
+   `Category@{co ch cp}`; only [Opposite] is still rejected there.
 
    AXIOMS AND COUNT.  50/50 constants closed under the global context.
    The 50 are the 42 source-declared names plus the EIGHT [Program]
@@ -628,8 +632,10 @@ Proof. intros f g Hfg; unfold dual_transpose; now rewrite Hfg. Qed.
     TYPING.  Each negative was stripped of its [Fail] and run alone, and
     its failure kind read off the WHOLE error message.  The three kinds
     are genuinely distinguishable here, and reading only the tail would
-    NOT distinguish two of them: the four FORMABILITY negatives close
-    with `universe inconsistency: Cannot enforce cp = ch`; the two
+    NOT distinguish two of them: the four FORMABILITY negatives closed
+    with `universe inconsistency: Cannot enforce cp = ch` (three of them,
+    2-4, are accepted since the universes of rocq-prover/rocq#22721,
+    leaving negative 1 the only FORMABILITY negative); the two
     CONVERSION negatives close with `cannot unify` between two terms of
     ONE type, naming those terms (`dd_unit d x` against
     `dcur (eval' ∘ braid)`, and `to star_double_dual` against
@@ -674,8 +680,10 @@ Section DualProbeFormabilityControl.
 
 (* Positive half of the formability measurement: with the hom and proof
    universes declared EQUAL, all four donors elaborate at the very same
-   applied arguments the negatives below reject.  So each negative fires
-   on the CONSTRAINT and not on the application. *)
+   applied arguments the negatives below rejected.  So each negative
+   fired on the CONSTRAINT and not on the application.  (Negatives 2-4
+   are accepted since the universes of rocq-prover/rocq#22721; negative
+   1 still fires.) *)
 
 Universes cco cch.
 Context (Cv : Category@{cco cch cch}).
@@ -700,7 +708,9 @@ Section DualProbeFormability.
    negatives 2-4 are nested classes ([SymMonClosed] contains
    [SymmetricMonoidal] contains [BraidedMonoidal] contains [Monoidal]),
    so they test one cause at three strengths; only [Opposite] is
-   independent of that chain. *)
+   independent of that chain.  CORRECTION: negatives 2-4 are accepted
+   since the universes of rocq-prover/rocq#22721; only negative 1
+   ([Opposite]) is still rejected here. *)
 
 Universes co ch cp.
 Constraint ch < cp.
@@ -714,12 +724,18 @@ Check (@id Cu a).
 
 (* FORMABILITY negative 1: the opposite category. *)
 Fail Check (@Opposite Cu).
-(* FORMABILITY negative 2: the monoidal structure. *)
-Fail Check (@Monoidal Cu).
-(* FORMABILITY negative 3: its symmetric refinement. *)
-Fail Check (@SymmetricMonoidal Cu).
-(* FORMABILITY negative 4: the closed base this file is stated over. *)
-Fail Check (@SymMonClosed Cu).
+(* FORMABILITY negative 2, now accepted: the monoidal structure.
+   Previously refused with `Cannot enforce cp = ch`; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Monoidal Cu).
+(* FORMABILITY negative 3, now accepted: its symmetric refinement.
+   Previously refused with `Cannot enforce cp = ch`; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (@SymmetricMonoidal Cu).
+(* FORMABILITY negative 4, now accepted: the closed base this file is
+   stated over.  Previously refused with `Cannot enforce cp = ch`;
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@SymMonClosed Cu).
 
 End DualProbeFormability.
 

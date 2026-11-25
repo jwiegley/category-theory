@@ -392,7 +392,7 @@ Definition PropSets_trunc_Incl@{o so a | o < so +} :
   @Adjunction@{so so o so a} PropSets@{o so} Sets@{o so}
     PropSets_trunc@{o so} PropSets_Incl@{o so}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{so o o so o o a} _ _
+  unshelve refine (@Build_Adjunction'@{so so o} _ _
                      PropSets_trunc@{o so} PropSets_Incl@{o so}
                      PropSets_trunc_iso@{o so} _ _).
   - intros x y z f g t; simpl. reflexivity.

@@ -273,7 +273,7 @@ Next Obligation. now symmetry; apply tlist_app_assoc. Qed.
    its path. Faithful and full by [morDA_tlistDA]/[tlistDA_morDA]. *)
 (* The universes are declared: inferred, the homs and the proofs of [Free]
    would have universes of their own, above those of [FreeSyntax]. *)
-Program Instance ForgetSyntax@{u} : FreeSyntax@{u} ⟶ Free@{o u u} := {
+Program Instance ForgetSyntax@{u} : FreeSyntax@{u _} ⟶ Free@{o u u} := {
   fobj := λ x, x;
   fmap := λ x y f, morDA f;
 }.
@@ -281,7 +281,7 @@ Program Instance ForgetSyntax@{u} : FreeSyntax@{u} ⟶ Free@{o u u} := {
 (* Reflection functor: identity on objects, embedding each path as a
    right-nested syntax term. Its right adjoint, [ForgetSyntax ⊣ CanonicalMap]
    below. *)
-Program Instance CanonicalMap@{u +} : Free@{o u u} ⟶ FreeSyntax@{u} := {
+Program Instance CanonicalMap@{u +} : Free@{o u u} ⟶ FreeSyntax@{u _} := {
   fobj := λ x, x;
   fmap := λ x y f, tlistDA f;
 }.

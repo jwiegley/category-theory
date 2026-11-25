@@ -287,8 +287,12 @@ End RngSetsExt.
 
 Section RngLift.
 
+(* The universes are declared: the unit object of [Sets] is at the universe [rh] of the homs
+   of the category, as its cones require *)
+Universe rh.
+
 Context {J : Category}.
-Context (K : J ⟶ Rng).
+Context (K : J ⟶ Rng@{rh}).
 Context (L : Limit (Rng_Forget ◯ K)).
 
 Definition rlim_leg (j : J) : vertex_obj[L] ~{Sets}~> rig_setoid (K j) :=
@@ -398,7 +402,7 @@ Qed.
 (** ** The additive unit *)
 
 Program Definition rlim_zero_leg (j : J) :
-  unit_setoid_object ~{Sets}~> rig_setoid (K j) :=
+  unit_setoid_object@{rh rh} ~{Sets}~> rig_setoid (K j) :=
   {| morphism := fun _ => rig_zero (K j) |}.
 
 Lemma rlim_zero_coherence {x y : J} (f : x ~{J}~> y) :
@@ -406,11 +410,11 @@ Lemma rlim_zero_coherence {x y : J} (f : x ~{J}~> y) :
 Proof. intro p; simpl; apply rig_map_zero. Qed.
 
 Definition rlim_zero_cone : Cone (Rng_Forget ◯ K) :=
-  @Build_Cone J Sets (Rng_Forget ◯ K) unit_setoid_object
-    (@Build_ACone J Sets unit_setoid_object (Rng_Forget ◯ K)
+  @Build_Cone J Sets (Rng_Forget ◯ K) unit_setoid_object@{rh rh}
+    (@Build_ACone J Sets unit_setoid_object@{rh rh} (Rng_Forget ◯ K)
        rlim_zero_leg (@rlim_zero_coherence)).
 
-Definition rlim_zero_map : unit_setoid_object ~{Sets}~> vertex_obj[L] :=
+Definition rlim_zero_map : unit_setoid_object@{rh rh} ~{Sets}~> vertex_obj[L] :=
   limit_med (limit_is_alimit L) rlim_zero_cone.
 
 Definition rlim_zero : carrier vertex_obj[L] := rlim_zero_map ttt.
@@ -424,7 +428,7 @@ Qed.
 (** ** The multiplicative unit *)
 
 Program Definition rlim_one_leg (j : J) :
-  unit_setoid_object ~{Sets}~> rig_setoid (K j) :=
+  unit_setoid_object@{rh rh} ~{Sets}~> rig_setoid (K j) :=
   {| morphism := fun _ => rig_one (K j) |}.
 
 Lemma rlim_one_coherence {x y : J} (f : x ~{J}~> y) :
@@ -432,11 +436,11 @@ Lemma rlim_one_coherence {x y : J} (f : x ~{J}~> y) :
 Proof. intro p; simpl; apply rig_map_one. Qed.
 
 Definition rlim_one_cone : Cone (Rng_Forget ◯ K) :=
-  @Build_Cone J Sets (Rng_Forget ◯ K) unit_setoid_object
-    (@Build_ACone J Sets unit_setoid_object (Rng_Forget ◯ K)
+  @Build_Cone J Sets (Rng_Forget ◯ K) unit_setoid_object@{rh rh}
+    (@Build_ACone J Sets unit_setoid_object@{rh rh} (Rng_Forget ◯ K)
        rlim_one_leg (@rlim_one_coherence)).
 
-Definition rlim_one_map : unit_setoid_object ~{Sets}~> vertex_obj[L] :=
+Definition rlim_one_map : unit_setoid_object@{rh rh} ~{Sets}~> vertex_obj[L] :=
   limit_med (limit_is_alimit L) rlim_one_cone.
 
 Definition rlim_one : carrier vertex_obj[L] := rlim_one_map ttt.

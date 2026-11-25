@@ -285,5 +285,5 @@ End EilenbergMooreComparison.
    functors on [C]. Inferred, [u] would be the least one. *)
 Definition Monadic@{u so f oC oE h oD | h < so, max(f, oC, oE, h, oD) <= u, max(oC, h) <= f, max(h, oD) <= oE +}
   {C : Category@{oC h h}} {D : Category@{oD h h}} (U : C ⟶ D) : Type@{u} :=
-  ∃ (F : D ⟶ C) (A : @Adjunction@{oC h h oD h h h h so h Set} _ _ F U),
+  ∃ (F : D ⟶ C) (A : @Adjunction@{oC oD h so Set} _ _ F U),
     EquivalenceOfCategories@{oE f oC oE h} (EM_Comparison A).

@@ -211,9 +211,11 @@ Fail Check (@Fun Cu Du).
 
 End FormabilityFun.
 
-(* [Monic] and [Epic] take a category whose hom and proof levels
+(* [Monic] and [Epic] took a category whose hom and proof levels
    coincide, which is the other identification the target's binders
-   display. *)
+   displayed: both were refused here with a universe inconsistency.
+   CORRECTION: both are accepted at these levels since the universes of
+   rocq-prover/rocq#22721, so this section no longer holds negatives. *)
 Section FormabilityMonic.
 
 Universes mo mh mp.
@@ -225,13 +227,20 @@ Context (a b : Du) (g : a ~{Du}~> b).
 Check (a ~{Du}~> b).
 Check g.
 
-Fail Check (@Monic Du a b g).
-Fail Check (@Epic Du a b g).
+(* Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Monic Du a b g).
+(* Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Epic Du a b g).
 
 End FormabilityMonic.
 
 (* And the target's own general theorem inherits both, so it too is
-   unformable over two categories whose hom levels are kept apart. *)
+   unformable over two categories whose hom levels are kept apart.
+   (Written when [Monic] and [Epic] were also refused; since the
+   universes of rocq-prover/rocq#22721 only the [Fun] identification of
+   [FormabilityFun] is still measured as refused.) *)
 Section FormabilityTarget.
 
 Universes to2 th tp uo uh up.

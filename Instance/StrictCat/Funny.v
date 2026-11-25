@@ -224,7 +224,7 @@ Qed.
 (* The universes are declared: the member categories of [StrictCat] are at
    [Set], as in the uses of [Funny_Monoidal@{u}]. *)
 #[export] Program Instance Funny_Monoidal@{u | Set < u +} :
-  @Monoidal@{u Set} StrictCat@{u Set Set Set} := {
+  @Monoidal@{u Set Set} StrictCat@{u Set Set Set} := {
   I := _1;
   tensor := FunnyTensor;
   unit_left := fun x => @Funny_unit_left x;

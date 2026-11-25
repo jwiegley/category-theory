@@ -28,8 +28,12 @@
     decision of 2026-09-24 on #458.  N2-N4, N8-N14, N16-N22 and N27-N35
     restate a refusal that a target header records, measured by #458's
     builders and reviews in scratch files or in this file; N1, N5-N7,
-    N15 and N23-N26 are this file's own.  The positive controls restate
-    the files' claims independently.
+    N15 and N23-N26 are this file's own.  CORRECTION
+    (rocq-prover/rocq#22721): N3, N4, N8, N11, N12, N29 and N31 were
+    refused only before rocq-prover/rocq#22721; with its universes each of
+    those seven commands is accepted and is no longer a [Fail] command, so
+    the refusals the paragraphs below quote for them are the earlier
+    state.  The positive controls restate the files' claims independently.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
     First Instance/Top/Complete.v's twenty-two lines verbatim and in
@@ -142,6 +146,12 @@
     N30, N33 and N34.  The removed pcc_Prop obligation is not a probe
     refutation.  No positive-wrapper, binder or constraint-deletion test,
     nor a constant census, is repeated by this stripped-error measurement.
+    CORRECTION (rocq-prover/rocq#22721): this audit, the stripped copies,
+    the binder instruments and the constraint deletions above predate
+    rocq-prover/rocq#22721.  With its universes N3, N4, N8, N11, N12, N29
+    and N31 are accepted and have lost their [Fail]; twenty-nine [Fail]
+    commands remain (grep -c '^Fail' of this file).  The cross-version
+    error comparisons were not re-measured.
 
     KINDS.  Thirty-six refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1-N4,
@@ -151,6 +161,13 @@
     or a SECTION-VARIABLE refusal.  N21 and N22 are the elimination rule
     for propositions: a proof of a [Prop] builds only proofs.  N29 is an
     encoding artifact, pinned as one, not a wall: see its paragraph.
+    CORRECTION (rocq-prover/rocq#22721): twenty-nine refutations now,
+    counted the same way: NAME-ABSENCE (the instrument), UNIVERSE (N1, N2,
+    N9, N10, N15-N20, N24-N28, N30, N32-N35), CONVERSION (N5, N13, N14)
+    and TYPING (N6, N7, N21-N23), one, twenty, three and five.  The
+    UNIVERSE negatives N3, N4, N8, N11, N12, N29 and N31 are accepted
+    with the universes of rocq-prover/rocq#22721 and are no longer
+    refutations.
 
     LABELS.  The pins carry the N-numbers of this file; #458's builders
     and reviews measured most of them in scratch files under other names,
@@ -183,7 +200,9 @@
     [Top_ArrowIndex_transport]; its rebuild with the field passed through,
     refused under a closed binder with no "+" ("Universe constraints are
     not implied by the ones declared: h1 = h2", re-measured under this
-    file's import list), is the artifact N29 pins at [h1 < h2]; its
+    file's import list), is the artifact N29 pinned at [h1 < h2] before
+    rocq-prover/rocq#22721 (CORRECTION: N29 is accepted with its
+    universes; the closed-binder refusal was not re-measured); its
     [Top_not_complete_IEM_transported], [Top_iprod_refuted_IEM_below_h],
     [Top_not_cocomplete_ObjDecEq_try] and
     [CompHaus_not_complete_IEM_between_try] are the targets'
@@ -256,6 +275,10 @@
       The term "PTop_Complete_via_products" has type "Complete@{o o o
       so}" while it is expected to have type "Complete@{r o o so}"
       (universe inconsistency: Cannot enforce o = r because o < r).
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N3 and N4 quoted
+    above are the state before rocq-prover/rocq#22721; with its universes
+    the book's route is accepted at [s < o] and at [r > o] as well, and
+    N3 and N4 are no longer [Fail] commands.
 
     N5 (CONVERSION).  The two routes' apexes are isomorphic
     ([p458_complete_routes_iso]) and the book route's is a subspace of a
@@ -323,6 +346,10 @@
     ([p458_via_cones_cone], builder A's review's measurement) and at its
     own type ([p458_via_cones_cone_is]); Exercise 3(c)'s products at
     their type ([p458_products_via_cone_comma]).
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N8 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes
+    [PTop_Complete_via_cones] is accepted with the record above the points
+    and N8 is no longer a [Fail] command.  N9 is still refused.
 
     ** Instance/Top/Cocomplete.v
 
@@ -369,6 +396,10 @@
       "Cocomplete@{o o o so}" while it is expected to have type
       "Cocomplete@{r o o so}" (universe inconsistency: Cannot enforce
       o = r because o < r).
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N11 and N12
+    quoted above are the state before rocq-prover/rocq#22721; with its
+    universes the book's route is accepted at [s < o] and at [r > o] as
+    well, and N11 and N12 are no longer [Fail] commands.
 
     N13, N14 (CONVERSION).  The same header, STRENGTHS: the two routes'
     apexes are isomorphic ([p458_cocomplete_routes_iso]) and their
@@ -558,6 +589,10 @@
     N29 pins elaborator behaviour, not a library boundary: a future
     Rocq that unfolds before unifying would accept the command, which
     would mean the artifact is gone, not that a wall moved.
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N29 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes the
+    command is accepted and N29 is no longer a [Fail] command.  By the
+    reading above, the artifact is gone; no wall moved.
 
     N30, N31 (UNIVERSE).  The same header, THE BOUNDARY: completeness of
     [Top] is refuted under [IEM] at a shape universe strictly between the
@@ -575,6 +610,11 @@
       enforce <3> = h because <3> <= <2> < h).
     So the [_below] form reaches strictly more shapes than #455's, and
     no refutation reaches the shapes at or below the points.
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N31 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes #455's
+    [Top_not_complete_IEM] is accepted at [o < s < h] and N31 is no longer
+    a [Fail] command, so the [_below] form no longer reaches strictly more
+    shapes by this measurement.  N30 is still refused.
 
     N32 (UNIVERSE).  The same paragraph, and Instance/Top/CompHaus.v's
     CORRECTION (#458): completeness of [CompHaus] is refuted under [IEM]
@@ -619,7 +659,9 @@
     [p458_top_transport_up], [p458_top_transport_down],
     [p458_ex3a_literal_above_set]) or a refusal does; in particular the
     equation [h1 = h2] that the unexpanded rebuild reads back with is
-    pinned only through N29's refusal.  (b) Flip censuses ([Defined]
+    pinned only through N29's refusal (CORRECTION
+    (rocq-prover/rocq#22721): N29 is accepted with its universes, so that
+    equation is no longer pinned here).  (b) Flip censuses ([Defined]
     against [Qed]) and the closure of the targets under
     [Print Assumptions]: measurements of the build rather than of
     commands; the Makefile's print-assumptions gate is where closure is
@@ -860,13 +902,15 @@ Example p458_via_products_is_book_route@{o so +| o < so +} :
     = @Complete_from_products_equalizers PTopCat@{o so}
         PTop_HasIndexedProducts PTop_HasEqualizers := eq_refl.
 
-(* N3 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N3, now accepted: the book's route [PTop_Complete_via_products] at
+   [s < o].  Previously refused with "Cannot enforce o = s because s < o";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p458_via_products_below@{s o so +| s < o, o < so +} :
   @Complete@{o s o so} PTopCat@{o so} := PTop_Complete_via_products.
 
-(* N4 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N4, now accepted: the same route with the record at [r > o].
+   Previously refused with "Cannot enforce o = r because o < r"; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Definition p458_via_products_record_above@{r o so +| o < r, o < so +} :
   @Complete@{r o o so} PTopCat@{o so} := PTop_Complete_via_products.
 
@@ -986,8 +1030,9 @@ Definition p458_complete_via_cones_below@{s o so +| s < o, o < so +} :
 Definition p458_complete_via_cones_at_points@{o so +| o < so +} :
   @Complete@{o o o so} PTopCat@{o so} := PTop_Complete_via_cones.
 
-(* N8 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N8, now accepted: [PTop_Complete_via_cones] with the record above the
+   points.  Previously refused with "Cannot enforce o = r because o < r";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p458_via_cones_record_above@{r o so +| o < r, o < so +} :
   @Complete@{r o o so} PTopCat@{o so} := PTop_Complete_via_cones.
 
@@ -1121,13 +1166,15 @@ Example p458_via_coeq_is_book_route@{o so +| o < so +} :
     = Cocomplete_from_coproducts_coequalizers PTop_HasIndexedCoproducts
         PTop_HasCoequalizers := eq_refl.
 
-(* N11 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N11, now accepted: the book's route [PTop_Cocomplete_via_coproducts]
+   at [s < o].  Previously refused with "Cannot enforce o = s because
+   s < o"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p458_via_coeq_below@{s o so +| s < o, o < so +} :
   @Cocomplete@{o s o so} PTopCat@{o so} := PTop_Cocomplete_via_coproducts.
 
-(* N12 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N12, now accepted: the same route with the record at [r > o].
+   Previously refused with "Cannot enforce o = r because o < r"; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Definition p458_via_coeq_record_above@{r o so +| o < r, o < so +} :
   @Cocomplete@{r o o so} PTopCat@{o so} := PTop_Cocomplete_via_coproducts.
 
@@ -1171,11 +1218,11 @@ Example p458_psigma_open@{o i +| i <= o +} (Ix : Type@{i})
      (∀ k : Ix, POpen (X k) (fun x => V (existT _ k x)))) := eq_refl.
 
 Definition p458_icoprod_at_points@{o so u +| o < so, so <= u, o < u +} :
-  @HasIndexedCoproducts@{so o o} PTopCat@{o so} :=
+  @HasIndexedCoproducts@{so _ _ _ o} PTopCat@{o so} :=
   PTop_HasIndexedCoproducts.
 
 (* N15 *)
-Check @HasIndexedCoproducts@{_ _ _}.
+Check @HasIndexedCoproducts@{_ _ _ _ _}.
 Fail Definition p458_icoprod_above@{s o so u +| o < so, o < s, so <= u,
   s < u +} :
   @HasIndexedCoproducts@{u s s so o} PTopCat@{o so} :=
@@ -1191,7 +1238,7 @@ Definition p458_sum_injections_differ@{o so u | o < so, o < u +} :
 (* CONTROL: W1's two ingredients, each accepted alone; the coequalizer
    IS the quotient topology at [eq_refl]. *)
 Definition p458_top_coproducts_small@{o h u u0 +| o < h, u0 <= o, h < u +} :
-  @HasIndexedCoproducts@{h u0 h} Top@{h o} :=
+  @HasIndexedCoproducts@{h _ _ _ h} Top@{h o} :=
   Top_HasIndexedCoproducts_small.
 
 Definition p458_top_coequalizers@{o h +| o < h +} :
@@ -1338,9 +1385,9 @@ Definition p458_ex3a_literal_refuted :
    now a single universe, and the refutation has five. *)
 Definition p458_ex3a_literal_above_set@{u4 u6 u7 u8 w |
   Set < u4, Set < u6, Set < u7, Set < u8, Set < w +} :
-  Ex3a_left_literal@{u6 u7 u4 u8 w} ex3_G1@{u8 u7 u4}
-    ex3_T0@{u6 u8 u7} → False :=
-  ex3a_left_adjoint_literal_refuted@{u8 u7 u4 u6 w}.
+  Ex3a_left_literal@{u6 u8 u7 u4 _} ex3_G1
+    ex3_T0 → False :=
+  ex3a_left_adjoint_literal_refuted@{u8 w}.
 
 Definition p458_ex3a_counterexample :
   Ex3a_left_refuting_data ex3_G1 ex3_T0 := ex3a_left_counterexample.
@@ -1465,7 +1512,10 @@ Definition p458_top_rebuild_unexpanded_at_h@{o h | o < h +}
 
 (* N29 *)
 Check @ContinuousMorphism@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N29, now accepted: the continuity field passed through unexpanded at
+   [h1 < h2].  Previously refused with "Cannot enforce h1 = h2 because
+   h1 < h2", the encoding artifact the header describes; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Definition p458_top_rebuild_unexpanded@{o h1 h2 | o < h1, h1 < h2 +}
   {X Y : TopSpace@{o}} (f : ContinuousMorphism@{h1 o} X Y) :
   ContinuousMorphism@{h2 o} X Y :=
@@ -1506,8 +1556,9 @@ Fail Definition p458_top_not_complete_at_points@{e r h o +| o < h,
   IEM@{e} → @Complete@{r o h h} Top@{h o} → False :=
   Top_not_complete_below_IEM@{e r o h o}.
 
-(* N31 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N31, now accepted: #455's [Top_not_complete_IEM] read at [o < s < h].
+   Previously refused with "Cannot enforce <3> = h because <3> <= <2> <
+   h"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p458_top_not_complete_canonical_below@{e r s h o +| o < s,
   s < h, h <= r +} :
   IEM@{e} → @Complete@{r s h h} Top@{h o} → False :=

@@ -18,7 +18,10 @@
    during development and the resulting error inspected: negatives 1 and 2
    are genuine universe inconsistencies naming the declared level
    ("Cannot enforce Set = big"), and negatives 3 to 6 are genuine
-   conversion failures. *)
+   conversion failures.  CORRECTION (rocq-prover/rocq#22721): negatives 1
+   and 2 are accepted with the universes of rocq-prover/rocq#22721 and
+   are no longer [Fail] commands; negatives 3 to 6 remain (four lines
+   matching grep -c '^ *Fail'). *)
 
 Require Import Coq.ZArith.ZArith.
 
@@ -63,7 +66,11 @@ Monomorphic Constraint Set < big.
     the DONOR'S rather than one introduced there.  Both halves are pinned
     here.  The instrument is sanity-checked first: the large instance of
     the integers is itself well formed, so the rejections below are about
-    the functor and not about the ring. *)
+    the functor and not about the ring.  CORRECTION
+    (rocq-prover/rocq#22721): those rejections are the state before
+    rocq-prover/rocq#22721; with its universes both functors apply one
+    universe up, so negatives 1 and 2 no longer pin the [Set]
+    restriction. *)
 
 (* instrument check *)
 Check (Int_Rig@{big big big} : RigObject@{big big big}).
@@ -73,14 +80,17 @@ Check (Int_Ring@{big big big} : RingObject@{big big big}).
 Check (Rig_Forget_Mon (Int_Rig@{Set Set Set})).
 Check (Rng_Forget_Mon (Int_Ring@{Set Set Set})).
 
-(* NEGATIVE 1: the donor itself does not reach one universe up *)
+(* NEGATIVE 1, now accepted: the donor itself at one universe up *)
 Check @Int_Rig@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 1: previously refused with "Cannot enforce Set = big";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (Rig_Forget_Mon (Int_Rig@{big big big})).
 
-(* NEGATIVE 2: and neither does the ring-level functor built from it *)
+(* NEGATIVE 2, now accepted: the ring-level functor built from it, at one
+   universe up *)
 Check @Int_Ring@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 2: previously refused with "Cannot enforce Set = big";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (Rng_Forget_Mon (Int_Ring@{big big big})).
 
 (** * 3-4: preservation of zero and one by the monoid ring's extension is

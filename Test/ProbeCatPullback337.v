@@ -43,7 +43,15 @@
 
     Every negative is paired with a positive control naming its own
     constants.  The measured rename-simulation score is at the end, over
-    the constants the NEGATIVES name and no others. *)
+    the constants the NEGATIVES name and no others.
+
+    CORRECTION (rocq-prover/rocq#22721): Negative 1 is accepted with the
+    universes of rocq-prover/rocq#22721 and is no longer a [Fail]
+    command; the universe inconsistency quoted above is the earlier
+    state, so [FibreProduct_IsPullback] is no longer observed to identify
+    the three object universes here.  Three negatives remain, two
+    CONVERSION and one TYPING, beside the instrument (four lines matching
+    grep -c '^ *Fail'). *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -77,7 +85,10 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
     [u = u1], [u = u3], [u0 = u2] and [u0 = u4] -- all three object
     universes identified, and all three hom-and-proof universes too.  The
     control and the negative differ in nothing but which of the two is
-    asked for at the same three levels. *)
+    asked for at the same three levels.  CORRECTION
+    (rocq-prover/rocq#22721): the constraint block quoted here predates
+    rocq-prover/rocq#22721 and was not re-measured; with its universes the
+    negative below is accepted at the same three levels. *)
 
 Section UniverseBoundary.
 
@@ -99,9 +110,12 @@ Check (fun (A : Category@{ao h h}) (B : Category@{bo h h})
 (* Control: so is the hypothesis. *)
 Check (fun (C : Category@{co h h}) => ObjUIP C).
 
-(* NEGATIVE 1. *)
+(* NEGATIVE 1, now accepted: [FibreProduct_IsPullback] at the three
+   object universes declared strictly apart. *)
 Check @Category@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 1: previously refused with "universe inconsistency: Cannot
+   enforce co = ao because ao < bo < co"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (fun (A : Category@{ao h h}) (B : Category@{bo h h})
                 (C : Category@{co h h}) (F : A ⟶ C) (G : B ⟶ C)
                 (uip : ObjUIP C) =>
@@ -262,7 +276,11 @@ Check coslice_arrow_reflect.
     display, explicitly below; [IBtrue] and [IBfalse] by [probe_ib_agree]
     and [Check IB_FibreProduct_empty].
 
-    Score: 10/10, on an unpadded denominator. *)
+    Score: 10/10, on an unpadded denominator.  CORRECTION
+    (rocq-prover/rocq#22721): Negative 1 is accepted with the universes of
+    rocq-prover/rocq#22721 and is no longer inside a [Fail], so it now
+    names its constants outside every [Fail] itself; the score was not
+    re-measured. *)
 
 Check (fun (C : Category) (c : C) => (@Slice C c, @Arrow_cod C,
                                       @Diagonal C _1 c)).

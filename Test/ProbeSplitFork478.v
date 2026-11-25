@@ -29,13 +29,19 @@
     in the refutation keyword in a copy of this WHOLE file, stops the
     build at that command with the message Rocq prints for a refutation
     whose command succeeds.  Quotations are Rocq 9.1.1's under this
-    file's import list.
+    file's import list.  CORRECTION (rocq-prover/rocq#22721): these
+    checks ran while R7 was a refutation; it is accepted since the
+    universes of rocq-prover/rocq#22721, and the checks are not re-run.
 
     KINDS.  Nine refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE, the instrument (one); CONVERSION,
     [eq_refl] refused with a "cannot unify" parenthetical, every
     statement being well typed (R1 to R6 and R8: seven); and UNIVERSE
     (R7: one), the statement refused by a universe inconsistency.
+    CORRECTION (rocq-prover/rocq#22721): R7 is accepted since the
+    universes of rocq-prover/rocq#22721; eight refutations remain (by
+    [grep -c '^Fail']), the instrument and the seven CONVERSION ones, and
+    no UNIVERSE one.
     CAUSES, read from the terms: R1 and R2 compare the value of a
     constant functor at a variable object or arrow of 1 with that
     variable itself, and [poly_unit] has no eta rule; R3 to R6 compare
@@ -79,7 +85,8 @@
         number.  C² is an object of [Cat] beside C only at C's object
         level o, its hom level is C's, h, and [Arrow]'s own block puts
         its hom level at or below its object level: h <= o, against the
-        declared o < h.
+        declared o < h.  CORRECTION (rocq-prover/rocq#22721): that was the
+        refusal before rocq-prover/rocq#22721; R7 is accepted since.
       R8, law 3's component in the pushed split fork in Cat as the
         identity (control C27, at the direct one):
         (cannot unify "to (projT1 (scoeq_law3 arrow_fork_split) c)" and
@@ -285,11 +292,18 @@ Definition p478_c15_law4_strict@{o h +} {C : Category@{o h h}}
   := arrow_fork_law4_strict.
 
 (* ------------------------------------------------------------------------ *)
-(** ** Universes: the fork needs h <= o *)
+(** ** Universes: the fork needs h <= o
+
+    CORRECTION (rocq-prover/rocq#22721): measured before
+    rocq-prover/rocq#22721; with its universes law 1 is accepted at
+    o < h too (R7 below). *)
 
 (* R7 *)
 Check @Category@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* R7 (UNIVERSE), now accepted: law 1 at a category whose hom level exceeds
+   its object level.  Previously refused with "universe inconsistency:
+   Cannot enforce X = h because X <= Y < h"; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Definition p478_r7_law1_o_lt_h@{o h + | o < h +} (C : Category@{o h h}) :
   Erase C ∘[Cat] Arrow_dom ≈[Cat] Erase C ∘[Cat] Arrow_cod
   := arrow_fork_law1 C.

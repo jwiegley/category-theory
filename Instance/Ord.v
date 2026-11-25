@@ -385,7 +385,11 @@ Definition MonoHom_of_OrdHom {P Q : OrdObject}
   @Build_MonoHom (Poset_of_antisym P HP) (Poset_of_antisym Q HQ)
     (ord_fn f) (ord_mono f).
 
-Program Definition Pos_to_Posets : Pos ⟶ Posets := {|
+(* The universes are declared: the posets of [Pos@{u f p b q c}] have their carriers and relations
+   in [c], and so do their images, so that the two functors are inverse on objects ([Posets]'s
+   relation universe would otherwise be the object universe [u] of [Pos]) *)
+Program Definition Pos_to_Posets@{u f p b q c | c < u, Set < b, p <= u, max(b, c) <= f, max(q, c) <= p +} :
+  Pos@{u f p b q c} ⟶ Posets@{c c} := {|
   fobj := fun P => (OrdObject_of_Poset P; pos_antisym P);
   fmap := fun _ _ f => (OrdHom_of_MonoHom f; I)
 |}.
@@ -393,7 +397,8 @@ Next Obligation. intros P Q f g Hfg a; simpl; exact (Hfg a). Qed.
 Next Obligation. intros P a; simpl; reflexivity. Qed.
 Next Obligation. intros P Q R f g a; simpl; reflexivity. Qed.
 
-Program Definition Posets_to_Pos : Posets ⟶ Pos := {|
+Program Definition Posets_to_Pos@{u f p b q c | c < u, Set < b, p <= u, max(b, c) <= f, max(q, c) <= p +} :
+  Posets@{c c} ⟶ Pos@{u f p b q c} := {|
   fobj := fun x => Poset_of_antisym `1 x `2 x;
   fmap := fun x y f => MonoHom_of_OrdHom `2 x `2 y `1 f
 |}.

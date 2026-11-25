@@ -726,6 +726,12 @@ Definition BalTensor : AbObject := {|
   ab_neg_left := be_neg_l
 |}.
 
+(* The universe [t] of the relation of [BalTensor], a [Prop] relation which fits in any universe,
+   is declared, so that all the statements below see the same tensor product: the opaque ones
+   would otherwise each take it in [Set] *)
+Universe t.
+Local Notation BT := (BalTensor@{t}).
+
 (** ** Balanced biadditive maps and the universal property *)
 
 (* A map into an abelian group, additive in each variable and balanced
@@ -751,8 +757,8 @@ Arguments bal_add_r {A} _ _ _ _.
 Arguments bal_balance {A} _ _ _ _.
 
 (* The universal balanced map: the generator former itself. *)
-Definition bal_gen : BalBiadditive BalTensor :=
-  @Build_BalBiadditive BalTensor bs_gen
+Definition bal_gen : BalBiadditive BT :=
+  @Build_BalBiadditive BT bs_gen
     (fun _ _ Hn _ _ Hm => be_gen Hn Hm)
     be_add_l be_add_r be_balance.
 
@@ -803,7 +809,7 @@ Proof.
 Qed.
 
 Program Definition bal_med {A : AbObject} (β : BalBiadditive A) :
-  AbHom BalTensor A := {|
+  AbHom BT A := {|
   cmon_map := {| morphism := bal_med_fun β |}
 |}.
 Next Obligation.
@@ -819,7 +825,7 @@ Example bal_med_gen {A : AbObject} (β : BalBiadditive A)
 (* Uniqueness in its consumable form: homomorphisms out of the balanced
    tensor that agree on generators agree everywhere.  The [bs_neg] case
    is Instance/Ab.v's [ab_map_neg]. *)
-Lemma bal_hom_ext {A : AbObject} (f g : AbHom BalTensor A) :
+Lemma bal_hom_ext {A : AbObject} (f g : AbHom BT A) :
   (∀ (n : NC) (m : MC),
       cmon_map f (bs_gen n m) ≈ cmon_map g (bs_gen n m)) →
   ∀ s : bsum, cmon_map f s ≈ cmon_map g s.
@@ -837,7 +843,7 @@ Proof.
 Qed.
 
 Lemma bal_med_unique {A : AbObject} (β : BalBiadditive A)
-  (f : AbHom BalTensor A) :
+  (f : AbHom BT A) :
   (∀ (n : NC) (m : MC),
       cmon_map f (bs_gen n m) ≈ bal_map β n m) →
   f ≈ bal_med β.
@@ -851,32 +857,32 @@ Qed.
    halves are needed downstream: the transposes of the adjunction are
    additive because of them. *)
 Lemma bal_gen_zero_l (m : MC) :
-  (bs_gen (cmon_zero (rm_ab N)) m : carrier (cmon_setoid BalTensor))
-    ≈ cmon_zero BalTensor.
+  (bs_gen (cmon_zero (rm_ab N)) m : carrier (cmon_setoid BT))
+    ≈ cmon_zero BT.
 Proof.
-  apply (ab_cancel_l BalTensor (bs_gen (cmon_zero (rm_ab N)) m)).
+  apply (ab_cancel_l BT (bs_gen (cmon_zero (rm_ab N)) m)).
   exact (be_trans
            (be_trans
               (be_sym (be_add_l (cmon_zero (rm_ab N))
                                 (cmon_zero (rm_ab N)) m))
               (be_gen (cmon_plus_zero_l (rm_ab N) (cmon_zero (rm_ab N)))
                       (reflexivity m)))
-           (be_sym (cmon_plus_zero_r BalTensor
+           (be_sym (cmon_plus_zero_r BT
                       (bs_gen (cmon_zero (rm_ab N)) m)))).
 Qed.
 
 Lemma bal_gen_zero_r (n : NC) :
-  (bs_gen n (cmon_zero (rm_ab M)) : carrier (cmon_setoid BalTensor))
-    ≈ cmon_zero BalTensor.
+  (bs_gen n (cmon_zero (rm_ab M)) : carrier (cmon_setoid BT))
+    ≈ cmon_zero BT.
 Proof.
-  apply (ab_cancel_l BalTensor (bs_gen n (cmon_zero (rm_ab M)))).
+  apply (ab_cancel_l BT (bs_gen n (cmon_zero (rm_ab M)))).
   exact (be_trans
            (be_trans
               (be_sym (be_add_r n (cmon_zero (rm_ab M))
                                   (cmon_zero (rm_ab M))))
               (be_gen (reflexivity n)
                       (cmon_plus_zero_l (rm_ab M) (cmon_zero (rm_ab M)))))
-           (be_sym (cmon_plus_zero_r BalTensor
+           (be_sym (cmon_plus_zero_r BT
                       (bs_gen n (cmon_zero (rm_ab M)))))).
 Qed.
 

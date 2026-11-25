@@ -58,7 +58,9 @@ Generalizable All Variables.
     The TYPING one is discriminating: the SAME term ascribed at the
     contravariant type is accepted immediately above it
     ([p397_raf_type_control]), so what is refused is the variance and
-    not the term.
+    not the term.  CORRECTION: negative 12 is accepted since the
+    universes of rocq-prover/rocq#22721, so 15 negatives remain (7
+    FORMABILITY); the counts in this header were measured before.
 
     THREE FALSE-PASS SHAPES ARE AVOIDED, and ONE of the three is
     MEASURED HERE rather than taken on trust.  (i) [Fail Program
@@ -88,7 +90,7 @@ Generalizable All Variables.
           "(LeftAdjCat C D)^op ⟶ [C, D]" while it is expected to have
           type "LeftAdjCat C D ⟶ [C, D]".   [no "cannot unify" clause]
       9-13. (universe inconsistency: Cannot enforce cp = ch because
-            ch < cp).
+            ch < cp).  [12 accepted since rocq-prover/rocq#22721]
       14. (universe inconsistency: Cannot enforce ah = <fresh> because
           ah < bh <= <fresh>).
       15. (universe inconsistency: Cannot enforce bh = ah because
@@ -129,6 +131,12 @@ Generalizable All Variables.
     disclosed overshoot of a probe in this tree.  Adjunction/Choice.v
     itself contributes ZERO, measured with the target's own pattern
     anchored at that path. *)
+
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 12, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
 
 (** ** Instrument check
 
@@ -347,12 +355,15 @@ End Conversions.
 
     [Functor] is NOT a donor, and the controls prove it in BOTH
     directions: [Du ⟶ Cu] and [Cu ⟶ Du] are both ACCEPTED at the very
-    levels where all five negatives are refused.  Negative 12 is the
-    sharpest of the five for that reason -- its error is reported ON
+    levels where all five negatives were refused.  Negative 12 was the
+    sharpest of the five for that reason -- its error was reported ON
     [Fq], displaying two [@Functor] instances, the one [Fq] has at
-    @{co ch cp co ch cp} against the one [Adjunction] demands, whose hom
-    and proof levels are the SAME variable -- so what is refused there
-    is [Adjunction]'s own shape and not [Functor]. *)
+    @{co ch cp co ch cp} against the one [Adjunction] demanded, whose hom
+    and proof levels were the SAME variable -- so what was refused there
+    was [Adjunction]'s own shape and not [Functor].  CORRECTION:
+    negative 12 is accepted since the universes of
+    rocq-prover/rocq#22721, so [Adjunction] is no longer a donor here;
+    negatives 9, 10, 11 and 13 are still refused. *)
 
 Section HomEqualsProof.
 
@@ -394,12 +405,17 @@ Fail Check (Subcategory Cu).
 
 Fail Check ([Du, Cu]).
 
-(** *** Negative 12 (FORMABILITY): [Adjunction] alone
+(** *** Negative 12 (FORMABILITY): [Adjunction] alone, no longer a
+        negative
 
     Both functors are formable at these levels ([Check Fq], [Check Uq]
-    above), so what is refused is the adjunction.  Stripped, same tail,
-    reported ON [Fq] with the two [@Functor] instances displayed. *)
+    above), so what was refused was the adjunction.  Stripped, it gave
+    the same tail, reported ON [Fq] with the two [@Functor] instances
+    displayed.  Accepted since the universes of rocq-prover/rocq#22721. *)
 
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (Fq ⊣ Uq).
 
 (** *** Negative 13 (FORMABILITY): the delivered functor inherits it

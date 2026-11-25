@@ -229,7 +229,7 @@ Generalizable All Variables.
    (Test/ProbeWord471.v).  Its universes: [free_mon_hom_iso] and
    [free_mon_sets_adjunction_hom] bind @{o so} and the three further
    levels of [FreeMonSets] (four on Coq 8.19/8.20), with no [Set], the
-   adjunction pinned to [Adjunction@{so o o so o o o o so o so}] as
+   adjunction pinned to [Adjunction@{so so o so so}] as
    Instance/Smgrp.v pins its own.  Issue #1353 records the exit: once
    [ump_universal_arrows] and [free_mon_universal] are transparent, one
    record is kept and W₀ is rebased on it.

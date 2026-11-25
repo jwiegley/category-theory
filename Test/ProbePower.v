@@ -30,6 +30,11 @@
     in this file, applied at an index strictly above [Set]; the control is
     the shipped hand-written constant at the SAME index.  The pair is what
     makes the finding a guarded claim rather than a remembered one.
+    CORRECTION (rocq-prover/rocq#22721): with the universes of that Rocq
+    change the [Program] variant is accepted at that index, and the
+    negative is kept without [Fail], marked at its command; the [About]
+    readback quoted below was measured before that change and is not
+    re-measured.
 
     (2) CONVERSION.  Three claims of Leibniz equality, all rejected for the
     same underlying reason: in this library a POWER is not an EXPONENTIAL and
@@ -43,7 +48,10 @@
     being stuck.
 
     COUNTS.  Six negatives -- three formability, three conversion -- and
-    eight numbered positive controls.
+    eight numbered positive controls.  CORRECTION (rocq-prover/rocq#22721):
+    negative 3, group (1b), is accepted since the universes of that Rocq
+    change; five negatives remain, two formability and three conversion,
+    five [Fail] commands (grep -c '^Fail' of this file).
 
     CORRECTION (#1380): the positive count covers controls 1–8 below.  It
     excludes the four added bare arity [Check]s in [BigIndex], for [Sets],
@@ -119,7 +127,7 @@ Context (X : SetoidObject@{o o}).
 Check (@power Sets@{o so} Sets_HasIndexedProducts@{o} nat X).
 
 (* Positive control 2: and so is the copower. *)
-Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o} nat X).
+Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o _ _ _} nat X).
 
 (* Negative 1: indexing by [obj[Sets]] itself is not.  [SetoidObject@{o o}]
    lives at [Type@{o+1}] while the index must live at [Type@{o}] -- the
@@ -131,14 +139,15 @@ Fail Check (@power Sets@{o so} Sets_HasIndexedProducts@{o}
               SetoidObject@{o o} X).
 
 (* Negative 2: dually for the copower. *)
-Check @Sets_HasIndexedCoproducts@{_}.
-Fail Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o}
+Check @Sets_HasIndexedCoproducts@{_ _ _ _}.
+Fail Check (@copower Sets@{o so} Sets_HasIndexedCoproducts@{o _ _ _}
               SetoidObject@{o o} X).
 
 End BigIndex.
 
 (** ** (1b) The [Program] form of the copower-of-[1] insertion is pinned to
-       [Set], and the shipped hand-written form is not *)
+       [Set], and the shipped hand-written form is not (the [Program] form
+       accepted since the universes of rocq-prover/rocq#22721) *)
 
 (* This is the variant Structure/Limit/Power/Hom.v declines to use.  It
    raises no obligation: instance resolution closes [proper_morphism] during
@@ -162,9 +171,10 @@ Check (Sets_copower_one_from J).
 (* Positive control 4: so does the isomorphism built from it. *)
 Check (Sets_copower_one J).
 
-(* Negative 3: the [Program] variant does not -- its index universe was
-   pinned to [Set] by the resolved certificate. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 3, now accepted: the [Program] variant did not -- its index
+   universe was pinned to [Set] by the resolved certificate.  Previously
+   refused with "Cannot enforce uj <= <anon> because <anon> < uj";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (probe_copower_one_from_program J).
 
 End ProgramPin.

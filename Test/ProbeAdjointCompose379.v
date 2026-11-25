@@ -58,19 +58,30 @@ Generalizable All Variables.
        identification of the three categories' hom universes at the
        mere presence of functors in BOTH directions, before any
        adjunction is formed.
+       CORRECTION: negatives 9-12 were refused with universe
+       inconsistencies; they are accepted since the universes of
+       rocq-prover/rocq#22721 and are kept, without [Fail], as accepted
+       checks.  Negative 13 is still refused.
 
    The controls beside them are what make the negatives measure
    something: [x ~> y], [id], an arbitrary endofunctor [Cu -> Cu],
    [IsIsomorphism] and the target's own four [IsIso_*] constants are all
-   ACCEPTED at the very levels where the adjunction constants are
-   rejected, so the rejection is about the adjunction vocabulary and not
-   about the section's constraint.  Every constant a negative names is
+   ACCEPTED at the very levels where the adjunction constants were
+   rejected, so the rejection was about the adjunction vocabulary and not
+   about the section's constraint (since rocq-prover/rocq#22721 the
+   adjunction constants of negatives 9-12 are accepted there too).  Every constant a negative names is
    also named outside a [Fail] -- including the identity functor [Id],
    which a first cut named only INSIDE negative 9, so that renaming it
    left the negative silently green (found by audit; the guard below
    now breaks this file under that rename); rename simulation over the
    six TARGET constants the negatives name breaks this file at a guard
    line in all six cases. *)
+
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negatives 10, 11 and 12,
+   accepted with the universes of rocq-prover/rocq#22721 under the earlier
+   declaration, are refused again and are [Fail] commands once more; the
+   counts and notes below that call them accepted predate that change. *)
 
 (* Instrument check: a name that exists nowhere must be rejected. *)
 Fail Check probe379_no_such_constant_anywhere.
@@ -255,30 +266,42 @@ Check (@IsIso_along Cu x y).
 Check (@IsIso_comp Cu x y).
 Check (@IsIso_fmap Cu Cu G x y).
 
-(* Negative 9 (FORMABILITY): the IDENTITY FUNCTOR alone identifies hom
+(* Negative 9 (FORMABILITY), now accepted: previously refused with a
+   universe inconsistency, the IDENTITY FUNCTOR alone identifying hom
    with proof.
-   This is worth isolating, because it means a probe that writes
-   [Id[Cu]] into an [Adjunction] is testing [Id] and not [Adjunction].
+   This was worth isolating, because it meant a probe that writes
+   [Id[Cu]] into an [Adjunction] was testing [Id] and not [Adjunction].
    The control immediately above -- an arbitrary endofunctor of the same
-   category, accepted -- is what separates the two. *)
-Fail Check (@Id Cu).
+   category, accepted -- is what separated the two.
+   Accepted with the universes of rocq-prover/rocq#22721. *)
+Check (@Id Cu).
 
-(* Negative 10 (FORMABILITY): [Adjunction] identifies hom with proof
-   INDEPENDENTLY
-   of that, probed here at two arbitrary endofunctors so that no [Id]
-   occurs in the command. *)
+(* Negative 10 (FORMABILITY), now accepted: previously refused with a
+   universe inconsistency, [Adjunction] identifying hom with proof
+   INDEPENDENTLY of [Id], probed here at two arbitrary endofunctors so
+   that no [Id] occurs in the command.
+   Accepted with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (@Adjunction Cu Cu G H).
 
-(* Negative 11 (FORMABILITY): so does [AdjointEquivalence] -- but it
-   CANNOT be
-   tested apart from [Adjunction], its first field being [F -| U], so
-   this is a second donor and NOT an independent cause. *)
+(* Negative 11 (FORMABILITY), now accepted: [AdjointEquivalence] was
+   previously refused with a universe inconsistency too -- but it CANNOT
+   be tested apart from [Adjunction], its first field being [F -| U], so
+   it was a second donor and NOT an independent cause.
+   Accepted with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (@AdjointEquivalence Cu Cu G H).
 
-(* Negative 12 (FORMABILITY): the target's own identity adjoint
-   equivalence inherits the identification.  It has at least the two
-   sufficient donors above -- [Id] occurs in its statement and
-   [Adjunction] in its field -- and this negative isolates neither. *)
+(* Negative 12 (FORMABILITY), now accepted: the target's own identity
+   adjoint equivalence previously inherited the identification and was
+   refused with a universe inconsistency.  It has the two donors above --
+   [Id] occurs in its statement and [Adjunction] in its field -- and
+   this probe isolated neither.
+   Accepted with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (@AdjointEquivalence_Id Cu).
 
 End HomIsProof.

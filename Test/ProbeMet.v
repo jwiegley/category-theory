@@ -18,6 +18,9 @@
 (* This file contributes exactly THREE such hits, and the surrounding prose  *)
 (* is worded to avoid the trigger words so the sweep's delta is exactly those *)
 (* three commands.                                                           *)
+(* CORRECTION (rocq-prover/rocq#22721): the Block D probe is accepted with   *)
+(* the universes of rocq-prover/rocq#22721 and no longer uses the wrapper,   *)
+(* so the file now contributes TWO such hits, not three.                     *)
 (*                                                                           *)
 (* WHAT THE VERNACULAR DOES AND DOES NOT SHOW.  It succeeds when the command  *)
 (* it wraps raises ANY error, and it does not report which one, so on its own *)
@@ -151,11 +154,18 @@ Proof. exact (ExtMetric_of_Metric_roundtrip E Hfin x y). Qed.
    u < w <= v".  If the bridge's universes are ever repaired this probe
    starts complaining, which is the intended alarm — at that point
    Instance/Met/Completion.v's disclosure should be revisited and the second
-   route taken. *)
-Fail Check (fun c : Sets => UniversalArrowIsUniversalProperty _ _ (Id[Sets]) c).
+   route taken.
+
+   CORRECTION (rocq-prover/rocq#22721): the alarm has fired.  The command
+   below, previously refused with that universe inconsistency, is accepted
+   since the universes of rocq-prover/rocq#22721, and it is no longer
+   wrapped; the revisit of Instance/Met/Completion.v's disclosure is still
+   to be done. *)
+Check (fun c : Sets => UniversalArrowIsUniversalProperty _ _ (Id[Sets]) c).
 
 (* POSITIVE CONTROL: the bridge's own statement elaborates, so the rejection
-   above is about instantiating it and not about the name being absent. *)
+   above was about instantiating it and not about the name being absent
+   (that rejection is gone since the universes of rocq-prover/rocq#22721). *)
 Check @UniversalArrowIsUniversalProperty.
 Check @univ_property_unique_up_to_unique_iso.
 

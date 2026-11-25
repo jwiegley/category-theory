@@ -291,8 +291,12 @@ End SetsExt.
 
 Section GrpLift.
 
+(* The universes are declared: the unit object of [Sets] is at the universe [gh] of the homs
+   of the category, as its cones require *)
+Universes go gh.
+
 Context {J : Category}.
-Context (K : J ⟶ Grp).
+Context (K : J ⟶ Grp@{go gh}).
 Context (L : Limit (Grp_Forget ◯ K)).
 
 Definition glim_leg (j : J) : vertex_obj[L] ~{Sets}~> grp_setoid (K j) :=
@@ -358,7 +362,7 @@ Qed.
 (** ** The unit *)
 
 Program Definition glim_unit_leg (j : J) :
-  unit_setoid_object ~{Sets}~> grp_setoid (K j) :=
+  unit_setoid_object@{gh gh} ~{Sets}~> grp_setoid (K j) :=
   {| morphism := fun _ => grp_unit (K j) |}.
 
 Lemma glim_unit_coherence {x y : J} (f : x ~{J}~> y) :
@@ -366,11 +370,11 @@ Lemma glim_unit_coherence {x y : J} (f : x ~{J}~> y) :
 Proof. intro p; simpl; apply grp_map_unit. Qed.
 
 Definition glim_unit_cone : Cone (Grp_Forget ◯ K) :=
-  @Build_Cone J Sets (Grp_Forget ◯ K) unit_setoid_object
-    (@Build_ACone J Sets unit_setoid_object (Grp_Forget ◯ K)
+  @Build_Cone J Sets (Grp_Forget ◯ K) unit_setoid_object@{gh gh}
+    (@Build_ACone J Sets unit_setoid_object@{gh gh} (Grp_Forget ◯ K)
        glim_unit_leg (@glim_unit_coherence)).
 
-Definition glim_unit_map : unit_setoid_object ~{Sets}~> vertex_obj[L] :=
+Definition glim_unit_map : unit_setoid_object@{gh gh} ~{Sets}~> vertex_obj[L] :=
   limit_med (limit_is_alimit L) glim_unit_cone.
 
 Definition glim_unit : carrier vertex_obj[L] := glim_unit_map ttt.

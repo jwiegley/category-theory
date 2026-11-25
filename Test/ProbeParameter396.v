@@ -59,6 +59,11 @@ Generalizable All Variables.
     field.  Each sits beside a CONVERSION negative (4 and 9 respectively)
     about the very two functors being copied between.
 
+    CORRECTION to the tally: FORMABILITY negatives 15, 16 and 18 are
+    accepted since the universes of rocq-prover/rocq#22721 and are kept
+    without [Fail]; negatives 17, 19 and 20 are still refused.  The counts
+    above are those of the measurement before that change.
+
     GUARD COVERAGE, measured rather than asserted.  The 21 [Fail] blocks
     mention 85 identifiers; 70 of them appear outside every [Fail], and the
     ones that do not include the 14 [Fail Definition] heads (which never
@@ -83,6 +88,12 @@ Generalizable All Variables.
     accepted (control [p396_hou_control] below).  Naming the two functors,
     as [pa_to] and [pa_from] do, is therefore a readability decision and not
     a forced one.  Nothing is pinned for it, because there is no failure. *)
+
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 16, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
 
 (** ** Instrument check
 
@@ -549,14 +560,17 @@ End DinaturalShape.
     INHERITED, and TWO donors are separated below, each sufficient ALONE:
     the PRODUCT of categories, with no adjunction and no functor pair in the
     command, and [Adjunction], with no product in the command.  [Functor] is
-    NOT a donor — it is accepted at the very levels where both negatives are
-    refused.
+    NOT a donor — it is accepted at the very levels where both negatives
+    were refused.  CORRECTION: both negatives (15, 16) are accepted since
+    the universes of rocq-prover/rocq#22721, so neither donor forces the
+    identification at these levels any more.
 
     A CORRECTION, measured.  The first build increment reported [Partial_l]
     as the second donor, on the strength of the command
     [fun (F : (Cu ∏ Cu) ⟶ Cu) (c : Cu) => Partial_l F c].  That command is
     indeed refused, but it is refused AT ITS ARGUMENT: negative 15 below
-    shows [Cu ∏ Cu] alone is already refused at these levels, so elaboration
+    showed [Cu ∏ Cu] alone was already refused at these levels (until the
+    universes of rocq-prover/rocq#22721), so elaboration
     never reaches [Partial_l] and the probe measured nothing about it.
     [Partial_l] cannot be tested apart from the product — its argument's
     type IS one — so it is NOT blamed here, and whether it identifies
@@ -582,27 +596,33 @@ Check (@Functor Cu Cu).
 Check @Product.
 Check @Partial_l.
 
-(** *** Negative 15 (FORMABILITY): the PRODUCT of categories alone
+(** *** Negative 15 (FORMABILITY), now accepted: the PRODUCT of categories
+        alone
 
-    No adjunction, no partial functor and no record in the command.  This is
-    what makes negative 16 discriminating and what disqualifies [Partial_l]
-    as a separately testable donor.  Stripped, the error ends "universe
-    inconsistency: Cannot enforce cp = ch because ch < cp". *)
+    No adjunction, no partial functor and no record in the command.  This
+    was what made negative 16 discriminating and what disqualified
+    [Partial_l] as a separately testable donor.  Previously refused, the
+    error ending "universe inconsistency: Cannot enforce cp = ch because
+    ch < cp". *)
 
-Fail Check (Cu ∏ Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (Cu ∏ Cu).
 
-(** *** Negative 16 (FORMABILITY): [Adjunction] alone
+(** *** Negative 16 (FORMABILITY), now accepted: [Adjunction] alone
 
     No product, no partial functor and no parametrized record in the
     command; the control [Check Fu] above shows both functors are formable
-    at these levels, so what is refused is the adjunction.  Stripped, the
-    error is REPORTED ON [Fu] and displays two [@Functor] instances — the
-    one [Fu] has, at [@{co ch cp co ch cp}], against the one [Adjunction]
-    demands, whose hom and proof levels are the SAME variable — and it ends
-    "universe inconsistency: Cannot enforce cp = ch because ch < cp".  The
-    position is what makes it discriminating: [Functor] is not being
-    refused, [Adjunction]'s own shape is. *)
+    at these levels, so what was refused was the adjunction.  Previously
+    refused: the error was REPORTED ON [Fu] and displayed two [@Functor]
+    instances — the one [Fu] has, at [@{co ch cp co ch cp}], against the
+    one [Adjunction] demanded, whose hom and proof levels were the SAME
+    variable — and it ended "universe inconsistency: Cannot enforce cp = ch
+    because ch < cp".  The position was what made it discriminating:
+    [Functor] was not being refused, [Adjunction]'s own shape was. *)
 
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (Fu ⊣ Uu).
 
 End HomEqualsProof.
@@ -649,7 +669,10 @@ End TwoHomLevels.
     costs NOTHING EXTRA — [UnitIntegrand] already pays the pin through its
     [Compose] before [Wedge] is mentioned.  The third negative is §H's, and
     it is reached BEFORE any class is formed: functors in both directions
-    between P and X suffice, so [AdjointOnTheRight] is not blamed. *)
+    between P and X suffice, so [AdjointOnTheRight] is not blamed.
+    CORRECTION: the [Wedge] negative (18) is accepted since the universes
+    of rocq-prover/rocq#22721, so [Wedge] is no longer a donor there; the
+    [Compose] negative (19) and §H's (20) are still refused. *)
 
 Section ParameterCollapse.
 
@@ -678,12 +701,13 @@ Check (Pu^op ⟶ Xu).
 Check @AdjointOnTheRight.
 Check @Compose.
 
-(** *** Negative 18 (FORMABILITY): [Wedge] forces ph = xh
+(** *** Negative 18 (FORMABILITY), now accepted: [Wedge] forced ph = xh
 
-    Stripped, the error ends "universe inconsistency: Cannot enforce
-    xh2 = ph because ph < xh2", reported on [Xu]. *)
+    Previously refused, the error ending "universe inconsistency: Cannot
+    enforce xh2 = ph because ph < xh2", reported on [Xu]. *)
 
-Fail Check (@Wedge Pu Xu Hf).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Wedge Pu Xu Hf).
 
 (** *** Negative 19 (FORMABILITY): [Compose] forces the SAME identification,
         independently

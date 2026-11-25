@@ -338,8 +338,12 @@ End AbSetsExt.
 
 Section AbLift.
 
+(* The universes are declared: the unit object of [Sets] is at the universe [ah] of the homs
+   of the category, as its cones require *)
+Universes ao ah.
+
 Context {J : Category}.
-Context (K : J ⟶ Ab).
+Context (K : J ⟶ Ab@{ao ah}).
 Context (L : Limit (Ab_Forget ◯ K)).
 
 Definition alim_leg (j : J) :
@@ -407,7 +411,7 @@ Qed.
 (** ** The zero *)
 
 Program Definition alim_zero_leg (j : J) :
-  unit_setoid_object ~{Sets}~> cmon_setoid (ab_cmon (K j)) :=
+  unit_setoid_object@{ah ah} ~{Sets}~> cmon_setoid (ab_cmon (K j)) :=
   {| morphism := fun _ => cmon_zero (K j) |}.
 
 Lemma alim_zero_coherence {x y : J} (f : x ~{J}~> y) :
@@ -415,11 +419,11 @@ Lemma alim_zero_coherence {x y : J} (f : x ~{J}~> y) :
 Proof. intro p; simpl; apply cmon_map_zero. Qed.
 
 Definition alim_zero_cone : Cone (Ab_Forget ◯ K) :=
-  @Build_Cone J Sets (Ab_Forget ◯ K) unit_setoid_object
-    (@Build_ACone J Sets unit_setoid_object (Ab_Forget ◯ K)
+  @Build_Cone J Sets (Ab_Forget ◯ K) unit_setoid_object@{ah ah}
+    (@Build_ACone J Sets unit_setoid_object@{ah ah} (Ab_Forget ◯ K)
        alim_zero_leg (@alim_zero_coherence)).
 
-Definition alim_zero_map : unit_setoid_object ~{Sets}~> vertex_obj[L] :=
+Definition alim_zero_map : unit_setoid_object@{ah ah} ~{Sets}~> vertex_obj[L] :=
   limit_med (limit_is_alimit L) alim_zero_cone.
 
 Definition alim_zero : carrier vertex_obj[L] := alim_zero_map ttt.

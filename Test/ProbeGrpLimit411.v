@@ -35,7 +35,10 @@ Generalizable All Variables.
    universe at all; N4 reports [eq_refl] at the wrong type, likewise with a
    [cannot unify] clause.  So N1 and N2 are told apart from N3 and N4 by the
    universe clause, and N3 from N4 by which term is ill-typed rather than by
-   the tail.
+   the tail.  CORRECTION: N1 and N2 are ACCEPTED since the universes of
+   rocq-prover/rocq#22721, so they are no longer negatives and two
+   negatives (N3, N4) remain; the messages quoted for N1 and N2 are those
+   they produced before.
 
      N1  UNIVERSE  [IsALimit] identifies the shape's hom-and-proof universe
                    with the ambient category's, so at a shape whose homs are
@@ -43,7 +46,8 @@ Generalizable All Variables.
                    refused -- while [Cone] at the very same levels is
                    ACCEPTED, which is what makes the attribution
                    discriminate: the cone vocabulary alone does not impose
-                   it.
+                   it.  CORRECTION: [IsALimit] is accepted at these levels
+                   since the universes of rocq-prover/rocq#22721.
      N2  UNIVERSE  [sets_limit_ext] is refused at those same levels, and it
                    fires at the FUNCTOR argument -- its binder has already
                    put [Sets]' carrier universe at the shape's hom level,
@@ -51,6 +55,8 @@ Generalizable All Variables.
                    reports on its four generic [Sets] constants.  N1 is what
                    attributes that identification to the donor; nothing here
                    claims [sets_limit_ext] adds one of its own.
+                   CORRECTION: [sets_limit_ext] is accepted at these levels
+                   since the universes of rocq-prover/rocq#22721.
      N3  CONVERSION  [CreatesAllLimits] and [StrictlyCreatesLimits] are
                    different types; the target ships an inhabitant of each
                    and neither is an ascription of the other.  Classified by
@@ -80,7 +86,9 @@ Generalizable All Variables.
    (which never enter the environment) and the instrument's deliberately
    absent one.  Rename-simulated 2/2 over the target constants a negative
    names -- [sets_limit_ext] and [Grp_Forget_creates_limits] -- each rename
-   breaking this file at a [Check] guard line, never inside a [Fail]. *)
+   breaking this file at a [Check] guard line, never inside a [Fail].
+   (Both counts were measured while N1 and N2 were still [Fail]s, before
+   rocq-prover/rocq#22721.) *)
 
 (** ** Instrument check *)
 
@@ -126,12 +134,16 @@ Check Ju.
 Check Fj.
 Check (@Cone Ju Sets@{so sso} Fj).
 
-(* N1: UNIVERSE -- the donor. *)
+(* N1: UNIVERSE -- the donor, no longer a negative. *)
 Check @Sets@{_ _}.
-Fail Check (@IsALimit Ju Sets@{so sso} Fj cu).
+(* Previously refused with "Cannot enforce so = jh because jh < so";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsALimit Ju Sets@{so sso} Fj cu).
 
-(* N2: UNIVERSE -- inherited; fires at the functor argument. *)
-Fail Check (@sets_limit_ext Ju Fj cu).
+(* N2: UNIVERSE -- inherited, no longer a negative.  Previously refused,
+   firing at the functor argument, with the same universe inconsistency;
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@sets_limit_ext Ju Fj cu).
 
 End UniverseBoundary.
 

@@ -535,12 +535,12 @@ Qed.
    already implied through [u0 < u] for any [u0] at or above [Set]. *)
 Program Definition Grp@{u p} : Category@{u p p} := {|
   obj     := GrpObject@{p p p};
-  hom     := GrpHom@{p};
-  homset  := @GrpHom_Setoid@{p};
-  id      := @grp_hom_id@{p};
-  compose := @grp_hom_compose@{p};
+  hom     := GrpHom@{p p p p};
+  homset  := @GrpHom_Setoid@{_ _ p p};
+  id      := @grp_hom_id@{p p};
+  compose := @grp_hom_compose@{_ _ p};
 
-  compose_respects := @grp_hom_compose_respects@{p}
+  compose_respects := @grp_hom_compose_respects@{_ _ p p}
 |}.
 Next Obligation.
   intros x y f a; simpl.

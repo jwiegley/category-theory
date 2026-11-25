@@ -13,6 +13,12 @@ Generalizable All Variables.
 
 (** * Boundary probe for the base change adjunction Σ_f ⊣ f* *)
 
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 7, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
+
 (* This file guards Construction/Slice/Pullback.v from OUTSIDE that
    module: a negative written inside a file is renamed in lockstep with
    the constant it guards and so cannot detect a rename, whereas a
@@ -40,7 +46,10 @@ Generalizable All Variables.
        carries no equation at all.  Three donors are each rejected on
        their own at levels declared apart ([Slice], [Pullback],
        [Adjunction]); [Functor] is NOT one, and is the discriminating
-       control.
+       control.  CORRECTION (rocq-prover/rocq#22721): that was the state
+       before rocq-prover/rocq#22721; with its universes the headline and
+       all three donors are accepted at those levels, so negatives 4 to 7
+       are no longer [Fail] commands.
 
    (D) The interesting measurement, and the reason the deleted stub in
        the target was wrong.  [Star_Functor f ⊣ Bang_Functor f] -- the
@@ -161,19 +170,29 @@ Check (@Functor Cu Cu).
 
 (* Controls naming, outside any rejected command, every constant the
    negatives below name -- without these a rename would leave those
-   negatives green for the wrong reason. *)
+   negatives green for the wrong reason.  (Negatives 4 to 7 below have
+   been accepted since the universes of rocq-prover/rocq#22721, so they
+   are no longer [Fail] commands and a rename now breaks them directly.) *)
 Check @Slice.
 Check @Pullback.
 Check @Adjunction.
 
-(* Negative 4 (FORMABILITY): the headline is not formable when hom and
-   proof are declared apart. *)
-Fail Check (@Base_Functor_Adjunction Cu).
+(* Negative 4 (FORMABILITY), now accepted: the headline with hom and
+   proof declared apart.  Previously refused with a universe
+   inconsistency; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@Base_Functor_Adjunction Cu).
 
-(* Negatives 5-7 (FORMABILITY): three donors, each rejected alone.
-   [Functor] above is accepted at the same levels, so it is not one. *)
-Fail Check (@Slice Cu xu).
-Fail Check (@Pullback Cu).
+(* Negatives 5-7 (FORMABILITY), now accepted: three donors, each
+   previously rejected alone with a universe inconsistency, while
+   [Functor] above was accepted at the same levels.  All three are
+   accepted since the universes of rocq-prover/rocq#22721. *)
+(* Negative 5: accepted with the universes of rocq-prover/rocq#22721. *)
+Check (@Slice Cu xu).
+(* Negative 6: accepted with the universes of rocq-prover/rocq#22721. *)
+Check (@Pullback Cu).
+(* Negative 7: accepted with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (@Adjunction Cu Cu).
 
 End Universes.

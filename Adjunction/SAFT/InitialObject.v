@@ -559,14 +559,14 @@ Defined.
 
 Definition least_of_intersection_all@{o h q +| o <= q, h <= q +}
   {C : Category@{o h h}} {x : C} (w : SubObj x)
-  (Hw : IsIntersection@{o h q} (fun m : SubObj x => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj x => m) w) :
   ∀ v : SubObj x, sub_le w v :=
   inter_le _ _ Hw.
 
 Definition intersection_all_of_least@{o h q +| o <= q, h <= q +}
   {C : Category@{o h h}} {x : C} (w : SubObj x)
   (Hw : ∀ v : SubObj x, sub_le w v) :
-  IsIntersection@{o h q} (fun m : SubObj x => m) w :=
+  IsIntersection@{o h h q} (fun m : SubObj x => m) w :=
   @Build_IsIntersection C x (SubObj x) (fun m : SubObj x => m) w
     Hw (fun v Hv => Hv w).
 
@@ -575,21 +575,21 @@ Definition intersection_all_of_least@{o h q +| o <= q, h <= q +}
 Definition special_initial_object@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   @Initial C :=
   special_initial_object_least comp G w (least_of_intersection_all w Hw).
 
 Example special_initial_object_obj@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   @initial_obj C (special_initial_object comp G w Hw) = Subobject.sub_dom w :=
   eq_refl.
 
 Example special_initial_object_zero@{o h so q +| h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w)
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w)
   (c : C) :
   @zero C (special_initial_object comp G w Hw) c
     = cogen_pullback_to comp G c
@@ -601,7 +601,7 @@ Definition special_initial_IsInitialObj@{o h so q +|
     h <= so, o <= q, h <= q +}
   {C : Category@{o h h}} (comp : @Complete@{so so h o} C)
   (G : Cogenerator@{so o h} C) (w : SubObj (cogen_prod comp G))
-  (Hw : IsIntersection@{o h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
+  (Hw : IsIntersection@{o h h q} (fun m : SubObj (cogen_prod comp G) => m) w) :
   IsInitialObj (Subobject.sub_dom w) :=
   IsInitialObj_from_Initial (special_initial_object comp G w Hw).
 
@@ -611,10 +611,10 @@ Definition HasClassIntersections@{o h p q s t k |
     o <= s, h <= s, h < t, o <= q, h <= q, p <= q,
     p < k, o <= k, h <= k, q <= k +}
   (C : Category@{o h h}) : Type@{k} :=
-  ∀ (x : C) (P : SubObj@{o h} x → Type@{p}),
+  ∀ (x : C) (P : SubObj@{o h h} x → Type@{p}),
     (∀ m m' : SubObj x, m ≈ m' → P m → P m') →
     { w : SubObj x &
-      IsIntersection@{o h q} (fun k : { m : SubObj x & P m } => `1 k) w }.
+      IsIntersection@{o h h q} (fun k : { m : SubObj x & P m } => `1 k) w }.
 
 (* The book's statement, at the class of all subobjects. *)
 Definition special_initial_object_book@{o h so p q s t k d +|

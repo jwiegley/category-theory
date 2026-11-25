@@ -33,7 +33,10 @@ Require Import Category.Theory.Equivalence.Strict.
                           or a tactic script that does not close;
                           negatives 3, 4, 6, 7 and 8.
       FORMABILITY  (4) -- "universe inconsistency: Cannot enforce ...";
-                          negatives 9 to 12.
+                          negatives 9 to 12.  CORRECTION: negatives 11
+                          and 12 are accepted since the universes of
+                          rocq-prover/rocq#22721 and are kept without
+                          [Fail]; 9 and 10 are still refused.
 
     Negative 5 was expected to be a conversion rejection and is NOT: the
     two adjunctions have different TYPES, because their left adjoints are
@@ -44,6 +47,12 @@ Require Import Category.Theory.Equivalence.Strict.
     the others left in place, the file compiled alone, and the whole error
     message read.  Every constant a negative names also appears in a
     command outside any guarded position. *)
+
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negatives 11 and 12,
+   accepted with the universes of rocq-prover/rocq#22721 under the earlier
+   declaration, are refused again and are [Fail] commands once more; the
+   counts and notes below that call them accepted predate that change. *)
 
 Generalizable All Variables.
 
@@ -279,10 +288,12 @@ Fail Check (∀ S : Au ⟶ Xu, LeftAdjointRightInverse S).
 
 End HomLevelBoundary.
 
-(* Hom is identified with proof as well, and that is a second, separate
-   donor: it is already forced by [Adjunction], whose hom-set isomorphism
+(* Hom was identified with proof as well, and that was a second, separate
+   donor: it was already forced by [Adjunction], whose hom-set isomorphism
    lives in [Sets], where a setoid's carrier and relation universes
-   coincide. *)
+   coincide.  CORRECTION: since the universes of rocq-prover/rocq#22721
+   negatives 11 and 12 below are accepted, so this identification is no
+   longer forced at these levels. *)
 
 Section HomProofBoundary.
 
@@ -297,10 +308,18 @@ Check Bu.
 Check (∀ x y : Bu, x ~{Bu}~> y).
 Check (Bu ⟶ Bu).
 
-(* NEGATIVE 11 (FORMABILITY).  The adjunction is not. *)
+(* NEGATIVE 11 (FORMABILITY), now accepted.  The adjunction was
+   previously refused with a universe inconsistency (`Cannot enforce
+   ...`).  Accepted with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (∀ F G : Bu ⟶ Bu, F ⊣ G).
 
-(* NEGATIVE 12 (FORMABILITY).  Nor, therefore, is the record. *)
+(* NEGATIVE 12 (FORMABILITY), now accepted.  The record was previously
+   refused too, through the adjunction.  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (∀ S : Bu ⟶ Bu, LeftAdjointRightInverse S).
 
 End HomProofBoundary.

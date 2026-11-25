@@ -233,6 +233,11 @@ Generalizable All Variables.
    FORMABILITY negatives against passing controls; each was stripped and
    its message read in full.  Nothing here adds to the identifications,
    and none is claimed unavoidable -- no lift was attempted.
+   CORRECTION: the two [Sets] donors (the bare hom-setoid ascribed to
+   [obj[Sets]], and the [Isomorphism] in [Sets] between an A- and an
+   X-hom-setoid) are ACCEPTED since the universes of
+   rocq-prover/rocq#22721, so they are no longer negatives; [Opposite C]
+   and [(X^op) ⟶ A] are still rejected.
 
    The witnesses are clean: [Chain3_AdjointOnTheRight] and
    [right_does_not_imply_left] carry NO [Set] anywhere, in binder or
@@ -965,7 +970,9 @@ Example lcounit_is_transpose_of_id {A X : Category}
    bar, that the class is not an abbreviation for the ordinary
    adjunction.  Negatives 4-5 report [cannot unify] on the two hom-set ↔
    unit/counit round trips.  Negatives 6-9 are FORMABILITY and live in
-   their own sections below, where the levels must be declared apart. *)
+   their own sections below, where the levels must be declared apart;
+   negatives 7 and 9 are accepted since the universes of
+   rocq-prover/rocq#22721 and are no longer negatives. *)
 
 Section Probes.
 Context {A X : Category}.
@@ -1016,7 +1023,8 @@ End Probes.
    on a missing scope delimiter instead of on the proposition. *)
 Fail Example probe_358_instrument : (true = false) := eq_refl.
 
-(* Negatives 6-7: hom = proof has TWO INDEPENDENT donors.  Section-local
+(* Negatives 6-7: hom = proof had TWO INDEPENDENT donors; negative 7 is
+   accepted since the universes of rocq-prover/rocq#22721.  Section-local
    [Universes]/[Constraint] declarations are measured not to leak (the
    Instance/Fun/Group.v precedent). *)
 Section ProbeHomProof.
@@ -1030,14 +1038,18 @@ Check (id[x]).
 
 Fail Check (Opposite C).
 
-Fail Check ({| carrier := @hom C x y; is_setoid := @homset C x y |}
+(* Negative 7, no longer a negative: previously refused with "Cannot
+   enforce up = uh because uh < up"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check ({| carrier := @hom C x y; is_setoid := @homset C x y |}
             : obj[Sets]).
 
 End ProbeHomProof.
 
-(* Negatives 8-9: A's hom = X's hom likewise has TWO INDEPENDENT donors
+(* Negatives 8-9: A's hom = X's hom likewise had TWO INDEPENDENT donors
    -- the contravariant PAIR itself, and [Sets] with no functor in the
-   command at all. *)
+   command at all; negative 9 (the [Sets] one) is accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Section ProbeCrossHom.
 Universes ao ah ap xo xh xp.
 Constraint ah < xh.
@@ -1052,7 +1064,10 @@ Check (x2 ~{X2}~> y2).
 
 Fail Check ((X2^op) ⟶ A2).
 
-Fail Check (@Isomorphism Sets
+(* Negative 9, no longer a negative: previously refused with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Isomorphism Sets
    {| carrier := @hom A2 a2 b2; is_setoid := @homset A2 a2 b2 |}
    {| carrier := @hom X2 x2 y2; is_setoid := @homset X2 x2 y2 |}).
 

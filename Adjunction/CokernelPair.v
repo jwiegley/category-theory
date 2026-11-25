@@ -193,7 +193,11 @@ Generalizable All Variables.
    each error reads "Cannot enforce cp = ch because ch < cp".  Read
    "four donors" as four sufficient causes, not as four independent
    ones: whether they share an upstream cause is not established.  None
-   is claimed unavoidable.
+   is claimed unavoidable.  CORRECTION: since the universes of
+   rocq-prover/rocq#22721 the [Arrow] and [HasEqualizers] probes are
+   accepted at those levels and are kept without [Fail], so only
+   [[Parallel, _]] and [HasPushouts] are still rejected there; the
+   [About] measurement above predates that change.
 
    ------------------------------------------------------------------
    ** Strengths, graded strict-first
@@ -242,7 +246,10 @@ Generalizable All Variables.
    universe clause) and four are FORMABILITY (the four universe donors;
    each ends "universe inconsistency: Cannot enforce cp = ch because
    ch < cp").  Each was stripped one at a time, compiled alone, and its
-   whole error read to confirm its kind.  The instrument check is a
+   whole error read to confirm its kind.  CORRECTION: two of the four
+   FORMABILITY negatives ([Arrow], [HasEqualizers]) are accepted since
+   the universes of rocq-prover/rocq#22721, so FIVE [Fail] commands
+   remain: four negatives and the instrument check.  The instrument check is a
    reference-not-found, so a [Fail] that has gone vacuous is
    distinguishable from one still firing.
 
@@ -1180,7 +1187,8 @@ End SetsWitness.
 (* The four donors of the hom-and-proof identification carried by
    [CokernelPair_Equalizer_Adjunction], each rejected ALONE at levels
    declared strictly apart, against controls accepted at those very
-   levels.  Section-local [Universes]/[Constraint] declarations do not
+   levels -- two of them, [Arrow] and [HasEqualizers], only until the
+   universes of rocq-prover/rocq#22721, with which they are accepted.  Section-local [Universes]/[Constraint] declarations do not
    leak past [End]; Instance/Fun/Group.v is the in-tree precedent for
    carrying such a probe inside a library file. *)
 
@@ -1192,16 +1200,20 @@ Context {Cu : Category@{co ch cp}}.
 Context (cx cy : Cu).
 
 (* Controls: the hom type and an identity DO elaborate at these
-   levels, so the rejections below are about the four donors. *)
+   levels, so the rejections below are about the donors. *)
 Check (cx ~{Cu}~> cy).
 Check (@id Cu cx).
 
-(* Each of the four fails with
-   "universe inconsistency: Cannot enforce cp = ch because ch < cp". *)
-Fail Check (@Arrow Cu).
+(* Each of the four failed with
+   "universe inconsistency: Cannot enforce cp = ch because ch < cp".
+   [[Parallel, Cu]] and [HasPushouts] still do; [Arrow] (just below) and
+   [HasEqualizers] are accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Arrow Cu).
 Fail Check ([Parallel, Cu]).
 Fail Check (@HasPushouts Cu).
-Fail Check (@HasEqualizers Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@HasEqualizers Cu).
 
 End UniverseProbe.
 

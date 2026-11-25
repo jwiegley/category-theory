@@ -33,7 +33,12 @@ Open Scope category_scope.
     file and compiled alone.  Every constant a negative names is also
     named by a [Check] outside every refutation command, so a rename
     breaks this file at a control line rather than turning a guard
-    vacuously green. *)
+    vacuously green.
+
+    CORRECTION (rocq-prover/rocq#22721): negatives 6, 7 and 8 are
+    accepted with the universes of rocq-prover/rocq#22721 and are no
+    longer [Fail] commands; there are now SIX refutation commands, the
+    instrument check plus negatives 1-5. *)
 
 (** ** Instrument: a refutation command must be able to fail *)
 
@@ -66,7 +71,9 @@ Check @ResIdeal.
 Check @PrincipalIdeal.
 (* [ResTower] is named by negative 7 and nowhere else; without this
    line a rename of it would turn that guard vacuously green, which
-   the rename simulation caught. *)
+   the rename simulation caught.  (Negative 7 has been accepted since
+   the universes of rocq-prover/rocq#22721, so it is no longer a [Fail]
+   and a rename now breaks it directly.) *)
 Check @ResTower.
 
 (** ** Negative 1 (CONVERSION): the carry is real
@@ -144,7 +151,11 @@ Check (fun (p : Z) (Hp : (1 < p)%Z) =>
   (Zp_digits_iso p Hp
      : @Isomorphism Sets (rig_setoid (Zp ZComm p)) (DigitSeq p))).
 
-(** ** Negatives 6-7: where the ring's three universes are identified
+(** ** Negatives 6-7: where the ring's three universes were identified
+
+    CORRECTION (rocq-prover/rocq#22721): negatives 6, 7 and 8 below are
+    accepted with the universes of rocq-prover/rocq#22721.  The rest of
+    this comment records the refusals as measured before that change.
 
     Sections (A)-(B) do NOT identify the ambient ring's carrier, relation
     and proof universes: [PrincipalIdeal], [ResIdeal] and [ResRing] are
@@ -206,17 +217,25 @@ Check (PrincipalIdeal Rc d).
 Check (ResIdeal Rc d n).
 Check (ResRing Rc d n).
 
-Fail Check (@RKills R (ResIdeal Rc d (S n)) (ResRing Rc d n)).
+(* Negative 6, now accepted: [RKills] at the section's ring.  Previously
+   refused with the instance mismatch quoted above, [RingObject@{rp ro rr}]
+   where [RingObject@{u u u}] was expected; accepted since the universes
+   of rocq-prover/rocq#22721. *)
+Check (@RKills R (ResIdeal Rc d (S n)) (ResRing Rc d n)).
 
-Fail Check (ResTower Rc d).
+(* Negative 7, now accepted: [ResTower].  Previously refused with the same
+   shape of instance mismatch at [RingComm]; accepted since the universes
+   of rocq-prover/rocq#22721. *)
+Check (ResTower Rc d).
 
-(* Negative 8 (FORMABILITY): the donor, ISOLATED.  Neither [RKills] nor
-   any constant of [Instance/Rng/Zp.v] occurs in this command -- mere
-   objecthood in [Rng] is already refused, and this is the one negative of
-   the three whose message ends in a universe clause.  An earlier revision
-   said "with negative 6's error"; re-measured, negative 6's message is a
-   plain instance mismatch and only this one carries "Cannot enforce
-   rr = ro because ro < rr". *)
-Fail Check (R : obj[Rng]).
+(* Negative 8 (FORMABILITY), now accepted: the donor, ISOLATED.  Neither
+   [RKills] nor any constant of [Instance/Rng/Zp.v] occurs in this command
+   -- mere objecthood in [Rng] was already refused, and this was the one
+   negative of the three whose message ended in a universe clause.  An
+   earlier revision said "with negative 6's error"; re-measured, negative
+   6's message was a plain instance mismatch and only this one carried
+   "Cannot enforce rr = ro because ro < rr".  Accepted since the universes
+   of rocq-prover/rocq#22721. *)
+Check (R : obj[Rng]).
 
 End UniverseBoundary.

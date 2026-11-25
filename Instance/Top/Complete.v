@@ -678,7 +678,7 @@ Constraint i <= o.
 Context (A : Type@{i}) (X : A → PTop@{o}).
 
 Definition PProd_carrier : SetoidObject@{o o} :=
-  Sets_iprod_obj@{i o o o o} (fun a => pt_carrier (X a)).
+  Sets_iprod_obj@{i o o} (fun a => pt_carrier (X a)).
 
 Definition pprod_leg (a : A) : SetoidMorphism@{o o} PProd_carrier (X a).
 Proof.

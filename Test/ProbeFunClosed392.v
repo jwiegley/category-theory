@@ -71,7 +71,14 @@ Generalizable All Variables.
    passing command outside every [Fail], below.
 
    ONE instrument check comes first, on a name that exists nowhere, so
-   that [Fail] is known to be live in this file. *)
+   that [Fail] is known to be live in this file.
+
+   CORRECTION (rocq-prover/rocq#22721): the two FORMABILITY negatives, 1
+   and 2, are accepted with the universes of rocq-prover/rocq#22721 and
+   are no longer [Fail] commands; the "Cannot enforce Set = ..." errors
+   above are the earlier state.  FIVE negatives remain, three conversion
+   and two typing, plus the instrument (six lines matching
+   grep -c '^ *Fail'). *)
 
 (** ** Instrument *)
 
@@ -148,12 +155,14 @@ Example p392_alpha_off_stage : alpha_fam 0 3 = alpha_fam 1 3 := eq_refl.
    [Initial C] is notation for [@Terminal (C^op)]. *)
 Example p392_TwoOpInitial : TwoOpInitial = Two_Terminal := eq_refl.
 
-(** ** Negative 1 (FORMABILITY): the binders on [TwoFun] are
-       load-bearing *)
+(** ** Negative 1 (FORMABILITY): the binders on [TwoFun] were
+       load-bearing (now accepted, rocq-prover/rocq#22721) *)
 
 (* The same body as the target's, written WITHOUT universe binders.
    Universe minimization then pins [Omega]'s hom and proof universes to
-   the literal [Set]. *)
+   the literal [Set].  CORRECTION (rocq-prover/rocq#22721): that reading
+   is the state before rocq-prover/rocq#22721 and was not re-measured;
+   with its universes Negative 1 below is accepted. *)
 Program Definition TwoFunUnann : Omega ⟶ FinSet := {|
   fobj := fun _ => 2%nat;
   fmap := fun _ _ f => two_map f
@@ -169,14 +178,18 @@ Constraint Set < p392h.
    [Omega]'s hom universe is declared strictly above [Set]. *)
 Check (TwoFun : @Functor Omega@{p392o p392h p392p} FinSet).
 
-(* Negative 1. *)
+(* Negative 1, now accepted: the unannotated body at levels where
+   [Omega]'s hom universe is declared strictly above [Set]. *)
 Check @Omega@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 1: previously refused with "universe inconsistency: Cannot
+   enforce Set = ..."; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (TwoFunUnann : @Functor Omega@{p392o p392h p392p} FinSet).
 
 End P392Binders.
 
-(** ** Negative 2 (FORMABILITY): the [Set] pin on the presheaf ambient *)
+(** ** Negative 2 (FORMABILITY): the [Set] pin on the presheaf ambient
+       (now accepted, rocq-prover/rocq#22721) *)
 
 Section P392SetsPin.
 
@@ -188,12 +201,14 @@ Constraint p392co < p392so.
 Check (Sets@{p392co p392so}).
 Check (_2^op).
 
-(* Negative 2: but they cannot be assembled into a functor category,
-   because [_2]'s homs are the literal [Set], [Fun] identifies its
-   source and target hom universes, and [Sets]'s hom universe IS its
-   carrier universe. *)
+(* Negative 2, now accepted: they are assembled into a functor category.
+   They previously could not be, because [_2]'s homs are the literal
+   [Set], [Fun] identifies its source and target hom universes, and
+   [Sets]'s hom universe IS its carrier universe. *)
 Check @Sets@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 2: previously refused with "universe inconsistency: Cannot
+   enforce Set = ..."; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check ([_2^op, Sets@{p392co p392so}]).
 
 (* Discriminating control: with the polymorphic [Omega] in place of
@@ -203,7 +218,11 @@ Check ([_2^op, Sets@{p392co p392so}]).
    measured out of tree and NOT pinned here, the bare functor TYPE
    [@Functor (_2^op) Sets] is formable at these very levels while the
    CATEGORY [[_2^op, Sets]] is not, so the two are co-necessary and
-   neither alone suffices.  [Sets] is measured NOT to be a donor. *)
+   neither alone suffices.  [Sets] is measured NOT to be a donor.
+   CORRECTION (rocq-prover/rocq#22721): this donor analysis describes
+   the refusal of Negative 2 before rocq-prover/rocq#22721; with its
+   universes Negative 2 is accepted, and the analysis was not
+   re-measured. *)
 Check ([Omega@{p392co p392co p392co}, Sets@{p392co p392so}]).
 
 End P392SetsPin.

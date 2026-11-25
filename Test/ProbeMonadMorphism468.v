@@ -1157,7 +1157,7 @@ Example p468_c62_sl_carrier@{o so | Set < o, o < so +}
 Example p468_c35_sl_parts@{o so | Set < o, o < so +}
   (x : @EilenbergMoore@{so so o} Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
-  (sl_set (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x),
+  (sl_set@{o} (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x),
    sl_le (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x),
    fun S => sl_sup (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x) S)
     = (sl_set (fobj[EM_induced_to_SupLat@{o so}] x),

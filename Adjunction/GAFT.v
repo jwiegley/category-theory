@@ -332,7 +332,7 @@ Defined.
        Complete@{h h h cobj}
        → PreservesImageLimit@{cobj h dobj h u0 h u1 h}
          → (∀ d : obj[D], SolutionSet@{h dobj cobj h} U d)
-           → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u1 h u} F U
+           → ∃ F : D ⟶ C, Adjunction@{cobj dobj h u1 u} F U
      (* cobj dobj h u u0 u1 |= h < u0 / h < u1
                                / cobj <= u0 / dobj <= u0 / … *)
 
@@ -464,7 +464,7 @@ Defined.
        Complete@{h h h cobj}
        → PreservesImageLimit@{cobj h dobj h u6 h u h}
          → (∀ d : obj[D], SolutionSet@{h dobj cobj h} U d)
-           → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u h u0} F U
+           → ∃ F : D ⟶ C, Adjunction@{cobj dobj h u u0} F U
      (* … |= h < u / u3 <= u1 *) *)
 Definition GAFT_via_comma_initial@{cobj dobj h +}
   {C : Category} {D : Category} (U : C ⟶ D)

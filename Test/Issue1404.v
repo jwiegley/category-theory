@@ -16,14 +16,16 @@ Example ren_yes : decided (@Ren_EqDec [] [] NoRen NoRen) = true := eq_refl.
 Example sub_yes : decided (@Sub_EqDec [] [] NoSub NoSub) = true := eq_refl.
 Example sub_lookup : get (Push (@EUnit []) NoSub) ZV = EUnit := eq_refl.
 
-(* Keep the signatures usable on sigma domains strictly above Set. *)
+(* Keep the signatures usable on sigma domains strictly above Set.  With the
+   universes of rocq-prover/rocq#22721 the signatures have no universes of
+   their own: they take [sigma@{Set}], and [sigma@{u}] is accepted there. *)
 Section Larger.
   Universe u.
   Constraint Set < u.
   Definition large_subterm (x : @Equations.Init.sigma@{u} Ty (fun _ => Ty)) : Prop :=
-    Ty_direct_subterm_sig@{u} x.
+    Ty_direct_subterm_sig x.
   Definition large_ren (x : @Equations.Init.sigma@{u} Env (fun _ => Env)) : Set :=
-    Ren_sig@{u} x.
+    Ren_sig x.
 End Larger.
 
 Definition joint_clients :=

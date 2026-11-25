@@ -20,6 +20,12 @@ Generalizable All Variables.
 
 (** * Probe for Instance/Adj/Bicategory.v *)
 
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so N16, N17 and N19, accepted
+   with the universes of rocq-prover/rocq#22721 under the earlier
+   declaration, are refused again and are [Fail] commands once more; the
+   counts and notes below that call them accepted predate that change. *)
+
 (* Mac Lane, "Categories for the Working Mathematician", 2nd ed., §IV.8,
    book p. 104 (PDF p. 113): Theorem 2, display (1), Exercise 1 and the
    closing remark; catalog ids maclane:IV.8:thm2, maclane:IV.8:ex1,
@@ -46,6 +52,13 @@ Generalizable All Variables.
    27 [Fail] commands = 1 instrument check + 26 negatives, in three kinds:
    ELEVEN conversion (N4-N11, N13-N15), FOUR typing (N1-N3, N12) and ELEVEN
    formability (N16-N26).
+
+   CORRECTION (rocq-prover/rocq#22721): that tally, and every count below
+   that depends on it (GUARD COVERAGE, make todo), was measured before
+   rocq-prover/rocq#22721.  With its universes N16, N17 and N19 are
+   accepted and are no longer [Fail] commands, so the file now has 24
+   [Fail] commands = 1 instrument check + 23 negatives, of which EIGHT are
+   formability (N18, N20-N26).  The later counts are not re-measured.
 
    ** ONE KIND DIVERGES FROM THE BRIEF'S EXPECTATION
 
@@ -74,7 +87,9 @@ Generalizable All Variables.
    own is UNKNOWN, not refuted.  This is the trap recorded for
    [MonoidObject] under issue #340, and it is stated here rather than
    glossed.  N17 and N18 are in the same position with respect to
-   [Adjunction].
+   [Adjunction].  (CORRECTION: N19 and N17 are accepted since the
+   universes of rocq-prover/rocq#22721, so the refusal located above is
+   history; N18 is still refused.)
 
    ** THE VERBATIM ERROR TAILS
 
@@ -144,6 +159,8 @@ Generalizable All Variables.
       "({| ... |} (X) {| ... |}) --> {| ... |}").
      [the two record displays are the ten [Adj] projections plus the
       [symmetry]-derived [comp_assoc_sym], written out in full]
+   [N16, N17 and N19 below are the tails BEFORE rocq-prover/rocq#22721;
+    all three are accepted since its universes.]
    N16 FORMABILITY
      The term "Fq" has type "@Functor@{co ch cp co ch cp} Du Cu"
      while it is expected to have type "@Functor@{...} ?D ?C"
@@ -205,8 +222,9 @@ Generalizable All Variables.
    separates the two is stdlib [sigT]'s missing eta is the target header's
    attribution and is not measured here.  N15 pairs with
    [Check @Adj_Bicategory], the raw-constructor build that does typecheck.
-   N16-N24 pair with five commands accepted at the very levels that refuse
-   them -- a hom-set, an identity, a functor in each direction and a
+   N16-N24 pair with five commands accepted at the very levels that refused
+   them (N16, N17 and N19 are themselves accepted since the universes of
+   rocq-prover/rocq#22721) -- a hom-set, an identity, a functor in each direction and a
    [Transform] between two functors.  N20 refutes [Compose] ALONE, with no
    adjunction and no transformation anywhere in the command, and that
    [Transform] control is accepted; so N21's refusal is ATTRIBUTED to the
@@ -642,6 +660,8 @@ Fail Definition n15 : Bicategory :=
 (*     [Compose] is a donor of it on its own -- N20 refuses [Gq (o) Fq]   *)
 (*     with no adjunction and no transformation anywhere in the command,  *)
 (*     while a [Transform] between two functors is accepted.              *)
+(*     CORRECTION: N16, N17 and N19 are accepted since the universes of   *)
+(*     rocq-prover/rocq#22721; the others here are still refused.         *)
 (* ====================================================================== *)
 
 Section P399UnivHomProof.
@@ -659,19 +679,33 @@ Check (Cu ⟶ Du).
 Check (Du ⟶ Cu).
 Check (fun Fq Gq : Cu ⟶ Du => Fq ⟹ Gq).
 
-(* -- N16.  [Adjunction] is a donor.                                     -- *)
+(* -- N16.  [Adjunction] was a donor; now accepted.                      -- *)
 
+(* N16: previously refused with "Cannot enforce cp = ch because ch < cp";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (fun (Fq : Du ⟶ Cu) (Uq : Cu ⟶ Du) => Fq ⊣ Uq).
 
-(* -- N17-N19.  [AdjObj], [Adj] and [ConjPair] inherit it.  NOTE that    -- *)
+(* -- N17-N19.  [AdjObj], [Adj] and [ConjPair] inherited it.  NOTE that  -- *)
 (* -- [AdjObj] contains an [Adjunction] and [ConjPair] two [AdjObj]s, so -- *)
 (* -- neither can be tested apart from its donor: N17-N19 record that     -- *)
 (* -- the identification reaches them, not that they add one.            -- *)
+(* -- CORRECTION: with the universes of rocq-prover/rocq#22721, N17      -- *)
+(* -- and N19 are accepted; only N18 ([Adj]) is still refused.           -- *)
 
+(* N17: previously refused with "Cannot enforce cp = ch because ch < cp";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (AdjObj Cu Du).
 
 Fail Check (Adj Cu Du).
 
+(* N19: previously refused at the [Cu] of its [AdjObj Cu Du] binder;
+   accepted since the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (fun o1 o2 : AdjObj Cu Du => @ConjPair Cu Du o1 o2).
 
 (* -- N20, N21.  [Compose] refuses on its own; [nat_hcompose] refuses    -- *)

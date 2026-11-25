@@ -133,10 +133,10 @@ Check (@Complete_FinitelyComplete FinSet
 (** ** C: universe *)
 
 (* control *)
-Check FinSet_HasEqualizers@{_ _ _}.
+Check FinSet_HasEqualizers@{_ _}.
 
 (* N5 UNIVERSE *)
-Check @FinSet_HasEqualizers@{_ _ _}.
+Check @FinSet_HasEqualizers@{_ _}.
 Fail Check FinSet_HasEqualizers@{_ _ Set _ _}.
 
 (** ** D: readbacks *)

@@ -115,7 +115,7 @@ Definition image_acone {J : Category} {G : J ⟶ C} (L : Limit G) :
    one. *)
 Definition PreservesImageLimit@{s l oJ} : Type@{s} :=
   ∀ (J : Category@{oJ h h}) (G : J ⟶ C) (L : Limit@{l oJ h oC} G) (N : Cone (U ◯ G)),
-    Unique@{hD l hD} (fun φ : vertex_obj[N] ~{D}~> U L =>
+    Unique@{hD hD l} (fun φ : vertex_obj[N] ~{D}~> U L =>
       ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x).
 
 (* Packaged apex-pinned limit whose legs are the image legs. *)

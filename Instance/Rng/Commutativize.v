@@ -182,7 +182,9 @@ Definition CommIdeal@{a c p +} (R : RingObject@{a c p}) : Ideal R := {|
 
 (** ** The quotient R/[R, R] is commutative *)
 
-Definition Commutativize@{a c p +} (R : RingObject@{a c p}) : RingObject :=
+(* The quotient is lifted to the universe [c] of the carrier, where [CRng] takes its objects: its
+   proof universe would otherwise be minimized to [Set] *)
+Definition Commutativize@{a c p +} (R : RingObject@{a c p}) : RingObject@{c c c} :=
   QuotientRing (CommIdeal R).
 
 (* The membership predicate of Instance/Rng.v's [CRng_Sub], named. *)

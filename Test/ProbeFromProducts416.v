@@ -71,6 +71,10 @@ Open Scope category_scope.
                    [Limit] and [Complete] are each refused ALONE — six
                    donors of the hom = proof identification every binder
                    in the target carries, none introduced there.
+                   CORRECTION: since the universes of
+                   rocq-prover/rocq#22721 [HasEqualizers] and
+                   [IsEqualizer] are ACCEPTED at those levels; the other
+                   four are still refused.
      N7  UNIVERSE  At a shape whose homs are declared strictly BELOW the
                    ambient category's, the diagram, a [Cone] over it and
                    the arrow index [ArrowIx] are ACCEPTED while [Limit]
@@ -87,6 +91,9 @@ Open Scope category_scope.
                    attribution to [Limit]/[IsLimitCone].  (An earlier
                    draft said it fired at the diagram argument; an audit
                    stripped the command and read the message.)
+                   CORRECTION: [pe_cone] is ACCEPTED at those levels since
+                   the universes of rocq-prover/rocq#22721; [Limit] and
+                   [IsLimitCone] are still refused.
      N8  REPAIRED, and recorded as a correction.  An earlier revision read:
                    "UNIVERSE  At a category whose hom level is declared
                    strictly above [Set], the class [HasIndexedProducts],
@@ -242,7 +249,8 @@ Fail Check (Cocomplete_from_coproducts_coequalizers HP HE).
 
 End Handedness.
 
-(** ** N6: hom = proof, six donors *)
+(** ** N6: hom = proof, six donors, two of them accepted since the
+    universes of rocq-prover/rocq#22721 *)
 
 Section HomProof.
 
@@ -257,9 +265,13 @@ Check (id[x]).
 Check (@Functor Cu Cu).
 
 Fail Check (@HasIndexedProducts Cu).
-Fail Check (@HasEqualizers Cu).
+(* N6, no longer refused: previously a universe inconsistency at these
+   levels; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@HasEqualizers Cu).
 Fail Check (@IsIndexedProduct Cu).
-Fail Check (@IsEqualizer Cu x y f f).
+(* N6, no longer refused: previously a universe inconsistency at these
+   levels; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsEqualizer Cu x y f f).
 Fail Check (@Limit Cu).
 Fail Check (@Complete Cu).
 
@@ -283,8 +295,11 @@ Check (@ArrowIx Ju).
 Fail Check (@Limit Ju Cu Fu).
 Fail Check (@IsLimitCone Ju Cu Fu).
 
-(* Inherited: fires at the diagram argument [Fu]. *)
-Fail Check (@pe_cone Ju Cu Fu).
+(* N7's [pe_cone], no longer refused.  Previously refused with [Cannot
+   enforce ch = jh] at its ambient argument [Cu] (an earlier version of
+   this comment said it fired at the diagram argument [Fu]; see N7 in the
+   header); accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@pe_cone Ju Cu Fu).
 
 End ShapeHom.
 

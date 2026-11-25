@@ -65,7 +65,7 @@ Record Reflective@{fu e oS o so h | h < e, max(o, so, h) <= fu, max(o, so) <= oS
   {C : Category@{o h h}} (S : Subcategory@{o h so h} C) : Type@{max(fu,oS)} := {
   reflective_full : Construction.Subcategory.Full@{o h so h fu} C S;
   reflector : C ⟶ Sub@{o h so h oS h} C S;
-  reflective_adj : @Adjunction@{oS h h o h h h h e h Set} _ _ reflector (Incl@{o h so h oS} C S)
+  reflective_adj : @Adjunction@{oS o h e Set} _ _ reflector (Incl@{o h so h oS} C S)
 }.
 
 Arguments reflective_full {C S} r.

@@ -145,18 +145,14 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
 
 #[export] Hint Rewrite @fmap_id : categories.
 
-(* The universes are declared: [u] for the functors and [u0] for their
-   equality, the two categories sharing their homs [h]. Inferred, [u] would be
-   the least one. *)
-#[export]
-Program Instance Functor_Setoid@{u u0 oC oD h | max(oC, oD, h) <= u, max(oC, h) <= u0}
-  {C : Category@{oC h h}} {D : Category@{oD h h}} : Setoid@{u u0} (C ⟶ D) := {
-  (* Note that it doesn't make much sense (with our definition of [Category])
-     to ask that [∀ x : C, F x = G x] and
-     [∀ (x y :C) (f : x ~> y), fmap[F] f ≈ fmap[G] f] because the second
-     condition is hard to work with in the type-system since it needs lots of
-     equality proofs. *)
-  equiv := fun F G =>
+(* Express agreement on objects by isomorphisms rather than by Leibniz
+   equalities, which would require transporting the arrows. Keep the proof
+   opaque: the setoid takes its relation from the lemma's type, so the
+   proof's universe for rewriting need not be a parameter of the setoid.
+   Both categories have the same hom level, as in the original instance. *)
+Lemma functor_equiv_equivalence@{f r co do h | max(co, do, h) <= f, max(co, h) <= r}
+  {C : Category@{co h h}} {D : Category@{do h h}} :
+  Equivalence@{f r} (fun F G : C ⟶ D =>
     (* Equality of objects in a category is taken to be a natural
        isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
@@ -195,7 +191,7 @@ Proof.
     apply e0.
 Qed.
 
-#[export] Instance Functor_Setoid@{f r co do h}
+#[export] Instance Functor_Setoid@{f r co do h | max(co, do, h) <= f, max(co, h) <= r}
   {C : Category@{co h h}} {D : Category@{do h h}} : Setoid@{f r} (C ⟶ D) := {
   setoid_equiv := @functor_equiv_equivalence C D
 }.

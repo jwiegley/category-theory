@@ -240,7 +240,7 @@ Definition continuous_Set_functor_representable_at@{o h dp cp w s t su pl pa +|
   Representable@{o h _} K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont
-       (saft_solution_set_at@{o su h h dp cp w s t pl pa h}
+       (saft_solution_set_at@{o su h h dp cp w s t pl pa h _}
           K comp cont G SetsOne W)).
 
 (** ** Riehl 4.7.13: the SAFT hypotheses give cocompleteness *)

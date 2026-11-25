@@ -51,6 +51,9 @@
     The identical commands at 4 and 5 succeed on ordinary Rocq 9.1.1
     and the patched 9.1.1 stand-in; their [Fail] wrappers reject.
     Both already succeeded on the stand-in before either donor repair.
+    CORRECTION (rocq-prover/rocq#22721): NEGATIVES 6 and 7 are accepted
+    with the universes of that Rocq change and are kept without [Fail],
+    so five [Fail] commands remain (same [grep -c '^Fail'] count).
 
     A REAL FALSE PASS WAS CAUGHT WHILE WRITING THIS FILE and is recorded
     because the lesson is general: the wedge probe was first written
@@ -230,20 +233,24 @@ End SetPin.
 Check (fun M N : AbObject => Ab_Biproduct M N).
 Check (fun (R : RingObject) (M N : RModObject R) => RMod_Biproduct M N).
 
-(** ** Formability negatives: hom and proof universes are identified *)
+(** ** Former formability negatives: hom and proof universes were
+       identified *)
 
-(* [Cartesian@{u u0}] takes a [Category@{u u0 u0}] — the hom and proof
-   universes are IDENTIFIED, not merely bounded — so the bridge of
-   Structure/Biproduct/Cartesian.v inherits that and cannot be stated over
-   a category whose two levels have been declared apart.  The probe
+(* [Cartesian@{u u0}] took a [Category@{u u0 u0}] — the hom and proof
+   universes were IDENTIFIED, not merely bounded — so the bridge of
+   Structure/Biproduct/Cartesian.v inherited that and could not be stated
+   over a category whose two levels have been declared apart.
+   CORRECTION: since the universes of rocq-prover/rocq#22721 both probes
+   of this section (NEGATIVES 6 and 7) are accepted at separated levels.  The probe
    declares them SEPARATELY (with [Constraint uh < up]) rather than
    letting an unannotated definition minimize them together, which would
    read as an identification when it was only a bound.
 
-   ATTRIBUTION: this is NOT introduced by [Cartesian], and negative 7
-   shows it — the identification is already present at
-   Structure/Terminal.v's [Terminal], upstream of everything here.  It is
-   a shape of the [Structure/] hierarchy, inherited and not created. *)
+   ATTRIBUTION: this was NOT introduced by [Cartesian], and negative 7
+   showed it — the identification was already present at
+   Structure/Terminal.v's [Terminal], upstream of everything here.  It
+   was a shape of the [Structure/] hierarchy, inherited and not
+   created. *)
 
 Section SeparatedLevels.
 
@@ -254,19 +261,23 @@ Constraint uh < up.
    separated levels. *)
 Check (fun (C : Category@{uo uh up}) (x y : obj[C]) => x ~{C}~> y).
 
-(* NEGATIVE 6 (formability, universe inconsistency:
-   "Cannot enforce up = uh"). *)
+(* NEGATIVE 6 (formability), now accepted: previously refused with a
+   universe inconsistency ("Cannot enforce up = uh"). *)
 Check @Category@{_ _ _}.
-Fail Check (fun C : Category@{uo uh up} => @Cartesian C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun C : Category@{uo uh up} => @Cartesian C).
 
-(* NEGATIVE 7 (formability, same, at the upstream donor — the attribution
-   probe). *)
-Fail Check (fun C : Category@{uo uh up} => @Terminal C).
+(* NEGATIVE 7 (formability, at the upstream donor — the attribution
+   probe), now accepted: previously refused with the same universe
+   inconsistency.  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun C : Category@{uo uh up} => @Terminal C).
 
 End SeparatedLevels.
 
-(* Controls for negatives 6 and 7: both classes are of course formable
-   when the two levels are not forced apart. *)
+(* Controls for negatives 6 and 7 (accepted since rocq-prover/rocq#22721
+   at separated levels too): both classes are of course formable when the
+   two levels are not forced apart. *)
 Check (fun C : Category => @Cartesian C).
 Check (fun C : Category => @Terminal C).
 

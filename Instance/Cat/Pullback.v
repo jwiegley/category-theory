@@ -177,11 +177,16 @@ Generalizable All Variables.
    here; it is not claimed unavoidable, and no rearrangement was attempted.
    [Slice_IsPullback] and [Coslice_IsPullback] are over
    [C : Category@{u u0 u0}] with no [Set] anywhere in their blocks.
-   [FP_uniqueness_forces_UIP@{u u0 u1 u2}] has its hypothesis quantified
-   over [Category@{u0 Set Set}] -- hom and proof pinned at [Set], which
-   WEAKENS the hypothesis and so strengthens the theorem -- with the
-   conclusion [∀ X : Type@{u}], [u <= u0]; the pin is the witnesses' doing
-   ([Indiscrete] has [hom := unit], and [_1] is instantiated to match).
+   [FP_uniqueness_forces_UIP@{u u0 u1 u2 u3 u4 u5}] has its hypothesis
+   quantified over [A : Category@{u u4 u4}], [B : Category@{u0 u4 u4}] and
+   [C : Category@{u1 u4 u4}], three object universes below the object
+   universe [u2] of [StrictCat], with the conclusion [∀ X : Type@{u3}],
+   [u3 <= u1]: [X] is the object type of the indiscrete corner [C].  (An
+   earlier revision of this sentence read [FP_uniqueness_forces_UIP@{u u0 u1
+   u2}], quantified over [Category@{u0 Set Set}], with [∀ X : Type@{u}] and
+   [u <= u0], and a later one found every universe of the statement pinned
+   to [Set] through the [StrictCat] of [loop_functor_fst]'s statement;
+   measured by [About].)
    [FibreProduct_not_Cat_pullback] carries [Set < u] and [Set < u3], the
    ordinary price of a concrete witness.  Every category binder above
    displays hom and proof at one level; that identification was not probed

@@ -47,7 +47,10 @@
     [u0 < u], so neither it nor [Rng] can be substituted.  The passages,
     the round-trip lemmas and [kernel_representation] carry no such
     restriction and DO instantiate at [Ab]; the positive controls below
-    are that pair.
+    are that pair.  CORRECTION: since the universes of
+    rocq-prover/rocq#22721 both bundled isomorphisms are accepted at [Ab]
+    and [Rng] too (the two former negatives of section (3) below), so the
+    restriction is no longer observed at those categories.
 
     (4) THE TWO PRESHEAVES ARE DISTINCT TYPES.  [KillPresheaf f] and
     [ForkPresheaf f zmor] are naturally isomorphic ([kill_fork_iso]) with
@@ -187,27 +190,31 @@ Check (fun (C : Category) (ZM : ZeroMorphisms C) (x y : C) (f : x ~> y)
 Check (fun (C : Category) (x y : C) (f g : x ~> y) (k : C) =>
          @equalizer_universal_element_iso C x y f g k).
 
-(** Negative: neither instantiates at a concrete algebraic category.
-    These are UNIVERSE INCONSISTENCIES, not unification failures.
-    Stripped, the first reports that [Ab] "has type
-    Category@{a b b} while it is expected to have type Category@{c d d}",
-    followed by "universe inconsistency: Cannot enforce b = d because
-    b < a <= d" -- i.e. [Ab]'s own declaration [Ab@{u u0}] with [u0 < u]
-    (objects strictly above homs) is exactly what is refused.  [@] is used
-    throughout so that no implicit argument can make a command fail for an
-    unrelated reason. *)
+(** Formerly negatives, now accepted: both instantiate at a concrete
+    algebraic category.  They were previously refused with UNIVERSE
+    INCONSISTENCIES, not unification failures: stripped, the first
+    reported that [Ab] "has type Category@{a b b} while it is expected to
+    have type Category@{c d d}", followed by "universe inconsistency:
+    Cannot enforce b = d because b < a <= d" -- i.e. [Ab]'s own
+    declaration [Ab@{u u0}] with [u0 < u] (objects strictly above homs)
+    was exactly what was refused.  Both are accepted with the universes of
+    rocq-prover/rocq#22721.  [@] is used throughout so that no implicit
+    argument can make a command fail for an unrelated reason. *)
 
-Fail Check (fun (A B : AbObject) (f : A ~{Ab}~> B) (k : Ab) =>
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (A B : AbObject) (f : A ~{Ab}~> B) (k : Ab) =>
               @kernel_universal_element_iso Ab
                 (ZeroMorphisms_of_ZeroObject Ab_Zero) A B f k).
 
-Fail Check (fun (R S : Rng) (u v : R ~{Rng}~> S) (k : Rng) =>
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (R S : Rng) (u v : R ~{Rng}~> S) (k : Rng) =>
               @equalizer_universal_element_iso Rng R S u v k).
 
 (** Positive control, immediately: the universe-free forms DO reach [Ab],
     and so does the representability statement.  This is the pair that
-    makes the restriction a measured fact about the bundled packaging
-    rather than about the theorem. *)
+    made the restriction a measured fact about the bundled packaging
+    rather than about the theorem, while the two checks above were
+    refused (before rocq-prover/rocq#22721). *)
 
 Check (fun (A B : AbObject) (f : A ~{Ab}~> B) => ab_kernel_aue f).
 Check (fun (A B : AbObject) (f : A ~{Ab}~> B) => ab_kernel_representation f).

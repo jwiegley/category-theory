@@ -4,6 +4,9 @@
     (issue #317; Mac Lane §III.2 Exercise 1, printed p. 62).  Those files make
     strength claims of two DIFFERENT kinds, and this file pins both.  **If the
     [Fail] commands below stop failing, this file breaks the build.**
+    CORRECTION (rocq-prover/rocq#22721): the six group (1) negatives are
+    accepted with the universes of rocq-prover/rocq#22721 and are no
+    longer under [Fail]; the two [Fail] commands left are group (2)'s.
 
     THE TWO KINDS ARE NOT THE SAME AND ARE NOT DESCRIBED WITH ONE WORD.
 
@@ -17,7 +20,11 @@
     whose printed BINDER shows [Category@{u u0 u0}] and whose CONSTRAINT BLOCK
     carries [u = u0].  The rejections in group (1) are UNIVERSE
     INCONSISTENCIES: the term is not formable at all, not merely
-    non-convertible.
+    non-convertible.  CORRECTION (rocq-prover/rocq#22721): this paragraph
+    describes the donors as they were minimized before
+    rocq-prover/rocq#22721; with its universes the six group (1)
+    commands are accepted, and the binder and constraint block quoted
+    above are not re-measured.
 
     The point of the group is that Functor/Representable.v does NOT inherit
     that pin, so the controls are as load-bearing as the negatives: the
@@ -34,7 +41,11 @@
     inside a section whose category is annotated [Category@{uo uh uh}]
     succeeds, and controls 7 and 8 are those two re-derivations performed
     here, so that negatives 1-3 are pinned as facts about the CONSTANTS.
-    Nothing in this development repairs the donors.
+    Nothing in this development repairs the donors.  CORRECTION
+    (rocq-prover/rocq#22721): with the universes of rocq-prover/rocq#22721
+    the donors themselves reach that category, negatives 1-6 being
+    accepted, so the controls now show the development formable where the
+    donors are too, not where they are rejected.
 
     (2) CONVERSION.  Two claims of Leibniz equality are rejected because the
     two sides carry a different number of [fmap] applications, while the
@@ -59,7 +70,12 @@
     uo = ..." while unifying the [Copresheaves] and [Fun] spellings of the
     functor category, and two "cannot unify" conversion errors for group (2).
     The import list is Functor/Representable/Functorial.v's own, in that
-    file's order, plus both target files. *)
+    file's order, plus both target files.  CORRECTION
+    (rocq-prover/rocq#22721): the six group (1) negatives are accepted
+    since the universes of rocq-prover/rocq#22721 and their [Fail] was
+    removed; two [Fail] commands remain (by [grep -c '^Fail']), the
+    group (2) conversion negatives 7 and 8, and the twelve controls are
+    unchanged. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -84,8 +100,9 @@ Generalizable All Variables.
 (** ** (1) The donors' universe restriction, and the escape from it
 
     A category whose object universe is declared STRICTLY BELOW its hom
-    universe.  The Yoneda donors do not reach it; the induced-arrow
-    development does. *)
+    universe.  The Yoneda donors did not reach it before the universes of
+    rocq-prover/rocq#22721, and do with them (negatives 1-6, now accepted);
+    the induced-arrow development does. *)
 
 Section ObjectsBelowHoms.
 
@@ -95,8 +112,9 @@ Constraint uo < uh.
 Context (C : Category@{uo uh uh}).
 
 (* Control 1: the curried hom-functor itself is formable here — so what the
-   negatives reject is the fullness/faithfulness packaging, not [Curried_Hom]
-   and not the [[C, Sets]] target. *)
+   negatives rejected, before the universes of rocq-prover/rocq#22721, was
+   the fullness/faithfulness packaging, not [Curried_Hom] and not the
+   [[C, Sets]] target. *)
 Check (Curried_Hom C).
 
 (* Control 2: so is the [Representable] class, which is what makes the
@@ -114,43 +132,53 @@ Check (fun (K K' : C ⟶ Sets) (R : Representable K) (R' : Representable K')
            (i : K ≅[Fun] K') => repr_induced_iso R R' i).
 Check (fun c : C => Hom_Representable c).
 
-(* Negative 1: faithfulness of the Yoneda embedding is not formable here. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 1, now accepted: faithfulness of the Yoneda embedding.  Previously
+   refused with "Cannot enforce uh = uo because uo < uh"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (Yoneda_Faithful C).
 
-(* Negative 2: neither is fullness... *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 2, now accepted: fullness.  Previously refused with
+   "Cannot enforce uh = uo because uo < uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Yoneda_Full C).
 
-(* ...and negative 3, therefore neither is the packaged hom-bijection the
-   issue suggested routing through. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 3, now accepted: the packaged hom-bijection the issue
+   suggested routing through.  Previously refused with
+   "Cannot enforce uh = uo because uo < uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (fun c d : C => Yoneda_Embedding' C c d).
 
-(* Negative 4: the pin propagates to [repr_pair_iso], which consumes
-   [Yoneda_Embedding'] — so it is the DONORS' restriction and not something
-   Functor/Hom/Yoneda/Iso.v introduces. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 4, now accepted: [repr_pair_iso], which consumes
+   [Yoneda_Embedding'] and inherited its pin — the DONORS' restriction and
+   not something Functor/Hom/Yoneda/Iso.v introduced.  Previously refused
+   with "Cannot enforce uo = ..." while unifying the [Copresheaves] and
+   [Fun] spellings of the functor category; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Check (fun (F : C ⟶ Sets) (c v : C)
                 (b1 : [Hom c,─] ≅[Fun] F) (b2 : [Hom v,─] ≅[Fun] F) =>
               repr_pair_iso b1 b2).
 
-(* Negative 5: ...and thence to Functor/Representable/Functorial.v's
-   cross-link, whose printed binder does NOT show the identification. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 5, now accepted: Functor/Representable/Functorial.v's
+   cross-link, to which the pin propagated though its printed binder did
+   NOT show the identification.  Previously refused with
+   "Cannot enforce uh = uo because uo < uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (repr_pair_iso_from_is_induced C).
 
-(* Negative 6 is negative 1 one application further in: the projection out of
-   the instance is rejected too, for the same reason.  It earns its place by
-   pairing with control 7, which inhabits the very same class at this very
-   category — so what is rejected is the CONSTANT [Yoneda_Faithful], not the
-   claim that [Curried_Hom C] is faithful here. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 6, now accepted: negative 1 one application further in, the
+   projection out of the instance, rejected too for the same reason.  It
+   earned its place by pairing with control 7, which inhabits the very same
+   class at this very category — so what was rejected was the CONSTANT
+   [Yoneda_Faithful], not the claim that [Curried_Hom C] is faithful here.
+   Previously refused with "Cannot enforce uh = uo because uo < uh"; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Check (@fmap_inj _ _ (Curried_Hom C) (Yoneda_Faithful C)).
 
 (* Controls 7 and 8: the same two proof scripts, copied verbatim from
-   Functor/Hom.v and run here, succeed.  This is what makes negatives
-   1-3 a statement about minimization rather than about mathematics. *)
+   Functor/Hom.v and run here, succeed.  This is what made negatives
+   1-3 a statement about minimization rather than about mathematics;
+   CORRECTION (rocq-prover/rocq#22721): with its universes negatives 1-3
+   are accepted. *)
 Definition probe_faithful_rederived : Functor.Faithful (Curried_Hom C).
 Proof.
   constructor.

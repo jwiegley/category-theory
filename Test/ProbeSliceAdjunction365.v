@@ -49,7 +49,15 @@ Generalizable All Variables.
    between two inhabitants of one type, with the body reporting one
    whole [Adjunction] type as found and another as expected.  The
    instrument check is itself a plain typing mismatch with no "cannot
-   unify" at all. *)
+   unify" at all.
+
+   CORRECTION (rocq-prover/rocq#22721): with the universes of
+   rocq-prover/rocq#22721, formability negatives 1 to 4 ([Slice],
+   [Coslice], [Cartesian], [IsTerminalObj]) are accepted and are no
+   longer [Fail] commands.  The counts above are those before that
+   change; there are now eight negatives (two formability, negatives 5
+   and 6, still ending "Cannot enforce up = uh because uh < up") and
+   nine [Fail] commands. *)
 
 (** ** Instrument check: the harness reports a genuine rejection *)
 
@@ -71,7 +79,12 @@ Fail Check (1 = true).
    each with "Cannot enforce up = uh because uh < up", and so is the
    target's own [Coslice_Proj], which inherits it from [Coslice].
    Nothing in the target introduces the identification, and none of the
-   five is claimed unavoidable. *)
+   five is claimed unavoidable.
+
+   CORRECTION (rocq-prover/rocq#22721): the above is the state before
+   rocq-prover/rocq#22721.  With its universes, [Slice], [Coslice],
+   [Cartesian] and [IsTerminalObj] are accepted at those levels; only
+   [IsInitialObj] and [Coslice_Proj] are still refused. *)
 
 Section UniverseBoundary.
 
@@ -87,18 +100,26 @@ Check Cu.
 Check (xu ~> yu).
 Check (id[xu]).
 
-(* Negative 1 (formability): the slice construction. *)
-Fail Check (@Slice Cu xu).
+(* Negative 1 (formability), now accepted: the slice construction.
+   Previously refused with "Cannot enforce up = uh because uh < up";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@Slice Cu xu).
 
-(* Negative 2 (formability): the coslice construction. *)
-Fail Check (@Coslice Cu xu).
+(* Negative 2 (formability), now accepted: the coslice construction.
+   Previously refused with "Cannot enforce up = uh because uh < up";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@Coslice Cu xu).
 
-(* Negative 3 (formability): the cartesian class -- hence also
-   [Cocartesian], which is that class read at the opposite category. *)
-Fail Check (@Cartesian Cu).
+(* Negative 3 (formability), now accepted: the cartesian class.
+   Previously refused with "Cannot enforce up = uh because uh < up", and
+   with it [Cocartesian], which is that class read at the opposite
+   category; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@Cartesian Cu).
 
-(* Negative 4 (formability): the object-level terminality predicate. *)
-Fail Check (@IsTerminalObj Cu xu).
+(* Negative 4 (formability), now accepted: the object-level terminality
+   predicate.  Previously refused with "Cannot enforce up = uh because
+   uh < up"; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsTerminalObj Cu xu).
 
 (* Negative 5 (formability): its initial dual. *)
 Fail Check (@IsInitialObj Cu xu).

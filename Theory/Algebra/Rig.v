@@ -296,12 +296,12 @@ Qed.
    [Rig@{u p} : Category@{u p p}] with the one new constraint [Set < u]. *)
 Program Definition Rig@{u p} : Category@{u p p} := {|
   obj     := RigObject@{p p p};
-  hom     := RigHom@{p};
-  homset  := @RigHom_Setoid@{p};
-  id      := @rig_hom_id@{p};
-  compose := @rig_hom_compose@{p};
+  hom     := RigHom@{p p p p};
+  homset  := @RigHom_Setoid@{_ _ p p};
+  id      := @rig_hom_id@{p p};
+  compose := @rig_hom_compose@{_ _ _ _ p p};
 
-  compose_respects := @rig_hom_compose_respects@{p}
+  compose_respects := @rig_hom_compose_respects@{_ _ _ _ p p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -607,12 +607,12 @@ Qed.
 (* Pinned for the same reason as [Rig] above. *)
 Program Definition Ring@{u p} : Category@{u p p} := {|
   obj     := RingObject@{p p p};
-  hom     := fun R S => RigHom@{p} R S;
-  homset  := fun R S => @RigHom_Setoid@{p} R S;
-  id      := fun R => @rig_hom_id@{p} R;
-  compose := fun _ _ _ f g => rig_hom_compose@{p} f g;
+  hom     := fun R S => RigHom@{p p p p} R S;
+  homset  := fun R S => @RigHom_Setoid@{_ _ p p} R S;
+  id      := fun R => @rig_hom_id@{p p} R;
+  compose := fun _ _ _ f g => rig_hom_compose@{_ _ _ _ p p} f g;
 
-  compose_respects := fun _ _ _ => @rig_hom_compose_respects@{p} _ _ _
+  compose_respects := fun _ _ _ => @rig_hom_compose_respects@{_ _ _ _ p p} _ _ _
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.

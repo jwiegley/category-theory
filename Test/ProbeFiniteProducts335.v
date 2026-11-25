@@ -27,7 +27,13 @@
     8-10.  The instrument check below guarantees [Fail] is live.  The
     import list is the target's own; a shortened one would let these pass
     vacuously.  The measured rename-simulation score is at the end, over
-    the constants the NEGATIVES name and no others. *)
+    the constants the NEGATIVES name and no others.
+
+    CORRECTION (rocq-prover/rocq#22721): negatives 8 ([Cartesian]) and 9
+    ([Terminal]) are accepted with the universes of
+    rocq-prover/rocq#22721 and are no longer [Fail] commands; of the
+    FORMABILITY kind only negative 10 ([IsIndexedProduct]) is still
+    refused.  The paragraphs above record the state before that change. *)
 
 Require Import Coq.Vectors.Fin.
 
@@ -159,9 +165,11 @@ End Positives.
 (** ** Negatives 8-10 (FORMABILITY, universe)
 
     A DIFFERENT KIND from 1-7.  With C's hom universe declared strictly
-    below its proof universe, all three donors are rejected -- so the
-    hom-and-proof identification the target inherits has three
-    independent sources and cannot be attributed to any single one. *)
+    below its proof universe, all three donors were rejected -- so the
+    hom-and-proof identification the target inherited had three
+    independent sources and could not be attributed to any single one.
+    CORRECTION: with the universes of rocq-prover/rocq#22721, negatives 8
+    and 9 are accepted; only negative 10 is still refused. *)
 
 Section UniverseIdentification.
 
@@ -174,8 +182,14 @@ Context (C : Category@{uo uh up}).
    below are about the three donors and not about C itself. *)
 Check (fun x y : C => x ~{C}~> y).
 
-Fail Check (@Cartesian C).
-Fail Check (@Terminal C).
+(* Negative 8, now accepted: [Cartesian].  Previously refused with a
+   universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Cartesian C).
+(* Negative 9, now accepted: [Terminal].  Previously refused with a
+   universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Terminal C).
 (* The category argument is given EXPLICITLY.  Written with [C] left
    implicit, this [Fail] fired on an unresolved evar ("expected to have
    type A → obj[?C]") rather than on the universe identification -- a
@@ -221,6 +235,8 @@ Check Cocartesian_Initial_HasFiniteCoproducts.
       Negatives 4-6:  [HasFiniteProducts_Terminal] (with the above)
       Negative  7:    [fin3], [awodey_prod]
       Negatives 8-10: [Cartesian], [Terminal], [IsIndexedProduct]
+                      (8 and 9 accepted since the universes of
+                      rocq-prover/rocq#22721, so no longer in a [Fail])
 
     That is TEN.  The denominator is not padded with control-only names:
     [fin_proj], [awodey_fold_iso], [HasFiniteProducts] and every constant

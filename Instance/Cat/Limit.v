@@ -429,8 +429,8 @@ End Equalizer.
    categories, [u] and [u0] for those of [StrictCat], [q] for the uniqueness of
    identity proofs. *)
 Definition StrictCat_HasEqualizers@{h u u0 o q | max(o, h) < u, max(o, h) <= u0 +}
-  (uip : ∀ C : Category@{o h h}, ObjUIP@{o q h} C) :
-  HasEqualizers@{u u0} StrictCat@{u u0 o h}.
+  (uip : ∀ C : Category@{o h h}, ObjUIP@{o h q h} C) :
+  HasEqualizers@{u u0 u0} StrictCat@{u u0 o h}.
 Proof.
   constructor; intros C D F G.
   exists (EqCat F G), (EqIncl F G).

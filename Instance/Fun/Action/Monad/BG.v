@@ -266,7 +266,7 @@ Generalizable All Variables.
    constants, θ* and the eight that mention it ([tie_alg_fun] among them;
    measured again by putting the [simpl]s back in a copy of this file); the
    [simpl]s were removed and the bound is gone.  The adjunction is
-   [Adjunction@{so o o so o o o o so o so}] and the witness
+   [Adjunction@{so so o so so}] and the witness
    [Monadic@{so so so so so o so so}], as in Instance/Fun/Action/Monad.v.
 
    NOT DELIVERED.
@@ -762,7 +762,7 @@ Definition GSet_BG_Monadic_Grp@{o so}
    carrier's ≈ be a proposition. *)
 Definition GSet_BG_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
-  (GO : @GroupObject@{so o} Sets@{o so} Sets_CartesianMonoidal X) :
+  (GO : @GroupObject@{so o o} Sets@{o so} Sets_CartesianMonoidal X) :
   @Monadic@{so so so so so o so}
     (SetBG@{o so}
        (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO)))

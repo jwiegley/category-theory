@@ -27,6 +27,10 @@
      Each was stripped ONE AT A TIME, with the others left as [Fail], and
      compiled alone; the whole error was read and the place it fires
      confirmed.
+     CORRECTION: NEGATIVE 6 (FORMABILITY) is no longer a negative: its
+     four commands, previously refused with a universe inconsistency, are
+     accepted since the universes of rocq-prover/rocq#22721, so six
+     negatives remain.
    - Positive controls beside each negative.
    - Non-vacuity for one of the two quadrants of Theorem 1, and the
      honest scope of the other.
@@ -251,17 +255,23 @@ Check (@id Cu u).
 Check (g ∘ @id Cu u).
 Check @Retraction.
 
-(* NEGATIVE 6 (FORMABILITY).  [Epic] alone identifies hom with proof, so
-   it is rejected where the hom and proof universes are declared strictly
-   apart.  Stripped and compiled alone it ends "universe inconsistency".
-   [Monic], [Section] and [Retraction] are rejected at the same levels;
-   they are listed here as further [Fail]s rather than as separate
-   numbered negatives, since they measure the same identification. *)
+(* NEGATIVE 6 (FORMABILITY), now accepted.  Previously [Epic] alone
+   identified hom with proof, so it was rejected where the hom and proof
+   universes are declared strictly apart: stripped and compiled alone it
+   ended "universe inconsistency", and [Monic], [Section] and
+   [Retraction] were rejected at the same levels (listed as further
+   [Fail]s rather than as separate numbered negatives, since they
+   measured the same identification).  All four are accepted at these
+   levels since the universes of rocq-prover/rocq#22721. *)
 
-Fail Check (@Epic Cu u v g).
-Fail Check (@Monic Cu u v g).
-Fail Check (@Section Cu u v g).
-Fail Check (@Retraction Cu u v g).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Epic Cu u v g).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Monic Cu u v g).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Section Cu u v g).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Retraction Cu u v g).
 
 End HomProofDonor.
 

@@ -40,6 +40,12 @@ Generalizable All Variables.
      2 CONVERSION   (5, 6)
      3 TYPING       (7, 8, 9)
 
+   CORRECTION (rocq-prover/rocq#22721): 4a, 4b and 4c are accepted with
+   the universes of rocq-prover/rocq#22721 and are no longer [Fail]
+   commands, so the file now has 1 instrument check + 11 negatives
+   (twelve lines matching grep -c '^ *Fail'): 6 FORMABILITY (1a, 1b,
+   1c, 1d, 2, 3), 2 CONVERSION, 3 TYPING.
+
    The probe mirrors the target's FULL Require list -- a short prefix is
    what makes a negative pass for the wrong reason -- plus
    Instance/Fun/Closed.v and Instance/Two.v for the unconditional
@@ -54,7 +60,8 @@ Generalizable All Variables.
    keyword [Fail] itself, the five [probe718_*] names DECLARED by a
    refutation command (which therefore never enter the environment), and
    the instrument's deliberately absent name.  No bound variable is among
-   them.
+   them.  CORRECTION (rocq-prover/rocq#22721): these identifier counts
+   predate the removal of the [Fail] of 4a-4c and were not re-measured.
 
    RENAME SIMULATION, 3/3.  Exactly three TARGET constants are named
    inside a refutation command -- [PshExp], [presheaf_exp_iso] and
@@ -222,7 +229,10 @@ Check pq_point_distinct_unconditional.
 
    -- object, hom AND proof identified, where the shipped instance reads
    [forall C : Category@{o h h}, Closed@{so h u}] with block
-   [h < so, h < u, o <= h, o <= so].  Negative 4c uses this clone. *)
+   [h < so, h < u, o <= h, o <= so].  Negative 4c uses this clone.
+   CORRECTION (rocq-prover/rocq#22721): that readback predates
+   rocq-prover/rocq#22721 and was not re-measured; with its universes
+   Negative 4c is accepted. *)
 Program Definition probe718_closed_unannotated (C : Category) :
   @Closed ([C^op, Sets])
     (@Functor_Category_Cartesian (C^op) Sets Sets_Cartesian) := {|
@@ -358,26 +368,26 @@ Check (presheaf_exp_iso Xr Pr Qr).
 Check (Functor_Category_Closed Cr).
 Check (Functor_Category_Closed_cov Cr).
 
-(* NEGATIVE 4a, 4b (FORMABILITY).  [Yoneda_Lemma] is declared over
-   [Category@{u0 u0 u0}] and is refused at that very C, with
-   "Cannot enforce oD = coD because coD < oD".  [yoneda_natural_pre] is
-   refused identically.  So a route through the Yoneda LEMMA would have
-   narrowed the theorem, which is the measured content of the header's
-   route paragraph. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 4a, 4b (FORMABILITY), now accepted.  [Yoneda_Lemma] at that
+   very C was previously refused with "Cannot enforce oD = coD because
+   coD < oD", and [yoneda_natural_pre] identically, so a route through
+   the Yoneda LEMMA would have narrowed the theorem, which is the
+   measured content of the header's route paragraph.  4a: accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Check (@Yoneda_Lemma Cr Pr).
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 4b, now accepted: previously refused with the same message;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (yoneda_natural_pre Cr).
 
-(* NEGATIVE 4c (FORMABILITY).  The UNANNOTATED clone of the instance is
-   refused here too, with the same message, where the shipped
-   [Functor_Category_Closed Cr] above is accepted.  That is what makes
-   the universe annotations load-bearing rather than decorative --
-   jointly: measured one at a time out of tree, either the binder on C
+(* NEGATIVE 4c (FORMABILITY), now accepted.  The UNANNOTATED clone of the
+   instance was previously refused here too, with the same message, where
+   the shipped [Functor_Category_Closed Cr] above is accepted.  That is
+   what made the universe annotations load-bearing rather than decorative
+   -- jointly: measured one at a time out of tree, either the binder on C
    or the [Sets@{h so}] annotation alone keeps the object universe free,
-   and only their joint absence collapses it (the target's header
-   records both variants). *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+   and only their joint absence collapsed it (the target's header records
+   both variants).  Accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (probe718_closed_unannotated Cr).
 End Route.
 

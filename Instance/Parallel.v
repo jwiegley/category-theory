@@ -126,8 +126,11 @@ Qed.
 
 Require Import Category.Theory.Functor.
 
-Program Definition APair {C : Category} {x y : C} (f g : x ~> y) :
-  Parallel ⟶ C := {|
+(* The universes are declared: the homs of the walking pair are at the universe
+   [h] of the homs of [C], as limits over it require ([Limit] shares the hom
+   universe of the index and of [C]) *)
+Program Definition APair@{o h p | h <= p +} {C : Category@{o h p}} {x y : C}
+  (f g : x ~> y) : Parallel@{Set h} ⟶ C := {|
   fobj := fun z => match z with
     | ParX => x
     | ParY => y

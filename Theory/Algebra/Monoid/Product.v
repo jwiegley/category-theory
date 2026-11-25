@@ -242,7 +242,10 @@ Generalizable All Variables.
      three is "the" cause, nothing in this file adds to it, and it is not
      claimed unavoidable — all three are declared over an unannotated
      [Context {C : Category}], which is the minimization family this tree
-     records elsewhere.
+     records elsewhere.  CORRECTION: that rejection holds only before the
+     universes of rocq-prover/rocq#22721; since them [@Monoidal C],
+     [@Cartesian C] and [@Terminal C] are all ACCEPTED at those levels
+     (see the section [UniverseDonors] at the end of this file).
    - THE BLOCKS, part one.  [mon_prod_mu@{u u0}], [mon_prod_eta@{u u0}],
      [mon_prod_assoc_leg@{u u0}], [prod_fork_eta@{u u0}],
      [Terminal_Monoid@{u u0}], [mon_one_hom@{u u0}],
@@ -752,7 +755,10 @@ End SetsWitness.
     levels strictly apart.  An earlier revision REPORTED that measurement
     without pinning it anywhere, so nothing in the build would have noticed
     an upstream annotation changing it.  These are that measurement, as
-    guarded negatives with their controls.
+    guarded negatives with their controls.  CORRECTION: the three were
+    negatives (each refused with "Cannot enforce up = uh") until the
+    universes of rocq-prover/rocq#22721, since which all three are
+    accepted; they are kept as positive commands, labels unchanged.
 
     Section-local [Universes]/[Constraint] do not leak: a downstream file
     importing this one can still declare its own levels strictly apart. *)
@@ -763,26 +769,33 @@ Universes uo uh up.
 Constraint uh < up.
 
 (* CONTROLS: a hom and an identity of such a category are formable at
-   exactly these levels, so the rejections below are about the donors and
-   not about the levels themselves. *)
+   exactly these levels, so the rejections below (now acceptances) were
+   about the donors and not about the levels themselves. *)
 Check (fun (C : Category@{uo uh up}) (x y : C) => x ~> y).
 Check (fun (C : Category@{uo uh up}) (x : C) => id[x]).
 
 (* Controls that the three donor names resolve at unconstrained levels;
-   without these a rename would leave the negatives succeeding on a
-   reference-not-found error rather than on the universe boundary. *)
+   without these a rename would have left the negatives succeeding on a
+   reference-not-found error rather than on the universe boundary, while
+   they were [Fail]s. *)
 Check @Monoidal.
 Check @Cartesian.
 Check @Terminal.
 
-(* NEGATIVE 1 (FORMABILITY). *)
+(* NEGATIVE 1 (FORMABILITY), no longer a negative. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (C : Category@{uo uh up}) => @Monoidal C).
+(* Previously refused with "Cannot enforce up = uh"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Monoidal C).
 
-(* NEGATIVE 2 (FORMABILITY). *)
-Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
+(* NEGATIVE 2 (FORMABILITY), no longer a negative.  Previously refused
+   with "Cannot enforce up = uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
-(* NEGATIVE 3 (FORMABILITY). *)
-Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
+(* NEGATIVE 3 (FORMABILITY), no longer a negative.  Previously refused
+   with "Cannot enforce up = uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Terminal C).
 
 End UniverseDonors.

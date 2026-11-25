@@ -27,6 +27,11 @@
     boundary runs exactly where [Covariant_Yoneda_Lemma] is consumed:
     [YoEvalAt] does not consume it and is free, while
     [YoEvalAt_Representable] does and carries [u = u0].
+    CORRECTION (rocq-prover/rocq#22721): the rejections of group (1) are
+    the state before rocq-prover/rocq#22721.  With its universes all four
+    commands are accepted at a category whose objects live strictly below
+    its homs, and they are no longer [Fail] commands; the identifications
+    [u = u0] described above were not re-measured.
 
     (2) CONVERSION.  Four claims of Leibniz equality are rejected because
     the two sides carry different opaque proof terms, while the corresponding
@@ -46,7 +51,12 @@
     reports of "universe inconsistency: Cannot enforce uh = uo because
     uo < uh" naming the declared universes for group (1), and four "cannot
     unify" conversion errors for group (2).  The import list is the target
-    file's own, in the target file's order, plus the target file itself. *)
+    file's own, in the target file's order, plus the target file itself.
+    CORRECTION (rocq-prover/rocq#22721): the four negatives of group (1)
+    are accepted with the universes of rocq-prover/rocq#22721 and are no
+    longer [Fail] commands, so four negatives remain, those of group (2)
+    (grep -c '^Fail' of this file); the four universe-inconsistency
+    reports above are the earlier state. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -71,7 +81,10 @@ Generalizable All Variables.
 (** ** (1) The inherited universe restriction
 
     A category whose object universe is declared STRICTLY BELOW its hom
-    universe.  The two bifunctors reach it; the theorem does not. *)
+    universe.  The two bifunctors reach it; the theorem does not.
+    CORRECTION (rocq-prover/rocq#22721): with the universes of
+    rocq-prover/rocq#22721 the theorem, its donors and the
+    representability instance reach it too. *)
 
 Section ObjectsBelowHoms.
 
@@ -91,22 +104,28 @@ Check (fun c : C => @YoEvalAt C c).
 Definition probe_iso_id_control :
   @Isomorphism ([([C, Sets] ∏ C), Sets]) (YoEval C) (YoEval C) := iso_id.
 
-(* Negative 1: the theorem itself is not formable at this category. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 1, now accepted: the theorem itself at this category.
+   Previously refused with "universe inconsistency: Cannot enforce uh = uo
+   because uo < uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (yoneda_natural C).
 
-(* Negatives 2 and 3: neither is its donor, in either variance — so the
-   restriction is inherited and not introduced by this development. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negatives 2 and 3, now accepted: its donor, in either variance, at this
+   category.  The restriction they pinned was inherited from the donor,
+   not introduced by this development.  Negative 2 was previously refused
+   with "universe inconsistency: Cannot enforce uh = uo because uo < uh";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (fun (F : C ⟶ Sets) (A : C) => Covariant_Yoneda_Lemma C F A).
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 3, now accepted: previously refused with the same message;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (fun (F : C^op ⟶ Sets) (A : C) => Yoneda_Lemma C F A).
 
-(* Negative 4: the representability instance is restricted too, though the
-   functor it represents is not — the boundary runs exactly where
-   [Covariant_Yoneda_Lemma] is consumed, and [YoEvalAt] above does not
-   consume it. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Negative 4, now accepted: the representability instance at this
+   category.  It was restricted, though the functor it represents is not:
+   the boundary ran exactly where [Covariant_Yoneda_Lemma] is consumed,
+   and [YoEvalAt] above does not consume it.  Previously refused with
+   "universe inconsistency: Cannot enforce uh = uo because uo < uh";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (fun c : C => YoEvalAt_Representable C c).
 
 End ObjectsBelowHoms.

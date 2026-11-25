@@ -213,7 +213,7 @@ Generalizable All Variables.
     RingObject@{a c p}, Sets@{c so}) and the five levels [FreeMod] carries
     beyond them, extensibly, a closed binder being refused for those internal
     levels; the adjunction's own last level, which no constraint mentions when
-    left free, is pinned to so ([Adjunction@{_ c c so c c c c so c so}], the
+    left free, is pinned to so ([Adjunction@{_ so c so so}], the
     pin of Instance/Mon/Free.v's hom-set form), and the two readbacks
     comparing with [free_module_adjunction] pin that adjunction's free level
     the same way, by a cast.  No [Set] but the bound Set < m on the module

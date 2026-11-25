@@ -47,7 +47,12 @@ Generalizable All Variables.
    the transported colimit leg's `≈`-not-`=`; `Functor_Setoid` and
    `Opposite_Functor` as independent hom=proof donors; the three
    `limit_induced` donors; and `two_IsAColimit`'s `Set` pin (its twin IS
-   pinned, as NEGATIVE 10).
+   pinned, as NEGATIVE 10).  CORRECTION (rocq-prover/rocq#22721): two of
+   the eleven, the `Op` route's object-universe identification and
+   `two_IsALimit`'s `Set` pin (labelled NEGATIVE 9 at its command), are
+   accepted with the universes of that Rocq change and are kept without
+   [Fail], each marked at its command; nine remain pinned, ten [Fail]
+   commands with the instrument (grep -c '^Fail' of this file).
 
    The import list is the UNION of the two targets' own lists, plus the two
    targets and `Instance/Cat.Opposite` (needed for the `Op` negatives). A
@@ -115,7 +120,10 @@ End OppositeConversion.
    content of `Opposite_Functor_respects` already exists as
    `Op_obligation_1`, the `fmap_respects` obligation of `Op : Cat ⟶ Cat`
    (`Instance/Cat/Opposite.v`). What survives as a reason to have the
-   transparent restatement is OPACITY and universes, both pinned here. *)
+   transparent restatement is OPACITY and universes, both pinned here.
+   CORRECTION (rocq-prover/rocq#22721): only OPACITY is still pinned; the
+   universe negative below is accepted since the universes of that Rocq
+   change. *)
 
 Section OpOpacity.
 Context {J C : Category}.
@@ -239,7 +247,10 @@ End FormabilityHomProof.
     place, which was measured in the target and guarded NOWHERE until this
     section. The `Op` route identifies the two categories' OBJECT universes;
     the restatement keeps them apart. Controls first, so the negative is
-    shown to fire on the identification and not on the section's levels. *)
+    shown to fire on the identification and not on the section's levels.
+   CORRECTION (rocq-prover/rocq#22721): the negative of this section is
+   accepted since the universes of that Rocq change, so the identification
+   it guarded is the state before it. *)
 
 Section FormabilityOpUniverses.
 Universes jo jh jp co ch cp.
@@ -253,9 +264,9 @@ Check (Ju ⟶ Cu).
    levels declared strictly apart. *)
 Check (@Opposite_Functor_respects Ju Cu).
 
-(* NEGATIVE. Stripped:
-     universe inconsistency: Cannot enforce co = jo because jo < co *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE, now accepted. Previously refused; stripped:
+     universe inconsistency: Cannot enforce co = jo because jo < co
+   Accepted with the universes of rocq-prover/rocq#22721. *)
 Check (@fmap_respects Cat Cat Op Ju Cu).
 
 End FormabilityOpUniverses.
@@ -269,15 +280,17 @@ Context (Cs : Category@{so sh sh}).
 Check Cs.
 Check (obj[Cs]).
 
-(* NEGATIVE 9. THE `Set` PIN, and it is the sharp one. `two_IsALimit`'s
-   binder reads `∀ {C : Category@{_ Set Set}}` — the AMBIENT category's hom
+(* NEGATIVE 9, now accepted. THE `Set` PIN, and it is the sharp one.
+   Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721, so what follows is the account
+   measured before that change. `two_IsALimit`'s binder reads
+   `∀ {C : Category@{_ Set Set}}` — the AMBIENT category's hom
    AND proof pinned to the literal `Set` — while its constraint block
    carries NO `Set =` at all. A sweep of constraint blocks for `Set =`
    returns a clean bill and is WRONG; the binder must be swept for the
    literal token. Donors: `Instance/Two.v`'s `TwoHom : ... -> Set` fixes the
    SHAPE's hom, and `IsALimit` identifies the shape's hom-and-proof with the
    ambient's. Not repaired, not claimed unavoidable. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
 Check (@two_IsALimit Cs).
 
 End FormabilitySetPin.

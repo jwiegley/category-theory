@@ -39,9 +39,10 @@ Generalizable All Variables.
      3  CONVERSION  the two candidate hom-TYPES of that action differ
      4  CONVERSION  a functor whose [fobj] is elaborated inside its own
                     [Program Definition] converts with nothing
-     5  FORMABILITY [Cartesian] identifies a category's hom and proof
+     5  FORMABILITY [Cartesian] identified a category's hom and proof
                     universes, which is where the target's binder
-                    [Category@{u u0 u0}] comes from
+                    [Category@{u u0 u0}] came from; CORRECTION: accepted
+                    since the universes of rocq-prover/rocq#22721
 
    plus one scope-free instrument check.  Each was stripped one at a time,
    compiled alone, and its whole error read. *)
@@ -198,15 +199,18 @@ Fail Example p391_neg4 (a b c : C) :
 
 End ProbeGeneral.
 
-(** ** Negative 5 (FORMABILITY): [Cartesian] identifies hom with proof *)
+(** ** Negative 5 (FORMABILITY), now accepted: [Cartesian] identified hom
+       with proof *)
 
 (* Every constant of the target is over [C : Category@{u u0 u0}] in its
    BINDER, while not one of its constraint BLOCKS contains a universe
    equation -- reading the blocks alone would report no identification.
-   The identification is inherited, and [Cartesian] alone already forces
+   The identification is inherited, and [Cartesian] alone already forced
    it: at a category whose hom and proof universes are declared strictly
    apart the category itself, its objects, its hom-sets and its identities
-   are all accepted, and only [Cartesian] is rejected. *)
+   are all accepted, and only [Cartesian] was rejected, with a universe
+   inconsistency.  CORRECTION: [Cartesian] is accepted there too since the
+   universes of rocq-prover/rocq#22721. *)
 
 Section ProbeUniverses.
 
@@ -220,6 +224,7 @@ Check (fun x y : Cu => x ~{Cu}~> y).
 Check (fun x : Cu => id[x]).
 Check (fun (x y z : Cu) (f : y ~{Cu}~> z) (g : x ~{Cu}~> y) => f ∘ g).
 
-Fail Check (@Cartesian Cu).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Cartesian Cu).
 
 End ProbeUniverses.

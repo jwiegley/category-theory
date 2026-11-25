@@ -341,8 +341,8 @@ Generalizable All Variables.
    the two forms are compared. *)
 Fixpoint zigzag_fmap@{oc od hc hd} {C : Category@{oc hc hc}}
   {D : Category@{od hd hd}} (F : C ⟶ D) {x y : C}
-  (s : ZigZag@{oc hc} x y) : ZigZag@{od hd} (F x) (F y) :=
-  match s in ZigZag a b return ZigZag@{od hd} (F a) (F b) with
+  (s : ZigZag@{oc hc hc} x y) : ZigZag@{od hd hd} (F x) (F y) :=
+  match s in ZigZag a b return ZigZag@{od hd hd} (F a) (F b) with
   | zz_nil w    => zz_nil (F w)
   | zz_fwd f s' => zz_fwd (fmap[F] f) (zigzag_fmap F s')
   | zz_bwd f s' => zz_bwd (fmap[F] f) (zigzag_fmap F s')
@@ -405,7 +405,7 @@ Qed.
    first to the second. *)
 Definition connected_image@{k oc od hc hd} {C : Category@{oc hc hc}}
   {D : Category@{od hd hd}} (F : C ⟶ D) (K : Connected@{k oc hc} C)
-  (x y : C) : ZigZag@{od hd} (F x) (F y) := zigzag_fmap F (K x y).
+  (x y : C) : ZigZag@{od hd hd} (F x) (F y) := zigzag_fmap F (K x y).
 
 (* Surjectivity is what closes the gap, and essential surjectivity is
    enough: an object of D is joined to the image of its chosen preimage by
@@ -436,7 +436,7 @@ Definition equivalence_connected {C D : Category} (F : C ⟶ D)
 (* The universe of the relation is declared, as [p]: inferred, it would be
    [max(o, h)]. *)
 Definition zigzag_Equivalence@{p o h | max(o, h) <= p} (C : Category@{o h h}) :
-  Equivalence@{o p} (@ZigZag@{o h} C) :=
+  Equivalence@{o p} (@ZigZag@{o h h} C) :=
   {| Equivalence_Reflexive  := @zz_nil C
    ; Equivalence_Symmetric  := @zigzag_sym C
    ; Equivalence_Transitive := @zigzag_trans C |}.
@@ -472,7 +472,7 @@ Definition ObjSetoid@{o h p q} (C : Category@{o h p}) : SetoidObject@{o q} :=
    that. *)
 (* The universes are declared: [p] for the equality of the quotient. *)
 Definition pi0@{o p h | max(o, h) <= p +} (C : Category@{o h h}) : SetoidObject@{o p} :=
-  SetsQuotient (ObjSetoid C) (@ZigZag@{o h} C) (zigzag_Equivalence@{p o h} C).
+  SetsQuotient (ObjSetoid C) (@ZigZag@{o h h} C) (zigzag_Equivalence@{p o h} C).
 
 (* The carrier of π₀ IS the object type, and its equality IS the zig-zag
    relation, both by conversion.  Neither statement is a tautology: each
@@ -486,7 +486,7 @@ Example pi0_equiv (C : Category) (x y : C) :
    [SetoidCoarser] hypothesis of Instance/Sets/Quotient.v, and it is
    the only thing the projection needs beyond the equivalence. *)
 Definition pi0_coarser@{o h} (C : Category@{o h h}) :
-  SetoidCoarser@{o o o o} (A:=ObjSetoid@{o h h o} C) (@ZigZag@{o h} C) :=
+  SetoidCoarser@{o o o o} (A:=ObjSetoid@{o h h o} C) (@ZigZag@{o h h} C) :=
   fun x y (e : x = y) =>
     match e in _ = z return ZigZag x z with eq_refl => zz_nil x end.
 
@@ -507,7 +507,7 @@ Definition pi0_coarser@{o h} (C : Category@{o h h}) :
    this file's, and no attempt is made here to route around it. *)
 Definition pi0_proj@{o so h} (C : Category@{o h h}) :
   ObjSetoid@{o h h o} C ~{Sets@{o so}}~> pi0@{o o h} C :=
-  sets_quot_proj@{so o} (ObjSetoid@{o h h o} C) (@ZigZag@{o h} C)
+  sets_quot_proj@{so o} (ObjSetoid@{o h h o} C) (@ZigZag@{o h h} C)
     (zigzag_Equivalence@{o o h} C) (pi0_coarser@{o h} C).
 
 (* ... and it is the identity on underlying objects, by conversion. *)

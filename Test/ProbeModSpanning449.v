@@ -66,7 +66,11 @@ Generalizable All Variables.
     abstract [HasWidePullbacks (RMod R)].  NEGATIVE 2 pins the refusal at
     the application and NEGATIVE 3 pins the donor one level down, at
     [ProdMod] itself.  Neither says the wall is unavoidable; both say it
-    is there and where it comes from.
+    is there and where it comes from.  CORRECTION (rocq-prover/rocq#22721):
+    NEGATIVE 3 is accepted with the universes of rocq-prover/rocq#22721
+    and is no longer a refutation, so only NEGATIVE 2 (one UNIVERSE
+    negative, not two) still pins the wall; NEGATIVE 3's account below
+    records the refusal as measured before that change.
 
     WHAT THE CONVERSION NEGATIVE PINS.  The submodule round trip
     [subobj_smod (smod_subobj S)] is NOT [S] on the nose -- its
@@ -226,14 +230,15 @@ Fail Definition n2_exported_instance_refused :
 
 End SolutionSetRefused.
 
-(** ** NEGATIVE 3 (UNIVERSE): the donor, one level down
+(** ** NEGATIVE 3 (UNIVERSE): the donor, one level down (now accepted,
+       since the universes of rocq-prover/rocq#22721)
 
     The obstruction is not the class's and not [Submodule]'s: it is
     [ProdMod]'s, whose carrier is the dependent function space
     [∀ i : I, carrier (cmon_setoid (A i))], so the index universe is at
     or below the carrier universe, while an object of [RMod R] has its
     carrier strictly below the object universe.  Indexing a [ProdMod] by
-    the subobjects of a module is therefore already refused, with no
+    the subobjects of a module was therefore already refused, with no
     solution set in sight.  Stripped and re-run in a copy of the whole
     file, the message is
 
@@ -253,7 +258,10 @@ Context {R : RingObject}.
 Example c_prodmod_at_a_type (I : Type) (A : I → obj[RMod R]) :
   obj[RMod R] := @ProdMod R I A.
 
-Fail Definition n3_prodmod_at_subobj (W : obj[RMod R])
+(* NEGATIVE 3, now accepted: previously refused with the universe
+   inconsistency quoted above (Cannot enforce u_prod = u_car ...);
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Definition n3_prodmod_at_subobj (W : obj[RMod R])
   (A : @SubObj (RMod R) W → obj[RMod R]) : obj[RMod R] :=
   @ProdMod R (@SubObj (RMod R) W) A.
 

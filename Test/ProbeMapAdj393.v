@@ -28,6 +28,12 @@ Generalizable All Variables.
     import once, to check that the two square fields of [AdjSquares] really
     are the two arguments of [strict_equiv_of_id_cast_nat]. *)
 
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 8, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
+
 (** ** Instrument check: a name that is in no file of the tree *)
 
 Fail Check map_of_adjunctions_no_such_constant_anywhere.
@@ -180,14 +186,18 @@ Fail Check (MapAdjHom A A2 Id[C] Id[D]
 
 End Residue.
 
-(** ** Negatives 6-8 (FORMABILITY): where hom = proof is forced
+(** ** Negatives 6-8 (FORMABILITY): where hom = proof was forced
 
-    [AdjSquares] is over a category whose hom and proof universes coincide.
-    That is inherited, and the two donors are separated below: [id_cast] of
-    Construction/Quotient.v forces it on its own, and [Adjunction] forces it
-    on its own with no [id_cast] in the command.  [Isomorphism] and
-    [Functor] are NOT donors -- both are accepted at the very levels where
-    the three negatives are refused. *)
+    [AdjSquares] was over a category whose hom and proof universes
+    coincide.  That was inherited, and the two donors were separated below:
+    [id_cast] of Construction/Quotient.v forced it on its own, and
+    [Adjunction] forced it on its own with no [id_cast] in the command.
+    [Isomorphism] and [Functor] are NOT donors -- both are accepted at the
+    very levels where the three negatives were refused.
+
+    CORRECTION: the three negatives were refused with universe
+    inconsistencies; since the universes of rocq-prover/rocq#22721 all
+    three are accepted at these levels and are kept without [Fail]. *)
 
 Section Formability.
 
@@ -207,14 +217,22 @@ Check (fun x : Cu => id[x]).
 Check (fun x y : Cu => @Isomorphism Cu x y).
 Check (fun (x y : Cu) (f g : x ~> y) => f ≈ g).
 
-(* Negative 6: the record itself. *)
-Fail Check (@AdjSquares Cu Du Fu Uu Cu Du Fu Uu).
+(* Negative 6, now accepted: the record itself, previously refused with a
+   universe inconsistency.  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@AdjSquares Cu Du Fu Uu Cu Du Fu Uu).
 
-(* Negative 7: [id_cast] alone, with no adjunction in the command. *)
-Fail Check (fun (x y : Cu) (e : x = y) => @id_cast Cu x y e).
+(* Negative 7, now accepted: [id_cast] alone, with no adjunction in the
+   command, previously refused with a universe inconsistency.  Accepted
+   with the universes of rocq-prover/rocq#22721. *)
+Check (fun (x y : Cu) (e : x = y) => @id_cast Cu x y e).
 
-(* Negative 8: [Adjunction] alone, with no [id_cast] in the command; the
-   control [Check Fu] above shows [Functor] is not what is refused. *)
+(* Negative 8, now accepted: [Adjunction] alone, with no [id_cast] in the
+   command, previously refused with a universe inconsistency; the control
+   [Check Fu] above showed [Functor] was not what was refused.  Accepted
+   with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (Fu ⊣ Uu).
 
 End Formability.

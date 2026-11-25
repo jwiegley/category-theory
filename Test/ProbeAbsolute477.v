@@ -58,14 +58,21 @@
     (forty-eight of forty-eight, by the same script).  Quotations are
     Rocq 9.1.1's under this file's import list, with the error's
     environment block left out; Rocq prints the "cannot unify"
-    parenthetical with the short names in scope.
+    parenthetical with the short names in scope.  CORRECTION
+    (rocq-prover/rocq#22721): these checks ran while R4, R8 and R9 were
+    refutations; those three are accepted since the universes of
+    rocq-prover/rocq#22721, and the checks are not re-run.
 
     KINDS.  Twelve refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE, the instrument (one); CONVERSION,
     [eq_refl] refused with a "cannot unify" parenthetical, every
     statement being well typed (R1, R2, R5: three); and UNIVERSE, the
     term refused with "universe inconsistency" between levels this file
-    declares (R3, R4, R6, R7, R8, R9, R10, R11: eight).  CAUSES, read
+    declares (R3, R4, R6, R7, R8, R9, R10, R11: eight).  CORRECTION
+    (rocq-prover/rocq#22721): R4, R8 and R9 are accepted since the
+    universes of rocq-prover/rocq#22721; nine refutations remain (by
+    [grep -c '^Fail']), the instrument, the three CONVERSION ones and
+    five UNIVERSE ones (R3, R6, R7, R10, R11).  CAUSES, read
     from the terms: R1 compares the record [Id ◯ K] with a variable
     functor [K], whose data agree (C1, C2); R2 compares two predicates of
     which one quantifies over functors out of C and the other out of
@@ -79,15 +86,22 @@
     that consume C's own (C11, C19): they pin those lemmas' signatures,
     not what the predicates yield, since their statements are accepted
     through the lift (C22, C23, C26, C27; C24, C25 for the colimit
-    twins).  R7 is [IsLimitCone] (Structure/Limit/Preservation.v), whose
+    twins).  CORRECTION (rocq-prover/rocq#22721): R4 is accepted since
+    the universes of rocq-prover/rocq#22721 and is no longer a
+    refutation; R6 still is.  R7 is [IsLimitCone]
+    (Structure/Limit/Preservation.v), whose
     bare binders give a shape and its ambient one hom level, over cones
     that are themselves formable (C43); the same definition with its
     binders written out is accepted there (C40, C41, C44).  R8 is
     [Opposite_Functor] (Functor/Opposite.v), the first carrier of
     [Cocone]; with its binders written out it is accepted, and so are
-    the cones over it (C42, C45).  R9 is [Compose] again, at the lift,
+    the cones over it (C42, C45).  CORRECTION: R8 itself is accepted
+    since the universes of rocq-prover/rocq#22721 and is no longer a
+    refutation.  R9 is [Compose] again, at the lift,
     which is why [Lift_after] is built directly (C37); with the objects
-    lifted alone the composite is formable (C38).  R10 is [Functor]
+    lifted alone the composite is formable (C38).  CORRECTION: R9 itself
+    is accepted since the universes of rocq-prover/rocq#22721 and is no
+    longer a refutation.  R10 is [Functor]
     itself, whose [fmap_respects] bounds a source's hom level by its
     target's, so there is no way back from a lift of the hom level, the
     way in being formable (C39).  R11 is the cone-level hom cap at the
@@ -150,7 +164,8 @@
         (universe inconsistency: Cannot enforce dh = ch because ch < dh)
       R4, the [Id] reading from a target object level above C's
         (controls C11, C12, C22 to C25): (universe inconsistency: Cannot
-        enforce do = co because co < do)
+        enforce do = co because co < do), before rocq-prover/rocq#22721;
+        accepted since.
       R5, the image cocone's [ParX] injection against the split
         composite (controls C13; C15, ≈): (cannot unify "cocone_inj
         (FCocone T (cofork_cocone f g e H)) ParX" and "fmap[T] e ∘
@@ -163,10 +178,12 @@
         (controls C43, C44): (universe inconsistency: Cannot enforce
         ch = jh because jh < ch)
       R8, [Opposite_Functor] across the same levels (control C45):
-        (universe inconsistency: Cannot enforce ch = jh because jh < ch)
+        (universe inconsistency: Cannot enforce ch = jh because jh < ch),
+        before rocq-prover/rocq#22721; accepted since.
       R9, [Lift_in X ◯ T] into a lift with strictly larger hom-sets
         (controls C37, C38): (universe inconsistency: Cannot enforce
-        xh = yh because xh < yh)
+        xh = yh because xh < yh), before rocq-prover/rocq#22721; accepted
+        since.
       R10, the functor type from a lift of the hom level back to C
         (control C39): (universe inconsistency: Cannot enforce ch = …
         because ch < xh <= …), the elided level being one Rocq names
@@ -345,7 +362,9 @@ Definition p477_c11_id_instance
 
 (* R4 *)
 Check @AbsoluteLimitCone@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* R4, now accepted: previously refused with "Cannot enforce do = co
+   because co < do"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p477_r4_id_instance
   (A : AbsoluteLimitCone@{jo co ch do} N) : IsLimitCone N :=
   AbsoluteLimitCone_IsLimitCone A.
@@ -561,7 +580,9 @@ Definition p477_c37_after : Cl ⟶ LiftCat@{xo xh yo yh} Xl := Lift_after Tl.
 
 (* R9 *)
 Check @LiftCat@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* R9, now accepted: previously refused with "Cannot enforce xh = yh
+   because xh < yh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p477_r9_compose : Cl ⟶ LiftCat@{xo xh yo yh} Xl :=
   Lift_in Xl ◯ Tl.
 
@@ -644,8 +665,9 @@ Fail Definition p477_r7_islimitcone (N : Cone Kw) : Type := IsLimitCone N.
 Definition p477_c44_islimitcone (N : Cone Kw) : Type :=
   p477_c41_IsLimitCone N.
 
-(* R8 *)
-Fail Definition p477_r8_op : Jw^op ⟶ Cw^op := Kw^op.
+(* R8: previously refused with "Cannot enforce ch = jh because
+   jh < ch"; accepted since the universes of rocq-prover/rocq#22721. *)
+Definition p477_r8_op : Jw^op ⟶ Cw^op := Kw^op.
 
 (* C45: the opposite functor with its binders written out, and cones over
    it, which are the cocones over [Kw]. *)

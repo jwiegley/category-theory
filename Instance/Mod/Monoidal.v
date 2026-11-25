@@ -193,7 +193,12 @@
    attempted, and the identification is NOT claimed unavoidable:
    Instance/Ab/Monoidal.v's design note 5 is the in-tree precedent for
    exactly such an identification turning out to be a minimization artifact
-   that explicit declarations lift.
+   that explicit declarations lift.  CORRECTION (rocq-prover/rocq#22721):
+   that rejection is the state before rocq-prover/rocq#22721; with its
+   universes [ModMonoidal] and [ModSymmetric] are accepted under the same
+   `Constraint rp < ru`, and the two probes of [UniverseProbe] below are no
+   longer [Fail] commands.  The [About] readbacks of this paragraph and the
+   one before it were not re-measured under that change.
 
    PLACEMENT.  The gadget layer is arguably Instance/Mod/Tensor.v's — it
    mentions nothing this file introduces, and [tensor_hom_ext] is already
@@ -283,7 +288,13 @@
    [zz2], [zz3], [zz5], [mval], [ModMonoidal], [ModSymmetric] — each renamed
    AT ITS DEFINITION SITE, since a whole-file rename is a no-op by
    construction and would report a false clean bill; all nine broke the file
-   at a NON-[Fail] line, so no guard is vacuous.  The [UniverseProbe]
+   at a NON-[Fail] line, so no guard is vacuous.  CORRECTION
+   (rocq-prover/rocq#22721): the two formability negatives are accepted
+   with the universes of that Rocq change and are kept without [Fail], so
+   six negatives in three kinds remain (3 typing, 2 conversion,
+   1 resolution), seven [Fail] commands in all with the instrument
+   (grep -c '^Fail' of this file); the rename simulation was not repeated.
+   The [UniverseProbe]
    section's local [Universes] and [Constraint] declarations were measured
    NOT to leak: a downstream file reusing the same level names with the
    OPPOSITE constraint still elaborates.
@@ -320,7 +331,10 @@
        annotation, and whether declarations in the style of
        Instance/Ab/Monoidal.v's design note 5 would free [ModMonoidal] is
        untested; so is whether the restriction bites at any category a
-       consumer would want.
+       consumer would want.  CORRECTION (rocq-prover/rocq#22721): with
+       the universes of that Rocq change the pinned rejection no longer
+       occurs, [ModMonoidal] and [ModSymmetric] being accepted under
+       `rp < ru` with no annotation in this file.
      - NO MONOIDS, ALGEBRAS OR BIMODULES over the structure, and no graded or
        differential-graded variants — the sibling rows of Mac Lane's §VII.1
        roster. *)
@@ -1308,7 +1322,12 @@ End ResolutionProbe.
     [@Monoidal (RMod Ru)], the class being assembled, and [Ring_RMod Ru], the
     unit object it is assembled with.  Two more, [ModUnitLeft] and
     [ModAssoc], are commutativity-CONSUMING, so the rejection is not about
-    [Rcomm] either.  What is left is the packaging. *)
+    [Rcomm] either.  What is left is the packaging.
+
+    CORRECTION (rocq-prover/rocq#22721): that rejection is the state
+    before rocq-prover/rocq#22721; with its universes both constants are
+    accepted at these levels, and the two commands below are no longer
+    [Fail] commands. *)
 
 Section UniverseProbe.
 
@@ -1335,15 +1354,21 @@ Check (@ModUnitRight Ru).
 Check (@ModAssoc Ru).
 
 (* The assembly, and the symmetric structure that contains it. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY, now accepted: the assembly under `rp < ru`.  Previously
+   rejected with "Cannot enforce rp = ru because rp < ru"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Check (@ModMonoidal Ru).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY, now accepted: the symmetric structure under `rp < ru`.
+   Previously rejected with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (@ModSymmetric Ru).
 
 (* Controls, sharpest form: the very same two constants, applied at ℤ, whose
    three [RingObject] universes may be identified.  So the rejection above is
-   about the levels and not about the constants. *)
+   about the levels and not about the constants.  CORRECTION
+   (rocq-prover/rocq#22721): the rejection above is the state before that
+   change, with whose universes the two commands above are accepted. *)
 Check (ModMonoidal Int_Ring_commutative).
 Check (ModSymmetric Int_Ring_commutative).
 

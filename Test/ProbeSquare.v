@@ -17,7 +17,9 @@
     stripped, to confirm the error is the intended one and not a syntax,
     scope or resolution failure — two [cannot unify] typing errors and,
     for the rectangle, the universe inconsistency [Cannot enforce Set =
-    rh] naming the declared universe itself.
+    rh] naming the declared universe itself.  CORRECTION: the rectangle
+    probe is accepted since the universes of rocq-prover/rocq#22721 and
+    is no longer a negative; see (3).
 
     THE THREE BOUNDARIES.
 
@@ -54,7 +56,10 @@
     (which identifies the hom and proof universes of its two
     categories), while the [Diagram] section carries no pin at all.
     Both halves are probed: the forward accessors typecheck above [Set],
-    and building [RectFunctor] there is rejected. *)
+    and building [RectFunctor] there was rejected.  CORRECTION: building
+    [RectFunctor] above [Set] is accepted since the universes of
+    rocq-prover/rocq#22721, so the converse is no longer measured as
+    pinned at [Set]. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -100,8 +105,10 @@ Check (SquareFunctor S : Square ⟶ D).
 Check (SquareFunctor_f S).
 Check (square_universal S).
 
-(** The reverse direction was never pinned, and still is not. *)
-Context (F : Square ⟶ D).
+(** The reverse direction was never pinned, and still is not. Its functors are out of the small
+    square presented by [SquareQuiver], whose vertices are in [Set], with its homs at the proof
+    universe of [D], as [square_functor_round_strict] states them. *)
+Context (F : Square@{Set bp Set Set} ⟶ D).
 
 Check (CommutingSquareOfFunctor F : CommutingSquare D).
 Check (square_functor_round_strict F).
@@ -135,7 +142,8 @@ Fail Check (eq_refl : SquareNode = (TwoObj * TwoObj)%type).
     The controls above are the standing check that the [Fail]s are not
     passing for the wrong reason. *)
 
-(** ** (3) The rectangle: forward unpinned, converse pinned at [Set] *)
+(** ** (3) The rectangle: forward unpinned, converse formerly pinned at
+    [Set] (accepted above [Set] since rocq-prover/rocq#22721) *)
 
 Section BigRectangle.
 
@@ -163,12 +171,14 @@ Check (rect_long_through_right F).
     shape category. *)
 Check (@paste_squares E).
 
-(** Negative half: the converse does not reach here.  (With the [Fail]
-    stripped this reports a universe inconsistency, [Set] against the
-    declared [rh].) *)
+(** Former negative half: the converse did not reach here.  (With the
+    [Fail] stripped this reported a universe inconsistency, [Set] against
+    the declared [rh].)  It is accepted since the universes of
+    rocq-prover/rocq#22721. *)
 Context (R : CommutingRectangle E).
 
-Fail Check (RectFunctor R : Rect ⟶ E).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (RectFunctor R : Rect ⟶ E).
 
 End BigRectangle.
 

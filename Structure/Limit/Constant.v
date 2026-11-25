@@ -275,7 +275,11 @@ Generalizable All Variables.
       equations -- "Cannot enforce jh = ch" and "Cannot enforce jp = jh"
       respectively -- against four controls accepted at those very levels
       ([obj], a hom type, [ACone] and [Cone]).  So §8's "two independent
-      donors" is guarded, not merely measured.
+      donors" is guarded, not merely measured.  CORRECTION: [IsALimit]
+      (negative 5) is accepted at those levels since the universes of
+      rocq-prover/rocq#22721 and is no longer a negative; only
+      [Diagonal] (negative 4) is still rejected, so §8's second donor is
+      no longer guarded here.
 
       Every constant named inside a [Fail] is also named by a succeeding
       command, so a rename breaks this file loudly rather than turning a
@@ -313,7 +317,9 @@ Generalizable All Variables.
       [J : Category@{u2 u4 u4}], both carrying the identification in the
       binder with no equation in the block; [ACone@{u0 u1 u2 u3 u4 u5}]
       keeps all six levels apart and is innocent.  §7's two formability
-      negatives guard exactly this.  [leg_zigzag@{u u0 u1 u2}], the
+      negatives guarded exactly this (the [IsALimit] one is accepted
+      since the universes of rocq-prover/rocq#22721; these signatures
+      were read before it).  [leg_zigzag@{u u0 u1 u2}], the
       reusable core, has a LITERALLY EMPTY constraint BLOCK -- but its
       BINDER reads [C : Category@{u u2 u2}], and THAT identification is
       NOT inherited: it is this file's own minimization artifact from
@@ -1145,11 +1151,14 @@ Example two_const_med_strict {C : Category} (c : C) (N : Cone Δ[_2](c)) :
    hom universe declared strictly BELOW both its own proof universe and
    the ambient's hom universe, [obj], a hom-type, [ACone] and [Cone] all
    elaborate -- so the cone vocabulary is INNOCENT -- while [Diagonal] and
-   [IsALimit] are each rejected ALONE, and on DIFFERENT equations:
+   [IsALimit] were each rejected ALONE, and on DIFFERENT equations:
    [Diagonal] fails with "Cannot enforce jh = ch" (its codomain [Fun]
-   identifies source and target hom levels) and [IsALimit] with "Cannot
-   enforce jp = jh".  So the [u0 = u2] carried by [const_IsALimit] has two
-   genuinely independent donors, neither introduced here. *)
+   identifies source and target hom levels) and [IsALimit] failed with
+   "Cannot enforce jp = jh".  So the [u0 = u2] carried by
+   [const_IsALimit] had two genuinely independent donors, neither
+   introduced here.  CORRECTION: NEGATIVE 5 ([IsALimit]) is accepted at
+   these levels since the universes of rocq-prover/rocq#22721; NEGATIVE 4
+   ([Diagonal]) is still rejected. *)
 
 Section UniverseProbe.
 
@@ -1165,6 +1174,9 @@ Check (@ACone Ju Cu x).
 Check (@Cone Ju Cu).
 
 Fail Check (@Diagonal Cu Ju).
-Fail Check (@IsALimit Ju Cu).
+(* NEGATIVE 5, no longer a negative: previously refused with "Cannot
+   enforce jp = jh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (@IsALimit Ju Cu).
 
 End UniverseProbe.

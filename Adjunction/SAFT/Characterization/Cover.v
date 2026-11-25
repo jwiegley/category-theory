@@ -211,7 +211,7 @@ Generalizable All Variables.
      SAFT_cover_wp@{o dobj h dp cp w s t pl pa …} :
        Complete@{h h h o} → PreservesImageLimit@{o h dobj h pl h pa h}
        → Cogenerator@{h o h} C → WellPowered@{o h w s t} C
-       → { F & Adjunction@{o h h dobj h h h h pa h u} F U }
+       → { F & Adjunction@{o dobj h pa u} F U }
        (* h < dp, h < cp, h < t, h < pl, h < pa, w <= h, o <= s,
           h <= s, … *)
 
@@ -490,8 +490,8 @@ Definition saft_pb_cone@{o dobj h so dp cp pl pa ro pc +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   Cone (@Compose@{dobj ro o h} _ _ _ U
-          (Opposite_Functor@{ro o h}
-             (@ASpan@{o ro h h h} (C^op) _ _ _
+          (Opposite_Functor@{ro h o h}
+             (@ASpan@{o h h} (C^op) _ _ _
                 (saft_kappa@{o dobj h so dp cp} U comp G d c h)
                 (cogen_canonical@{o so so h} comp G c)))).
 Proof.
@@ -540,7 +540,7 @@ Lemma saft_lift_commutes@{o dobj h so dp cp pl pa +| h <= so, h < dp, h < cp +}
   (comp : @Complete@{so so h o} C)
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
-  fmap[U] (saft_sub_to@{o dobj h so dp cp} U comp G d c h)
+  fmap[U] (saft_sub_to@{o dobj h so _ _ _} U comp G d c h)
     ∘ saft_lift U comp cont G d c h ≈ h.
 Proof.
   exact (unique_property (cont _ _ _ (saft_pb_cone U comp cont G d c h)) RPos).
@@ -568,7 +568,7 @@ Definition saft_cover_at@{o dobj h so dp cp w s t pl pa +|
   SubobjectCoverAt@{o dobj h so dp w s t} U comp G d W.
 Proof.
   intros c h.
-  exists (wp_from W (saft_sub@{o dobj h so dp cp} U comp G d c h)).
+  exists (wp_from W (saft_sub@{o dobj h so dp cp _} U comp G d c h)).
   destruct (wp_to_from W (saft_sub U comp G d c h))
     as [iso _].
   exists (fmap[U] (from iso)
@@ -595,7 +595,7 @@ Proof.
      ; sol_obj := fun p => Subobject.sub_dom (wp_to W (projT1 p))
      ; sol_arr := fun p => projT2 p |}.
   intros c h.
-  destruct (saft_cover_at@{o dobj h so dp cp w s t pl pa}
+  destruct (saft_cover_at@{o dobj h so dp cp w s t pl pa _}
               U comp cont G d W c h) as [i [s [t e]]].
   exists (existT _ i s); simpl.
   exists t; exact e.
@@ -610,7 +610,7 @@ Definition SAFT_cover_wp_at@{o dobj h dp cp w s t pl pa +|
   (W : ∀ d : D, WellPoweredAt@{w o s h} (saft_prod@{o dobj h h dp} U comp G d)) :
   { F : D ⟶ C & F ⊣ U } :=
   GAFT U comp cont
-    (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h}
+    (fun d => saft_solution_set_at@{o dobj h h dp cp w s t pl pa h _}
                 U comp cont G d (W d)).
 
 Definition SAFT_cover_wp@{o dobj h dp cp w s t pl pa +|
@@ -635,7 +635,7 @@ Example saft_cover_at_index@{o dobj h so dp cp w s t pl pa +|
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d))
   (c : C) (h : d ~> U c) :
-  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa}
+  projT1 (saft_cover_at@{o dobj h so dp cp w s t pl pa _}
             U comp cont G d W c h)
     = wp_from W (saft_sub U comp G d c h) := eq_refl.
 
@@ -648,7 +648,7 @@ Example saft_solution_set_at_index@{o dobj h so dp cp w s t pl pa i +|
   (cont : @PreservesImageLimit@{o h dobj h pl pa so} C D U)
   (G : Cogenerator@{so o h} C) (d : D)
   (W : WellPoweredAt@{w o s h} (saft_prod@{o dobj h so dp} U comp G d)) :
-  sol_index (saft_solution_set_at@{o dobj h so dp cp w s t pl pa i}
+  sol_index (saft_solution_set_at@{o dobj h so dp cp w s t pl pa i _}
                U comp cont G d W)
     = { i : wp_index W & d ~> U (Subobject.sub_dom (wp_to W i)) } := eq_refl.
 

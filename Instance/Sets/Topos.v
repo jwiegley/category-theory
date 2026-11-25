@@ -501,23 +501,23 @@ Open Scope category_scope.
 (** ** (A) The three bundles *)
 
 Definition Sets_Topos@{o so} (U : Untruncate@{o}) :
-  ElementaryTopos@{so o} Sets@{o so} :=
+  ElementaryTopos@{so o o _} Sets@{o so} :=
   {| topos_terminal   := Sets_Terminal@{so o}
    ; topos_cartesian  := Sets_Cartesian@{o}
    ; topos_pullbacks  := Sets_HasPullbacks@{o}
-   ; topos_closed     := Sets_Closed@{o}
+   ; topos_closed     := Sets_Closed@{_ _}
    ; topos_classifier := Sets_Classifier@{o so} U |}.
 
 Definition Sets_Topos_dec@{o so} (D : DecImage@{o so}) :
-  ElementaryTopos@{so o} Sets@{o so} :=
+  ElementaryTopos@{so o o _} Sets@{o so} :=
   {| topos_terminal   := Sets_Terminal@{so o}
    ; topos_cartesian  := Sets_Cartesian@{o}
    ; topos_pullbacks  := Sets_HasPullbacks@{o}
-   ; topos_closed     := Sets_Closed@{o}
+   ; topos_closed     := Sets_Closed@{_ _}
    ; topos_classifier := Sets_Classifier_dec@{o so} D |}.
 
 Definition Sets_Topos_IEM@{o so} (E : IEM@{o}) :
-  ElementaryTopos@{so o} Sets@{o so} :=
+  ElementaryTopos@{so o o _} Sets@{o so} :=
   Sets_Topos@{o so} (untruncate_of_IEM@{o} E).
 
 Example sets_topos_terminal (U : Untruncate) :

@@ -317,7 +317,7 @@ Proof.
        (fun i => v ∘[Ab@{o c}] cone_leg N i) _)).
   - intros x y f m; simpl.
     exact (proper_morphism (cmon_map v) _ _
-             (cone_leg_coh@{j c o c c} N f m)).
+             (cone_leg_coh@{j c c o c c _ _} N f m)).
   - transitivity (unique_obj (HN P)).
     + symmetry. apply (uniqueness (HN P)).
       intros i m. exact (H i m).
@@ -347,7 +347,7 @@ Proof.
                   (cmon_map (rm_hom (fmap[K] f)) (rm_smul (K y) r m))).
   - apply (proper_morphism (cmon_map (cone_leg N x))).
     symmetry. exact (rm_map_smul (fmap[K] f) r m).
-  - exact (cone_leg_coh@{j c o c c} N f (rm_smul (K y) r m)).
+  - exact (cone_leg_coh@{j c c o c c _ _} N f (rm_smul (K y) r m)).
 Defined.
 
 Definition mcol_smul_map@{a c p o j l} {R : RingObject@{a c p}}
@@ -489,7 +489,7 @@ Proof.
     (@Build_Cone (J^op) ((RMod@{o a p c} R)^op) (K^op) (ColimMod N HN)
        (@Build_ACone (J^op) ((RMod@{o a p c} R)^op) (ColimMod N HN)
           (K^op) (mcol_hom N HN) _)).
-  intros x y f m. exact (cone_leg_coh@{j c o c c} N f m).
+  intros x y f m. exact (cone_leg_coh@{j c c o c c _ _} N f m).
 Defined.
 
 (** ** Reflection, and the created cocone is colimiting *)
@@ -558,15 +558,15 @@ Definition RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o j}
 Definition RMod_Forget_Ab_CreatesColimit@{a c p o j}
   {R : RingObject@{a c p}} {J : Category@{j c c}}
   (K : J ⟶ RMod@{o a p c} R) :
-  CreatesColimit@{j o o c} K (RMod_Forget_Ab@{o o a p c} R) :=
+  CreatesColimit@{j o c o} K (RMod_Forget_Ab@{o o a p c} R) :=
   StrictlyCreatesLimit_CreatesLimit
     (RMod_Forget_Ab_StrictlyCreatesColimit@{a c p o j} K).
 
 Definition RMod_Forget_Ab_creates_colimits@{a c p o s}
   (R : RingObject@{a c p}) :
-  CreatesAllColimits@{o o s c}
+  CreatesAllColimits@{o o c s}
     (RMod_Forget_Ab@{o o a p c} R) :=
-  fun J K => RMod_Forget_Ab_CreatesColimit@{a c p o s} K.
+  fun J K => RMod_Forget_Ab_CreatesColimit@{a _ p _ s} K.
 
 (** ** Readbacks: the lift is on the nose *)
 
@@ -594,7 +594,7 @@ Example mcol_lift_apex@{a c p o j} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
   (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   rm_ab (vertex_obj[creates_colimit_lift
-           (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L])
+           (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K) L])
   = vertex_obj[L] := eq_refl.
 
 Example mcol_lift_legs@{a c p o j} {R : RingObject@{a c p}}
@@ -602,7 +602,7 @@ Example mcol_lift_legs@{a c p o j} {R : RingObject@{a c p}}
   (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) (i : J) :
   rm_hom (cone_leg (@limit_cone _ _ _
             (creates_colimit_lift
-               (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L)) i)
+               (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K) L)) i)
   = cone_leg (@limit_cone _ _ _ L) i := eq_refl.
 
 (* The whole lifted module IS [ColimMod] of the given colimit, read in the
@@ -611,7 +611,7 @@ Example mcol_lift_module@{a c p o j} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
   (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   vertex_obj[creates_colimit_lift
-     (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L]
+     (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K) L]
   = ColimMod (cone_op_comp (@limit_cone _ _ _ L))
       (islimitcone_op_comp (limit_limitcone L)) := eq_refl.
 
@@ -657,8 +657,8 @@ Qed.
 Definition rmod_terminal_colimit@{a c p o j} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R) :
   Colimit K :=
-  creates_colimit_lift (RMod_Forget_Ab_CreatesColimit@{a c p o j} K)
-    (terminal_Colimit@{j c o c} T (RMod_Forget_Ab@{o o a p c} R ◯ K)).
+  creates_colimit_lift (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K)
+    (terminal_Colimit@{j c c o c c} T (RMod_Forget_Ab@{o o a p c} R ◯ K)).
 
 Example rmod_terminal_group@{a c p o x j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (T : @Terminal J) (K : J ⟶ RMod@{o a p c} R) :

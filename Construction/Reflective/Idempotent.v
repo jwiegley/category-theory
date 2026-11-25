@@ -341,7 +341,7 @@ Definition idem_reflection_transform :
 (* The universes are declared: [oS] for the objects of the subcategory, [l] for
    its predicates and [so] above the homs for the adjunction. *)
 Definition idem_reflective_adj@{oS l so | h < so +} :
-  @Adjunction@{oS h h o h h h h so h Set} _ _ idem_reflector@{oS h l}
+  @Adjunction@{oS o h so Set} _ _ idem_reflector@{oS h l}
     (Incl@{o h h l oS} C MLocal_Subcategory@{l}) :=
   Adjunction_from_Transform idem_reflection_transform.
 

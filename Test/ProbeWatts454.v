@@ -24,6 +24,11 @@
     were added after N1-N27 had been cited, so they sit beside the
     negatives they pair with rather than in the order of their numbers.
     The positive controls restate the files' claims independently.
+    CORRECTION (rocq-prover/rocq#22721): with the universes of that Rocq
+    change N3, N7, N11-N13, N17-N22, N24 and N28-N34 are accepted and are
+    kept without [Fail], each marked at its command; the refusals this
+    header quotes for them are those measured before it, and so are the
+    pins of "both sides" of N7, N19 and N20.
 
     THE IMPORT LIST, measured by comparing [Require] lines with comments
     stripped.  First Instance/Mod/Watts.v's fifty-five lines verbatim and
@@ -138,12 +143,20 @@
     "cannot unify" cone-type alternative.  N15 stays positive at its
     original levels.  No historical positive-wrapper, binder-instrument
     or constant census is repeated by this stripped-error measurement.
+    CORRECTION (rocq-prover/rocq#22721): with the universes of that Rocq
+    change nineteen of those thirty-four are accepted (N3, N7, N11-N13,
+    N17-N22, N24 and N28-N34) and are no longer [Fail] commands; fifteen
+    remain (grep -c '^Fail' of this file).  The measurements of this
+    paragraph were not re-measured for the fifteen under that change.
 
     KINDS.  Thirty-four refutations (previously thirty-five), counted as
     lines opening with [Fail]: NAME-ABSENCE (the instrument), INSTANCE (N1),
     CONVERSION (N2, N16, N21-N23, N26, N27, N31-N34), TYPING (N10), BINDER
     (N5, N12, N13) and UNIVERSE (N3, N4, N6-N9, N11, N14, N17-N20,
-    N24, N25, N28-N30): one, one, eleven, one, three and seventeen.  N9's refusal is a sort's ("Type" is not a subtype
+    N24, N25, N28-N30): one, one, eleven, one, three and seventeen
+    (CORRECTION: N24 is accepted since the universes of
+    rocq-prover/rocq#22721 and is no longer a refutation; see its
+    paragraph under Instance/Mod/Watts/Unconditional.v).  N9's refusal is a sort's ("Type" is not a subtype
     of "Prop") and is counted UNIVERSE.  BINDER means refused for the
     command's own binder or argument list: N5 whatever its body, N12 and
     N13 because a closed universe list does not name universes their
@@ -155,7 +168,14 @@
     errors.  And BINDER for N12 and N13 means the closed universe list, not
     the argument list: their binder instruments are accepted, and the
     universes each error reports unbound are located at subterms of its
-    body.
+    body.  CORRECTION (rocq-prover/rocq#22721): besides N24, N3, N7,
+    N11-N13, N17-N22 and N28-N34 are accepted since the universes of
+    rocq-prover/rocq#22721 and are no longer refutations.  Fifteen lines
+    open with [Fail] (grep -c '^Fail' of this file): NAME-ABSENCE (the
+    instrument), INSTANCE (N1), CONVERSION (N2, N16, N23, N26, N27),
+    TYPING (N10), BINDER (N5) and UNIVERSE (N4, N6, N8, N9, N14, N25):
+    one, one, five, one, one and six.  Of the three groups read by cause,
+    only N9 and N10 are still refused.
 
     LABELS.  The pins carry the N-numbers of this file; #454's builders
     and reviews measured them under other names, recorded here so that
@@ -215,6 +235,9 @@
       The term "R" has type "RingObject@{ra rc rp}" while it is expected to
       have type "RingObject@{<1> <1> <1>}" (universe inconsistency: Cannot
       enforce rc = ra because rc < ra).
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N3 is the
+    state before rocq-prover/rocq#22721; with its universes N3 is accepted
+    and is no longer a [Fail] command.
 
     ** Instance/Mod/Cogenerator.v
 
@@ -280,6 +303,9 @@
       (universe inconsistency: Cannot enforce x = w because x < w),
     and N28 at [w < x], with the same text but its clause, "Cannot enforce
     x = w because w < x".
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N7 and N28 are
+    accepted and are no longer [Fail] commands.
 
     N9 (UNIVERSE), N10 (TYPING).  Where [U] is spent.  [pim_fn]'s body is
     accepted with [U] ([p454_pim_fn_U]); N9, the truncation applied to the
@@ -305,7 +331,9 @@
     whose list also names stdlib bounds that a binder cannot declare, so
     that form is refused at [RingObject@{c c c}] too (the header says so)
     and is not restated; N11's extensible binder is the discriminating
-    form.
+    form.  CORRECTION (rocq-prover/rocq#22721): that refusal of N11
+    is the state before rocq-prover/rocq#22721; with its universes N11 is
+    accepted and is no longer a [Fail] command.
 
     N12, N13 (BINDER).  A closed universe list works for (2)'s record
     ([p454_wp_record_closed], exactly the five named universes).  For
@@ -317,6 +345,9 @@
     one term, formed under an extensible list ([p454_cwp_up_unfolded]),
     N13 is refused with the same text, the two located at
     [rmod_prop_surjective_epic] and at [rmod_epic_surjective].
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N12 and N13 are
+    accepted under their closed lists and are no longer [Fail] commands.
 
     ** Instance/Mod/Colimit.v
 
@@ -367,6 +398,9 @@
     N18 peels it to [RModop_Cogenerator], formed at [RingObject@{c c c}]
     ([p454_rmodop_cog_ccc]) and refused at [c < a] with the same text; N11
     peels it once more, to [Ring_RMod].
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N17 and
+    N18 are the state before rocq-prover/rocq#22721; with its universes
+    both are accepted and are no longer [Fail] commands, and so is N11.
 
     N19, N29 (UNIVERSE).  The Sets level of the text form is the
     continuity hypothesis's auxiliary universe pa ([p454_sets_ccc]); with
@@ -381,6 +415,9 @@
       ◯ T)" (universe inconsistency: Cannot enforce pa = s because pa < s).
     N29, at [s < pa], is refused with the same text but its clause,
     "Cannot enforce pa = s because s < pa".
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N19 and N29 are
+    accepted and are no longer [Fail] commands.
 
     N20, N30 (UNIVERSE).  The witness's intermediate [Ab] sits at RMod's
     object universe o.  The header measures that on the continuity of the
@@ -396,6 +433,9 @@
       enforce m = o because o < m).
     N30, at [m < o], is refused with the same text but its clause,
     "Cannot enforce m = o because m < o".
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N20 and N30 are
+    accepted and are no longer [Fail] commands.
 
     N31, N32 (CONVERSION).  The header's own form of that measurement:
     [HomAbForget_continuous]'s body, [continuous_compose] of that first
@@ -419,6 +459,9 @@
     whose parenthetical the header quotes.  With m left free the same
     definition is accepted and its [About] reads "o = m" (measured in a
     scratch file with this file's import list).
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N31 and N32 are
+    accepted and are no longer [Fail] commands.
 
     N21, N22 (CONVERSION).  [HomAbForget_continuous]'s tenth slot is x:
     named x the constant is accepted ([p454_hafc_at_x]); named k6, with
@@ -435,7 +478,9 @@
     same definition is accepted and its [About] reads "x = k6" (measured
     in a scratch copy of this file).  The header quotes the refusal of the
     constant's BODY at that slot, and N33 and N34 pin that form; both
-    forms are pinned.
+    forms are pinned.  CORRECTION (rocq-prover/rocq#22721): both refusals
+    are the state before rocq-prover/rocq#22721; with its universes N21
+    and N22 are accepted and are no longer [Fail] commands.
 
     N33, N34 (CONVERSION).  [HomAbForget_continuous]'s body is accepted at
     the constant's own tenth slot x ([p454_hafc_body_at_x]); at k6, with
@@ -449,6 +494,9 @@
       (RMod R)^op Ab (HomAbForget R A) K" and "Functor.Compose_obligation_1
       J (RMod R)^op Ab (CoHomAb Ab_AbEnriched A ◯ (RMod_Forget_Ab R)^op)
       K").
+    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
+    before rocq-prover/rocq#22721; with its universes N33 and N34 are
+    accepted and are no longer [Fail] commands.
 
     N23 (CONVERSION).  Mac Lane's last step: the representing object of
     the text form is F ℤ up to isomorphism ([p454_watts_Fz], restating
@@ -489,7 +537,9 @@
     ([p454_unc_Z_ccc]) and apart ([p454_unc_Z_apart], at [Int_Ring@{c p
     a}]); at a generic ring it holds with the three STRICTLY apart
     ([p454_unc_apart], [c < a], [p < a]), where the special adjoint
-    functor theorem's route is refused (N17); and the category of
+    functor theorem's route is refused (N17; CORRECTION
+    (rocq-prover/rocq#22721): N17 is accepted since the universes of
+    rocq-prover/rocq#22721); and the category of
     ℤ-modules at a [Set] carrier is formed ([p454_rmod_at_set]), so the
     refusals below are the theorem's.  N24, the witness at a [Set]
     carrier:
@@ -497,6 +547,9 @@
       Set}]" while it is expected to have type "obj[RMod@{<1> <2> <3> <4>
       <5>} Int_Ring@{<5> <4> <3>}]" (universe inconsistency: Cannot enforce
       Set = <3> because Set < <5> <= <3>).
+    CORRECTION (rocq-prover/rocq#22721): that refusal of N24 is the
+    state before rocq-prover/rocq#22721; with its universes N24 is
+    accepted and is no longer a [Fail] command.  N25 is still refused.
     N25, the theorem itself at [RingObject@{Set Set Set}]:
       The term "T" has type "(RMod@{o x Set Set Set} R)^op ⟶ Ab@{b Set}"
       while it is expected to have type "(RMod@{<1> <2> <3> <4> <5>} ?R)^op
@@ -541,9 +594,11 @@
     Colimit.v's [left_adjoint_iso] refusal over the two
     [Diagonal_Coproduct_Adjunction]s, which needs Instance/Mod/Coproduct.v,
     an import no target carries.  (c) WellPowered.v's closed-binder form
-    of the ring collapse (N11 says why).  (d) Unconditional.v's measurement
+    of the ring collapse (N11 says why; N11 itself is accepted since the
+    universes of rocq-prover/rocq#22721).  (d) Unconditional.v's measurement
     that [Set < c], deleted from a binder, is re-inferred: a readback, of
-    which N24 and N25 pin the consequence.  (e) Flip censuses ([Defined]
+    which N24 and N25 pinned the consequence (N25 alone since the
+    universes of rocq-prover/rocq#22721, N24 being accepted).  (e) Flip censuses ([Defined]
     against [Qed]) and the closure of the targets under [Print
     Assumptions]: measurements of the build rather than of commands; the
     Makefile's print-assumptions gate is where closure is kept.
@@ -763,7 +818,9 @@ Definition p454_tensor_homZ_apart@{ra rc rp +| rc < ra, rp < ra +}
 Definition p454_homzl_ring_adj@{r +} {R : RingObject@{r r r}} :=
   @homzl_ring_adjunction R.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N3 (UNIVERSE), now accepted: [homzl_ring_adjunction] at [rc < ra].
+   Previously refused with "Cannot enforce rc = ra because rc < ra";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n3_homzl_ring_apart@{ra rc rp +| rc < ra, rp < ra +}
   {R : RingObject@{ra rc rp}} :=
   @homzl_ring_adjunction R.
@@ -885,14 +942,18 @@ Fail Definition p454_n6_wp_up_at_pin@{a c p o x +|
   fun W => RMod_WellPoweredAt_up W.
 
 Check @WellPoweredAt@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N7 (UNIVERSE), now accepted: (1) with its fifth slot named w, at
+   [x < w].  Previously refused with "Cannot enforce x = w because
+   x < w"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n7_wp_up_fifth_slot@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, x < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
   WellPoweredAt@{w o o c} W :=
   RMod_WellPoweredAt_up W.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N28 (UNIVERSE), now accepted: the same at [w < x].  Previously
+   refused with "Cannot enforce x = w because w < x"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p454_n28_wp_up_fifth_slot_below@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, w < x +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
@@ -968,7 +1029,9 @@ Definition p454_ring_obj_ccc@{c o x +| Set < o, c < o, c < x +}
   (R : RingObject@{c c c}) : obj[RMod@{o c c c} R] :=
   Ring_RMod R.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N11 (UNIVERSE), now accepted: the ring as a module over itself at
+   [c < a].  Previously refused with "Cannot enforce a = c because
+   c < a"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n11_ring_obj_apart@{a c p o x +|
     Set < o, c < o, c < x, p <= a, c < a, a <= o +}
   (R : RingObject@{a c p}) : obj[RMod@{o a p c} R] :=
@@ -997,7 +1060,9 @@ Definition p454_cwp_record@{a c p o x +|
      wp_to_from := cwp_to_from U |}.
 
 Check @Untruncate@{_}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N12 (BINDER), now accepted: (3)'s record under a CLOSED universe
+   list.  Previously refused with "Universes <1> (...) <2> (...) are
+   unbound."; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n12_cwp_record_closed@{a c p o x |
     Set < c, c < o, c < x, p <= a, c <= a, a <= o +}
   {R : RingObject@{a c p}} (U : Untruncate@{c})
@@ -1027,7 +1092,9 @@ Definition p454_cwp_up_unfolded@{a c p o x w +| c < w, a <= w +}
      wp_to_from := ltac:(intro u; exists iso_id; simpl; cat) |}.
 
 Check @RModObject@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N13 (BINDER), now accepted: (5)'s unfolded construction under a
+   CLOSED universe list.  Previously refused with the text of N12;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n13_cwp_up_closed@{a c p o x w | c < w, a <= w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
   @WellPoweredAt@{w o o c} ((RMod@{o a p c} R)^op) W :=
@@ -1159,7 +1226,9 @@ Definition p454_ex3_apart@{a c p o x b g pk pa ra rt +| c < a, p < a +}
 Check @PreservesImageLimit@{_ _ _ _ _ _ _}.
 Check @Representable@{_ _ _}.
 Check @Category.Instance.Ab.Ab_Forget@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N17 (UNIVERSE), now accepted: [watts_theorem_sets]'s body at
+   [c < a].  Previously refused with "Cannot enforce c = a because
+   c < a"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n17_sets_apart@{a c p o x b pk pa ra rt +| c < a +}
   {R : RingObject@{a c p}} (T : (RMod@{o a p c} R)^op ⟶ Ab@{b c})
   (contT : @PreservesImageLimit@{o c b c pk pa c}
@@ -1178,13 +1247,18 @@ Definition p454_rmodop_cog_ccc@{c o x +| Set < o, c < o, c < x +}
   (R : RingObject@{c c c}) : Cogenerator ((RMod@{o c c c} R)^op) :=
   RModop_Cogenerator R.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N18 (UNIVERSE), now accepted: [RModop_Cogenerator] at [c < a].
+   Previously refused with N17's text; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n18_rmodop_cog_apart@{a c p o x +|
     Set < o, c < o, c < x, p <= a, c < a, a <= o +}
   (R : RingObject@{a c p}) : Cogenerator ((RMod@{o a p c} R)^op) :=
   RModop_Cogenerator R.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N19 (UNIVERSE), now accepted: the text form's Sets level s for
+   [Ab_Forget] at [pa < s].  Previously refused with "Cannot enforce
+   pa = s because pa < s"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
     pa < s +}
   {R : RingObject@{c c c}} (T : (RMod@{o c c c} R)^op ⟶ Ab@{a c})
@@ -1199,7 +1273,9 @@ Definition p454_n19_sets_level_above_pa@{c o x a s pk pa ra rt +|
           Ab_Forget_creates_continuous))
     (RModop_Cogenerator R) (RMod_CoWellPowered_untruncate U).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N29 (UNIVERSE), now accepted: the same at [s < pa].  Previously
+   refused with "Cannot enforce pa = s because s < pa"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Definition p454_n29_sets_level_below_pa@{c o x a s pk pa ra rt +|
     s < pa +}
   {R : RingObject@{c c c}} (T : (RMod@{o c c c} R)^op ⟶ Ab@{a c})
@@ -1223,7 +1299,10 @@ Definition p454_forget_op_cont@{c o x +| Set < o, c < o, c < x +}
     (Opposite_Functor (RMod_Forget_Ab R : RMod@{o c c c} R ⟶ Ab@{o c})) :=
   right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N20 (UNIVERSE), now accepted: the composite's first factor with its
+   [Ab] at [o < m].  Previously refused with "Cannot enforce m = o
+   because o < m"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n20_forget_op_cont_above@{c o x m +|
     Set < o, c < o, c < x, o < m +}
   (R : RingObject@{c c c}) :
@@ -1231,7 +1310,9 @@ Definition p454_n20_forget_op_cont_above@{c o x m +|
     (Opposite_Functor (RMod_Forget_Ab R : RMod@{o c c c} R ⟶ Ab@{m c})) :=
   right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N30 (UNIVERSE), now accepted: the same at [m < o].  Previously
+   refused with "Cannot enforce m = o because m < o"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p454_n30_forget_op_cont_below@{c o x m +|
     Set < o, c < o, c < x, m < o +}
   (R : RingObject@{c c c}) :
@@ -1252,7 +1333,11 @@ Definition p454_hafc_body_at_o@{c o x b +} (R : RingObject@{c c c})
 
 Check @AbObject@{_ _ _}.
 Check @RMod_Forget_Ab@{_ _ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N31 (CONVERSION), now accepted: [HomAbForget_continuous]'s body with
+   the composite's intermediate [Ab] at [o < m].  Previously refused with
+   a "cannot unify" of two [padd_respects] terms differing in that [Ab]
+   universe, m against o; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n31_hafc_body_above_o@{c o x m b +| o < m +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{m c} _ Ab_AbEnriched A
@@ -1262,7 +1347,9 @@ Definition p454_n31_hafc_body_above_o@{c o x m b +| o < m +}
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N32 (CONVERSION), now accepted: the same at [m < o].  Previously
+   refused with N31's text; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n32_hafc_body_below_o@{c o x m b +| m < o +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{m c} _ Ab_AbEnriched A
@@ -1280,14 +1367,19 @@ Definition p454_hafc_at_x@{c o x b +} (R : RingObject@{c c c})
   HomAbForget_continuous R A.
 
 Check @ContinuousFunctor@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N21 (CONVERSION), now accepted: [HomAbForget_continuous] with its
+   tenth slot named k6, at [x < k6].  Previously refused with a "cannot
+   unify" of two [Cone] types differing in the [Ab] universe; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n21_hafc_above_x@{c o x b k6 +| x < k6 +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
     (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
   HomAbForget_continuous R A.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N22 (CONVERSION), now accepted: the same at [k6 < x].  Previously
+   refused with N21's text; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n22_hafc_below_x@{c o x b k6 +| k6 < x +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1303,7 +1395,10 @@ Definition p454_hafc_body_at_x@{c o x b +} (R : RingObject@{c c c})
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N33 (CONVERSION), now accepted: [HomAbForget_continuous]'s body with
+   the tenth slot named k6, at [x < k6].  Previously refused with the
+   header's "cannot unify" of two [Functor.Compose_obligation_1] terms;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p454_n33_hafc_body_above_x@{c o x b k6 +| x < k6 +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1312,7 +1407,9 @@ Definition p454_n33_hafc_body_above_x@{c o x b k6 +| x < k6 +}
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N34 (CONVERSION), now accepted: the same at [k6 < x].  Previously
+   refused with N33's text; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p454_n34_hafc_body_below_x@{c o x b k6 +| k6 < x +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1459,7 +1556,11 @@ Definition p454_rmod_at_set@{o x +| Set < o, Set < x +} :=
   RMod@{o Set Set Set} Int_Ring@{Set Set Set}.
 
 Check @Int_Ring@{_ _ _}.
-Fail Definition p454_n24_unc_Z_at_set@{o x b +}
+(* N24 (UNIVERSE), now accepted: the witness at a [Set] carrier,
+   previously refused with "Cannot enforce Set = <3> because
+   Set < <5> <= <3>"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Definition p454_n24_unc_Z_at_set@{o x b +}
   (A : RMod@{o Set Set Set} Int_Ring@{Set Set Set}) :=
   watts_unconditional_at_Z A.
 

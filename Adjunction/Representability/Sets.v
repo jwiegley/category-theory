@@ -289,13 +289,16 @@ Context (K : C ⟶ Sets).
 
 (* The INDEX universe is named [i], and it is free of it: the constraint
    block relates it to nothing, exactly as in [SolutionSet].  It is the
-   LAST binder, because the three the enclosing section discharges (the
-   ambient's object and hom-and-proof levels, and [Sets]' object level)
-   come first and print with generic names.  Measured readback:
+   LAST binder, because the four the enclosing section discharges (the
+   ambient's object, hom and proof levels, and [Sets]' object level)
+   come first and print with generic names.  Measured readback, with the
+   universes of rocq-prover/rocq#22721 (an earlier revision of this comment
+   measured three discharged universes, [C : Category@{u u0 u0}] and
+   [K : C ⟶ Sets@{u0 u1}]; measured now by [About]):
 
-     ElementSolutionSet@{u u0 u1 i} :
-     ∀ {C : Category@{u u0 u0}}, (C ⟶ Sets@{u0 u1}) → Type@{max(u,u0,i+1)}
-     (* u u0 u1 i |= u0 < u1 / u0 <= ID.u0 *)
+     ElementSolutionSet@{u u0 u1 u2 i} :
+     ∀ {C : Category@{u u0 u1}}, C ⟶ Sets@{u2 u2+1} → Type@{max(u,u0,u2,i+1)}
+     (* u0 <= u1 / u0 <= u2 / u2 <= ID.u0 *)
 
    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity
    and composite, and by [About] on Rocq 9.3.0 none of the 38 constants of
@@ -438,7 +441,7 @@ Arguments esol_elem {C K} _ _.
 Definition representability_theorem@{cobj h su +}
   {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
   (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C Sets K)
-  (E : ElementSolutionSet@{cobj h h} K) : Representable K :=
+  (E : ElementSolutionSet@{cobj h h h _} K) : Representable K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont (sols_of_esols K E)).
 

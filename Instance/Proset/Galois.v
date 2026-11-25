@@ -178,8 +178,8 @@ Program Definition galois_adj_iso (a : Proset PA) (b : Proset PB) :
 (* The universes are declared: [h] for the homs of the two posets, [e] above
    them for the adjunction. *)
 Program Definition GaloisAdjunction@{h e | h < e +} :
-  @Adjunction@{b h h a h h h h e h Set} (Proset PB) (Proset PA)
-    GaloisFunctor_l@{h} GaloisFunctor_r@{h} := {|
+  @Adjunction@{b a h e Set} (Proset PB) (Proset PA)
+    GaloisFunctor_l GaloisFunctor_r := {|
   adj := galois_adj_iso
 |}.
 

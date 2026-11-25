@@ -39,7 +39,11 @@
         rejections are pinned below.  None of the three carries universe
         annotations, so this stays a repairable annotation defect of the
         family this repo has met before, NOT inherent content, and not
-        claimed unavoidable here.
+        claimed unavoidable here.  CORRECTION: since the universes of
+        rocq-prover/rocq#22721 [cone_leg N x] and [IsALimit F c] are
+        ACCEPTED with J's levels declared apart (negatives 4 and 3 are
+        no longer negatives); [IsLimitCone N] (negative 5) is still
+        rejected.
 
     Every negative is paired with a positive control NAMING ITS OWN
     CONSTANTS.  The measured rename-simulation score is at the end, over
@@ -109,9 +113,11 @@ Check (initial_Cones_Terminal I F).
 
 End WholeRecord.
 
-(** ** Negative 3 (FORMABILITY, universe): IsALimit identifies J's levels
+(** ** Negative 3 (FORMABILITY, universe): IsALimit identified J's levels
 
-    A DIFFERENT KIND from 1 and 2. *)
+    A DIFFERENT KIND from 1 and 2.  No longer a negative: accepted since
+    the universes of rocq-prover/rocq#22721 (the probe is in
+    [UniverseIdentification2] below). *)
 
 Section UniverseIdentification.
 
@@ -128,16 +134,20 @@ Context (J : Category@{jo jh jp}) (C : Category@{co ch cp})
 Check (ACone c F).
 Check (Cone F).
 
-(** ** Negative 4 (FORMABILITY, universe): cone_leg identifies them too
+(** ** Negative 4 (FORMABILITY, universe): cone_leg identified them too
 
     Same KIND as negatives 3 and 5, different CONSTANT.  This is the one
-    that refutes the earlier draft's attribution: [cone_leg] is cone
-    vocabulary and is rejected at the same levels.  It is also the donor
-    this development meets FIRST -- [initial_med]'s body is
-    `cone_leg N initial_obj`, and [initial_med] already displays
-    `u0 = u2` while its type mentions no [IsALimit] at all. *)
+    that refuted the earlier draft's attribution: [cone_leg] is cone
+    vocabulary and was rejected at the same levels.  It was also the
+    donor this development meets FIRST -- [initial_med]'s body is
+    `cone_leg N initial_obj`, and [initial_med] displayed `u0 = u2`
+    while its type mentions no [IsALimit] at all.  These measurements
+    predate rocq-prover/rocq#22721. *)
 
-Fail Check (cone_leg N x).
+(* Negative 4, no longer a negative: previously rejected with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (cone_leg N x).
 
 (** ** Negative 5 (FORMABILITY, universe): IsLimitCone likewise *)
 
@@ -163,7 +173,10 @@ Constraint jh2 < jp2.
 Context (J : Category@{jo2 jh2 jp2}) (C : Category@{co2 ch2 cp2})
         (F : J ⟶ C) (c : C).
 
-Fail Check (IsALimit F c).
+(* Negative 3, no longer a negative: previously rejected with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (IsALimit F c).
 
 End UniverseIdentification2.
 
@@ -173,7 +186,9 @@ End UniverseIdentification2.
     the three negatives fire on the CONSTRAINT rather than on some
     unrelated defect in how they are written.  These do: the SAME three
     applications, at levels DECLARED but deliberately NOT constrained
-    apart, all elaborate. *)
+    apart, all elaborate.  (Negatives 3 and 4 are accepted at the
+    constrained levels too since the universes of rocq-prover/rocq#22721;
+    only negative 5 still fires.) *)
 
 Section UniverseControl.
 

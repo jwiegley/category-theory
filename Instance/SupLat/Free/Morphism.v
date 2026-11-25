@@ -240,7 +240,7 @@ Example SL_EM_theta_alg_fun@{o so | Set < o, o < so +}
 Example SL_factor_set@{o so | Set < o, o < so +}
   (x : @EilenbergMoore Sets@{o so}
          (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so}) :
-  sl_set (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x)
+  sl_set@{o} (fobj[EM_to_SupLat@{o so} ◯ SL_EM_theta@{o so}] x)
     = sl_set (fobj[EM_induced_to_SupLat@{o so}] x) := eq_refl.
 
 Example SL_factor_le@{o so | Set < o, o < so +}

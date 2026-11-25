@@ -55,7 +55,7 @@ Record IsIndexedProduct@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {A : T
   (* universal property: every family [pi] into the [f a] factors uniquely
      through the projections *)
   iprod_desc {c : C} (pi : ∀ a, c ~> f a) :
-    Unique@{h q h} (fun u : c ~> p => ∀ a, proj a ∘ u ≈ pi a)
+    Unique@{h h q} (fun u : c ~> p => ∀ a, proj a ∘ u ≈ pi a)
 }.
 
 Arguments iprod_desc {_ _ _ _ _} _ {_} _.

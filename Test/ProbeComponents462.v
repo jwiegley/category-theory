@@ -615,24 +615,24 @@ Definition p462_adj_Sets_at_Set@{so | Set < so +} :=
   components_left_adjoint_discrete_Sets@{Set so}.
 
 Definition p462_no_left_at_Set@{so u u0 | Set < so, Set < u +} :=
-  components_no_left_adjoint@{Set so u0}.
+  components_no_left_adjoint@{Set so}.
 
 Definition p462_any_left_at_Set@{so ua ub u u0 | Set < so, Set < ua,
     Set < ub +} :=
-  discrete_left_adjoint_no_left_adjoint@{Set so ua ub u u0}.
+  discrete_left_adjoint_no_left_adjoint@{Set so _ _}.
 
 Definition p462_unsquash_principle_at_Set@{so u u0 | Set < so,
     Set < u +} :=
-  components_on_all_Sets_unsquashes@{Set so u0}.
+  components_on_all_Sets_unsquashes@{Set so}.
 
 Definition p462_unsquash_at_Set@{so u u0 | Set < so, Set < u +} :=
-  components_on_all_Sets_Untruncate@{Set so u0}.
+  components_on_all_Sets_Untruncate@{Set so}.
 
 Definition p462_ptop_at_Set@{so u u0 | Set < so, Set < u +} :=
-  discrete_no_left_adjoint_on_PTop@{Set so u0}.
+  discrete_no_left_adjoint_on_PTop@{Set so}.
 
 Definition p462_pdisc_at_Set@{so u u0 | Set < so, Set < u +} :=
-  PDisc_no_left_adjoint@{Set so u0}.
+  PDisc_no_left_adjoint@{Set so}.
 
 Definition p462_zig_at_Set@{so | Set < so +} :=
   components_zig_not_preserved@{Set so}.

@@ -25,7 +25,8 @@
                    Negatives 5 and 6.
 
       FORMABILITY  ends in "universe inconsistency: Cannot enforce ...".
-                   Negative 7.
+                   Negative 7, which is accepted since the universes of
+                   rocq-prover/rocq#22721 and is no longer a negative.
 
     Every constant a negative names also appears in a command OUTSIDE any
     [Fail], donors included -- a guard that names a constant only inside
@@ -214,7 +215,8 @@ Check (zz_perp_e1_is_yaxis : perp_set ZZPerp zz_e1 ≈ zz_yaxis).
 Fail Check (eq_refl : perp_set ZZPerp zz_e1 = zz_yaxis).
 
 (* ------------------------------------------------------------------------ *)
-(** ** Negative 7 (FORMABILITY): the carrier and relation levels coincide *)
+(** ** Negative 7 (FORMABILITY): the carrier and relation levels
+       coincided; accepted since rocq-prover/rocq#22721 *)
 
 (* [PerpRel@{o}] is declared over [SetoidObject@{o o}], so it does not
    accept a setoid whose two levels are declared apart.  Read that at its
@@ -231,7 +233,9 @@ Fail Check (eq_refl : perp_set ZZPerp zz_e1 = zz_yaxis).
    this negative measured an inherited shape rather than a demand of the
    record's own, which overstated what it measures.  The
    controls show the setoid, its carrier and its structure are all fine at
-   these levels. *)
+   these levels.  CORRECTION: the rejection described above is the one
+   measured before the universes of rocq-prover/rocq#22721; since them
+   [PerpRel Aq] is accepted at these levels. *)
 
 Section UniverseBoundary.
 
@@ -244,6 +248,9 @@ Check (carrier Aq).
 Check (is_setoid Aq).
 Check (Aq : Type@{qo}).
 
-Fail Check (PerpRel Aq).
+(* Negative 7, no longer a negative: previously refused with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (PerpRel Aq).
 
 End UniverseBoundary.

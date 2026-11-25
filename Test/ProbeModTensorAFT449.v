@@ -78,7 +78,10 @@ Require Import Category.Instance.Rng.
     below has been re-measured without it.  (ii) The heading said FOUR
     universe negatives; there are now THREE, NEGATIVE 4 having become a
     positive control, plus the NEW negative 8 below, which pins the side
-    condition the unconditional construction introduces.
+    condition the unconditional construction introduces.  CORRECTION:
+    negative 8 is accepted since the universes of rocq-prover/rocq#22721
+    and is no longer a negative, so three UNIVERSE negatives remain
+    (NEGATIVES 1-3).
 
     AND WHAT THE WALL DOES NOT STOP, which is the point of this PR.  The
     wall is about ONE index -- the sigma over objects.  A DIFFERENT
@@ -440,7 +443,8 @@ Fail Definition n3_bal_direct_esols_refused {X : RingObject}
     at exactly the levels that used to refuse it, and the declaration is
     made on the CARRIER slot -- [RingObject]'s second, as the note on the
     section below measures -- so that it is the positive half of the side
-    condition NEGATIVE 8 refuses, and not a weaker statement about the
+    condition NEGATIVE 8 refused (it is accepted since the universes of
+    rocq-prover/rocq#22721), and not a weaker statement about the
     record's own level.
 
     THE WALL OF NEGATIVES 1-3 IS NOT LIFTED BY THIS.  Those three are
@@ -561,7 +565,14 @@ End GenArgumentName.
     [bal_tensor_via_AFT_of_esols]'s, [Set < Projections.u0], a bound on a
     stdlib constant, and NO new bound on the ring's carrier slot.  The
     [Set < u0] the two share is one the conditional already carried.  The
-    asymmetry is real and is not explained here. *)
+    asymmetry is real and is not explained here.
+
+    CORRECTION: the measurements and the refusal quoted above predate the
+    universes of rocq-prover/rocq#22721.  Since them the unconditional
+    form is ACCEPTED at a ring whose carrier universe is [Set] (with the
+    modules' universes put at [Set], as the note on the [Context] below
+    says), so NEGATIVE 8 is no longer a negative and no longer pins the
+    side condition. *)
 
 Section SetCarrierPin.
 
@@ -580,8 +591,10 @@ Definition p449_cond_at_set_carrier
   (E : ElementSolutionSet (Bilin Vs Vs')) : Representable (Bilin Vs Vs') :=
   tensor_via_AFT_of_esols Vs Vs' E.
 
-(* THE NEGATIVE: the unconditional one does not. *)
-Fail Definition p449_uncond_at_set_carrier :
+(* NEGATIVE 8, no longer a negative: the unconditional one was refused
+   here with "Cannot enforce u_carrier = u_index"; it is accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Definition p449_uncond_at_set_carrier :
   Representable (Bilin Vs Vs') := tensor_via_AFT Vs Vs'.
 
 End SetCarrierPin.

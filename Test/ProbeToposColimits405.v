@@ -222,7 +222,13 @@ End ProbeGeneral.
    elementary transports and the headline theorem itself are accepted at
    exactly those levels.  This measurement is what justifies building
    Structure/Topos/Colimits.v out of [Terminal]/[HasPullbacks] records
-   rather than out of [Limit]. *)
+   rather than out of [Limit].
+
+   CORRECTION (rocq-prover/rocq#22721): the above is the measurement
+   before rocq-prover/rocq#22721.  With its universes [Terminal_Limit Cu]
+   and [Cartesian_Limit Cu] are both accepted at these levels and are no
+   longer [Fail] commands; the statement of the two constants quoted above
+   is not re-measured. *)
 
 Section UniverseBoundary.
 
@@ -231,10 +237,14 @@ Constraint Set < uh.
 
 Context (Cu : Category@{uo uh uh}).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formerly a FORMABILITY refutation, now accepted: [Terminal_Limit].
+   Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (Terminal_Limit Cu).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formerly a FORMABILITY refutation, now accepted: [Cartesian_Limit].
+   Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (Cartesian_Limit Cu).
 
 (* Controls at the very same declared levels. *)
@@ -260,7 +270,12 @@ End UniverseBoundary.
    [pow_relations] and [pow_aor_is_relations] are FIDELITY CHECKS that
    cost a universe identification, and no constant on the proof path
    pays it.  [SubObj] itself is accepted, so the identification belongs
-   to the [Sets]-packaging and not to the subobject record. *)
+   to the [Sets]-packaging and not to the subobject record.
+
+   CORRECTION (rocq-prover/rocq#22721): the above is the measurement
+   before rocq-prover/rocq#22721.  With its universes [relations_iso] and
+   [pow_relations] are accepted at these levels and are no longer [Fail]
+   commands. *)
 
 Section RelationsBoundary.
 
@@ -279,10 +294,14 @@ Check (@power_object_monadic Cv Hv).
 Check (@topos_has_finite_colimits Cv Hv).
 Check (@SubObj Cv).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formerly a FORMABILITY refutation, now accepted: [relations_iso].
+   Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (@relations_iso Cv Hv).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formerly a FORMABILITY refutation, now accepted: [pow_relations].
+   Previously refused with a universe inconsistency; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (@pow_relations Cv Hv).
 
 End RelationsBoundary.
@@ -305,7 +324,13 @@ End RelationsBoundary.
    block over that very binder.  Read "each refused alone" as sufficiency and
    not independence: [Monic], [Cartesian], [Terminal], [SubObj], [Closed],
    [SubobjectClassifier] and [Opposite] are refused the same way, while
-   [IsIsomorphism] alone is accepted (measured, not pinned). *)
+   [IsIsomorphism] alone is accepted (measured, not pinned).
+
+   CORRECTION (rocq-prover/rocq#22721): the above is the measurement
+   before rocq-prover/rocq#22721.  With its universes the three pinned
+   refutations -- [ElementaryTopos], [IsPullback] and [HasPullbacks] at
+   the declared levels -- are accepted and are no longer [Fail] commands;
+   the unpinned classes listed above are not re-measured here. *)
 
 Section DonorBoundary.
 
@@ -322,11 +347,20 @@ Check @ElementaryTopos.
 Check @IsPullback.
 Check @HasPullbacks.
 
-Fail Check (@ElementaryTopos Cw).
+(* Formerly a FORMABILITY refutation, now accepted: [ElementaryTopos].
+   Previously refused ALONE with "Cannot enforce wp = wh"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Check (@ElementaryTopos Cw).
 
-Fail Check (@IsPullback Cw x y z f g P p1 p2).
+(* Formerly a FORMABILITY refutation, now accepted: [IsPullback].
+   Previously refused ALONE with "Cannot enforce wp = wh"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Check (@IsPullback Cw x y z f g P p1 p2).
 
-Fail Check (@HasPullbacks Cw).
+(* Formerly a FORMABILITY refutation, now accepted: [HasPullbacks].
+   Previously refused ALONE with "Cannot enforce wp = wh"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Check (@HasPullbacks Cw).
 
 End DonorBoundary.
 

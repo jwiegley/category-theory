@@ -3,9 +3,10 @@
     Pins the measured boundaries of the projective/injective development
     with negatives of four kinds, kept lexically apart: UNIVERSE (N1-N3: at
     a category whose hom and proof levels are declared apart, [Epic],
-    [Monic] and [Projective] are all refused while the category, its homs
-    and an arrow are accepted — the identification is the donors', not this
-    file's); CONVERSION and TYPING (N4-N5: [Epic] in [C^op] is not [Monic]
+    [Monic] and [Projective] were all refused while the category, its homs
+    and an arrow are accepted — the identification was the donors', not
+    this file's; CORRECTION: all three are accepted since the universes of
+    rocq-prover/rocq#22721 and are kept without [Fail]); CONVERSION and TYPING (N4-N5: [Epic] in [C^op] is not [Monic]
     in [C], so [injective_extend]'s bridge [op_Epic_of_Monic] does real
     work, while the objects and homs of the duality convert); TYPING (N6: a
     Prop-valued existential over [≈] cannot be stated, [≈] being
@@ -42,8 +43,9 @@ Generalizable All Variables.
 (* instrument: the refutation keyword is live *)
 Fail Check probe429_absent_name.
 
-(** ** A: UNIVERSE — [Projective] identifies hom with proof, and the
-       identification is [Epic]'s, not this file's *)
+(** ** A: UNIVERSE — [Projective] identified hom with proof, and the
+       identification was [Epic]'s, not this file's; accepted since the
+       universes of rocq-prover/rocq#22721 *)
 
 Section ProbeUniverse.
 
@@ -57,12 +59,17 @@ Check Cu.
 Check (x ~{Cu}~> y).
 Check f.
 
-(* N1, N2 UNIVERSE: the donors are already refused at these levels *)
-Fail Check (@Epic Cu x y f).
-Fail Check (@Monic Cu x y f).
+(* N1, N2 UNIVERSE, now accepted: the donors were previously refused at
+   these levels with a universe inconsistency.  N1 accepted with the
+   universes of rocq-prover/rocq#22721. *)
+Check (@Epic Cu x y f).
+(* N2 accepted with the universes of rocq-prover/rocq#22721 *)
+Check (@Monic Cu x y f).
 
-(* N3 UNIVERSE: and so is [Projective], inheriting the identification *)
-Fail Check (@Projective Cu x).
+(* N3 UNIVERSE, now accepted: [Projective] was previously refused too,
+   inheriting the identification.  Accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@Projective Cu x).
 
 End ProbeUniverse.
 

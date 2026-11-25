@@ -42,6 +42,12 @@ Generalizable All Variables.
 
 (** * Probe for Construction/Reflective/FixedPoints.v and its poset instance *)
 
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 7, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
+
 (* This file states, from OUTSIDE both targets, every boundary those two
    files measure, so that a rename or a change of definition breaks a
    build rather than turning a guard silently green.  It mirrors the
@@ -265,9 +271,13 @@ Check (fun x : Cu => id[x]).
 Check Fu.
 Check Uu.
 
-(* NEGATIVE 7 (FORMABILITY).  [Adjunction] identifies the hom universe
-   with the proof universe.  This is inherited, not introduced by the
-   targets (#367, #368 and #379 measure the same donor). *)
+(* NEGATIVE 7 (FORMABILITY), now accepted.  [Adjunction] identified the
+   hom universe with the proof universe, and this command was refused
+   with a universe inconsistency.  This was inherited, not introduced by
+   the targets (#367, #368 and #379 measure the same donor).  Accepted
+   with the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (Fu ⊣ Uu).
 
 (* NEGATIVE 8 (FORMABILITY).  [Subcategory] does so independently, with

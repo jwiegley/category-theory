@@ -74,7 +74,14 @@
     The file is rename-simulated with the `Require` lines PRESERVED, since
     two of the guarded names also name modules and renaming those lines
     would break the copy on a missing module rather than on the guard --
-    reading as a pass. *)
+    reading as a pass.
+
+    CORRECTION (rocq-prover/rocq#22721): the above records the state
+    before rocq-prover/rocq#22721.  With its universes all three
+    negatives are accepted under `Constraint uh < up` and are no longer
+    `Fail` commands, so none of the three subjects is now measured to
+    identify hom with proof at the declared levels.  The binder
+    measurement of the POSITIVE is not re-measured here. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -87,7 +94,8 @@ Require Import Category.Structure.Group.Representable.
 
 Generalizable All Variables.
 
-(** ** Negatives 1-3 (FORMABILITY): three donors identify hom with proof *)
+(** ** Negatives 1-3 (FORMABILITY): three donors that identified hom with proof,
+    all accepted since the universes of rocq-prover/rocq#22721 *)
 
 Section Donors.
 
@@ -105,18 +113,24 @@ Check @Terminal.
 Check @GroupObject.
 Check @HomGroupData.
 
-(* NEGATIVE 1. *)
+(* NEGATIVE 1, now accepted: [Cartesian]. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
+(* Previously refused with a universe inconsistency naming the declared
+   levels; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
-(* NEGATIVE 2. *)
-Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
+(* NEGATIVE 2, now accepted: [Terminal].  Previously refused with a
+   universe inconsistency naming the declared levels; accepted since the
+   universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Terminal C).
 
-(* NEGATIVE 3.  [HomGroupData] is the target's OWN central record, and
-   unlike [GroupObject] it takes no monoidal argument -- its signature is
-   [forall {C : Category}, obj[C] -> Type] -- so the rejection is
-   attributable to it rather than to something elaborated before it. *)
-Fail Check (fun (C : Category@{uo uh up}) (e : C) => @HomGroupData C e).
+(* NEGATIVE 3, now accepted.  [HomGroupData] is the target's OWN central
+   record, and unlike [GroupObject] it takes no monoidal argument -- its
+   signature is [forall {C : Category}, obj[C] -> Type] -- so the former
+   rejection, a universe inconsistency naming the declared levels, was
+   attributable to it rather than to something elaborated before it.
+   Accepted since the universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) (e : C) => @HomGroupData C e).
 
 End Donors.
 
@@ -139,9 +153,10 @@ Definition probe_homgroupdata_binder
 (** ** What this file does NOT claim
 
     The identification is the DONORS' doing and is NOT claimed
-    unavoidable; no lift was attempted.  Negative 3 DOES show
+    unavoidable; no lift was attempted.  Negative 3 DID show
     [HomGroupData] rejected on its own, with no donor elaborated before
-    it, so the rejection is attributable to that record; what is NOT
-    established is whether it would still identify were [Category] itself
+    it, so the rejection was attributable to that record (CORRECTION:
+    it is accepted since the universes of rocq-prover/rocq#22721); what
+    was NOT established is whether it would still identify were [Category] itself
     stated with its levels apart.  And no separation is proved between the
     representable and the internal formulations. *)

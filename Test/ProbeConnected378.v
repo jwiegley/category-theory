@@ -68,7 +68,20 @@ Generalizable All Variables.
     universe sections carry the discriminating controls beside their
     negatives: [Ju ⟶ Cu] elaborates at hom levels declared strictly
     apart, so [Functor] is NOT a donor of either identification, and
-    that is what makes the four rejections attributable. *)
+    that is what makes the four rejections attributable.
+
+    CORRECTION (rocq-prover/rocq#22721): negative 9
+    ([LeftAdjointLeftInverse]) is accepted with the universes of
+    rocq-prover/rocq#22721 and is no longer a [Fail] command, so the file
+    now has NINE [Fail] commands = 1 instrument check + 8 negatives, 3 of
+    them FORMABILITY (negatives 6-8).  The tally above records the state
+    before that change. *)
+
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so negative 9, accepted with
+   the universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
 
 (* ------------------------------------------------------------------ *)
 (** ** Instrument check *)
@@ -296,9 +309,10 @@ End ShapeAmbientHom.
 (* ------------------------------------------------------------------ *)
 (** ** (4) Universes: hom and proof coincide in both categories
 
-    Negative 9 (FORMABILITY).  [LeftAdjointLeftInverse] is rejected at a
-    category whose hom and proof levels are declared apart, while
-    [Au ⟶ Xu] is accepted there -- so this identification too is a
+    Negative 9 (FORMABILITY), now accepted.  [LeftAdjointLeftInverse]
+    was rejected at a category whose hom and proof levels are declared
+    apart (CORRECTION: it is accepted there since the universes of
+    rocq-prover/rocq#22721), while [Au ⟶ Xu] is accepted there -- so this identification too is a
     donor's and not this development's.  [HasColimitsOfShape] and
     [Diagonal] are rejected at the same levels (measured, not pinned
     separately: they are already pinned above at the other
@@ -320,6 +334,10 @@ Context (Xu : Category@{xo xh xp}).
 Check (obj[Au]).
 Check (Au ⟶ Xu).
 
+(* Negative 9, now accepted: previously refused with a universe
+   inconsistency; accepted since the universes of rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (@LeftAdjointLeftInverse Au Xu).
 
 End HomProof.

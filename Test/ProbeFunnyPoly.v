@@ -24,6 +24,9 @@
           universe inconsistency: Cannot enforce Set = v
 
         at the [unit_left] field (first [Fail] below);
+        CORRECTION (rocq-prover/rocq#22721): with the universes of that
+        Rocq change that command is accepted and is no longer a [Fail],
+        the unitors of Construction/Funny/Unitors.v unchanged;
 
       - consequently the compiled instance does not transport: casting
         [Funny_Monoidal@{i}] to [@Monoidal StrictCat@{i v j v v}] fails with
@@ -34,7 +37,10 @@
     universe binders in Construction/Funny/Unitors.v.  If that is ever done,
     the [Fail] commands here stop failing and this file breaks the build,
     flagging that the universe-scope note in Instance/StrictCat/Premonoid.v
-    can be relaxed. *)
+    can be relaxed.  CORRECTION (rocq-prover/rocq#22721): the first of
+    them stopped failing with the universes of that Rocq change, with no
+    re-declaration of the unitors, and is kept without [Fail]; the second,
+    the cast of [Funny_Monoidal@{i}], still fails. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -61,11 +67,14 @@ Monomorphic Constraint v < j.
 Definition probe_tensor_ok :=
   @Build_Monoidal StrictCat@{i v v v} _1 FunnyTensor.
 
-(** ** The reproduction: the unitor field is where [Set] is enforced.
+(** ** The reproduction: the unitor field is where [Set] is enforced,
+    now accepted.
 
-    Error: The term "Funny_unit_left@{_ v}" has type "1 □ x ≅ x"
-    while it is expected to have type "fobj[FunnyTensor@{..}] (1, x) ≅ x"
-    (universe inconsistency: Cannot enforce Set = v). *)
+    Previously refused with: The term "Funny_unit_left@{_ v}" has type
+    "1 □ x ≅ x" while it is expected to have type
+    "fobj[FunnyTensor@{..}] (1, x) ≅ x"
+    (universe inconsistency: Cannot enforce Set = v).
+    Accepted since the universes of rocq-prover/rocq#22721. *)
 Check @StrictCat@{_ _ _ _}.
 Check @Category@{_ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
@@ -81,7 +90,8 @@ Check @Funny_Monoidal@{_}.
 Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v v v}).
 
 (** ** Positive control: [Funny_Monoidal] is a well-formed [Monoidal] at its
-    own universe level.  This pins the two [Fail]s above to the specific
+    own universe level.  This pins the two [Fail]s above (one since the
+    universes of rocq-prover/rocq#22721) to the specific
     [Set = v] universe conflict rather than to a malformed term or a renamed
     identifier: the instance exists and type-checks, it simply does not
     transport up to level [v].  Without this control a [Fail] would pass on

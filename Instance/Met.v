@@ -351,8 +351,8 @@ Qed.
    spaces. Inferred, the objects would be at [o+1]. *)
 Program Definition Met@{u o | o < u +} : Category@{u o o} := {|
   obj     := MetricSpace@{o};
-  hom     := Isometry@{o};
-  homset  := @Isometry_Setoid@{o};
+  hom     := Isometry@{o o};
+  homset  := @Isometry_Setoid@{_ o};
   id      := @met_id;
   compose := @met_compose;
 

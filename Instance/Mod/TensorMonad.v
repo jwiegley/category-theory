@@ -341,7 +341,7 @@ Example TensorMonad_join@{a c p o x} (R : RingObject@{a c p})
 Example TensorMonad_join_counit@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) :
   @join _ _ (TensorMonad@{a c p o} R) A
-  = rm_hom (zext_counit@{a c p} R (ZExtObj R A)) := eq_refl.
+  = rm_hom (zext_counit@{a c p c c} R (ZExtObj R A)) := eq_refl.
 
 Example TensorMonad_join_gen@{a c p o x} (R : RingObject@{a c p})
   (A : obj[Ab@{o c}]) (r : carrier (rig_setoid (ring_rig R)))
@@ -593,7 +593,7 @@ Example comparison_alg_is_smul@{a c p o} {R : RingObject@{a c p}}
 Example comparison_alg_counit@{a c p o} {R : RingObject@{a c p}}
   (M : obj[RMod@{o a p c} R]) :
   t_alg[`2 (fobj[EM_Comparison (zext_adjunction@{a c p a} R)] M)]
-  = rm_hom (zext_counit@{a c p} R M) := eq_refl.
+  = rm_hom (zext_counit@{a c p c c} R M) := eq_refl.
 
 (** ** Riehl's Theorem 5.5.1: the creation of U-split coequalizers *)
 

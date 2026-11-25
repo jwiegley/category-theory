@@ -122,6 +122,8 @@ Generalizable All Variables.
 (* The universes are declared: inferred, the instance of [Fun] would carry
    every universe of the setoids of natural transformations. [u3 u4] are
    the universes of the functor category. *)
+Section FunDef.
+Local Obligation Tactic := idtac.
 Program Definition Fun@{u u0 u1 u2 u3 u4 | max(u, u0, u1) <= u3, max(u, u0) <= u4, u0 = u2}
   {C : Category@{u u0 u0}} {D : Category@{u1 u2 u2}} : Category@{u3 u4 u4} := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
@@ -131,6 +133,16 @@ Program Definition Fun@{u u0 u1 u2 u3 u4 | max(u, u0, u1) <= u3, max(u, u0) <= u
 
   compose_respects := @nat_compose_respects C D
 |}.
+
+Next Obligation.
+  intros C D x y f z; simpl. etransitivity; [apply compose_respects; [apply fmap_id | reflexivity] | apply id_left].
+Qed.
+Next Obligation.
+  intros C D x y f z; simpl. etransitivity; [apply compose_respects; [reflexivity | apply fmap_id] | apply id_right].
+Qed.
+Next Obligation. intros; intro; apply comp_assoc. Qed.
+Next Obligation. intros; intro; apply comp_assoc_sym. Qed.
+End FunDef.
 
 Notation "[ C , D ]" := (@Fun C D)
   (at level 0, right associativity, format "[ C ,  D ]") : category_scope.

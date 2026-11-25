@@ -42,7 +42,12 @@ Generalizable All Variables.
    AT A TIME, the file compiled alone, and the WHOLE error read.
 
    Every constant a negative names is also named outside every [Fail],
-   in the control blocks below. *)
+   in the control blocks below.
+
+   CORRECTION (rocq-prover/rocq#22721): N1 and N2 are accepted with the
+   universes of rocq-prover/rocq#22721 and are no longer [Fail]
+   commands, so six negatives remain, N3 the only formability one.  The
+   list above records the state before that change. *)
 
 (** ** Instrument check: this must be rejected for the trivial reason *)
 
@@ -117,9 +122,11 @@ Check @RelationClasses.PreOrder.
    carries no equation at all.  Both facts have to be read to get this
    right, and only the binder shows it.
 
-   The two negatives below are rejected at levels declared strictly
+   The two negatives below were rejected at levels declared strictly
    apart; the control on the line before each shows the very same
-   application accepted at those levels once hom and proof coincide. *)
+   application accepted at those levels once hom and proof coincide.
+   CORRECTION: both are accepted since the universes of
+   rocq-prover/rocq#22721. *)
 
 Section UniverseProbe.
 
@@ -133,9 +140,11 @@ Check (Lind Tu : Category@{lo lh lh}).
 Check (obj[Lind Tu]).
 Check (fun p q : Sent@{lo} Vu => p ~{Lind Tu}~> q).
 
-(* N1 (FORMABILITY): "Cannot enforce lh = lp because lh < lp". *)
+(* N1 (FORMABILITY), now accepted.  Previously refused with "Cannot
+   enforce lh = lp because lh < lp". *)
 Check @Category@{_ _ _}.
-Fail Check (Lind Tu : Category@{lo lh lp}).
+(* N1: accepted since the universes of rocq-prover/rocq#22721. *)
+Check (Lind Tu : Category@{lo lh lp}).
 
 Context (Au : Type@{lo}) (Ru : Relation_Definitions.relation Au)
         (Pu : RelationClasses.PreOrder Ru).
@@ -143,11 +152,13 @@ Context (Au : Type@{lo}) (Ru : Relation_Definitions.relation Au)
 (* Control for N2, at the same declared levels. *)
 Check (Proset Pu : Category@{lo lh lh}).
 
-(* N2 (FORMABILITY): the donor alone, with no [Lind] in the command,
-   is rejected with the identical clause — so the identification is
-   inherited from [Proset] and the target introduces none of its own. *)
+(* N2 (FORMABILITY), now accepted: the donor alone, with no [Lind] in
+   the command, was rejected with the identical clause — so the
+   identification was inherited from [Proset] and the target introduced
+   none of its own. *)
 Check @Category@{_ _ _}.
-Fail Check (Proset Pu : Category@{lo lh lp}).
+(* N2: accepted since the universes of rocq-prover/rocq#22721. *)
+Check (Proset Pu : Category@{lo lh lp}).
 
 End UniverseProbe.
 

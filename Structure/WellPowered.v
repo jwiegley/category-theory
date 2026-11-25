@@ -462,7 +462,7 @@ Definition complete_intersection_IsIntersection@{o h r so j +|
     so <= r, h <= r, j <= so +}
   {C : Category@{o h h}} (comp : @Complete@{r so h o} C) {x : C}
   {J : Type@{j}} (S : J → SubObj x) :
-  IsIntersection@{o h j} S (complete_intersection comp S) :=
+  IsIntersection@{o h h j} S (complete_intersection comp S) :=
   IsIntersection_drop_top S _
     (sub_wide_intersection_IsIntersection (sub_opt_top S) None
        (complete_wide_pullback comp
@@ -515,7 +515,7 @@ Definition wp_complete_class_intersection@{o h w s t r so p q +|
   {x : C} (W : WellPoweredAt@{w o s h} x) (P : SubObj x → Type@{p})
   (HP : ∀ m m' : SubObj x, m ≈ m' → P m → P m') :
   { w : SubObj x &
-    IsIntersection@{o h q} (fun k : { m : SubObj x & P m } => `1 k) w }.
+    IsIntersection@{o h h q} (fun k : { m : SubObj x & P m } => `1 k) w }.
 Proof.
   exists (complete_intersection comp (wp_class_family W P)).
   exact (IsIntersection_reindex W P HP _
@@ -531,7 +531,7 @@ Definition wellpowered_complete_has_intersections@{o h w s t r so p q +|
   (WP : WellPowered@{o h w s t} C) (comp : @Complete@{r so h o} C) (x : C)
   (P : SubObj x → Type@{p}) (HP : ∀ m m' : SubObj x, m ≈ m' → P m → P m') :
   { w : SubObj x &
-    IsIntersection@{o h q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
+    IsIntersection@{o h h q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
   wp_complete_class_intersection comp (WP x) P HP.
 
 (* The intersection IS the wide pullback over the small index. *)
@@ -549,7 +549,7 @@ Definition wellpowered_complete_has_intersections_prop@{o h w s t r so q +|
   (WP : WellPowered@{o h w s t} C) (comp : @Complete@{r so h o} C) (x : C)
   (P : SubObj x → Prop) (HP : ∀ m m' : SubObj x, m ≈ m' → P m → P m') :
   { w : SubObj x &
-    IsIntersection@{o h q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
+    IsIntersection@{o h h q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
   wellpowered_complete_has_intersections WP comp x P HP.
 
 (* The intersection of ALL subobjects, indexed by the large type [SubObj x]
@@ -559,7 +559,7 @@ Definition wellpowered_complete_intersection_all@{o h w s t r so q +|
     o <= q, h <= q +}
   {C : Category@{o h h}}
   (WP : WellPowered@{o h w s t} C) (comp : @Complete@{r so h o} C) (x : C) :
-  { w : SubObj x & IsIntersection@{o h q} (fun m : SubObj x => m) w }.
+  { w : SubObj x & IsIntersection@{o h h q} (fun m : SubObj x => m) w }.
 Proof.
   pose (R := wellpowered_complete_has_intersections_prop
                WP comp x (fun _ => True) (fun _ _ _ t => t)).
@@ -593,7 +593,7 @@ Definition cowellpowered_cocomplete_has_cointersections@{o h w s t r so qo p q
   (x : C) (P : QuotObj@{qo o h} x → Type@{p})
   (HP : ∀ q q' : QuotObj x, q ≈ q' → P q → P q') :
   { w : QuotObj@{qo o h} x &
-    @IsIntersection@{o h q} (C^op) x _
+    @IsIntersection@{o h h q} (C^op) x _
       (fun k : { q : QuotObj x & P q } => `1 k) w } :=
   wellpowered_complete_has_intersections CWP
     (Complete_op_of_Cocomplete cocomp) x P HP.
@@ -759,7 +759,7 @@ Definition Indiscrete_types_has_intersections@{j o t q +|
   (x : Indiscrete@{o j j} Type@{j}) (P : SubObj x → Type@{j})
   (HP : ∀ m m' : SubObj x, m ≈ m' → P m → P m') :
   { w : SubObj x &
-    IsIntersection@{o j q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
+    IsIntersection@{o j j q} (fun k : { m : SubObj x & P m } => `1 k) w } :=
   wellpowered_complete_has_intersections
     (Indiscrete_WellPowered@{o j Set o t} Type@{j})
     (Indiscrete_Complete@{j j j o} (Datatypes.unit : Type@{j})) x P HP.

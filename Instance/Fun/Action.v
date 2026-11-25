@@ -244,7 +244,7 @@ Qed.
    position, which the minimization no longer chooses. *)
 Program Definition MSet_round_iso@{d o s} {M : MonObject@{o o o}} (F : Deloop@{d o} M ⟶ Sets@{o s}) :
   @Isomorphism ([Deloop@{d o} M, Sets@{o s}])
-    (functor_of_action@{o o d} (action_of_functor@{o o d} F)) F := {|
+    (functor_of_action (action_of_functor F)) F := {|
   to   := {| transform := fun x =>
     match x return (functor_of_action (action_of_functor F) x ~{Sets}~> F x)
     with ttt => {| morphism := fun p => p |} end |};

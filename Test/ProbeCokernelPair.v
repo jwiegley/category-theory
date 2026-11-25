@@ -106,7 +106,9 @@ End SetsControls.
 (* Control for formability negatives 5-7: a category whose hom universe is
    STRICTLY below its proof universe is itself perfectly formable, and its
    hom-sets can be named.  So the rejections below are attributable to the
-   named constants and not to the section's own declarations. *)
+   named constants and not to the section's own declarations.  CORRECTION:
+   negatives 5-7 are accepted since the universes of
+   rocq-prover/rocq#22721; only 8 and 9 are still rejected. *)
 Section SeparatedUniverseControl.
 
 Universes uo uh up.
@@ -199,7 +201,12 @@ End FormabilityNegatives.
    its own.  Every one was stripped and reports
    "universe inconsistency: Cannot enforce vp = vh because vh < vp",
    a genuine universe inconsistency and not a typing error (contrast
-   negative 4, which IS a typing error). *)
+   negative 4, which IS a typing error).
+
+   CORRECTION: since the universes of rocq-prover/rocq#22721 the [Epic],
+   [Pullback] and [IsPullback] probes (5-7) are accepted and no longer
+   identify hom with proof there; they are kept without [Fail].  The
+   [IsPushout] and [IsPushoutSquare] negatives (8, 9) are still refused. *)
 
 Section UniverseNegatives.
 
@@ -209,14 +216,20 @@ Constraint vh < vp.
 Context (C : Category@{vo vh vp}).
 Context (x y : C) (f : x ~> y).
 
-(* 5. the [Epic] donor, Theory/Morphisms.v *)
-Fail Check (@Epic C x y f).
+(* 5. the [Epic] donor, Theory/Morphisms.v: previously refused with
+      "Cannot enforce vp = vh because vh < vp"; accepted with the
+      universes of rocq-prover/rocq#22721. *)
+Check (@Epic C x y f).
 
-(* 6. the [Pullback] donor, Structure/Pullback.v *)
-Fail Check (@Pullback C x x y f f).
+(* 6. the [Pullback] donor, Structure/Pullback.v: previously refused with
+      "Cannot enforce vp = vh because vh < vp"; accepted with the
+      universes of rocq-prover/rocq#22721. *)
+Check (@Pullback C x x y f f).
 
-(* 7. the [IsPullback] donor, Theory/Morphisms/Stability.v *)
-Fail Check (@IsPullback C x x y f f x id id).
+(* 7. the [IsPullback] donor, Theory/Morphisms/Stability.v: previously
+      refused with "Cannot enforce vp = vh because vh < vp"; accepted
+      with the universes of rocq-prover/rocq#22721. *)
+Check (@IsPullback C x x y f f x id id).
 
 (* 8. the [IsPushout] donor, Structure/Pushout.v *)
 Fail Check (@IsPushout C x y y f f).

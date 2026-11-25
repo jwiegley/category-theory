@@ -26,7 +26,10 @@
                    while 4 and 5 are LEVEL rejections between two
                    declared universes ("Cannot enforce X <= o because
                    o < X", "Cannot enforce Set = u").  The tail alone
-                   does NOT separate the two shapes.
+                   does NOT separate the two shapes.  CORRECTION:
+                   negative 4 is accepted since the universes of
+                   rocq-prover/rocq#22721 and is kept without [Fail];
+                   2, 3 and 5 are still refused.
       CONVERSION   "cannot unify" between two inhabitants of ONE type.
                    Negatives 6, 7 and 8.
       TYPING       a plain "has type ... while it is expected to have
@@ -207,21 +210,26 @@ Definition probe_opens_hom (X : TopSpace) (U V : OpenSet X) : Type :=
   U ~{Opens X}~> V.
 
 (* ------------------------------------------------------------------------ *)
-(** ** Negatives 4 and 5: FORMABILITY (level) *)
+(** ** Negatives 4 and 5: FORMABILITY (level); 4 now accepted *)
 
-(* NEGATIVE 4.  The GENERAL right adjoint of [Opens_preimage] is the
-   interior of a predicate: the union of all opens contained in it.  That
-   union is indexed by [OpenSet X], which sits one universe ABOVE the
-   points, while [open_union] indexes only at the points' level.  This is
-   why Instance/Top/Image.v delivers the right adjoint at its witness and
-   not in general. *)
+(* NEGATIVE 4, now accepted.  The GENERAL right adjoint of
+   [Opens_preimage] is the interior of a predicate: the union of all opens
+   contained in it.  That union is indexed by [OpenSet X], which sat one
+   universe ABOVE the points, while [open_union] indexes only at the
+   points' level, and the definition below was refused with a universe
+   inconsistency ("Cannot enforce X <= o because o < X").  This is why
+   Instance/Top/Image.v delivers the right adjoint at its witness and not
+   in general.  CORRECTION: the definition is accepted with the universes
+   of rocq-prover/rocq#22721. *)
 Check @TopSpace@{_}.
-Fail Definition probe_interior@{o} (X : TopSpace@{o}) (P : X → Type@{o}) :
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Definition probe_interior@{o} (X : TopSpace@{o}) (P : X → Type@{o}) :
   X → Type@{o} :=
   fun x => { V : OpenSet X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
 
 (* The control: at a SMALL index the very same union does form, so the
-   rejection is about the index's universe and not about the shape. *)
+   rejection (before rocq-prover/rocq#22721) was about the index's
+   universe and not about the shape. *)
 Definition probe_small_union@{o} (X : TopSpace@{o}) (I : Type@{o})
   (U : I → (X → Type@{o})) (HU : ∀ i, IsOpen X (U i)) :
   IsOpen X (fun x => { i : I & U i x }) := open_union X I U HU.

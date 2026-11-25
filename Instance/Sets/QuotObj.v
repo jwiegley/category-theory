@@ -377,7 +377,7 @@ Fixpoint nat_tri (n : nat) : nat :=
   | S (S (S m)) => nat_tri m
   end.
 
-Definition nat_mod3 : crelation (carrier NatDiscrete@{o}) :=
+Definition nat_mod3 : crelation (carrier NatDiscrete@{o o}) :=
   fun m n => nat_tri m = nat_tri n.
 
 Lemma nat_mod3_Equivalence : Equivalence nat_mod3.
@@ -394,18 +394,18 @@ Definition nat_mod3_coarser : SetoidCoarser nat_mod3 :=
 (* The three quotient objects of the discrete setoid on [nat]:
    Instance/Sets/Quotient.v's parity, the residue mod 3, and that
    file's total relation. *)
-Definition Sets_Q_parity : @QuotObj Sets@{o so} NatDiscrete@{o} :=
-  SetsQuotient_QuotObj NatDiscrete@{o} nat_parity nat_parity_Equivalence
+Definition Sets_Q_parity : @QuotObj Sets@{o so} NatDiscrete@{o o} :=
+  SetsQuotient_QuotObj NatDiscrete@{o o} nat_parity nat_parity_Equivalence
     nat_parity_coarser.
 
-Definition Sets_Q_mod3 : @QuotObj Sets@{o so} NatDiscrete@{o} :=
-  SetsQuotient_QuotObj NatDiscrete@{o} nat_mod3 nat_mod3_Equivalence
+Definition Sets_Q_mod3 : @QuotObj Sets@{o so} NatDiscrete@{o o} :=
+  SetsQuotient_QuotObj NatDiscrete@{o o} nat_mod3 nat_mod3_Equivalence
     nat_mod3_coarser.
 
-Definition Sets_Q_total : @QuotObj Sets@{o so} NatDiscrete@{o} :=
-  SetsQuotient_QuotObj NatDiscrete@{o} (TotalRelT NatDiscrete@{o})
-    (TotalRelT_Equivalence NatDiscrete@{o})
-    (TotalRelT_coarser NatDiscrete@{o}).
+Definition Sets_Q_total : @QuotObj Sets@{o so} NatDiscrete@{o o} :=
+  SetsQuotient_QuotObj NatDiscrete@{o o} (TotalRelT NatDiscrete@{o o})
+    (TotalRelT_Equivalence NatDiscrete@{o o})
+    (TotalRelT_coarser NatDiscrete@{o o}).
 
 (* The total quotient is the BOTTOM of the factorization order on
    quotient objects of [NatDiscrete]: it factors through every quotient
@@ -413,8 +413,8 @@ Definition Sets_Q_total : @QuotObj Sets@{o so} NatDiscrete@{o} :=
    quotient's codomain, whose respectfulness is [ttt].  An earlier
    revision of this comment said "every quotient factors through it",
    the reverse direction; the statement below was always the right one. *)
-Lemma Sets_Q_total_below (w : @QuotObj Sets@{o so} NatDiscrete@{o}) :
-  @sub_le (Sets@{o so}^op) NatDiscrete@{o} Sets_Q_total w.
+Lemma Sets_Q_total_below (w : @QuotObj Sets@{o so} NatDiscrete@{o o}) :
+  @sub_le (Sets@{o so}^op) NatDiscrete@{o o} Sets_Q_total w.
 Proof.
   unshelve eexists.
   - unshelve refine {| morphism := fun _ : carrier (quot_cod w) => 0%nat |}.
@@ -427,9 +427,9 @@ Defined.
    m+3 agree mod 3, m+3 and m+1 agree in parity, so consecutive
    naturals are identified and induction finishes.  Both steps are
    [eq_refl] at the two invariants. *)
-Lemma Sets_meet_collapse (v : @QuotObj Sets@{o so} NatDiscrete@{o})
-  (H1 : @sub_le (Sets@{o so}^op) NatDiscrete@{o} v Sets_Q_parity)
-  (H2 : @sub_le (Sets@{o so}^op) NatDiscrete@{o} v Sets_Q_mod3)
+Lemma Sets_meet_collapse (v : @QuotObj Sets@{o so} NatDiscrete@{o o})
+  (H1 : @sub_le (Sets@{o so}^op) NatDiscrete@{o o} v Sets_Q_parity)
+  (H2 : @sub_le (Sets@{o so}^op) NatDiscrete@{o o} v Sets_Q_mod3)
   (m n : nat) : quot_epi v m ≈ quot_epi v n.
 Proof.
   destruct H1 as [k1 Hk1].
@@ -452,7 +452,7 @@ Proof.
 Qed.
 
 Lemma Sets_Q_total_IsMeet :
-  @IsMeet (Sets@{o so}^op) NatDiscrete@{o} Sets_Q_parity Sets_Q_mod3
+  @IsMeet (Sets@{o so}^op) NatDiscrete@{o o} Sets_Q_parity Sets_Q_mod3
     Sets_Q_total.
 Proof.
   constructor.
@@ -472,14 +472,14 @@ Defined.
    [QuotObj], which is the strongest relation available here ([QuotObj]
    has no Leibniz antisymmetry, exactly as [SubObj] has none). *)
 Theorem Sets_quot_meet_parity_mod3 :
-  @quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o}
+  @quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o o}
     Sets_Q_parity Sets_Q_mod3 ≈ Sets_Q_total.
 Proof.
-  apply (@IsIntersection_unique (Sets@{o so}^op) NatDiscrete@{o} bool
+  apply (@IsIntersection_unique (Sets@{o so}^op) NatDiscrete@{o o} bool
            (sub_pair Sets_Q_parity Sets_Q_mod3)).
   - exact (@sub_meet_IsMeet (Sets@{o so}^op)
              (HasPullbacks_op_of_HasPushouts Sets_HasPushouts)
-             NatDiscrete@{o} Sets_Q_parity Sets_Q_mod3).
+             NatDiscrete@{o o} Sets_Q_parity Sets_Q_mod3).
   - exact Sets_Q_total_IsMeet.
 Qed.
 
@@ -487,9 +487,9 @@ Qed.
    comparison isomorphism in sight: in the pushout of the two
    projections every natural is identified with every other. *)
 Corollary Sets_quot_meet_collapses (m n : nat) :
-  quot_epi (@quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o}
+  quot_epi (@quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o o}
               Sets_Q_parity Sets_Q_mod3) m
-    ≈ quot_epi (@quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o}
+    ≈ quot_epi (@quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o o}
                   Sets_Q_parity Sets_Q_mod3) n.
 Proof.
   exact (Sets_meet_collapse _ (sub_meet_le_l _ _) (sub_meet_le_r _ _) m n).

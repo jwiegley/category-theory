@@ -23,6 +23,10 @@
     CORRECTION (#1347): N8, N10, N12 and N13 now hold at [eq_refl], since
     Instance/Sets.v gives its identity's and composite's properness fields
     as terms; they are controls, and keep their labels.
+    CORRECTION (rocq-prover/rocq#22721): N23 was refused only before
+    rocq-prover/rocq#22721; with its universes it is accepted and is no
+    longer a [Fail] command, so the refusal quoted for it below is the
+    earlier state.  It keeps its label.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
     Target by target, in the order the nine files are named above, the
@@ -102,6 +106,11 @@
     stripped-copy figures counted numbered negatives without the
     instrument, not all Fail commands.  No historical positive-wrapper or
     constant census is repeated by this stripped-error measurement.
+    CORRECTION (rocq-prover/rocq#22721): this audit predates
+    rocq-prover/rocq#22721.  With its universes N23 is accepted and has
+    lost its [Fail]; nineteen [Fail] commands remain (grep -c '^Fail' of
+    this file), the instrument and eighteen numbered negatives.  The
+    cross-version error comparisons were not re-measured.
 
     KINDS.  Twenty-four refutations, counted as the lines that open with
     the refutation keyword: NAME-ABSENCE (the instrument), TYPING (N1,
@@ -115,6 +124,9 @@
     are controls, so the refutations are twenty and CONVERSION counts
     fourteen (N3, N4, N6, N7, N9, N11, N14-N21): one, four, fourteen and
     one.
+    CORRECTION (rocq-prover/rocq#22721): N23 is accepted with the
+    universes of rocq-prover/rocq#22721, so the refutations are nineteen
+    and none is a UNIVERSE one: one, four, fourteen and none.
 
     LABELS.  builder-alg's scratch negatives n6a, n6b, n7, n8, n1, s1,
     n4, s2, n5, s3, n2, n3, n14 and n13 are N1, N2, N3, N5, N7, N8, N9,
@@ -273,6 +285,10 @@
       enforce Set = p).
     Here <1> stands for the universe the stripped copy names after
     itself and a serial number.
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes [ZtoQ_IsLocalization] is
+    accepted at a ring W above [Set] and N23 is no longer a [Fail]
+    command.
 
     ** Non-vacuity, and the reals
 
@@ -303,7 +319,9 @@
     NOT PINNED HERE.  (a) [About] readbacks as such, the headers' [Set]
     censuses and their attributions to first carriers: pinned only where
     a binder carries them or a refusal does (N23, and the controls with
-    their levels in [Set] or strictly above it).  (b) Flip censuses
+    their levels in [Set] or strictly above it; CORRECTION
+    (rocq-prover/rocq#22721): N23 is accepted with its universes and no
+    longer pins a [Set] census).  (b) Flip censuses
     ([Defined] against [Qed]) and the closure of the targets under
     [Print Assumptions]: measurements of the build rather than of
     commands; the Makefile's print-assumptions gate is where closure is
@@ -712,8 +730,9 @@ Definition p370_loc_hom_above@{u p +| Set < p, p < u +}
   (H : InvertsSet (R := Int_Ring) PosZ psi) : Q_Ring ~{Rng@{p}}~> W :=
   loc_hom W psi H.
 
-(* N23 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N23, now accepted: [ZtoQ_IsLocalization] at a ring W above [Set].
+   Previously refused with "Cannot enforce Set = p"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p370_loc_above@{u p +| Set < p, p < u +}
   (W : obj[Rng@{p}]) (psi : Int_Ring ~{Rng@{p}}~> W)
   (H : InvertsSet (R := Int_Ring) PosZ psi) :=

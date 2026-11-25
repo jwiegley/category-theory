@@ -366,7 +366,7 @@ Generalizable All Variables.
      SAFT_wellpowered@{o dobj h so c w s t pk pa …} :
        Complete@{so so h o} → PreservesImageLimit@{o h dobj h pk so pa so}
        → Cogenerator@{c o h} C → WellPowered@{o h w s t} C →
-       ∃ F, Adjunction@{o h h dobj h h h h pa h …} F U
+       ∃ F, Adjunction@{o dobj h pa …} F U
        (* h <= so, c <= so, w <= h, o <= s, h <= s, h < t, h < pk,
           h < pa, so < pk, o <= pk, dobj <= pk *)
      HasSubobjectWidePullbacks@{o h q r k} : Category@{o h h} → Type@{k}

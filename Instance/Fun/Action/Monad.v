@@ -203,7 +203,7 @@ Generalizable All Variables.
    by Instance/Cat.v's [Cat@{c so so so o}].  The last universe of
    [Adjunction], which occurs in no constraint of its block, is pinned to so
    rather than bound as a third level, as
-   [Adjunction@{so o o so o o o o so o so}], and the witnesses are
+   [Adjunction@{so so o so so}], and the witnesses are
    [Monadic@{so so so so so o so so}].  The stdlib caps are the donors':
    compose and ID from [Sets]; prod_rect and projections (the pair
    projections) from [prod_setoid], in [act_prod], and [so <= projections]
@@ -389,7 +389,7 @@ Defined.
 
 (* Riehl's left adjoint X ↦ G × X, over any monoid. *)
 Definition MSet_adj@{o so} (M : MonObject@{o o o}) :
-  @Adjunction@{so o o so o o o o so o so} (MSet@{o o o o o} M)
+  @Adjunction@{so so o so so} (MSet@{o o o o o} M)
     Sets@{o so} (MSet_Free@{o so} M) (MSet_Forget@{o so} M).
 Proof.
   unshelve refine
@@ -953,14 +953,14 @@ Definition GSet_Forget_Monadic_Grp@{o so}
    carrier's ≈ be a proposition. *)
 Definition GAct_Monad_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
-  (GO : @GroupObject@{so o} Sets@{o so} Sets_CartesianMonoidal X) :
+  (GO : @GroupObject@{so o o} Sets@{o so} Sets_CartesianMonoidal X) :
   @Monad Sets@{o so}
     (ActF@{o so} (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO))) :=
   ActMonad@{o so} (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO)).
 
 Definition GSet_Forget_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
-  (GO : @GroupObject@{so o} Sets@{o so} Sets_CartesianMonoidal X) :
+  (GO : @GroupObject@{so o o} Sets@{o so} Sets_CartesianMonoidal X) :
   @Monadic@{so so so so so o so}
     (MSet@{o o o o o}
        (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO)))

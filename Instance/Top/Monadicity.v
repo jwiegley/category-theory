@@ -318,7 +318,7 @@ Definition PDiscT@{o so s | o < so, o < s +} :
 
 Definition PDiscMonad@{o so s u0 | o < so, o < s+} :
   @Monad Sets@{o so} PDiscT@{o so s} :=
-  @Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}.
+  @Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so}.
 
 Example PDiscT_fobj@{o so s | o < so, o < s +} (x : Sets@{o so}) :
   fobj[PDiscT@{o so s}] x = x := eq_refl.
@@ -328,11 +328,11 @@ Example PDiscT_fmap@{o so s | o < so, o < s +} (x y : Sets@{o so})
 
 Example PDisc_PForget_unit@{o so u0 | o < so+}
   (x : Sets@{o so}) :
-  @unit _ _ _ _ PDisc_PForget@{o so u0} x = id := eq_refl.
+  @unit _ _ _ _ PDisc_PForget@{o so} x = id := eq_refl.
 
 Example PDisc_PForget_counit@{o so u0 | o < so+}
   (X : PTopCat@{o so}) :
-  pmap (@counit _ _ _ _ PDisc_PForget@{o so u0} X) = setoid_morphism_id
+  pmap (@counit _ _ _ _ PDisc_PForget@{o so} X) = setoid_morphism_id
   := eq_refl.
 
 Example PDiscMonad_ret@{o so s u u0 | o < so, o < s, o < u +}
@@ -412,7 +412,7 @@ Definition PDiscK@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PTopCat@{o so} ⟶
     @EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
       PDiscMonad@{o so s u0} :=
-  EM_Comparison PDisc_PForget@{o so u0}.
+  EM_Comparison PDisc_PForget@{o so}.
 
 Example PDiscK_forget_obj@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} (X : PTopCat@{o so}) :
@@ -442,7 +442,7 @@ Defined.
 
 Definition PDiscK_forget@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   EM_Forget _ ◯ PDiscK@{o so s u u0 e} ≈ PForget@{o so} :=
-  EM_Comparison_Forget PDisc_PForget@{o so u0}.
+  EM_Comparison_Forget PDisc_PForget@{o so}.
 
 (** ** Set^I = Set *)
 

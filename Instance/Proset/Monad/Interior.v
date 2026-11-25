@@ -540,7 +540,7 @@ Definition adj_closure@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   {U : Proset@{b h} PB ⟶ Proset@{a h} PA}
   (Adj : @Adjunction@{b a h s w} _ _ F U) :
   ClosureOperator@{a} PA :=
-  closure_of_monad (U ◯ F) (MM := Adjunction_Monad@{b h a h w} Adj).
+  closure_of_monad (U ◯ F) (MM := Adjunction_Monad@{b h h a h h} Adj).
 
 (* [Adjunction_Comonad]'s level u4 (sixth in its binder) occurs in
    neither its type nor its constraints; it is pinned to h. *)
@@ -553,7 +553,7 @@ Definition adj_interior@{a b h s w | h < s +} {A : Type@{a}} {B : Type@{b}}
   (Adj : @Adjunction@{b a h s w} _ _ F U) :
   InteriorOperator@{b} PB :=
   interior_of_comonad (F ◯ U)
-    (H := Adjunction_Comonad@{b h a h w} Adj).
+    (H := Adjunction_Comonad@{b h h a h h} Adj).
 
 Example adj_closure_fun@{a b h s w | h < s +} {A : Type@{a}}
   {B : Type@{b}} {RA : relation A} {RB : relation B} {PA : PreOrder RA}

@@ -182,7 +182,7 @@ Generalizable All Variables.
    UNIVERSES, read off [About] on all 14 constants.  The tensor–hom constants
    bind [@{c o x}]: R : RingObject@{c c c}, Ab@{o c}, RMod@{o x c c c}, pinned
    as Coextension@{c c c o x}, coex_adjunction@{c c c o x c},
-   zext_adjunction@{c c c o o x c c} and Adjunction@{o c c o c c c c x c o}.
+   zext_adjunction@{c c c o o x c c} and Adjunction@{o o c x o}.
    The four cocontinuity constants add t (the class's level), l and l0 (the
    colimit predicate's) and s (the shape's objects).  The three comparison
    constants bind [@{a c p o x}] as Instance/Mod/TensorMonad.v does.  The
@@ -235,15 +235,15 @@ Generalizable All Variables.
    coextension, composed. *)
 
 Definition TensorF_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o} R)
-    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R) :=
+    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R) :=
   Adjunction_Compose (zext_adjunction@{c c c c} R)
     (coex_adjunction@{c c c} R).
 
 Example TensorF_right_adjoint_obj@{c o} (R : RingObject@{c c c})
   (B : obj[Ab@{o c}]) :
-  fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B
+  fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B
   = hom_ab Ab_AbEnriched (ring_ab R) B := eq_refl.
 
 Example tensor_hom_to@{c o x} (R : RingObject@{c c c})
@@ -274,7 +274,7 @@ Qed.
 Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -284,7 +284,7 @@ Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
 Lemma tensor_hom_from_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -298,10 +298,10 @@ Qed.
 (** ** The square of the monad is a left adjoint *)
 
 Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o} R ◯ TensorF@{c c c o} R)
-    ((RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R)
-       ◯ (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R)) :=
+    ((RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R)
+       ◯ (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R)) :=
   Adjunction_Compose (TensorF_left_adjoint@{c o x} R)
     (TensorF_left_adjoint@{c o x} R).
 
@@ -311,27 +311,27 @@ Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
    Adjunction/Continuity.v. *)
 
 Definition TensorF_cocontinuous@{c o x s} (R : RingObject@{c c c}) :
-  CocontinuousFunctor@{o o s c} (TensorF@{c c c o} R) :=
-  left_adjoint_Cocontinuous@{o o c o s}
+  CocontinuousFunctor@{o o c s} (TensorF@{c c c o} R) :=
+  left_adjoint_Cocontinuous@{o o _ _}
     (TensorF_left_adjoint@{c o x} R).
 
 Definition TensorF2_cocontinuous@{c o x s} (R : RingObject@{c c c}) :
-  CocontinuousFunctor@{o o s c}
+  CocontinuousFunctor@{o o c s}
     (TensorF@{c c c o} R ◯ TensorF@{c c c o} R) :=
-  left_adjoint_Cocontinuous@{o o c o s}
+  left_adjoint_Cocontinuous@{o o _ _}
     (TensorF2_left_adjoint@{c o x} R).
 
 Definition TensorF_preserves_colimits@{c o x s}
   (R : RingObject@{c c c}) :
-  PreservesAllColimits@{o o s c} (TensorF@{c c c o} R) :=
-  left_adjoint_preserves_colimits@{o o c o s}
+  PreservesAllColimits@{o o c s} (TensorF@{c c c o} R) :=
+  left_adjoint_preserves_colimits@{o o _ _}
     (TensorF_left_adjoint@{c o x} R).
 
 Definition TensorF2_preserves_colimits@{c o x s}
   (R : RingObject@{c c c}) :
-  PreservesAllColimits@{o o s c}
+  PreservesAllColimits@{o o c s}
     (TensorF@{c c c o} R ◯ TensorF@{c c c o} R) :=
-  left_adjoint_preserves_colimits@{o o c o s}
+  left_adjoint_preserves_colimits@{o o _ _}
     (TensorF2_left_adjoint@{c o x} R).
 
 (** ** The forgetful functor against U^T ◯ K *)

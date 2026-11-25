@@ -548,32 +548,32 @@ Example p469_c11_T_fmap@{o so s | o < so, o < s +} (x y : Sets@{o so})
 
 (* C12: the unit of the adjunction is the identity arrow. *)
 Example p469_c12_unit@{o so u0 | o < so+} (x : Sets@{o so}) :
-  @Category.Theory.Adjunction.unit _ _ _ _ PDisc_PForget@{o so u0} x
+  @Category.Theory.Adjunction.unit _ _ _ _ PDisc_PForget@{o so} x
     = @id Sets@{o so} x := eq_refl.
 
 (* C13: the counit at a space is the identity on its points. *)
 Example p469_c13_counit@{o so u0 | o < so+}
   (X : PTopCat@{o so}) :
   pmap (@Category.Theory.Adjunction.counit _ _ _ _
-          PDisc_PForget@{o so u0} X) = setoid_morphism_id := eq_refl.
+          PDisc_PForget@{o so} X) = setoid_morphism_id := eq_refl.
 
 (* C14: the unit of the induced monad is [id]. *)
 Example p469_c14_ret@{o so s u0 | o < so, o < s+}
   (x : Sets@{o so}) :
-  @ret _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}) x
+  @ret _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so}) x
     = @id Sets@{o so} x := eq_refl.
 
 (* C15: its multiplication is [id]. *)
 Example p469_c15_join@{o so s u0 | o < so, o < s+}
   (x : Sets@{o so}) :
-  @join _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}) x
+  @join _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so}) x
     = @id Sets@{o so} x := eq_refl.
 
 (* C37: its unit and multiplication, as functions, are those of the
    identity monad. *)
 Example p469_c37_monad_fields@{o so s u0 | o < so, o < s+} :
-  (@ret _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}),
-   @join _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so u0}))
+  (@ret _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so}),
+   @join _ _ (@Adjunction_Induced_Monad _ _ _ _ PDisc_PForget@{o so}))
     = ((fun x : Sets@{o so} => @id Sets@{o so} x),
        (fun x : Sets@{o so} => @id Sets@{o so} x)) := eq_refl.
 
@@ -664,25 +664,25 @@ Example p469_c4_forget_fmap_field@{o so s u u0 e |
 (* C18: the carrier of K X is PForget X. *)
 Example p469_c18_forget_obj@{o so s u0 e |
   o < so, o < s, so <= e +} (X : PTopCat@{o so}) :
-  `1 (fobj[EM_Comparison PDisc_PForget@{o so u0}] X) = fobj[PForget@{o so}] X
+  `1 (fobj[EM_Comparison PDisc_PForget@{o so}] X) = fobj[PForget@{o so}] X
   := eq_refl.
 
 (* C19: the underlying arrow of K f is PForget f. *)
 Example p469_c19_forget_map@{o so s u0 e |
   o < so, o < s, so <= e +} (X Y : PTopCat@{o so}) (f : X ~> Y) :
-  t_alg_hom[fmap[EM_Comparison PDisc_PForget@{o so u0}] f]
+  t_alg_hom[fmap[EM_Comparison PDisc_PForget@{o so}] f]
     = fmap[PForget@{o so}] f := eq_refl.
 
 (* C20: the object equation of [PDiscK_forget_strict] IS [eq_refl]. *)
 Example p469_c20_strict_obj@{o so s u u0 e a b |
   o < so, o < s, o < u, so <= e, o < b, so <= a, o <= a +}
   (X : PTopCat@{o so}) :
-  `1 PDiscK_forget_strict@{o so s u u0 e a b} X = eq_refl := eq_refl.
+  `1 PDiscK_forget_strict@{o so s u _ e a b} X = eq_refl := eq_refl.
 
 (* C38: the structure map of K X is the identity setoid morphism. *)
 Example p469_c38_K_alg@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   (X : PTopCat@{o so}) :
-  t_alg[`2 (fobj[EM_Comparison PDisc_PForget@{o so u0}] X)]
+  t_alg[`2 (fobj[EM_Comparison PDisc_PForget@{o so}] X)]
     = @setoid_morphism_id (pt_carrier X) := eq_refl.
 
 (* R2 *)
@@ -745,7 +745,7 @@ Example p469_c21_KI_forget@{o so s u u0 e |
 Example p469_c22_KI_alg@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   (X : PTopCat@{o so}) (x : X) :
   t_alg[`2 (fobj[mh_EM@{so o e s} id_disc_hom@{o so s u u0}
-                   ◯ EM_Comparison PDisc_PForget@{o so u0}] X)] x = x
+                   ◯ EM_Comparison PDisc_PForget@{o so}] X)] x = x
   := eq_refl.
 
 (* R15 *)
@@ -801,7 +801,7 @@ Example p469_c25_factor_obj@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} (P : Pos@{po p0 p1 p2 p3 c}) :
   fobj[PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3}] P
-    = fobj[Pos_Forget@{p3 c}] P := eq_refl.
+    = fobj[Pos_Forget@{c c _ _}] P := eq_refl.
 
 (* C44: and on arrows, read on first projections. *)
 Example p469_c44_factor_map@{c so po p0 p1 p2 p3 |
@@ -809,17 +809,17 @@ Example p469_c44_factor_map@{c so po p0 p1 p2 p3 |
   c <= p0, c <= p1 +}
   (P Q : Pos@{po p0 p1 p2 p3 c}) (f : P ~{Pos@{po p0 p1 p2 p3 c}}~> Q) :
   projT1 (fmap[PosPForget@{c so po p0 p1 p2 p3}] f)
-    = fmap[Pos_Forget@{p3 c}] f := eq_refl.
+    = fmap[Pos_Forget@{c c _ _}] f := eq_refl.
 
 (* R18 *)
 Check @PropSets_Incl@{_ _}.
 Check @PosPForget@{_ _ _ _ _ _ _}.
-Check @Pos_Forget@{_ _}.
+Check @Pos_Forget@{_ _ _ _}.
 Fail Example p469_r18_factor_eq@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} :
   PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3}
-    = Pos_Forget@{p3 c} := eq_refl.
+    = Pos_Forget@{c c _ _} := eq_refl.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Instance/Pos/Monadicity.v: over [PropSets] *)
@@ -978,7 +978,7 @@ Example p469_c29_TPos_fobj@{c so po p0 p1 p2 p3 s |
 Example p469_c50_TPos_fmap@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1,
   c <= p0, c <= p1 +} (S T : Sets@{c so}) (f : S ~{Sets@{c so}}~> T) :
-  fmap[Pos_Forget@{p3 c} ◯ PosDisc@{c so po p0 p1 p2 p3}] f
+  fmap[Pos_Forget@{c c _ _} ◯ PosDisc@{c so po p0 p1 p2 p3}] f
     = fmap[PropSets_Incl@{c so} ◯ PropSets_trunc@{c so}] f := eq_refl.
 
 (* R16 *)
@@ -1276,8 +1276,8 @@ Require Import Category.Monad.Monadicity.Examples.
 (* C55: the monad Id ⊣ Id induces has unit and multiplication [id]. *)
 Example p469_c55_IdId_monad@{o h a |+} (C : Category@{o h h})
   (x : C) :
-  (@ret _ _ (@Adjunction_Induced_Monad@{o h o h a} _ _ _ _
-               (@Adjunction_Id@{o h a} C)) x,
-   @join _ _ (@Adjunction_Induced_Monad@{o h o h a} _ _ _ _
-                (@Adjunction_Id@{o h a} C)) x)
+  (@ret _ _ (@Adjunction_Induced_Monad@{o h h o h h _} _ _ _ _
+               (@Adjunction_Id@{o h} C)) x,
+   @join _ _ (@Adjunction_Induced_Monad@{o h h o h h _} _ _ _ _
+                (@Adjunction_Id@{o h} C)) x)
     = (@id C x, @id C x) := eq_refl.

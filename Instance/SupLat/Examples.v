@@ -147,19 +147,19 @@ Generalizable All Variables.
 (* ------------------------------------------------------------------------ *)
 (** ** P X, the free complete semilattice *)
 
-Example FreeSL_set@{o} (X : SetoidObject) :
-  sl_set (FreeSL X) = Powerset_Prop_obj@{o} X := eq_refl.
+Example FreeSL_set@{o} (X : SetoidObject@{o o}) :
+  sl_set@{o} (FreeSL X) = Powerset_Prop_obj@{o} X := eq_refl.
 
-Example FreeSL_le@{o} (X : SetoidObject)
+Example FreeSL_le@{o} (X : SetoidObject@{o o})
   (S T : carrier (Powerset_Prop_obj X)) :
   sl_le (FreeSL@{o} X) S T = (∀ z, S z → T z) := eq_refl.
 
-Example FreeSL_sup@{o} (X : SetoidObject) :
+Example FreeSL_sup@{o} (X : SetoidObject@{o o}) :
   sl_sup (FreeSL X) = @Powerset_union@{o} X := eq_refl.
 
 (* (c) at P X has the structure map of the free algebra (P X, μ_X); as a
    whole algebra it is refused (E3 of Test/ProbeSupLat466.v). *)
-Example FreeSL_alg@{o so} (X : SetoidObject) :
+Example FreeSL_alg@{o so} (X : SetoidObject@{o o}) :
   t_alg[projT2 (fobj[SupLat_to_EM] (FreeSL X))]
     = t_alg[projT2 (fobj[@EM_Free Sets Powerset_Prop
                           Powerset_Monad@{o so}] X)] := eq_refl.
@@ -168,7 +168,7 @@ Example FreeSL_alg@{o so} (X : SetoidObject) :
    free algebra's structure map is (c)'s at [FreeSL X] by conversion
    ([FreeSL_alg]) and the order reads only that map, so this is
    Instance/SupLat.v's [sl_talg_le_iff] there. *)
-Lemma FreeSL_talg_le_iff@{o so} (X : SetoidObject)
+Lemma FreeSL_talg_le_iff@{o so} (X : SetoidObject@{o o})
   (S T : carrier (Powerset_Prop_obj X)) :
   iff (sl_le (fobj[EM_to_SupLat]
                 (fobj[@EM_Free Sets Powerset_Prop
@@ -178,13 +178,13 @@ Proof. exact (sl_talg_le_iff (FreeSL X) S T). Qed.
 
 (* The universal property of P X, elementwise: a map ψ into a complete
    semilattice extends along the singletons, and uniquely so. *)
-Lemma FreeSL_extend_singleton@{o so} {X : SetoidObject}
+Lemma FreeSL_extend_singleton@{o so} {X : SetoidObject@{o o}}
   {A : SupLatObject} (ψ : X ~{Sets}~> sl_set A) (x : carrier X) :
   @equiv _ (is_setoid (sl_set A))
     (slh_map (SL_extend@{o so} ψ) (Powerset_Prop_singleton_pred x)) (ψ x).
 Proof. exact (@iso_to_from _ _ _ (SL_adj_iso X A) ψ x). Qed.
 
-Lemma FreeSL_extend_unique@{o so} {X : SetoidObject}
+Lemma FreeSL_extend_unique@{o so} {X : SetoidObject@{o o}}
   {A : SupLatObject} (φ : SupLatHom (FreeSL X) A)
   (ψ : X ~{Sets}~> sl_set A)
   (H : ∀ x, @equiv _ (is_setoid (sl_set A))
@@ -325,7 +325,7 @@ Example Prop_P1_round_trip@{o} (Q : Prop) :
 (** ** Two comparable points decide ¬Q or ¬¬Q *)
 
 (* The subset { x | Q ∧ x ≈ top }. *)
-Definition two_points_probe@{o} (A : SupLatObject)
+Definition two_points_probe@{o} (A : SupLatObject@{o})
   (top : carrier (sl_set A)) (Q : Prop) :
   carrier (Powerset_Prop_obj@{o} (sl_set A)).
 Proof.

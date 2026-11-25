@@ -33,8 +33,8 @@ Generalizable All Variables.
    sense, categories 'generalize' preorders by allowing more than one relation
    between objects: each morphism is a distinct (named) preorder relation." *)
 
-Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) :
-  Category := {|
+Program Definition Proset@{u h} {A : Type@{u}} {R : relation A} (P : PreOrder R) :
+  Category@{u h h} := {|
   obj     := A;
   hom     := R;
   (* Since there can be at most one arrow between any two objects, multiple

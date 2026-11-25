@@ -59,7 +59,10 @@
     compiled as P) where Coq 8.20.1 and Rocq 9.1.1 print the binder's
     names; and every wrapped control reports that its command succeeded
     (compared by the same script).  No target and not this file prints a
-    warning on either older version.
+    warning on either older version.  CORRECTION (rocq-prover/rocq#22721):
+    these checks ran while C8 and C8a were refutations; both are accepted
+    since the universes of rocq-prover/rocq#22721, and the counts of this
+    paragraph are not re-measured.
 
     KINDS.  Thirty-seven refutation lines: the instrument C0; CONVERSION,
     [eq_refl] refused with a "cannot unify" parenthetical (N0, N0Z,
@@ -97,6 +100,11 @@
     targets and their donors lists thirteen constants, all of them
     Corelib's lemmas of generalized rewriting, where the unchanged tree
     lists two hundred and thirty-one.
+    CORRECTION (rocq-prover/rocq#22721): the two UNIVERSE refutations, C8
+    and C8a, are accepted since the universes of rocq-prover/rocq#22721
+    and are no longer under a refutation keyword; thirty-five refutation
+    lines remain (by [grep -c '^Fail']), the instrument C0 and the
+    thirty-four CONVERSION ones, and no UNIVERSE one.
     CORRECTION (#1347): two hundred and twenty-eight since #1347, whose
     properness fields as terms take Corelib's [subrelation_id_proper],
     [proper_proper_proxy] and [CMorphisms.compose_proper_obligation_1] out of
@@ -290,6 +298,12 @@
     not: it must also declare the standard library's universe caps the
     donors carry, and so it is refused at [RingObject@{c c c}] too, where
     the adjunction exists (the third review's measurement).
+    CORRECTION (rocq-prover/rocq#22721): C8 and C8a were refused with
+    these messages and are accepted since the universes of
+    rocq-prover/rocq#22721, so by the sentence above the equations they
+    name no longer enter the adjunction at those binders; the equations
+    the control's elaboration adds, and the closed-list measurement, are
+    not re-measured.
 
     ** Closure: a readback, not a refutation
 
@@ -303,8 +317,10 @@
 
     NOT PINNED HERE.  (a) [About] readbacks as such: the headers'
     universe censuses, their attributions to first carriers and caps, and
-    which donor levels are load-bearing pins (C8 and C8a pin one wall,
-    not the censuses).  (b) The flips above, the opaque-dependency censuses
+    which donor levels are load-bearing pins (C8 and C8a pinned one wall,
+    not the censuses; CORRECTION (rocq-prover/rocq#22721): both are
+    accepted since the universes of rocq-prover/rocq#22721).  (b) The
+    flips above, the opaque-dependency censuses
     and the field and normal-form readings behind the CAUSEs: made in
     copies of the dependency closure and in scratch files.  (c) The
     closure of the targets under [Print Assumptions]: a measurement of
@@ -314,7 +330,9 @@
     and so her monadic route not in the tree, no tensor–hom adjunction at
     a general ring, no cocompleteness of Ab): an absence has no command;
     N1, N9-N11 and C2, C3 pin the round trips and lifts that the stronger
-    readings would need, and C8 and C8a the universe wall.  (e) The readings of
+    readings would need, and C8 and C8a the universe wall (CORRECTION
+    (rocq-prover/rocq#22721): C8 and C8a are accepted since the universes
+    of rocq-prover/rocq#22721, so no wall is pinned).  (e) The readings of
     the books, from their page images.
 
     CORRECTION (#468).  Of the absences in (d), general morphisms of monads
@@ -583,7 +601,7 @@ Example p465_ctl_fmap_gen@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (rig_setoid (ring_rig R))) (a0 : carrier A) :
   cmon_map (fmap[TensorF@{a c p o} R] f) (@ts_gen (ring_ab R) A s a0)
-  = cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f)
+  = cmon_map (tensor_map@{c p c c c c c c p} (@cmon_hom_id (ring_ab R)) f)
       (@ts_gen (ring_ab R) A s a0)
   := eq_refl.
 
@@ -591,7 +609,7 @@ Example p465_ctl_fmap_equiv@{a c p o x} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (AbTensor (ring_ab R) A)) :
   cmon_map (fmap[TensorF@{a c p o} R] f) s
-  ≈ cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f) s :=
+  ≈ cmon_map (tensor_map@{c p c c x c c c p} (@cmon_hom_id (ring_ab R)) f) s :=
   ltac:(refine (tensor_hom_ext _ _ _ s); intros r a0; reflexivity).
 
 (* N12 *)
@@ -613,11 +631,11 @@ Definition p465_tm_bilin@{a c p o} (R : RingObject@{a c p})
     (AbTensor (ring_ab R) B)
     (fun g h => @ts_gen (ring_ab R) B
                   (cmon_map (@cmon_hom_id (ring_ab R)) g) (cmon_map f h))
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{_ c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_1@{_ _ c c c c c c c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{_ c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_2@{_ _ c c c c c c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f)
-    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{_ c c}
+    (Category.Instance.Ab.Tensor.tensor_map_obligation_3@{_ _ c c c c c c c}
        _ _ _ _ (@cmon_hom_id (ring_ab R)) f).
 
 (* CONTROL (the cause of N12): [tensor_map] at 1 ⊗ f IS the mediator of
@@ -625,8 +643,8 @@ Definition p465_tm_bilin@{a c p o} (R : RingObject@{a c p})
    the stuck mediator of its own record at the variable sum. *)
 Example p465_ctl_n12_record@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
-  tensor_map (@cmon_hom_id (ring_ab R)) f
-  = tensor_ump@{c c c c _} (p465_tm_bilin R f) := eq_refl.
+  tensor_map@{c p c c c c c c p} (@cmon_hom_id (ring_ab R)) f
+  = tensor_ump@{c c c c c c} (p465_tm_bilin R f) := eq_refl.
 
 Example p465_ctl_n12_maps@{a c p o} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B) :
@@ -642,7 +660,7 @@ Example p465_ctl_n12_left@{a c p o} (R : RingObject@{a c p})
 Example p465_ctl_n12_right@{a c p o x} (R : RingObject@{a c p})
   (A B : obj[Ab@{o c}]) (f : A ~{Ab@{o c}}~> B)
   (s : carrier (AbTensor (ring_ab R) A)) :
-  cmon_map (tensor_map (@cmon_hom_id (ring_ab R)) f) s
+  cmon_map (tensor_map@{c p c c x c c c p} (@cmon_hom_id (ring_ab R)) f) s
   = @tensor_med_fun _ _ _ (p465_tm_bilin R f) s := eq_refl.
 
 (* N12a *)
@@ -846,14 +864,14 @@ Example p465c_ctl_lift_apex@{a c p o j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
   (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   rm_ab (vertex_obj[creates_colimit_lift
-           (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L])
+           (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K) L])
   = vertex_obj[L] := eq_refl.
 
 Example p465c_ctl_lift_module@{a c p o j l l0} {R : RingObject@{a c p}}
   {J : Category@{j c c}} (K : J ⟶ RMod@{o a p c} R)
   (L : Colimit (RMod_Forget_Ab@{o o a p c} R ◯ K)) :
   vertex_obj[creates_colimit_lift
-     (RMod_Forget_Ab_CreatesColimit@{a c p o j} K) L]
+     (RMod_Forget_Ab_CreatesColimit@{a _ p _ j} K) L]
   = ColimMod (cone_op_comp (@limit_cone _ _ _ L))
       (islimitcone_op_comp (limit_limitcone L)) := eq_refl.
 
@@ -945,7 +963,7 @@ Fail Example p465c_C5_to@{c o x} (R : RingObject@{c c c})
 Example p465c_ctl_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -955,7 +973,7 @@ Example p465c_ctl_from@{c o x} (R : RingObject@{c c c})
 Example p465c_ctl_from_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -965,7 +983,7 @@ Example p465c_ctl_from_gen@{c o x} (R : RingObject@{c c c})
 Example p465c_ctl_from_Z@{o x} (A B : obj[Ab@{o Set}])
   (ψ : A ~{Ab@{o Set}}~>
      fobj[RMod_Forget_Ab@{o o Set Set Set} Int_Ring
-          ◯ Coextension@{Set Set} Int_Ring] B)
+          ◯ Coextension@{Set Set Set Set _} Int_Ring] B)
   (a : carrier (cmon_setoid A)) :
   cmon_map (from (@adj _ _ _ _
      (TensorF_left_adjoint@{Set o x} Int_Ring) A B) ψ)
@@ -974,11 +992,11 @@ Example p465c_ctl_from_Z@{o x} (A B : obj[Ab@{o Set}])
   := eq_refl.
 
 (* C6Z *)
-Check @Coextension@{_ _}.
+Check @Coextension@{_ _ _ _ _}.
 Fail Example p465c_C6Z_from_var@{o x} (A B : obj[Ab@{o Set}])
   (ψ : A ~{Ab@{o Set}}~>
      fobj[RMod_Forget_Ab@{o o Set Set Set} Int_Ring
-          ◯ Coextension@{Set Set} Int_Ring] B)
+          ◯ Coextension@{Set Set Set Set _} Int_Ring] B)
   (a : carrier (cmon_setoid A)) (z : Z) :
   cmon_map (from (@adj _ _ _ _
      (TensorF_left_adjoint@{Set o x} Int_Ring) A B) ψ)
@@ -990,7 +1008,7 @@ Fail Example p465c_C6Z_from_var@{o x} (A B : obj[Ab@{o Set}])
 Fail Example p465c_C6_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R] B)
+         fobj[RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -1043,48 +1061,51 @@ Fail Example p465c_C7c_fmap_comp@{a c p o x} (R : RingObject@{a c p}) :
 
 (* CONTROL: the tensor–hom adjunction at [RingObject@{c c c}]. *)
 Definition p465c_ctl_ring_ccc@{c o x} (R : RingObject@{c c c}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{c c c o} R)
-    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c} R) :=
+    (RMod_Forget_Ab@{o o c c c} R ◯ Coextension@{c c c c _} R) :=
   Adjunction_Compose (zext_adjunction@{c c c c} R)
     (coex_adjunction@{c c c} R).
 
 (* CONTROL (for C8 and C8a): at [RingObject@{a c p}] under an extensible
    binder the same composite is accepted, elaboration adding a = c and
-   a = p. *)
+   a = p (measured before rocq-prover/rocq#22721, not re-measured). *)
 Definition p465c_ctl_ring_open@{a c p o x | Set < o, c < o, c < x +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o} R)
-    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p c c _} R) :=
   Adjunction_Compose (zext_adjunction@{a c p a} R)
-    (coex_adjunction@{c p c} R).
+    (coex_adjunction@{c _ c} R).
 
 (* C8 *)
-Check @Adjunction@{_ _ _ _ _ _ _ _ _ _ _}.
+Check @Adjunction@{_ _ _ _ _}.
 Check @coex_adjunction@{_ _ _}.
 Check @Category.Instance.Mod.BaseChange.zext_adjunction@{_ _ _ _}.
 Check @Category.Instance.Mod.Coextension.coex_adjunction@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* C8 (UNIVERSE), now accepted.  Previously refused with "Universe
+   inconsistency. Cannot enforce a = c because c < a."; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p465c_C8_carrier_below@{a c p o x |
     Set < o, c < o, c < x, c < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o} R)
-    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p c c _} R) :=
   Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p a} R)
-    (@Category.Instance.Mod.Coextension.coex_adjunction@{c p c} R).
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{c _ c} R).
 
-(* C8a *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* C8a (UNIVERSE), now accepted.  Previously refused with "Universe
+   inconsistency. Cannot enforce a = p because p < a."; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p465c_C8a_proof_below@{a c p o x |
     Set < o, c < o, c < x, p < a +}
   (R : RingObject@{a c p}) :
-  @Adjunction@{o c c o c c c c x c o} Ab@{o c} Ab@{o c}
+  @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
     (TensorF@{a c p o} R)
-    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p} R) :=
+    (RMod_Forget_Ab@{o o a p c} R ◯ Coextension@{c p c c _} R) :=
   Adjunction_Compose (@Category.Instance.Mod.BaseChange.zext_adjunction@{a c p a} R)
-    (@Category.Instance.Mod.Coextension.coex_adjunction@{c p c} R).
+    (@Category.Instance.Mod.Coextension.coex_adjunction@{c _ c} R).
 
 (** ** Closure: a readback, not a refutation *)
 

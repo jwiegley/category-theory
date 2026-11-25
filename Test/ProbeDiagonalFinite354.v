@@ -167,7 +167,11 @@ Check (Opposite Parallel).
     and all nine are pinned below, together with the discriminating
     control: `Cone` is ACCEPTED at the very levels where every one of the
     nine is rejected, so "the cone vocabulary" would be the wrong
-    attribution.
+    attribution.  CORRECTION: since the universes of
+    rocq-prover/rocq#22721 three of the nine, [IsEqualizer], [IsPullback]
+    and [IsCoequalizer], are accepted at these levels too (they were
+    refused with the universe inconsistency quoted below); the other six
+    are still rejected.
 
     Read "nine" as nine DONORS, not nine independent causes:
     `HasLimitsOfShape` is defined as `∀ F, Limit F`, so it cannot be
@@ -199,15 +203,23 @@ Check (@Cone Parallel Cu).
    disguise.  Nine donors, not four: an earlier revision of this file
    measured all nine in the target's header but pinned only the first
    four, which by this file's own rule ("a measurement is not a guard")
-   left five unguarded.  They are pinned here. *)
+   left five unguarded.  They are pinned here.  CORRECTION: three of the
+   nine ([IsEqualizer], [IsPullback], [IsCoequalizer]) are no longer
+   negatives; see the comment above each. *)
 Fail Check (@Limit Parallel Cu).
 Fail Check (Opposite Cu).
-Fail Check (@IsEqualizer Cu).
-Fail Check (@IsPullback Cu).
+(* Previously refused with "Cannot enforce up = uh because uh < up";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsEqualizer Cu).
+(* Previously refused with "Cannot enforce up = uh because uh < up";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsPullback Cu).
 Fail Check (@HasLimitsOfShape Parallel Cu).
 Fail Check (@Diagonal Cu Parallel).
 Fail Check ([Parallel, Cu]).
-Fail Check (@IsCoequalizer Cu).
+(* Previously refused with "Cannot enforce up = uh because uh < up";
+   accepted since the universes of rocq-prover/rocq#22721. *)
+Check (@IsCoequalizer Cu).
 Fail Check (@IsPushoutSquare Cu).
 
 End FormabilityHomProof.

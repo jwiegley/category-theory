@@ -27,6 +27,10 @@
     N5, N9, N10, N12 and N14-N16 are this file's own.  Every one is
     recorded in a target header, which cites it by its N-number.  The
     positive controls restate the files' claims independently.
+    CORRECTION (rocq-prover/rocq#22721): N5-N8 and N13-N15 are accepted
+    with the universes of rocq-prover/rocq#22721 and are no longer
+    refutations; each keeps its N-number in the comment above the
+    command, and the accounts below record them as previously refused.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
     First Instance/Top/Quotient.v's ten lines verbatim and in order, then
@@ -80,6 +84,10 @@
     Rocq 9.1.1 one up to the serial names; under 8.19.2 fifteen are, N1
     prints the same inconsistency between serial names and N5 the same
     type mismatch with no parenthetical (compared by a script).
+    CORRECTION (rocq-prover/rocq#22721): these figures were measured
+    when N5-N8 and N13-N15 were refutations; those seven are accepted
+    since the universes of rocq-prover/rocq#22721, ten refutations
+    remain, and the counts of this paragraph are not re-measured.
 
     KINDS.  Seventeen refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), UNIVERSE (N1-N6),
@@ -92,7 +100,12 @@
     message prints).  N11 is the elimination rule for propositions: a
     proof of a [Prop] builds only proofs.  N10's parenthetical is the
     universe clause of a sort mismatch, [Type] where [Prop] is expected;
-    it is counted TYPING by the head of its message.
+    it is counted TYPING by the head of its message.  CORRECTION
+    (rocq-prover/rocq#22721): N5, N6 (UNIVERSE) and N7, N8, N13-N15
+    (UNBOUND) are accepted since the universes of rocq-prover/rocq#22721;
+    ten refutations remain (by [grep -c '^Fail']): NAME-ABSENCE, UNIVERSE
+    (N1-N4), CONVERSION (N9, N12, N16) and TYPING (N10, N11), one, four,
+    three and two, and no UNBOUND one.
 
     LABELS.  #459's builder measured most of the pins in scratch files
     under other names, recorded here so that the target headers can cite
@@ -116,7 +129,10 @@
     is [p459_colimit_pointed_at_empty].  Instance/Top/Quotient.v's walls:
     its W-a is N1-N3, its W-b N4, its W-c N5 and N6.  The labels are not
     constants: each refutation carries its own in a comment on the line
-    above it, the instrument's reading "The instrument".
+    above it, the instrument's reading "The instrument".  CORRECTION
+    (rocq-prover/rocq#22721): N5-N8 and N13-N15, accepted since the
+    universes of rocq-prover/rocq#22721, keep their labels in the comments
+    above the accepted commands.
 
     ** Instance/Top/Quotient.v
 
@@ -144,8 +160,8 @@
     N4 (UNIVERSE).  The header's W-b: the relation with its index at the
     points' universe is formed ([p459_rel_at_points]); with the index at
     the hom universe, read as a relation at [Type@{o}], N4:
-      The term "fs" has type "I → SetoidMorphism@{o o o} A B" while it is
-      expected to have type "I → SetoidMorphism@{<1> <1> <1>} ?A ?B"
+      The term "fs" has type "I → SetoidMorphism@{o o} A B" while it is
+      expected to have type "I → SetoidMorphism@{<1> <1>} ?A ?B"
       (universe inconsistency: Cannot enforce o = <1> because o < h <=
       <2> <= <1>).
 
@@ -173,6 +189,9 @@
     and the colimit form given a point of A, [p459_collapse_colimit]),
     and at [o], N6, the same message with the expected type
     "IsWideCoequalizer@{h h h} (collapse_family@{o h} X I p) ?q ?e".
+    CORRECTION (rocq-prover/rocq#22721): N5 and N6 were refused with
+    these messages and are accepted since the universes of
+    rocq-prover/rocq#22721.
 
     N7, N8 (UNBOUND).  The header's UNIVERSES: [collapse_iso_generic] and
     [collapse_empty_iso] carry a universe [u] their statements do not
@@ -181,7 +200,9 @@
     identity on points both ways at [eq_refl] ([p459_iso_generic_to],
     [p459_iso_generic_from]); without it, N7 and N8, each:
       Universe <1> (...) is unbound.
-    at the body's [wide_coequalizer_unique].
+    at the body's [wide_coequalizer_unique].  CORRECTION
+    (rocq-prover/rocq#22721): N7 and N8 were refused with that message
+    and are accepted since the universes of rocq-prover/rocq#22721.
 
     N9 (CONVERSION).  The elementary X/∅ ≅ X is an isomorphism, not an
     equation: the underlying types are equal at [eq_refl]
@@ -252,7 +273,9 @@
       Universe <1> (...) is unbound.
     at the statement's [⊣].  The finished constant reads through [⊣] once
     the binder names [v] ([p459_adjunction_notation]); when it does not,
-    N14, the same message at the same place.
+    N14, the same message at the same place.  CORRECTION
+    (rocq-prover/rocq#22721): N13 and N14 were refused with that message
+    and are accepted since the universes of rocq-prover/rocq#22721.
 
     Controls of X/A as the pushout X ⊔_A ∗, apex at [eq_refl]
     ([p459_pushout], [p459_pushout_apex]).
@@ -284,7 +307,9 @@
 
     N15 (UNBOUND).  The same header's UNIVERSES: [pquot_collapse_iso]'s
     body without [u], N15, the message of N7 at the body's
-    [wide_coequalizer_unique].
+    [wide_coequalizer_unique].  CORRECTION (rocq-prover/rocq#22721): N15
+    was refused with that message and is accepted since the universes of
+    rocq-prover/rocq#22721.
 
     N16 (CONVERSION).  X/∅ is X₊ in [Top] ([p459_empty_sum_iso]), [Some x]
     ↦ [inl x] and [None] ↦ [inr ttt] at [eq_refl] ([p459_empty_sum_some],
@@ -312,7 +337,10 @@
 
     NOT PINNED HERE.  (a) [About] readbacks as such, the headers' [Set]
     censuses and their attributions to first carriers: pinned only where
-    a closed binder carries them or a refusal does (N1-N8, N13-N15).
+    a closed binder carries them or a refusal does (N1-N8, N13-N15;
+    CORRECTION (rocq-prover/rocq#22721): of these only N1-N4 are still
+    refusals, the others being accepted since the universes of
+    rocq-prover/rocq#22721).
     (b) Flip censuses ([Defined] against [Qed]) and the closure of the
     targets under [Print Assumptions]: measurements of the build rather
     than of commands; the Makefile's print-assumptions gate is where
@@ -502,7 +530,9 @@ Check @TopSpace@{_}.
 Check @IsWideCoequalizer@{_ _ _}.
 Check @collapse_family_coequalizer@{_ _ _}.
 Check @Top@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N5 (UNIVERSE), now accepted.  Previously refused with "universe
+   inconsistency: Cannot enforce o = h because o < h"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p459_coequalizer_cumulative@{o h | o < h +}
   (X : TopSpace@{o}) (I : Type@{o}) (p : I → X) :
   IsWideCoequalizer@{h h h} (C := Top@{h o}) (collapse_family X I p)
@@ -523,7 +553,8 @@ Definition p459_collapse_colimit@{o h | o < h +} (X : TopSpace@{o})
 
 (* N6 *)
 Check @collapse_family@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N6 (UNIVERSE), now accepted.  Previously refused with the message of N5;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p459_colimit_at_points@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) (i0 : I) :=
   is_wide_coequalizer_colimit (C := Top@{h o}) (collapse_family@{o h} X I p)
@@ -556,7 +587,9 @@ Example p459_iso_generic_from@{o h u | o < h, h < u +} (X : TopSpace@{o})
 (* N7 *)
 Check @twcoeq_obj@{_ _ _}.
 Check @twcoeq_IsWideCoequalizer@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N7 (UNBOUND), now accepted.  Previously refused with "Universe <1> (...) is
+   unbound." at the body's [wide_coequalizer_unique]; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p459_iso_generic_no_u@{o h | o < h +} (X : TopSpace@{o})
   (I : Type@{o}) (p : I → X) :
   Top_collapse X I p ≅[Top@{h o}] twcoeq_obj@{o o h} (collapse_family X I p) :=
@@ -572,7 +605,8 @@ Definition p459_empty_iso@{o h u | o < h, h < u +} (X : TopSpace@{o}) :
 
 (* N8 *)
 Check @collapse_coequalizer@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N8 (UNBOUND), now accepted.  Previously refused with the message of N7;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p459_empty_iso_no_u@{o h | o < h +} (X : TopSpace@{o}) :
   Top_collapse_sub X (fun _ => False) ≅[Top@{h o}] X :=
   wide_coequalizer_unique _ (collapse_coequalizer@{o h o} X (fun _ => False))
@@ -718,7 +752,7 @@ Definition p459_unsat_rel_not_transitive :
    counit read back at [eq_refl], and its hom-set isomorphism IS
    [pairs_quotient_iso] at [eq_refl]. *)
 Definition p459_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
   pairs_quotient_adjunction@{h o u v}.
 
@@ -758,7 +792,7 @@ Fail Example p459_hom_eq@{h o | o < h +} (X : PairTop@{o})
 (* CONTROL: the [Build_Adjunction'] term of the target at the explicit
    record instance. *)
 Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o} :=
   @Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o} PairQuotient@{h o}
     PointPair@{h o} pairs_quotient_iso@{h o u}
@@ -767,7 +801,9 @@ Definition p459_adjunction_built@{h o u v | o < h, h < u +} :
 
 (* N13 *)
 Check @pairs_quotient_iso@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N13 (UNBOUND), now accepted.  Previously refused with "Universe <1> (...)
+   is unbound." at the statement's [⊣]; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p459_adjunction_built_notation@{h o u v | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   @Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o} PairQuotient@{h o}
@@ -781,8 +817,8 @@ Definition p459_adjunction_notation@{h o u v | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   pairs_quotient_adjunction@{h o u v}.
 
-(* N14 *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N14 (UNBOUND), now accepted.  Previously refused with the message of N13 at
+   the same place; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p459_adjunction_notation_no_v@{h o u | o < h, h < u +} :
   PairQuotient@{h o} ⊣ PointPair@{h o} :=
   pairs_quotient_adjunction.
@@ -885,7 +921,8 @@ Example p459_pquot_collapse_iso_from_none@{o h u | o < h, h < u +}
 
 (* N15 *)
 Check @pquot_coequalizer@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N15 (UNBOUND), now accepted.  Previously refused with the message of N7;
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p459_pquot_collapse_iso_no_u@{o h | o < h +}
   (X : PairTop@{o}) (a0 : collapse_sub_points (pair_space X) (pair_sub X)) :
   Top_collapse_sub (pair_space X) (pair_sub X) ≅[Top@{h o}] pquot_space X :=
@@ -1138,7 +1175,9 @@ Check pquot_wide_ump.
 
 (* #1414: sp does not occur in the constraints of Adjunction, but the
    record remembers it under conversion. Check both instances eagerly;
-   their only difference is sp. *)
+   their only difference is sp.  CORRECTION (rocq-prover/rocq#22721): with
+   its universes sp is irrelevant in Adjunction, and the two instances
+   convert. *)
 Section AdjunctionConversion.
   Universes co do h so low high.
   Constraint h < so. Constraint low < high.
@@ -1150,5 +1189,6 @@ Section AdjunctionConversion.
   Local Definition adj_high := @Adjunction@{co do h so high} C D F U.
   Example adj_low_self : adj_low = adj_low := eq_refl.
   Example adj_high_self : adj_high = adj_high := eq_refl.
-  Fail Example adj_distinct_sp : adj_low = adj_high := eq_refl.
+  (* Accepted with the universes of rocq-prover/rocq#22721 *)
+  Example adj_distinct_sp : adj_low = adj_high := eq_refl.
 End AdjunctionConversion.

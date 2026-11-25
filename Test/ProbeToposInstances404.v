@@ -75,7 +75,13 @@ Open Scope category_scope.
                    instance found)".
 
     Count by kind: 11 FORMABILITY (negatives 1-7 and 10-13), 4 CONVERSION
-    (14-17), 2 TYPING (9 and 18), 1 RESOLUTION (8).
+    (14-17), 2 TYPING (9 and 18), 1 RESOLUTION (8).  CORRECTION
+    (rocq-prover/rocq#22721): FORMABILITY negatives 1, 3, 4, 5 and 12 are
+    accepted with the universes of that Rocq change and are kept without
+    [Fail], each marked at its command; the counts above are those
+    measured before it.  Fourteen refutation commands remain (grep -c
+    '^Fail' of this file), six of them FORMABILITY (negatives 2, 6, 7,
+    10, 11 and 13).
 
     Every negative was stripped from its Fail ONE AT A TIME, compiled
     alone in a scratch file mirroring this Require list, and its WHOLE
@@ -95,15 +101,17 @@ Section PshNegatives.
 
 Context (C : Category) (UT : Untruncate).
 
-(* NEGATIVE 1 (FORMABILITY).  The classification theorem is not statable
-   at this topos: it carries objects <= homs, while the presheaf
-   category's objects sit strictly above its homs.  Stripped:
+(* NEGATIVE 1 (FORMABILITY), now accepted.  The classification theorem
+   was not statable at this topos: it carried objects <= homs, while the
+   presheaf category's objects sit strictly above its homs.  Previously
+   refused; stripped, it reported:
 
      The term "topos_terminal" has type "Terminal@{n1.41 n1.23}"
      while it is expected to have type "Terminal@{n1.26 n1.27}"
      (universe inconsistency: Cannot enforce n1.23 = n1.27 because
-      n1.23 < n1.31 <= n1.26 <= n1.27).                              *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+      n1.23 < n1.31 <= n1.26 <= n1.27).
+
+   Accepted with the universes of rocq-prover/rocq#22721. *)
 Check (@classifier_classifies ([C^op, Sets])
               (@topos_terminal _ (Presheaf_Topos C UT))
               (@topos_pullbacks _ (Presheaf_Topos C UT))
@@ -111,7 +119,9 @@ Check (@classifier_classifies ([C^op, Sets])
 
 (* NEGATIVE 2 (FORMABILITY).  [relations_iso] is built as
    [iso_compose exp_iso (classifier_classifies (a × b))] and inherits
-   the refusal.  Stripped:
+   the refusal (that of NEGATIVE 1, which is accepted since the
+   universes of rocq-prover/rocq#22721, while this one is still
+   refused).  Stripped:
 
      The term "Presheaf_Topos C UT" has type
       "ElementaryTopos@{n2.41 n2.41 n2.23} ([C^op, Sets@{n2.23 n2.41}])"
@@ -121,14 +131,15 @@ Check (@classifier_classifies ([C^op, Sets])
       n2.23 < n2.30 <= n2.27).                                       *)
 Fail Check (@relations_iso ([C^op, Sets]) (Presheaf_Topos C UT)).
 
-(* NEGATIVE 3 (FORMABILITY).  The naturality upgrade likewise.
-   Stripped:
+(* NEGATIVE 3 (FORMABILITY), now accepted.  The naturality upgrade
+   likewise.  Previously refused; stripped, it reported:
 
      The term "topos_terminal" has type "Terminal@{n3.41 n3.23}"
      while it is expected to have type "Terminal@{n3.26 n3.27}"
      (universe inconsistency: Cannot enforce n3.23 = n3.27 because
-      n3.23 < n3.31 <= n3.26 <= n3.27).                              *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+      n3.23 < n3.31 <= n3.26 <= n3.27).
+
+   Accepted with the universes of rocq-prover/rocq#22721. *)
 Check (@Sub_classifier_natural ([C^op, Sets])
               (@topos_terminal _ (Presheaf_Topos C UT))
               (@topos_pullbacks _ (Presheaf_Topos C UT))
@@ -154,16 +165,19 @@ Example p404_restrict_ctrl (c d : C) (h : d ~{C}~> c) (S : Sieve c) :
 
 End PshNegatives.
 
-(* NEGATIVE 5 (FORMABILITY).  [_2] is declared with hom AND proof at the
-   literal [Set], and [Fun_Classifier] carries the strict lower bound
-   [Set < u].  The DISCRIMINATING CONTROL is the line above it:
-   [Functor_Category_Closed _2] IS accepted, so the exclusion is the
-   CLASSIFIER's and not the exponential's.  Stripped:
+(* NEGATIVE 5 (FORMABILITY), now accepted.  [_2] is declared with hom
+   AND proof at the literal [Set], and [Fun_Classifier] carried the
+   strict lower bound [Set < u].  The DISCRIMINATING CONTROL is the line
+   above it: [Functor_Category_Closed _2] IS accepted, so the exclusion
+   was the CLASSIFIER's and not the exponential's.  Previously refused;
+   stripped, it reported:
 
      The term "_2" has type "Category@{n5.32 Set Set}"
      while it is expected to have type "Category@{n5.29 n5.30 n5.30}"
      (universe inconsistency: Cannot enforce Set = n5.30 because
-      Set < n5.30).                                                  *)
+      Set < n5.30).
+
+   Accepted with the universes of rocq-prover/rocq#22721. *)
 Check (Functor_Category_Closed _2).
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition p404_two (UT : Untruncate) := Presheaf_Topos _2 UT.
@@ -228,7 +242,11 @@ Constraint so <= OO.
 Constraint OO <= HH.
 Context (Cs : Category@{co o o}) (UTs : Untruncate@{o}).
 
-(* the four fields that DO fit the lifted reading *)
+(* the four fields that DO fit the lifted reading.  CORRECTION
+   (rocq-prover/rocq#22721): with the universes of that Rocq change the
+   fifth, the CLOSED field, fits as well (NEGATIVE 4 below, now
+   accepted), so the block this section's title records is the state
+   before it. *)
 Check (PShSmall_Terminal Cs : @Terminal (PShSmall Cs)).
 Check (@Functor_Category_Cartesian (Cs^op) Sets@{o so} Sets_Cartesian
        : @Cartesian (PShSmall Cs)).
@@ -236,7 +254,8 @@ Check (Fun_HasPullbacks Sets_HasPullbacks : @HasPullbacks (PShSmall Cs)).
 Check (Fun_Classifier_small Cs UTs
        : @SubobjectClassifier (PShSmall Cs) (PShSmall_Terminal Cs)).
 
-(* NEGATIVE 4 (FORMABILITY).  The fifth does not.  Stripped:
+(* NEGATIVE 4 (FORMABILITY), now accepted.  The fifth did not.
+   Previously refused; stripped, it reported:
 
      The term "Functor_Category_Closed Cs" has type
       "@Closed ([Cs^op, Sets])
@@ -245,7 +264,9 @@ Check (Fun_Classifier_small Cs UTs
       "@Closed (PShSmall Cs)
          (Functor_Category_Cartesian Cs^op Sets Sets_Cartesian)"
      (universe inconsistency: Cannot enforce o = n4.97 because
-      o < so <= n4.96 <= n4.97).                                     *)
+      o < so <= n4.96 <= n4.97).
+
+   Accepted with the universes of rocq-prover/rocq#22721. *)
 Check @Sets@{_ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Check (Functor_Category_Closed Cs
@@ -271,7 +292,7 @@ Check Sets@{Set su}.
 Check Sets_Terminal@{su Set}.
 Check Sets_Cartesian@{Set}.
 Check Sets_HasPullbacks@{Set}.
-Check Sets_Closed@{Set}.
+Check Sets_Closed@{_ Set}.
 Check Sets_Classifier_dec@{Set su}.
 Check Sets_Topos_dec@{Set su}.
 
@@ -298,15 +319,17 @@ Context (U : Untruncate) (a b : obj[Sets]).
    and 13. *)
 Check (@Pow Sets (Sets_Topos U) b).
 
-(* NEGATIVE 12 (FORMABILITY).  [classifier_classifies] carries
-   objects <= homs and [Sets@{o so} : Category@{so o o}] has o < so.
-   Stripped:
+(* NEGATIVE 12 (FORMABILITY), now accepted.  [classifier_classifies]
+   carried objects <= homs and [Sets@{o so} : Category@{so o o}] has
+   o < so.  Previously refused; stripped, it reported:
 
      The term "Sets" has type "Category@{n12.34 n12.33 n12.33}"
      while it is expected to have type "Category@{n12.30 n12.31 n12.31}"
      (universe inconsistency: Cannot enforce n12.34 = n12.30 because
-      n12.30 <= n12.31 < n12.34).                                    *)
-Fail Check (@classifier_classifies Sets Sets_Terminal Sets_HasPullbacks
+      n12.30 <= n12.31 < n12.34).
+
+   Accepted with the universes of rocq-prover/rocq#22721. *)
+Check (@classifier_classifies Sets Sets_Terminal Sets_HasPullbacks
               (Sets_Classifier U)).
 
 (* NEGATIVE 13 (FORMABILITY).  So one of Structure/Topos.v's own two
@@ -435,7 +458,10 @@ Check (Sets_HasEqualizers : @HasEqualizers Sets).
 (** ** (F) Non-vacuity
 
     The presheaf topos at four named shapes -- [_2] being excluded by
-    negative 5 -- with three definitional readbacks over them.  NOTHING
+    negative 5 (CORRECTION (rocq-prover/rocq#22721): negative 5 is
+    accepted since the universes of that Rocq change, so [_2] is no
+    longer excluded; the four shapes are kept) -- with three
+    definitional readbacks over them.  NOTHING
     COMPUTES TO A NUMERAL here and none is claimed: sieve membership is
     [Prop]-valued and truncated, so there is no analogue of
     Instance/FinSet/Topos.v's [Pow 2 = 4]. *)

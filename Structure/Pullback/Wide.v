@@ -190,7 +190,7 @@ Record IsWidePullback@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {I : Typ
   (* universal property: every jointly agreeing family factors uniquely *)
   wpull_ump {Q : C} (q : ∀ i : I, Q ~> A i)
     (Hq : ∀ i j : I, f i ∘ q i ≈ f j ∘ q j) :
-    Unique@{h q h} (fun u : Q ~> P => ∀ i : I, p i ∘ u ≈ q i)
+    Unique@{h h q} (fun u : Q ~> P => ∀ i : I, p i ∘ u ≈ q i)
 }.
 
 Arguments wpull_commutes {_ _ _ _ _ _ _} _ _ _.
@@ -213,7 +213,7 @@ Record WidePullback@{a q o h | max(a, h) <= q} {C : Category@{o h h}} {I : Type@
 
   ump_wide_pullbacks : ∀ (Q : C) (q : ∀ i : I, Q ~> A i),
     (∀ i j : I, f i ∘ q i ≈ f j ∘ q j)
-    → Unique@{h q h} (fun u : Q ~> WPull => ∀ i : I, wide_pullback_proj i ∘ u ≈ q i)
+    → Unique@{h h q} (fun u : Q ~> WPull => ∀ i : I, wide_pullback_proj i ∘ u ≈ q i)
 }.
 
 Arguments WPull {_ _ _ _ _} _.

@@ -194,7 +194,7 @@ Qed.
    Instance/One.v and Construction/Funny/Comparison.v: [poly_unit] is
    universe-polymorphic, so the object universe of [Deloop M] stays free
    instead of being pinned at [Set]. *)
-Definition Deloop (M : MonObject) : Category := {|
+Definition Deloop@{d o} (M : MonObject@{o o o}) : Category@{d o o} := {|
   obj     := poly_unit;                        (* the single object *)
   hom     := fun _ _ => carrier M;             (* arrows are elements of M *)
   homset  := fun _ _ => is_setoid M;           (* `≈` is the carrier's own *)

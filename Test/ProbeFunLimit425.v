@@ -4,7 +4,10 @@
     the image of the pointwise cone under evaluation is the chosen limit
     cone in apex and legs but not as a record, the packaged corollaries
     must be universe-annotated at the definition, and [Limit] identifies
-    the shape's hom level with the ambient's.  Every refutation command
+    the shape's hom level with the ambient's.  CORRECTION
+    (rocq-prover/rocq#22721): the bare corollary, N2, is accepted since
+    the universes of rocq-prover/rocq#22721, so the probe no longer shows
+    the annotation at the definition necessary.  Every refutation command
     below was stripped ONE AT A TIME in a copy of the whole file and
     compiled alone with its error read, so each refusal is of the kind its
     label says.
@@ -25,7 +28,11 @@
                      ("Cannot enforce jh = jo because jo < jh"): universe
                      minimization identifies the two.  Control: the
                      definition-annotated [Functor_Category_Complete] is
-                     accepted at the same levels.
+                     accepted at the same levels.  CORRECTION
+                     (rocq-prover/rocq#22721): accepted since the
+                     universes of rocq-prover/rocq#22721 and kept without
+                     the refutation keyword; three [Fail] commands remain
+                     (by [grep -c '^Fail']), the instrument, N1 and N3.
      N3 UNIVERSE     at a shape whose homs sit strictly below X's, [Limit F]
                      is refused ("Cannot enforce ch = ih because ih < ch") —
                      Structure/Limit.v's [Limit] is stated at [{J :
@@ -113,10 +120,15 @@ Example p425_limit_cone :
 
 End ImageCone.
 
-(** ** B: the packaged corollary must be annotated at the definition *)
+(** ** B: the packaged corollary must be annotated at the definition
+
+    CORRECTION (rocq-prover/rocq#22721): measured before
+    rocq-prover/rocq#22721; with its universes the bare corollary is
+    accepted too (N2 below). *)
 
 (* The same body as [Functor_Category_Complete], written BARE at top level:
-   universe minimization identifies P's object level with its hom level. *)
+   universe minimization identified P's object level with its hom level
+   before rocq-prover/rocq#22721. *)
 Definition p425_bare_complete {P X : Category} (HX : @Complete X) :
   @Complete ([P, X]) :=
   fun J D => Functor_Category_pointwise_limit D (fun p => HX J (Eval p ◯ D)).
@@ -132,8 +144,9 @@ Context {P : Category@{jo jh jh}} {X : Category@{co ch ch}}.
    level sits strictly below its hom level *)
 Check (@Functor_Category_Complete P X).
 
-(* N2 UNIVERSE: the bare one is refused there ("Cannot enforce jh = jo") *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N2 UNIVERSE, now accepted: the bare one at the same levels.  Previously
+   refused with "Cannot enforce jh = jo because jo < jh"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Check (@p425_bare_complete P X).
 
 End Annotation.

@@ -50,6 +50,11 @@ Generalizable All Variables.
    The labels run 1-10 and 12-14 (with 4a/4b, 5a/5b and 6a/6b): there is
    no NEGATIVE 11 — the prediction it would have pinned was refuted and
    ships as the positive [probe403_med_strict] instead.
+   CORRECTION (rocq-prover/rocq#22721): FORMABILITY negatives 1, 2 and 3
+   are accepted with the universes of rocq-prover/rocq#22721 and are no
+   longer refutations; 14 [Fail] commands remain (by [grep -c '^Fail']),
+   the instrument check and 13 negatives: 7 FORMABILITY (6a, 6b, 7, 8, 9,
+   10, 12), 2 RESOLUTION, 3 TYPING and 1 CONVERSION.
 
    The probe mirrors the UNION of the three library files' Require lines
    (a short prefix is what makes negatives pass for the wrong reason),
@@ -62,6 +67,8 @@ Generalizable All Variables.
    itself, three bound variables (P, h, p), the seven [probe403_*] names
    DECLARED inside a refutation command (which therefore never enter the
    environment), and the instrument's deliberately absent name.
+   CORRECTION (rocq-prover/rocq#22721): measured while negatives 1-3 were
+   refutation commands; not re-measured since they were accepted.
 
    RENAME SIMULATION, 11/11.  Eleven TARGET constants are named inside a
    refutation command — [Sieve], [total_sieve], [sieve_subpresheaf],
@@ -77,7 +84,9 @@ Generalizable All Variables.
    for the three [SubObj] field names the same negative uses.  The guard
    block was extended after the simulation ran, which can only add breaking
    lines; every one of the eleven has its [Check] in the file as shipped,
-   verified mechanically. *)
+   verified mechanically.  CORRECTION (rocq-prover/rocq#22721): the
+   simulation ran while negatives 1-3 were refutation commands; it is not
+   re-run since they were accepted. *)
 
 (* ------------------------------------------------------------------ *)
 (** ** Instrument check *)
@@ -231,17 +240,19 @@ Check (@classifier_classifies ([C^op, Sets])
 Check (@Sub_classifier_natural ([C^op, Sets])
          (Functor_Category_Terminal Sets_Terminal) HPB HS).
 
-(* NEGATIVE 1 (FORMABILITY).  It is NOT applicable to the built
-   [Fun_Classifier], whose elaboration minimizes the presheaf category's
-   hom universe below its object universe.  The stripped error ends
-   "Cannot enforce ... because ... <= ... < ...". *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 1 (FORMABILITY), now accepted: the theorem applied to the
+   built [Fun_Classifier], whose elaboration minimized the presheaf
+   category's hom universe below its object universe.  Previously refused,
+   the stripped error ending "Cannot enforce ... because ... <= ... < ...";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (@classifier_classifies ([C^op, Sets])
               (Functor_Category_Terminal Sets_Terminal)
               (Fun_HasPullbacks Sets_HasPullbacks) (Fun_Classifier UT)).
 
-(* NEGATIVE 2 (FORMABILITY).  Nor is the naturality upgrade. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 2 (FORMABILITY), now accepted: the naturality upgrade at the
+   built [Fun_Classifier].  Previously refused with a universe
+   inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (@Sub_classifier_natural ([C^op, Sets])
               (Functor_Category_Terminal Sets_Terminal)
               (Fun_HasPullbacks Sets_HasPullbacks) (Fun_Classifier UT)).
@@ -266,10 +277,11 @@ Check (fun_classifier_classifies Cs UTs).
 Check (fun_sub_classifier_natural Cs UTs).
 Check (fun_Sub_Representable Cs UTs).
 
-(* NEGATIVE 3 (FORMABILITY).  The BUILT [Fun_Classifier] still cannot be
-   re-typed at those levels — a re-annotated REDEFINITION is what
-   escapes, not a re-ascription of the constant. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 3 (FORMABILITY), now accepted: the BUILT [Fun_Classifier]
+   re-typed at those levels.  Previously refused with a universe
+   inconsistency, a re-annotated REDEFINITION being what escaped and not a
+   re-ascription of the constant; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Fun_Classifier (C:=Cs) UTs
               : @SubobjectClassifier (PShSmall Cs) (PShSmall_Terminal Cs)).
 End CCSmall.

@@ -82,7 +82,12 @@ Generalizable All Variables.
         argument.  It is probed FIRST, before [Powerset_Prop_dual], for
         the reason #340 records: a probe aimed at the derived constant
         would be rejected at its [Powerset_Prop_obj] argument and would
-        measure nothing of its own. *)
+        measure nothing of its own.
+
+    CORRECTION (rocq-prover/rocq#22721): negative 6 is accepted with the
+    universes of rocq-prover/rocq#22721 and is no longer a [Fail]
+    command, so five negatives remain, none of them FORMABILITY.  Its
+    entry above records the refusal as measured before that change. *)
 
 (* ------------------------------------------------------------------------ *)
 (** ** Instrument check *)
@@ -309,9 +314,11 @@ Check (carrier A).
 Check (is_setoid A).
 Check (A : Type@{po}).
 
-(* NEGATIVE 6 (FORMABILITY).  [Powerset_Prop_obj@{o}] wants
-   [SetoidObject@{o o}], one level for both. *)
-Fail Check (Powerset_Prop_obj A).
+(* NEGATIVE 6 (FORMABILITY), now accepted.  [Powerset_Prop_obj@{o}]
+   wanted [SetoidObject@{o o}], one level for both, and was refused here
+   with "universe inconsistency: Cannot enforce pr = po"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Check (Powerset_Prop_obj A).
 
 End UniverseBoundary.
 

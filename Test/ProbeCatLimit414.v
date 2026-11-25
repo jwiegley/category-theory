@@ -12,7 +12,11 @@
     under this coqc, so that is the only way to know a negative fires.
 
     Refutation commands: 1 instrument check + 9 negatives of THREE kinds,
-    told apart by the error TEXT and not by their labels:
+    told apart by the error TEXT and not by their labels (CORRECTION
+    (rocq-prover/rocq#22721): N2, N3 and N4 are accepted since the
+    universes of rocq-prover/rocq#22721 and kept without [Fail]; seven
+    [Fail] commands remain by [grep -c '^Fail'], the instrument check and
+    N1, N5-N9):
 
       FORMABILITY (universe; the message ends in a universe clause)
         N1  the donor: at [so < sh] the projection [PiCat_Proj C a] cannot be
@@ -27,13 +31,20 @@
         N2  inherited: [PiCat_IsIndexedProduct C] at [so < sh] — fires at
             the ARGUMENT [C] (the already-refused-argument shape), so it
             pins the boundary a consumer meets and corroborates nothing.
+            CORRECTION: accepted since the universes of
+            rocq-prover/rocq#22721, and kept without [Fail].
         N3  inherited: the instance [Cat_HasIndexedProducts@{i so sh _ _}]
             at [so < sh], refused directly ("Cannot enforce sh <= so").
+            CORRECTION: accepted since the universes of
+            rocq-prover/rocq#22721, and kept without [Fail]; the instance
+            now has four universes, read [@{i so sh _}].
         N4  [StrictCat_HasIndexedProducts uip fe] ascribed at a class whose
             index universe [i] sits strictly below the hom universe [h]:
             the message is a has-type mismatch CLOSING with a universe
             clause ("Cannot enforce h = i"), so it is classified here and
             not as typing.  Control: [StrictCat_HasEqualizers] at [h].
+            CORRECTION: accepted since the universes of
+            rocq-prover/rocq#22721, and kept without [Fail].
         N5  [StrictCat_Complete uip fe] ascribed at [Complete@{i h h _}],
             the shape [Complete_from_products_equalizers] forces (the index
             universe IS the ambient hom universe).
@@ -120,19 +131,22 @@ Check (fun (I : Type@{i}) (C : I → Category@{so sh sh})
 Check @Category@{_ _ _}.
 Check @PiCat@{_ _ _ _ _}.
 Fail Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) (a : I) =>
-              (PiCat_Proj C a : PiCat@{i so sh so sh} C ⟶ C a)).
+              (PiCat_Proj C a : PiCat@{i so so sh so} C ⟶ C a)).
 
-(* N2: inherited, firing at the argument [C]. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N2, now accepted: inherited, firing at the argument [C].  Previously
+   refused with a universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (fun (I : Type@{i}) (C : I → Category@{so sh sh}) =>
               PiCat_IsIndexedProduct C).
 
-(* N3: inherited, the instance refused directly.  With the universes of
-   rocq-prover/rocq#22721 the instance has a fourth universe, the object
-   universe of the product category (formerly [max(so, sh)]). *)
+(* N3: inherited, the instance formerly refused directly.  With the
+   universes of rocq-prover/rocq#22721 the instance has a fourth universe,
+   the object universe of the product category (formerly [max(so, sh)]). *)
 Check @Cat_HasIndexedProducts@{_ _ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721: [sh <= so] is no longer
-   forced, the object universe of the product category being independent. *)
+(* N3, now accepted.  Previously refused with "Cannot enforce sh <= so";
+   accepted since the universes of rocq-prover/rocq#22721: [sh <= so] is no
+   longer forced, the object universe of the product category being
+   independent. *)
 Check @Cat_HasIndexedProducts@{i so sh _}.
 
 End IndexBoundary.
@@ -147,12 +161,14 @@ Constraint i < h.
 (* Control: equalizers in [StrictCat] mention no index. *)
 Check @StrictCat_HasEqualizers@{h _ _ _ _}.
 
-(* N4: the strict product structure at an index universe below the hom
-   universe. *)
+(* N4, now accepted: the strict product structure at an index universe
+   below the hom universe, previously refused with a has-type mismatch
+   closing in "Cannot enforce h = i". *)
 Check @DepFunext@{_ _}.
 Check @HasIndexedProducts@{_ _ _ _ _ _}.
 Check @Category@{_ _ _}.
-Fail Check (fun (uip : ∀ C : Category@{h h h}, ObjUIP C)
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun (uip : ∀ C : Category@{h h h}, ObjUIP C)
                 (fe : DepFunext@{h h}) =>
               (StrictCat_HasIndexedProducts uip fe
                  : HasIndexedProducts@{i i i _ _ h} StrictCat)).

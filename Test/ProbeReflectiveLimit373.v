@@ -42,8 +42,9 @@ Generalizable All Variables.
      TYPING      5  [CreatesLimit] is not [StrictlyCreatesLimit]
      FORMABILITY 6  [Subcategory] identifies its category's hom and proof
                     universes
-     FORMABILITY 7  [cone_leg] identifies the shape's hom-and-proof level
-                    with the ambient category's
+     FORMABILITY 7  [cone_leg] identified the shape's hom-and-proof level
+                    with the ambient category's; CORRECTION: accepted
+                    since the universes of rocq-prover/rocq#22721
      FORMABILITY 8  ... and so does [IsLimitCone], separately
 
    Negatives 7 and 8 sit on a DIFFERENT axis from negative 6 (two
@@ -58,7 +59,9 @@ Generalizable All Variables.
    unify" clause and no universe clause; negatives 1-3 end in "cannot
    unify"; negative 6 ends in "universe inconsistency: Cannot enforce
    cp = ch because ch < cp", and negatives 7 and 8 in "universe
-   inconsistency: Cannot enforce vh = jh because jh < vh".
+   inconsistency: Cannot enforce vh = jh because jh < vh".  (Negative 7
+   is accepted since the universes of rocq-prover/rocq#22721 and is kept
+   without [Fail]; negative 8 is still refused.)
 
    Every constant a negative names also appears outside a [Fail], in a
    control below.  The controls were checked by rename simulation: each
@@ -184,7 +187,10 @@ End UniverseProbe.
    That is the cone vocabulary's doing, not the functor's and not the
    [Cone] record's: with the shape's hom level declared strictly BELOW the
    ambient one, the functor type and the [Cone] record are both formable,
-   while [cone_leg] and [IsLimitCone] are each rejected on their own.
+   while [cone_leg] and [IsLimitCone] were each rejected on their own
+   (CORRECTION: [cone_leg], FORMABILITY 7, is accepted since the
+   universes of rocq-prover/rocq#22721; [IsLimitCone] is still
+   rejected).
    These are the same donor family Structure/Limit/Initial.v's header
  records for a RELATED collapse; the axis there is the
    shape's own hom against its own proof, and it names [IsALimit] as a
@@ -211,7 +217,10 @@ Context (Fu : Ju ⟶ Vu).
 Check (@Cone Ju Vu Fu).
 Check (@ACone Ju Vu).
 
-Fail Check (@cone_leg Ju Vu Fu).
+(* FORMABILITY 7, now accepted: previously refused with "Cannot enforce
+   vh = jh because jh < vh"; accepted with the universes of
+   rocq-prover/rocq#22721. *)
+Check (@cone_leg Ju Vu Fu).
 Fail Check (@IsLimitCone Ju Vu Fu).
 
 End ShapeUniverseProbe.

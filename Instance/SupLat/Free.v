@@ -168,7 +168,7 @@ Generalizable All Variables.
    as in Instance/SupLat.v, and the four component readbacks also
    o <= Projections.u0 and so <= Projections.u1, from the [projT1] of a
    natural isomorphism in their statements.  The adjunction is
-   [Adjunction@{so o o so o o o o so o so}] and the witness
+   [Adjunction@{so so o so so}] and the witness
    [Monadic@{so so so so so o so so}], the pins of #464.  There is no
    equation and no strict bound beyond [Set < o] and [o < so].
    CORRECTION (2026-11-23): [Sets] now takes [fun] terms for its identity

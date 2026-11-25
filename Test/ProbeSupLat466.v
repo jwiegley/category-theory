@@ -571,7 +571,7 @@ Fail Definition p466_relevant_statement@{o so sso} : Type@{sso} :=
 
 (* Controls: the carrier and the sup, at [eq_refl]; the order, logically. *)
 Example p466_rt_set@{o so} (A : SupLatObject@{o}) :
-  sl_set (fobj[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] A) = sl_set A
+  sl_set@{o} (fobj[EM_to_SupLat@{o so} ◯ SupLat_to_EM@{o so}] A) = sl_set A
   := eq_refl.
 
 Example p466_rt_sup@{o so} (A : SupLatObject@{o}) :
@@ -761,7 +761,7 @@ Fail Example p466_L_var_rt@{o so}
 
 (* Control: variant L's semilattice round trip keeps the carrier. *)
 Example p466_L_set_rt@{o so} (A : p466_SupLatObjectL@{o}) :
-  p466_sll_set (p466_TAlgebra_L@{o so} (p466_L_TAlgebra@{o so} A))
+  p466_sll_set@{o} (p466_TAlgebra_L@{o so} (p466_L_TAlgebra@{o so} A))
     = p466_sll_set A := eq_refl.
 
 (* N8b *)
@@ -931,7 +931,7 @@ Example p466_cmp_unit_component@{o so} (A : SupLatObject@{o}) :
     = @setoid_morphism_id@{o o o} (sl_set A) := eq_refl.
 
 Example p466_cmp_carrier@{o so} (A : SupLatObject@{o}) :
-  sl_set (fobj[EM_induced_to_SupLat@{o so} ◯ EM_Comparison SL_adj@{o so}] A)
+  sl_set@{o} (fobj[EM_induced_to_SupLat@{o so} ◯ EM_Comparison SL_adj@{o so}] A)
   = sl_set A := eq_refl.
 
 (* F5 *)
@@ -968,7 +968,7 @@ Fail Example p466_cmp_obj_b@{o so}
 (* Controls: (b) at the free algebra has the carrier and the sup of
    [FreeSL X], and its order is inclusion logically. *)
 Example p466_freesl_em_set@{o so} (X : SetoidObject@{o o}) :
-  sl_set (fobj[EM_to_SupLat@{o so}]
+  sl_set@{o} (fobj[EM_to_SupLat@{o so}]
             (fobj[@EM_Free Sets@{o so} Powerset_Prop@{o so}
                     Powerset_Monad@{o so}] X))
   = sl_set (FreeSL@{o} X) := eq_refl.
@@ -1050,7 +1050,7 @@ Definition p466_two_points@{o} (A : SupLatObject@{o})
 (* Control: the chain's carrier is Instance/Sets.v's two-element setoid. *)
 Example p466_chain_carrier@{o}
   (wlem : ∀ Q : Prop, (~ Q) + (~ ~ Q)) :
-  sl_set (bool_SupLat@{o} wlem) = bool_setoid_object@{o o} := eq_refl.
+  sl_set@{o} (bool_SupLat@{o} wlem) = bool_setoid_object@{o o} := eq_refl.
 
 (* ------------------------------------------------------------------------ *)
 (** ** Instance/Sets/Powerset/Monad/Riehl.v: the routes prove the field *)

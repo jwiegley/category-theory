@@ -47,6 +47,8 @@ Generalizable All Variables.
    (T a, μ_a) of Moore/Adjunction.v — would not be recognized as objects of
    this category. *)
 
+Section EMProofs.
+Local Obligation Tactic := idtac.
 (* The universes are declared: [oE] for the algebras, above the objects [oC]
    and the homs [h] of [C]. Inferred, it would be the least one, [max(oC, h)]. *)
 Program Definition EilenbergMoore@{oE oC h | max(oC, h) <= oE +}

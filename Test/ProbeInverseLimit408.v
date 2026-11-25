@@ -33,6 +33,11 @@ Open Scope category_scope.
    distinguish conversion (1, 2) from a typing mismatch (3). The former
    universe inconsistency (4) now has a positive witness after #1399.
 
+   CORRECTION (rocq-prover/rocq#22721): negative 4 is accepted since the
+   universes of rocq-prover/rocq#22721 and is no longer under [Fail];
+   four [Fail] commands remain (by [grep -c '^Fail']), the instrument and
+   negatives 1-3.
+
    Every constant a negative names is also named by a passing command
    outside every [Fail], so a rename breaks the probe rather than turning
    a guard vacuously green. *)
@@ -99,8 +104,7 @@ Constraint Set < ch.
 (* Former stripped refusal: the [Cochain] donor forced [ch = Set].
    Keep exactly that application as a positive control after #1399. *)
 Check @Sets@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
-Definition neg_cochain_above_Set
+Definition cochain_above_Set
   (G : Sets@{ch co} ⟶ Sets@{ch co}) : Omega^op ⟶ Sets@{ch co} := Cochain G.
 
 (* The category, both functor categories, the index and the forward

@@ -502,8 +502,9 @@ Program Instance Top_Terminal@{o h p} : @Terminal Top@{h o} := {
 
 (* The empty space: carrier [False], every predicate open (vacuously, since
    the discrete condition quantifies over points that do not exist). *)
-Definition Empty_Top : TopSpace :=
-  Discrete_Top {| carrier := False; is_setoid := False_Setoid |}.
+(* The universe [u] is declared, also for the relation of the empty setoid *)
+Definition Empty_Top@{u | +} : TopSpace@{u} :=
+  Discrete_Top ({| carrier := False; is_setoid := False_Setoid |} : SetoidObject@{u u}).
 
 Definition empty_map (X : TopSpace) :
   SetoidMorphism (top_carrier Empty_Top) (top_carrier X).

@@ -64,7 +64,8 @@ Generalizable All Variables.
        structures with NO hypothesis beyond the [CartesianMonoidal] that
        [GroupObject] already demands.
    (8) A probe section: three negatives of two kinds, four universe
-       negatives, and their controls.
+       probes (formerly negatives, accepted since the universes of
+       rocq-prover/rocq#22721), and their controls.
 
    HOW ISSUE #503 IS CONSUMED, AND AT WHICH GRADE
 
@@ -247,7 +248,10 @@ Generalizable All Variables.
      independent.  Nothing in this file adds to it, and it is not claimed
      unavoidable — all four are declared over unannotated
      [Context {C : Category}], the minimization family this tree records
-     elsewhere.  The donor
+     elsewhere.  CORRECTION: that measurement holds only before the
+     universes of rocq-prover/rocq#22721; since them all four
+     [@Monoidal C], [@Cartesian C], [@Terminal C] and
+     [@CartesianMonoidal C] are ACCEPTED at those levels too.  The donor
      [GroupObject] inherits it visibly, printing as
      [GroupObject@{u u0 u1} (C : Category@{u u0 u0})].
    - THE COST OVER [Mon] IS EXACTLY ONE LEVEL, and that is measured by
@@ -287,8 +291,9 @@ Generalizable All Variables.
      constants contains [Set].
 
    NEGATIVES.  Three in the [Probes] section, of TWO KINDS kept lexically
-   apart, plus four in [Section UniverseDonors]; each was stripped of its
-   [Fail] and its failure kind read off the message.
+   apart, plus four in [Section UniverseDonors] (no longer negatives: see
+   FORMABILITY below); each was stripped of its [Fail] and its failure
+   kind read off the message.
 
    - TYPING.  (1) [@GroupObject C M x] for [M : @Monoidal C] — "The term M
      has type Monoidal while it is expected to have type
@@ -300,7 +305,10 @@ Generalizable All Variables.
      eq_refl has type Mon_Forget ◯ GrpCat_Mon = Mon_Forget ◯ GrpCat_Mon
      while it is expected to have type Mon_Forget ◯ GrpCat_Mon =
      GrpCat_Forget".
-   - FORMABILITY (universe).  The four donor rejections described above.
+   - FORMABILITY (universe).  The four donor rejections described above,
+     previously refused with "Cannot enforce up = uh because uh < up";
+     accepted since the universes of rocq-prover/rocq#22721, so they are
+     now positive commands and no longer negatives.
 
    Controls: every constant named in a negative is also named by a positive
    command in this file, so a rename upstream breaks the build rather than
@@ -314,7 +322,8 @@ Generalizable All Variables.
    [CartesianMonoidal], [Cartesian] and [Terminal] all appear in positive
    commands, the last four as bare [Check @Name] guards in the universe
    section so that a rename cannot make those four rejections succeed on a
-   reference-not-found error.  Section-local [Universes]/[Constraint] do not
+   reference-not-found error (a guard needed while they were [Fail]s;
+   they are accepted since the universes of rocq-prover/rocq#22721).  Section-local [Universes]/[Constraint] do not
    leak: they relate only three freshly declared levels to each other.
 
    AXIOMS.  Every constant of this file reports "Closed under the global
@@ -864,13 +873,15 @@ End Probes.
 
 (** ** Where the hom/proof identification comes from *)
 
-(* Four FORMABILITY negatives.  Over a category whose hom and proof levels
-   are declared strictly apart, each of the four donors this file names is
-   rejected, while a hom and an identity at those very levels are accepted —
-   so the identification visible in every binder above is inherited from
-   four sources, each sufficient on its own, and is not introduced here.
-   They are NOT independent: [CartesianMonoidal] contains [Monoidal], so at
-   most three are.  See the UNIVERSES section of the header. *)
+(* Four FORMABILITY probes, formerly negatives.  Over a category whose hom
+   and proof levels are declared strictly apart, each of the four donors
+   this file names WAS rejected, while a hom and an identity at those very
+   levels were accepted — so the identification visible in every binder
+   above was inherited from four sources, each sufficient on its own, and
+   not introduced here.  They are NOT independent: [CartesianMonoidal]
+   contains [Monoidal], so at most three are.  CORRECTION: all four are
+   accepted since the universes of rocq-prover/rocq#22721.  See the
+   UNIVERSES section of the header. *)
 
 Section UniverseDonors.
 
@@ -881,19 +892,26 @@ Constraint uh < up.
 Check (fun (C : Category@{uo uh up}) (a b : C) => a ~> b).
 Check (fun (C : Category@{uo uh up}) (a : C) => id[a]).
 
-(* CONTROLS that the four donor names resolve, so that a rename cannot make
-   the rejections below succeed on a reference-not-found error. *)
+(* CONTROLS that the four donor names resolve, so that a rename could not
+   make the rejections below succeed on a reference-not-found error while
+   they were [Fail]s. *)
 Check @Monoidal.
 Check @Cartesian.
 Check @Terminal.
 Check @CartesianMonoidal.
 Check @GroupObject.
 
-(* Each reports: "Cannot enforce up = uh because uh < up". *)
+(* Each of the four below previously reported "Cannot enforce up = uh
+   because uh < up"; each is accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check @Category@{_ _ _}.
-Fail Check (fun C : Category@{uo uh up} => @Monoidal C).
-Fail Check (fun C : Category@{uo uh up} => @Cartesian C).
-Fail Check (fun C : Category@{uo uh up} => @Terminal C).
-Fail Check (fun C : Category@{uo uh up} => @CartesianMonoidal C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun C : Category@{uo uh up} => @Monoidal C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun C : Category@{uo uh up} => @Cartesian C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun C : Category@{uo uh up} => @Terminal C).
+(* Accepted with the universes of rocq-prover/rocq#22721 *)
+Check (fun C : Category@{uo uh up} => @CartesianMonoidal C).
 
 End UniverseDonors.

@@ -33,17 +33,21 @@
     Rocq 9.1.1's under
     this file's import list, the environment block left out and
     universe serials written u0, u1, ..., distinct serials distinctly.
+    CORRECTION: since the universes of rocq-prover/rocq#22721 R2 and R6
+    are accepted, so four refutation lines remain (the instrument and
+    R1, R4, R5); R2 and R6 keep their labels.
 
     KINDS.  NAME-ABSENCE: the instrument.  CONVERSION, [eq_refl] refused
     with a "cannot unify" parenthetical, every statement well typed: R1,
     R4, R5.  UNIVERSE, "universe inconsistency" between levels this file
-    declares: R2, R6.  Former R3 is positive.  CAUSES, read from the terms.  R1 and R4 are
+    declares: R2, R6, both accepted since the universes of
+    rocq-prover/rocq#22721.  Former R3 is positive.  CAUSES, read from the terms.  R1 and R4 are
     law 4 of the splitting after U, ∂₁ (t x) against s (p x), equal at
     ≈ (C1, C8) by a group or ring law of a variable G or R.  R5 is the
     free functor's action on arrows at a variable word of words, equal
     at ≈ (C12) and read through universal arrows, where the counit
     computes (C11).  R2 and R6 are ∂₀ at a membership level m above the
-    carrier level p: an element of G ×₀ N carries a membership witness,
+    carrier level p, refused before rocq-prover/rocq#22721: an element of G ×₀ N carries a membership witness,
     and the pair lives in [Grp@{_ p}] (resp. [Rng@{_ p}]), while G ×₀ N
     as a group and a transversal's untruncation are formable there (C14,
     C5; C16, C15).  Below the carrier the readbacks of the pair are
@@ -80,7 +84,8 @@
         the current environment.
       R1: (cannot unify "semidirect_d1 N (scoeq_t (transversal_split N
         T) x)" and "transversal_map T x").
-      R2: The term "N" has type "NormalSubgroup@{m p p p} G" while it is
+      R2 (before rocq-prover/rocq#22721; accepted since): The term
+        "N" has type "NormalSubgroup@{m p p p} G" while it is
         expected to have type "NormalSubgroup@{u0 u1 u1 u1} ?G"
         (universe inconsistency: Cannot enforce m = u0 because
         u0 <= u1 < m).
@@ -91,12 +96,14 @@
       R5: (cannot unify "mon_fun (Mon_free_evaluate M) ww" and "wmap (λ w
         : mon_ob (fobj[FreeMonSets] (fobj[Mon_Forget] M)), mon_fun
         (Mon_evaluate M) w) ww").
-      R6: The term "A" has type "Ideal@{m p p p} R" while it is expected
+      R6 (before rocq-prover/rocq#22721; accepted since): The term
+        "A" has type "Ideal@{m p p p} R" while it is expected
         to have type "Ideal@{u0 u1 u1 u1} ?R" (universe inconsistency:
         Cannot enforce m = u0 because u0 <= u1 < m).
     In R2 and R6 the two serials are distinct: the expected type is ∂₀'s
     binder, membership u0 at or below carrier u1, the bound the two
-    refusals pin; written as one u it would read as an identification. *)
+    refusals pinned; written as one u it would read as an
+    identification. *)
 
 Require Import Category.Lib.
 Require Import Category.Lib.Setoid.Propositional.
@@ -181,7 +188,8 @@ Example p479_c4_round_trip (a : carrier G) :
 
 End GrpProbe.
 
-(* Membership above the carrier: the pair is refused there; G ×₀ N is
+(* Membership above the carrier: the pair was refused there (R2), and is
+   accepted since the universes of rocq-prover/rocq#22721; G ×₀ N is
    formable as a group, and a transversal still untruncates. *)
 Section GrpMembershipAbove.
 
@@ -189,8 +197,9 @@ Universes p m.
 Constraint p < m.
 Context {G : GrpObject@{p p p}} (N : NormalSubgroup@{m p p p} G).
 
-(* R2 *)
-Fail Definition p479_r2_pair := semidirect_d0 N.
+(* R2: previously refused with "Cannot enforce m = u0"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Definition p479_r2_pair := semidirect_d0 N.
 
 (* C5 *)
 Definition p479_c5_transversal (T : Transversal N) : CosetUntruncates N :=
@@ -260,8 +269,9 @@ Universes p m.
 Constraint p < m.
 Context {R : RingObject@{p p p}} (A : Ideal@{m p p p} R).
 
-(* R6 *)
-Fail Definition p479_r6_pair := rsemidirect_d0 A.
+(* R6: previously refused with "Cannot enforce m = u0"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
+Definition p479_r6_pair := rsemidirect_d0 A.
 
 (* C15 *)
 Definition p479_c15_transversal (T : RTransversal A) : RCosetUntruncates A :=

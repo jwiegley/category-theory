@@ -422,7 +422,7 @@ Generalizable All Variables.
 (** * Discrete spaces: separation, and compactness as finite enumerability *)
 
 Lemma Discrete_Hausdorff@{h o +| o < h +} (A : SetoidObject@{o o}) :
-  IsHausdorff@{h o o o} (Discrete_Top@{o o} A).
+  IsHausdorff@{h o o o} (Discrete_Top@{o o o} A).
 Proof.
   intros x y nxy.
   exists (fun z => z ≈ x). exists (fun z => z ≈ y).
@@ -441,7 +441,7 @@ Definition FinEnum@{o +} (A : SetoidObject@{o o}) : Type@{o} :=
 (* Every open cover of a finitely enumerable discrete space has a finite
    subcover: one covering index per listed point. *)
 Lemma Discrete_Compact_of_FinEnum@{o +} (A : SetoidObject@{o o})
-  (F : FinEnum A) : IsCompact (Discrete_Top@{o o} A).
+  (F : FinEnum A) : IsCompact (Discrete_Top@{o o o} A).
 Proof.
   intros I U HU.
   destruct F as [l Hl].
@@ -455,7 +455,7 @@ Qed.
 (* Conversely, the cover by the singleton classes has a finite subcover,
    which is a finite enumeration. *)
 Lemma FinEnum_of_Discrete_Compact@{o +} (A : SetoidObject@{o o})
-  (C : IsCompact (Discrete_Top@{o o} A)) : FinEnum A.
+  (C : IsCompact (Discrete_Top@{o o o} A)) : FinEnum A.
 Proof.
   destruct (C A (fun a z => z ≈ a)) as [l Hl].
   - split.
@@ -490,7 +490,7 @@ Proof.
 Qed.
 
 Theorem Discrete_nat_not_compact@{o +} :
-  IsCompact (Discrete_Top@{o o} sc_nat_setoid) → False.
+  IsCompact (Discrete_Top@{o o o} sc_nat_setoid) → False.
 Proof. intro C. exact (nat_not_FinEnum (FinEnum_of_Discrete_Compact _ C)). Qed.
 
 (* The two-point and one-point discrete spaces as objects of [CompHaus],
@@ -513,7 +513,7 @@ Definition Point_CH@{o +} : CompHaus :=
 
 Definition Discrete_CH@{o +} (X : SetoidObject@{o o}) (FX : FinEnum X) :
   CompHaus :=
-  (Discrete_Top@{o o} X;
+  (Discrete_Top@{o o o} X;
      (Discrete_Compact_of_FinEnum X FX, Discrete_Hausdorff X)).
 
 Definition sc_fin_unit@{o h +} (X : SetoidObject@{o o}) (FX : FinEnum X) :

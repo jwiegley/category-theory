@@ -622,7 +622,7 @@ Qed.
 
 (* Construction 6: ⟨X, A⟩ ↦ X/A is left adjoint to Y ↦ ⟨Y, *⟩. *)
 Definition pairs_quotient_adjunction@{h o u v | o < h, h < u +} :
-  @Adjunction@{h h h h h h h h u h v} Top_pointed@{h o _} Top_pairs@{h o}
+  @Adjunction@{h h h u v} Top_pointed@{h o _} Top_pairs@{h o}
     PairQuotient@{h o} PointPair@{h o}.
 Proof.
   unshelve eapply (@Build_Adjunction' Top_pointed@{h o _} Top_pairs@{h o}

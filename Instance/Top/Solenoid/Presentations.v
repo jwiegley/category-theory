@@ -652,11 +652,11 @@ Qed.
 
 (* The additive group of Instance/Rng/Zp.v's p-adic integers. *)
 Definition ZpAb@{o |+} (p : positive) : AbObject@{o o o} :=
-  ring_ab@{o o} (Zp@{o o} ZComm@{o o} (Zpos p)).
+  ring_ab@{o o} (Zp@{o o} ZComm (Zpos p)).
 
 (* Equal integers are equal residues. *)
 Lemma zres_of_eq@{o +} (p : positive) (n : nat) (x y : Z) :
-  x = y → @equiv _ (rig_setoid (ResRing ZComm@{o o} (Zpos p) n)) x y.
+  x = y → @equiv _ (rig_setoid (ResRing ZComm (Zpos p) n)) x y.
 Proof. intro E. apply (res_of_dvd (Zpos p) n x y 0%Z). lia. Qed.
 
 (** *** From the p-adic integers into the fibre: f ↦ (f_n / p^n)_n *)
@@ -709,7 +709,7 @@ Qed.
 (* The fibre of the leg μ_0 over the base point 0: the kernel of μ_0. *)
 Definition SolFibre@{s u o so r | o < u, o < so +} (p : positive) :
   AbObject@{o o o} :=
-  AbKernel@{o o o o} (gsol_leg@{s u o so r} p 0).
+  AbKernel@{o o o o _} (gsol_leg@{s u o so r} p 0).
 
 Example sol_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
   carrier (cmon_setoid (SolFibre@{s u o so r} p))
@@ -718,7 +718,7 @@ Example sol_fibre_carrier@{s u o so r | o < u, o < so +} (p : positive) :
 
 Program Definition zp_to_fibre_map@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  SetoidMorphism@{o o o} (cmon_setoid (ZpAb@{o} p))
+  SetoidMorphism@{o o} (cmon_setoid (ZpAb@{o} p))
     (cmon_setoid (SolFibre@{s u o so r} p)) := {|
   morphism := fun f => (zp_string@{s o so} p Hp f; zp_coord_base p f)
 |}.
@@ -747,7 +747,7 @@ Example zp_to_fibre_coord@{s u o so r | o < u, o < so +} (p : positive)
 Example zp_one_to_unit_string@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
   `1 (projT1 (cmon_map (zp_to_fibre@{s u o so r} p Hp)
-                (rig_one (Zp@{o o} ZComm@{o o} (Zpos p)))))
+                (rig_one (Zp@{o o} ZComm (Zpos p)))))
   = `1 (unit_string@{s o so} p) := eq_refl.
 
 (** *** From the fibre back: the integers p^n x_n, read off the witnesses *)
@@ -805,7 +805,7 @@ Defined.
 
 Program Definition fibre_to_zp_map@{s u o so r | o < u, o < so +}
   (p : positive) :
-  SetoidMorphism@{o o o} (cmon_setoid (SolFibre@{s u o so r} p))
+  SetoidMorphism@{o o} (cmon_setoid (SolFibre@{s u o so r} p))
     (cmon_setoid (ZpAb@{o} p)) := {|
   morphism := fibre_to_zp_pt@{s u o so r} p
 |}.

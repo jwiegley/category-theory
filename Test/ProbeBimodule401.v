@@ -55,6 +55,13 @@ Generalizable All Variables.
    kinds: SIX conversion (N1, N2, N10, N11, N16, N17), NINE typing
    (N3-N9, N12, N13) and TWO formability (N14, N15).
 
+   CORRECTION (rocq-prover/rocq#22721): N14 and N15, the two formability
+   negatives, are accepted with the universes of rocq-prover/rocq#22721
+   and are no longer [Fail] commands, so the file now has 16 [Fail]
+   commands = 1 instrument check + 15 negatives.  The tally above and the
+   counts of GUARD COVERAGE below were measured before that change and
+   are not re-measured.
+
    ** TWO NEGATIVES MEASURE THEIR ARGUMENT AND NOT THEIR SUBJECT
 
    N15 names [hom_ab], and its first argument is an [AbEnriched Cu],
@@ -62,7 +69,9 @@ Generalizable All Variables.
    levels; stripped, its error is N14's but for the line-derived level
    names, and fires on [Cu].  So [hom_ab] CANNOT be tested apart from
    [AbEnriched], and whether it identifies anything of its own is
-   UNKNOWN, not refuted.  N9 is in the same position with respect to
+   UNKNOWN, not refuted.  (CORRECTION: N14 and N15 are both accepted
+   since the universes of rocq-prover/rocq#22721, so the refusals
+   described here are history.)  N9 is in the same position with respect to
    [Build_Bimodule]: stripped, its error fires on [M], the argument,
    and is character for character N8's, so what it establishes is
    that
@@ -457,6 +466,8 @@ End P401PartC.
 (* ================================================================= *)
 (* (5) N14-N15.  The hom-group's enrichment demands a category whose  *)
 (*     hom and proof universes coincide.                              *)
+(*     CORRECTION: that was the state before rocq-prover/rocq#22721;  *)
+(*     with its universes N14 and N15 are both accepted.              *)
 (* ================================================================= *)
 
 Section P401Univ.
@@ -471,11 +482,15 @@ Check (fun (x y : Cu) => x ~{Cu}~> y).
 Check (fun (x : Cu) => @id Cu x).
 Check (fun (x y z : Cu) (f : y ~> z) (g : x ~> y) => f ∘ g).
 
-(* -- N14 (FORMABILITY) -- *)
-Fail Check (AbEnriched Cu).
+(* -- N14 (FORMABILITY), now accepted -- previously refused with
+   "Cannot enforce up = uh ..."; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (AbEnriched Cu).
 
-(* -- N15 (FORMABILITY, fired at its ARGUMENT) -- *)
-Fail Check (fun (AC : AbEnriched Cu) (x y : Cu) => hom_ab AC x y).
+(* -- N15 (FORMABILITY, fired at its ARGUMENT), now accepted --
+   previously refused as N14, at [Cu]; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Check (fun (AC : AbEnriched Cu) (x y : Cu) => hom_ab AC x y).
 
 End P401Univ.
 

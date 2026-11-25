@@ -329,7 +329,8 @@ End Tower.
 
 (** ** (E) The named notion, its notation, and [Cochain]'s first consumer *)
 
-Definition inverse_limit (F : Omega^op ⟶ Sets) : SetoidObject := tower_obj F.
+Definition inverse_limit@{h o +} (F : Omega@{Set h h}^op ⟶ Sets@{o _}) :
+  SetoidObject@{o o} := tower_obj F.
 
 (* By DELTA, like [tower_step_is_omega_step] above: [inverse_limit] is
    defined as [tower_obj], so this guards the name against drift and

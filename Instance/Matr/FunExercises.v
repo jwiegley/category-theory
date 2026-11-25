@@ -76,14 +76,16 @@ Generalizable All Variables.
     arbitrary [C], where no universe restriction arises at all, and the
     functor-category reading is then obtained by transport along
     Theory/Shapes.v's [Arrow_of_Fun] / [Fun_of_Arrow] / [Walk_arrow_of_iso]
-    ([two_fun_iso_iff]).  That reading, like [Two_Fun_Arrow] itself, is
-    available only at [C : Category@{o Set Set}], since Instance/Fun.v's
-    [Fun] identifies the hom universes of source and target while [_2]'s
-    homs live in [Set]; the [Arrow C] statement carries no such
-    restriction, which is exactly why the general theorem is proven
-    there and transported rather than the other way round.
+    ([two_fun_iso_iff]).  That reading, like [Two_Fun_Arrow] itself, holds
+    at any [C : Category@{o h h}]: Instance/Fun.v's [Fun] identifies the
+    hom universes of source and target, and [_2]'s homs are at the
+    universe of its instance.  (An earlier revision of this paragraph
+    recorded the reading at [C : Category@{o Set Set}] only, when [_2]'s
+    homs were in [Set]; measured without that pin since the universes of
+    rocq-prover/rocq#22721.)  The general theorem is still proven over
+    [Arrow C] and transported.
 
-    THE SAME RESTRICTION IS UNAVOIDABLE IN PART TWO, and is disclosed
+    A RESTRICTION IS UNAVOIDABLE IN PART TWO, and is disclosed
     rather than hidden.  [Deloop] takes a [MonObject] whose three
     universes agree, and Construction/Deloop.v's [Nat_Plus] has carrier
     [nat : Set], so [Deloop Nat_Plus : Category@{o Set Set}].  Three
@@ -324,14 +326,15 @@ End MatrixEquivalence.
    out through [Fun_of_Arrow], whose value at [Arrow_of_Fun F] is
    [Walk (arrow_of F)], and returns along [Walk_arrow_of_iso].
 
-   The universe restriction [Category@{o Set Set}] is inherited verbatim
-   from [Two_Fun_Arrow] and is disclosed in the header. *)
+   No universe restriction: [C : Category@{o h h}], as for [Two_Fun_Arrow]
+   (see the header). *)
 
 Section TwoFunIso.
 
-Universe o.
+(* The homs of [C] are at any universe [h]: [_2]'s are at the universe of its instance *)
+Universes o h.
 
-Context {C : Category@{o Set Set}}.
+Context {C : Category@{o h h}}.
 
 Theorem two_fun_iso_iff (F G : _2 ⟶ C) :
   (@Isomorphism ([_2, C]) F G)

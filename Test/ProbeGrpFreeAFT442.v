@@ -85,7 +85,10 @@
     the one thing the unconditional reading costs, [Set < carrier], at a
     named in-tree object.  CORRECTION (#1383, #1384): that named-object
     refusal is now a positive check; the cost remains at the explicitly
-    pinned [Set]-carrier argument, not at [TwoLetters].
+    pinned [Set]-carrier argument, not at [TwoLetters].  CORRECTION
+    (rocq-prover/rocq#22721): with the universes of that Rocq change the
+    [Set]-carrier application is accepted as well, so the cost is no
+    longer observed at either.
 
     KINDS, kept lexically apart: NAME-ABSENCE (the instrument), TYPE (I1,
     N3, N6, N7, N10), CONVERSION (N1, N2, N4, N8, N9, N11, N12), UNIVERSE
@@ -116,7 +119,11 @@
     negative succeeds and its refutation wrapper rejects on both tools.
     The former first stop was the old file's final command.  The new
     above-Set definitions and [eq_refl] readbacks appended below are
-    checked by full-file compilation and their own rejecting wrappers. *)
+    checked by full-file compilation and their own rejecting wrappers.
+    CORRECTION (rocq-prover/rocq#22721): TWELVE now by [grep -c '^Fail'];
+    N13's explicitly [Set]-pinned argument is accepted with the universes
+    of that Rocq change and kept without [Fail], so no UNIVERSE
+    refutation remains. *)
 
 Require Import Category.Lib.
 Require Import Category.Lib.Setoid.Propositional.
@@ -525,7 +532,9 @@ Check @TwoLetters.
     the WHOLE file and its exact refusal recorded beside it.
     CORRECTION (#1347): fourteen, since N4 became a control.
     CORRECTION (#1383, #1384): thirteen, since N13's named [TwoLetters]
-    application became a control; its explicitly pinned argument did not. *)
+    application became a control; its explicitly pinned argument did not.
+    CORRECTION (rocq-prover/rocq#22721): twelve, since that explicitly
+    pinned argument is accepted too. *)
 
 Check @IsGrpCongruence.
 Check @FGCongIdx.
@@ -643,7 +652,8 @@ Check (`1 free_group_via_GAFT SetOne).
 Check (fg_ker_idx (fg_insert TwoLetters)).
 Check (fg_ker_med (fg_insert TwoLetters)).
 
-(** ** N13 (UNIVERSE): the one price, [Set < carrier], and WHERE it lands
+(** ** N13 (UNIVERSE), now accepted: the one price, [Set < carrier], and
+       WHERE it landed
 
     The index is a sigma over a [Prop]-valued relation; the sort of [Prop]
     is [Set+1]; identifying the index universe with the carrier universe
@@ -685,7 +695,13 @@ Check (fg_ker_med (fg_insert TwoLetters)).
     carries the stripped copy's module name and a serial number, so the
     names themselves are not reproducible and are not quoted.  The
     load-bearing half is the last line: [pcar] is [Set] by the constraint
-    above, and the application wants it strictly below the index. *)
+    above, and the application wants it strictly below the index.
+
+    CORRECTION: all of the above, the [About] output included, was
+    measured before the universes of rocq-prover/rocq#22721.  With them
+    the unconditional application at the [Set] carrier is accepted, and
+    the command is kept without [Fail]; the [About] readings have not
+    been re-measured here. *)
 
 Section SetCarrierPin.
 
@@ -703,8 +719,10 @@ Definition p442_prop_sols_at_set_carrier : SolutionSet Grp_Forget Xs :=
 Definition p442_circular_app_at_set_carrier : obj[Grp] :=
   `1 free_group_via_GAFT_from_adjunction Xs.
 
-(* THE NEGATIVE: the unconditional application does not. *)
-Fail Definition p442_uncond_app_at_set_carrier : obj[Grp] :=
+(* THE FORMER NEGATIVE: the unconditional application was refused here
+   with "Cannot enforce pcar = <anon> because pcar < <anon>"; accepted
+   with the universes of rocq-prover/rocq#22721. *)
+Definition p442_uncond_app_at_set_carrier : obj[Grp] :=
   `1 free_group_via_GAFT Xs.
 
 End SetCarrierPin.
@@ -728,7 +746,10 @@ End SetCarrierPin.
    [SetOne] above, and the congruence-index and solution-set checks.
    [SetOne]'s success was never evidence that [bool] forces a pin.
    The explicit [SetCarrierPin] fixture and its negative remain unchanged:
-   the theorem still costs [Set < carrier], not merely a renamed object. *)
+   the theorem still costs [Set < carrier], not merely a renamed object.
+   CORRECTION (rocq-prover/rocq#22721): that negative is accepted with the
+   universes of that Rocq change, so the cost is no longer observed at
+   the fixture either. *)
 
 Check (`1 free_group_via_GAFT_from_adjunction TwoLetters).
 

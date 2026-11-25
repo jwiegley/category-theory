@@ -152,7 +152,7 @@ Generalizable All Variables.
    eq_ind, eq_ind_r and Logic_lemmas.equality on o) with the three caps
    of the sigma projections added
    (o <= Projections.u0, o <= Projections.u1, so <= Projections.u0).
-   [Sg_adj] is [Adjunction@{so o o so o o o o so o so}], the instance of
+   [Sg_adj] is [Adjunction@{so so o so so}], the instance of
    Instance/SupLat/Free.v's [SL_adj]: left unpinned, the same term binds
    a third level that occurs in no constraint (measured in a scratch
    file, @{u u0 u1} with u alone free), the phantom level the pin
@@ -187,10 +187,10 @@ Generalizable All Variables.
 (** ** Smgrp, the semigroups in (Sets, ×), and its forgetful functor G *)
 
 Definition SmgrpSets@{o so} : Category@{so o o} :=
-  @Smgrp@{so o} Sets@{o so} Sets_Product_Monoidal@{o}.
+  @Smgrp@{so o o o} Sets@{o so} Sets_Product_Monoidal@{o}.
 
 Definition Sg_Forget@{o so} : SmgrpSets@{o so} ⟶ Sets@{o so} :=
-  @Smgrp_Forget@{so o} Sets@{o so} Sets_Product_Monoidal@{o}.
+  @Smgrp_Forget@{so o o} Sets@{o so} Sets_Product_Monoidal@{o}.
 
 (** ** Element-level accessors (after Instance/Mon/Coproduct.v's mon_* ) *)
 

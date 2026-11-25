@@ -316,7 +316,7 @@ Qed.
    and [c], the last one being the universe of the carriers and of the homs.
    Inferred, the universe of the objects would be [max(c+1, p)]. *)
 Program Definition RMod@{o a p c} (R : RingObject@{a c p}) : Category@{o c c} := {|
-  obj     := RModObject R;
+  obj     := RModObject@{c p c c} R;
   hom     := @RModHom R;
   homset  := fun M N => @RModHom_Setoid R M N;
   id      := fun M => @rmod_hom_id R M;

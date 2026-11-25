@@ -100,7 +100,7 @@
    module's group (B in [HomZL], A in [HomZR]) at rc, forced because
    [hom_ab@{u u0}] returns [AbObject@{u u u}] and takes its source in
    [Ab].  So [tensor_homZ_adjunction] reads
-   [Adjunction@{u4 rc rc u5 rc rc rc rc u6 rc u7}] with no equation
+   [Adjunction@{u4 u5 rc u6 u7}] with no equation
    among the three ring universes.  [ring_unit_iso] and [ring_unit_nat] stay at
    [RingObject@{ra rc rp}] with no equation.  [homzl_ring_adjunction]
    carries [ra = rc] and [ra = rp]: its right adjoint is [hom_ab] out of
@@ -153,6 +153,11 @@ Universes ra rc rp.
 
 Context {R : RingObject@{ra rc rp}}.
 Context (B : RModObject (Ring_op R)).
+(* The universe [t] of the relation of the balanced tensor products, a [Prop] relation which fits
+   in any universe, is declared, so that all the statements below see the same ones: the opaque
+   ones would otherwise each take it in [Set] *)
+Universe t.
+Local Notation BT X Y := (BalTensor@{_ _ _ _ _ _ t} X Y).
 
 Local Notation RC := (carrier (rig_setoid (ring_rig R))).
 Local Notation BC := (carrier (cmon_setoid (rm_ab B))).
@@ -259,7 +264,7 @@ Next Obligation. intros G H K f g phi b; reflexivity. Qed.
 
 (** The tensor side, B ⊗_R − : R-Mod → Ab. *)
 Program Definition tb_bal {A A' : RModObject R} (f : A ~{RMod R}~> A') :
-  BalBiadditive B A (BalTensor B A') := {|
+  BalBiadditive B A (BT B A') := {|
   bal_map := fun b a => bs_gen b (cmon_map (rm_hom f) a)
 |}.
 Next Obligation.
@@ -281,7 +286,7 @@ Next Obligation.
 Qed.
 
 Program Definition TensorBF : RMod R ⟶ Ab := {|
-  fobj := fun A => BalTensor B A;
+  fobj := fun A => BT B A;
   fmap := fun A A' f => @bal_med _ B A _ (tb_bal f)
 |}.
 Next Obligation.
@@ -300,7 +305,7 @@ Qed.
 
 (** The two transposes. *)
 Program Definition ht_to_inner {A : RModObject R} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) (a : carrier (cmon_setoid (rm_ab A))) :
+  (psi : BT B A ~{Ab}~> G) (a : carrier (cmon_setoid (rm_ab A))) :
   AbHom BG G := {|
   cmon_map := {| morphism := fun b => cmon_map psi (bs_gen b a) |}
 |}.
@@ -310,19 +315,19 @@ Next Obligation.
 Qed.
 Next Obligation.
   intros A G psi a; simpl.
-  transitivity (cmon_map psi (cmon_zero (BalTensor B A))).
+  transitivity (cmon_map psi (cmon_zero (BT B A))).
   - exact (proper_morphism (cmon_map psi) _ _ (bal_gen_zero_l B A a)).
   - exact (cmon_map_zero psi).
 Qed.
 Next Obligation.
   intros A G psi a b b'; simpl.
-  transitivity (cmon_map psi (cmon_plus (BalTensor B A) (bs_gen b a) (bs_gen b' a))).
+  transitivity (cmon_map psi (cmon_plus (BT B A) (bs_gen b a) (bs_gen b' a))).
   - exact (proper_morphism (cmon_map psi) _ _ (be_add_l b b' a)).
   - exact (cmon_map_plus psi _ _).
 Qed.
 
 Program Definition ht_to_ab {A : RModObject R} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) : AbHom (rm_ab A) (hzl_group G) := {|
+  (psi : BT B A ~{Ab}~> G) : AbHom (rm_ab A) (hzl_group G) := {|
   cmon_map := {| morphism := fun a => ht_to_inner psi a |}
 |}.
 Next Obligation.
@@ -331,20 +336,20 @@ Next Obligation.
 Qed.
 Next Obligation.
   intros A G psi b; simpl.
-  transitivity (cmon_map psi (cmon_zero (BalTensor B A))).
+  transitivity (cmon_map psi (cmon_zero (BT B A))).
   - exact (proper_morphism (cmon_map psi) _ _ (bal_gen_zero_r B A b)).
   - exact (cmon_map_zero psi).
 Qed.
 Next Obligation.
   intros A G psi a a' b; simpl.
-  transitivity (cmon_map psi (cmon_plus (BalTensor B A) (bs_gen b a) (bs_gen b a'))).
+  transitivity (cmon_map psi (cmon_plus (BT B A) (bs_gen b a) (bs_gen b a'))).
   - exact (proper_morphism (cmon_map psi) _ _ (be_add_r b a a')).
   - exact (cmon_map_plus psi _ _).
 Qed.
 
 (* R-linearity of the transpose IS the balance relation. *)
 Program Definition ht_to {A : RModObject R} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) : A ~{RMod R}~> HomZL G := {|
+  (psi : BT B A ~{Ab}~> G) : A ~{RMod R}~> HomZL G := {|
   rm_hom := ht_to_ab psi
 |}.
 Next Obligation.
@@ -374,13 +379,13 @@ Next Obligation.
 Qed.
 
 Definition ht_from {A : RModObject R} {G : AbObject}
-  (phi : A ~{RMod R}~> HomZL G) : BalTensor B A ~{Ab}~> G :=
+  (phi : A ~{RMod R}~> HomZL G) : BT B A ~{Ab}~> G :=
   bal_med (ht_bal phi).
 
 Program Definition ht_adj (A : RModObject R) (G : AbObject) :
   @Isomorphism Sets
-    {| carrier := BalTensor B A ~{Ab}~> G;
-       is_setoid := @homset Ab (BalTensor B A) G |}
+    {| carrier := BT B A ~{Ab}~> G;
+       is_setoid := @homset Ab (BT B A) G |}
     {| carrier := A ~{RMod R}~> HomZL G;
        is_setoid := @homset (RMod R) A (HomZL G) |} := {|
   to   := {| morphism := fun psi => ht_to psi |};
@@ -407,7 +412,7 @@ Proof.
 Defined.
 
 Example ht_to_at {A : RModObject R} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) a b :
+  (psi : BT B A ~{Ab}~> G) a b :
   cmon_map (cmon_map (rm_hom (to (@adj _ _ _ _ tensor_homZ_adjunction A G) psi)) a) b
     = cmon_map psi (bs_gen b a) := eq_refl.
 
@@ -422,6 +427,11 @@ Universes ra rc rp.
 
 Context {R : RingObject@{ra rc rp}}.
 Context (A : RModObject R).
+(* The universe [t] of the relation of the balanced tensor products, a [Prop] relation which fits
+   in any universe, is declared, so that all the statements below see the same ones: the opaque
+   ones would otherwise each take it in [Set] *)
+Universe t.
+Local Notation BT X Y := (BalTensor@{_ _ _ _ _ _ t} X Y).
 
 Local Notation RC := (carrier (rig_setoid (ring_rig R))).
 Local Notation AG := (rm_ab A).
@@ -519,7 +529,7 @@ Next Obligation. intros G phi a; reflexivity. Qed.
 Next Obligation. intros G H K f g phi a; reflexivity. Qed.
 
 Program Definition ta_bal {B B' : RModObject (Ring_op R)} (f : B ~{ModR R}~> B') :
-  BalBiadditive B A (BalTensor B' A) := {|
+  BalBiadditive B A (BT B' A) := {|
   bal_map := fun b a => bs_gen (cmon_map (rm_hom f) b) a
 |}.
 Next Obligation.
@@ -539,7 +549,7 @@ Next Obligation.
 Qed.
 
 Program Definition TensorAF : ModR R ⟶ Ab := {|
-  fobj := fun B => BalTensor B A;
+  fobj := fun B => BT B A;
   fmap := fun B B' f => @bal_med _ B A _ (ta_bal f)
 |}.
 Next Obligation.
@@ -556,7 +566,7 @@ Next Obligation.
 Qed.
 
 Program Definition th_to_inner {B : RModObject (Ring_op R)} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) (b : carrier (cmon_setoid (rm_ab B))) :
+  (psi : BT B A ~{Ab}~> G) (b : carrier (cmon_setoid (rm_ab B))) :
   AbHom AG G := {|
   cmon_map := {| morphism := fun a => cmon_map psi (bs_gen b a) |}
 |}.
@@ -566,19 +576,19 @@ Next Obligation.
 Qed.
 Next Obligation.
   intros B G psi b; simpl.
-  transitivity (cmon_map psi (cmon_zero (BalTensor B A))).
+  transitivity (cmon_map psi (cmon_zero (BT B A))).
   - exact (proper_morphism (cmon_map psi) _ _ (bal_gen_zero_r B A b)).
   - exact (cmon_map_zero psi).
 Qed.
 Next Obligation.
   intros B G psi b a a'; simpl.
-  transitivity (cmon_map psi (cmon_plus (BalTensor B A) (bs_gen b a) (bs_gen b a'))).
+  transitivity (cmon_map psi (cmon_plus (BT B A) (bs_gen b a) (bs_gen b a'))).
   - exact (proper_morphism (cmon_map psi) _ _ (be_add_r b a a')).
   - exact (cmon_map_plus psi _ _).
 Qed.
 
 Program Definition th_to_ab {B : RModObject (Ring_op R)} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) : AbHom (rm_ab B) (hzr_group G) := {|
+  (psi : BT B A ~{Ab}~> G) : AbHom (rm_ab B) (hzr_group G) := {|
   cmon_map := {| morphism := fun b => th_to_inner psi b |}
 |}.
 Next Obligation.
@@ -587,19 +597,19 @@ Next Obligation.
 Qed.
 Next Obligation.
   intros B G psi a; simpl.
-  transitivity (cmon_map psi (cmon_zero (BalTensor B A))).
+  transitivity (cmon_map psi (cmon_zero (BT B A))).
   - exact (proper_morphism (cmon_map psi) _ _ (bal_gen_zero_l B A a)).
   - exact (cmon_map_zero psi).
 Qed.
 Next Obligation.
   intros B G psi b b' a; simpl.
-  transitivity (cmon_map psi (cmon_plus (BalTensor B A) (bs_gen b a) (bs_gen b' a))).
+  transitivity (cmon_map psi (cmon_plus (BT B A) (bs_gen b a) (bs_gen b' a))).
   - exact (proper_morphism (cmon_map psi) _ _ (be_add_l b b' a)).
   - exact (cmon_map_plus psi _ _).
 Qed.
 
 Program Definition th_to {B : RModObject (Ring_op R)} {G : AbObject}
-  (psi : BalTensor B A ~{Ab}~> G) : B ~{ModR R}~> HomZR G := {|
+  (psi : BT B A ~{Ab}~> G) : B ~{ModR R}~> HomZR G := {|
   rm_hom := th_to_ab psi
 |}.
 Next Obligation.
@@ -630,8 +640,8 @@ Qed.
 
 Program Definition th_adj (B : RModObject (Ring_op R)) (G : AbObject) :
   @Isomorphism Sets
-    {| carrier := BalTensor B A ~{Ab}~> G;
-       is_setoid := @homset Ab (BalTensor B A) G |}
+    {| carrier := BT B A ~{Ab}~> G;
+       is_setoid := @homset Ab (BT B A) G |}
     {| carrier := B ~{ModR R}~> HomZR G;
        is_setoid := @homset (ModR R) B (HomZR G) |} := {|
   to   := {| morphism := fun psi => th_to psi |};

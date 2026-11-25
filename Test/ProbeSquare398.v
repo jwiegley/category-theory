@@ -22,6 +22,12 @@ Generalizable All Variables.
 
 (** * Probe for Adjunction/Square.v and Instance/Cat/Bicategory/Square.v *)
 
+(* CORRECTION (#1414): category-theory's [Adjunction] now identifies the hom
+   and proof universes of its two categories, so N14, accepted with the
+   universes of rocq-prover/rocq#22721 under the earlier declaration, is
+   refused again and is a [Fail] command once more; the counts and notes
+   below that call it accepted predate that change. *)
+
 (* Mac Lane, "Categories for the Working Mathematician", 2nd ed., §IV.7,
    book p. 103, Exercise 4 (Kelly, adjoint squares) and Exercise 5
    (Palmquist); Riehl, "Category Theory in Context", 2nd ed., §4.3,
@@ -52,6 +58,14 @@ Generalizable All Variables.
    two of its nineteen (N14 and N16), so the kinds of the other seventeen
    were its expectation; all twenty-four are measured here.
 
+   CORRECTION (rocq-prover/rocq#22721): that tally, and the counts of
+   GUARD COVERAGE and make todo below, were measured before
+   rocq-prover/rocq#22721.  With its universes N14 ([Fu -| Uu] under
+   [ch < cp]) is accepted and is no longer a [Fail] command, so the file
+   now has 24 [Fail] commands = 1 instrument check + 23 negatives, EIGHT
+   of them formability (N15-N19, N22-N24).  The later counts are not
+   re-measured.
+
    ONE MEASUREMENT CORRECTS AN ATTRIBUTION.  Adjunction/Square.v's header
    says of the hom = proof identification that "the donor is
    [Adjunction]", listing five commands accepted under [ch < cp] of which
@@ -60,7 +74,9 @@ Generalizable All Variables.
    adjunction anywhere in the command, so [Compose] is a SECOND donor,
    sufficient on its own.  N24 was written as a sixth CONTROL and became a
    negative when it was compiled.  The two [⟹] commands that replace it
-   are accepted, so [Transform] remains a non-donor.
+   are accepted, so [Transform] remains a non-donor.  (CORRECTION: since
+   the universes of rocq-prover/rocq#22721 [Fu ⊣ Uu] itself, N14, is
+   accepted at those levels; N24's [Compose] is still refused.)
 
    ONE KIND DIVERGES FROM THAT EXPECTATION.  The Core's §10 lists N10 —
    [square_bijection] at K = L = Id against [conjugate_bijection] — as
@@ -114,7 +130,8 @@ Generalizable All Variables.
      "fobj[F'] (fobj[L] x) ~{ C' }~> fobj[K] (fobj[F] x)"
      while it is expected to have type
      "fobj[K] (fobj[F] x) ~= fobj[F'] (fobj[L] x)".
-   N14 FORMABILITY
+   N14 FORMABILITY  [the tail BEFORE rocq-prover/rocq#22721; accepted
+                     since its universes]
      The term "Fq" has type "@Functor@{co ch cp co ch cp} Du Cu"
      while it is expected to have type "@Functor@{...} ?D ?C"
      (universe inconsistency: Cannot enforce cp = ch because ch < cp).
@@ -173,7 +190,8 @@ Generalizable All Variables.
    [fun_comp_assoc_component] ([= fmap[U'] id], strict) and
    [fun_comp_assoc_is_id] ([≈ id]); N13 pairs with [square_is_map_adj_hom],
    the same statement at an ISOMORPHISM family; N14 and N24 with seven
-   commands accepted at the very levels that refuse them; N15 with the
+   commands accepted at the very levels that refused them (N14 is itself
+   accepted since the universes of rocq-prover/rocq#22721); N15 with the
    opposite functor direction; N16-N19 and N22/N23 with TEN commands
    accepted at levels declared strictly apart — the two bare component
    families, [AdjointSquare], [AdjointSquareUnit], [AdjointSquareCounit],
@@ -554,7 +572,9 @@ Fail Example n3 (x : D) :
 End P398Vert.
 
 (* ====================================================================== *)
-(* (4) N14 (FORMABILITY): [Adjunction] is the hom = proof donor.          *)
+(* (4) N14 (FORMABILITY): [Adjunction] was the hom = proof donor.         *)
+(*     CORRECTION: N14 is accepted since the universes of                 *)
+(*     rocq-prover/rocq#22721; N24 below is still refused.                *)
 (* ====================================================================== *)
 
 Section P398UnivAdj.
@@ -575,6 +595,11 @@ Check (fun Fq Gq : Cu ⟶ Du => Fq ⟹ Gq).
 Check (fun Fq : Du ⟶ Cu => Fq ⟹ Fq).
 Check (fun Uq : Cu ⟶ Du => Uq ⟹ Uq).
 
+(* N14 (FORMABILITY), now accepted: previously refused with "Cannot
+   enforce cp = ch because ch < cp"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+(* CORRECTION: refused again since #1414's [Adjunction] identifies the hom
+   and proof universes of its two categories. *)
 Fail Check (fun (Fq : Du ⟶ Cu) (Uq : Cu ⟶ Du) => Fq ⊣ Uq).
 
 (* -- N24 (FORMABILITY).  [Compose] is a SECOND donor of hom = proof,  -- *)

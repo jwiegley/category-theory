@@ -88,7 +88,7 @@ Next Obligation.
   econstructor; eauto.
   generalize dependent y0.
   generalize dependent y.
-  induction X; intros; eauto.
+  match goal with X : _ --->* _ |- _ => induction X end; intros; eauto.
   - now do 4 (econstructor; eauto).
   - unfold flip in *.
     now econstructor; eauto.
@@ -116,7 +116,7 @@ Local Set Warnings "-intuition-auto-with-star".
 Corollary values_final {Γ τ} {e e' : Exp Γ τ} :
   e --->* e' → ValueP e → e = e'.
 Proof.
-  intros.
+  intros X H.
   apply value_is_nf in H.
   unfold normal_form in H.
   induction X; auto.
@@ -130,7 +130,7 @@ Qed.
 Lemma multistep_AppR {Γ dom cod} {e e' : Γ ⊢ dom} {v : Γ ⊢ (dom ⟶ cod)} :
   (e --->* e') → ValueP v → APP v e --->* APP v e'.
 Proof.
-  intros.
+  intros X H.
   induction X.
   - now apply multi_refl.
   - rewrite <- IHX; clear IHX; auto.

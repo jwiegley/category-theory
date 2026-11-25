@@ -207,12 +207,12 @@ Qed.
    9.2.0. The proof of composition now needs only [p], not [u p]. *)
 Program Definition CMon@{u p} : Category@{u p p} := {|
   obj     := CMonObject@{p p p};
-  hom     := CMonHom@{p};
-  homset  := @CMonHom_Setoid@{p};
-  id      := @cmon_hom_id@{p};
-  compose := @cmon_hom_compose@{p};
+  hom     := CMonHom@{p p p p};
+  homset  := @CMonHom_Setoid@{_ _ p p};
+  id      := @cmon_hom_id@{p p};
+  compose := @cmon_hom_compose@{_ _ p};
 
-  compose_respects := @cmon_hom_compose_respects@{p}
+  compose_respects := @cmon_hom_compose_respects@{_ _ p p}
 |}.
 Next Obligation.
   intros x y f a; simpl.

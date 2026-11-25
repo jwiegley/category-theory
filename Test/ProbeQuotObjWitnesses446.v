@@ -154,9 +154,9 @@ Constraint o < so.
    antisymmetry, so the theorem holds at ≈ and the same statement at `=`
    is refused. *)
 Check @Sets@{_ _}.
-Check @NatDiscrete@{_}.
+Check @NatDiscrete@{_ _}.
 Fail Example p446_n4 :
-  @quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o}
+  @quot_meet Sets@{o so} Sets_HasPushouts NatDiscrete@{o o}
     Sets_Q_parity Sets_Q_mod3 = Sets_Q_total := eq_refl.
 
 (** ** N5 -- a quotient object of C is not a subobject of C (CONVERSION) *)

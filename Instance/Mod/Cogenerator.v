@@ -282,7 +282,7 @@ Definition coext_cogenerator@{r c +} (R : RingObject@{r r r})
 (* The one-member family {Q/Z}, in [Cogenerator]'s positive form. *)
 Definition QZ_family_cogenerates@{a h c +} : Type :=
   ∀ (x y : Ab@{a h}) (f g : x ~{Ab@{a h}}~> y),
-    (∀ (u : poly_unit@{c}) (k : y ~{Ab@{a h}}~> QZ), k ∘ f ≈ k ∘ g) → f ≈ g.
+    (∀ (u : poly_unit@{c}) (k : y ~{Ab@{a h}}~> QZ@{h h}), k ∘ f ≈ k ∘ g) → f ≈ g.
 
 Definition QZ_Cogenerator@{a h c +} (H : QZ_family_cogenerates@{a h c}) :
   Cogenerator@{c a h} Ab@{a h} :=
@@ -773,20 +773,20 @@ Qed.
 (** ** 8. The metatheorems at R = ℤ *)
 
 Definition YPZ@{a h +} (P : Prop) : RModObject Int_Ring :=
-  fobj[Ab_to_ZMod@{a h _}] (YP P).
+  fobj[Ab_to_ZMod@{a h}] (YP P).
 
 Definition BPZ@{a h +} (P : Prop) : RModObject Int_Ring :=
-  fobj[Ab_to_ZMod@{a h _}] (BP P).
+  fobj[Ab_to_ZMod@{a h}] (BP P).
 
 Definition ypz_zero@{a h +} (P : Prop) :
-  YPZ@{a h _ _} P ~{RMod Int_Ring}~> YPZ@{a h _ _} P :=
-  fmap[Ab_to_ZMod@{a h _}] (yp_zero P).
+  YPZ@{a h} P ~{RMod Int_Ring}~> YPZ@{a h} P :=
+  fmap[Ab_to_ZMod@{a h}] (yp_zero P).
 
 Definition bpz_incl@{a h +} (P : Prop) :
-  YPZ@{a h _ _} False ~{RMod Int_Ring}~> BPZ@{a h _ _} P :=
-  fmap[Ab_to_ZMod@{a h _}] (bp_incl P).
+  YPZ@{a h} False ~{RMod Int_Ring}~> BPZ@{a h} P :=
+  fmap[Ab_to_ZMod@{a h}] (bp_incl P).
 
-Lemma bpz_incl_monic@{a h +} (P : Prop) : Monic (bpz_incl@{a h _ _ _} P).
+Lemma bpz_incl_monic@{a h +} (P : Prop) : Monic (bpz_incl@{a h} P).
 Proof.
   apply rmod_injective_monic.
   intros x y H; left; exact (bp_incl_injective_prop P x y H).

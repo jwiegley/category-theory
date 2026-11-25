@@ -15,7 +15,12 @@
     N18-N22 restate a readback or a refusal that a target header records,
     N2 and N12 first measured by #455's review; N1, N3-N5 and N15-N17 are
     this file's own.  CORRECTION (#1383, #1384): N7 is now a positive
-    readback and N8 is retired, as detailed below.  The positive controls restate the files' claims
+    readback and N8 is retired, as detailed below.  CORRECTION
+    (rocq-prover/rocq#22721): N9-N14 and N16-N19 were refused only
+    before rocq-prover/rocq#22721; with its universes each of those ten
+    commands is accepted and is no longer a [Fail] command, so the
+    refusals the paragraphs below quote for them are the earlier state.
+    The positive controls restate the files' claims
     independently.
 
     THE IMPORT LIST, measured by comparing [Require] lines by script.
@@ -119,6 +124,12 @@
     N7 stays positive and N8 retired, with fixtures and eager twins kept.
     This audit does not repeat the historical positive-wrapper or binder
     experiments, nor promote their counts to a current constant census.
+    CORRECTION (rocq-prover/rocq#22721): this audit, the stripped copies
+    and the binder instruments above predate rocq-prover/rocq#22721.  With
+    its universes N9-N14 and N16-N19 are accepted and have lost their
+    [Fail]; eleven [Fail] commands remain (grep -c '^Fail' of this file):
+    the instrument, N1-N6, N15 and N20-N22.  The cross-version error
+    comparisons were not re-measured.
 
     KINDS.  CORRECTION (#1383, #1384): twenty-one, formerly twenty-three,
     refutations, counted by [grep -c '^Fail' Test/ProbeStoneCech455.v]:
@@ -132,6 +143,11 @@
     slots of [CompHaus] their paragraphs give (the fourth for N20, the
     third for N21, the fourteenth and fifteenth for N22); every other
     slot that differs is one the binder leaves to inference ([_]).
+    CORRECTION (rocq-prover/rocq#22721): eleven refutations now, counted
+    the same way: NAME-ABSENCE (the instrument), CONVERSION (N1-N4),
+    TYPING (N5) and UNIVERSE (N6, N15, N20-N22), one, four, one and five.
+    The UNIVERSE negatives N9-N14 and N16-N19 are accepted with the
+    universes of rocq-prover/rocq#22721 and are no longer refutations.
 
     LABELS.  The pins carry the N-numbers of this file; #455's builder and
     review measured several of them in scratch files under other names,
@@ -285,6 +301,9 @@
     The placement of the objects at h is what GAFT's use of the
     tautological solution set costs; with the objects above h GAFT would
     need another solution set, which neither target builds.
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N9 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes N9 is
+    accepted at [h < c] and is no longer a [Fail] command.
 
     ** Instance/Top/StoneCech/Refutations.v
 
@@ -308,6 +327,10 @@
     [h <= s] added ([p455_not_complete_IEM_below]), GAFT's shape with the
     objects above the homs being its case
     [CompHaus_not_complete_IEM_above] ([p455_not_complete_IEM_above]).
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N10 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes the
+    [IEM] form is accepted at [s < c] and N10 is no longer a [Fail]
+    command.
 
     N11 (UNIVERSE).  The same for [Top]: [Top_not_complete] is accepted at
     [s < h] ([p455_top_not_complete_index]) and [Top_not_complete_IEM] at
@@ -315,6 +338,9 @@
       The term "comp" has type "Complete@{r s h h}" while it is expected
       to have type "Complete@{<1> <2> <3> <3>}" (universe inconsistency:
       Cannot enforce <3> = h because <3> <= <2> < h).
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes [Top_not_complete_IEM] is
+    accepted at [s < h] and N11 is no longer a [Fail] command.
 
     N12 (UNIVERSE).  The reach of [StoneCech_adjunction_refuted_IEM]: it
     is proved at [CompHaus@{h h h h ...}], the objects at the hom
@@ -335,6 +361,10 @@
     statement ([p455_adj_refuted_IEM_above]).  A draft of this paragraph
     said that [IEM] does not supply such an index; #455's review measured
     that it does, through [CompHaus_ArrowIndex_of_Top].
+    CORRECTION (rocq-prover/rocq#22721): the refusal of N12 quoted above
+    is the state before rocq-prover/rocq#22721; with its universes
+    [StoneCech_adjunction_refuted_IEM] is accepted with the objects at c
+    above h, and N12 is no longer a [Fail] command.
 
     N20-N22 (UNIVERSE).  Refutations.v's COVERAGE: the forms through
     [Top]'s index apply only at instances of [CompHaus] whose third slot,
@@ -375,6 +405,9 @@
     same refusal with either slot alone below o, and a refusal of every
     other form, the index forms included, with both below o (in scratch
     files with this file's import list).
+    CORRECTION (rocq-prover/rocq#22721): N20-N22 are still refused, but
+    the [c <= s] the older form is said above to need is witnessed by
+    N10, which is accepted with the universes of rocq-prover/rocq#22721.
 
     N13, N14 (UNIVERSE).  Refutations.v's (3): discharging the
     well-poweredness of SAFT at the inclusion by [CompHaus_WellPowered]
@@ -408,6 +441,10 @@
     the shape below the objects, which such a well-powering allows,
     [SAFT_Incl_IEM_vacuous_below] still pairs SAFT with the refutation
     ([p455_saft_iem_vacuous_below]).
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N13, N14 and N19
+    quoted above are the state before rocq-prover/rocq#22721; with its
+    universes all three are accepted and are no longer [Fail] commands,
+    so they no longer pin either half of [c = h].
 
     N15-N17 (UNIVERSE).  Where each half of [c = h] comes from.  [c <= h]:
     Structure/WellPowered.v's [WellPowered@{o h w s t}] declares [o <= s],
@@ -431,6 +468,10 @@
     [CompHaus_Incl], whose type is expected at the ascribed [CompHaus]:
       (universe inconsistency: Cannot enforce <1> = h because <1> <= <2> <
       h).
+    CORRECTION (rocq-prover/rocq#22721): the refusals of N16 and N17
+    quoted above are the state before rocq-prover/rocq#22721; with its
+    universes both are accepted and are no longer [Fail] commands.  N15
+    is still refused.
 
     N18 (UNIVERSE).  Refutations.v's (4): [big_inj] ties its index to the
     objects of the very category [comp] is about, by the local definition
@@ -442,6 +483,9 @@
       The term "comp" has type "Complete@{r s h c}" while it is expected
       to have type "Complete@{<1> s h <2>}" (universe inconsistency:
       Cannot enforce <2> = c because <2> <= <3> < c).
+    CORRECTION (rocq-prover/rocq#22721): that refusal is the state before
+    rocq-prover/rocq#22721; with its universes [big_inj] is accepted at
+    [s < c] and N18 is no longer a [Fail] command.
 
     CONTROLS of the rest of the two files, each restating a constant at
     its stated type: the constructive pieces [p455_stonecech_finite],
@@ -471,7 +515,9 @@
     of [p455_saft_incl_apart] and the index of [taut_sols]: the latter two
     measured in scratch copies and pinned here by N13-N17 and N9; likewise the [h <= c] that [CompHaus_Forget] and
     [CompHaus_Incl] carry and the slots Refutations.v's COVERAGE names
-    (N12, N17, N19-N22).  (d) Flip censuses ([Defined] against [Qed]) and the
+    (N12, N17, N19-N22).  CORRECTION (rocq-prover/rocq#22721): of those
+    pins N9, N12-N14, N16, N17 and N19 are accepted with the universes of
+    rocq-prover/rocq#22721; only N15 and N20-N22 still pin them.  (d) Flip censuses ([Defined] against [Qed]) and the
     closure of the targets under [Print Assumptions]: measurements of the
     build rather than of commands; the Makefile's print-assumptions gate
     is where closure is kept.  An item (e), the review's p4 and p5, is
@@ -791,7 +837,10 @@ Definition p455_taut_sols_above@{h s c +| h < c +} (d : obj[Sets@{h s}]) :
 
 Check @Complete@{_ _ _ _}.
 Check @Sets@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N9, now accepted: GAFT at [CompHaus_Forget] with [taut_sols] and the
+   objects at c above h.  Previously refused at [taut_sols] with "Cannot
+   enforce c = h because h < c"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p455_n9_gaft_taut_above@{h s c +| h < c +}
   (comp : @Complete@{h h h c} CompHaus) :
   { F : Sets@{h s} ⟶ CompHaus & F ⊣ CompHaus_Forget } :=
@@ -802,16 +851,16 @@ Definition p455_n9_gaft_taut_above@{h s c +| h < c +}
 (* CONTROL: [Discrete_Hausdorff]; compactness of a discrete space iff
    finite enumerability, at one instance; discrete ℕ not compact. *)
 Definition p455_discrete_hausdorff@{h o +| o < h +}
-  (A : SetoidObject@{o o}) : IsHausdorff@{h o o o} (Discrete_Top@{o o} A) :=
+  (A : SetoidObject@{o o}) : IsHausdorff@{h o o o} (Discrete_Top@{o o o} A) :=
   Discrete_Hausdorff A.
 
 Definition p455_compact_iff@{o +} (A : SetoidObject@{o o}) :
-  (FinEnum A → IsCompact (Discrete_Top@{o o} A))
-  ∧ (IsCompact (Discrete_Top@{o o} A) → FinEnum A) :=
+  (FinEnum A → IsCompact (Discrete_Top@{o o o} A))
+  ∧ (IsCompact (Discrete_Top@{o o o} A) → FinEnum A) :=
   (Discrete_Compact_of_FinEnum A, FinEnum_of_Discrete_Compact A).
 
 Definition p455_nat_not_compact@{o +} :
-  IsCompact (Discrete_Top@{o o} sc_nat_setoid) → False :=
+  IsCompact (Discrete_Top@{o o o} sc_nat_setoid) → False :=
   Discrete_nat_not_compact.
 
 (* CONTROL: Exercise 4 over the underlying-set functor. *)
@@ -930,7 +979,9 @@ Definition p455_not_complete_IEM_above@{e h c +| h < c +} (E : IEM@{e})
   CompHaus_not_complete_IEM_above E comp.
 
 Check @IEM@{_}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N10, now accepted: the [IEM] form at [s < c].  Previously refused at
+   [comp] with "Cannot enforce <2> = c because <2> <= <3> < c"; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
   (E : IEM@{e}) (comp : @Complete@{r s h c} CompHaus) : False :=
   CompHaus_not_complete_IEM E comp.
@@ -942,24 +993,24 @@ Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
 Definition p455_not_complete_below_slots@{e h c o +| h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
-            (CompHaus@{h o _ _ _} : Category@{c h h})) :
+            (CompHaus@{h _ _ _ _ _} : Category@{c h h})) :
   False :=
-  CompHaus_not_complete_IEM_below@{e h h c h o _} E comp.
+  CompHaus_not_complete_IEM_below@{e h h c h _ _ _} E comp.
 
 Definition p455_not_complete_IEM_top_slot@{e h t o +| t < h +}
   (E : IEM@{e})
   (comp : @Complete@{h h h h}
-            (CompHaus@{h o _ _ _} : Category@{h h h})) :
+            (CompHaus@{h _ _ _ _ _} : Category@{h h h})) :
   False :=
   CompHaus_not_complete_IEM E comp.
 
-Check @CompHaus@{_ _ _ _ _}.
+Check @CompHaus@{_ _ _ _ _ _}.
 Check @Category@{_ _ _}.
-Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _}.
+Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _ _}.
 Fail Definition p455_n21_below_top_slot@{e h c t o +| t < h, h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
-            (CompHaus@{h o _ _ _} : Category@{c h h})) :
+            (CompHaus@{h _ _ _ _ _} : Category@{c h h})) :
   False :=
   CompHaus_not_complete_IEM_below@{e h h c h o _ _ _ _ _ _ _} E comp.
 
@@ -974,7 +1025,9 @@ Definition p455_top_not_complete_IEM@{e r s h o +| h <= s +} (E : IEM@{e})
   Top_not_complete_IEM E comp.
 
 Check @Top@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N11, now accepted: [Top_not_complete_IEM] at [s < h].  Previously
+   refused at [comp] with "Cannot enforce <3> = h because <3> <= <2> < h";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p455_n11_top_not_complete_IEM_below@{e r s h o +| s < h +}
   (E : IEM@{e}) (comp : @Complete@{r s h h} Top@{h o}) : False :=
   Top_not_complete_IEM E comp.
@@ -1014,7 +1067,10 @@ Definition p455_adj_refuted_IEM_above@{e h s c +| h < c +} (E : IEM@{e})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above E A.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N12, now accepted: [StoneCech_adjunction_refuted_IEM] with the objects
+   at c above h.  Previously refused at [A] with "Cannot enforce c = h
+   because h < c"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
   (E : IEM@{e})
   (A : { F : Sets@{h s} ⟶ (CompHaus : Category@{c h h})
@@ -1024,7 +1080,7 @@ Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
 (* CONTROL: the same slot by slot, the proof slot at the objects; and
    GAFT's route with the objects above the homs, any solution sets. *)
 Definition p455_adj_above_slots@{e h s c o +| h < c +} (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
@@ -1039,7 +1095,7 @@ Definition p455_gaft_vacuous_above@{e h s c +| h < c +} (E : IEM@{e})
 Check @StoneCech_adjunction_refuted_IEM_above@{_ _ _ _ _ _ _}.
 Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
@@ -1049,14 +1105,14 @@ Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
    at the points' universe o. *)
 Definition p455_adj_above_hausdorff_at_o@{e h s c o +| h < c +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
 
 Fail Definition p455_n22_hausdorff_opens_below@{e h s c o q +| h < c, q < o +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
@@ -1108,21 +1164,28 @@ Definition p455_saft_iem_vacuous_below@{e s c h +| h <= s, s < c +}
   ({ F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } * False)%type :=
   SAFT_Incl_IEM_vacuous_below E comp cont G WP.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N13, now accepted: SAFT at the inclusion through
+   [CompHaus_WellPowered] at [h < c].  Previously refused at
+   [CompHaus_WellPowered] with "Cannot enforce h = <1> because h < c <=
+   <1>"; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p455_n13_saft_incl_above@{s c h +| h < c +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus) :
   { F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } :=
   SAFT_wellpowered CompHaus_Incl comp cont G CompHaus_WellPowered.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N14, now accepted: the same at [c < h].  Previously refused at [comp]
+   with "Cannot enforce <1> = c because c < h <= <1>"; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Definition p455_n14_saft_incl_below@{s c h +| c < h +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus) :
   { F : Top ⟶ CompHaus & F ⊣ CompHaus_Incl } :=
   SAFT_wellpowered CompHaus_Incl comp cont G CompHaus_WellPowered.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N19, now accepted: SAFT at the inclusion with a well-powering
+   hypothesis at [c < h].  Previously refused at [comp] with the clause of
+   N14; accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p455_n19_saft_wp_below@{s c h +| c < h +}
   (comp : @Complete@{s s h c} CompHaus)
   (cont : @PreservesImageLimit _ _ CompHaus_Incl) (G : Cogenerator CompHaus)
@@ -1156,12 +1219,17 @@ Check @WellPowered@{_ _ _ _ _}.
 Fail Definition p455_n15_wp_type_at_h@{c h t +| h < c +} : Type :=
   WellPowered@{c h h h t} (CompHaus : Category@{c h h}).
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N16, now accepted: [trivial_small] inhabiting the well-powering type
+   indexed at c, at [h < c].  Previously refused with "Cannot enforce c =
+   h because h < c"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Definition p455_n16_trivial_small_at_c@{c h t +| h < c +} :
   WellPowered@{c h h c t} (CompHaus : Category@{c h h}) :=
   trivial_small CompHaus.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N17, now accepted: the inclusion at [c < h].  Previously refused at
+   [CompHaus_Incl] with "Cannot enforce <1> = h because <1> <= <2> < h";
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Definition p455_n17_incl_below@{c h +| c < h +} :=
   CompHaus_Incl : (CompHaus : Category@{c h h}) ⟶ Top.
 
@@ -1184,7 +1252,9 @@ Definition p455_big_inj_unsplit@{r s c h +| s < c +}
               (complete_iprod comp (fun _ : obj[CompHaus] => Bool_CH))
               (fun j => sc_pt_bool (phi j))))) ttt.
 
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* N18, now accepted: [big_inj] at [s < c].  Previously refused at [comp]
+   with "Cannot enforce <2> = c because <2> <= <3> < c"; accepted since
+   the universes of rocq-prover/rocq#22721. *)
 Definition p455_n18_big_inj_below@{r s c h +| s < c +}
   (comp : @Complete@{r s h c} (CompHaus : Category@{c h h}))
   (phi : obj[CompHaus] → bool) :=

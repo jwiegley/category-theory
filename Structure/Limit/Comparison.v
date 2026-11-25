@@ -670,10 +670,16 @@ End BinaryProducts.
 
 Section CartesianBridge.
 
-Context {C D : Category} (F : C ⟶ D) `{@Cartesian C} `{@Cartesian D}.
+(* The universes are declared: the homs of the discrete two-object shapes are
+   at those of [C] and [D], as their limits require *)
+Universes co ch do dh.
+
+Context {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D)
+  `{@Cartesian C} `{@Cartesian D}.
 
 (* the product cone of [C] over the discrete two-object diagram of [f] *)
-Definition binary_cone (f : bool → C) : Cone (DiscreteCat_Functor' f) :=
+Definition binary_cone (f : bool → C) :
+  Cone (DiscreteCat_Functor'@{Set ch ch co ch ch} f) :=
   discrete_cone (DiscreteCat_Functor' f) (f true × f false) (binary_proj f).
 
 Definition binary_cone_IsLimitCone (f : bool → C) : IsLimitCone (binary_cone f) :=
@@ -681,7 +687,8 @@ Definition binary_cone_IsLimitCone (f : bool → C) : IsLimitCone (binary_cone f
     (IsIndexedProduct_binary f).
 
 (* the product cone of [D] over the IMAGE diagram [F ◯ DiscreteCat_Functor' f] *)
-Definition binary_image_cone (f : bool → C) : Cone (F ◯ DiscreteCat_Functor' f) :=
+Definition binary_image_cone (f : bool → C) :
+  Cone (F ◯ DiscreteCat_Functor'@{Set dh dh co ch ch} f) :=
   discrete_cone (F ◯ DiscreteCat_Functor' f) (F (f true) × F (f false))
     (binary_proj (fun b => F (f b))).
 
@@ -807,9 +814,14 @@ End NullaryProducts.
 
 Section TerminalBridge.
 
-Context {C D : Category} (F : C ⟶ D) `{@Terminal C} `{@Terminal D}.
+(* The universes are declared, as in [CartesianBridge] *)
+Universes co ch do dh.
 
-Definition nullary_cone (f : False → C) : Cone (DiscreteCat_Functor' f) :=
+Context {C : Category@{co ch ch}} {D : Category@{do dh dh}} (F : C ⟶ D)
+  `{@Terminal C} `{@Terminal D}.
+
+Definition nullary_cone (f : False → C) :
+  Cone (DiscreteCat_Functor'@{Set ch ch co ch ch} f) :=
   discrete_cone (DiscreteCat_Functor' f) terminal_obj (nullary_proj f).
 
 Definition nullary_cone_IsLimitCone (f : False → C) : IsLimitCone (nullary_cone f) :=
@@ -817,7 +829,7 @@ Definition nullary_cone_IsLimitCone (f : False → C) : IsLimitCone (nullary_con
     (IsIndexedProduct_nullary f).
 
 Definition nullary_image_cone (f : False → C) :
-  Cone (F ◯ DiscreteCat_Functor' f) :=
+  Cone (F ◯ DiscreteCat_Functor'@{Set dh dh co ch ch} f) :=
   discrete_cone (F ◯ DiscreteCat_Functor' f) terminal_obj
     (nullary_proj (fun a => F (f a))).
 

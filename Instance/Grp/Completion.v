@@ -212,6 +212,11 @@ Generalizable All Variables.
     [Sets], the universe-minimization family the tree records elsewhere)
     and not demanded by its statement.  [mcar], [mop], [mhom] and
     [Sets_Product_Monoidal] were each checked and are all free of it.
+    CORRECTION (rocq-prover/rocq#22721): the two formability negatives
+    that pinned this, [grp_monoid G] and [Grp_MonSets G] over
+    [GrpObject@{uo uh up}] with [Set < uo], are accepted since the
+    universes of rocq-prover/rocq#22721 and are no longer [Fail]
+    commands; the signatures quoted above are not re-measured.
 
     THE BOUNDARY IS MEASURED, not guessed.  The presentation layer is NOT
     pinned: [comp_free], [CompletionObject] and [comp_class_op] all
@@ -222,6 +227,11 @@ Generalizable All Variables.
     "Cannot enforce Set = uo").  So the ADJUNCTION, the functors and
     everything downstream are statements about [Set]-carrier monoids and
     groups; the presentation, the quotient and their laws are not.
+    CORRECTION (rocq-prover/rocq#22721): that negative,
+    [completion_insert] over [MonSets@{uh}] with [Set < uo], is accepted
+    since the universes of rocq-prover/rocq#22721 and is no longer a
+    [Fail] command; whether the adjunction and functors downstream now
+    reach carriers above [Set] is not measured here.
 
     What the presentation layer DOES carry is an identification of
     [GrpObject]'s three universes with one another
@@ -846,7 +856,11 @@ Qed.
     error message, and each is paired with a positive control that must
     succeed.  Three are CONVERSION failures ("cannot unify") and three are
     FORMABILITY failures (universe inconsistencies naming the declared
-    level); they are kept lexically apart. *)
+    level); they are kept lexically apart.  CORRECTION
+    (rocq-prover/rocq#22721): the three FORMABILITY probes are accepted
+    since the universes of rocq-prover/rocq#22721 and are no longer
+    [Fail] commands; four [Fail] commands remain (by [grep -c '^Fail']),
+    the instrument check and the three CONVERSION negatives. *)
 
 (* Instrument check: the mechanism reports a genuine failure on a
    scope-free proposition. *)
@@ -894,7 +908,9 @@ Fail Example completion_probe_insert_op (M : MonSets)
     is formable there too, so the pin is introduced by that DEFINITION and
     is not demanded by its statement.  It is the universe-minimization
     family the tree records elsewhere; it is NOT claimed unavoidable, and
-    it is NOT repaired here. *)
+    it is NOT repaired here.  CORRECTION (rocq-prover/rocq#22721): the two
+    negatives of this section are accepted since the universes of
+    rocq-prover/rocq#22721. *)
 
 Section CompletionSetPin.
 
@@ -906,14 +922,19 @@ Check (fun G : GrpObject@{uo uh up} =>
          @Monoid Sets Sets_Product_Monoidal (grp_setoid G)).
 
 (* Control: [grp_monoid] must be named OUTSIDE a [Fail], or renaming it
-   would turn the negative below vacuously green on "reference not
+   would have turned the negative below vacuously green on "reference not
    found" while this file still compiled. *)
 Check @grp_monoid.
 
 Check @GrpObject@{_ _ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formability negative, now accepted: [grp_monoid] at a carrier
+   universe strictly above [Set].  Previously refused with a universe
+   inconsistency naming the declared level; accepted since the universes
+   of rocq-prover/rocq#22721. *)
 Check (fun G : GrpObject@{uo uh up} => grp_monoid G).
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formability negative, now accepted: [Grp_MonSets] at the same levels.
+   Previously refused with a universe inconsistency naming the declared
+   level; accepted since the universes of rocq-prover/rocq#22721. *)
 Check (fun G : GrpObject@{uo uh up} => Grp_MonSets G).
 
 End CompletionSetPin.
@@ -922,7 +943,9 @@ End CompletionSetPin.
    presentation layer -- the free group, the relator subgroup, the
    quotient and its multiplicativity -- is formable over a monoid whose
    carrier universe sits strictly ABOVE [Set], and it is exactly the first
-   constant whose TYPE names [Grp_MonSets] that is rejected there. *)
+   constant whose TYPE names [Grp_MonSets] that is rejected there.
+   CORRECTION (rocq-prover/rocq#22721): that constant, [completion_insert],
+   is accepted there since the universes of rocq-prover/rocq#22721. *)
 
 Section CompletionInsertPin.
 
@@ -935,7 +958,10 @@ Check (fun (M : obj[MonSets@{uh}]) (a b : carrier (mcar M)) =>
          comp_class_op M a b).
 
 Check @MonSets@{_}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* Formability negative, now accepted: [completion_insert] over a monoid
+   whose carrier universe sits strictly above [Set].  Previously refused
+   with "Cannot enforce Set = uo"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (fun M : obj[MonSets@{uh}] => completion_insert M).
 
 End CompletionInsertPin.

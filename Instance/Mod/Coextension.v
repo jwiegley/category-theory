@@ -239,6 +239,14 @@
    and composite, and by [About] on Rocq 9.3.0 none of the 11 constants of
    this file in the assumptions audit names [compose.u0]-[u2] or [ID.u0]; 10
    did before.
+   CORRECTION (rocq-prover/rocq#22721):
+   with the universes of rocq-prover/rocq#22721 [AbHom (ring_ab Ru) Au]
+   and [Ring_RMod Ru : obj[RMod Ru]] are both accepted at those levels,
+   and so are [coex_act], [coex_group], [Coextension] and
+   [coex_adjunction] applied to [Ru]; the seven FORMABILITY negatives of
+   the probe section are now accepted commands, no longer under [Fail].
+   The universe blocks quoted above were measured before that change
+   and are not re-measured.
 
    PRIOR ART, AND WHAT IT DOES AND DOES NOT SHARE WITH THIS FILE.
 
@@ -296,7 +304,12 @@
    was stripped of its [Fail] and compiled alone and its WHOLE error
    read; the classification is recorded at the probe section.  Every
    constant named inside a negative is also named outside one, so a
-   rename cannot turn a guard vacuously green.
+   rename cannot turn a guard vacuously green.  CORRECTION
+   (rocq-prover/rocq#22721): the seven FORMABILITY negatives are accepted
+   with the universes of rocq-prover/rocq#22721 and are no longer under
+   [Fail]; eight [Fail] commands remain (by [grep -c '^Fail']), seven
+   guarded negatives — five CONVERSION, two TYPING — and the instrument
+   check.
 
    WHAT IS NOT DELIVERED.
 
@@ -765,7 +778,11 @@ Qed.
     negatives 8-14 end in
     [universe inconsistency: Cannot enforce rc = ra] (FORMABILITY).
     Fifteen [Fail] commands in all: fourteen guarded negatives and one
-    scope-free instrument check. *)
+    scope-free instrument check.  CORRECTION (rocq-prover/rocq#22721):
+    negatives 8-14 were refused with that universe inconsistency and are
+    accepted since the universes of rocq-prover/rocq#22721, so their
+    [Fail] was removed; eight [Fail] commands remain, negatives 1-7 and
+    the instrument check. *)
 
 Section CoexProbeStrength.
 
@@ -869,7 +886,10 @@ Context (Ru : RingObject@{rc ra rb}) (Au Bu : AbObject).
    apart, all of these are formable, each APPLIED to the argument that
    carries the levels — so the identification below is neither the module
    category's, nor [ring_ab]'s, nor the forgetful functor's, nor
-   [hom_ab]'s, nor the functor TYPE's. *)
+   [hom_ab]'s, nor the functor TYPE's.  CORRECTION
+   (rocq-prover/rocq#22721): with the universes of rocq-prover/rocq#22721
+   there is no identification below any more; the seven commands that
+   follow are accepted. *)
 Check (RMod Ru).
 Check (ring_ab Ru).
 Check (RMod_Forget_Ab Ru).
@@ -878,40 +898,46 @@ Check (Ab ⟶ RMod Ru).
 Check (Ring_RMod Ru).
 Check (obj[RMod Ru]).
 
-(* NEGATIVE 8 (FORMABILITY).  THE DONOR, and it is neither this file's
-   nor [Ab]-the-category's: the wall is met already at [AbHom], i.e. the
-   moment a ring's additive group is read as the SOURCE of a
-   homomorphism of abelian groups.  That is where [coex_group] begins,
-   and everything below inherits it. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 8 (FORMABILITY), now accepted.  It pinned THE DONOR, which is
+   neither this file's nor [Ab]-the-category's: the wall was met already at
+   [AbHom], i.e. the moment a ring's additive group is read as the SOURCE of
+   a homomorphism of abelian groups, where [coex_group] begins, and everything
+   below inherited it.  Previously refused with [universe inconsistency:
+   Cannot enforce rc = ra]; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (AbHom (ring_ab Ru) Au).
 
-(* NEGATIVE 9 (FORMABILITY).  The same wall met the other way round. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 9 (FORMABILITY), now accepted: the same wall met the other way
+   round.  Previously refused with [universe inconsistency: Cannot enforce
+   rc = ra]; accepted since the universes of rocq-prover/rocq#22721. *)
 Check (ring_ab Ru : obj[Ab]).
 
-(* NEGATIVE 10 (FORMABILITY).  Hence the scalar action. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 10 (FORMABILITY), now accepted: the scalar action.  Previously
+   refused with [universe inconsistency: Cannot enforce rc = ra]; accepted
+   since the universes of rocq-prover/rocq#22721. *)
 Check (coex_act Ru Au).
 
-(* NEGATIVE 11 (FORMABILITY).  Hence the carrier. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 11 (FORMABILITY), now accepted: the carrier.  Previously refused
+   with [universe inconsistency: Cannot enforce rc = ra]; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (coex_group Ru Au).
 
-(* NEGATIVE 12 (FORMABILITY).  A SECOND, INDEPENDENT donor:
-   Instance/Mod.v's own [Ring_RMod] is rejected at the very same levels
-   with the very same message, and it mentions neither [Ab] nor this
-   file.  So the identification would be met here even if the abelian
-   side were repaired. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 12 (FORMABILITY), now accepted.  It pinned a SECOND, INDEPENDENT
+   donor: Instance/Mod.v's own [Ring_RMod], which mentions neither [Ab] nor
+   this file, was rejected at the very same levels with the very same message,
+   so the identification would have been met here even if the abelian side
+   were repaired.  Previously refused with [universe inconsistency: Cannot
+   enforce rc = ra]; accepted since the universes of rocq-prover/rocq#22721. *)
 Check (Ring_RMod Ru : obj[RMod Ru]).
 
-(* NEGATIVE 13 (FORMABILITY).  Hence the functor. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 13 (FORMABILITY), now accepted: the functor.  Previously refused
+   with [universe inconsistency: Cannot enforce rc = ra]; accepted since the
+   universes of rocq-prover/rocq#22721. *)
 Check (Coextension Ru).
 
-(* NEGATIVE 14 (FORMABILITY).  And hence the headline. *)
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* NEGATIVE 14 (FORMABILITY), now accepted: the headline adjunction.
+   Previously refused with [universe inconsistency: Cannot enforce rc = ra];
+   accepted since the universes of rocq-prover/rocq#22721. *)
 Check (coex_adjunction Ru).
 
 End CoexProbeUniverses.

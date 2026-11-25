@@ -259,6 +259,12 @@ Generalizable All Variables.
     and inherits the pin, so the EXERCISE is a statement about rings whose
     carriers live in [Set] even though the abelian half of it is not.  The
     pin is not repaired here and is NOT claimed unavoidable.
+    CORRECTION (rocq-prover/rocq#22721): the rejection of [Rng_Forget_Mon]
+    and [Rig_Forget_Mon] under [Constraint Set < uh] is the state before
+    rocq-prover/rocq#22721; with its universes both are accepted there and
+    the two negatives are no longer [Fail] commands, so the attribution
+    above is no longer guarded by them.  The [Set] readbacks of the
+    monoid route quoted above were not re-measured.
 
     NON-DEGENERACY, PROVED RATHER THAN GESTURED AT.  No induction over
     [fr_eq] can yield a negative -- every constructor concludes an
@@ -290,7 +296,11 @@ Generalizable All Variables.
     failure kind read off the message.  Every constant named in a [Fail]
     is also named in a command that must SUCCEED -- four positive [Check]s
     were added for exactly that reason -- so a rename breaks this file
-    instead of turning a negative vacuously green.
+    instead of turning a negative vacuously green.  CORRECTION
+    (rocq-prover/rocq#22721): the two FORMABILITY negatives are accepted
+    with the universes of rocq-prover/rocq#22721 and are no longer
+    [Fail]s; five [Fail]s remain, all CONVERSION, plus the instrument
+    check (grep -c '^Fail' of this file: six).
 
     THE HOM-SET FORM (#474).  Two packagings of the one adjunction
     [FreeRngAb ⊣ Rng_Forget_Ab] are kept.  [free_rng_ab_adjunction],
@@ -323,7 +333,7 @@ Generalizable All Variables.
     [free_rng_ab_adjunction_hom] bind @{u p}, [Ab]'s and [Rng]'s own,
     and the four further levels of [FreeRngAb], with no [Set] but the
     strict lower bound [Set < u]; the adjunction is pinned to
-    [Adjunction@{u p p u p p p p u p u}], so that the phantom level of
+    [Adjunction@{u u p u u}], so that the phantom level of
     [Build_Adjunction'] is not left free (an unpinned version binds it,
     unconstrained, measured by [About]).  Issue #1353 records the exit:
     once [ump_universal_arrows] and [free_rng_ab_universal] are
@@ -920,7 +930,7 @@ Proof.
 Defined.
 
 Definition free_rng_ab_adjunction_hom@{u p +} :
-  @Adjunction@{u p p u p p p p u p u} Rng@{p} Ab@{u p}
+  @Adjunction@{u u p u u} Rng@{p} Ab@{u p}
     FreeRngAb Rng_Forget_Ab.
 Proof.
   unshelve refine
@@ -1410,7 +1420,10 @@ Fail Example rng_fmap_generator_computes {A B : Ab} (u : A ~{Ab}~> B)
     ONE [Rng] -- is confined to rings whose carriers live in [Set].  The
     abelian route is not: [RngUnderlyingAb@{u u0}] leaves [u0] free.  The
     pin is the DONOR's and is not repaired here; it is not claimed
-    unavoidable.  Error in both cases: "Cannot enforce Set = uh". *)
+    unavoidable.  Error in both cases: "Cannot enforce Set = uh".
+    CORRECTION (rocq-prover/rocq#22721): that error is the state before
+    rocq-prover/rocq#22721; with its universes both commands below are
+    accepted and are no longer [Fail] commands. *)
 
 (* Positive controls naming the two constants the negatives below name,
    so that renaming either breaks this file instead of turning a [Fail]
@@ -1429,10 +1442,16 @@ Check (Rng_Forget_Ab : Rng@{uh} ⟶ Ab).
 Check (Rig_Forget_CMon : Rig@{uo uh} ⟶ CMon).
 
 Check @Rng@{_}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY negative, now accepted: [Rng_Forget_Mon] at a ring whose
+   homs live strictly above [Set].  Previously refused with "Cannot
+   enforce Set = uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Rng_Forget_Mon : Rng@{uh} ⟶ MonSets).
 Check @Rig@{_ _}.
-(* Accepted with the universes of rocq-prover/rocq#22721 *)
+(* FORMABILITY negative, now accepted: [Rig_Forget_Mon] at a rig whose
+   homs live strictly above [Set].  Previously refused with "Cannot
+   enforce Set = uh"; accepted since the universes of
+   rocq-prover/rocq#22721. *)
 Check (Rig_Forget_Mon : Rig@{uo uh} ⟶ MonSets).
 
 End MonRouteSetPin.

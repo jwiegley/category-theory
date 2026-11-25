@@ -78,7 +78,13 @@
 
     Every negative is paired with a positive control naming its own
     constants.  The measured rename-simulation score is at the end, over
-    the constants the NEGATIVES name and no others. *)
+    the constants the NEGATIVES name and no others.
+
+    CORRECTION (rocq-prover/rocq#22721): negatives 1 (`Terminal`) and 2
+    (`Cartesian`) are accepted with the universes of
+    rocq-prover/rocq#22721 and are no longer `Fail` commands; negatives
+    3-6 are still refused.  The paragraphs above record the state before
+    that change. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -106,7 +112,9 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
     Each is rejected under `Constraint uh < up` while the controls show a
     hom-set and an object family are perfectly formable at those levels.
-    Testing them separately is the point: no single one is "the" cause. *)
+    Testing them separately is the point: no single one is "the" cause.
+    CORRECTION: negatives 1 and 2 are accepted since the universes of
+    rocq-prover/rocq#22721; only negatives 3-5 here are still rejected. *)
 
 Section Donors.
 
@@ -120,9 +128,11 @@ Check (fun (C : Category@{uo uh up}) (x y : C) => x ~> y).
    results quantify over. *)
 Check (fun (C : Category@{uo uh up}) (A : Type) (f : A -> C) => f).
 
-(* NEGATIVE 1. *)
+(* NEGATIVE 1, now accepted: [Terminal]. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
+(* Previously refused under `Constraint uh < up` with a universe
+   inconsistency; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Terminal C).
 
 (* Control: [Cartesian] exists at unconstrained levels.  Same reason as
    the [HasIndexedProducts] control below -- without it the negative
@@ -130,9 +140,11 @@ Fail Check (fun (C : Category@{uo uh up}) => @Terminal C).
    error. *)
 Check @Cartesian.
 
-(* NEGATIVE 2. *)
+(* NEGATIVE 2, now accepted: [Cartesian]. *)
 Check @Category@{_ _ _}.
-Fail Check (fun (C : Category@{uo uh up}) => @Cartesian C).
+(* Previously refused under `Constraint uh < up` with a universe
+   inconsistency; accepted since the universes of rocq-prover/rocq#22721. *)
+Check (fun (C : Category@{uo uh up}) => @Cartesian C).
 
 (* Control: [HasIndexedProducts] EXISTS and elaborates at UNCONSTRAINED
    levels.  Without this line the negative below would still "succeed"
@@ -249,7 +261,10 @@ Check @Fun_bool_iprod_iso_inv_commutes.
 
 (** ** MEASURED RENAME-SIMULATION SCORE
 
-    Read off the `Fail` commands themselves, not from memory.
+    Read off the `Fail` commands themselves, not from memory.  (Negatives
+    1 and 2 have been accepted since the universes of
+    rocq-prover/rocq#22721 and are no longer `Fail` commands; the score
+    below was measured before that change.)
 
       Negative 1 names [Terminal], [Category]
       Negative 2 names [Cartesian], [Category]

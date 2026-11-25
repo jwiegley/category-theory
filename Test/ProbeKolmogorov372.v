@@ -22,6 +22,10 @@
         measurement -- the unrestricted indistinguishability relation
         is one universe too big to be a space's `≈`; the second is the
         donor identification [Subcategory] carries.
+        CORRECTION: FORMABILITY 1 is accepted since the universes of
+        rocq-prover/rocq#22721 and is no longer a negative, so the
+        negatives that remain are four (two CONVERSION, one TYPING,
+        and FORMABILITY 2) plus the instrument.
 
     CORRECTION (#1347): CONVERSION 1 below now holds at [eq_refl], since
     Instance/Sets.v gives its identity's and composite's properness fields
@@ -69,9 +73,13 @@ Fail Check probe_372b_no_such_reference.
     ALL of them lands at a level strictly above [o].  The control shows the
     level-restricted [SameOpens] DOES land at [Type@{o}] at the very
     same declared levels, and [kq_setoid] builds the coarsened
-    [SetoidObject] out of it; the negative shows [SameOpensAll] does
+    [SetoidObject] out of it; the negative showed [SameOpensAll] does
     not.  That is the whole reason the target's quotient tests against
-    the opens valued at a level strictly below the space's own. *)
+    the opens valued at a level strictly below the space's own.
+    CORRECTION: the negative, previously refused with a universe
+    inconsistency, is accepted since the universes of
+    rocq-prover/rocq#22721, so this file no longer pins the headline
+    measurement; the argument above is the target header's. *)
 
 Section ProbeKolmogorovLevels.
 
@@ -84,9 +92,12 @@ Definition k372_probe_small_at_o (x y : Xu) : Type@{o} :=
   SameOpens@{s o} Xu x y.
 
 Definition k372_probe_kq_setoid_at_o : SetoidObject@{o o} :=
-  kq_setoid@{s o} Xu.
+  kq_setoid@{o s} Xu.
 
-Fail Definition k372_probe_all_at_o (x y : Xu) : Type@{o} :=
+(* FORMABILITY 1, no longer a negative: previously refused with a
+   universe inconsistency; accepted since the universes of
+   rocq-prover/rocq#22721. *)
+Definition k372_probe_all_at_o (x y : Xu) : Type@{o} :=
   SameOpensAll Xu x y.
 
 End ProbeKolmogorovLevels.
