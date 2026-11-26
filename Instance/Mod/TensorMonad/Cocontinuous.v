@@ -182,7 +182,10 @@ Generalizable All Variables.
    UNIVERSES, read off [About] on all 14 constants.  The tensor–hom constants
    bind [@{c o x}]: R : RingObject@{c c c}, Ab@{o c}, RMod@{o x c c c}, pinned
    as Coextension@{c c c o x}, coex_adjunction@{c c c o x c},
-   zext_adjunction@{c c c o o x c c} and Adjunction@{o c c o c c c c x c o}.
+   zext_adjunction@{c c c o o x c c} and Adjunction@{o o c x o} (five slots
+   since #1414; this sentence read Adjunction@{o c c o c c c c x c o})
+   (four uses of [Coextension] now leave that instance to inference, which
+   gives the same one by [About]).
    The four cocontinuity constants add t (the class's level), l and l0 (the
    colimit predicate's) and s (the shape's objects).  The three comparison
    constants bind [@{a c p o x}] as Instance/Mod/TensorMonad.v does.  The
@@ -248,7 +251,7 @@ Example TensorF_right_adjoint_obj@{c o x} (R : RingObject@{c c c})
 
 Example tensor_hom_to@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -259,7 +262,7 @@ Example tensor_hom_to@{c o x} (R : RingObject@{c c c})
 
 Lemma tensor_hom_to_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
-  (φ : fobj[TensorF@{c c c o x} R] A ~{Ab@{o c}}~> B)
+  (φ : fobj[TensorF R] A ~{Ab@{o c}}~> B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   @cmon_map (ab_cmon (ring_ab R)) (ab_cmon B)
     (cmon_map (to (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) φ) a)
@@ -274,7 +277,7 @@ Qed.
 Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab R ◯ Coextension R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -284,7 +287,7 @@ Example tensor_hom_from@{c o x} (R : RingObject@{c c c})
 Lemma tensor_hom_from_gen@{c o x} (R : RingObject@{c c c})
   (A B : obj[Ab@{o c}])
   (ψ : A ~{Ab@{o c}}~>
-         fobj[RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R] B)
+         fobj[RMod_Forget_Ab R ◯ Coextension R] B)
   (a : carrier (cmon_setoid A)) (r : carrier (rig_setoid (ring_rig R))) :
   cmon_map (from (@adj _ _ _ _ (TensorF_left_adjoint@{c o x} R) A B) ψ)
     (@ts_gen (ring_ab R) A r a)
@@ -299,9 +302,9 @@ Qed.
 
 Definition TensorF2_left_adjoint@{c o x} (R : RingObject@{c c c}) :
   @Adjunction@{o o c x o} Ab@{o c} Ab@{o c}
-    (TensorF@{c c c o x} R ◯ TensorF@{c c c o x} R)
-    ((RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)
-       ◯ (RMod_Forget_Ab@{x o o c c c} R ◯ Coextension@{c c c o x} R)) :=
+    (TensorF R ◯ TensorF R)
+    ((RMod_Forget_Ab R ◯ Coextension R)
+       ◯ (RMod_Forget_Ab R ◯ Coextension R)) :=
   Adjunction_Compose (TensorF_left_adjoint@{c o x} R)
     (TensorF_left_adjoint@{c o x} R).
 

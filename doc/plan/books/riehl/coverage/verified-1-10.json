@@ -116,7 +116,7 @@
     "file": "Theory/Category.v",
     "line": 122,
     "symbol": "compose_respects",
-    "intree_statement": "compose_respects {x y z} : Proper@{h p} (respectful@{h p h p h p} equiv (respectful@{h p h p h p} equiv equiv)) (@compose x y z);"
+    "intree_statement": "compose_respects {x y z} : Proper@{h p} (respectful equiv (respectful equiv equiv)) (@compose x y z);"
    },
    {
     "file": "Theory/Category.v",

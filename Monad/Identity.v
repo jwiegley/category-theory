@@ -142,7 +142,7 @@ Qed.
 Definition IdMonad_EM_counit@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h}) :
   @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C)
-    ◯ @EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C) ≈ Id[C].
+    ◯ @EM_Free C Id[C] (IdMonad@{o h} C) ≈ Id[C].
 Proof.
   exists (fun x => iso_id).
   intros x y f; simpl.
@@ -154,7 +154,7 @@ Definition IdMonad_EM_unit_iso@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h})
   (X : @EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)) :
   @Isomorphism (@EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C))
-    X (fobj[@EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C)
+    X (fobj[@EM_Free C Id[C] (IdMonad@{o h} C)
              ◯ @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C)] X).
 Proof.
   unshelve econstructor.
@@ -183,7 +183,7 @@ Example IdMonad_EM_unit_iso_id@{o h s e | h < s, o <= e, h <= e +}
 Definition IdMonad_EM_unit@{o h s e | h < s, o <= e, h <= e +}
   (C : Category@{o h h}) :
   Id[@EilenbergMoore@{e o h} C Id[C] (IdMonad@{o h} C)]
-    ≈ @EM_Free@{o h e s} C Id[C] (IdMonad@{o h} C)
+    ≈ @EM_Free C Id[C] (IdMonad@{o h} C)
         ◯ @EM_Forget@{o h e} C Id[C] (IdMonad@{o h} C).
 Proof.
   exists (IdMonad_EM_unit_iso C).

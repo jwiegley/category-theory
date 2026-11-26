@@ -842,7 +842,7 @@ Qed.
 (* The fibre of μ_0 over the base point is Z_p, as abelian groups. *)
 Program Definition Zp_fibre_iso@{s u o so r | o < u, o < so +}
   (p : positive) (Hp : (1 < p)%positive) :
-  @Isomorphism Ab@{u o} (ZpAb@{s o so} p) (SolFibre@{s u o so r} p) := {|
+  @Isomorphism Ab@{u o} (ZpAb p) (SolFibre@{s u o so r} p) := {|
   to := zp_to_fibre@{s u o so r} p Hp;
   from := fibre_to_zp@{s u o so r} p
 |}.

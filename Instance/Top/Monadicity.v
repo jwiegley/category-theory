@@ -442,7 +442,7 @@ Defined.
 
 Definition PDiscK_forget@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   EM_Forget _ ◯ PDiscK@{o so s u u0 e} ≈ PForget@{o so} :=
-  EM_Comparison_Forget PDisc_PForget@{o so u u0}.
+  EM_Comparison_Forget PDisc_PForget.
 
 (** ** Set^I = Set *)
 
@@ -501,30 +501,30 @@ Definition EM_PDisc_equivalence@{o so s u u0 e |
   o < so, o < s, o < u, so <= e +} :
   EquivalenceOfCategories
     (@EM_Forget@{so o e} Sets@{o so} PDiscT@{o so s}
-       PDiscMonad@{o so s u u0}) :=
+       PDiscMonad) :=
   @Build_EquivalenceOfCategories _ _ _ _
     EM_PDisc_counit@{o so s u u0 e} EM_PDisc_unit@{o so s u u0 e}.
 
 Definition PDiscK_free_iso@{o so s u u0 e | o < so, o < s, o < u, so <= e +}
   (X : PTopCat@{o so}) :
   @Isomorphism (@EilenbergMoore@{e so o} Sets@{o so} PDiscT@{o so s}
-                  PDiscMonad@{o so s u u0})
+                  PDiscMonad)
     (fobj[PDiscK@{o so s u u0 e}] X)
-    (fobj[@EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
-            PDiscMonad@{o so s u u0} ◯ PForget@{o so}] X).
+    (fobj[@EM_Free Sets@{o so} PDiscT@{o so s}
+            PDiscMonad ◯ PForget@{o so}] X).
 Proof.
   unshelve econstructor;
     [ unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                         PDiscMonad@{o so s u u0} _ _ _ _ id _)
+                         PDiscMonad _ _ _ _ id _)
     | unshelve refine (@Build_TAlgebraHom Sets@{o so} PDiscT@{o so s}
-                         PDiscMonad@{o so s u u0} _ _ _ _ id _)
+                         PDiscMonad _ _ _ _ id _)
     | | ]; intro x; simpl; reflexivity.
 Defined.
 
 Definition PDiscK_free@{o so s u u0 e | o < so, o < s, o < u, so <= e +} :
   PDiscK@{o so s u u0 e}
-    ≈ @EM_Free@{so o e s} Sets@{o so} PDiscT@{o so s}
-        PDiscMonad@{o so s u u0} ◯ PForget@{o so}.
+    ≈ @EM_Free Sets@{o so} PDiscT@{o so s}
+        PDiscMonad ◯ PForget@{o so}.
 Proof.
   exists PDiscK_free_iso.
   intros X Y f x; simpl. reflexivity.

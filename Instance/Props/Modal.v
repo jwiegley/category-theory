@@ -242,16 +242,16 @@ Qed.
    [Prod_Functor] each carry a level absent from their own types, pinned
    here to e. *)
 Definition curry_functor@{u h e | h < e +}
-  (CL : @Closed@{u h e} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed Props@{u h} Props_Cartesian) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
-  @Compose@{u u u e h} Props@{u h} Props@{u h} Props@{u h}
+  @Compose Props@{u h} Props@{u h} Props@{u h}
     (@Exp_Functor@{u h e e} Props@{u h} _ CL B)
     (@Prod_Functor@{u h e e} Props@{u h} _ B).
 
 Definition curry_cofunctor@{u h e | h < e +}
-  (CL : @Closed@{u h e} Props@{u h} Props_Cartesian@{u h}) (B : Prop) :
+  (CL : @Closed Props@{u h} Props_Cartesian) (B : Prop) :
   Props@{u h} ⟶ Props@{u h} :=
-  @Compose@{u u u e h} Props@{u h} Props@{u h} Props@{u h}
+  @Compose Props@{u h} Props@{u h} Props@{u h}
     (@Prod_Functor@{u h e e} Props@{u h} _ B)
     (@Exp_Functor@{u h e e} Props@{u h} _ CL B).
 

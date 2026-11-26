@@ -653,7 +653,7 @@ Defined.
 
 (* Commutative monoids are monadic over Set. *)
 Definition CMon_Forget_Monadic@{+} :
-  @Monadic@{so so so so so o so so} CMonOS Sets@{o so} UCMon.
+  @Monadic CMonOS Sets@{o so} UCMon.
 Proof.
   exists FreeCMon. exists FreeCMon_adj. exact CMon_EM_equivalence.
 Defined.

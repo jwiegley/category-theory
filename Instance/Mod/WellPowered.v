@@ -611,7 +611,7 @@ Definition RMod_CoWellPowered_untruncate@{a c p o x +|
    Representable.v's [rmod_by_element]). *)
 Lemma RMod_ring_separates@{c o x +| Set < o, c < o, c < x +}
   {R : RingObject@{c c c}} :
-  @IsSeparator (RMod@{o x c c c} R) (Ring_RMod R).
+  @IsSeparator (RMod R) (Ring_RMod R).
 Proof.
   intros x y f g Hk m.
   pose proof (Hk (rmod_by_element R x m) (rig_one (ring_rig R))) as H.
@@ -620,11 +620,11 @@ Proof.
 Qed.
 
 Definition RMod_Generator@{c o x +| Set < o, c < o, c < x +}
-  (R : RingObject@{c c c}) : Generator (RMod@{o x c c c} R) :=
+  (R : RingObject@{c c c}) : Generator (RMod R) :=
   @Generator_of_separator (RMod R) (Ring_RMod R) RMod_ring_separates.
 
 Definition RModop_Cogenerator@{c o x +| Set < o, c < o, c < x +}
-  (R : RingObject@{c c c}) : Cogenerator ((RMod@{o x c c c} R)^op) :=
+  (R : RingObject@{c c c}) : Cogenerator ((RMod R)^op) :=
   cog_of_gen (RMod_Generator R).
 
 (** ** 6. Co-well-powered one universe up, unconditionally *)

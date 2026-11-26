@@ -876,7 +876,7 @@ Qed.
     [eq_refl] once both layers are transparent, #1353). *)
 
 (* The evaluation respects pointwise-`≈` homomorphisms. *)
-Lemma fr_eval_pointwise@{u p +} {A : Ab@{u p}} {R : Rng@{u p}}
+Lemma fr_eval_pointwise@{u p +} {A : Ab@{u p}} {R : Rng}
   (h h' : A ~{Ab@{u p}}~> Rng_Forget_Ab R) (H : h ≈ h') (t : FRTerm A) :
   fr_eval h t ≈ fr_eval h' t.
 Proof.
@@ -891,10 +891,10 @@ Qed.
 
 (* The natural bijection Rng(F A, R) ≅ Ab(A, U R): forward g ↦ U g ∘
    insert, backward the extension. *)
-Definition free_rng_ab_hom_iso@{u p +} (A : Ab@{u p}) (R : Rng@{u p}) :
+Definition free_rng_ab_hom_iso@{u p +} (A : Ab@{u p}) (R : Rng) :
   @Isomorphism Sets@{p u}
-    {| carrier := @hom Rng@{u p} (FreeRngAb A) R
-     ; is_setoid := @homset Rng@{u p} (FreeRngAb A) R |}
+    {| carrier := @hom Rng (FreeRngAb A) R
+     ; is_setoid := @homset Rng (FreeRngAb A) R |}
     {| carrier := @hom Ab@{u p} A (Rng_Forget_Ab R)
      ; is_setoid := @homset Ab@{u p} A (Rng_Forget_Ab R) |}.
 Proof.
@@ -920,7 +920,7 @@ Proof.
 Defined.
 
 Definition free_rng_ab_adjunction_hom@{u p +} :
-  @Adjunction@{u u p u u} Rng@{u p} Ab@{u p}
+  @Adjunction@{u u p u u} Rng Ab@{u p}
     FreeRngAb Rng_Forget_Ab.
 Proof.
   unshelve refine
@@ -933,7 +933,7 @@ Proof.
 Defined.
 
 (* Its counit is the evaluation of the identity, by conversion. *)
-Example free_rng_ab_hom_counit@{u p +} (R : Rng@{u p})
+Example free_rng_ab_hom_counit@{u p +} (R : Rng)
   (t : FRTerm (Rng_Forget_Ab R)) :
   rig_map (@counit _ _ _ _ free_rng_ab_adjunction_hom R) t
     = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R)) t := eq_refl.
@@ -945,8 +945,8 @@ Example free_rng_ab_hom_unit@{u p +} (A : Ab@{u p}) :
     = @Category.Theory.Adjunction.unit _ _ _ _ free_rng_ab_adjunction A
   := eq_refl.
 
-Example free_rng_ab_hom_to@{u p +} (A : Ab@{u p}) (R : Rng@{u p})
-  (g : FreeRngAb A ~{Rng@{u p}}~> R) :
+Example free_rng_ab_hom_to@{u p +} (A : Ab@{u p}) (R : Rng)
+  (g : FreeRngAb A ~{Rng}~> R) :
   to (@adj _ _ _ _ free_rng_ab_adjunction_hom A R) g
     = to (@adj _ _ _ _ free_rng_ab_adjunction A R) g := eq_refl.
 

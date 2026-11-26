@@ -274,7 +274,7 @@ Record OGraphHom@{o h p} {O : Type@{o}} (A B : OGraph@{o h p} O)
   : Type@{max(o,h,p)} := {
   oemap : ∀ x y, oedges A x y → oedges B x y;
   oemap_respects : ∀ x y,
-    Proper@{h p} (respectful@{h p h p h p}
+    Proper@{h p} (respectful
                     (@equiv _ (oedgeset A x y))
                     (@equiv _ (oedgeset B x y)))
       (oemap x y)
@@ -973,9 +973,9 @@ Definition omon_compose@{o h p hh oo +|+} {O : Type@{o}} {A : OGraph@{o h p} O}
 
 Lemma omon_compose_respects@{o h p hh oo +|+} {O : Type@{o}}
   {A : OGraph@{o h p} O} (M : OMonoid@{o h p hh oo} A) (x y z : O) :
-  Proper@{h p} (respectful@{h p h p h p}
+  Proper@{h p} (respectful
                   (@equiv _ (oedgeset A y z))
-                  (respectful@{h p h p h p}
+                  (respectful
                      (@equiv _ (oedgeset A x y))
                      (@equiv _ (oedgeset A x z))))
     (@omon_compose O A M x y z).

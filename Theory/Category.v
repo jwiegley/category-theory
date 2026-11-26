@@ -120,8 +120,8 @@ Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := {
     where "f ∘ g" := (compose f g);     (* composition f ∘ g *)
 
   compose_respects {x y z} :            (* compose respects ≈ (bifunctorial Proper) *)
-    Proper@{h p} (respectful@{h p h p h p} equiv
-                    (respectful@{h p h p h p} equiv equiv))
+    Proper@{h p} (respectful equiv
+                    (respectful equiv equiv))
       (@compose x y z);
 
   dom {x y} (f : x ~> y) := x;          (* domain (source) of a morphism *)

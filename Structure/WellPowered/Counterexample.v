@@ -289,7 +289,7 @@ Proof. exact (AntichainTop_not_WellPowered@{i o h w s t} CWP). Qed.
 (* Positive control: one universe up, at the objects, the trivial datum
    exists, so the refutation measures size and nothing else. *)
 Definition AntichainTop_trivial@{i o h t | i < o, h < t, h <= o +} :
-  @WellPoweredAt@{o o o h t} AntichainTop@{i o h} None :=
+  @WellPoweredAt AntichainTop@{i o h} None :=
   @wp_trivial@{o h o o t} AntichainTop@{i o h} None.
 
 (* Second positive control: with the homs one universe above the types

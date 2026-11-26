@@ -376,7 +376,7 @@ Definition saft_fam@{o dobj h so +}
 Definition saft_prod_limit@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C) (d : D) :=
-  comp _ (DiscreteCat_Functor@{so h h o h h dp} (saft_fam U G d)).
+  comp _ (DiscreteCat_Functor (saft_fam U G d)).
 
 Definition saft_prod@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -470,7 +470,7 @@ Definition saft_sub@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   SubObj (saft_prod@{o dobj h so dp} U comp G d) :=
   @sub_reindex C (complete_pullbacks comp) _ _
     (saft_kappa@{o dobj h so dp cp} U comp G d c h)
-    (cogen_canonical_sub@{o h so cp} comp G c).
+    (cogen_canonical_sub comp G c).
 
 Definition saft_sub_to@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -479,7 +479,7 @@ Definition saft_sub_to@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   Subobject.sub_dom (saft_sub U comp G d c h) ~> c :=
   pullback_snd _ _ (@pullback C (complete_pullbacks comp) _ _ _
                       (saft_kappa@{o dobj h so dp cp} U comp G d c h)
-                      (cogen_canonical@{cp so h so o} comp G c)).
+                      (cogen_canonical comp G c)).
 
 (* [U] carries that pullback to a limit: the cone over the image of the
    cospan, with vertex [d]. *)

@@ -279,7 +279,7 @@ Defined.
 
 (* K, the comparison functor after σ*. *)
 Definition K_swap@{o so} :
-  MSet@{so so o o o o o o} LZ@{o}
+  MSet LZ@{o}
     ⟶ @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
           (ActMonad@{o so} LZ@{o}) :=
   EM_Comparison (MSet_adj@{o so} LZ@{o}) ◯ Swap_MSet@{o so}.
@@ -293,7 +293,7 @@ Proof.
 Defined.
 
 Example K_forget_components@{o so}
-  (A : MSetoidAction@{o o o o o o o o} LZ@{o}) :
+  (A : MSetoidAction LZ@{o}) :
   `1 K_forget@{o so} A = iso_id := eq_refl.
 
 Definition KF_to@{o so} (X : SetoidObject@{o o}) :
@@ -382,7 +382,7 @@ Qed.
 
 (* The issue's reading of Awodey's clause, refuted. *)
 Theorem bare_awodey_refuted@{o so} :
-  ¬ (∀ K' : MSet@{so so o o o o o o} LZ@{o}
+  ¬ (∀ K' : MSet LZ@{o}
               ⟶ @EilenbergMoore@{so so o} Sets@{o so}
                     (ActF@{o so} LZ@{o}) (ActMonad@{o so} LZ@{o}),
        EM_Forget (ActF@{o so} LZ@{o}) ◯ K' ≈ MSet_Forget@{o so} LZ@{o} →
