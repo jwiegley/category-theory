@@ -397,8 +397,8 @@ Procedure, by script: remove the instance at every candidate, then restore
 instances in groups until the whole tree builds and the output captured for
 each `About` query, under `Set Printing Universes`, matches the baseline's,
 whitespace and source positions aside. A group is normally the candidates of
-one command block; the script finds blocks by a heuristic on the first word
-of each command. Where that restores nothing it falls back to earlier blocks
+one command block; the script uses a command-head heuristic to find blocks.
+Where that restores nothing it falls back to earlier blocks
 or to whole files, the files a declaration's own file imports among them.
 The one fallback the log records was within a file, for 44 sites; the build
 phase does not log which it took. So a restored instance is not shown to
@@ -446,7 +446,7 @@ constant in the environment.
 - `Print` under `Set Printing All` and `Set Printing Universes`, on the 4,325
   names above: 4,294 frames byte-identical; 31 identical token for token
   under a one-to-one renaming of generated universe names (`Module.N`); none
-  different. By how the frame opens, 3,909 are of the form `name = term`, 314
+  different. 3,909 are of the form `name = term`, 314
   are an inductive or record, 90 carry the notice that an opaque proof is
   fetched from disk, and 12 do not resolve. This compares printed terms
   and statements, not kernel objects. Bodies of other declarations were not
