@@ -287,11 +287,17 @@ When working with specific concepts, reference:
 - **nLab**: https://ncatlab.org/nlab/show/[concept_name]
 - **README.md**: Contains detailed notation guide (the "Notations" section)
 - **doc/AXIOMS.md**: the axiom audit — what each `Axiom`/`Parameter` is, which definitions are certified "Closed under the global context", and which stdlib axioms the concrete instance layers do use.
+- **doc/UPSTREAM.md**: building against an unreleased Rocq: the planned compatibility branches, the file that names the compiler a branch is built against, and the script and workflow that build it.
 - **doc/INHABITATION.md**: which headline results carry a concrete in-tree witness of their distinctive premise, and which are proven parametrically as axiom-free conditionals awaiting a model. Consult it before citing a flagship theorem (GAFT, SAFT, the Sheaf theory, `image_mediator_epic`, the spider results, …) as demonstrated over a concrete object — several are conditional-only.
 - **doc/INDEX.md**: the per-development index of the library's headline developments (the former "Key Files and Concepts" section of this file) — one bullet per landed development, with strengths, measurements and what was not delivered
 - **In-file background essays**: beyond the definitional header most files carry, the flagship concept files across Theory/, Structure/, Construction/, Instance/, Adjunction/, and the Comonad development open with a background essay — the concept's history, purpose, cross-disciplinary use, and in-tree connections, each substantive claim cited to a primary source (nLab, the named papers, textbooks, or package documentation). Read that block first when approaching an unfamiliar file.
 
 ## Versioning
+
+Unreleased Rocq is to be tracked on separate branches (`rocq-master`,
+`rocq-22721`), built by a workflow that does not run on pushes to `master`;
+doc/UPSTREAM.md gives the plan, what each branch is built against, and how
+to build against an unreleased Rocq locally.
 
 The release target is Rocq 9.3.0 with Stdlib 9.2.0 and Equations
 1.3.2+9.3. The development shell and default package use the same locked

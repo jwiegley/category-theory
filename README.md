@@ -13,7 +13,8 @@ The easiest way to build is with [Nix](https://nixos.org/):
 
     nix build
 
-This builds against Rocq 9.3.0, the one supported version.
+This builds against Rocq 9.3.0, the one supported version. Building against
+an unreleased Rocq is described in [doc/UPSTREAM.md](doc/UPSTREAM.md).
 
 To enter a development shell with all dependencies:
 
