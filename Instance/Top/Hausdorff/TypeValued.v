@@ -414,7 +414,7 @@ Definition TopHaus_Point@{c hh h t s a o p q +} :
 
 Definition tophaus_pt_bool@{c hh h t s a o p q +} (b : bool) :
   TopHaus_Point@{c hh h t s a o p q}
-    ~{HausdorffSpaces@{c hh h t s a o p q}}~>
+    ~{HausdorffSpaces}~>
   TopHaus_Bool@{c hh h t s a o p q} :=
   (top_point Bool_Discrete@{o} b; I).
 

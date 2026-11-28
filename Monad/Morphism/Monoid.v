@@ -196,7 +196,7 @@ Generalizable All Variables.
 
 Definition monad_monoid@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C} (M : @Monad C T) :
-  @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T :=
+  @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal C) T :=
   Category.Theory.Algebra.Monoid.Product.Monoid_of_MonoidObject
     (snd (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T) M).
 
@@ -212,7 +212,7 @@ Example monad_monoid_eta@{o h f s | h < s, o <= f, h <= f +}
 
 Definition monoid_monad@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T) :
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal C) T) :
   @Monad C T :=
   fst (@Category.Monad.Monoid.Monoid_Monad@{o h s f} C T)
     (Category.Theory.Algebra.Monoid.Product.MonoidObject_of_Monoid N).
@@ -231,14 +231,14 @@ Example monoid_monad_join@{o h f s | h < s, o <= f, h <= f +}
 
 Example monad_monoid_mu_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T)
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal C) T)
   (x : C) :
   transform[@mu _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x
     = transform[@mu _ _ _ N] x := eq_refl.
 
 Example monad_monoid_eta_round@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T : C ⟶ C}
-  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C) T)
+  (N : @Monoid (@Fun@{o h o h f f} C C) (@Compose_Monoidal C) T)
   (x : C) :
   transform[@eta _ _ _ (monad_monoid@{o h f s} (monoid_monad@{o h f s} N))] x
     = transform[@eta _ _ _ N] x := eq_refl.
@@ -250,7 +250,7 @@ Example monad_monoid_eta_round@{o h f s | h < s, o <= f, h <= f +}
 Example mh_bimap_component@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
+  transform[@bimap _ _ _ (@tensor _ (@Compose_Monoidal C))
               _ _ _ _ (mh_transform θ) (mh_transform θ)] x
     = mh_transform θ (T' x) ∘ fmap[T] (mh_transform θ x) := eq_refl.
 
@@ -269,7 +269,7 @@ Example mh_join_is_hom_mu@{o h f s q |
        (mh_transform θ) (@mu _ _ _ (monad_monoid@{o h f s} M))
      ≈ @compose (@Fun@{o h o h f f} C C) _ _ _
          (@mu _ _ _ (monad_monoid@{o h f s} M'))
-         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal@{f s o h} C))
+         (@bimap _ _ _ (@tensor _ (@Compose_Monoidal C))
             _ _ _ _ (mh_transform θ) (mh_transform θ))) := eq_refl.
 
 Example mh_ret_is_hom_eta@{o h f s q |
@@ -284,7 +284,7 @@ Example mh_ret_is_hom_eta@{o h f s q |
 Definition mh_monoidhom@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
+  @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal C)
     T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M')
     (mh_transform θ).
 Proof.
@@ -296,7 +296,7 @@ Defined.
 Definition monoidhom_mh@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : T ⟹ T')
-  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal C)
          T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M') θ) :
   MonadHom@{o h} M M'.
 Proof.
@@ -308,7 +308,7 @@ Defined.
 Example monoidhom_mh_transform@{o h f s | h < s, o <= f, h <= f +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : T ⟹ T')
-  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal@{f s o h} C)
+  (H : @MonoidHom (@Fun@{o h o h f f} C C) (@Compose_Monoidal C)
          T T' (monad_monoid@{o h f s} M) (monad_monoid@{o h f s} M') θ) :
   mh_transform (monoidhom_mh@{o h f s} θ H) = θ := eq_refl.
 

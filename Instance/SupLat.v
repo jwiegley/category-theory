@@ -875,7 +875,7 @@ Defined.
 
 (* Part (d), as an equivalence of categories with identity components. *)
 Definition SupLat_EM_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
+  @EquivalenceOfCategories SupLat@{o so}
     (@EilenbergMoore@{so so o} Sets@{o so} Powerset_Prop@{o so}
        Powerset_Monad@{o so})
     SupLat_to_EM@{o so}.

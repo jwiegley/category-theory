@@ -288,13 +288,13 @@ Definition SetBG@{o so} (M : MonObject@{o o o}) : Category@{so o o} :=
 (* Riehl's U: evaluation at the one object of BM. *)
 Definition U_BG@{o so} (M : MonObject@{o o o}) :
   SetBG@{o so} M ⟶ Sets@{o so} :=
-  @Eval@{o o so o so so} (Deloop@{o o} M) Sets@{o so} ttt.
+  @Eval (Deloop@{o o} M) Sets@{o so} ttt.
 
 (* Riehl's left adjoint: X goes to the functor whose value is the free
    M-set M × X. *)
 Definition F_BG@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ SetBG@{o so} M :=
-  MSet_from@{so o o so o} M ◯ MSet_Free@{o so} M.
+  MSet_from M ◯ MSet_Free@{o so} M.
 
 (* Evaluation is [MSet_to] followed by forgetting the action, in both data
    fields. *)
@@ -328,9 +328,9 @@ Definition BG_extend@{o so} {M : MonObject@{o o o}}
   {X : SetoidObject@{o o}} {P : SetBG@{o so} M}
   (ψ : X ~{Sets@{o so}}~> fobj[U_BG@{o so} M] P) :
   fobj[F_BG@{o so} M] X ~{SetBG@{o so} M}~> P :=
-  to (MSet_round_iso@{so o o so o} P)
-    ∘ fmap[MSet_from@{so o o so o} M]
-        (@MSet_extend@{o so} M X (action_of_functor@{o o o so o} P) ψ).
+  to (MSet_round_iso P)
+    ∘ fmap[MSet_from M]
+        (@MSet_extend@{o so} M X (action_of_functor P) ψ).
 
 Definition BG_adj_iso@{o so} (M : MonObject@{o o o})
   (X : SetoidObject@{o o}) (P : SetBG@{o so} M) :
@@ -395,7 +395,7 @@ Defined.
 Definition MSet_to_reflects_coeq@{o so} {M : MonObject@{o o o}}
   {P Q R : SetBG@{o so} M}
   (p q : P ~{SetBG@{o so} M}~> Q) (e : Q ~{SetBG@{o so} M}~> R)
-  (E : @IsCoequalizer (MSet@{so so o o o o o o} M) _ _
+  (E : @IsCoequalizer (MSet M) _ _
          (fmap[MSet_to@{so o} M] p) (fmap[MSet_to@{so o} M] q)
          (fobj[MSet_to@{so o} M] R) (fmap[MSet_to@{so o} M] e)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q R e.
@@ -422,7 +422,7 @@ Definition BGCreatedE@{o so} {M : MonObject@{o o o}} {P Q : SetBG@{o so} M}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   Q ~{SetBG@{o so} M}~>
-    fobj[MSet_from@{so o o so o} M]
+    fobj[MSet_from M]
       (CreatedAct@{o so} (fmap[MSet_to@{so o} M] p)
          (fmap[MSet_to@{so o} M] q) S).
 Proof.
@@ -443,7 +443,7 @@ Definition BGCreatedE_is_coeq@{o so} {M : MonObject@{o o o}}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q
-    (fobj[MSet_from@{so o o so o} M]
+    (fobj[MSet_from M]
        (CreatedAct@{o so} (fmap[MSet_to@{so o} M] p)
           (fmap[MSet_to@{so o} M] q) S))
     (BGCreatedE@{o so} p q S).
@@ -464,7 +464,7 @@ Definition U_BG_creates@{o so} (M : MonObject@{o o o}) :
 Proof.
   unshelve refine (@Build_CreatesUSplitCoequalizers _ _ _ _ _).
   - intros P Q p q S.
-    exists (fobj[MSet_from@{so o o so o} M]
+    exists (fobj[MSet_from M]
               (CreatedAct@{o so} (fmap[MSet_to@{so o} M] p)
                  (fmap[MSet_to@{so o} M] q) S)).
     exists (BGCreatedE@{o so} p q S).
@@ -719,7 +719,7 @@ Example tie_alg_fun@{o so} (M : MonObject@{o o o}) (P : SetBG@{o so} M) :
 (* The tie as a functor, in Cat, with identity components. *)
 Definition tie@{o so c} (M : MonObject@{o o o}) :
   @equiv _
-    (@homset Cat@{c so so so o} (SetBG@{o so} M)
+    (@homset Cat (SetBG@{o so} M)
        (@EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
           (ActMonad@{o so} M)))
     (BG_Act_EM@{o so} M ◯ EM_Comparison (BG_adj@{o so} M))
@@ -744,7 +744,7 @@ Defined.
 (* Riehl's statement for a group G, at Construction/Deloop.v's groups. *)
 Definition GSet_BG_Monadic@{o so}
   (G : Category.Construction.Deloop.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so} (SetBG@{o so} G) Sets@{o so}
+  @Monadic (SetBG@{o so} G) Sets@{o so}
     (U_BG@{o so} G) :=
   U_BG_Monadic@{o so} G.
 
@@ -752,22 +752,22 @@ Definition GSet_BG_Monadic@{o so}
    [grp_deloop_monoid]. *)
 Definition GSet_BG_Monadic_Grp@{o so}
   (G : Category.Instance.Grp.GrpObject@{o o o}) :
-  @Monadic@{so so so so so o so so}
-    (SetBG@{o so} (grp_deloop_monoid@{o o o} G)) Sets@{o so}
-    (U_BG@{o so} (grp_deloop_monoid@{o o o} G)) :=
-  U_BG_Monadic@{o so} (grp_deloop_monoid@{o o o} G).
+  @Monadic
+    (SetBG@{o so} (grp_deloop_monoid G)) Sets@{o so}
+    (U_BG@{o so} (grp_deloop_monoid G)) :=
+  U_BG_Monadic@{o so} (grp_deloop_monoid G).
 
 (* At Structure/Group.v's groups internal to (Sets, ×), through
    Instance/Grp.v's [GroupObject_GrpObject], which asks that the
    carrier's ≈ be a proposition. *)
 Definition GSet_BG_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
-  (GO : @GroupObject@{so o so} Sets@{o so} Sets_CartesianMonoidal X) :
-  @Monadic@{so so so so so o so so}
+  (GO : @GroupObject Sets@{o so} Sets_CartesianMonoidal X) :
+  @Monadic
     (SetBG@{o so}
-       (grp_deloop_monoid@{o o o} (GroupObject_GrpObject X PX GO)))
+       (grp_deloop_monoid (GroupObject_GrpObject X PX GO)))
     Sets@{o so}
     (U_BG@{o so}
-       (grp_deloop_monoid@{o o o} (GroupObject_GrpObject X PX GO))) :=
+       (grp_deloop_monoid (GroupObject_GrpObject X PX GO))) :=
   U_BG_Monadic@{o so}
-    (grp_deloop_monoid@{o o o} (GroupObject_GrpObject X PX GO)).
+    (grp_deloop_monoid (GroupObject_GrpObject X PX GO)).

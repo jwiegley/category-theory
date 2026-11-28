@@ -255,8 +255,9 @@ Generalizable All Variables.
    [Monadic@{o x o o o c o a}], the instance elaboration picks when
    [Monadic] is left bare; with o in the last slot the block gains a = o.
    The Cat isomorphisms are [Cat@{k o x o c}]; with o for x the block gains
-   o = x.  The adjunction is pinned throughout as
-   [zext_adjunction@{a c p o o x a a}].  The stdlib caps are inherited,
+   o = x.  The adjunction is pinned as
+   [zext_adjunction@{a c p o o x a a}], at all but two of its uses, where
+   inference gives the same instance.  The stdlib caps are inherited,
    and [About] on every constant of each donor's dependency cone, as
    [Print All Dependencies] lists it, places each at its topmost carrier:
    compose and ID on Instance/Sets.v's [setoid_morphism_compose] and
@@ -370,8 +371,8 @@ Definition em_smul@{a c p o x} {R : RingObject@{a c p}}
   cmon_map (t_alg[`2 X]) (@ts_gen (ring_ab R) (`1 X) r m).
 
 Lemma em_smul_respects@{a c p o x} {R : RingObject@{a c p}}
-  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF@{a c p o x} R)
-         (TensorMonad@{a c p o x} R)) :
+  (X : @EilenbergMoore@{o o c} Ab@{o c} (TensorF R)
+         (TensorMonad R)) :
   Proper (equiv ==> equiv ==> equiv) (em_smul@{a c p o x} X).
 Proof.
   intros r r' Hr m m' Hm.
@@ -575,10 +576,10 @@ Definition EM_RMod_iso@{a c p o x k} (R : RingObject@{a c p}) :
 
 Example EM_RMod_iso_to@{a c p o x k} (R : RingObject@{a c p}) :
   to (EM_RMod_iso@{a c p o x k} R)
-  = EM_Comparison (zext_adjunction@{a c p o o x a a} R) := eq_refl.
+  = EM_Comparison (zext_adjunction R) := eq_refl.
 
 Example EM_RMod_iso_from@{a c p o x k} (R : RingObject@{a c p}) :
-  from (EM_RMod_iso@{a c p o x k} R) = EM_to_RMod@{a c p o x} R := eq_refl.
+  from (EM_RMod_iso@{a c p o x k} R) = EM_to_RMod R := eq_refl.
 
 (* The comparison algebra on a module M is U ε_M: on r ⊗ m it is r · m,
    and as a homomorphism it IS the counit at M. *)
@@ -917,7 +918,7 @@ Definition EM_RMod_iso_beck@{a c p o x k} (R : RingObject@{a c p}) :
 (* The Beck Cat iso's [to] leg IS the comparison functor. *)
 Example EM_RMod_iso_beck_to@{a c p o x k} (R : RingObject@{a c p}) :
   to (EM_RMod_iso_beck@{a c p o x k} R)
-  = EM_Comparison (zext_adjunction@{a c p o o x a a} R) := eq_refl.
+  = EM_Comparison (zext_adjunction R) := eq_refl.
 
 (* The two routes' [to] legs are one term. *)
 Example rmod_beck_direct_to@{a c p o x k} (R : RingObject@{a c p}) :

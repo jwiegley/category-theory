@@ -196,7 +196,7 @@ Arguments mh_join {C T T' M M'} _ {x}.
 Example mh_join_hcompose@{o h s | h < s +} {C : Category@{o h h}}
   {T T' : C ⟶ C} {M : @Monad C T} {M' : @Monad C T'}
   (θ : MonadHom@{o h} M M') (x : C) :
-  transform[nat_hcompose@{s o o o h} (mh_transform θ) (mh_transform θ)] x
+  transform[nat_hcompose (mh_transform θ) (mh_transform θ)] x
     = mh_transform θ (T' x) ∘ fmap[T] (mh_transform θ x) := eq_refl.
 
 (* The other form of θθ, T'(θ_x) ∘ θ_{Tx}, by naturality of θ. *)

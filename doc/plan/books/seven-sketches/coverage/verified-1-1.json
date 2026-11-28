@@ -331,9 +331,9 @@
    },
    {
     "file": "Instance/Sets.v",
-    "line": 121,
+    "line": 131,
     "symbol": "SetoidMorphism",
-    "intree_statement": "Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := { morphism :> x → y; proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism }."
+    "intree_statement": "Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := { morphism :> x → y; proper_morphism :> Proper@{o p} (respectful equiv equiv) morphism }."
    },
    {
     "file": "Theory/Subobject/Functor.v",

@@ -144,7 +144,7 @@ Proof.
   exact Hfg.
 Qed.
 
-#[export] Instance Coq_Concrete@{u u0 +} : Concrete Coq@{u u0 u0 u0} := {|
+#[export] Instance Coq_Concrete@{u u0 +} : Concrete Coq := {|
   underlying          := Coq_Underlying@{u u0};
   underlying_faithful := Coq_Underlying_Faithful@{u u0}
 |}.

@@ -508,7 +508,7 @@ Defined.
 (* The comparison functor is an equivalence, with identity components both
    ways. *)
 Definition SL_comparison_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SupLat@{o so}
+  @EquivalenceOfCategories SupLat@{o so}
     (@EilenbergMoore@{so so o} Sets@{o so}
        (SL_Forget@{o so} ◯ SL_Free@{o so}) SL_induced@{o so})
     (EM_Comparison SL_adj@{o so}).

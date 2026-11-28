@@ -502,7 +502,7 @@ Definition pi0_coarser@{o h} (C : Category@{o h h}) :
    lands at [max(o, h)].  That constraint is [Sets]' own object type, not
    this file's, and no attempt is made here to route around it. *)
 Definition pi0_proj@{o so h} (C : Category@{o h h}) :
-  ObjSetoid@{o h h o} C ~{Sets@{o so}}~> pi0@{o o o h} C :=
+  ObjSetoid@{o h h o} C ~{Sets@{o so}}~> pi0 C :=
   sets_quot_proj@{so o} (ObjSetoid@{o h h o} C) (@ZigZag@{o h} C)
     (zigzag_Equivalence@{o o h} C) (pi0_coarser@{o h} C).
 

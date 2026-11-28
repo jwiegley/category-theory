@@ -333,9 +333,9 @@ Defined.
 Definition mh_free_component@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  fobj[@EM_Free@{o h e s} C T M] x
+  fobj[@EM_Free C T M] x
     ~{ @EilenbergMoore@{e o h} C T M }~>
-  fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x.
+  fobj[mh_EM@{o h e s} θ ◯ @EM_Free C T' M'] x.
 Proof.
   unshelve refine (@Build_TAlgebraHom C T M (T x) (T' x) _ _
                      (mh_transform θ x) _).
@@ -346,8 +346,8 @@ Defined.
 Definition mh_EM_free@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') :
-  @EM_Free@{o h e s} C T M
-    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'.
+  @EM_Free C T M
+    ⟹ mh_EM@{o h e s} θ ◯ @EM_Free C T' M'.
 Proof.
   unshelve refine (Build_Transform' (mh_free_component θ) _).
   intros x y f. simpl.
@@ -367,8 +367,8 @@ Example mh_EM_free_forget@{o h e s | h < s, o <= e, h <= e +}
 Lemma mh_EM_free_transpose@{o h e s | h < s, o <= e, h <= e +}
   {C : Category@{o h h}} {T T' : C ⟶ C}
   {M : @Monad C T} {M' : @Monad C T'} (θ : MonadHom@{o h} M M') (x : C) :
-  t_alg_hom[@EM_extend@{o h e s} C T M x
-                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free@{o h e s} C T' M'] x)
+  t_alg_hom[@EM_extend C T M x
+                 (fobj[mh_EM@{o h e s} θ ◯ @EM_Free C T' M'] x)
                  (@ret C T' M' x)]
     ≈ mh_transform θ x.
 Proof.

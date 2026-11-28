@@ -948,28 +948,28 @@ Definition sets_char_roundtrip@{o so} (U : Untruncate@{o})
   (h : x ~{Sets@{o so}}~> @Ω Sets@{o so} Sets_Terminal@{so o}
                              (Sets_Classifier@{o so} U)) :
   @char Sets@{o so} Sets_Terminal@{so o} (Sets_Classifier@{o so} U) _ _
-    (sub_mono (@sub_reindex Sets@{o so} Sets_HasPullbacks@{so o}
+    (sub_mono (@sub_reindex Sets@{o so} Sets_HasPullbacks
                  (@Ω Sets@{o so} Sets_Terminal@{so o}
                     (Sets_Classifier@{o so} U)) x h
                  (sets_truth_subobject@{o so} U)))
-    (sub_is_monic (@sub_reindex Sets@{o so} Sets_HasPullbacks@{so o}
+    (sub_is_monic (@sub_reindex Sets@{o so} Sets_HasPullbacks
                  (@Ω Sets@{o so} Sets_Terminal@{so o}
                     (Sets_Classifier@{o so} U)) x h
                  (sets_truth_subobject@{o so} U)))
     ≈ h
   := @classifier_char_roundtrip Sets@{o so} Sets_Terminal@{so o}
-       Sets_HasPullbacks@{so o} (Sets_Classifier@{o so} U) x h.
+       Sets_HasPullbacks (Sets_Classifier@{o so} U) x h.
 
 Definition sets_pullback_roundtrip@{o so} (U : Untruncate@{o})
   {x : SetoidObject@{o o}} (s : @SubObj Sets@{o so} x) :
-  @sub_reindex Sets@{o so} Sets_HasPullbacks@{so o}
+  @sub_reindex Sets@{o so} Sets_HasPullbacks
     (@Ω Sets@{o so} Sets_Terminal@{so o} (Sets_Classifier@{o so} U)) x
     (@char Sets@{o so} Sets_Terminal@{so o} (Sets_Classifier@{o so} U) _ _
        (sub_mono s) (sub_is_monic s))
     (sets_truth_subobject@{o so} U)
     ≈ s
   := @classifier_pullback_roundtrip Sets@{o so} Sets_Terminal@{so o}
-       Sets_HasPullbacks@{so o} (Sets_Classifier@{o so} U) x s.
+       Sets_HasPullbacks (Sets_Classifier@{o so} U) x s.
 
 (* ------------------------------------------------------------------------ *)
 (** ** (J) A concrete decidable mono, with no global hypothesis *)

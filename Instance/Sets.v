@@ -131,7 +131,7 @@ Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
 Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;                  (* the underlying function on carriers *)
   proper_morphism :>                  (* it sends `≈`-related inputs to `≈`-related outputs *)
-    Proper@{o p} (respectful@{o p o p o p} equiv equiv) morphism
+    Proper@{o p} (respectful equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 

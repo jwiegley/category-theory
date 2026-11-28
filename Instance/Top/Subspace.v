@@ -967,8 +967,8 @@ Example PBool_equalizer_rari@{o so +| o < so +} :
    equation, the "if" the universal property at the point picking
    [true]. *)
 Lemma PBool_equalizer_points@{o so +| o < so +} (b : bool) :
-  ex (fun e : pt_carrier (`1 PBool_equalizer@{o so _ _ _ _ _}) =>
-        pmap (`1 (`2 PBool_equalizer@{o so _ _ _ _ _})) e = b)
+  ex (fun e : pt_carrier (`1 PBool_equalizer) =>
+        pmap (`1 (`2 PBool_equalizer)) e = b)
   <-> b = true.
 Proof.
   split.
@@ -977,7 +977,7 @@ Proof.
   - intros ->.
     pose (t := pdisc_mor unit_setoid_object PBool (pconst _ PBool true)
                : PPoint ~{PTopCat@{o so}}~> PBool).
-    destruct (eq_desc (`2 (`2 PBool_equalizer@{o so _ _ _ _ _})) t
+    destruct (eq_desc (`2 (`2 PBool_equalizer)) t
                 (fun _ => eq_refl)) as [u Hu _].
     exists (pmap u ttt). exact (Hu ttt).
 Qed.

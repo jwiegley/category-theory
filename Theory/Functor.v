@@ -100,7 +100,7 @@ Class Functor@{o1 h1 p1 o2 h2 p2}
   fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;  (* action on morphisms *)
 
   fmap_respects : ∀ x y,                       (* fmap respects ≈ (setoid law) *)
-    Proper@{h2 p2} (respectful@{h1 p1 h2 p2 h2 p2}
+    Proper@{h2 p2} (respectful
                       equiv@{h1 p1} equiv@{h2 p2}) (@fmap x y);
 
   fmap_id {x : C} : fmap (@id C x) ≈ id;       (* functor law: preserves identities *)

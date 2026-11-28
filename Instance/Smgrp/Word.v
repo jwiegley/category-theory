@@ -965,7 +965,7 @@ Defined.
 
 (* The Remark: K is an equivalence, with identity components both ways. *)
 Definition Smgrp_EM_equivalence@{o so} :
-  @EquivalenceOfCategories@{so so so so so o} SmgrpSets@{o so}
+  @EquivalenceOfCategories SmgrpSets@{o so}
     WordAlg@{o so} Sg_K@{o so}.
 Proof.
   unshelve refine

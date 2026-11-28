@@ -167,7 +167,7 @@ Example idem_factorisation_fmap@{o h d s | h < s +} {C : Category@{o h h}}
 Definition idem_counit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} (x : C) :
   @ret (C^op) _ (Adjunction_Induced_Monad
-                   (@idem_reflective_adj@{o h d a h s} (C^op) (W^op) H IH)) x
+                   (@idem_reflective_adj (C^op) (W^op) H IH)) x
     ≈ @extract C W H x :=
   @idem_unit_agrees@{o h d s a} (C^op) (W^op) H IH x.
 
@@ -175,7 +175,7 @@ Definition idem_counit_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
 Definition idem_comult_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} (x : C) :
   @join (C^op) _ (Adjunction_Induced_Monad
-                    (@idem_reflective_adj@{o h d a h s} (C^op) (W^op) H IH)) x
+                    (@idem_reflective_adj (C^op) (W^op) H IH)) x
     ≈ @duplicate C W H x :=
   @idem_join_agrees@{o h d s a} (C^op) (W^op) H IH x.
 
@@ -183,5 +183,5 @@ Definition idem_comult_agrees@{o h d s a | h < s +} {C : Category@{o h h}}
 Definition idem_Comonad_agrees@{o h d s | h < s +} {C : Category@{o h h}}
   {W : C ⟶ C} {H : @Comonad C W} {IH : IdempotentComonad W H} :
   Incl (C^op) (@MLocal_Subcategory (C^op) (W^op) H)
-    ◯ @idem_reflector@{o h d h h s} (C^op) (W^op) H IH ≈ W^op :=
+    ◯ @idem_reflector (C^op) (W^op) H IH ≈ W^op :=
   @idem_Monad_agrees@{o h d s} (C^op) (W^op) H IH.

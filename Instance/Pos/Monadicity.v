@@ -365,29 +365,29 @@ Defined.
 Definition PosPForget@{c so po p0 p1 p2 p3 |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
   Pos@{po p0 p1 p2 p3 c} ⟶ PropSets@{c so} :=
-  PropSets_lift@{po c c so} Pos_Forget@{po so p0 p2 p1 p3 c}
+  PropSets_lift@{po c c so} Pos_Forget
     pos_PropEquiv@{so c c p0 p1 p2 p3}.
 
 Example Pos_Forget_factor_obj@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0,
   c <= p1 +} (P : Pos@{po p0 p1 p2 p3 c}) :
   fobj[PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3}] P
-    = fobj[Pos_Forget@{po so p0 p2 p1 p3 c}] P := eq_refl.
+    = fobj[Pos_Forget] P := eq_refl.
 
 Example Pos_Forget_factor_map@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0,
   c <= p1 +}
   (P Q : Pos@{po p0 p1 p2 p3 c}) (f : P ~{Pos@{po p0 p1 p2 p3 c}}~> Q) :
   fmap[PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3}] f
-    = fmap[Pos_Forget@{po so p0 p2 p1 p3 c}] f := eq_refl.
+    = fmap[Pos_Forget] f := eq_refl.
 
 Definition Pos_Forget_factor@{c so po p0 p1 p2 p3 s a b |
   c < so, c < s, c < b, po <= a, po <= b, c <= a, so <= a, c < po, Set < p2,
   p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
   @equiv _ (@Functor_Setoid@{a b po so c} Pos@{po p0 p1 p2 p3 c} Sets@{c so})
     (PropSets_Incl@{c so} ◯ PosPForget@{c so po p0 p1 p2 p3})
-    Pos_Forget@{po so p0 p2 p1 p3 c} :=
-  PropSets_lift_Incl@{po c so s a b} Pos_Forget@{po so p0 p2 p1 p3 c}
+    Pos_Forget :=
+  PropSets_lift_Incl@{po c so s a b} Pos_Forget
     pos_PropEquiv@{so c c p0 p1 p2 p3}.
 
 (** ** The discrete poset on a propositional setoid *)
@@ -407,7 +407,7 @@ Definition PosDiscPObj@{c so p0 p1 p2 p3 |
 Definition PosDiscP_fmap@{c so p0 p1 p2 p3 |
   c < so, Set < p2, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +}
   {X Y : PropSets@{c so}} (f : X ~{PropSets@{c so}}~> Y) :
-  MonoHom@{p0 p1 p2 p3 p1 p3 c} (PosDiscPObj@{c so p0 p1 p2 p3} X)
+  MonoHom (PosDiscPObj@{c so p0 p1 p2 p3} X)
     (PosDiscPObj@{c so p0 p1 p2 p3} Y).
 Proof.
   refine (@Build_MonoHom (PosDiscPObj@{c so p0 p1 p2 p3} X)
@@ -477,7 +477,7 @@ Definition PosDiscP_PosPForget@{c so po p0 p1 p2 p3 a |
   @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} PropSets@{c so}
     PosDiscP@{c so po p0 p1 p2 p3} PosPForget@{c so po p0 p1 p2 p3}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
+  unshelve refine (@Build_Adjunction' _ _
                      PosDiscP@{c so po p0 p1 p2 p3}
                      PosPForget@{c so po p0 p1 p2 p3}
                      posdiscP_iso@{c so po p0 p1 p2 p3} _ _).
@@ -653,7 +653,7 @@ Example PosDisc_map@{c so po p0 p1 p2 p3 |
 Definition posdisc_from@{c so po p0 p1 p2 p3 |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +}
   {S : Sets@{c so}} {P : Pos@{po p0 p1 p2 p3 c}}
-  (g : S ~{Sets@{c so}}~> Pos_Forget@{po so p0 p2 p1 p3 c} P) :
+  (g : S ~{Sets@{c so}}~> Pos_Forget P) :
   PosDisc@{c so po p0 p1 p2 p3} S ~{Pos@{po p0 p1 p2 p3 c}}~> P.
 Proof.
   unshelve refine (@Build_MonoHom (PosDiscObj@{c so p0 p1 p2 p3} S) P
@@ -671,7 +671,7 @@ Definition posdisc_to@{c so po p0 p1 p2 p3 |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +}
   {S : Sets@{c so}} {P : Pos@{po p0 p1 p2 p3 c}}
   (k : PosDisc@{c so po p0 p1 p2 p3} S ~{Pos@{po p0 p1 p2 p3 c}}~> P) :
-  S ~{Sets@{c so}}~> Pos_Forget@{po so p0 p2 p1 p3 c} P.
+  S ~{Sets@{c so}}~> Pos_Forget P.
 Proof.
   unshelve refine (@Build_SetoidMorphism _ _ _ _ (fun x => mono_fn k x) _).
   intros x y H. exact (proper_morphism (mono_fn k) x y (inhabits H)).
@@ -685,9 +685,9 @@ Program Definition posdisc_iso@{c so po p0 p1 p2 p3 |
                     (PosDisc@{c so po p0 p1 p2 p3} S) P ;
        is_setoid := @homset Pos@{po p0 p1 p2 p3 c}
                       (PosDisc@{c so po p0 p1 p2 p3} S) P |}
-    {| carrier := @hom Sets@{c so} S (Pos_Forget@{po so p0 p2 p1 p3 c} P) ;
+    {| carrier := @hom Sets@{c so} S (Pos_Forget P) ;
        is_setoid := @homset Sets@{c so} S
-                      (Pos_Forget@{po so p0 p2 p1 p3 c} P) |} := {|
+                      (Pos_Forget P) |} := {|
   to   := {| morphism := fun k => posdisc_to@{c so po p0 p1 p2 p3} k |};
   from := {| morphism := fun g => posdisc_from@{c so po p0 p1 p2 p3} g |}
 |}.
@@ -699,11 +699,11 @@ Next Obligation. intros S P k x; reflexivity. Qed.
 Definition PosDisc_Pos_Forget@{c so po p0 p1 p2 p3 a |
   c < so, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0, c <= p1 +} :
   @Adjunction@{po so c so a} Pos@{po p0 p1 p2 p3 c} Sets@{c so}
-    PosDisc@{c so po p0 p1 p2 p3} Pos_Forget@{po so p0 p2 p1 p3 c}.
+    PosDisc@{c so po p0 p1 p2 p3} Pos_Forget.
 Proof.
-  unshelve refine (@Build_Adjunction'@{po so c a so} _ _
+  unshelve refine (@Build_Adjunction' _ _
                      PosDisc@{c so po p0 p1 p2 p3}
-                     Pos_Forget@{po so p0 p2 p1 p3 c}
+                     Pos_Forget
                      posdisc_iso@{c so po p0 p1 p2 p3} _ _).
   - intros x y z f g t; simpl. reflexivity.
   - intros x y z f g t; simpl. reflexivity.
@@ -715,7 +715,7 @@ Definition TPos@{c so po p0 p1 p2 p3 s |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0,
   c <= p1 +} :
   Sets@{c so} ⟶ Sets@{c so} :=
-  Pos_Forget@{po so p0 p2 p1 p3 c} ◯ PosDisc@{c so po p0 p1 p2 p3}.
+  Pos_Forget ◯ PosDisc@{c so po p0 p1 p2 p3}.
 
 Definition MPos@{c so po p0 p1 p2 p3 s a |
   c < so, c < s, c < po, Set < p2, p1 <= po, p2 <= p0, p3 <= p1, c <= p0,
