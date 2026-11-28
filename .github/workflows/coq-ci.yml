@@ -8,7 +8,19 @@ jobs:
     # (opam install) relies on; see issue #158. Pure file inspection, so it
     # runs on the bare runner in seconds without the Coq toolchain.
     runs-on: ubuntu-latest
+    outputs:
+      skip_opam: ${{ steps.release.outputs.skip_opam }}
     steps:
+      - name: Select the release build
+        id: release
+        shell: bash
+        env:
+          PUSH_REF: ${{ github.event.ref }}
+        run: |
+          # Git refs are case-sensitive; Actions expression equality is not.
+          skip=false
+          if [[ "$GITHUB_EVENT_NAME" == push && "$PUSH_REF" == refs/heads/rocq-22721 ]]; then skip=true; fi
+          echo "skip_opam=$skip" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -23,6 +35,12 @@ jobs:
 
   build:
     name: Rocq 9.3.0 opam build and install
+    # Not on pushes to rocq-22721, a planned branch for source the released
+    # Rocq rejects; .github/workflows/rocq-upstream.yml builds it instead
+    # (doc/UPSTREAM.md).
+    needs: config-check
+    # A failed config check is still reported; it need not suppress the build.
+    if: ${{ !cancelled() && needs.config-check.outputs.skip_opam != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,0 +1,158 @@
+name: Rocq upstream
+
+# Build the compatibility branches against an unreleased Rocq. Both branches
+# are planned; a branch that does not exist is skipped.
+#
+#   rocq-master   to be kept equal to master; built against Rocq's master.
+#   rocq-22721    to hold master plus the changes rocq-prover/rocq#22721
+#                 needs; built against that pull request's head.
+#
+# Each branch names the Rocq, Stdlib and Equations it is built against in its
+# own .github/rocq-upstream.conf, and scripts/build-upstream-rocq.sh builds
+# them from source. See doc/UPSTREAM.md.
+#
+# This is an early warning. It never runs on a push to master. It does run on
+# a pull request into master that changes one of the files listed below, and
+# a failure there shows as a failed check; do not make it a required check.
+# GitHub starts scheduled workflows from the default branch only, so the
+# schedule lives here and checks each branch out.
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+  push:
+    branches: [rocq-master, rocq-22721]
+  pull_request:
+    branches: [master]
+    paths:
+      - .github/workflows/rocq-upstream.yml
+      - .github/rocq-upstream.conf
+      - scripts/build-upstream-rocq.sh
+      - flake.nix
+      - flake.lock
+
+permissions:
+  contents: read
+
+concurrency:
+  # As in rocq-dev.yml: only a pull request's superseded runs are cancelled.
+  group: rocq-upstream-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.plan.outputs.targets }}
+    steps:
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          PUSH_SHA: ${{ github.sha }}
+          DELETED: ${{ github.event.deleted }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          set -eu -o pipefail
+          # Each target is a name for the job and the exact commit to build.
+          case "$EVENT" in
+            push)
+              if [ "$DELETED" = true ]; then
+                targets=
+              else
+                targets="{\"name\":\"$REF_NAME\",\"sha\":\"$PUSH_SHA\"}"
+              fi ;;
+            pull_request)
+              targets="{\"name\":\"pull-request\",\"sha\":\"$PR_SHA\"}" ;;
+            *)
+              targets=
+              for branch in rocq-master rocq-22721; do
+                # ls-remote --exit-code: 0 found, 2 nothing matched, anything else an error.
+                # A pattern can also match the tail of a longer ref name, so
+                # only the row whose name is exactly this branch counts.
+                status=0
+                listing=$(git ls-remote --exit-code "$REPO" "refs/heads/$branch") || status=$?
+                if [ "$status" != 0 ] && [ "$status" != 2 ]; then
+                  echo "::error::could not list $REPO (git ls-remote exit $status)"
+                  exit 1
+                fi
+                sha=$(printf '%s\n' "$listing" | awk -v ref="refs/heads/$branch" '$2 == ref { print $1 }')
+                if [ -z "$sha" ]; then
+                  echo "::notice::branch $branch does not exist; skipped"
+                elif [[ $sha =~ ^[0-9a-f]{40}$ ]]; then
+                  targets="$targets${targets:+,}{\"name\":\"$branch\",\"sha\":\"$sha\"}"
+                else
+                  echo "::error::unexpected answer for $branch: $listing"
+                  exit 1
+                fi
+              done ;;
+          esac
+          echo "targets=[$targets]" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: plan
+    if: needs.plan.outputs.targets != '[]'
+    name: ${{ matrix.target.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJSON(needs.plan.outputs.targets) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.target.sha }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve the upstream sources
+        id: sources
+        run: |
+          set -eu -o pipefail
+          # Resolved once. The build below is given this file, so the cache
+          # key and the toolchain built under it name the same three commits.
+          nix develop .#upstream --command scripts/build-upstream-rocq.sh resolve > "$RUNNER_TEMP/sources.txt"
+          cat "$RUNNER_TEMP/sources.txt"
+          scripts/build-upstream-rocq.sh check-manifest "$RUNNER_TEMP/sources.txt"
+          digest=$(sha256sum "$RUNNER_TEMP/sources.txt")
+          digest=${digest%% *}
+          [[ $digest =~ ^[0-9a-f]{64}$ ]] || { echo "::error::could not hash the manifest"; exit 1; }
+          echo "key=$digest" >> "$GITHUB_OUTPUT"
+      - name: Restore the built toolchain
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/rocq-upstream
+          key: rocq-upstream-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/build-upstream-rocq.sh', 'flake.nix', 'flake.lock') }}-${{ steps.sources.outputs.key }}
+      - name: Build Rocq, Stdlib and Equations
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -eu -o pipefail
+          nix develop .#upstream --command scripts/build-upstream-rocq.sh build "$HOME/rocq-upstream" "$RUNNER_TEMP/sources.txt"
+      - name: Check the toolchain is the one resolved
+        run: cmp "$RUNNER_TEMP/sources.txt" "$HOME/rocq-upstream/SOURCES"
+      - name: Save the built toolchain
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/rocq-upstream
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+      - name: Build the library
+        run: |
+          set -eu -o pipefail
+          nix develop .#upstream --command bash -eu -o pipefail <<'BUILD'
+          . "$HOME/rocq-upstream/env.sh"
+          rocq --version
+          jobs=$(nproc)
+          [[ $jobs =~ ^[1-9][0-9]*$ ]] || { echo 'invalid processor count' >&2; exit 1; }
+          make -j"$jobs"
+          BUILD

@@ -62,6 +62,16 @@
         };
 
         devShells = {
+          # OCaml and dune for building an unreleased Rocq from source
+          # (scripts/build-upstream-rocq.sh); no Rocq of its own.
+          upstream = pkgs.mkShell {
+            packages = (with pkgs.ocaml-ng.ocamlPackages_4_14; [
+              ocaml findlib zarith dune_3
+              # Rocq's rocq-devtools package needs these two (its default.nix).
+              yojson camlzip
+            ]) ++ [ pkgs.gnumake pkgs.git pkgs.python3 pkgs.which ];
+          };
+
           default = pkgs.mkShell {
             packages = [
               coq coq.ocaml coq.findlib stdlib equations
