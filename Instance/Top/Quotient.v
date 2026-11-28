@@ -411,7 +411,7 @@ Definition collapse_proj@{o h | o < h +} (X : TopSpace@{o}) (I : Type@{o})
 (* The family of point-inclusions [* ~> X], one for each index. *)
 Definition collapse_family@{o h | o < h +} (X : TopSpace@{o}) (I : Type@{o})
   (p : I → X) (i : I) : Point_Top@{o} ~{Top@{h o}}~> X :=
-  top_point@{o} X (p i).
+  top_point X (p i).
 
 Lemma collapse_wcofork@{o h | o < h +} (X : TopSpace@{o}) (I : Type@{o})
   (p : I → X) (i j : I) :

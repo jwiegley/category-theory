@@ -71,6 +71,12 @@
     it is a perfectly good [Definition], it simply cannot be a space's
     setoid -- and [SameOpensAll_SameOpens] relates the two.
 
+    CORRECTION (2026-11-28, rocq-prover/rocq#22721): [SameOpensAll]
+    takes a separate predicate universe. For [Xu : TopSpace@{o}], the
+    probe accepts [SameOpensAll@{o s} Xu x y : Type@{o}] when [s < o].
+    At [SameOpensAll@{o o}] the result has sort [Type@{o+1}]; it is this
+    point-level predicate family that still does not fit.
+
     What IS available, and is what this file delivers, is
     indistinguishability tested against the opens whose VALUES lie at a
     level [s] strictly below the space's own level [o]:

@@ -382,6 +382,85 @@ such free level. In `Ex3a_left_literal` no position disappears: its fifth
 and sixth positions exchange roles. `p458_ex3a_literal_above_set` keeps both strict inequalities
 and exchanges the two arguments to that constant, not its own binders.
 
+## Sixth batch: instances removed jointly on Rocq 9.3.0
+
+Against `a210bcd4`, on released Rocq 9.3.0. The candidates were the live
+non-probe reference sites whose head's last name component matches a constant
+whose instance arity differs under the universe changes proposed in
+rocq-prover/rocq#22721 (199 names, from the overlay for that pull request):
+1,229 sites at 160 of those names in 98 files, counted at `78e397d6`. The
+match is lexical, not a resolved constant identity. The purpose is to have
+fewer sites that must be written differently for the two compilers; whether
+these removals achieve that on the other compiler has not been measured.
+
+Procedure, by script: remove the instance at every candidate, then restore
+instances in groups until the whole tree builds and the output captured for
+each `About` query, under `Set Printing Universes`, matches the baseline's,
+whitespace and source positions aside. A group is normally the candidates of
+one command block; the script uses a command-head heuristic to find blocks.
+Where that restores nothing it falls back to earlier blocks
+or to whole files, the files a declaration's own file imports among them.
+The one fallback the log records was within a file, for 44 sites; the build
+phase does not log which it took. So a restored instance is not shown to
+have caused a failure. That left 282. Two checks then restored more:
+
+- `make probe-arity-check` reported four violations. Twelve of the 282 were
+  inside ten `Check` commands, three of them the bare explicit-`@` twins
+  `doc/PROBE_ARITY.md` requires (`Check @Cat@{…}`, `Check @MonSets@{…}`,
+  `Check @Rng@{…}`), the other seven positive controls beside them. All ten
+  commands were restored whole.
+- `About` does not show a body, and prints `≈` without the instance of the
+  setoid it stands for. `Print` under `Set Printing All` on 4,325 audited
+  names (those whose qualified name begins with the name of one of the 49
+  changed modules: 2,447 recorded in those modules' `.glob` files, 1,878 in
+  those of 56 unchanged modules nested under them) found two declarations
+  whose STATEMENT had
+  changed with an unchanged `About` block: `PDiscK_forget_strict`
+  (Instance/Top/Monadicity.v) and `mh_EM_forget_strict`
+  (Monad/Morphism/Algebra.v), each at a `Functor_StrictEq_Setoid` instance.
+  Both instances were restored.
+
+Result: 268 instances removed at 63 names in 49 files; 961 candidates
+retained. By the script of "Inclusion and measurement" the tree goes from
+15,254 sites to 14,986, in 249 files both times. No declaration binder, no
+`Fail`, no `Check` and no file under `Test/` is touched, and nothing but the
+268 instances changes outside comments (by `scripts/probe_arity.py`'s lexer).
+
+Checked at `a210bcd4`, both trees built from scratch (1,180 files each). The
+names audited are selected from the `.glob` files of the 1,180 modules:
+entries of kind `def`, `prf`, `inst`, `ind`, `constr`, `rec`, `proj`,
+`class`, `meth` or `ax` whose name is a plain identifier, qualified by module
+and enclosing modules, each once: 36,596 names. A name recorded there need
+not be a declaration that exists, and this is not an inventory of every
+constant in the environment.
+
+- `About`: 35,181 of the names resolve, and for 35,173 the command succeeds;
+  every one of those frames is the same before and after, apart from the line
+  number of "Declared in library" in 122 frames of the three files whose
+  comments were reworded. For 8 names `About` itself ends in "Universe
+  inconsistency. Cannot enforce Set = Var(n)" on both sides and prints
+  nothing, so for them no declaration was read back or compared. The other
+  1,415 print "not a defined object" on both sides, and for them none was
+  either; a name written under a `Fail` is one such case, and the causes
+  were not tallied.
+- `Print` under `Set Printing All` and `Set Printing Universes`, on the 4,325
+  names above: 4,294 frames byte-identical; 31 identical token for token
+  under a one-to-one renaming of generated universe names (`Module.N`); none
+  different. 3,909 are of the form `name = term`, 314
+  are an inductive or record, 90 carry the notice that an opaque proof is
+  fetched from disk, and 12 do not resolve. This compares printed terms
+  and statements, not kernel objects. Bodies of other declarations were not
+  compared.
+- Every `Fail`, replayed through the toplevel (219 files, 1,928 commands): the
+  text after each "The command has indeed failed with message:" up to the next
+  blank line, stripped, is byte-identical in 1,927 cases and identical under a
+  one-to-one renaming of generated universe names in 1. The toplevel does not
+  always print a blank line there, so such a slice can run on into the output
+  of later commands.
+
+What this establishes is joint removal with no change detected by these
+checks. A retained candidate is not shown to be necessary one by one.
+
 ## Per-file inventory
 
 `Before` is the first-batch baseline `438d83b2`; `After` includes only that batch. Unlisted files have

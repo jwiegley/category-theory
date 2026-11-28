@@ -126,12 +126,11 @@
     experiments, nor promote their counts to a current constant census.
     CORRECTION (rocq-prover/rocq#22721): this audit, the stripped copies
     and the binder instruments above predate rocq-prover/rocq#22721.  With
-    its universes N9-N14 and N16-N19 are accepted and have lost their
-    [Fail]; eleven [Fail] commands remain (grep -c '^Fail' of this file):
-    the instrument, N1-N6, N15 and N20-N22.  The cross-version error
-    comparisons were not re-measured.
+    the stock overlay, N9-N14 and N16-N19 became positive. The
+    cross-version error comparisons were not re-measured. See the dated
+    correction below for the repaired N20-N22 and the current count.
 
-    KINDS.  CORRECTION (#1383, #1384): twenty-one, formerly twenty-three,
+    RELEASE KINDS. CORRECTION (#1383, #1384): twenty-one, formerly twenty-three,
     refutations, counted by [grep -c '^Fail' Test/ProbeStoneCech455.v]:
     NAME-ABSENCE (the instrument), CONVERSION (N1-N4), TYPING (N5) and
     UNIVERSE (N6, N9-N22): one, four, one and fifteen.  No refusal is an INSTANCE or a BINDER one: every binder
@@ -143,11 +142,11 @@
     slots of [CompHaus] their paragraphs give (the fourth for N20, the
     third for N21, the fourteenth and fifteenth for N22); every other
     slot that differs is one the binder leaves to inference ([_]).
-    CORRECTION (rocq-prover/rocq#22721): eleven refutations now, counted
-    the same way: NAME-ABSENCE (the instrument), CONVERSION (N1-N4),
-    TYPING (N5) and UNIVERSE (N6, N15, N20-N22), one, four, one and five.
-    The UNIVERSE negatives N9-N14 and N16-N19 are accepted with the
-    universes of rocq-prover/rocq#22721 and are no longer refutations.
+    CORRECTION (2026-11-28, rocq-22721): ten line-leading refusals. Three
+    of the eleven counted on the original overlay stopped on instance
+    length. At the current arity N20 duplicates a positive control; N21
+    tests the category ascription and N22 the argument to the theorem.
+    N9-N14 and N16-N19 remain positive commands.
 
     LABELS.  The pins carry the N-numbers of this file; #455's builder and
     review measured several of them in scratch files under other names,
@@ -405,9 +404,14 @@
     same refusal with either slot alone below o, and a refusal of every
     other form, the index forms included, with both below o (in scratch
     files with this file's import list).
-    CORRECTION (rocq-prover/rocq#22721): N20-N22 are still refused, but
-    the [c <= s] the older form is said above to need is witnessed by
-    N10, which is accepted with the universes of rocq-prover/rocq#22721.
+    CORRECTION (2026-11-28, rocq-22721): the overlay's N20-N22 all failed
+    on theorem instance length, not for the reasons measured on the release.
+    At seven slots N20 duplicates [p455_adj_above_slots]: [c] occurs in the
+    category ascription, not in [CompHaus@{h o u0 u o o}] in the theorem.
+    N21 now isolates the earlier failure: [CompHaus] at [t] cannot be a
+    [Category@{c h h}] when [t < h]. N22 at seven slots still refuses [A]
+    with both separating opens at [q < o]; both at [o] are accepted.
+    N10 is accepted too; it does not witness an obligatory [c <= s] here.
 
     N13, N14 (UNIVERSE).  Refutations.v's (3): discharging the
     well-poweredness of SAFT at the inclusion by [CompHaus_WellPowered]
@@ -517,7 +521,10 @@
     [CompHaus_Incl] carry and the slots Refutations.v's COVERAGE names
     (N12, N17, N19-N22).  CORRECTION (rocq-prover/rocq#22721): of those
     pins N9, N12-N14, N16, N17 and N19 are accepted with the universes of
-    rocq-prover/rocq#22721; only N15 and N20-N22 still pin them.  (d) Flip censuses ([Defined] against [Qed]) and the
+    rocq-prover/rocq#22721. CORRECTION (2026-11-28): N15 remains; the
+    repaired N21 and N22 test [Top]'s hom level and the separating opens.
+    N20 no longer distinguishes two applications. (d) Flip censuses
+    ([Defined] against [Qed]) and the
     closure of the targets under [Print Assumptions]: measurements of the
     build rather than of commands; the Makefile's print-assumptions gate
     is where closure is kept.  An item (e), the review's p4 and p5, is
@@ -986,10 +993,10 @@ Definition p455_n10_not_complete_IEM_below@{e r s c h +| s < c +}
   (E : IEM@{e}) (comp : @Complete@{r s h c} CompHaus) : False :=
   CompHaus_not_complete_IEM E comp.
 
-(* CONTROL: [CompHaus] written out slot by slot, its [Top] slot (the
-   third) at the homs, its proof slot (the fourth) at the objects: the
-   form through [Top]'s index at GAFT's shape above the homs; the older
-   form with the [Top] slot below the homs. *)
+(* Both completeness applications below use [CompHaus@{h _ _ _ _ _}].
+   CORRECTION (2026-11-28, rocq-22721): the older form declares [t < h]
+   but does not pass [t] to [CompHaus]. It is not a lower-slot test.
+   [p455_lower_top_at_t] and N21 fix that argument. *)
 Definition p455_not_complete_below_slots@{e h c o +| h < c +}
   (E : IEM@{e})
   (comp : @Complete@{h h h c}
@@ -1007,12 +1014,12 @@ Definition p455_not_complete_IEM_top_slot@{e h t o +| t < h +}
 Check @CompHaus@{_ _ _ _ _ _}.
 Check @Category@{_ _ _}.
 Check @CompHaus_not_complete_IEM_below@{_ _ _ _ _ _ _ _}.
-Fail Definition p455_n21_below_top_slot@{e h c t o +| t < h, h < c +}
-  (E : IEM@{e})
-  (comp : @Complete@{h h h c}
-            (CompHaus@{h _ _ _ _ _} : Category@{c h h})) :
-  False :=
-  CompHaus_not_complete_IEM_below@{e h h c h o _ _ _ _ _ _ _} E comp.
+(* N21: the lower [Top] hom level already matters when the category is
+   formed, before there is a completeness hypothesis to pass to the theorem. *)
+Local Definition p455_lower_top_at_t@{t h c o +| o < t, t < h, h < c +} :
+  Category@{c t t} := CompHaus@{t o _ _ o o}.
+Fail Definition p455_n21_below_top_slot@{t h c o +| o < t, t < h, h < c +} :
+  Category@{c h h} := CompHaus@{t o _ _ o o}.
 
 (* CONTROL: the same for [Top]. *)
 Definition p455_top_not_complete_index@{r s h o +| s < h +}
@@ -1077,8 +1084,9 @@ Definition p455_n12_adj_refuted_above@{e h s c +| h < c +}
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM E A.
 
-(* CONTROL: the same slot by slot, the proof slot at the objects; and
-   GAFT's route with the objects above the homs, any solution sets. *)
+(* CONTROL: the six-slot category ascribed at [Category@{c h h}], with
+   [h < c]; and GAFT's route above the homs, given any solution sets.
+   No distinct proof slot is supplied to [CompHaus] here. *)
 Definition p455_adj_above_slots@{e h s c o +| h < c +} (E : IEM@{e})
   (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
                              : Category@{c h h})
@@ -1093,29 +1101,25 @@ Definition p455_gaft_vacuous_above@{e h s c +| h < c +} (E : IEM@{e})
   GAFT_CompHaus_IEM_vacuous_above E comp sols.
 
 Check @StoneCech_adjunction_refuted_IEM_above@{_ _ _ _ _ _ _}.
-Fail Definition p455_n20_adj_above_proof_slot@{e h s c o +| h < c +}
-  (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
-                             : Category@{c h h})
-       & F ⊣ CompHaus_Forget }) : False :=
-  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
+(* Former N20: at the current seven-slot instance its application is
+   [p455_adj_above_slots] above. The separate proof slot that the release
+   probe varied is not an argument of [CompHaus] in the printed theorem. *)
 
-(* CONTROL: the same with the fourteenth and fifteenth slots, the
-   universes of the separating opens of the Hausdorff proof, written out
-   at the points' universe o. *)
+(* CONTROL: the last two slots of [CompHaus] are the separating opens
+   of the Hausdorff proof. Put both at the points' universe [o]. *)
 Definition p455_adj_above_hausdorff_at_o@{e h s c o +| h < c +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ o o}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
   StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
 
 Fail Definition p455_n22_hausdorff_opens_below@{e h s c o q +| h < c, q < o +}
   (E : IEM@{e})
-  (A : { F : Sets@{h s} ⟶ (CompHaus@{h _ _ _ _ _}
+  (A : { F : Sets@{h s} ⟶ (CompHaus@{h o _ _ q q}
                              : Category@{c h h})
        & F ⊣ CompHaus_Forget }) : False :=
-  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _ _ _ _ _ _} E A.
+  StoneCech_adjunction_refuted_IEM_above@{e h s o c _ _} E A.
 
 (** ** N13-N17, N19 (UNIVERSE): Instance/Top/StoneCech/Refutations.v, SAFT
        at the inclusion *)

@@ -255,8 +255,12 @@ Generalizable All Variables.
    [Monadic@{o x o o o c o a}], the instance elaboration picks when
    [Monadic] is left bare; with o in the last slot the block gains a = o.
    The Cat isomorphisms are [Cat@{k o x o c}]; with o for x the block gains
-   o = x.  The adjunction is pinned throughout as
-   [zext_adjunction@{a c p o o x a a}].  The stdlib caps are inherited,
+   o = x. CORRECTION (2026-11-28): these are release measurements.
+   On 9.3.0 the adjunction uses [zext_adjunction@{a c p o o x a a}],
+   with two uses left to inference by #1437. On rocq#22721 the source
+   keeps [zext_adjunction@{a c p a}] explicit; its monadicity witnesses
+   use [Monadic@{o x o o o c o}], not the eight-slot instance above.
+   The stdlib caps in the original measurement were inherited,
    and [About] on every constant of each donor's dependency cone, as
    [Print All Dependencies] lists it, places each at its topmost carrier:
    compose and ID on Instance/Sets.v's [setoid_morphism_compose] and

@@ -75,7 +75,6 @@ Definition probe_tensor_ok :=
     "fobj[FunnyTensor@{..}] (1, x) ≅ x"
     (universe inconsistency: Cannot enforce Set = v).
     Accepted since the universes of rocq-prover/rocq#22721. *)
-Check @StrictCat@{_ _ _ _}.
 Check @Category@{_ _ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Check (@Build_Monoidal StrictCat@{i v v v} _1 FunnyTensor
@@ -87,6 +86,7 @@ Check (@Build_Monoidal StrictCat@{i v v v} _1 FunnyTensor
     while it is expected to have type "Monoidal@{i v}"
     (universe inconsistency: Cannot enforce Set = v). *)
 Check @Funny_Monoidal@{_}.
+Check @StrictCat@{_ _ _ _}.
 Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v v v}).
 
 (** ** Positive control: [Funny_Monoidal] is a well-formed [Monoidal] at its

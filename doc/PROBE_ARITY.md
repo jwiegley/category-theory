@@ -12,8 +12,10 @@ Never drop load-bearing universe identifications merely to satisfy lint.
 
 ## Compiler-backed enforcement
 
-Run `make probe-arity-check` in the declared Nix environment. This is a
-**fresh build gate**, not a timestamp check over existing checkout products:
+On `rocq-22721`, enter `nix develop --no-update-lock-file .#upstream`,
+activate the PR compiler prefix as in [UPSTREAM.md](UPSTREAM.md), then run
+`make probe-arity-check`. The default shell contains the release compiler
+and cannot build this branch. This is a **fresh build gate**:
 
 1. Copy `_CoqProject` and its registered sources into a new private directory.
    No checkout `.vo`, `.glob`, generated makefile or dependency file is copied.
@@ -24,6 +26,8 @@ Run `make probe-arity-check` in the declared Nix environment. This is a
 3. Validate source digests and logical-module headers in fresh `.glob` files.
    Each instance must have an exact-span direct global reference, not a
    notation occurrence, local variable, absent reference or ambiguous span.
+   Rocq marks references to an `Example` with `ex`. These must pass the same
+   exact-span and canonical-name checks as references to a theorem.
 4. Replay relevant **whole files** with read-only `About` queries immediately
    before candidate controls and negatives, under their original logical
    module names. Compare canonical identities as well as reference metadata,
@@ -52,23 +56,26 @@ compiler regressions, including false-green fixtures and repaired companions.
 Set `PROBE_ARITY_TEST_EVIDENCE` to a fresh external directory to retain their
 sources, build receipts and stripped error logs.
 
-Both `lint` and `check`, and the pre-commit hook, run the semantic gate.
-Nix CI's `probe-arity-check` and `build` checks share the default package,
-whose check phase runs the semantic gate and compiler self-tests. The separate
-Nix `probe-arity-unit` check needs Python only. Python and compiler dependencies
-are declared in the relevant Nix development/check environments.
+Both `lint` and `check` run the semantic gate. On `rocq-22721` the
+staged pre-commit check runs it with the PR compiler. On `master`, Nix
+CI's `probe-arity-check` and `build` checks share the default release
+package; its check phase runs the semantic gate and compiler self-tests.
+The separate Nix `probe-arity-unit` check needs Python only.
 
 ## What counts as a twin
 
 A candidate positive twin is an **explicit-`@` bare Check**, for example:
 
 ```coq
-Check @SAFT_cover_wp@{_ _ _ _ _ _ _ _ _ _ _ _}.
+Check @SAFT_cover_wp@{_ _ _ _ _ _ _ _ _ _ _}.
 ```
 
 Parentheses around that same bare term are accepted. Fresh `_` slots avoid
 identifying existing named universes. These checks add no proof constants and
 do not replace the substantive positive controls already in the probes.
+On `rocq-22721`, `u+1` and `max(u,v+1)` each occupy **one** slot. The
+scanner checks the entire instance; it does not split maxima on commas or
+accept a trailing `+` as a complete positional instance.
 
 **Correction to the initial implementation:** plain `Check F@{...}.` is NOT
 accepted. Notation can erase that entire lexical form, even when it looks
@@ -94,7 +101,7 @@ against notation capture: the compiler evidence is still required.
 
 ## References not reached after an earlier refusal
 
-Eight entries in `scripts/probe_arity_unreached.json` enumerate uses whose
+Four entries in `scripts/probe_arity_unreached.json` enumerate uses whose
 `.glob` references are absent because an earlier binder or declared result
 type fails. This is not a missing-reference waiver:
 
@@ -105,18 +112,25 @@ type fails. This is not a missing-reference waiver:
 - Extracted protected references are compiled against the freshly rebuilt
   library. Their direct references and canonical identities must agree with
   the whole-file query replay. They still need an eager twin in the source.
-- Missing references outside this mechanism fail closed. Changed or unused
-  configuration entries fail; normal twin exceptions cannot suppress absent
-  compiler evidence.
+- Missing references outside this mechanism fail closed. A policy entry
+  must account for a missing direct reference: once elaboration reaches
+  the reference, the entry is stale even if the command still fails later.
+  Normal twin exceptions cannot suppress absent compiler evidence.
 
-The eight uses are in `p452_n4_binder_collapsed`,
-`p453_n8_shapes_below_homs`, `p465c_C8_carrier_below` and
-`p465c_C8a_proof_below`. Their named universe instances are preserved. The
-qualification/explicit-`@` repairs were compared in formable whole-file copies:
-relax `so < h` to `h <= so` for the first two, and replace the failing strict
-carrier/proof inequality with `a = c, p = c` for the latter two. Before/after
-functions agree by `eq_refl` on ordinary Rocq and the saved stand-in. Those
-relaxations are measurements only, never changes to the source negatives.
+**CORRECTION (2026-11-28, `rocq-22721`):** One protected use remains in
+`p452_n4_binder_collapsed` and three in `p453_n8_shapes_below_homs`.
+`PreservesImageLimit` takes seven slots here rather than eight; its bare
+positive control has the same seven. The release inventory also protected
+four uses in `p465c_C8_carrier_below` and `p465c_C8a_proof_below`. On this
+branch both definitions compile, including their `zext_adjunction` and
+`coex_adjunction` applications. Their bodies are no longer unreached.
+
+The original qualification and explicit-`@` repairs were compared in
+formable copies: relax `so < h` to `h <= so` for the first two declarations,
+and replace the strict carrier/proof inequality with `a = c, p = c` for
+the latter two. Before/after functions agreed by `eq_refl` on the release
+and stand-in used for that comparison. Those relaxations were measurements,
+not changes to the tests.
 
 ## Exceptions and refusal measurements
 
@@ -131,7 +145,11 @@ kinds. Preserve imports, controls and fixtures; passing the original `Fail`
 alone proves nothing about its cause. The guard is not certification of every
 refusal kind, nor a general Coq parser. New syntax may need explicit support.
 
-The N6 regression instruments the current whole `Test/ProbeSAFT453.v`: H4
-(#1379) removed the fragile instance, so the test explicitly injects one,
-retains a twelve-slot twin, rejects thirteen slots and accepts twelve. It
-does not pretend the historical N6 still exists on this branch.
+**CORRECTION (2026-11-28, `rocq-22721`):** The release's twelve-slot twin
+is stale here. `make probe-arity-check` instruments the whole
+`Test/ProbeSAFT453.v` twice, using the dependencies just built. Both copies
+keep N6's `Fail` and insert the same eager eleven-slot `SAFT_cover_wp`
+control. They differ only in the use inside N6: eleven versus twelve
+slots. Both files must compile; the semantic guard must accept the first
+and flag only the injected use in the second. The ordinary scanner unit
+test alone does not establish either compiler result.

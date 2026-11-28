@@ -500,7 +500,7 @@ Proof.
 Defined.
 
 (* The comparison functor K : Rng → Ab^T, K R = ⟨U R, U ε_R⟩. *)
-Definition Rng_K@{+} : Rng@{p} ⟶ RngAlg :=
+Definition Rng_K@{+} : Rng ⟶ RngAlg :=
   EM_Comparison free_rng_ab_adjunction_hom.
 
 (* The algebra round trip, with the identity as its component. *)
@@ -591,10 +591,10 @@ Proof.
   intros x y f a. reflexivity.
 Qed.
 
-Example Rng_K_Forget_obj@{+} (R : Rng@{p}) :
+Example Rng_K_Forget_obj@{+} (R : Rng) :
   fobj[RngAlg_Forget] (fobj[Rng_K] R) = fobj[Rng_Forget_Ab] R := eq_refl.
 
-Example Rng_K_Forget_map@{+} {R S : Rng@{p}} (f : R ~{Rng@{p}}~> S) :
+Example Rng_K_Forget_map@{+} {R S : Rng} (f : R ~{Rng}~> S) :
   fmap[RngAlg_Forget] (fmap[Rng_K] f) = fmap[Rng_Forget_Ab] f := eq_refl.
 
 Example EM_to_Rng_Forget_obj@{+} (x : RngAlg) :
@@ -615,37 +615,37 @@ Example Rng_EM_iso_from@{+} : from Rng_EM_iso = EM_to_Rng := eq_refl.
 
 (* K R = ⟨U R, U ε_R⟩: the structure map evaluates formal expressions in
    R, and so sends 1, ⟨a⟩, ⟨a⟩·⟨b⟩ and ⟨a⟩ + ⟨b⟩ to 1, a, a·b and a + b. *)
-Example Rng_K_carrier@{+} (R : Rng@{p}) :
+Example Rng_K_carrier@{+} (R : Rng) :
   projT1 (fobj[Rng_K] R) = Rng_Forget_Ab R := eq_refl.
 
-Example Rng_K_alg@{+} (R : Rng@{p}) :
+Example Rng_K_alg@{+} (R : Rng) :
   t_alg[projT2 (fobj[Rng_K] R)]
     = fmap[Rng_Forget_Ab] (@counit _ _ _ _ free_rng_ab_adjunction_hom R)
   := eq_refl.
 
-Example Rng_K_alg_fun@{+} (R : Rng@{p}) (t : FRTerm (Rng_Forget_Ab R)) :
+Example Rng_K_alg_fun@{+} (R : Rng) (t : FRTerm (Rng_Forget_Ab R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) t
     = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R)) t := eq_refl.
 
-Example Rng_K_alg_one@{+} (R : Rng@{p}) :
+Example Rng_K_alg_one@{+} (R : Rng) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) (@fr_one (Rng_Forget_Ab R))
     = rig_one R := eq_refl.
 
-Example Rng_K_alg_gen@{+} (R : Rng@{p}) (a : carrier (rig_setoid R)) :
+Example Rng_K_alg_gen@{+} (R : Rng) (a : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)]) (@fr_gen (Rng_Forget_Ab R) a) = a
   := eq_refl.
 
-Example Rng_K_alg_mul@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
+Example Rng_K_alg_mul@{+} (R : Rng) (a b : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)])
     (fr_mul (@fr_gen (Rng_Forget_Ab R) a) (@fr_gen (Rng_Forget_Ab R) b))
     = rig_mul R a b := eq_refl.
 
-Example Rng_K_alg_plus@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
+Example Rng_K_alg_plus@{+} (R : Rng) (a b : carrier (rig_setoid R)) :
   cmon_map (t_alg[projT2 (fobj[Rng_K] R)])
     (fr_plus (@fr_gen (Rng_Forget_Ab R) a) (@fr_gen (Rng_Forget_Ab R) b))
     = rig_add R a b := eq_refl.
 
-Example Rng_K_map@{+} {R S : Rng@{p}} (f : R ~{Rng@{p}}~> S) :
+Example Rng_K_map@{+} {R S : Rng} (f : R ~{Rng}~> S) :
   t_alg_hom[fmap[Rng_K] f] = fmap[Rng_Forget_Ab] f := eq_refl.
 
 (* The ring of an algebra: 1 = h 1, a·b = h(⟨a⟩·⟨b⟩), and A's own +. *)

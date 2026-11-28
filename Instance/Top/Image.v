@@ -86,6 +86,12 @@ Generalizable All Variables.
         Awodey's sentence exactly.  No second space is built and no
         general positive statement is claimed.
 
+        CORRECTION (2026-11-28, rocq-prover/rocq#22721): the inferred
+        [OpenSet X] in the probe's [probe_interior] uses [Set]-valued
+        predicates. With [X : TopSpace@{o}], the same comprehension
+        over [OpenSet@{o o} X] lands in [Type@{o+1}], not [Type@{o}].
+        The change concerns the index and does not supply an adjoint.
+
     ** WHAT IS NOT DELIVERED
 
     No frame or locale structure on [Opens X], no interior operator, no

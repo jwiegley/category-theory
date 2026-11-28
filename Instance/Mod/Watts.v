@@ -449,6 +449,12 @@
        Exercise 3 witness, [RMod_Forget_Ab_creates_continuous] has its
        tenth slot at RMod's x, and [rmod_representable] lands in
        [Sets@{c x}]; neither shows in [watts_ex3_forget_obj]'s type.
+       CORRECTION (2026-11-28, rocq-22721): these tenth-slot measurements
+       describe release. [HomAbForget_continuous] now concludes
+       [ContinuousFunctor@{o b c j}] on [(RMod@{o c c c} R)^op] and
+       [Ab@{b c}]. Here [j] is the diagram's object universe. Both the
+       constant and its displayed proof work at [j < o] and [o < j]
+       ([ProbeWatts454]); neither order instantiates the old tenth slot.
      - Two equations appeared in drafts and are NOT forced, each measured
        by appending the draft to a copy of this whole file with the
        opposite order declared: [x = s] in a draft of [watts_ex3] (with

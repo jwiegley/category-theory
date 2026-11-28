@@ -224,7 +224,7 @@ Definition PropSets@{o so | o < so +} : Category@{so o o} :=
 
 Definition PropSets_Incl@{o so | o < so +} :
   PropSets@{o so} ⟶ Sets@{o so} :=
-  Incl@{so o so o so} Sets@{o so} PropSets_sub@{o so}.
+  Incl Sets@{o so} PropSets_sub@{o so}.
 
 Example PropSets_Incl_fobj@{o so | o < so +} (X : PropSets@{o so}) :
   fobj[PropSets_Incl@{o so}] X = projT1 X := eq_refl.
@@ -392,7 +392,7 @@ Definition PropSets_trunc_Incl@{o so a | o < so +} :
   @Adjunction@{so so o so a} PropSets@{o so} Sets@{o so}
     PropSets_trunc@{o so} PropSets_Incl@{o so}.
 Proof.
-  unshelve refine (@Build_Adjunction'@{so so o} _ _
+  unshelve refine (@Build_Adjunction' _ _
                      PropSets_trunc@{o so} PropSets_Incl@{o so}
                      PropSets_trunc_iso@{o so} _ _).
   - intros x y z f g t; simpl. reflexivity.

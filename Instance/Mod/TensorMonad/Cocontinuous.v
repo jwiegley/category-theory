@@ -183,6 +183,12 @@ Generalizable All Variables.
    bind [@{c o x}]: R : RingObject@{c c c}, Ab@{o c}, RMod@{o x c c c}, pinned
    as Coextension@{c c c o x}, coex_adjunction@{c c c o x c},
    zext_adjunction@{c c c o o x c c} and Adjunction@{o o c x o}.
+   CORRECTION (2026-11-28): this describes 9.3.0. The older quotation
+   [Adjunction@{o c c o c c c c x c o}] predates #1414; on 9.3.0
+   four uses of [Coextension] have been inferred since #1437. On
+   rocq#22721 [TensorF_left_adjoint] still uses [Adjunction@{o o c x o}],
+   but writes [Coextension@{c c c c _}], [zext_adjunction@{c c c c}]
+   and [coex_adjunction@{c c c}].
    The four cocontinuity constants add t (the class's level), l and l0 (the
    colimit predicate's) and s (the shape's objects).  The three comparison
    constants bind [@{a c p o x}] as Instance/Mod/TensorMonad.v does.  The

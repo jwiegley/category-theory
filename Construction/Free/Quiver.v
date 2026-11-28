@@ -218,7 +218,7 @@ Class QuiverHomomorphism@{o1 h1 p1 o2 h2 p2}
     fnodes : @nodes G -> @nodes G';                                    (* action on nodes *)
     fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); (* action on edges *)
     fedgemap_respects : ∀ x y,                                         (* edge map respects ≈ *)
-    Proper@{h2 p2} (respectful@{h1 p1 h2 p2}
+    Proper@{h2 p2} (respectful
                       (@equiv@{h1 p1} _ (edgeset _ _))
                       (@equiv@{h2 p2} _ (edgeset _ _))) (@fedgemap x y)
   }.

@@ -214,23 +214,22 @@ Example image_obj_refl_at_image :
 
 End ImageRoundTripObj.
 
-(** ** 6. FORMABILITY: a strict functor equality identifies the two
-       categories' hom-and-proof universes.
+(** ** 6. FORMABILITY: separate the hom levels of the two categories.
 
-    [Functor_StrictEq_Setoid] (Theory/Functor.v) is declared over
-    [Category@{u1 u4 u4}] and [Category@{u2 u4 u4}] -- ONE hom level for
-    source and target -- so every statement below that mentions a strict
-    equality between a functor [A ⟶ X] and another inherits the
-    identification.  [LeftAdjointLeftInverse] is rejected at the same
-    levels, but that rejection does NOT discriminate: its field
-    [lali_left : X ⟶ A] is a functor in the REVERSE direction, and the
-    functor type alone in that direction is already rejected here --
-    [Au ⟶ Xu] is accepted while [Xu ⟶ Au] is not, since [Functor] bounds
-    the source hom universe by the target's and the two directions
-    together identify them -- so the record's identification is forced
-    before its [Adjunction] field (Theory/Adjunction.v, whose own
-    block carries [h1 = p1], [h1 = h2], [h1 = p2]) is consulted.  Only
-    [Functor_StrictEq_Setoid] is probed in isolation below. *)
+    In [UniverseProbe], [Au : Category@{ao ah ah}] and
+    [Xu : Category@{xo xh xh}] have [ah < xh]. Each category's proof
+    level is its own hom level; the probe does not vary proof levels
+    independently. [Au ⟶ Xu] forms and [Gu] inhabits it, while
+    [Xu ⟶ Au] does not form. The reverse functor required by [lali_left]
+    thus already rules out [LeftAdjointLeftInverse Gu] here; its refusal
+    does not isolate the [Adjunction] field. The separate
+    [@Functor_StrictEq_Setoid Au Xu] check tests that donor directly.
+
+    CORRECTION (2026-11-28, rocq-22721): [h1 = p1], [h1 = h2] and
+    [h1 = p2] were block equations in the released-compiler readback
+    for issue #376. In Theory/Adjunction.v the merged [Adjunction]
+    binds [co do h] in its section, with [h] shared by homs and proofs,
+    and declares [so sp] on the class. *)
 
 Section UniverseProbe.
 

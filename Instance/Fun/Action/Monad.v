@@ -202,9 +202,13 @@ Generalizable All Variables.
    Instance/Sets.v's [Sets], whose own block states it; [o < c] and [so < c]
    by Instance/Cat.v's [Cat@{c so so so o}].  The last universe of
    [Adjunction], which occurs in no constraint of its block, is pinned to so
-   rather than bound as a third level, as
-   [Adjunction@{so so o so so}], and the witnesses are
-   [Monadic@{so so so so so o so so}].  The stdlib caps are the donors':
+   rather than bound as a third level, as [Adjunction@{so so o so so}].
+   CORRECTION (2026-11-28): before #1414 this passage quoted eleven
+   Adjunction slots, [Adjunction@{so o o so o o o o so o so}]. On 9.3.0
+   the monadicity witnesses have [Monadic@{so so so so so o so so}],
+   including where #1437 left the instance to inference. On rocq#22721
+   the witnesses explicitly use [Monadic@{so so so so so o so}].
+   The stdlib caps in the original measurement were the donors':
    compose and ID from [Sets]; prod_rect and projections (the pair
    projections) from [prod_setoid], in [act_prod], and [so <= projections]
    with Logic_lemmas.equality from Theory/Adjunction.v's
@@ -316,9 +320,9 @@ Defined.
 
 (* A map ψ : X → U A extends to the equivariant (g, x) ↦ g · ψ x. *)
 Definition MSet_extend@{o so} {M : MonObject@{o o o}}
-  {X : SetoidObject@{o o}} {A : MSetoidAction@{o o o o} M}
+  {X : SetoidObject@{o o}} {A : MSetoidAction M}
   (ψ : X ~{Sets@{o so}}~> act_setoid A) :
-  fobj[MSet_Free@{o so} M] X ~{MSet@{o o o o o} M}~> A.
+  fobj[MSet_Free@{o so} M] X ~{MSet M}~> A.
 Proof.
   unshelve refine
     (@Build_Equivariant M (@FreeAct M X) A
@@ -333,7 +337,7 @@ Defined.
 (* An equivariant φ : F X → A restricts to x ↦ φ (e, x). *)
 Definition MSet_restrict@{o so} {M : MonObject@{o o o}}
   {X : SetoidObject@{o o}} {A : MSetoidAction@{o o o o} M}
-  (φ : fobj[MSet_Free@{o so} M] X ~{MSet@{o o o o o} M}~> A) :
+  (φ : fobj[MSet_Free@{o so} M] X ~{MSet M}~> A) :
   X ~{Sets@{o so}}~> fobj[MSet_Forget@{o so} M] A.
 Proof.
   unshelve refine
@@ -344,11 +348,11 @@ Proof.
 Defined.
 
 Definition MSet_adj_iso@{o so} (M : MonObject@{o o o})
-  (X : SetoidObject@{o o}) (A : MSetoidAction@{o o o o} M) :
+  (X : SetoidObject@{o o}) (A : MSetoidAction M) :
   @Isomorphism Sets@{o so}
     (@Build_SetoidObject
-       (@hom (MSet@{o o o o o} M) (fobj[MSet_Free@{o so} M] X) A)
-       (@homset (MSet@{o o o o o} M) (fobj[MSet_Free@{o so} M] X) A))
+       (@hom (MSet M) (fobj[MSet_Free@{o so} M] X) A)
+       (@homset (MSet M) (fobj[MSet_Free@{o so} M] X) A))
     (@Build_SetoidObject
        (@hom Sets@{o so} X (fobj[MSet_Forget@{o so} M] A))
        (@homset Sets@{o so} X (fobj[MSet_Forget@{o so} M] A))).
@@ -389,7 +393,7 @@ Defined.
 
 (* Riehl's left adjoint X ↦ G × X, over any monoid. *)
 Definition MSet_adj@{o so} (M : MonObject@{o o o}) :
-  @Adjunction@{so so o so so} (MSet@{o o o o o} M)
+  @Adjunction@{so so o so so} (MSet M)
     Sets@{o so} (MSet_Free@{o so} M) (MSet_Forget@{o so} M).
 Proof.
   unshelve refine
@@ -478,8 +482,8 @@ Proof.
 Defined.
 
 Definition MSet_counit_iso@{o so} {M : MonObject@{o o o}}
-  (B : MSetoidAction@{o o o o} M) :
-  @Isomorphism (MSet@{o o o o o} M)
+  (B : MSetoidAction M) :
+  @Isomorphism (MSet M)
     (fobj[EM_to_MSet@{o so} M ◯ EM_Comparison (MSet_adj@{o so} M)] B) B.
 Proof.
   unshelve refine
@@ -570,7 +574,7 @@ Example EM_act_is_action@{o so} {M : MonObject@{o o o}}
   act (EM_act@{o so} x) g a = t_alg[`2 x] (g, a) := eq_refl.
 
 Example comparison_alg_is_action@{o so} {M : MonObject@{o o o}}
-  (A : MSetoidAction@{o o o o} M) (g : carrier M)
+  (A : MSetoidAction M) (g : carrier M)
   (a : carrier (act_setoid A)) :
   t_alg[`2 (fobj[EM_Comparison (MSet_adj@{o so} M)] A)] (g, a) = act A g a :=
   eq_refl.
@@ -588,7 +592,7 @@ Example comparison_alg_fun@{o so} {M : MonObject@{o o o}}
    coforks the pair satisfies h (s (e y)) ≈ h y. *)
 Lemma split_absorb@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q))
   {W : SetoidObject@{o o}} (h : act_setoid B ~{Sets@{o so}}~> W)
@@ -608,7 +612,7 @@ Qed.
 (* The created action on the split quotient Z: g · z := e (g · s z). *)
 Definition created_act@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
   carrier M → carrier (scoeq_obj S) → carrier (scoeq_obj S) :=
@@ -617,7 +621,7 @@ Definition created_act@{o so} {M : MonObject@{o o o}}
 (* e ∘ (g · −) coforks the pair, so it absorbs s ∘ e. *)
 Lemma created_absorb@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q))
   (g : carrier M) (y : carrier (act_setoid B)) :
@@ -664,10 +668,10 @@ Defined.
 
 Definition CreatedE@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
-  B ~{MSet@{o o o o o} M}~> CreatedAct@{o so} p q S.
+  B ~{MSet M}~> CreatedAct@{o so} p q S.
 Proof.
   unshelve refine
     (@Build_Equivariant M B (CreatedAct@{o so} p q S) (scoeq_e S) _).
@@ -676,10 +680,10 @@ Defined.
 
 Definition CreatedE_is_coeq@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
-  @IsCoequalizer (MSet@{o o o o o} M) A B p q
+  @IsCoequalizer (MSet M) A B p q
     (CreatedAct@{o so} p q S) (CreatedE@{o so} p q S).
 Proof.
   unshelve refine (@Build_IsCoequalizer _ _ _ _ _ _ _ _ _).
@@ -705,15 +709,15 @@ Defined.
    compatible isomorphism downstairs is a coequalizer upstairs. *)
 Definition Reflected_is_coeq@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q))
   (Q : MSetoidAction@{o o o o} M)
-  (e : B ~{MSet@{o o o o o} M}~> Q)
+  (e : B ~{MSet M}~> Q)
   (He : e ∘ p ≈ e ∘ q)
   (i : @Isomorphism Sets@{o so} (fobj[MSet_Forget@{o so} M] Q) (scoeq_obj S))
   (Hi : to i ∘ fmap[MSet_Forget@{o so} M] e ≈ scoeq_e S) :
-  @IsCoequalizer (MSet@{o o o o o} M) A B p q Q e.
+  @IsCoequalizer (MSet M) A B p q Q e.
 Proof.
   (* w ≈ e (s (i w)) *)
   assert (L0 : ∀ w, w ≈ equiv_map e (scoeq_s S (to i w))).
@@ -793,7 +797,7 @@ Defined.
    comparison isomorphism is the identity. *)
 Example mset_created_carrier@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
   act_setoid
@@ -802,7 +806,7 @@ Example mset_created_carrier@{o so} {M : MonObject@{o o o}}
 
 Example mset_created_action@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q))
   (g : carrier M) (z : carrier (scoeq_obj S)) :
@@ -811,7 +815,7 @@ Example mset_created_action@{o so} {M : MonObject@{o o o}}
 
 Example mset_created_arrow@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
   equiv_map
@@ -820,7 +824,7 @@ Example mset_created_arrow@{o so} {M : MonObject@{o o o}}
 
 Example mset_created_iso@{o so} {M : MonObject@{o o o}}
   {A B : MSetoidAction@{o o o o} M}
-  (p q : A ~{MSet@{o o o o o} M}~> B)
+  (p q : A ~{MSet M}~> B)
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[MSet_Forget@{o so} M] p) (fmap[MSet_Forget@{o so} M] q)) :
   `1 (snd (`2 (`2 (@create_coeq _ _ _ (MSet_Forget_creates@{o so} M)
@@ -880,7 +884,7 @@ Example beck_act@{o so} (M : MonObject@{o o o})
 Definition beck_vs_direct_iso@{o so} {M : MonObject@{o o o}}
   (x : @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} M)
          (ActMonad@{o so} M)) :
-  @Isomorphism (MSet@{o o o o o} M)
+  @Isomorphism (MSet M)
     (fobj[@quasi_inverse _ _ _ (MSet_beck_equivalence@{o so} M)] x)
     (fobj[EM_to_MSet@{o so} M] x).
 Proof.
@@ -938,8 +942,8 @@ Definition GSet_Forget_Monadic@{o so}
    [grp_deloop_monoid]. *)
 Definition GAct_Monad_Grp@{o so}
   (G : Category.Instance.Grp.GrpObject@{o o o}) :
-  @Monad Sets@{o so} (ActF@{o so} (grp_deloop_monoid@{o o} G)) :=
-  ActMonad@{o so} (grp_deloop_monoid@{o o} G).
+  @Monad Sets@{o so} (ActF@{o so} (grp_deloop_monoid G)) :=
+  ActMonad@{o so} (grp_deloop_monoid G).
 
 Definition GSet_Forget_Monadic_Grp@{o so}
   (G : Category.Instance.Grp.GrpObject@{o o o}) :
@@ -953,10 +957,10 @@ Definition GSet_Forget_Monadic_Grp@{o so}
    carrier's ≈ be a proposition. *)
 Definition GAct_Monad_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)
-  (GO : @GroupObject@{so o o} Sets@{o so} Sets_CartesianMonoidal X) :
+  (GO : @GroupObject Sets@{o so} Sets_CartesianMonoidal X) :
   @Monad Sets@{o so}
-    (ActF@{o so} (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO))) :=
-  ActMonad@{o so} (grp_deloop_monoid@{o o} (GroupObject_GrpObject X PX GO)).
+    (ActF@{o so} (grp_deloop_monoid (GroupObject_GrpObject X PX GO))) :=
+  ActMonad@{o so} (grp_deloop_monoid (GroupObject_GrpObject X PX GO)).
 
 Definition GSet_Forget_Monadic_GroupObject@{o so} (X : Sets@{o so})
   (PX : PropEquiv@{o o} X)

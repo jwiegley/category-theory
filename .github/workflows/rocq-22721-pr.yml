@@ -1,0 +1,14 @@
+name: Rocq PR compiler
+
+on:
+  pull_request:
+    branches: [rocq-22721]
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event.action != 'edited' || github.event.changes.base.ref.from != ''
+    uses: ./.github/workflows/rocq-upstream.yml

@@ -237,16 +237,14 @@ Generalizable All Variables.
      [PreservesImageLimit]'s seventh slot [pa] in [saft_point], and
      [saft_cover_at]'s readback carried the equation [t = pa]; after,
      no equation between named universes remains in any of the
-     twenty-two readbacks.  Where [cont] is applied, its type fixes the
-     cone's shape universe at [so] and its [Compose] universe at [pa],
-     so [saft_point] writes [image_family_cone@{o dobj h so pa dp}] and
-     [saft_lift] writes [saft_pb_cone@{… so pa _}].  Measured in a
-     scratch file with this file's import list: the lift with a named
-     [pc], [pa < pc], in [pa]'s place is refused with "cannot unify
-     "Functor.Compose_obligation_1@{dobj so o pc h} …" and
-     "Functor.Compose_obligation_1@{dobj so o pa h} …"", while the same
-     definition with [pa] (the control) is accepted.  Test/ProbeSAFT453.v
-     pins it as N18 ([p453_n18_lift_at_pc], beside [p453_lift_at_pa]).
+     twenty-two release readbacks. On the release, applying [cont] fixed
+     the cone's shape at [so] and its [Compose] universe at [pa]; replacing
+     [pa] with [pc] under [pa < pc] in the lift made the two
+     [Compose_obligation_1] terms fail to unify.
+     CORRECTION (2026-11-28, rocq-22721): that was the release's N18.
+     Here [saft_pb_cone] returns a cone over [Compose@{dobj ro o h}].
+     [p453_n18_lift_at_pc] applies the ten-slot [saft_pb_cone] and
+     compiles under [pa < pc]. The last slot is not a [Compose] argument.
    - CORRECTION (#1381): naming the binders is not a reason to keep every
      positional instance.  Of the nineteen calls to [saft_sub],
      [saft_sub_to], [saft_lift], [saft_cover_at], [saft_solution_set_at],
@@ -335,8 +333,9 @@ Generalizable All Variables.
    Adjunction/SAFT/Characterization.v states that theorem.  [cogen_prod]
    and [cogen_power] are not annotated.  The refusals quoted here are
    measured in scratch files whose environments are named, and
-   Test/ProbeSAFT453.v pins each where it is cited (N6, N14, N18, N28,
-   and N11, N12, N25 and N29 from Examples.v's header); the collapse "t =
+   Test/ProbeSAFT453.v pinned each on the release (N6, N14, N18, N28,
+   and N11, N12, N25 and N29 from Examples.v's header). N18 is now the
+   positive client described above. The collapse "t =
    pa" of the Universes section is pinned as staying removed by that
    file's [p453_cover_t_below_pa] and [p453_cover_pa_below_t].
 
@@ -376,7 +375,7 @@ Definition saft_fam@{o dobj h so +}
 Definition saft_prod_limit@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C) (G : Cogenerator@{so o h} C) (d : D) :=
-  comp _ (DiscreteCat_Functor@{so h h o h h} (saft_fam U G d)).
+  comp _ (DiscreteCat_Functor (saft_fam U G d)).
 
 Definition saft_prod@{o dobj h so dp +| h <= so, h < dp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -470,7 +469,7 @@ Definition saft_sub@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   SubObj (saft_prod@{o dobj h so dp} U comp G d) :=
   @sub_reindex C (complete_pullbacks comp) _ _
     (saft_kappa@{o dobj h so dp cp} U comp G d c h)
-    (cogen_canonical_sub@{o h so} comp G c).
+    (cogen_canonical_sub comp G c).
 
 Definition saft_sub_to@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
@@ -479,7 +478,7 @@ Definition saft_sub_to@{o dobj h so dp cp +| h <= so, h < dp, h < cp +}
   Subobject.sub_dom (saft_sub U comp G d c h) ~> c :=
   pullback_snd _ _ (@pullback C (complete_pullbacks comp) _ _ _
                       (saft_kappa@{o dobj h so dp cp} U comp G d c h)
-                      (cogen_canonical@{o so so h} comp G c)).
+                      (cogen_canonical comp G c)).
 
 (* [U] carries that pullback to a limit: the cone over the image of the
    cospan, with vertex [d]. *)

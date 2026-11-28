@@ -303,9 +303,11 @@
       (universe inconsistency: Cannot enforce x = w because x < w),
     and N28 at [w < x], with the same text but its clause, "Cannot enforce
     x = w because w < x".
-    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
-    before rocq-prover/rocq#22721; with its universes N7 and N28 are
-    accepted and are no longer [Fail] commands.
+    CORRECTION (2026-11-28, rocq-22721): [WellPoweredAt@{w o o c}]
+    has no fifth slot, and [RMod@{o a p c}] has no [x]. N7 and N28
+    still use [w] for the index, but neither tests [x] against it.
+    The index bound is real: (1) works at [c < w]; N6 rejects the
+    same application at index [c], not on the length of an instance.
 
     N9 (UNIVERSE), N10 (TYPING).  Where [U] is spent.  [pim_fn]'s body is
     accepted with [U] ([p454_pim_fn_U]); N9, the truncation applied to the
@@ -478,9 +480,13 @@
     same definition is accepted and its [About] reads "x = k6" (measured
     in a scratch copy of this file).  The header quotes the refusal of the
     constant's BODY at that slot, and N33 and N34 pin that form; both
-    forms are pinned.  CORRECTION (rocq-prover/rocq#22721): both refusals
-    are the state before rocq-prover/rocq#22721; with its universes N21
-    and N22 are accepted and are no longer [Fail] commands.
+    forms were pinned on release. CORRECTION (2026-11-28, rocq-22721):
+    [ContinuousFunctor] has four slots. The first three are source
+    objects, target objects and their common hom level. The fourth is
+    the object universe of the diagram shape, not the old tenth slot.
+    Neither [x] nor [k6] occurs in the type or body of these applications
+    outside the universe declaration. N21 and N22 are positive controls
+    for the constant, not evidence that two such slots can vary.
 
     N33, N34 (CONVERSION).  [HomAbForget_continuous]'s body is accepted at
     the constant's own tenth slot x ([p454_hafc_body_at_x]); at k6, with
@@ -494,9 +500,10 @@
       (RMod R)^op Ab (HomAbForget R A) K" and "Functor.Compose_obligation_1
       J (RMod R)^op Ab (CoHomAb Ab_AbEnriched A ◯ (RMod_Forget_Ab R)^op)
       K").
-    CORRECTION (rocq-prover/rocq#22721): both refusals are the state
-    before rocq-prover/rocq#22721; with its universes N33 and N34 are
-    accepted and are no longer [Fail] commands.
+    CORRECTION (2026-11-28, rocq-22721): N33 and N34 accept the body
+    without instantiating either historical slot. The separate shape
+    tests below explicitly compare [j] and [o], for the body and the
+    constant, in both strict orders.
 
     N23 (CONVERSION).  Mac Lane's last step: the representing object of
     the text form is F ℤ up to isomorphism ([p454_watts_Fz], restating
@@ -926,8 +933,7 @@ Definition p454_wp_pin_U@{a c p o x +|
   WellPowered@{o c c o x} (RMod@{o a p c} R) :=
   fun W => RMod_WellPoweredAt_untruncate U W.
 
-(* CONTROL: (1) one universe up, with nothing assumed; its fifth slot
-   is x. *)
+(* CONTROL: (1) one universe up, with no truncation hypothesis. *)
 Definition p454_wp_up@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
@@ -942,18 +948,16 @@ Fail Definition p454_n6_wp_up_at_pin@{a c p o x +|
   fun W => RMod_WellPoweredAt_up W.
 
 Check @WellPoweredAt@{_ _ _ _}.
-(* N7 (UNIVERSE), now accepted: (1) with its fifth slot named w, at
-   [x < w].  Previously refused with "Cannot enforce x = w because
-   x < w"; accepted since the universes of rocq-prover/rocq#22721. *)
+(* Former N7. The release ascription put [w] in two slots. Only its
+   index survives; [x < w] is not a distinction between two arguments. *)
 Definition p454_n7_wp_up_fifth_slot@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, x < w +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
   WellPoweredAt@{w o o c} W :=
   RMod_WellPoweredAt_up W.
 
-(* N28 (UNIVERSE), now accepted: the same at [w < x].  Previously
-   refused with "Cannot enforce x = w because w < x"; accepted since the
-   universes of rocq-prover/rocq#22721. *)
+(* Former N28. Reversing the order changes the binder, not the slot
+   passed to [WellPoweredAt]. See the dated correction above. *)
 Definition p454_n28_wp_up_fifth_slot_below@{a c p o x w +|
     Set < o, c < o, c < x, p <= a, c <= a, a <= o, c < w, w < x +}
   {R : RingObject@{a c p}} (W : obj[RMod@{o a p c} R]) :
@@ -1320,8 +1324,8 @@ Definition p454_n30_forget_op_cont_below@{c o x m +|
     (Opposite_Functor (RMod_Forget_Ab R : RMod@{o c c c} R ⟶ Ab@{m c})) :=
   right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)).
 
-(* CONTROL: [HomAbForget_continuous]'s body, the header's composite form,
-   with the composite's intermediate [Ab] at RMod's object universe. *)
+(* CONTROL: the result type displays the composite through [Ab@{o c}].
+   The arguments of [continuous_compose] below use inferred instances. *)
 Definition p454_hafc_body_at_o@{c o x b +} (R : RingObject@{c c c})
   (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{o c} _ Ab_AbEnriched A
@@ -1333,11 +1337,11 @@ Definition p454_hafc_body_at_o@{c o x b +} (R : RingObject@{c c c})
 
 Check @AbObject@{_ _ _}.
 Check @RMod_Forget_Ab@{_ _ _ _ _}.
-(* N31 (CONVERSION), now accepted: [HomAbForget_continuous]'s body with
-   the composite's intermediate [Ab] at [o < m].  Previously refused with
-   a "cannot unify" of two [padd_respects] terms differing in that [Ab]
-   universe, m against o; accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* N31: the result type displays [Ab@{m c}] with [o < m]. The release
+   refused the proof with a mismatch between two [padd_respects] terms.
+   CORRECTION (2026-11-28, rocq-22721): the displayed result view now
+   checks. It does not fix the intermediate instance inferred inside
+   [continuous_compose]. *)
 Definition p454_n31_hafc_body_above_o@{c o x m b +| o < m +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{m c} _ Ab_AbEnriched A
@@ -1347,9 +1351,8 @@ Definition p454_n31_hafc_body_above_o@{c o x m b +| o < m +}
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* N32 (CONVERSION), now accepted: the same at [m < o].  Previously
-   refused with N31's text; accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* N32: the same result view at [m < o]. Like N31 it failed on the
+   release and is accepted here, without fixing the proof's instance. *)
 Definition p454_n32_hafc_body_below_o@{c o x m b +| m < o +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor (@CoHomAb Ab@{m c} _ Ab_AbEnriched A
@@ -1359,7 +1362,7 @@ Definition p454_n32_hafc_body_below_o@{c o x m b +| m < o +}
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* CONTROL: [HomAbForget_continuous] with its tenth slot at x. *)
+(* Historical name: the tenth slot is gone. This checks the constant. *)
 Definition p454_hafc_at_x@{c o x b +} (R : RingObject@{c c c})
   (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1367,26 +1370,21 @@ Definition p454_hafc_at_x@{c o x b +} (R : RingObject@{c c c})
   HomAbForget_continuous R A.
 
 Check @ContinuousFunctor@{_ _ _ _}.
-(* N21 (CONVERSION), now accepted: [HomAbForget_continuous] with its
-   tenth slot named k6, at [x < k6].  Previously refused with a "cannot
-   unify" of two [Cone] types differing in the [Ab] universe; accepted
-   since the universes of rocq-prover/rocq#22721. *)
+(* Former N21. [x < k6] no longer enters this ascription. *)
 Definition p454_n21_hafc_above_x@{c o x b k6 +| x < k6 +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
     (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
   HomAbForget_continuous R A.
 
-(* N22 (CONVERSION), now accepted: the same at [k6 < x].  Previously
-   refused with N21's text; accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* Former N22. The reverse order is likewise only in the binder. *)
 Definition p454_n22_hafc_below_x@{c o x b k6 +| k6 < x +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
     (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
   HomAbForget_continuous R A.
 
-(* CONTROL: [HomAbForget_continuous]'s body with its tenth slot at x. *)
+(* Body control at the same four-slot ascription as the constant. *)
 Definition p454_hafc_body_at_x@{c o x b +} (R : RingObject@{c c c})
   (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1395,10 +1393,7 @@ Definition p454_hafc_body_at_x@{c o x b +} (R : RingObject@{c c c})
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* N33 (CONVERSION), now accepted: [HomAbForget_continuous]'s body with
-   the tenth slot named k6, at [x < k6].  Previously refused with the
-   header's "cannot unify" of two [Functor.Compose_obligation_1] terms;
-   accepted since the universes of rocq-prover/rocq#22721. *)
+(* Former N33. This checks the composite body, not a tenth slot. *)
 Definition p454_n33_hafc_body_above_x@{c o x b k6 +| x < k6 +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
@@ -1407,12 +1402,41 @@ Definition p454_n33_hafc_body_above_x@{c o x b k6 +| x < k6 +}
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
     (CoHomAb_continuous Ab_AbEnriched A).
 
-(* N34 (CONVERSION), now accepted: the same at [k6 < x].  Previously
-   refused with N33's text; accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* Former N34. The body is unchanged with the opposite binder order. *)
 Definition p454_n34_hafc_body_below_x@{c o x b k6 +| k6 < x +}
   (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
   ContinuousFunctor@{_ _ _ _}
+    (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
+  continuous_compose
+    (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
+    (CoHomAb_continuous Ab_AbEnriched A).
+
+(* Current shape tests. [j] occurs in [ContinuousFunctor]'s quantified
+   diagram category and [o] in the source [RMod]. These are not the two
+   hidden levels of the release's N21/N22 and N33/N34. *)
+Local Definition p454_role_constant_shape_above@{c o b j +| o < j +}
+  (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
+  ContinuousFunctor@{o b c j}
+    (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
+  HomAbForget_continuous R A.
+
+Local Definition p454_role_constant_shape_below@{c o b j +| j < o +}
+  (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
+  ContinuousFunctor@{o b c j}
+    (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
+  HomAbForget_continuous R A.
+
+Local Definition p454_role_body_shape_above@{c o b j +| o < j +}
+  (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
+  ContinuousFunctor@{o b c j}
+    (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
+  continuous_compose
+    (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))
+    (CoHomAb_continuous Ab_AbEnriched A).
+
+Local Definition p454_role_body_shape_below@{c o b j +| j < o +}
+  (R : RingObject@{c c c}) (A : AbObject@{c c c}) :
+  ContinuousFunctor@{o b c j}
     (HomAbForget R A : (RMod@{o c c c} R)^op ⟶ Ab@{b c}) :=
   continuous_compose
     (right_adjoint_Continuous (Opposite_Adjunction _ _ (coex_adjunction R)))

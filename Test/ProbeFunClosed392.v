@@ -178,8 +178,10 @@ Constraint Set < p392h.
    [Omega]'s hom universe is declared strictly above [Set]. *)
 Check (TwoFun : @Functor Omega@{p392o p392h p392p} FinSet).
 
-(* Negative 1, now accepted: the unannotated body at levels where
-   [Omega]'s hom universe is declared strictly above [Set]. *)
+(* N1 is an ascription. CORRECTION (2026-11-28, rocq-22721): the
+   accepted term uses [TwoFunUnann@{0}]. Its view as a functor out of
+   [Omega@{p392o p392h p392p}] under [Set < p392h] does not show that
+   the donor was instantiated with [p392h]. *)
 Check @Omega@{_ _ _}.
 (* Negative 1: previously refused with "universe inconsistency: Cannot
    enforce Set = ..."; accepted since the universes of

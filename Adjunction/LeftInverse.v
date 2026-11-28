@@ -242,17 +242,17 @@ Require Import Category.Instance.Two.
     [≅[StrictCat]] out of fullness, faithfulness and object data, and its
     [Finv] is the pattern [ImageFrom] follows.
 
-    Two constants are rebuilt rather than consumed, each for a measurement:
+    Two constants were rebuilt for different reasons:
 
       - [PointAt], the functor [1 ⟶ C] picking an object, duplicates
-        Theory/Shapes.v's [Point], whose source is pinned at
-        [_1@{_ Set Set}]: over a category whose homs are declared strictly
-        above [Set], [Point x : _1@{o h h} ⟶ C] is rejected with "Cannot
-        enforce Set = h" while [PointAt] is accepted (both pinned in the
-        probe).  Consuming [Point] would have confined the terminal example
-        to [Set]-homed categories.  The pin is the donor's minimization,
-        not a property of [_1] (whose three levels are free), and is not
-        claimed unavoidable.
+        Theory/Shapes.v's [Point].  In the original released-compiler
+        measurement, [Point x : _1@{o h h} ⟶ C] was rejected with
+        "Cannot enforce Set = h" at [Set < h], while [PointAt] was
+        accepted.  That was the reason to build [PointAt].
+        CORRECTION (2026-11-28, rocq-22721): [PointProbe] in
+        Test/ProbeLeftInverse376.v now checks both functors at
+        [_1@{po ph ph} ⟶ Cu] under [Set < ph].  This is a check of the
+        displayed type, not of the computations after replacing [PointAt].
       - [TwoY_Terminal] duplicates Instance/Two/Monoidal.v's
         [Two_Terminal] (renamed here to avoid the collision).  That module
         costs 16 modules on this file's closure (36 -> 52, measured) for a
@@ -272,7 +272,11 @@ Require Import Category.Instance.Two.
     (it carries [TwoX] to [TwoY]), so the example is not an isomorphism of
     categories in disguise.
 
-    ** Universes, measured off both binder and block
+    ** Universes: original released-compiler measurements
+
+    The binder positions, equations and census below are the measurements
+    for issue #376, before the #1414 adjunction interface.  They are not
+    positional signatures for the merged [rocq-22721] branch.
 
     [InjectiveOnObjects@{ao ah ap xo xh xp}] is FREE: six binders, an empty
     equation set, and only the bounds [Functor] itself imposes.  Its three
@@ -304,15 +308,20 @@ Require Import Category.Instance.Two.
     them independent on that control's strength.  None of the three is
     introduced here and none is claimed unavoidable.
 
-    At the PACKAGED [lali_characterization] one more level pair is
-    identified: its binder reads [A X : Category@{u6 u13 u13}], so the two
-    OBJECT universes coincide as well.  That is clause (c)'s doing, not
-    clause (a)'s -- [ri_iso] compares [A] with [Sub X ri_sub] inside
-    [StrictCat], whose objects are [Category] at ONE universe instance --
-    and the contrast is exhibited in the probe: at object levels declared
-    apart, [LeftAdjointLeftInverse G] and [LeftAdjointFFInjective G] are
-    still formable while [@Isomorphism StrictCat] and [ffi_implies_ri] are
-    not.
+    The original [lali_characterization] binder read
+    [A X : Category@{u6 u13 u13}].  At shared hom but distinct object
+    levels, clauses (a) and (b) formed; the [StrictCat] isomorphism
+    type and the application of [ffi_implies_ri] did not.
+
+    CORRECTION (2026-11-28, rocq-22721): the merged [Adjunction] binds
+    [co do h] in its section and [so sp] on the class; the old block
+    equations above are not its interface.  [StrictCatObjectProbe] in
+    Test/ProbeLeftInverse376.v checks [@Isomorphism StrictCat Bu Cu2]
+    and [@ffi_implies_ri Bu Cu2 Gu2] with [bo < co] and a shared hom
+    level [bh].  Forming the isomorphism type does not supply an
+    isomorphism.  In the separate [UniverseProbe], [ah < xh]: [Au ⟶ Xu]
+    still forms and [Xu ⟶ Au] does not.  Neither probe varies the proof
+    levels independently.
 
     Two constants keep the two categories' OBJECT universes apart:
     [lali_along_strict_iso] and [lali_image_insertion] (measured: binders
@@ -942,12 +951,12 @@ Context (T : @Terminal C).
 Local Notation One := (_1@{o h h}).
 Local Notation t := (@terminal_obj C T).
 
-(* The functor 1 ⟶ C picking out an object.  [Theory/Shapes.v]'s
-   [Point] is this functor, but its source is pinned at [_1@{_ Set Set}]
-   (measured: [Point x : _1@{o h h} ⟶ C] is rejected with "Cannot enforce
-   Set = h"), which would confine the example below to categories whose
-   homs live in [Set]; the six lines are rebuilt here with the universe
-   binders that keep C arbitrary. *)
+(* The functor 1 ⟶ C picking out an object.  The original release
+   measurement rejected [Point x : _1@{o h h} ⟶ C] at [Set < h], so the
+   terminal example used its own [PointAt].  CORRECTION (2026-11-28,
+   rocq-22721): [PointProbe] in Test/ProbeLeftInverse376.v now accepts
+   the same ascription for [Point].  We keep [PointAt] here; the probe
+   does not compare the two constructions of the adjunction. *)
 
 Program Definition PointAt (c : C) : One ⟶ C := {|
   fobj := fun _ => c;

@@ -22,10 +22,10 @@
         measurement -- the unrestricted indistinguishability relation
         is one universe too big to be a space's `≈`; the second is the
         donor identification [Subcategory] carries.
-        CORRECTION: FORMABILITY 1 is accepted since the universes of
-        rocq-prover/rocq#22721 and is no longer a negative, so the
-        negatives that remain are four (two CONVERSION, one TYPING,
-        and FORMABILITY 2) plus the instrument.
+        CORRECTION (2026-11-28, rocq-prover/rocq#22721): FORMABILITY 1
+        with an inferred predicate universe is positive. Fixing predicates
+        at the points' level restores the refusal. Six [Fail] commands
+        remain: two FORMABILITY, two CONVERSION, one TYPING and the instrument.
 
     CORRECTION (#1347): CONVERSION 1 below now holds at [eq_refl], since
     Instance/Sets.v gives its identity's and composite's properness fields
@@ -76,10 +76,10 @@ Fail Check probe_372b_no_such_reference.
     [SetoidObject] out of it; the negative showed [SameOpensAll] does
     not.  That is the whole reason the target's quotient tests against
     the opens valued at a level strictly below the space's own.
-    CORRECTION: the negative, previously refused with a universe
-    inconsistency, is accepted since the universes of
-    rocq-prover/rocq#22721, so this file no longer pins the headline
-    measurement; the argument above is the target header's. *)
+    CORRECTION (2026-11-28, rocq-prover/rocq#22721): the predicate
+    universe of [SameOpensAll] is now a separate argument. Inference
+    chooses it below [o] in [k372_probe_all_at_o]. Holding it at [o]
+    makes the result [Type@{o+1}], too large for [Type@{o}]. *)
 
 Section ProbeKolmogorovLevels.
 
@@ -99,6 +99,18 @@ Definition k372_probe_kq_setoid_at_o : SetoidObject@{o o} :=
    rocq-prover/rocq#22721. *)
 Definition k372_probe_all_at_o (x y : Xu) : Type@{o} :=
   SameOpensAll Xu x y.
+
+Local Definition k372_all_small_predicates (x y : Xu) : Type@{o} :=
+  SameOpensAll@{o s} Xu x y.
+
+Universe roof.
+Constraint o < roof.
+Local Definition k372_all_point_predicates (x y : Xu) : Type@{roof} :=
+  SameOpensAll@{o o} Xu x y.
+
+Check @SameOpensAll@{_ _}.
+Fail Definition k372_all_point_predicates_at_o (x y : Xu) : Type@{o} :=
+  SameOpensAll@{o o} Xu x y.
 
 End ProbeKolmogorovLevels.
 

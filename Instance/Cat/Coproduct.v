@@ -90,12 +90,10 @@ Generalizable All Variables.
       is the same phenomenon Theory/Size.v's erratum records for
       [Check (Cat : obj[Cat])]: written unpinned it succeeds only
       because the two occurrences are instantiated at different levels,
-      and the honest test pins the instance.  CORRECTION
-      (rocq-prover/rocq#22721): with the universes of
-      rocq-prover/rocq#22721 that statement, [SigmaCat_IsIndexedCoproduct]
-      at the [Smallness] section's levels, is accepted and is no longer
-      under [Fail], so the section no longer pins where the condition
-      bites; the size of the construction's result is not re-measured.
+      and the honest test pins the instance. CORRECTION (2026-11-28,
+      rocq-22721): pinning the summands does not pin the result category.
+      The application still works in a larger [Cat]. With the result fixed
+      to the summands' [Cat], the apex [SigmaCat C] itself is too large.
 
       What the instance inherits and cannot shed is the identification
       of hom with proof universes in the summands and in the target,
@@ -446,9 +444,9 @@ Fail Example SigmaBool_cat_strict (C D : Category) :
    universe inconsistency ("Cannot enforce d = _ because d < a <= _").
    The [Check] immediately below is the positive control that the
    rejection is about the SIZE and not about the expression.
-   CORRECTION (rocq-prover/rocq#22721): the above is the measurement
-   before rocq-prover/rocq#22721; with its universes the statement is
-   accepted, see the comment on it. *)
+   CORRECTION (2026-11-28, rocq-22721): the unannotated application
+   below infers a larger ambient [Cat]. Compare the two result types:
+   only the smaller one rejects [SigmaCat C]. *)
 Section Smallness.
   Universe a b c d e.
 
@@ -456,10 +454,18 @@ Section Smallness.
            SigmaCat C).
 
   Check @Cat@{_ _ _ _}.
-  (* The elementary indexed-coproduct statement over an index type as
-     large as [obj[Cat]], now accepted.  Previously refused with a
-     universe inconsistency ("Cannot enforce d = _ because d < a <= _");
-     accepted since the universes of rocq-prover/rocq#22721. *)
+  (* The family is fixed; the category in which the law holds is not. *)
   Check (fun (C : obj[Cat@{a b d e}] → obj[Cat@{a b d e}]) =>
                 SigmaCat_IsIndexedCoproduct C).
+
+  Local Definition sigma_coproduct_larger_Cat
+    (C : obj[Cat@{a b d e}] → obj[Cat@{a b d e}]) :
+    IsIndexedCoproduct (C := Cat@{_ _ a e}) C (SigmaCat C) (SigmaCat_inj C) :=
+    SigmaCat_IsIndexedCoproduct C.
+
+  Check @Cat@{_ _ _ _}.
+  Fail Definition sigma_coproduct_same_Cat
+    (C : obj[Cat@{a b d e}] → obj[Cat@{a b d e}]) :
+    IsIndexedCoproduct (C := Cat@{a b d e}) C (SigmaCat C) (SigmaCat_inj C) :=
+    SigmaCat_IsIndexedCoproduct C.
 End Smallness.

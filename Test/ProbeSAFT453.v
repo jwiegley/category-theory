@@ -117,22 +117,19 @@
     by this stripped-error measurement.
     CORRECTION (rocq-prover/rocq#22721): this audit, the stripped copies
     and the binder instruments above predate rocq-prover/rocq#22721.  With
-    its universes N10, N17, N20, N21 and N27 are accepted and have lost
-    their [Fail]; twenty-five [Fail] commands remain (grep -c '^Fail' of
-    this file).  The cross-version error comparisons were not
-    re-measured.
+    the stock overlay, N10, N17, N20, N21 and N27 became positive. The
+    cross-version error comparisons were not re-measured.
 
-    KINDS.  Thirty refutations, counted as the lines that open with the
+    KINDS ON THE RELEASE. Thirty refutations, counted as the lines that open with the
     refutation keyword: NAME-ABSENCE (the instrument), CONVERSION (N1-N7,
     N18), TYPING (N21), BINDER (N8, whose error is a universe inconsistency
     raised by its own binder, as its binder instrument shows) and UNIVERSE
     (N9-N17, N19, N20, N22-N29): one, eight, one, one and nineteen.
-    CORRECTION (rocq-prover/rocq#22721): twenty-five refutations now,
-    counted the same way: NAME-ABSENCE (the instrument), CONVERSION
-    (N1-N7, N18), BINDER (N8) and UNIVERSE (N9, N11-N16, N19, N22-N26,
-    N28, N29), one, eight, one and fifteen.  N10, N17, N20, N27 (UNIVERSE)
-    and N21 (TYPING) are accepted with the universes of
-    rocq-prover/rocq#22721 and are no longer refutations.
+    CORRECTION (2026-11-28, rocq-22721): the original overlay had 25
+    line-leading refusals after N10, N17, N20, N21 and N27 became positive.
+    N18 still failed on instance length. At ten slots the lift at [pc]
+    compiles under [pa < pc], leaving 24: the instrument, N1-N9, N11-N16,
+    N19, N22-N26, N28 and N29.
 
     LABELS.  The pins carry the N-numbers of this file; the #453 reviews and
     builders asked for them under other names, recorded here so that the
@@ -438,7 +435,12 @@
     identification as N18's, and N21 is not reported as a universe
     inconsistency.  CORRECTION (rocq-prover/rocq#22721): that refusal is
     the state before rocq-prover/rocq#22721; with its universes N21 is
-    accepted and is no longer a [Fail] command.  N18 is still refused.
+    accepted and is no longer a [Fail] command. CORRECTION (2026-11-28,
+    rocq-22721): N18 also compiles. Its eleven-slot application failed on
+    length; the ten-slot cone accepts [pc] in the last slot under [pa < pc].
+    Its printed result contains [Compose@{dobj ro o h}], not a [Compose]
+    instance with [pa] or [pc]. This leaves 24 line-leading refusals, not
+    the 25 counted above.
 
     ** Wide pullbacks of subobjects from completeness
 
@@ -1244,7 +1246,7 @@ Definition p453_n17_unannotated_set_index@{j o +| j < o +} :
     (Indiscrete_Cogenerator_empty Type@{j})
     (Indiscrete_WellPowered@{o j Set o _} Type@{j}).
 
-(** ** N18 (CONVERSION): the lift's [Compose] universe is [cont]'s *)
+(** ** N18: the lift at [pa] and at a strictly larger [pc] *)
 
 (* CONTROL: [saft_lift]'s body, the cone at [pa]. *)
 Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
@@ -1259,7 +1261,7 @@ Definition p453_lift_at_pa@{o dobj h so dp cp pl pa +|
                             U comp cont G d c h)).
 
 Check @saft_pb_cone@{_ _ _ _ _ _ _ _ _ _}.
-Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
+Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
     h <= so, h < dp, h < cp, h < pc, pa < pc +}
   {C : Category@{o h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete@{so so h o} C)
@@ -1267,7 +1269,7 @@ Fail Definition p453_n18_lift_at_pc@{o dobj h so dp cp pl pa pc +|
   (G : Cogenerator@{so o h} C) (d : D) (c : C) (h : d ~> U c) :
   d ~> U (Subobject.sub_dom
            (saft_sub U comp G d c h)) :=
-  unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pc _}
+  unique_obj (cont _ _ _ (saft_pb_cone@{o dobj h so dp cp pl pa so pc}
                             U comp cont G d c h)).
 
 (** ** N19-N21 (UNIVERSE, TYPING): the corollaries' universes *)

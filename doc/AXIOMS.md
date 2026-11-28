@@ -142,6 +142,16 @@ change and 14501 after; it omits five queries with apostrophes in their
 names (one double-quoted and four assembled from shell quote segments),
 so that narrower figure is not the gate total. The surviving separator
 and map remain gated.
+
+CORRECTION (2026-11-28, `rocq-22721`): of those 14506 queries, 14489
+still name declarations. The other 17 name `Program` obligations that this
+port does not export. Comparing the recipe with `Print Module` in the twelve
+affected modules showed that every parent and every remaining numbered
+obligation in those families still has a positive query. Each of the 17
+parents reported “Closed under the global context”. The recipe keeps a
+`Fail Check @…` for each absent name. If one reappears, restore its positive
+assumptions query rather than dropping the check.
+
 The earlier **14509** was measured on 2026-10-22, after #1377 (`pcc_Prop`, the setoid of truth
 values of `Instance/Top/Cocomplete/Refutations.v`, given its
 `setoid_equiv` field explicitly, so that no `Program` obligation exists

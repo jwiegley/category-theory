@@ -110,17 +110,16 @@ def collect_evidence(root, work, files, unreached, env, coqc, coqtop):
             prefixes = []
             for use in uses:
                 key = (file, declaration, use.name, use.arity)
-                if key in unreached:
+                if guard.reference_at(source, use, refs) is None:
+                    if key not in unreached:
+                        # Missing or notation-only evidence is a violation, never
+                        # licensed by an unrelated successful name lookup.
+                        continue
                     position = next(i for i, t in enumerate(command) if t.start == use.start)
                     if position == 0 or words[position - 1] != "@" or "." not in use.name:
                         raise guard.ScanError(f"unreached reference is not protected canonical @ syntax: {key}")
+                    gaps.append((command, use))
                     used.add(key)
-                    if guard.reference_at(source, use, refs) is None:
-                        gaps.append((command, use))
-                if guard.reference_at(source, use, refs) is None and key not in unreached:
-                    # Missing or notation-only evidence is a violation, never
-                    # licensed by an unrelated successful name lookup.
-                    continue
                 output = queries / f"About{index}_{len(tasks)}"
                 quoted = str(output).replace('"', '""')
                 prefixes.append(f'Redirect "{quoted}" About {use.name}.\n')

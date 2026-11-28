@@ -127,12 +127,12 @@ Check (fun (x y : SetoidObject@{o o}) (f : y ~{Sets@{o so}}~> x)
      universe inconsistency: Cannot enforce so = _ because _ <= _ < so
    It is accepted at these levels since the universes of
    rocq-prover/rocq#22721. *)
-Check @Sets@{_ _}.
-Check @Sets_Terminal@{_ _}.
-Check @Sets_HasPullbacks@{_}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Check (@classifier_classifies Sets@{o so} Sets_Terminal@{so o}
               Sets_HasPullbacks@{o} HS).
+Check @Sets@{_ _}.
+Check @Sets_Terminal@{_ _}.
+Check @Sets_HasPullbacks@{_}.
 
 (* NEGATIVE 2 (FORMABILITY).  Awodey's naturality clause, same wall, same
    error shape. *)

@@ -28,6 +28,10 @@
      N5 UNIVERSE     [FinSet]'s inherited bound [Set < u1]: the instance
                      cannot be instantiated with its hom-carrying level at
                      [Set]; the bare instance is accepted (control).
+    CORRECTION (2026-11-28, rocq-22721): N5's five-slot application failed
+    only on length. The two-slot instance accepts [Set] in both positions
+    together; [p415_equalizers_set] records that case. The instrument and
+    N1-N4 remain refusals.
 
     Readbacks at [eq_refl]: [topos_HasEqualizers] at [FinSet_Topos] IS the
     pullback-route term (so N1 refutes both derived routes at once); the
@@ -37,13 +41,12 @@
     [finitely_complete_from_generators …]; the empty pair has equalizer
     [0] and a pair of equal maps has equalizer [m], at concrete inputs.
 
-    Guard coverage: every constant a negative names is also named outside
-    a refutation command (the guard block at the end) — the exceptions,
-    under the plain tokenization, being the sort [Set] that only N5 names,
-    the two names the refuted [Example]s declare and the instrument's
-    absent name — so a renamed or removed constant breaks the build on a
-    positive line rather than letting a refutation pass for the wrong
-    reason. *)
+    Guard coverage on the release counted [Set] as a token named only
+    inside N5, alongside the two refused [Example] names and the
+    instrument's absent name. CORRECTION (2026-11-28, rocq-22721): N5 is
+    now a positive two-slot application; [Set] is not an exception to
+    negative-name coverage on its account. The positive control block
+    protects against renames independently of what a refusal tests. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -135,9 +138,9 @@ Check (@Complete_FinitelyComplete FinSet
 (* control *)
 Check FinSet_HasEqualizers@{_ _}.
 
-(* N5 UNIVERSE *)
+(* Former N5: both current slots can be [Set] in the same definition. *)
 Check @FinSet_HasEqualizers@{_ _}.
-Fail Check FinSet_HasEqualizers@{_ _ Set _ _}.
+Local Definition p415_equalizers_set := @FinSet_HasEqualizers@{Set Set}.
 
 (** ** D: readbacks *)
 

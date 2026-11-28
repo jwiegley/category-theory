@@ -288,13 +288,13 @@ Definition SetBG@{o so} (M : MonObject@{o o o}) : Category@{so o o} :=
 (* Riehl's U: evaluation at the one object of BM. *)
 Definition U_BG@{o so} (M : MonObject@{o o o}) :
   SetBG@{o so} M ⟶ Sets@{o so} :=
-  @Eval@{o o so o} (Deloop@{o o} M) Sets@{o so} ttt.
+  @Eval (Deloop@{o o} M) Sets@{o so} ttt.
 
 (* Riehl's left adjoint: X goes to the functor whose value is the free
    M-set M × X. *)
 Definition F_BG@{o so} (M : MonObject@{o o o}) :
   Sets@{o so} ⟶ SetBG@{o so} M :=
-  MSet_from@{o o _} M ◯ MSet_Free@{o so} M.
+  MSet_from M ◯ MSet_Free@{o so} M.
 
 (* Evaluation is [MSet_to] followed by forgetting the action, in both data
    fields. *)
@@ -328,9 +328,9 @@ Definition BG_extend@{o so} {M : MonObject@{o o o}}
   {X : SetoidObject@{o o}} {P : SetBG@{o so} M}
   (ψ : X ~{Sets@{o so}}~> fobj[U_BG@{o so} M] P) :
   fobj[F_BG@{o so} M] X ~{SetBG@{o so} M}~> P :=
-  to (MSet_round_iso@{o o _} P)
-    ∘ fmap[MSet_from@{o o _} M]
-        (@MSet_extend@{o so} M X (action_of_functor@{o o o} P) ψ).
+  to (MSet_round_iso P)
+    ∘ fmap[MSet_from M]
+        (@MSet_extend@{o so} M X (action_of_functor P) ψ).
 
 Definition BG_adj_iso@{o so} (M : MonObject@{o o o})
   (X : SetoidObject@{o o}) (P : SetBG@{o so} M) :
@@ -395,7 +395,7 @@ Defined.
 Definition MSet_to_reflects_coeq@{o so} {M : MonObject@{o o o}}
   {P Q R : SetBG@{o so} M}
   (p q : P ~{SetBG@{o so} M}~> Q) (e : Q ~{SetBG@{o so} M}~> R)
-  (E : @IsCoequalizer (MSet@{o o o o o} M) _ _
+  (E : @IsCoequalizer (MSet M) _ _
          (fmap[MSet_to@{o o _ _} M] p) (fmap[MSet_to@{o o _ _} M] q)
          (fobj[MSet_to@{o o _ _} M] R) (fmap[MSet_to@{o o _ _} M] e)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q R e.
@@ -422,7 +422,7 @@ Definition BGCreatedE@{o so} {M : MonObject@{o o o}} {P Q : SetBG@{o so} M}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   Q ~{SetBG@{o so} M}~>
-    fobj[MSet_from@{o o _} M]
+    fobj[MSet_from M]
       (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
          (fmap[MSet_to@{o o _ _} M] q) S).
 Proof.
@@ -443,7 +443,7 @@ Definition BGCreatedE_is_coeq@{o so} {M : MonObject@{o o o}}
   (S : @SplitCoequalizer Sets@{o so} _ _
          (fmap[U_BG@{o so} M] p) (fmap[U_BG@{o so} M] q)) :
   @IsCoequalizer (SetBG@{o so} M) P Q p q
-    (fobj[MSet_from@{o o _} M]
+    (fobj[MSet_from M]
        (CreatedAct@{o so} (fmap[MSet_to@{o o _ _} M] p)
           (fmap[MSet_to@{o o _ _} M] q) S))
     (BGCreatedE@{o so} p q S).

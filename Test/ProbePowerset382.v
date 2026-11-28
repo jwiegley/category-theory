@@ -26,10 +26,11 @@
                    while 4 and 5 are LEVEL rejections between two
                    declared universes ("Cannot enforce X <= o because
                    o < X", "Cannot enforce Set = u").  The tail alone
-                   does NOT separate the two shapes.  CORRECTION:
-                   negative 4 is accepted since the universes of
-                   rocq-prover/rocq#22721 and is kept without [Fail];
-                   2, 3 and 5 are still refused.
+                   does NOT separate the two shapes. CORRECTION
+                   (2026-11-28, rocq-prover/rocq#22721): the inferred
+                   [OpenSet X] in 4 is accepted. Fixing its predicate
+                   universe at the points' level still gives a LEVEL
+                   rejection. Both forms are kept.
       CONVERSION   "cannot unify" between two inhabitants of ONE type.
                    Negatives 6, 7 and 8.
       TYPING       a plain "has type ... while it is expected to have
@@ -219,13 +220,29 @@ Definition probe_opens_hom (X : TopSpace) (U V : OpenSet X) : Type :=
    points' level, and the definition below was refused with a universe
    inconsistency ("Cannot enforce X <= o because o < X").  This is why
    Instance/Top/Image.v delivers the right adjoint at its witness and not
-   in general.  CORRECTION: the definition is accepted with the universes
-   of rocq-prover/rocq#22721. *)
+   in general. CORRECTION (2026-11-28, rocq-prover/rocq#22721): the
+   inferred index in [probe_interior] is [OpenSet@{o Set} X], not the
+   opens with predicates valued in [Type@{o}]. The latter comprehension
+   fits in a larger universe, but still does not fit in [Type@{o}]. *)
 Check @TopSpace@{_}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Definition probe_interior@{o} (X : TopSpace@{o}) (P : X → Type@{o}) :
   X → Type@{o} :=
   fun x => { V : OpenSet X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
+
+Local Definition probe_interior_small_predicates@{o s +| s < o +}
+  (X : TopSpace@{o}) (P : X → Type@{o}) : X → Type@{o} :=
+  fun x => { V : OpenSet@{o s} X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
+
+Local Definition probe_interior_point_predicates@{o roof +| o < roof +}
+  (X : TopSpace@{o}) (P : X → Type@{o}) : X → Type@{roof} :=
+  fun x => { V : OpenSet@{o o} X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
+
+Check @TopSpace@{_}.
+Check @OpenSet@{_ _}.
+Fail Definition probe_interior_point_predicates_at_o@{o +}
+  (X : TopSpace@{o}) (P : X → Type@{o}) : X → Type@{o} :=
+  fun x => { V : OpenSet@{o o} X & prod (∀ y : X, `1 V y → P y) (`1 V x) }.
 
 (* The control: at a SMALL index the very same union does form, so the
    rejection (before rocq-prover/rocq#22721) was about the index's

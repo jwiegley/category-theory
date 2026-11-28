@@ -690,19 +690,19 @@ Example TSys_EM_iso_from_to_component@{+} (S : TSys) :
 
 (* The system of a ring R: ν⟨⟩ = 1, ν⟨a⟩ = a, ν⟨a b⟩ = a·b, and ν of a
    word the product of its letters, bracketed to the right. *)
-Example Rng_system_nu@{+} (R : Rng@{p})
+Example Rng_system_nu@{+} (R : Rng)
   (w : list (carrier (rig_setoid R))) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) w
     = fr_eval (@id Ab@{u p} (Rng_Forget_Ab R))
         (@fr_word (Rng_Forget_Ab R) w) := eq_refl.
 
-Example Rng_system_nil@{+} (R : Rng@{p}) :
+Example Rng_system_nil@{+} (R : Rng) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) nil = rig_one R := eq_refl.
 
-Example Rng_system_letter@{+} (R : Rng@{p}) (a : carrier (rig_setoid R)) :
+Example Rng_system_letter@{+} (R : Rng) (a : carrier (rig_setoid R)) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) (a :: nil) = a := eq_refl.
 
-Example Rng_system_pair@{+} (R : Rng@{p}) (a b : carrier (rig_setoid R)) :
+Example Rng_system_pair@{+} (R : Rng) (a b : carrier (rig_setoid R)) :
   tnu (tsys_str (fobj[EM_to_TSys ◯ Rng_K] R)) (a :: b :: nil)
     = rig_mul R a b := eq_refl.
 

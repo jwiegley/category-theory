@@ -28,6 +28,65 @@ def save_result(file, command, result):
         result.stdout + result.stderr + f'\nexit status: {result.returncode}\n')
 
 
+SAFT_FILE = 'Test/ProbeSAFT453.v'
+
+
+def saft_instrument(source, arity):
+    # Keep N6's real binders, result and proof. Change just the use and add
+    # the same eleven-slot control immediately before N6 in both variants.
+    command, = (c for c in guard.commands(source) if [t.text for t in c[:3]] ==
+                ['Fail', 'Example', 'p453_n6_routes_convertible'])
+    start, end = command[0].start, command[-1].start + 1
+    original = source[start:end]
+    if original.count('SAFT_cover_wp U') != 1:
+        raise ValueError('expected one unannotated SAFT_cover_wp application in N6')
+    control = 'Check @SAFT_cover_wp@{' + ' '.join(['_'] * 11) + '}.\n'
+    use = 'SAFT_cover_wp@{' + ' '.join(['_'] * arity) + '} U'
+    return source[:start] + control + original.replace('SAFT_cover_wp U', use) + source[end:]
+
+
+def check_saft_companions(work):
+    """Compile both whole-file variants against this gate's fresh dependencies."""
+    import probe_arity_build as compiler
+    work = work.resolve(strict=True)
+    snapshot = work / 'source'
+    files = compiler.read_project(snapshot)
+    policy = compiler.load_unreached(Path(__file__).with_name('probe_arity_unreached.json'), files)
+    target_policy = {k: v for k, v in policy.items() if k[0] == SAFT_FILE}
+    for arity in (11, 12):
+        case = work / f'saft-{arity}'
+        case.mkdir()
+        root = case / 'source'
+        target = root / SAFT_FILE
+        target.parent.mkdir(parents=True)
+        # A single -R root preserves the original logical name. Neither
+        # compilation nor the guard's extraction writes into the snapshot.
+        for name in files:
+            if name != SAFT_FILE:
+                vo = Path(name).with_suffix('.vo')
+                (root / vo).parent.mkdir(parents=True, exist_ok=True)
+                (root / vo).symlink_to((snapshot / vo).resolve(strict=True))
+        instrument = saft_instrument((snapshot / SAFT_FILE).read_text(), arity)
+        target.write_text(instrument)
+        env = os.environ.copy()
+        compiler.run(['coqc', '-q', '-R', '.', 'Category', SAFT_FILE], root, env, case / 'compile.log')
+        refs, ids, _ = compiler.collect_evidence(root, case, [SAFT_FILE], target_policy,
+                                                  env, 'coqc', 'coqtop')
+        errors, _, _ = guard.check(root, [SAFT_FILE], {}, refs, ids)
+        (case / 'errors.json').write_text(json.dumps(errors, indent=2) + '\n')
+        if arity == 11:
+            if errors:
+                raise AssertionError(f'eleven-slot companion failed: {errors}')
+        else:
+            needle = 'SAFT_cover_wp@{' + ' '.join(['_'] * arity) + '} U'
+            if instrument.count(needle) != 1:
+                raise AssertionError('ambiguous injected SAFT use')
+            line = instrument.count('\n', 0, instrument.index(needle)) + 1
+            if len(errors) != 1 or not errors[0].startswith(f'{SAFT_FILE}:{line}: SAFT_cover_wp@{{12 entries}} '):
+                raise AssertionError(f'expected only the twelve-slot N6 use to be flagged: {errors}')
+    print('SAFT N6: both whole files compiled; eleven-slot use passed, twelve-slot use flagged.')
+
+
 def false_green_fixtures():
     """Compiler witnesses from review, with genuinely formable companions."""
     prefix = ('Set Universe Polymorphism.\n'
@@ -135,6 +194,15 @@ class ScannerTests(unittest.TestCase):
         self.assert_flags('Check @F@{}. Fail Check F@{}.', [])
         self.assert_flags('Check @F@{_}. Fail Check F@{}.', [('F', 0)])
 
+    def test_algebraic_universe_slots(self):
+        for slots in ('u+1 max(v,w+1)', 'max(Set+1,M.u,2) _', '0 _'):
+            with self.subTest(slots=slots):
+                use = f'Fail Check F@{{{slots}}}.'
+                self.assert_flags(use, [('F', 2)])
+                self.assert_flags(f'Check ((@F@{{{slots}}})). ' + use, [])
+                self.assert_flags('Check @F@{_}. ' + use, [('F', 2)])
+        self.assert_flags('Check (@F@{u+1} : Type@{u}). Fail Check F@{_}.', [('F', 1)])
+
     def test_no_arbitrary_term_controls(self):
         for control in ('Definition x := F@{_}.', 'Check (erase F@{_}).',
                         'Notation bad := F@{_}.',
@@ -192,23 +260,10 @@ class ScannerTests(unittest.TestCase):
         self.assert_flags('Check @F@{_}. Definition G := nat. Fail Check F@{u}.', [('F', 1)])
 
     def test_whole_file_saft_instrument(self):
-        # H4 removed N6's positional instance. Inject a fresh stale instance,
-        # not a claim that the historical N6 still exists on this branch.
-        source = (Path(__file__).resolve().parent.parent /
-                  'Test/ProbeSAFT453.v').read_text()
-        command = next(c for c in guard.commands(source)
-                       if any(t.text == 'p453_n6_routes_convertible' for t in c))
-        start, end = command[0].start, command[-1].start + 1
-        original = source[start:end]
-        control = 'Check @SAFT_cover_wp@{' + ' '.join(['_'] * 12) + '}.\n'
-        for arity, expected in [(13, [('SAFT_cover_wp', 13)]), (12, [])]:
+        source = (Path(__file__).resolve().parent.parent / SAFT_FILE).read_text()
+        for arity, expected in ((11, []), (12, [('SAFT_cover_wp', 12)])):
             with self.subTest(arity=arity):
-                injected = original.replace('SAFT_cover_wp U',
-                    'SAFT_cover_wp@{' + ' '.join(['_'] * arity) + '} U')
-                self.assertNotEqual(injected, original)
-                instrument = source[:start] + control + injected + source[end:]
-                # This fast test isolates the injected arity mismatch. Full
-                # acceptance of the companion is a fresh compiler gate run.
+                instrument = saft_instrument(source, arity)
                 flags = [(u.name, u.arity) for u in guard.scan(instrument)
                          if u.name == 'SAFT_cover_wp']
                 self.assertEqual(flags, expected)
@@ -256,7 +311,8 @@ class ScannerTests(unittest.TestCase):
 
     def test_broken_lexical_input_fails_closed(self):
         for text in ('(* unterminated', 'Check "unterminated', 'Fail Check F@{u',
-                     'Fail Check F@{u+1}.'):
+                     'Fail Check F@{u +}.', 'Check @F@{max()}.', 'Check @F@{max(u,,v)}.',
+                     'Check @F@{u + v}.', 'Check @F@{max(u,v}.', 'Check @F@{u; v}.'):
             with self.subTest(text=text), self.assertRaises(guard.ScanError):
                 guard.scan(text)
 
@@ -336,6 +392,46 @@ class CompilerTests(unittest.TestCase):
         snapshot, files, refs, ids, work = compiler.build(root, 2, 'unreached.json', root / 'evidence')
         errors, _, _ = guard.check(snapshot, files, {}, refs, ids)
         return errors, work
+
+    def test_now_reached_reference_retires_policy_entry(self):
+        import probe_arity_build as compiler
+        source = ('Set Universe Polymorphism.\n'
+                  'Definition F@{u} (T : Type@{u}) := T.\n'
+                  'Check @Category.Probe.F@{_}.\n'
+                  'Fail Definition reached := @Category.Probe.F@{_} tt.\n')
+        with compiler_evidence('now-reached') as tmp:
+            errors, work = self.compiled_fixture(Path(tmp) / 'reached', source)
+            self.assertEqual(errors, [])
+            policy = {('Probe.v', 'reached', 'Category.Probe.F', 1): {}}
+            trial = Path(tmp) / 'stale-policy'
+            trial.mkdir()
+            with self.assertRaisesRegex(guard.ScanError, 'stale unreached-reference entries:.*Category.Probe.F'):
+                compiler.collect_evidence(work / 'source', trial, ['Probe.v'], policy,
+                                          os.environ.copy(), os.environ['PROBE_ARITY_COQC'], 'coqtop')
+
+    def test_example_reference_twins(self):
+        prelude = ('Set Universe Polymorphism.\n'
+                   'Example E@{u} (T : Type@{u}) := T.\n'
+                   'Check @E@{_}.\n')
+        with compiler_evidence('example-references') as tmp:
+            for label, slots, expect_errors in [('Good', '_', False), ('Stale', '_ _', True)]:
+                with self.subTest(label=label):
+                    source = prelude + f'Fail Check (@E@{{{slots}}} tt).\n'
+                    errors, _ = self.compiled_fixture(Path(tmp) / label, source)
+                    self.assertEqual(bool(errors), expect_errors)
+
+    def test_algebraic_instance_twins(self):
+        prelude = ('Set Universe Polymorphism.\n'
+                   'Definition Pair@{a b} (A : Type@{a}) (B : Type@{b}) := A -> B.\n'
+                   'Section Client. Universes u v.\n'
+                   'Check @Pair@{max(u,v+1) u+1}.\n')
+        with compiler_evidence('algebraic-instances') as tmp:
+            for label, slots, expect_errors in [('Good', 'u+1 max(u,v)', False),
+                                                ('Stale', 'max(u,v+1)', True)]:
+                with self.subTest(label=label):
+                    source = prelude + f'Fail Check (@Pair@{{{slots}}} tt).\nEnd Client.\n'
+                    errors, _ = self.compiled_fixture(Path(tmp) / label, source)
+                    self.assertEqual(bool(errors), expect_errors)
 
     def test_review_false_greens_and_companions(self):
         with compiler_evidence('review-fixtures') as tmp:
@@ -438,4 +534,7 @@ class CompilerTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    if sys.argv[1:2] == ['--saft-companions'] and len(sys.argv) == 3:
+        check_saft_companions(Path(sys.argv[2]))
+    else:
+        unittest.main(verbosity=2)

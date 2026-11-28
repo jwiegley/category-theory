@@ -164,6 +164,10 @@ Check (fun (F : C ⟶ Sets) (c v : C)
    "Cannot enforce uh = uo because uo < uh"; accepted since the universes of
    rocq-prover/rocq#22721. *)
 Check (repr_pair_iso_from_is_induced C).
+(* CORRECTION (2026-11-28, rocq-22721): [Check] leaves the functor and
+   representing objects unresolved. With [@] they remain parameters; the
+   following definition checks the law at [uo < uh] without holes. *)
+Local Definition p_repr_pair_iso_apart := @repr_pair_iso_from_is_induced C.
 
 (* Negative 6, now accepted: negative 1 one application further in, the
    projection out of the instance, rejected too for the same reason.  It

@@ -202,11 +202,11 @@ Constraint uh < us.
    refused; stripped error: "universe inconsistency: Cannot enforce
    uh = _ because uh < uo <= _".  Accepted since the universes of
    rocq-prover/rocq#22721. *)
-Check @Category@{_ _ _}.
-Check @Sets@{_ _}.
 (* Accepted with the universes of rocq-prover/rocq#22721 *)
 Check (fun (D : Category@{uo uh uh}) (K : D ⟶ Sets@{uh us}) =>
               KanCone K).
+Check @Category@{_ _ _}.
+Check @Sets@{_ _}.
 
 (* NEGATIVE 9 (FORMABILITY).  The transformation presheaf independently
    refuses at the same setting — a set of natural transformations is a family

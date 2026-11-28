@@ -44,10 +44,11 @@ Generalizable All Variables.
    Every constant a negative names is also named outside every [Fail],
    in the control blocks below.
 
-   CORRECTION (rocq-prover/rocq#22721): N1 and N2 are accepted with the
-   universes of rocq-prover/rocq#22721 and are no longer [Fail]
-   commands, so six negatives remain, N3 the only formability one.  The
-   list above records the state before that change. *)
+   CORRECTION (2026-11-28, rocq-prover/rocq#22721): the original N1 and
+   N2 ascriptions are now valid cumulative views. Keep them as controls.
+   To test which type each application actually has, N1 and N2 below
+   compare its inferred type by [eq_refl]. Both exact-type negatives
+   still fail on the stated hom/proof distinction. *)
 
 (** ** Instrument check: this must be rejected for the trivial reason *)
 
@@ -117,16 +118,13 @@ Check @RelationClasses.PreOrder.
 
 (** ** N1, N2: the hom = proof identification, and its donor *)
 
-(* [Lind@{u u0 u1} : Theo@{u0 u1} V -> Category@{u0 u u}] reuses one
-   level for hom and for proof in the BINDER, while its constraint block
-   carries no equation at all.  Both facts have to be read to get this
-   right, and only the binder shows it.
-
-   The two negatives below were rejected at levels declared strictly
-   apart; the control on the line before each shows the very same
-   application accepted at those levels once hom and proof coincide.
-   CORRECTION: both are accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* The earlier binder [Lind@{u u0 u1} : Theo@{u0 u1} V -> Category@{u0 u u}]
+   reused one level for hom and proof; no equation in its constraint
+   block was needed. CORRECTION (2026-11-28, rocq-prover/rocq#22721):
+   the result still has the same hom and proof level, but cumulativity
+   permits a view at [Category@{lo lh lp}] under [lh < lp]. Taking the
+   type of the application before ascribing an equality tests that
+   identification without forbidding the valid cumulative use. *)
 
 Section UniverseProbe.
 
@@ -140,11 +138,13 @@ Check (Lind Tu : Category@{lo lh lh}).
 Check (obj[Lind Tu]).
 Check (fun p q : Sent@{lo} Vu => p ~{Lind Tu}~> q).
 
-(* N1 (FORMABILITY), now accepted.  Previously refused with "Cannot
-   enforce lh = lp because lh < lp". *)
-Check @Category@{_ _ _}.
-(* N1: accepted since the universes of rocq-prover/rocq#22721. *)
+(* N1: retain the cumulative view, then test the inferred type itself. *)
 Check (Lind Tu : Category@{lo lh lp}).
+Check (eq_refl :
+  (ltac:(let T := type of (Lind Tu) in exact T) : Type) = Category@{lo lh lh}).
+Check @Category@{_ _ _}.
+Fail Check (eq_refl :
+  (ltac:(let T := type of (Lind Tu) in exact T) : Type) = Category@{lo lh lp}).
 
 Context (Au : Type@{lo}) (Ru : Relation_Definitions.relation Au)
         (Pu : RelationClasses.PreOrder Ru).
@@ -152,13 +152,13 @@ Context (Au : Type@{lo}) (Ru : Relation_Definitions.relation Au)
 (* Control for N2, at the same declared levels. *)
 Check (Proset Pu : Category@{lo lh lh}).
 
-(* N2 (FORMABILITY), now accepted: the donor alone, with no [Lind] in
-   the command, was rejected with the identical clause — so the
-   identification was inherited from [Proset] and the target introduced
-   none of its own. *)
-Check @Category@{_ _ _}.
-(* N2: accepted since the universes of rocq-prover/rocq#22721. *)
+(* N2: the donor alone has the same distinction; no [Lind] in this test. *)
 Check (Proset Pu : Category@{lo lh lp}).
+Check (eq_refl :
+  (ltac:(let T := type of (Proset Pu) in exact T) : Type) = Category@{lo lh lh}).
+Check @Category@{_ _ _}.
+Fail Check (eq_refl :
+  (ltac:(let T := type of (Proset Pu) in exact T) : Type) = Category@{lo lh lp}).
 
 End UniverseProbe.
 

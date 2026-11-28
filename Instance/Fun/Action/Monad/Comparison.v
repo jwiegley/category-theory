@@ -281,7 +281,7 @@ Defined.
 
 (* K, the comparison functor after σ*. *)
 Definition K_swap@{o so} :
-  MSet@{o o o o o} LZ@{o}
+  MSet LZ@{o}
     ⟶ @EilenbergMoore@{so so o} Sets@{o so} (ActF@{o so} LZ@{o})
           (ActMonad@{o so} LZ@{o}) :=
   EM_Comparison (MSet_adj@{o so} LZ@{o}) ◯ Swap_MSet@{o so}.
@@ -384,7 +384,7 @@ Qed.
 
 (* The issue's reading of Awodey's clause, refuted. *)
 Theorem bare_awodey_refuted@{o so} :
-  ¬ (∀ K' : MSet@{o o o o o} LZ@{o}
+  ¬ (∀ K' : MSet LZ@{o}
               ⟶ @EilenbergMoore@{so so o} Sets@{o so}
                     (ActF@{o so} LZ@{o}) (ActMonad@{o so} LZ@{o}),
        EM_Forget (ActF@{o so} LZ@{o}) ◯ K' ≈ MSet_Forget@{o so} LZ@{o} →

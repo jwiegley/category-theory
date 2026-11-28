@@ -1397,11 +1397,13 @@ Definition p457_tquot_obj_stripped@{o h so +| o < h, o < so +}
   tstrip_under@{o h so} X (TQuot_Functor X c) = c :=
   tquot_obj_stripped X c.
 
-(* N19 *)
+(* N19. CORRECTION (2026-11-28, rocq-22721): the five-slot application
+   failed on length. At three slots the failure is at [eq_refl]: stripping
+   the quotient of a variable coslice object does not reduce to [c]. *)
 Check @tstrip_under@{_ _ _}.
 Fail Example p457_tquot_obj_stripped_refl@{o h so +| o < h, o < so +}
   (X : TopSpace@{o}) (c : @Coslice Sets@{o so} (top_carrier X)) :
-  tstrip_under@{o h so _ _} X (TQuot_Functor X c) = c := eq_refl.
+  tstrip_under@{o h so} X (TQuot_Functor X c) = c := eq_refl.
 
 (* The stripped object equation closed [Qed] instead of [Defined]. *)
 Lemma p457_tquot_obj_stripped_opaque@{o h so +| o < h, o < so +}

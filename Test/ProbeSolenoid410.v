@@ -389,6 +389,16 @@ Example p410_ppoints@{s o so + | o < so +} (p : positive) :
   pt_carrier (PSolenoid@{s o so _} p)
   = inverse_limit (PForget@{o so} ◯ PCircleTower@{s o so} p) := eq_refl.
 
+(* The points law must compute with the tower shape strictly below the
+   points, and with the points strictly below the shape. A diagonal
+   instance alone does not distinguish these roles. *)
+Section P410TowerRoles.
+  Universe tower_lo tower_hi tower_top.
+  Constraint tower_lo < tower_hi, tower_hi < tower_top.
+  Check @p410_ppoints@{tower_lo tower_hi tower_top _}.
+  Check @p410_ppoints@{tower_hi tower_lo tower_top _}.
+End P410TowerRoles.
+
 Example p410_carriers@{s o so + | o < so +} (p : positive) :
   carrier (SolPoints@{s o so} p)
   = carrier (pt_carrier (PSolenoid@{s o so _} p)) := eq_refl.

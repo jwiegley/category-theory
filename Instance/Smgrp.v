@@ -187,10 +187,10 @@ Generalizable All Variables.
 (** ** Smgrp, the semigroups in (Sets, ×), and its forgetful functor G *)
 
 Definition SmgrpSets@{o so} : Category@{so o o} :=
-  @Smgrp@{so o o o} Sets@{o so} Sets_Product_Monoidal@{o}.
+  @Smgrp Sets@{o so} Sets_Product_Monoidal.
 
 Definition Sg_Forget@{o so} : SmgrpSets@{o so} ⟶ Sets@{o so} :=
-  @Smgrp_Forget@{so o o} Sets@{o so} Sets_Product_Monoidal@{o}.
+  @Smgrp_Forget Sets@{o so} Sets_Product_Monoidal.
 
 (** ** Element-level accessors (after Instance/Mon/Coproduct.v's mon_* ) *)
 
@@ -199,13 +199,13 @@ Definition sg_ob@{o so} (A : SmgrpSets@{o so}) : SetoidObject@{o o} := `1 A.
 (* The multiplication ν of A, curried: ν(a, b). *)
 Definition sg_mul@{o so} (A : SmgrpSets@{o so}) (a b : sg_ob@{o so} A) :
   sg_ob@{o so} A :=
-  @smu Sets@{o so} Sets_Product_Monoidal@{o} _ (`2 A) (a, b).
+  @smu Sets@{o so} Sets_Product_Monoidal _ (`2 A) (a, b).
 
 Lemma sg_mul_respects@{o so} (A : SmgrpSets@{o so}) :
   Proper (equiv ==> equiv ==> equiv) (sg_mul@{o so} A).
 Proof.
   intros a a' Ha b b' Hb.
-  exact (proper_morphism (@smu Sets@{o so} Sets_Product_Monoidal@{o} _
+  exact (proper_morphism (@smu Sets@{o so} Sets_Product_Monoidal _
                             (`2 A)) (a, b) (a', b') (Ha, Hb)).
 Qed.
 
@@ -214,7 +214,7 @@ Qed.
 Lemma sg_mul_assoc@{o so} (A : SmgrpSets@{o so}) (a b c : sg_ob@{o so} A) :
   sg_mul A (sg_mul A a b) c ≈ sg_mul A a (sg_mul A b c).
 Proof.
-  exact (@smu_assoc Sets@{o so} Sets_Product_Monoidal@{o} _ (`2 A)
+  exact (@smu_assoc Sets@{o so} Sets_Product_Monoidal _ (`2 A)
            ((a, b), c)).
 Qed.
 
@@ -232,7 +232,7 @@ Lemma sg_fun_mul@{o so} {A B : SmgrpSets@{o so}}
   (f : A ~{SmgrpSets@{o so}}~> B) (a b : sg_ob@{o so} A) :
   sg_fun f (sg_mul A a b) ≈ sg_mul B (sg_fun f a) (sg_fun f b).
 Proof.
-  exact (@shom_mu Sets@{o so} Sets_Product_Monoidal@{o} _ _ _ _ _ (`2 f)
+  exact (@shom_mu Sets@{o so} Sets_Product_Monoidal _ _ _ _ _ (`2 f)
            (a, b)).
 Qed.
 
@@ -243,7 +243,7 @@ Definition mk_sg_obj@{o so} (S : SetoidObject@{o o})
   (oassoc : ∀ a b c, op (op a b) c ≈ op a (op b c)) : SmgrpSets@{o so}.
 Proof.
   unshelve refine
-    (S; @Build_Semigroup Sets@{o so} Sets_Product_Monoidal@{o} S
+    (S; @Build_Semigroup Sets@{o so} Sets_Product_Monoidal S
           {| morphism := fun p => op (fst p) (snd p) |} _).
   - intros [a b] [a' b'] [Ha Hb]. exact (opr _ _ Ha _ _ Hb).
   - intros [[a b] c]. exact (oassoc a b c).

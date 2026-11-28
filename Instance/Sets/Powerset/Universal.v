@@ -766,7 +766,7 @@ Lemma Powerset_subset_incl_monic@{o so} {A : SetoidObject@{o o}}
   (S : carrier (Powerset_Prop_obj@{o} A)) :
   @Monic Sets@{o so} _ _ (Powerset_subset_incl@{o so} S).
 Proof.
-  apply (injectivity_is_monic@{_ _ o o o} (Powerset_subset_incl@{o so} S)).
+  apply (injectivity_is_monic (Powerset_subset_incl@{o so} S)).
   intros p q H; exact H.
 Qed.
 

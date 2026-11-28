@@ -4,22 +4,23 @@ This development encodes category theory in Coq, with the primary aim being to
 allow representation and manipulation of categorical terms, as well
 realization of those terms in various target categories.
 
-- Supported version: [Rocq](https://github.com/rocq-prover/rocq) 9.3.0, with Stdlib 9.2.0.
-- Some parts depend on [Equations](https://github.com/mattam82/Coq-Equations) 1.3.2+9.3.
+## Building `rocq-22721`
 
-## Building
+This branch uses the compiler from [Rocq PR #22721](https://github.com/rocq-prover/rocq/pull/22721) and the corresponding Stdlib and Equations branches. Released Rocq cannot parse this checkout. Start in a clean checkout and choose a new or empty installation prefix:
 
-The easiest way to build is with [Nix](https://nixos.org/):
+```bash
+nix develop --no-update-lock-file .#upstream
+scripts/build-upstream-rocq.sh resolve > sources.txt
+scripts/build-upstream-rocq.sh build ~/rocq-22721 sources.txt
+. ~/rocq-22721/env.sh
+make
+```
 
-    nix build
+The `upstream` shell supplies the build tools, not Rocq itself. Reuse a matching installed prefix by entering that shell and sourcing its `env.sh`. See [doc/UPSTREAM.md](doc/UPSTREAM.md) for prefix requirements, the staged check and how to update the compiler.
 
-This builds against Rocq 9.3.0, the one supported version.
+On **`master`**, `nix build` and the default `nix develop` use the supported release: Rocq 9.3.0, Stdlib 9.2.0 and Equations 1.3.2+9.3. Those are not build instructions for this branch.
 
-To enter a development shell with all dependencies:
-
-    nix develop
-
-From there, you can use the standard Makefile:
+With the appropriate toolchain active:
 
     make          # build everything
     make clean    # clean build artifacts

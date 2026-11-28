@@ -491,6 +491,12 @@ Check (AbEnriched Cu).
    previously refused as N14, at [Cu]; accepted since the universes of
    rocq-prover/rocq#22721. *)
 Check (fun (AC : AbEnriched Cu) (x y : Cu) => hom_ab AC x y).
+(* CORRECTION (2026-11-28, rocq-22721): [Check] leaves the local
+   propositionality premise unresolved. Supplying it tests [uh < up]
+   without claiming that enrichment provides that premise. *)
+Local Definition p401_hom_ab_apart (AC : AbEnriched Cu)
+  (LP : Propositional.LocallyPropositional Cu) (x y : Cu) :=
+  @hom_ab Cu LP AC x y.
 
 End P401Univ.
 

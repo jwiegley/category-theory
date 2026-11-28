@@ -347,7 +347,7 @@ Qed.
 Theorem Top_iprod_refuted_IEM_canonical@{e s h o +| o < h, h <= s +}
   (E : IEM@{e}) (HP : @HasIndexedProducts@{s s s s h h} Top@{h o}) : False.
 Proof.
-  pose (AI := canonical_ArrowIndex@{h h} (ObjDecEq_of_IEM E Top@{h o})).
+  pose (AI := canonical_ArrowIndex (ObjDecEq_of_IEM E Top@{h o})).
   exact (freyd_no_separated_pair AI
            (top_point Bool_Discrete true) (top_point Bool_Discrete false) _ _
            (@indexed_product_ump _ HP (ai_index AI) (fun _ => Bool_Discrete))

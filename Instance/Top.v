@@ -997,7 +997,7 @@ Definition Hausdorff_Subcategory@{x o p q t} :
 
 (* The hom universe [t] of [Top] is its own universe with the universes of
    rocq-prover/rocq#22721: it was [o+1], an algebraic universe in an invariant
-   position, which the minimization no longer chooses.  The [+] admits the
+   position, which the minimization no longer chooses.  The [+] allows the
    constraints on the global universes of the standard library. *)
 Definition HausdorffSpaces@{hh o p q t | t <= hh, p <= o +} : Category :=
   Sub@{t t max(o,p+1,q+1) Set max(t,o,p+1,q+1) hh} Top@{t o}

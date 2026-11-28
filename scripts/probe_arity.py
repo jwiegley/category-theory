@@ -134,6 +134,42 @@ def head(tokens):
     return i
 
 
+def instance_arity(levels, offset):
+    """Count complete slots, not tokens: max(u,v+1) is one PR universe."""
+    def unsupported():
+        return ScanError(f"unsupported universe instance at offset {offset}")
+
+    def atom(i):
+        if i == len(levels):
+            raise unsupported()
+        if re.fullmatch(r"[0-9]+", levels[i]):
+            return i + 1
+        if levels[i] == "_" or not QUALID.fullmatch(levels[i]):
+            raise unsupported()
+        i += 1
+        if levels[i:i + 1] == ["+"]:
+            if i + 1 == len(levels) or not re.fullmatch(r"[0-9]+", levels[i + 1]):
+                raise unsupported()
+            i += 2
+        return i
+
+    i = count = 0
+    while i < len(levels):
+        if levels[i:i + 2] == ["max", "("]:
+            i = atom(i + 2)
+            while levels[i:i + 1] == [","]:
+                i = atom(i + 1)
+            if levels[i:i + 1] != [")"]:
+                raise unsupported()
+            i += 1
+        elif levels[i] == "_":
+            i += 1
+        else:
+            i = atom(i)
+        count += 1
+    return count
+
+
 def instances(command):
     words = [t.text for t in command]
     h = head(words)
@@ -162,9 +198,8 @@ def instances(command):
         if i in binders or token.text == "Type":
             continue
         levels = words[i + 3:close]
-        if any(not QUALID.fullmatch(u) for u in levels):
-            raise ScanError(f"unsupported universe instance at offset {token.start}")
-        result.append(Instance(token.text, len(levels), token.start))
+        arity = instance_arity(levels, token.start)
+        result.append(Instance(token.text, arity, token.start))
     return result
 
 
@@ -180,7 +215,7 @@ def bare_check(command, uses):
     term = term[1:]
     use = uses[0]
     if (term[:3] == [use.name, "@", "{"] and term[-1:] == ["}"]
-            and len(term) == use.arity + 4):
+            and "}" not in term[3:-1]):
         return use
     return None
 
@@ -224,7 +259,7 @@ def glob_references(source, data, logical_name):
             raise ScanError(".glob reference outside source")
         spans.setdefault((start, end), set()).add(match.groups()[2:])
     # A notation or local variable is not a direct constant reference.
-    kinds = {"def", "inst", "rec", "class", "constr", "thm", "ind", "scheme", "proj", "ax"}
+    kinds = {"def", "inst", "rec", "class", "constr", "thm", "ex", "ind", "scheme", "proj", "ax"}
     return {span: next(iter(refs)) for span, refs in spans.items()
             if len(refs) == 1 and next(iter(refs))[-1] in kinds}
 

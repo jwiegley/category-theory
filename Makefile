@@ -51,7 +51,10 @@ probe-arity-unit:
 PROBE_ARITY_JOBS ?= 2
 PROBE_ARITY_WORK_DIR ?=
 probe-arity-check: probe-arity-unit
-	python3 -B scripts/probe_arity.py --jobs $(PROBE_ARITY_JOBS) $(if $(PROBE_ARITY_WORK_DIR),--work-dir "$(PROBE_ARITY_WORK_DIR)",)
+	@set -eu; work="$(PROBE_ARITY_WORK_DIR)"; \
+	if test -z "$$work"; then work=$$(mktemp -d)/evidence; fi; \
+	python3 -B scripts/probe_arity.py --jobs "$(PROBE_ARITY_JOBS)" --work-dir "$$work"; \
+	python3 -B scripts/test_probe_arity.py --saft-companions "$$work"
 
 # Compiler-backed tests distinguish eager Checks from deferred/caught errors.
 probe-arity-coq-selftest:
@@ -251,7 +254,8 @@ check: format-check admitted-check bench-config-check claude-md-counts-check ind
 # Print Print-Assumptions output for the library's key definitions.
 # See doc/AXIOMS.md for the expected output ("Closed under the global
 # context" for all except ZX-instance definitions, which list the 3
-# user-supplied Phase parameters).
+# user-supplied Phase parameters). On rocq-22721, keep an absence check for
+# each release obligation no longer generated; audit it again if it returns.
 print-assumptions: category-theory
 	@echo "============================================================"
 	@echo "Print Assumptions audit"
@@ -3419,14 +3423,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.copower_weighted_obj.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_cone_obligation_1.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_cone_obligation_2.'; \
-	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_cone_obligation_3.'; \
+	  echo 'Fail Check @Category.Structure.Limit.Power.Adjunction.wpow_cone_obligation_3.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_cone.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_ev.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wpow_from_is_precompose.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.power_of_weighted.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_cocone_obligation_1.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_cocone_obligation_2.'; \
-	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_cocone_obligation_3.'; \
+	  echo 'Fail Check @Category.Structure.Limit.Power.Adjunction.wcop_cocone_obligation_3.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_cocone.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_inj.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Power.Adjunction.wcop_from_is_postcompose.'; \
@@ -4605,7 +4609,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Fun.Closed.TwoFun_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoOpInitial.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_fam.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_fam_F1.'; \
@@ -5646,7 +5650,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Pullback.fun_pullback_med_at.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Classifier.sieve_truth_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Classifier.sieve_truth_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Fun.Classifier.sieve_truth_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Fun.Classifier.sieve_truth_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Classifier.sieve_truth.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Classifier.sieve_truth_at.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Classifier.Efmap_resp.'; \
@@ -6825,7 +6829,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_cone.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_l.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_leg.'; \
-	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_leg_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Grp.Limit.glim_unit_leg_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_map.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_triangle.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.glim_unit_unique.'; \
@@ -7170,7 +7174,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Cat.Limit.ChaoticPt_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.DepFunext.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_commutes.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_fmap_hom_cast.'; \
@@ -7180,7 +7184,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_2.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_3.'; \
-	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_4.'; \
+	  echo 'Fail Check @Category.Instance.Cat.Limit.eq_loop_functor_obligation_4.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_incl.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_obligation_1.'; \
@@ -7204,7 +7208,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Cat.Limit.pi_point_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_proj.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_IsIndexedProduct.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_IsIndexedProduct_strict.'; \
@@ -8478,7 +8482,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Ab.Limit.alim_med_obligation_2.'; \
 	  echo 'Print Assumptions Category.Instance.Ab.Limit.alim_neg_leg_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Ab.Limit.alim_plus_leg_obligation_1.'; \
-	  echo 'Print Assumptions Category.Instance.Ab.Limit.alim_zero_leg_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Ab.Limit.alim_zero_leg_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Ab.Limit.arefl_hom_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Ab.Limit.arefl_hom_obligation_2.'; \
 	} >> .pa-tmp/pa.v
@@ -8600,8 +8604,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_med_obligation_4.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_mul_leg_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_neg_leg_obligation_1.'; \
-	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_one_leg_obligation_1.'; \
-	  echo 'Print Assumptions Category.Instance.Rng.Limit.rlim_zero_leg_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Rng.Limit.rlim_one_leg_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Rng.Limit.rlim_zero_leg_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rng_sets_const_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rrefl_hom_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.Limit.rrefl_hom_obligation_2.'; \
@@ -9277,7 +9281,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_separates_from_Concrete.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates_pick.'; \
-	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Sets.Generator.sets_elem_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.grp_point.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_free_one_separates.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_Generator.'; \
@@ -9366,7 +9370,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.sgen_subalg.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.sgen_subobj.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.svariety_const.'; \
-	  echo 'Print Assumptions Category.Instance.Variety.Spanning.svariety_const_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Variety.Spanning.svariety_const_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.svariety_injective_monic.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.svariety_inverse.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.svariety_inverse_obligation_1.'; \
@@ -10518,7 +10522,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mod.Cogenerator.zchar_determined.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Cogenerator.zchar_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Cogenerator.zchar_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Cogenerator.zchar_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Mod.Cogenerator.zchar_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Cogenerator.zchar_pos.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Colimit.Diagonal_RMod_solution_set.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Colimit.IsModCoconeCong.'; \
@@ -12304,7 +12308,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.Circle.cround_between.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Circle.cround_spec.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Circle.cround_ball.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Circle.creal_setoid_obligation_1.'; \
+	  echo 'Fail Check @Category.Instance.Top.Circle.creal_setoid_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Circle.creal_setoid.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Circle.RLine_setoid.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Circle.rball.'; \
@@ -12864,12 +12868,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PBool_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_3.'; \
+	  echo 'Fail Check @Category.Instance.Top.Components.Paths.PPi0_PBool_iso_obligation_3.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PInterval_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_2.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_3.'; \
-	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_4.'; \
+	  echo 'Fail Check @Category.Instance.Top.Components.Paths.PPi0_PInterval_iso_obligation_4.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_points_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_points_iso_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Components.Paths.PPi0_points_iso_obligation_2.'; \

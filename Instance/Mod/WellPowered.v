@@ -296,6 +296,11 @@ Generalizable All Variables.
    [Sets_WellPowered_untruncate], and it excludes rings whose carrier
    universe is [Set].  (1) and (4) carry no [Set] bound; (5) carries
    [Set < w] only, which [c < w] already implies.
+   CORRECTION (2026-11-28, rocq-22721): the fifth slot quoted above is
+   gone. (1) concludes [WellPoweredAt@{w o o c}] for [RMod@{o a p c}].
+   Its first slot still requires [c < w]: applying (1) at index [c]
+   fails, as N6 of [ProbeWatts454] checks. N7 and N28 no longer compare
+   a slot of [RMod] with the subobject setoid's former extra level.
 
    ** NON-VACUITY
 

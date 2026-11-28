@@ -567,12 +567,10 @@ End GenArgumentName.
     [Set < u0] the two share is one the conditional already carried.  The
     asymmetry is real and is not explained here.
 
-    CORRECTION: the measurements and the refusal quoted above predate the
-    universes of rocq-prover/rocq#22721.  Since them the unconditional
-    form is ACCEPTED at a ring whose carrier universe is [Set] (with the
-    modules' universes put at [Set], as the note on the [Context] below
-    says), so NEGATIVE 8 is no longer a negative and no longer pins the
-    side condition. *)
+    CORRECTION (2026-11-28, rocq-22721): the unconditional application
+    compiles at a ring with carrier in [Set], with the original module
+    binders. The controls below put the modules' carriers first in [Set],
+    then in a universe strictly above it, without changing the ring. *)
 
 Section SetCarrierPin.
 
@@ -580,11 +578,7 @@ Universes pa pb pc.
 Constraint pb = Set.
 
 Context (Rs : RingObject@{pa pb pc}).
-(* With the universes of rocq-prover/rocq#22721 the hom universe of the
-   codomain of [Bilin] is the maximum of the carrier's and the modules'
-   universes, which [ElementSolutionSet] equates with the carrier's: the
-   modules' universes are put at [Set]. *)
-Context (Vs Vs' : RModObject@{Set pc Set Set} Rs).
+Context (Vs Vs' : RModObject Rs).
 
 (* THE CONTROL: the conditional form elaborates at this very ring. *)
 Definition p449_cond_at_set_carrier
@@ -596,5 +590,16 @@ Definition p449_cond_at_set_carrier
    the universes of rocq-prover/rocq#22721. *)
 Definition p449_uncond_at_set_carrier :
   Representable (Bilin Vs Vs') := tensor_via_AFT Vs Vs'.
+
+Local Definition p449_set_modules (M N : RModObject@{Set pc Set Set} Rs) :
+  Representable (Bilin M N) := tensor_via_AFT M N.
+
+Universe module_carrier.
+Constraint Set < module_carrier.
+Local Definition p449_module_carrier_sort (M : RModObject@{Set pc module_carrier Set} Rs) :=
+  (eq_refl : ltac:(let T := type of (carrier (cmon_setoid (ab_cmon (rm_ab M)))) in exact T)
+             = Type@{module_carrier}).
+Local Definition p449_large_modules (M N : RModObject@{Set pc module_carrier Set} Rs) :
+  Representable (Bilin M N) := tensor_via_AFT M N.
 
 End SetCarrierPin.

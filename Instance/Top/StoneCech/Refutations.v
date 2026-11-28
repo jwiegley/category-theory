@@ -218,10 +218,18 @@ Generalizable All Variables.
    a [Prop], fits any level.  A word-bounded [Set] occurs in none of the
    33 readbacks of this file.
 
-   COVERAGE, measured by applying each [IEM] form at instances of
-   [CompHaus] written out slot by slot, the order of the named universes
-   declared; Test/ProbeStoneCech455.v pins the boundaries below with
-   refusals (N10, N12, N20-N22) and positive controls beside them.
+   RELEASE COVERAGE. This table records the earlier compiler's applications
+   at the fifteen-slot [CompHaus]. It is not a calling convention for this
+   branch. CORRECTION (2026-11-28, rocq-22721): [CompHaus] takes six slots
+   here. In Test/ProbeStoneCech455.v the older completeness form at [s < c]
+   (N10) and the older adjunction refutation at [h < c] (N12) both apply.
+   N20 no longer varies a distinct proof slot; its corrected application
+   duplicates [p455_adj_above_slots]. In N21 [p455_lower_top_at_t] puts
+   [CompHaus@{t o _ _ o o}] in [Category@{c t t}]; the ascription at hom
+   level [h] fails under [t < h], before any application to completeness.
+   N22 reaches the theorem argument: [p455_adj_above_hausdorff_at_o]
+   passes with the two opens at [o o]; [q q] below [o] is refused at [A].
+   The remaining table and its numbered refusals describe the release:
    [CompHaus] carries fifteen universes.  Besides [c] and [h], four matter
    here: the third, [t], the hom universe of the [Top@{t o}] of which it
    is a full subcategory ([t <= c], [t <= h]); the fourth, [p], the
@@ -278,12 +286,11 @@ Generalizable All Variables.
    NOT DELIVERED.  A refutation of completeness with neither an index nor
    [IEM]: thinness of a small complete category is not constructively
    provable (Structure/Complete/Freyd.v's header).  The cardinal argument
-   of (4) as a theorem.  Any refutation at an instance whose proof slot
-   [p] lies below its object universe, or whose fourteenth and fifteenth
-   slots, the Hausdorff proof's opens, lie below the points' universe
-   [o], and one of completeness at an instance with [t < h < c] at a
-   shape below [c] (COVERAGE); classically those instances are false as
-   well, the objects' points still sitting at [o] (a meta-argument).
+   of (4) as a theorem. The release coverage gaps in the table (the proof
+   slot, the separating opens and shapes at [t < h < c]) refer to the
+   release applications only; the six-slot controls above replace those
+   comparisons here. The classical argument about points at [o] is a
+   meta-argument, not a library refutation.
    #455's review measured what a draft of this paragraph denied: that
    something is refuted at an instance of [CompHaus] whose object
    universe [c] lies above its hom universe [h], that an arrow index at
@@ -297,9 +304,9 @@ Generalizable All Variables.
    [StoneCech_adjunction_refuted_IEM_above],
    [CompHaus_not_complete_IEM_above], [CompHaus_not_complete_IEM_below]
    and [SAFT_Incl_IEM_vacuous_below] are those refutations.  What the
-   draft measured stands as the scope of the two older constants,
-   which apply [canonical_ArrowIndex] to [CompHaus]'s own objects:
-   [StoneCech_adjunction_refuted_IEM] is refused applied at
+   draft measured on the release was the scope of the two older constants,
+   which apply [canonical_ArrowIndex] to [CompHaus]'s own objects. On
+   that compiler [StoneCech_adjunction_refuted_IEM] was refused applied at
    [CompHaus : Category@{c h h}] under [h < c] ("universe
    inconsistency: Cannot enforce c = h because h < c"), and
    [CompHaus_not_complete_IEM] is refused at GAFT's shape

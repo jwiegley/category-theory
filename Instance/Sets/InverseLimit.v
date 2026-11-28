@@ -162,7 +162,9 @@ Open Scope category_scope.
 
 Section Tower.
 
-Context (F : Omega^op ⟶ Sets).
+Universe tower_shape tower_hom tower_points.
+Context (F : Omega@{tower_shape tower_hom tower_hom}^op ⟶
+             Sets@{tower_points tower_points+1}).
 
 (* The generating arrow of the tower, read in [Omega^op]: it runs DOWN,
    from stage [S n] to stage [n].  It IS [Instance/Omega.v]'s

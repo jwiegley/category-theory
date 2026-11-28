@@ -227,11 +227,12 @@ Generalizable All Variables.
     "Cannot enforce Set = uo").  So the ADJUNCTION, the functors and
     everything downstream are statements about [Set]-carrier monoids and
     groups; the presentation, the quotient and their laws are not.
-    CORRECTION (rocq-prover/rocq#22721): that negative,
-    [completion_insert] over [MonSets@{uh}] with [Set < uo], is accepted
-    since the universes of rocq-prover/rocq#22721 and is no longer a
-    [Fail] command; whether the adjunction and functors downstream now
-    reach carriers above [Set] is not measured here.
+    CORRECTION (2026-11-28, rocq-22721): [MonSets] now takes one level.
+    Its former probe used [MonSets@{uh}] while constraining [Set < uo];
+    this did not test the large carrier. [completion_insert_above_set]
+    uses [MonSets@{uo}], and [completion_carrier_sort] checks that the
+    carrier's inferred sort is [Type@{uo}]. This measures the insertion,
+    not the adjunction or either whole functor.
 
     What the presentation layer DOES carry is an identification of
     [GrpObject]'s three universes with one another
@@ -468,13 +469,11 @@ End Completion.
 Arguments comp_free M : clear implicits.
 Arguments CompletionObject M : clear implicits.
 
-(* The insertion, as a morphism of [MonSets].  It is declared OUTSIDE the
-   section above deliberately: [Grp_MonSets] is instantiable only at
-   [Set]-carrier groups (see the header), and a section variable
-   [M : MonSets] has its universes fixed before that constraint can be
-   imposed, so naming [Grp_MonSets] inside the section is a universe
-   inconsistency.  Outside it, each definition is generalized on its own
-   and the instantiation goes through. *)
+(* On the release, [Grp_MonSets] required a [Set]-carrier group. The
+   insertion was declared outside the section so its parameter could be
+   generalized independently. CORRECTION (2026-11-28, rocq-22721):
+   [completion_insert_above_set] uses [MonSets@{uo}] at [Set < uo]. No
+   claim about moving the definition back inside the section was tested. *)
 Definition completion_insert (M : MonSets)
   : M ~{MonSets}~> Grp_MonSets (CompletionObject M) :=
   @mhom M (Grp_MonSets (CompletionObject M))
@@ -944,24 +943,27 @@ End CompletionSetPin.
    quotient and its multiplicativity -- is formable over a monoid whose
    carrier universe sits strictly ABOVE [Set], and it is exactly the first
    constant whose TYPE names [Grp_MonSets] that is rejected there.
-   CORRECTION (rocq-prover/rocq#22721): that constant, [completion_insert],
-   is accepted there since the universes of rocq-prover/rocq#22721. *)
+   CORRECTION (2026-11-28, rocq-22721): all four applications below
+   also compile at the explicitly large carrier. *)
 
 Section CompletionInsertPin.
 
 Universe uo uh.
 Constraint Set < uo.
 
-Check (fun M : obj[MonSets@{uh}] => comp_free M).
-Check (fun M : obj[MonSets@{uh}] => CompletionObject M).
-Check (fun (M : obj[MonSets@{uh}]) (a b : carrier (mcar M)) =>
+Check (fun M : obj[MonSets@{uo}] => comp_free M).
+Check (fun M : obj[MonSets@{uo}] => CompletionObject M).
+Check (fun (M : obj[MonSets@{uo}]) (a b : carrier (mcar M)) =>
          comp_class_op M a b).
 
 Check @MonSets@{_}.
-(* Formability negative, now accepted: [completion_insert] over a monoid
-   whose carrier universe sits strictly above [Set].  Previously refused
-   with "Cannot enforce Set = uo"; accepted since the universes of
-   rocq-prover/rocq#22721. *)
+(* Keep the overlay's application at [uh] and separately test the level
+   constrained to be above [Set]. *)
 Check (fun M : obj[MonSets@{uh}] => completion_insert M).
+
+Local Definition completion_carrier_sort (M : obj[MonSets@{uo}]) :=
+  (eq_refl : ltac:(let T := type of (carrier (mcar M)) in exact T) = Type@{uo}).
+Local Definition completion_insert_above_set (M : obj[MonSets@{uo}]) :=
+  completion_insert M.
 
 End CompletionInsertPin.

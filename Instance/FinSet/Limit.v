@@ -111,7 +111,10 @@
     anywhere: [FinSet]'s decidable equality on [Fin.t] is [fin_eqb]'s, and
     every constant is closed under the global context.
 
-    UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK OVER ALL 19 CONSTANTS.
+    RELEASE UNIVERSES. The following binder and constraint readbacks of
+    all 19 constants predate rocq-22721; they are not current calling
+    conventions. CORRECTION (2026-11-28): here the two-slot application
+    [@FinSet_HasEqualizers@{Set Set}] forms. See [p415_equalizers_set].
     Ten of the nineteen carry an EMPTY universe binder (the predicate, the
     object, the inclusion, [finset_eq_pred_true], the three example maps
     and three of the examples — everything stated over [nat] and [Fin.t]
@@ -132,7 +135,8 @@
     word-bounded [Set], every one as the strict lower bound [Set < _] on
     the level [FinSet]'s hom universe sits above, none as a pin.
 
-    COUNTS.  19/19 constants closed under the global context with ZERO
+    RELEASE COUNTS AND OPACITY TRIAL (not replayed on rocq-22721).
+    19/19 constants closed under the global context with ZERO
     [Axioms:] lines — 10 [Definition], 1 [Lemma], 1 [Instance], 7
     [Example], no [Program] and so no generated obligation — all in the
     [make print-assumptions] gate FULLY QUALIFIED. ONE [Defined]-terminated
@@ -150,8 +154,10 @@
     the #417 probe described above, and none over the probe's own
     [p415_]-prefixed names.
 
-    Test/ProbeFinSetLimit415.v mirrors this file's [Require] list and carries 6
-    refutation commands = 1 instrument check + 5 negatives of THREE kinds told
+    On the release Test/ProbeFinSetLimit415.v mirrored this file's
+    [Require] list and carried 6 refusals = 1 instrument + 5 negatives
+    (on rocq-22721 N5 is positive, leaving the instrument and N1-N4).
+    The release negatives were of THREE kinds told
     apart by the error TEXT: 2 CONVERSION (the pullback route's equalizer
     object at the example pair against the numeral [2], and its terminal object
     from the empty finite limit against [1] — "cannot unify" with no universe
